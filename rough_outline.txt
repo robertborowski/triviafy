@@ -27,7 +27,7 @@ To-Do's
 ******** Admin: Check out why my latest quiz did not give me ALL the remaining Excel problems.
 ******** Admin: What team/channel combo is ending their free trial this week, and the quiz completed count.
 Add Pop culture list to dropdown on the navbar
-**** Admin - Check how many emails / slack messages were actually sent out on schedule vs how many were SUPPOSED to be sent out total. Make it a percentage.
+**** Admin - Check how many emails / slack messages were actually sent out on schedule vs how many were SUPPOSED to be sent out total. Make it a percentage
 
 
 For printing quick tests
