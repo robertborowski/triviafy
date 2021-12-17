@@ -9,7 +9,7 @@ def select_triviafy_user_login_information_table_new_emails_for_dist_list_functi
   
   try:
     # ------------------------ Query START ------------------------
-    postgres_cursor.execute("WITH sub1 AS(SELECT l.collect_email_actual_email,l.collect_email_uuid AS uuid_type FROM triviafy_landing_page_emails_collection_table AS l WHERE l.collect_email_timestamp>=CURRENT_DATE-1)SELECT COUNT(*)FROM sub1;")
+    postgres_cursor.execute("WITH sub1 AS(SELECT l.collect_email_actual_email,l.collect_email_uuid AS uuid_type FROM triviafy_landing_page_emails_collection_table AS l WHERE l.collect_email_timestamp>=CURRENT_DATE)SELECT COUNT(*)FROM sub1;")
     # ------------------------ Query END ------------------------
 
 
