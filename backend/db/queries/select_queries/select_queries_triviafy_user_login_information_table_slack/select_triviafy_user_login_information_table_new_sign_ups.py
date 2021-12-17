@@ -9,7 +9,7 @@ def select_triviafy_user_login_information_table_new_sign_ups_function(postgres_
   
   try:
     # ------------------------ Query START ------------------------
-    postgres_cursor.execute("WITH sub1 AS(SELECT i.user_email,i.user_uuid FROM triviafy_user_login_information_table_slack AS i WHERE i.user_datetime_account_created>=CURRENT_DATE-0)SELECT COUNT(*)FROM sub1;")
+    postgres_cursor.execute("WITH sub1 AS(SELECT i.user_email,i.user_uuid FROM triviafy_user_login_information_table_slack AS i WHERE i.user_datetime_account_created>=CURRENT_DATE-1)SELECT COUNT(*)FROM sub1;")
     # ------------------------ Query END ------------------------
 
 
