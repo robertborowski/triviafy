@@ -1,5 +1,4 @@
 # -------------------------------------------------------------- Imports
-from backend.page_templates_backend.slack_sign_in_with_before_add_to_slack_page_backend.slack_sign_in_with_before_add_to_slack_page_render_template import slack_sign_in_with_before_add_to_slack_page_render_template_function
 import os, time
 import datetime
 from flask import Flask, session, render_template
@@ -255,7 +254,7 @@ if __name__ == "__main__":
   # ------------------------ Running on localhost START ------------------------
   if server_env and server_env == 'true':
     print('RUNNING ON LOCALHOST')
-    app.run(debug = True)#, use_reloader=False)
+    app.run(debug = True, host='0.0.0.0', port=80, use_reloader=False)
   # ------------------------ Running on localhost END ------------------------
 
 
