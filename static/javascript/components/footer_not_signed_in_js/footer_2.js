@@ -49,7 +49,7 @@ class FooterNotSignedInClass2 extends HTMLElement {
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Footer Bottom - START -->
       <div class="footer-not-signed-in-2-section-bottom">
         <div class="footer-not-signed-in-2-sub-section-bottom">
-          <p class="footer-copyright-2">©2021 Triviafy | All Rights Reserved.</p>
+          <p class="footer-copyright-2">©2022 Triviafy | All Rights Reserved.</p>
         </div>
         
         <div class="footer-not-signed-in-2-sub-section-bottom">

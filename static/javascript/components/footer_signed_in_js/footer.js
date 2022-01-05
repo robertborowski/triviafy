@@ -9,7 +9,7 @@ class FooterSignedInClass extends HTMLElement {
   connectedCallback() {
     this.innerHTML = `
     <footer class="logged-in-footer-tag">
-      <p>Contact: Robert@Triviafy.com | All Rights Reserved. 2021 Triviafy</p>
+      <p>Contact: Robert@Triviafy.com | All Rights Reserved. 2022 Triviafy</p>
     </footer>
     `;
   }
