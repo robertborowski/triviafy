@@ -6,7 +6,8 @@ import re
 def sanitize_simple_text_input_function(user_input_form):
   localhost_print_function('=========================================== sanitize_simple_text_input_function START ===========================================')
 
-  regex = r"\b[a-zA-Z0-9\s']{1,50}\b"
+  # regex = r"\b[a-zA-Z0-9\s']{1,50}\b"
+  regex = r"^[a-zA-Z0-9\s']{1,50}$"
 
   if(re.fullmatch(regex, user_input_form)):
     try:
