@@ -10,6 +10,7 @@ def sanitize_simple_text_input_function(user_input_form):
 
   if(re.fullmatch(regex, user_input_form)):
     try:
+      user_input_form = user_input_form.strip()
       user_input_words_arr = user_input_form.split()
       user_input_form = '_'.join(user_input_words_arr)
     except:
