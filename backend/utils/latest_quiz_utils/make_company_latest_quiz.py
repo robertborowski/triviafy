@@ -68,7 +68,7 @@ def make_company_latest_quiz_function(user_nested_dict, company_quiz_settings_ar
 
 
   # ------------------------ Pull From SQL Part 1 - Category Specific START ------------------------
-  question_objects_for_current_quiz_arr_of_dicts_category_specific = select_x_questions_for_company_quiz_never_asked_before_category_specific_function(postgres_connection, postgres_cursor, quiz_number_of_questions, sql_like_statement_str)
+  question_objects_for_current_quiz_arr_of_dicts_category_specific = select_x_questions_for_company_quiz_never_asked_before_category_specific_function(postgres_connection, postgres_cursor, quiz_number_of_questions, sql_like_statement_str, slack_workspace_team_id, slack_channel_id)
   count_questions_so_far_for_quiz = len(question_objects_for_current_quiz_arr_of_dicts_category_specific)
   count_remaining_questions_needed = quiz_number_of_questions - count_questions_so_far_for_quiz
 

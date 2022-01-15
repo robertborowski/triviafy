@@ -1,6 +1,5 @@
 # -------------------------------------------------------------- Imports
 from datetime import date
-from backend.utils.latest_quiz_utils.supporting_make_company_latest_quiz_utils.get_upcoming_week_dates_data_dict import get_upcoming_week_dates_data_dict_function
 from backend.db.queries.select_queries.select_queries_triviafy_company_quiz_settings_slack_table.select_company_quiz_settings_all_companies import select_company_quiz_settings_all_companies_function
 from backend.db.connection.postgres_connect_to_database import postgres_connect_to_database_function
 from backend.db.connection.postgres_close_connection_to_database import postgres_close_connection_to_database_function
@@ -40,7 +39,7 @@ def job_weekly_make_latest_quizzes_for_all_companies_function():
     today_day_of_week = today_date.strftime('%A')
 
     if today_day_of_week != 'Sunday':
-      localhost_print_function('Today is not sunday.')
+      localhost_print_function('Today is not Sunday.')
       localhost_print_function('=========================================== job_weekly_make_latest_quizzes_for_all_companies_function END ===========================================')
       return True
   # ------------------------ Get Today's Date END ------------------------
