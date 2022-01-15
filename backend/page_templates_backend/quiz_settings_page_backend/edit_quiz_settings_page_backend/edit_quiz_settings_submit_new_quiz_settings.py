@@ -117,7 +117,9 @@ def edit_quiz_settings_submit_new_quiz_settings_function():
     quiz_settings_logic_day_dict = {
       'monday' : 1,
       'tuesday' : 2,
-      'wednesday' : 3
+      'wednesday' : 3,
+      'thursday' : 4,
+      'friday' : 5
     }
     quiz_settings_logic_time_dict = {
       'one_am' : 1,

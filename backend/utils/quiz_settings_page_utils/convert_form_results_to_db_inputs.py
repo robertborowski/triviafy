@@ -9,7 +9,9 @@ def convert_form_results_to_db_inputs_function(user_form_input_quiz_start_day, u
   quiz_settings_convert_day_dict = {
     'monday' : 'Monday',
     'tuesday' : 'Tuesday',
-    'wednesday' : 'Wednesday'
+    'wednesday' : 'Wednesday',
+    'thursday' : 'Thursday',
+    'friday' : 'Friday'
   }
   quiz_settings_convert_time_dict = {
     'one_am' : '1 AM',
