@@ -87,14 +87,6 @@ def job_daily_quiz_one_hour_pre_close_reminder_function():
       # ------------------------ Assign Variables for Company Quiz END ------------------------
 
 
-      # """ TESTING ONLY REMOVE THIS SECTION START """
-      # # ------------------------ TESTING - FORCE VARIABLE CHANGE ONLY START ------------------------
-      # quiz_end_day_of_week = 'Friday'
-      # quiz_end_time = '8 AM'
-      # # ------------------------ TESTING - FORCE VARIABLE CHANGE ONLY END ------------------------
-      # """ TESTING ONLY REMOVE THIS SECTION END """
-
-
       # ------------------------ Reminder Check Date Time Comparison START ------------------------
       check_if_quiz_is_one_hour_before_due_date_time = check_if_today_is_one_hour_before_quiz_end_date_time_function(quiz_end_day_of_week, quiz_end_time)
       # ------------------------ Reminder Check Date Time Comparison START ------------------------
