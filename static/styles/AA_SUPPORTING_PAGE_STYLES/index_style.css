@@ -128,6 +128,11 @@ a.default-signed-in-hyperlink-redirect-section-a, a.default-signed-in-hyperlink-
   font-size: 20px;
   color: var(--company-primary-color);
 }
+.default-signed-in-hyperlink-redirect-section-p2 {
+  margin: 20px 0 0 0;
+  font-size: 20px;
+  color: var(--company-primary-color);
+}
 /* - - - - - - - - - - Default - Signed In - Hyperlink Redirect End */
 /* - - - - - - - - - - Default - Signed In - Page Intro - Start */
 .default-signed-in-page-into-background {

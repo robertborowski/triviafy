@@ -71,6 +71,20 @@
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Answers Submitted Message End -->
 
 
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Quiz Feedback Start -->
+  <div class="default-signed-in-hyperlink-redirect-section">
+    <a href="{{ url_for('quiz_categories_index_page_render_template.quiz_categories_index_page_render_template_function') }}" class="default-signed-in-hyperlink-redirect-section-a"><p class="default-signed-in-hyperlink-redirect-section-p2">Edit Quiz Categories For Next Quiz.</p></a>
+  </div>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Quiz Feedback End -->
+
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Quiz Feedback Start -->
+  <div class="default-signed-in-hyperlink-redirect-section">
+    <a href="{{ url_for('quiz_feedback_index_page_render_template.quiz_feedback_index_page_render_template_function') }}" class="default-signed-in-hyperlink-redirect-section-a"><p class="default-signed-in-hyperlink-redirect-section-p2">Request Custom Quiz Categories.</p></a>
+  </div>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Quiz Feedback End -->
+
+
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Current Quiz Form Start -->
   <form action="{{ url_for('submit_quiz_backend.submit_quiz_backend_function') }}" method="post" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
 
@@ -156,7 +170,13 @@
 
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Quiz Feedback Start -->
   <div class="default-signed-in-hyperlink-redirect-section">
-    <a href="{{ url_for('quiz_categories_index_page_render_template.quiz_categories_index_page_render_template_function') }}" class="default-signed-in-hyperlink-redirect-section-a"><p class="default-signed-in-hyperlink-redirect-section-p">Edit Quiz Categories For Next Quiz.</p></a>
+    <a href="{{ url_for('quiz_categories_index_page_render_template.quiz_categories_index_page_render_template_function') }}" class="default-signed-in-hyperlink-redirect-section-a"><p class="default-signed-in-hyperlink-redirect-section-p2">Edit Quiz Categories For Next Quiz.</p></a>
+  </div>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Quiz Feedback End -->
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Quiz Feedback Start -->
+  <div class="default-signed-in-hyperlink-redirect-section">
+    <a href="{{ url_for('quiz_feedback_index_page_render_template.quiz_feedback_index_page_render_template_function') }}" class="default-signed-in-hyperlink-redirect-section-a"><p class="default-signed-in-hyperlink-redirect-section-p">Request Custom Quiz Categories.</p></a>
   </div>
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Quiz Feedback End -->
 
