@@ -85,7 +85,7 @@ def make_company_latest_quiz_function(user_nested_dict, company_quiz_settings_ar
 
   # ------------------------ Pull From SQL Part 2 - Category Not Specific START ------------------------
   if count_remaining_questions_needed != 0:
-    question_objects_for_current_quiz_arr_of_dicts_remainder = select_x_questions_for_company_quiz_never_asked_before_not_category_specific_function(postgres_connection, postgres_cursor, count_remaining_questions_needed, temp_question_id_chosen_str)
+    question_objects_for_current_quiz_arr_of_dicts_remainder = select_x_questions_for_company_quiz_never_asked_before_not_category_specific_function(postgres_connection, postgres_cursor, count_remaining_questions_needed, temp_question_id_chosen_str, slack_workspace_team_id, slack_channel_id)
     for i_dict in question_objects_for_current_quiz_arr_of_dicts_remainder:
       question_objects_for_current_quiz_arr_of_dicts.append(i_dict)
   # ------------------------ Pull From SQL Part 2 - Category Not Specific END ------------------------
