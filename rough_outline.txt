@@ -1,5 +1,6 @@
 To-Do's
 - - - - - - - - - - - - - -
+-Setup:           Not Signed in - Add the Integration line to the bottom notifying that this only happens ONCE once the user creates account.
 -UX:              Not Signed in - Comparison guide page against competitors.
 -Blog:            Not Signed in - Add hash tags to the bottoms of blog posts internally on your site, those hashtags should link to Twitter hashtags.
 -Redirect:        Not Signed in - Clicking cancel on the post slack sign in button.
