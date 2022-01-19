@@ -18,8 +18,8 @@ from backend.utils.send_emails.send_email_template import send_email_template_fu
 from backend.db.queries.insert_queries.insert_queries_triviafy_emails_sent_table.insert_triviafy_emails_sent_table import insert_triviafy_emails_sent_table_function
 
 # -------------------------------------------------------------- Main Function
-def job_daily_backup_all_db_tables_to_aws_s3_function():
-  localhost_print_function('=========================================== job_daily_backup_all_db_tables_to_aws_s3_function START ===========================================')
+def job_daily_backup_all_db_tables_to_aws_function():
+  localhost_print_function('=========================================== job_daily_backup_all_db_tables_to_aws_function START ===========================================')
 
   # ------------------------ AWS Connect Bucket START ------------------------
   # Create AWS s3 client
@@ -96,7 +96,7 @@ def job_daily_backup_all_db_tables_to_aws_s3_function():
       slack_db_uuid = 'sent_to_personal_email'
       output_message = insert_triviafy_emails_sent_table_function(postgres_connection, postgres_cursor, uuid_email_sent, email_sent_timestamp, slack_db_uuid, email_sent_search_category, uuid_quiz, output_message_content_str_for_db)
       # ------------------------ Email Self About New Account END ------------------------
-      localhost_print_function('=========================================== job_daily_backup_all_db_tables_to_aws_s3_function END ===========================================')
+      localhost_print_function('=========================================== job_daily_backup_all_db_tables_to_aws_function END ===========================================')
       return True
   # ------------------------ Push Info Into AWS s3 END ------------------------
 
@@ -107,11 +107,11 @@ def job_daily_backup_all_db_tables_to_aws_s3_function():
   postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)
   # ------------------------ DB Close Conection END ------------------------
 
-  localhost_print_function('=========================================== job_daily_backup_all_db_tables_to_aws_s3_function END ===========================================')
+  localhost_print_function('=========================================== job_daily_backup_all_db_tables_to_aws_function END ===========================================')
   return True
 
 
 
 # ---------------------------------------------------------------------------------------------------------------------------- Job to Run The Main Function
 if __name__ == "__main__":
-  job_daily_backup_all_db_tables_to_aws_s3_function()
+  job_daily_backup_all_db_tables_to_aws_function()
