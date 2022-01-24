@@ -9,7 +9,7 @@ def select_email_exists_skipped_quiz_request_feedback_function(postgres_connecti
   
   try:
     # ------------------------ Query START ------------------------
-    postgres_cursor.execute("SELECT * FROM triviafy_emails_sent_table WHERE email_sent_to_user_uuid_fk=%s AND email_sent_category=%s", [user_uuid, email_sent_search_category])
+    postgres_cursor.execute("SELECT * FROM triviafy_emails_sent_table WHERE email_sent_to_user_uuid_fk=%s AND email_sent_category=%s AND email_sent_timestamp >= CURRENT_DATE;", [user_uuid, email_sent_search_category])
     # ------------------------ Query END ------------------------
 
 
