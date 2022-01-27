@@ -63,6 +63,9 @@ def job_weekly_make_latest_quizzes_for_all_companies_function():
     slack_workspace_team_id = indv_company_quiz_settings_arr[7]
     slack_channel_id = indv_company_quiz_settings_arr[8]
 
+    localhost_print_function('=======================================================')
+    localhost_print_function('slack_workspace_team_id {}, slack_channel_id {}'.format(slack_workspace_team_id, slack_channel_id))
+
     # Put the variables in dict format, becasue a dict is what the get_latest_company_quiz_if_exists_function requires
     function_input_dict = {
       'slack_team_id' : slack_workspace_team_id,
