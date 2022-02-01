@@ -130,7 +130,7 @@ def update_db_new_user_store_obj_redis_cookie_function(client, authed_response_o
     if slack_authed_user_email != personal_email:
       output_email = personal_email
       output_subject_line = 'Someone Created A Triviafy Account'
-      output_message_content = f"Hi,\n\n{slack_authed_user_email} CREATED AN ACCOUNT with Triviafy."
+      output_message_content = f"Hi,\n\n{slack_authed_user_email} CREATED AN ACCOUNT with Triviafy.\n\n{slack_authed_team_name} = team name.\n{slack_authed_channel_name} = channel name"
       output_message_content_str_for_db = output_message_content
 
       email_sent_successfully = send_email_template_function(output_email, output_subject_line, output_message_content)
