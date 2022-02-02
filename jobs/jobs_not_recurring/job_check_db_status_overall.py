@@ -1,15 +1,17 @@
 # -------------------------------------------------------------- Imports
 import os, time
 from datetime import date
-from backend.utils.latest_quiz_utils.supporting_make_company_latest_quiz_utils.get_upcoming_week_dates_data_dict import get_upcoming_week_dates_data_dict_function
 from backend.db.connection.postgres_connect_to_database import postgres_connect_to_database_function
 from backend.db.connection.postgres_close_connection_to_database import postgres_close_connection_to_database_function
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from backend.db.queries.select_queries.select_queries_triviafy_user_login_information_table_slack.select_triviafy_user_login_information_table_slack_all_team_channel_combos_with_user_count import select_triviafy_user_login_information_table_slack_all_team_channel_combos_with_user_count_function
+from backend.utils.latest_quiz_utils.supporting_make_company_latest_quiz_utils.get_upcoming_week_dates_data_dict import get_upcoming_week_dates_data_dict_function
 from backend.utils.job_utils.job_check_db_status_overall_free_trial_table_checks import job_check_db_status_overall_free_trial_table_checks_function
 from backend.utils.job_utils.job_check_db_status_overall_payment_status_table_checks import job_check_db_status_overall_payment_status_table_checks_function
 from backend.utils.job_utils.job_check_db_status_overall_categories_table_checks import job_check_db_status_overall_categories_table_checks_function
 from backend.utils.job_utils.job_check_db_status_overall_quiz_settings_table_checks import job_check_db_status_overall_quiz_settings_table_checks_function
+from backend.utils.job_utils.job_check_db_status_overall_quiz_master_table_checks import job_check_db_status_overall_quiz_master_table_checks_function
+from backend.utils.job_utils.job_check_db_status_overall_midweek_changes_quiz_settings_table_checks import job_check_db_status_overall_midweek_changes_quiz_settings_table_checks_function
 
 # -------------------------------------------------------------- Main Function
 def job_check_db_status_overall_function():
@@ -33,6 +35,19 @@ def job_check_db_status_overall_function():
   # ------------------------ Get Today's Date END ------------------------
 
 
+  # ------------------------ Get Upcoming Week Dates START ------------------------
+  this_upcoming_week_dates_dict = get_upcoming_week_dates_data_dict_function()
+
+  start_date_monday = this_upcoming_week_dates_dict['Monday']
+  start_date_tuesday = this_upcoming_week_dates_dict['Tuesday']
+  start_date_wednesday = this_upcoming_week_dates_dict['Wednesday']
+  start_date_thursday = this_upcoming_week_dates_dict['Thursday']
+  start_date_friday = this_upcoming_week_dates_dict['Friday']
+  start_date_saturday = this_upcoming_week_dates_dict['Saturday']
+  start_date_sunday = this_upcoming_week_dates_dict['Sunday']
+  # ------------------------ Get Upcoming Week Dates END ------------------------
+
+
   # ------------------------ DB Conection START ------------------------
   # Connect to Postgres database
   postgres_connection, postgres_cursor = postgres_connect_to_database_function()
@@ -46,6 +61,7 @@ def job_check_db_status_overall_function():
 
   # ------------------------ Loop through each team channel combo START ------------------------
   db_check_dict = {}
+  db_check_errors_caught_dict = {}
   for i in team_channel_combos_with_users_arr:
     # initial variables
     team_id = i[0]
@@ -62,6 +78,13 @@ def job_check_db_status_overall_function():
     db_check_dict[team_id][channel_id]['team_name'] = team_name
     db_check_dict[team_id][channel_id]['channel_name'] = channel_name
     db_check_dict[team_id][channel_id]['total_team_channel_users'] = total_team_channel_users
+
+    # Errors Caught dict
+    db_check_errors_caught_dict[team_id] = {}
+    db_check_errors_caught_dict[team_id][channel_id] = {}
+    db_check_errors_caught_dict[team_id][channel_id]['team_name'] = team_name
+    db_check_errors_caught_dict[team_id][channel_id]['channel_name'] = channel_name
+    db_check_errors_caught_dict[team_id][channel_id]['total_team_channel_users'] = total_team_channel_users
 
     # ------------------------ Table Checks - Free Trial START ------------------------
     db_check_dict = job_check_db_status_overall_free_trial_table_checks_function(postgres_connection, postgres_cursor, team_id, channel_id, today_date, db_check_dict)
@@ -83,9 +106,23 @@ def job_check_db_status_overall_function():
     # ------------------------ Table Checks - Quiz Settings END ------------------------
 
 
-  # print('= = = = = = = 1 = = = = = = = =')
-  # print(db_check_dict['abc'])
-  # print('= = = = = = = 1 = = = = = = = =')
+    # ------------------------ Table Checks - Quiz Master START ------------------------
+    db_check_dict = job_check_db_status_overall_quiz_master_table_checks_function(postgres_connection, postgres_cursor, team_id, channel_id, db_check_dict, start_date_monday, start_date_tuesday, start_date_wednesday, start_date_thursday, start_date_friday, start_date_saturday, start_date_sunday)
+    # ------------------------ Table Checks - Quiz Master START ------------------------
+
+
+    # ------------------------ Table Checks - Mid-Week Changes To Quiz Settings START ------------------------
+    db_check_dict = job_check_db_status_overall_midweek_changes_quiz_settings_table_checks_function(postgres_connection, postgres_cursor, team_id, channel_id, db_check_dict)
+    # ------------------------ Table Checks - Mid-Week Changes To Quiz Settings END ------------------------
+
+
+    # ------------------------ Table Checks - Remaining Questions Per Company Categories START ------------------------
+    # ------------------------ Table Checks - Remaining Questions Per Company Categories END ------------------------
+
+
+  print('= = = = = = = 1 = = = = = = = =')
+  print(db_check_dict['abc'])
+  print('= = = = = = = 1 = = = = = = = =')
   # ------------------------ Loop through each team channel combo END ------------------------
 
 
