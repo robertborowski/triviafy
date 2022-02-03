@@ -129,7 +129,7 @@ def job_check_db_status_overall_function():
 
 
   print('= = = = = = = 1 = = = = = = = =')
-  print(db_check_dict['abc'])
+  # print(db_check_dict['abc'])
   print('= = = = = = = 1 = = = = = = = =')
   # ------------------------ Loop through each team channel combo END ------------------------
 

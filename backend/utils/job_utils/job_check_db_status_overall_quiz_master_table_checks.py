@@ -1,6 +1,7 @@
 # -------------------------------------------------------------- Imports
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from backend.utils.latest_quiz_utils.check_if_today_is_greater_than_equal_to_latest_quiz_start_date_utils.check_if_today_is_greater_than_equal_to_latest_quiz_start_date import check_if_today_is_greater_than_equal_to_latest_quiz_start_date_function
+from backend.utils.latest_quiz_utils.check_if_today_is_greater_than_equal_to_latest_quiz_start_date_utils.check_if_today_is_greater_than_equal_to_latest_quiz_end_date import check_if_today_is_greater_than_equal_to_latest_quiz_end_date_function
 from backend.db.queries.select_queries.select_queries_triviafy_quiz_master_table.select_triviafy_latest_quiz_info_specific_company import select_triviafy_latest_quiz_info_specific_company_function
 
 
@@ -18,6 +19,9 @@ def job_check_db_status_overall_quiz_master_table_checks_function(postgres_conne
 
   latest_quiz_should_be_open_check = check_if_today_is_greater_than_equal_to_latest_quiz_start_date_function(quiz_settings_start_day_of_week, quiz_settings_start_time_of_day)
   db_check_dict[team_id][channel_id]['latest_quiz_should_be_open_check'] = latest_quiz_should_be_open_check
+
+  latest_quiz_should_be_closed_check = check_if_today_is_greater_than_equal_to_latest_quiz_end_date_function(quiz_settings_end_day_of_week, quiz_settings_end_time_of_day)
+  db_check_dict[team_id][channel_id]['latest_quiz_should_be_closed_check'] = latest_quiz_should_be_closed_check
   # ------------------------ Check Quiz Master Rules - If Past Start Date END ------------------------
   
   
