@@ -1,6 +1,7 @@
 # -------------------------------------------------------------- Imports
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from backend.db.queries.select_queries.select_queries_triviafy_emails_sent_table.select_triviafy_emails_sent_table_search_subject_sent_count import select_triviafy_emails_sent_table_search_subject_sent_count_function
+from backend.db.queries.select_queries.select_queries_triviafy_emails_sent_table.select_triviafy_emails_sent_table_count_account_created_emails_per_team_channel import select_triviafy_emails_sent_table_count_account_created_emails_per_team_channel_function
 
 # -------------------------------------------------------------- Main
 def job_check_db_status_overall_emails_sent_checks_function(postgres_connection, postgres_cursor, team_id, channel_id, db_check_dict):
@@ -30,6 +31,13 @@ def job_check_db_status_overall_emails_sent_checks_function(postgres_connection,
   else:
     db_check_dict[team_id][channel_id]['email_sent_count_all_users_received_quiz_closed'] = None
   # ------------------------ Check Quiz Close Count END ------------------------
+
+
+  # ------------------------ Count Account Created Email START ------------------------
+  email_sent_search_category = 'Account Created'
+  total_team_channel_users_received_email_account_created = select_triviafy_emails_sent_table_count_account_created_emails_per_team_channel_function(postgres_connection, postgres_cursor, team_id, channel_id, email_sent_search_category)
+  db_check_dict[team_id][channel_id]['all_team_channel_users_received_email_account_created'] = total_team_channel_users == total_team_channel_users_received_email_account_created
+  # ------------------------ Count Account Created Email END ------------------------
   
 
   localhost_print_function('=========================================== job_check_db_status_overall_emails_sent_checks_function END ===========================================')
