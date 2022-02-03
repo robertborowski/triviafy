@@ -13,6 +13,13 @@ def job_check_db_status_overall_emails_sent_checks_function(postgres_connection,
   # ------------------------ Assign Variables END ------------------------
 
 
+  # ------------------------ Count Account Created Email START ------------------------
+  email_sent_search_category = 'Account Created'
+  total_team_channel_users_received_email_account_created = select_triviafy_emails_sent_table_count_account_created_emails_per_team_channel_function(postgres_connection, postgres_cursor, team_id, channel_id, email_sent_search_category)
+  db_check_dict[team_id][channel_id]['all_team_channel_users_received_email_account_created'] = total_team_channel_users == total_team_channel_users_received_email_account_created
+  # ------------------------ Count Account Created Email END ------------------------
+
+
   # ------------------------ Check Quiz Open Count START ------------------------
   if db_check_dict[team_id][channel_id]['latest_quiz_should_be_open_check'] == True and db_check_dict[team_id][channel_id]['quiz_created_this_week'] == True:
     email_sent_search_category = 'Quiz Open'
@@ -31,13 +38,6 @@ def job_check_db_status_overall_emails_sent_checks_function(postgres_connection,
   else:
     db_check_dict[team_id][channel_id]['email_sent_count_all_users_received_quiz_closed'] = None
   # ------------------------ Check Quiz Close Count END ------------------------
-
-
-  # ------------------------ Count Account Created Email START ------------------------
-  email_sent_search_category = 'Account Created'
-  total_team_channel_users_received_email_account_created = select_triviafy_emails_sent_table_count_account_created_emails_per_team_channel_function(postgres_connection, postgres_cursor, team_id, channel_id, email_sent_search_category)
-  db_check_dict[team_id][channel_id]['all_team_channel_users_received_email_account_created'] = total_team_channel_users == total_team_channel_users_received_email_account_created
-  # ------------------------ Count Account Created Email END ------------------------
   
 
   localhost_print_function('=========================================== job_check_db_status_overall_emails_sent_checks_function END ===========================================')

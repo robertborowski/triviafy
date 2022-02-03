@@ -14,6 +14,7 @@ from backend.utils.job_utils.job_check_db_status_overall_quiz_master_table_check
 from backend.utils.job_utils.job_check_db_status_overall_midweek_changes_quiz_settings_table_checks import job_check_db_status_overall_midweek_changes_quiz_settings_table_checks_function
 from backend.utils.job_utils.job_check_db_status_overall_num_questions_left_team_channel_combo import job_check_db_status_overall_num_questions_left_team_channel_combo_function
 from backend.utils.job_utils.job_check_db_status_overall_emails_sent_checks import job_check_db_status_overall_emails_sent_checks_function
+from backend.utils.job_utils.job_check_db_status_overall_slack_messages_sent_checks import job_check_db_status_overall_slack_messages_sent_checks_function
 
 # -------------------------------------------------------------- Main Function
 def job_check_db_status_overall_function():
@@ -126,6 +127,11 @@ def job_check_db_status_overall_function():
     # ------------------------ Table Checks - Emails Sent START ------------------------
     db_check_dict = job_check_db_status_overall_emails_sent_checks_function(postgres_connection, postgres_cursor, team_id, channel_id, db_check_dict)
     # ------------------------ Table Checks - Emails Sent START ------------------------
+
+
+    # ------------------------ Table Checks - Slack Messages Sent START ------------------------
+    db_check_dict = job_check_db_status_overall_slack_messages_sent_checks_function(postgres_connection, postgres_cursor, team_id, channel_id, db_check_dict)
+    # ------------------------ Table Checks - Slack Messages Sent END ------------------------
 
 
   print('= = = = = = = 1 = = = = = = = =')
