@@ -12,6 +12,7 @@ from backend.utils.job_utils.job_check_db_status_overall_categories_table_checks
 from backend.utils.job_utils.job_check_db_status_overall_quiz_settings_table_checks import job_check_db_status_overall_quiz_settings_table_checks_function
 from backend.utils.job_utils.job_check_db_status_overall_quiz_master_table_checks import job_check_db_status_overall_quiz_master_table_checks_function
 from backend.utils.job_utils.job_check_db_status_overall_midweek_changes_quiz_settings_table_checks import job_check_db_status_overall_midweek_changes_quiz_settings_table_checks_function
+from backend.utils.job_utils.job_check_db_status_overall_num_questions_left_team_channel_combo import job_check_db_status_overall_num_questions_left_team_channel_combo_function
 
 # -------------------------------------------------------------- Main Function
 def job_check_db_status_overall_function():
@@ -117,6 +118,7 @@ def job_check_db_status_overall_function():
 
 
     # ------------------------ Table Checks - Remaining Questions Per Company Categories START ------------------------
+    db_check_dict = job_check_db_status_overall_num_questions_left_team_channel_combo_function(postgres_connection, postgres_cursor, team_id, channel_id, db_check_dict)
     # ------------------------ Table Checks - Remaining Questions Per Company Categories END ------------------------
 
 
