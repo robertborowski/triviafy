@@ -18,6 +18,7 @@ from backend.utils.job_utils.job_check_db_status_overall_slack_messages_sent_che
 from backend.utils.job_utils.job_check_db_status_overall_questionnaire_checks import job_check_db_status_overall_questionnaire_checks_function
 from backend.utils.job_utils.job_check_db_status_overall_quiz_answers_table_checks import job_check_db_status_overall_quiz_answers_table_checks_function
 from backend.utils.job_utils.job_check_db_status_overall_quiz_winner_checks import job_check_db_status_overall_quiz_winner_checks_function
+from backend.utils.job_utils.job_check_db_status_overall_skipped_quiz_checks import job_check_db_status_overall_skipped_quiz_checks_function
 
 # -------------------------------------------------------------- Main Function
 def job_check_db_status_overall_function():
@@ -150,6 +151,11 @@ def job_check_db_status_overall_function():
     # ------------------------ Table Checks - Quiz Winners START ------------------------
     db_check_dict = job_check_db_status_overall_quiz_winner_checks_function(postgres_connection, postgres_cursor, team_id, channel_id, db_check_dict)
     # ------------------------ Table Checks - Quiz Winners END ------------------------
+
+
+    # ------------------------ Table Checks - Quizzes Skipped START ------------------------
+    db_check_dict = job_check_db_status_overall_skipped_quiz_checks_function(postgres_connection, postgres_cursor, team_id, channel_id, db_check_dict)
+    # ------------------------ Table Checks - Quizzes Skipped END ------------------------
 
 
   print('= = = = = = = 1 = = = = = = = =')
