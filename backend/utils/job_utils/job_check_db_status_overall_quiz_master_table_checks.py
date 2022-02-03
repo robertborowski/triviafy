@@ -29,6 +29,7 @@ def job_check_db_status_overall_quiz_master_table_checks_function(postgres_conne
   if latest_quiz_info_company_arr == None:
     db_check_dict[team_id][channel_id]['quiz_created_this_week'] = False
     # Assign to dictionary
+    db_check_dict[team_id][channel_id]['quiz_master_latest_quiz_uuid'] = None
     db_check_dict[team_id][channel_id]['latest_quiz_timestamp_created'] = None
     db_check_dict[team_id][channel_id]['latest_quiz_start_date'] = None
     db_check_dict[team_id][channel_id]['latest_quiz_start_day_of_week'] = None
@@ -42,6 +43,7 @@ def job_check_db_status_overall_quiz_master_table_checks_function(postgres_conne
   else:
     db_check_dict[team_id][channel_id]['quiz_created_this_week'] = True
     # Assign variables from pull
+    quiz_master_latest_quiz_uuid = latest_quiz_info_company_arr[0][0]     # str
     quiz_master_timestamp_created = latest_quiz_info_company_arr[0][1]    # datetime
     quiz_master_start_date = latest_quiz_info_company_arr[0][4]           # datetime
     quiz_master_start_day_of_week = latest_quiz_info_company_arr[0][5]    # str
@@ -52,6 +54,7 @@ def job_check_db_status_overall_quiz_master_table_checks_function(postgres_conne
     quiz_master_num_questions = latest_quiz_info_company_arr[0][10]       # int
     quiz_master_quiz_count = latest_quiz_info_company_arr[0][12]          # int
     # Assign to dictionary
+    db_check_dict[team_id][channel_id]['quiz_master_latest_quiz_uuid'] = quiz_master_latest_quiz_uuid
     db_check_dict[team_id][channel_id]['latest_quiz_timestamp_created'] = quiz_master_timestamp_created
     db_check_dict[team_id][channel_id]['latest_quiz_start_date'] = quiz_master_start_date
     db_check_dict[team_id][channel_id]['latest_quiz_start_day_of_week'] = quiz_master_start_day_of_week
