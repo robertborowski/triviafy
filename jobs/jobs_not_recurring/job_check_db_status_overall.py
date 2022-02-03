@@ -16,6 +16,7 @@ from backend.utils.job_utils.job_check_db_status_overall_num_questions_left_team
 from backend.utils.job_utils.job_check_db_status_overall_emails_sent_checks import job_check_db_status_overall_emails_sent_checks_function
 from backend.utils.job_utils.job_check_db_status_overall_slack_messages_sent_checks import job_check_db_status_overall_slack_messages_sent_checks_function
 from backend.utils.job_utils.job_check_db_status_overall_questionnaire_checks import job_check_db_status_overall_questionnaire_checks_function
+from backend.utils.job_utils.job_check_db_status_overall_quiz_answers_table_checks import job_check_db_status_overall_quiz_answers_table_checks_function
 
 # -------------------------------------------------------------- Main Function
 def job_check_db_status_overall_function():
@@ -138,6 +139,11 @@ def job_check_db_status_overall_function():
     # ------------------------ Table Checks - Questionnaire START ------------------------
     db_check_dict = job_check_db_status_overall_questionnaire_checks_function(postgres_connection, postgres_cursor, team_id, channel_id, db_check_dict)
     # ------------------------ Table Checks - Questionnaire END ------------------------
+
+
+    # ------------------------ Table Checks - Quiz Answers START ------------------------
+    db_check_dict = job_check_db_status_overall_quiz_answers_table_checks_function(postgres_connection, postgres_cursor, team_id, channel_id, db_check_dict)
+    # ------------------------ Table Checks - Quiz Answers END ------------------------
 
 
   print('= = = = = = = 1 = = = = = = = =')
