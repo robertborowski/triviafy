@@ -1,8 +1,10 @@
 # -------------------------------------------------------------- Imports
+import json
 import os, time
 from datetime import date
 from backend.db.connection.postgres_connect_to_database import postgres_connect_to_database_function
 from backend.db.connection.postgres_close_connection_to_database import postgres_close_connection_to_database_function
+from backend.db.connection.redis_connect_to_database import redis_connect_to_database_function
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from backend.db.queries.select_queries.select_queries_triviafy_user_login_information_table_slack.select_triviafy_user_login_information_table_slack_all_team_channel_combos_with_user_count import select_triviafy_user_login_information_table_slack_all_team_channel_combos_with_user_count_function
 from backend.utils.latest_quiz_utils.supporting_make_company_latest_quiz_utils.get_upcoming_week_dates_data_dict import get_upcoming_week_dates_data_dict_function
@@ -21,8 +23,8 @@ from backend.utils.job_utils.job_check_db_status_overall_quiz_winner_checks impo
 from backend.utils.job_utils.job_check_db_status_overall_skipped_quiz_checks import job_check_db_status_overall_skipped_quiz_checks_function
 
 # -------------------------------------------------------------- Main Function
-def job_check_db_status_overall_function():
-  localhost_print_function('=========================================== job_check_db_status_overall_function START ===========================================')
+def job_check_db_status_overall_part_1_calc_into_redis_function():
+  localhost_print_function('=========================================== job_check_db_status_overall_part_1_calc_into_redis_function START ===========================================')
 
 
   # ------------------------ Set Timezone START ------------------------
@@ -68,7 +70,6 @@ def job_check_db_status_overall_function():
 
   # ------------------------ Loop through each team channel combo START ------------------------
   db_check_dict = {}
-  db_check_errors_caught_dict = {}
   for i in team_channel_combos_with_users_arr:
     # initial variables
     team_id = i[0]
@@ -85,13 +86,6 @@ def job_check_db_status_overall_function():
     db_check_dict[team_id][channel_id]['team_name'] = team_name
     db_check_dict[team_id][channel_id]['channel_name'] = channel_name
     db_check_dict[team_id][channel_id]['total_team_channel_users'] = total_team_channel_users
-
-    # Errors Caught dict
-    db_check_errors_caught_dict[team_id] = {}
-    db_check_errors_caught_dict[team_id][channel_id] = {}
-    db_check_errors_caught_dict[team_id][channel_id]['team_name'] = team_name
-    db_check_errors_caught_dict[team_id][channel_id]['channel_name'] = channel_name
-    db_check_errors_caught_dict[team_id][channel_id]['total_team_channel_users'] = total_team_channel_users
 
     # ------------------------ Table Checks - Free Trial START ------------------------
     db_check_dict = job_check_db_status_overall_free_trial_table_checks_function(postgres_connection, postgres_cursor, team_id, channel_id, today_date, db_check_dict)
@@ -158,9 +152,14 @@ def job_check_db_status_overall_function():
     # ------------------------ Table Checks - Quizzes Skipped END ------------------------
 
 
-  print('= = = = = = = 1 = = = = = = = =')
-  # print(db_check_dict['abc'])
-  print('= = = = = = = 1 = = = = = = = =')
+  # ------------------------ Upload To Redis START ------------------------
+  # Connect to redis database pool (no need to close)
+  redis_connection = redis_connect_to_database_function()
+
+  # Upload to Redis
+  localhost_db_check_dict = 'localhost_db_check_dict'
+  redis_connection.set(localhost_db_check_dict, json.dumps(db_check_dict, default=str).encode('utf-8'))
+  # ------------------------ Upload To Redis END ------------------------
   # ------------------------ Loop through each team channel combo END ------------------------
 
 
@@ -169,10 +168,10 @@ def job_check_db_status_overall_function():
   postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)
   # ------------------------ DB Close Conection END ------------------------
 
-  localhost_print_function('=========================================== job_check_db_status_overall_function END ===========================================')
+  localhost_print_function('=========================================== job_check_db_status_overall_part_1_calc_into_redis_function END ===========================================')
   return True
 
 
 # ---------------------------------------------------------------------------------------------------------------------------- Job to Run The Main Function
 if __name__ == "__main__":
-  job_check_db_status_overall_function()
+  job_check_db_status_overall_part_1_calc_into_redis_function()
