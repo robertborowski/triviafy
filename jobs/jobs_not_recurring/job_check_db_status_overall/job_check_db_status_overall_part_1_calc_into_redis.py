@@ -21,6 +21,7 @@ from backend.utils.job_utils.job_check_db_status_overall_questionnaire_checks im
 from backend.utils.job_utils.job_check_db_status_overall_quiz_answers_table_checks import job_check_db_status_overall_quiz_answers_table_checks_function
 from backend.utils.job_utils.job_check_db_status_overall_quiz_winner_checks import job_check_db_status_overall_quiz_winner_checks_function
 from backend.utils.job_utils.job_check_db_status_overall_skipped_quiz_checks import job_check_db_status_overall_skipped_quiz_checks_function
+from backend.utils.job_utils.job_check_db_status_overall_payment_admins import job_check_db_status_overall_payment_admins_function
 
 # -------------------------------------------------------------- Main Function
 def job_check_db_status_overall_part_1_calc_into_redis_function():
@@ -150,6 +151,11 @@ def job_check_db_status_overall_part_1_calc_into_redis_function():
     # ------------------------ Table Checks - Quizzes Skipped START ------------------------
     db_check_dict = job_check_db_status_overall_skipped_quiz_checks_function(postgres_connection, postgres_cursor, team_id, channel_id, db_check_dict)
     # ------------------------ Table Checks - Quizzes Skipped END ------------------------
+
+
+    # ------------------------ Table Checks - Payment Admins START ------------------------
+    db_check_dict = job_check_db_status_overall_payment_admins_function(postgres_connection, postgres_cursor, team_id, channel_id, db_check_dict)
+    # ------------------------ Table Checks - Payment Admins END ------------------------
 
 
   # ------------------------ Upload To Redis START ------------------------
