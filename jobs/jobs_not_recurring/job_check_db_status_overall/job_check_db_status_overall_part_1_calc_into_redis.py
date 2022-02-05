@@ -78,7 +78,7 @@ def job_check_db_status_overall_part_1_calc_into_redis_function():
     channel_name = i[3]
     total_team_channel_users = i[4]
     localhost_print_function('- - - - - - - - - - - - - - - - - - -')
-    localhost_print_function('team_name: {} | channel_name: {}'.format(team_name, channel_name))
+    localhost_print_function('team_name: {} | channel_name: {} | team_id: {} | channel_id: {}'.format(team_name, channel_name, team_id, channel_id))
     
     # Initial dict
     db_check_dict[team_id] = {}

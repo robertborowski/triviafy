@@ -46,7 +46,6 @@ def job_clean_out_unused_redis_browser_keys_function():
   redis_connection = redis_connect_to_database_function()
   redis_keys = redis_connection.keys()
 
-  counter = 0
   for key in redis_keys:
     if 'aa_foo' in str(key) or 'localhost_' in str(key):
       localhost_print_function('skipping key: {}'.format(key))
@@ -60,19 +59,9 @@ def job_clean_out_unused_redis_browser_keys_function():
       redis_slack_team_id = user_nested_dict['slack_team_id']
       redis_slack_channel_id = user_nested_dict['slack_channel_id']
       redis_user_email = user_nested_dict['user_email']
-      # ------------------------ Keep Commented Out START ------------------------
-      # # Delete specific Email - Keep it commented out
-      # if redis_user_email == 'abc' or redis_user_email == 'abc':
-      #   redis_connection.delete(key)
-      #   localhost_print_function('deleted specific email logged in user from Redis. Email: {}'.format(redis_user_email))
-      #   counter += 1
-      #   localhost_print_function(counter)
-      # ------------------------ Keep Commented Out END ------------------------
       if redis_slack_team_id not in team_id_set and redis_slack_channel_id not in channel_id_set:
         redis_connection.delete(key)
         localhost_print_function('deleted logged in user from Redis. Email: {}'.format(redis_user_email))
-        counter += 1
-        localhost_print_function(counter)
   # ------------------------ Redis Delete END ------------------------
 
   localhost_print_function('=========================================== job_clean_out_unused_redis_browser_keys_function END ===========================================')

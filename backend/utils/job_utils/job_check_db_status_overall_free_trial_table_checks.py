@@ -2,11 +2,29 @@
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from backend.db.queries.select_queries.select_queries_triviafy_free_trial_tracker_slack_table.select_free_trial_min_max_start_end_match_check import select_free_trial_min_max_start_end_match_check_function
 from backend.db.queries.select_queries.select_queries_triviafy_free_trial_tracker_slack_table.select_free_trial_matching_expire_status import select_free_trial_matching_expire_status_function
+from backend.db.queries.select_queries.select_queries_triviafy_free_trial_tracker_slack_table.select_free_trial_total_accounted_for import select_free_trial_total_accounted_for_function
 
 # -------------------------------------------------------------- Main
 def job_check_db_status_overall_free_trial_table_checks_function(postgres_connection, postgres_cursor, team_id, channel_id, today_date, db_check_dict):
   localhost_print_function('=========================================== job_check_db_status_overall_free_trial_table_checks_function START ===========================================')
   
+  # ------------------------ Assign Variables START ------------------------
+  total_team_channel_users = db_check_dict[team_id][channel_id]['total_team_channel_users']
+  # ------------------------ Assign Variables END ------------------------
+
+
+  # ------------------------ Check Free Trial Rules - Count Free Trials START ------------------------
+  free_trial_total_users_arr = select_free_trial_total_accounted_for_function(postgres_connection, postgres_cursor, team_id, channel_id)
+  free_trial_total_users_count = free_trial_total_users_arr[0]
+  if total_team_channel_users != free_trial_total_users_count:
+    localhost_print_function('=========================================== job_check_db_status_overall_function END ===========================================')
+    print('Error: Free Trial total users not matching for all users for this team channel combo. Total users = {}, while free trial total users = {}'.format(total_team_channel_users, free_trial_total_users_count))
+    return False
+  else:
+    db_check_dict[team_id][channel_id]['free_trial_total_users_count_match'] = True
+  # ------------------------ Check Free Trial Rules - Count Free Trials EMD ------------------------
+
+
   # ------------------------ Check Free Trial Rules - Same Start End Dates START ------------------------
   free_trial_start_end_match_check_arr = select_free_trial_min_max_start_end_match_check_function(postgres_connection, postgres_cursor, team_id, channel_id)
   free_trial_times_arr = free_trial_start_end_match_check_arr[0]

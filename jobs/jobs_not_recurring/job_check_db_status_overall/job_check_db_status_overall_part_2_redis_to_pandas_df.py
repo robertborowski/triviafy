@@ -26,11 +26,11 @@ def job_check_db_status_overall_part_2_redis_to_pandas_df_function():
 
 
   # ------------------------ Loop Through Nested Dict START ------------------------
-  # for k_team_id, v_inner_dict in db_check_dict.items():
-  #   for k_channel_id, v_inner_dict2 in v_inner_dict.items():
-  #     for k_column_name, v_column_value in v_inner_dict2.items():
-  #       print(f'{k_team_id} | {k_channel_id} | {k_column_name} | {v_column_value}')
-  #   print('- - - - - - - - - - - - -')
+  for k_team_id, v_inner_dict in db_check_dict.items():
+    for k_channel_id, v_inner_dict2 in v_inner_dict.items():
+      for k_column_name, v_column_value in v_inner_dict2.items():
+        print(f'{k_team_id} | {k_channel_id} | {k_column_name} | {v_column_value}')
+    print('- - - - - - - - - - - - -')
   # ------------------------ Loop Through Nested Dict END ------------------------
 
 

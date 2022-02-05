@@ -30,3 +30,10 @@ localhost_print_function('i')
 localhost_print_function(i)
 localhost_print_function(type(i))
 localhost_print_function('- - - - - - - 0 - - - - - - -')
+
+
+
+
+
+**** Script = delete user specific from all tables queries.
+**** User gets logged out when changing Account Settings why is that.
