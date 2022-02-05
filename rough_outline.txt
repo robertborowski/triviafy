@@ -35,5 +35,6 @@ localhost_print_function('- - - - - - - 0 - - - - - - -')
 
 
 
-**** Script = delete user specific from all tables queries.
-**** User gets logged out when changing Account Settings why is that.
+*** User gets logged out when changing Account Settings why is that.
+*** Script = delete user specific from all tables queries.
+*** If user makes account on Saturday, after quiz is already closed and announced, the additoinal late team user should not receive email about quiz open and close for the week. Too many emails at once.

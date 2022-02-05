@@ -62,7 +62,7 @@ def job_clean_out_unused_redis_browser_keys_function():
       redis_user_email = user_nested_dict['user_email']
       # ------------------------ Keep Commented Out START ------------------------
       # # Delete specific Email - Keep it commented out
-      # if redis_user_email == 'abc' or redis_user_email == 'abc':
+      # if redis_user_email == 'abc@xyz.com':
       #   redis_connection.delete(key)
       #   localhost_print_function('deleted specific email logged in user from Redis. Email: {}'.format(redis_user_email))
       #   counter += 1
