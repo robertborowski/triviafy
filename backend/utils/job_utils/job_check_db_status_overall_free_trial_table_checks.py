@@ -3,6 +3,7 @@ from backend.utils.localhost_print_utils.localhost_print import localhost_print_
 from backend.db.queries.select_queries.select_queries_triviafy_free_trial_tracker_slack_table.select_free_trial_min_max_start_end_match_check import select_free_trial_min_max_start_end_match_check_function
 from backend.db.queries.select_queries.select_queries_triviafy_free_trial_tracker_slack_table.select_free_trial_matching_expire_status import select_free_trial_matching_expire_status_function
 from backend.db.queries.select_queries.select_queries_triviafy_free_trial_tracker_slack_table.select_free_trial_total_accounted_for import select_free_trial_total_accounted_for_function
+from backend.db.queries.select_queries.select_queries_triviafy_free_trial_tracker_slack_table.select_free_trial_identify_duplicate_auth_id_and_uuid_combo import select_free_trial_identify_duplicate_auth_id_and_uuid_combo_function
 
 # -------------------------------------------------------------- Main
 def job_check_db_status_overall_free_trial_table_checks_function(postgres_connection, postgres_cursor, team_id, channel_id, today_date, db_check_dict):
@@ -23,6 +24,17 @@ def job_check_db_status_overall_free_trial_table_checks_function(postgres_connec
   else:
     db_check_dict[team_id][channel_id]['free_trial_total_users_count_match'] = True
   # ------------------------ Check Free Trial Rules - Count Free Trials EMD ------------------------
+
+
+  # ------------------------ Check Free Trial Rules - Count Duplicate auth_id and uuid START ------------------------
+  check_duplicate = select_free_trial_identify_duplicate_auth_id_and_uuid_combo_function(postgres_connection, postgres_cursor, team_id, channel_id)
+  if check_duplicate != None:
+    localhost_print_function('=========================================== job_check_db_status_overall_function END ===========================================')
+    print('Error: Free Trial has {} duplicate Auth ID + UUID combo'.format(check_duplicate[2]))
+    return False
+  else:
+    db_check_dict[team_id][channel_id]['free_trial_auth_id_and_uuid_no_duplicates'] = True
+  # ------------------------ Check Free Trial Rules - Count Duplicate auth_id and uuid END ------------------------
 
 
   # ------------------------ Check Free Trial Rules - Same Start End Dates START ------------------------
