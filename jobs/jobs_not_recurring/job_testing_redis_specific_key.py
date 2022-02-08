@@ -12,7 +12,7 @@ def job_testing_redis_specific_key_function():
 
 
   # ------------------------ Redis Delete START ------------------------
-  # Connect to redis database pool (no need to close)
+  # Connect to redis database pool (no need to close) 
   redis_connection = redis_connect_to_database_function()
   redis_keys = redis_connection.keys()
 

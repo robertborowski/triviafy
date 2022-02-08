@@ -2,6 +2,7 @@
 import json
 from backend.db.connection.redis_connect_to_database import redis_connect_to_database_function
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
+import pandas as pd
 
 # -------------------------------------------------------------- Main Function
 def job_check_db_status_overall_part_2_redis_to_pandas_df_function():
@@ -19,8 +20,8 @@ def job_check_db_status_overall_part_2_redis_to_pandas_df_function():
 
 
   # ------------------------ Dict Keys START ------------------------
-  all_team_ids = db_check_dict.keys()
-  print(all_team_ids)
+  # all_team_ids = db_check_dict.keys()
+  # print(all_team_ids)
   # ------------------------ Dict Keys END ------------------------
 
 
@@ -32,6 +33,13 @@ def job_check_db_status_overall_part_2_redis_to_pandas_df_function():
         print(f'{k_team_id} | {k_channel_id} | {k_column_name} | {v_column_value}')
     print('- - - - - - - - - - - - -')
   # ------------------------ Loop Through Nested Dict END ------------------------
+
+
+  # ------------------------ pd df to Excel START ------------------------
+  df = pd.concat({k: pd.DataFrame(v).T for k, v in db_check_dict.items()}, axis=0)
+  df.to_excel(r'/Users/robert/desktop/test.xlsx', index = True)
+  # ------------------------ pd df to Excel END ------------------------
+
 
 
   localhost_print_function('=========================================== job_check_db_status_overall_part_2_redis_to_pandas_df_function END ===========================================')

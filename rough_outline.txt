@@ -36,5 +36,7 @@ localhost_print_function('- - - - - - - 0 - - - - - - -')
 
 
 *** User gets logged out when changing Account Settings why is that.
-*** Script = delete user specific from all tables queries.
+*** Script = delete USER specific info from all tables queries.
 *** If user makes account on Saturday, after quiz is already closed and announced, the additoinal late team user should not receive email about quiz open and close for the week. Too many emails at once.
+*** Run Skipped Quiz on Saturday. See if it works for 2 weeks skipped because forgot to run the script last week.
+*** Add user's display name to the top under company channel so on Inspeclet you can see who is doing what.
