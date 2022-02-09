@@ -19,26 +19,32 @@ def job_check_db_status_overall_part_2_redis_to_pandas_df_function():
   # ------------------------ Upload To Redis END ------------------------
 
 
-  # ------------------------ Dict Keys START ------------------------
-  # all_team_ids = db_check_dict.keys()
-  # print(all_team_ids)
-  # ------------------------ Dict Keys END ------------------------
-
-
-
   # ------------------------ Loop Through Nested Dict START ------------------------
+  # Arr initialization
+  rows_arr = []
+  column_names_row = ['team_id', 'channel_id']
+
+  # Loop through nested dict creating row by row
   for k_team_id, v_inner_dict in db_check_dict.items():
+    row = []
+    row.append(k_team_id)
     for k_channel_id, v_inner_dict2 in v_inner_dict.items():
+      row.append(k_channel_id)
       for k_column_name, v_column_value in v_inner_dict2.items():
-        print(f'{k_team_id} | {k_channel_id} | {k_column_name} | {v_column_value}')
-    print('- - - - - - - - - - - - -')
+        if k_column_name not in column_names_row:
+          column_names_row.append(k_column_name)
+        row.append(v_column_value)
+        # print(f'{k_team_id} | {k_channel_id} | {k_column_name} | {v_column_value}')
+      rows_arr.append(row)
+    # print('- - - - - - - - - - - - -')
+
+  # Create the pandas DataFrame
+  df = pd.DataFrame(rows_arr, columns = column_names_row)
+  # print(df)
+  
+  # Create desktop Excel file
+  # df.to_excel(r'/Users/robert/desktop/test.xlsx', index = True)
   # ------------------------ Loop Through Nested Dict END ------------------------
-
-
-  # ------------------------ pd df to Excel START ------------------------
-  df = pd.concat({k: pd.DataFrame(v).T for k, v in db_check_dict.items()}, axis=0)
-  df.to_excel(r'/Users/robert/desktop/test.xlsx', index = True)
-  # ------------------------ pd df to Excel END ------------------------
 
 
 
