@@ -276,7 +276,7 @@ def account_edit_settings_processing_changes_page_render_template_function():
 
 
   except:
-    localhost_print_function('page load except error hit')
+    localhost_print_function('page load except error hit - Account Processing Page')
     localhost_print_function('=========================================== /account/edit/settings/processing Page END ===========================================')
     return redirect('/logout', code=302)
     # return redirect('/', code=302)
