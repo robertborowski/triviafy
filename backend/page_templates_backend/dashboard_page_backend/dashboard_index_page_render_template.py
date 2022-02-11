@@ -189,7 +189,7 @@ def dashboard_index_page_render_template_function():
 
 
   except:
-    localhost_print_function('page load except error hit - Dashboard page')
+    localhost_print_function('page load except error hit - /dashboard page')
     localhost_print_function('=========================================== /dashboard Page END ===========================================')
     return redirect('/logout', code=302)
     # return redirect('/', code=302)
