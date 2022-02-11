@@ -5,6 +5,7 @@ from backend.db.queries.select_queries.select_queries_triviafy_user_login_inform
 import os
 from backend.page_templates_backend.slack_confirm_oauth_redirect_dashboard_backend.user_store_loggedin_data_redis import user_store_loggedin_data_redis_function
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
+from backend.utils.free_trial_period_utils.check_if_free_trial_period_is_expired_days_left import check_if_free_trial_period_is_expired_days_left_function
 
 # -------------------------------------------------------------- Main Function
 def update_user_nested_dict_information_after_account_edit_function(postgres_connection, postgres_cursor, slack_workspace_team_id, slack_channel_id, user_uuid):
@@ -33,8 +34,14 @@ def update_user_nested_dict_information_after_account_edit_function(postgres_con
     'slack_timezone' : pulled_user_arr[17],
     'slack_timezone_label' : pulled_user_arr[18],
     'slack_timezone_offset' : pulled_user_arr[19],
-    'slack_user_job_title' : pulled_user_arr[20]
+    'slack_user_job_title' : pulled_user_arr[20],
+    'user_slack_email_permission_granted' : pulled_user_arr[21],
+    'slack_authed_webhook_url' : pulled_user_arr[22],
+    'user_slack_new_user_questionnaire_answered' : pulled_user_arr[23]
   }
+
+  # Add free trial information
+  user_dict = check_if_free_trial_period_is_expired_days_left_function(user_dict)
 
   # ------------------------ Check Server Running START ------------------------
   # -------------------------------------------------------------- Running on localhost
