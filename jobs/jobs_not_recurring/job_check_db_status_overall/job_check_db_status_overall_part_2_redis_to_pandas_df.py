@@ -43,7 +43,7 @@ def job_check_db_status_overall_part_2_redis_to_pandas_df_function():
   # print(df)
   
   # Create desktop Excel file
-  # df.to_excel(r'/Users/robert/desktop/test.xlsx', index = True)
+  df.to_excel(r'/Users/robert/desktop/test.xlsx', index = True)
   # ------------------------ Loop Through Nested Dict END ------------------------
 
 

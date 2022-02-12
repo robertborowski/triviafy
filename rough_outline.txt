@@ -33,8 +33,7 @@ localhost_print_function('- - - - - - - 0 - - - - - - -')
 
 
 
-
-***** Move the pre-page checks to one called function instead of taking up so many lines on each logged in page --> Add the precheck that applies to every page except Account Settings, this checks if a redis key is 'user_slack_'
+**** Change the way the weekly quiz made printing works. It should have a counter and arr to know how many companies quizzes were made for at the end.
 * Script = delete USER specific info from all tables queries.
 * If user makes account on Saturday, after quiz is already closed and announced, the additoinal late team user should not receive email about quiz open and close for the week. Too many emails at once.
 * Run Skipped Quiz on Saturday. See if it works for 2 weeks skipped because forgot to run the script last week.

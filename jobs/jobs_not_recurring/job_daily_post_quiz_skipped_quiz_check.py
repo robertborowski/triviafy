@@ -19,6 +19,11 @@ from backend.db.queries.delete_queries.delete_queries_triviafy_quiz_questions_as
 def job_post_quiz_skipped_quiz_check_function():
   localhost_print_function('=========================================== job_post_quiz_skipped_quiz_check_function START ===========================================')
 
+  # ------------------------ Print Summary Variables START ------------------------
+  summary_arr = []
+  # ------------------------ Print Summary Variables END ------------------------
+  
+  
   # ------------------------ Get Today's Date Information START ------------------------
   # Today's date
   today_date = date.today()# - timedelta(days=1)
@@ -53,7 +58,16 @@ def job_post_quiz_skipped_quiz_check_function():
         localhost_print_function('move onto next team')
         continue
       else:
+        localhost_print_function('Last team channel combo')
         localhost_print_function('did not run delete, likely because it is day of quiz end')
+        # ------------------------ Job Summary Print START ------------------------
+        len_summary_arr = len(summary_arr)
+        localhost_print_function('- - - - - - -')
+        localhost_print_function('- - - - - - -')
+        localhost_print_function('deleted quiz count: {}'.format(len_summary_arr))
+        localhost_print_function('- - - - - - -')
+        localhost_print_function('- - - - - - -')
+        # ------------------------ Job Summary Print END ------------------------
         localhost_print_function('=========================================== job_post_quiz_skipped_quiz_check_function END ===========================================')
         return True
 
@@ -61,7 +75,7 @@ def job_post_quiz_skipped_quiz_check_function():
     total_skipped_quizzes_int_for_company_team_channel_level = len(skipped_quizzes_arr)
 
     for skipped_quiz in skipped_quizzes_arr:
-      uuid_quiz = skipped_quiz[0]                 # * str
+      uuid_quiz = skipped_quiz[0]                   # str
       # quiz_timestamp_created = skipped_quiz[1]    # datetime.datetime
       # quiz_slack_team_id = skipped_quiz[2]        # str
       # quiz_slack_channel_id = skipped_quiz[3]     # str
@@ -83,6 +97,8 @@ def job_post_quiz_skipped_quiz_check_function():
       output_message = delete_query_delete_skipped_quiz_function(postgres_connection, postgres_cursor, uuid_quiz)
       # Delete the questions asked from the master questions asked to team channel table DB
       output_message = delete_query_delete_question_asked_on_skipped_quiz_function(postgres_connection, postgres_cursor, uuid_quiz)
+      # Append to job summary
+      summary_arr.append((company_team_id, company_channel_id, uuid_quiz))
       # ------------------------ Delete Skipped Quiz And Questions Marked As Asked END ------------------------
 
 
@@ -109,6 +125,16 @@ def job_post_quiz_skipped_quiz_check_function():
   # ------------------------ Clsoe DB START ------------------------
   postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)
   # ------------------------ Clsoe DB END ------------------------
+
+
+  # ------------------------ Job Summary Print START ------------------------
+  len_summary_arr = len(summary_arr)
+  localhost_print_function('- - - - - - -')
+  localhost_print_function('- - - - - - -')
+  localhost_print_function('deleted quiz count: {}'.format(len_summary_arr))
+  localhost_print_function('- - - - - - -')
+  localhost_print_function('- - - - - - -')
+  # ------------------------ Job Summary Print END ------------------------
 
 
   localhost_print_function('=========================================== job_post_quiz_skipped_quiz_check_function END ===========================================')

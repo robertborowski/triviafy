@@ -149,7 +149,7 @@ def job_check_db_status_overall_part_1_calc_into_redis_function():
 
 
     # ------------------------ Table Checks - Quizzes Skipped START ------------------------
-    db_check_dict = job_check_db_status_overall_skipped_quiz_checks_function(postgres_connection, postgres_cursor, team_id, channel_id, db_check_dict)
+    db_check_dict = job_check_db_status_overall_skipped_quiz_checks_function(postgres_connection, postgres_cursor, team_id, channel_id, db_check_dict, today_date)
     # ------------------------ Table Checks - Quizzes Skipped END ------------------------
 
 
