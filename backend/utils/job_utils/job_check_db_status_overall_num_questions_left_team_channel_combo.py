@@ -25,10 +25,10 @@ def job_check_db_status_overall_num_questions_left_team_channel_combo_function(p
 
   if categories_selected_str == 'All Categories':
     db_check_dict[team_id][channel_id]['remaining_unasked_num_questions_category_specific'] = remaining_unasked_num_questions_all_categories
-    remaining_unasked_num_questions_category_specific_below_threshold = False
+    remaining_unasked_questions_category_below_threshold = False
     if remaining_unasked_num_questions_all_categories <= acceptable_question_threshold:
-      remaining_unasked_num_questions_category_specific_below_threshold = True
-    db_check_dict[team_id][channel_id]['remaining_unasked_num_questions_category_specific_below_threshold'] = remaining_unasked_num_questions_category_specific_below_threshold
+      remaining_unasked_questions_category_below_threshold = True
+    db_check_dict[team_id][channel_id]['remaining_unasked_questions_category_below_threshold'] = remaining_unasked_questions_category_below_threshold
   
   else:
     # Turn str into array
@@ -53,10 +53,10 @@ def job_check_db_status_overall_num_questions_left_team_channel_combo_function(p
         remaining_unasked_num_questions_category_specific += i_dict['count']
       
     db_check_dict[team_id][channel_id]['remaining_unasked_num_questions_category_specific'] = remaining_unasked_num_questions_category_specific
-    remaining_unasked_num_questions_category_specific_below_threshold = False
+    remaining_unasked_questions_category_below_threshold = False
     if remaining_unasked_num_questions_category_specific <= acceptable_question_threshold:
-      remaining_unasked_num_questions_category_specific_below_threshold = True
-    db_check_dict[team_id][channel_id]['remaining_unasked_num_questions_category_specific_below_threshold'] = remaining_unasked_num_questions_category_specific_below_threshold
+      remaining_unasked_questions_category_below_threshold = True
+    db_check_dict[team_id][channel_id]['remaining_unasked_questions_category_below_threshold'] = remaining_unasked_questions_category_below_threshold
   # ------------------------ Check Num Questions Left Category Specific END ------------------------
 
 

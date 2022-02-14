@@ -27,7 +27,7 @@ def job_check_db_status_overall_skipped_quiz_checks_function(postgres_connection
   if team_channel_skipped_quiz_count != None:
     db_check_dict[team_id][channel_id]['team_channel_skipped_quiz_count'] = team_channel_skipped_quiz_count
   else:
-    db_check_dict[team_id][channel_id]['team_channel_skipped_quiz_count'] = None
+    db_check_dict[team_id][channel_id]['team_channel_skipped_quiz_count'] = 0
   # ------------------------ Identify Quiz Winner END ------------------------
   
 

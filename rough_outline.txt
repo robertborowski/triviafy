@@ -38,3 +38,4 @@ localhost_print_function('- - - - - - - 0 - - - - - - -')
 * If user makes account on Saturday, after quiz is already closed and announced, the additoinal late team user should not receive email about quiz open and close for the week. Too many emails at once.
 * Add user's display name to the top under company channel so on Inspeclet you can see who is doing what.
 * remove duplicate redis logged in users
+* # of people who answered quiz questions today. # of people who answered quiz questions this week.
