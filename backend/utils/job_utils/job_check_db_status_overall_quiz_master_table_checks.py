@@ -3,6 +3,7 @@ from backend.utils.localhost_print_utils.localhost_print import localhost_print_
 from backend.utils.latest_quiz_utils.check_if_today_is_greater_than_equal_to_latest_quiz_start_date_utils.check_if_today_is_greater_than_equal_to_latest_quiz_start_date import check_if_today_is_greater_than_equal_to_latest_quiz_start_date_function
 from backend.utils.latest_quiz_utils.check_if_today_is_greater_than_equal_to_latest_quiz_start_date_utils.check_if_today_is_greater_than_equal_to_latest_quiz_end_date import check_if_today_is_greater_than_equal_to_latest_quiz_end_date_function
 from backend.db.queries.select_queries.select_queries_triviafy_quiz_master_table.select_triviafy_latest_quiz_info_specific_company import select_triviafy_latest_quiz_info_specific_company_function
+from backend.db.queries.select_queries.select_queries_triviafy_quiz_master_table.select_quiz_count_for_company_slack import select_quiz_count_for_company_slack_function
 
 
 # -------------------------------------------------------------- Main
@@ -41,8 +42,9 @@ def job_check_db_status_overall_quiz_master_table_checks_function(postgres_conne
     db_check_dict[team_id][channel_id]['latest_quiz_end_date'] = None
     db_check_dict[team_id][channel_id]['latest_quiz_end_day_of_week'] = None
     db_check_dict[team_id][channel_id]['latest_quiz_end_time'] = None
-    db_check_dict[team_id][channel_id]['latest_quiz_num_questions'] = None
-    db_check_dict[team_id][channel_id]['latest_quiz_count'] = None
+    db_check_dict[team_id][channel_id]['latest_quiz_num_questions'] = 0
+    latest_quiz_count_arr = select_quiz_count_for_company_slack_function(postgres_connection, postgres_cursor, team_id, channel_id)
+    db_check_dict[team_id][channel_id]['latest_quiz_count'] = latest_quiz_count_arr[0]
   
   else:
     db_check_dict[team_id][channel_id]['quiz_created_this_week'] = True
