@@ -103,6 +103,8 @@ def job_weekly_make_latest_quizzes_for_all_companies_function():
 
 
       # ------------------------ Check If Paid Latest Month START ------------------------
+      """
+      # Make a quiz for everybody so that the people who did not pay their first month still get Slack messages which will bring them to the /subscription page
       if free_trial_expired_for_company_team == True:
         # ------------------------ Get Today's Date Information START ------------------------
         # Today's date
@@ -126,6 +128,7 @@ def job_weekly_make_latest_quizzes_for_all_companies_function():
         if company_paid_latest_month[0] == False:
           localhost_print_function('Cannot make a quiz for this company team because their free trial ended and they did not pay the latest month')
           continue
+      """
       # ------------------------ Check If Paid Latest Month END ------------------------
 
 
