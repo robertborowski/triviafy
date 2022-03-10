@@ -16,7 +16,8 @@ def pre_load_page_checks_function(page_location_name):
 
 
     # ------------------------ Pages To Exclude From Checks START ------------------------
-    page_check_skip_step_subscription_arr = ['/admin', '/subscription']
+    # page_check_skip_step_subscription_arr = ['/admin', '/subscription']
+    page_check_skip_step_subscription_arr = ['/admin', '/subscription', '/notifications/email/permission/processing', '/notifications/email/permission', '/new/user/questionnaire', '/new/user/questionnaire/processing']
     page_check_skip_step_permission_arr = ['/notifications/email/permission/processing', '/notifications/email/permission']
     page_check_skip_step_questionnaire_arr = ['/notifications/email/permission/processing', '/notifications/email/permission', '/new/user/questionnaire', '/new/user/questionnaire/processing']
     # ------------------------ Pages To Exclude From Checks END ------------------------
