@@ -13,6 +13,11 @@ from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_f
 from backend.db.queries.insert_queries.insert_queries_triviafy_emails_sent_table.insert_triviafy_emails_sent_table import insert_triviafy_emails_sent_table_function
 from datetime import date
 import os, time
+from backend.db.queries.select_queries.select_queries_triviafy_slack_messages_sent_table.select_triviafy_slack_messages_sent_table_search_user_uuid_category_without_quiz import select_triviafy_slack_messages_sent_table_search_user_uuid_category_without_quiz_function
+from backend.db.queries.select_queries.select_queries_triviafy_user_login_information_table_slack.select_triviafy_user_login_information_table_channel_name import select_triviafy_user_login_information_table_channel_name_function
+from backend.db.queries.select_queries.select_queries_triviafy_user_login_information_table_slack.select_one_user_incoming_webhook import select_one_user_incoming_webhook_function
+from backend.db.queries.insert_queries.insert_queries_triviafy_slack_messages_sent_table.insert_triviafy_slack_messages_sent_table import insert_triviafy_slack_messages_sent_table_function
+from backend.utils.slack.send_team_channel_message_utils.send_team_channel_message_skipped_quiz_feedback import send_team_channel_message_skipped_quiz_feedback_function
 
 # -------------------------------------------------------------- Main Function
 def job_email_skipped_feedback_request_function(arr_to_remove):
@@ -81,12 +86,13 @@ def job_email_skipped_feedback_request_function(arr_to_remove):
 
       if check_if_email_already_sent_to_company_user != None:
         localhost_print_function('Already sent an email to {}'.format(company_user_email))
+        uuid_quiz = None
         pass
       if check_if_email_already_sent_to_company_user == None:
         # ------------------------ Send Email START ------------------------
         output_email = company_user_email
         output_subject_line = 'Triviafy ' + email_sent_search_category + ' - ' + str(today_date)
-        output_message_content = f"Hi {company_user_full_name},\n\nYour team's Slack channel '{channel_name}' has skipped {skipped_quiz_count_int} Triviafy quizzes.\n\nWhy is your team skipping so many weekly quizzes? Any feedback about our product would be greatly appreciated. \n\nBest,\nRob\n\nTriviafy your workspace."
+        output_message_content = f"Hi {company_user_full_name},\n\nCancel Free Trial Period: If you want to stop receiving emails/Slack messages from Triviafy (end your team's free trial period early), then please reply on this email with word 'cancel.'\n\nYour team's Slack channel '{channel_name}' has skipped {skipped_quiz_count_int} Triviafy quizzes.\nWhy is no one on your team participating?\nAny feedback about our product would be greatly appreciated.\n\nCancel Free Trial Period: If you want to stop receiving emails/Slack messages from Triviafy (end your team's free trial period early), then please reply on this email with word 'cancel.'\n\nBest,\nRobert Borowski | Founder\n\nTriviafy your workspace."
         output_message_content_str_for_db = output_message_content
 
         email_sent_successfully = send_email_template_function(output_email, output_subject_line, output_message_content)
@@ -98,6 +104,32 @@ def job_email_skipped_feedback_request_function(arr_to_remove):
         output_message = insert_triviafy_emails_sent_table_function(postgres_connection, postgres_cursor, uuid_email_sent, email_sent_timestamp, company_user_uuid, email_sent_search_category, uuid_quiz, output_message_content_str_for_db)
         # ------------------------ Send Email END ------------------------
     # ------------------------ Email Each Team Member END ------------------------
+
+
+    # ------------------------ Send Account Slack Message START ------------------------
+    slack_message_sent_search_category = 'Skipped Quiz Feedback Request'
+    check_if_slack_message_already_sent_to_company_user = select_triviafy_slack_messages_sent_table_search_user_uuid_category_without_quiz_function(postgres_connection, postgres_cursor, company_user_uuid, slack_message_sent_search_category)
+
+    if check_if_slack_message_already_sent_to_company_user == None:
+      # ------------------------ Select Channel Name START ------------------------
+      quiz_channel_name_arr = select_triviafy_user_login_information_table_channel_name_function(postgres_connection, postgres_cursor, team_id, channel_id)
+      quiz_channel_name = quiz_channel_name_arr[0]
+      # ------------------------ Select Channel Name END ------------------------
+
+
+      user_slack_authed_incoming_webhook_url = select_one_user_incoming_webhook_function(postgres_connection, postgres_cursor, team_id, channel_id)
+      output_message_content_str_for_db = send_team_channel_message_skipped_quiz_feedback_function(quiz_channel_name, skipped_quiz_count_int, user_slack_authed_incoming_webhook_url)
+
+      # Insert this sent email into DB
+      uuid_slack_message_sent = create_uuid_function('slack_sent_')
+      slack_message_sent_timestamp = create_timestamp_function()
+      output_message = insert_triviafy_slack_messages_sent_table_function(postgres_connection, postgres_cursor, uuid_slack_message_sent, slack_message_sent_timestamp, company_user_uuid, slack_message_sent_search_category, uuid_quiz, output_message_content_str_for_db)
+      localhost_print_function('Slack message sent Successfully to:\nTeam name: {}\nChannel name: {}'.format(team_name, channel_name))
+    
+    else:
+      localhost_print_function('Slack message already sent to:\nTeam name: {}\nChannel name: {}'.format(team_name, channel_name))
+      pass
+    # ------------------------ Send Account Slack Message START ------------------------
 
     
     localhost_print_function('- - - - - - - - - - - - - - - Team Channel End - - - - - - - - - - - - - - - - - - ')
