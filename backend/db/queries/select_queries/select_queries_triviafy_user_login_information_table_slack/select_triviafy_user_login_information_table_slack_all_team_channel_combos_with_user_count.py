@@ -9,7 +9,10 @@ def select_triviafy_user_login_information_table_slack_all_team_channel_combos_w
   
   try:
     # ------------------------ Query START ------------------------
-    postgres_cursor.execute("SELECT DISTINCT l.user_slack_workspace_team_id,l.user_slack_channel_id,l.user_slack_workspace_team_name,l.user_slack_channel_name,COUNT(l.*)AS num_users FROM triviafy_user_login_information_table_slack AS l GROUP BY l.user_slack_workspace_team_id,l.user_slack_channel_id,l.user_slack_workspace_team_name,l.user_slack_channel_name ORDER BY l.user_slack_workspace_team_id,l.user_slack_channel_id,l.user_slack_workspace_team_name,l.user_slack_channel_name;")
+    # postgres_cursor.execute("SELECT DISTINCT l.user_slack_workspace_team_id,l.user_slack_channel_id,l.user_slack_workspace_team_name,l.user_slack_channel_name,COUNT(l.*)AS num_users FROM triviafy_user_login_information_table_slack AS l GROUP BY l.user_slack_workspace_team_id,l.user_slack_channel_id,l.user_slack_workspace_team_name,l.user_slack_channel_name ORDER BY l.user_slack_workspace_team_id,l.user_slack_channel_id,l.user_slack_workspace_team_name,l.user_slack_channel_name;")
+    
+    # Order by first account created each company descending order
+    postgres_cursor.execute("SELECT DISTINCT l.user_slack_workspace_team_id,l.user_slack_channel_id,l.user_slack_workspace_team_name,l.user_slack_channel_name,COUNT(l.*)AS num_users,MIN(l.user_datetime_account_created)AS min_account_created FROM triviafy_user_login_information_table_slack AS l GROUP BY l.user_slack_workspace_team_id,l.user_slack_channel_id,l.user_slack_workspace_team_name,l.user_slack_channel_name ORDER BY min_account_created DESC,l.user_slack_workspace_team_id,l.user_slack_channel_id,l.user_slack_workspace_team_name,l.user_slack_channel_name;")
     # ------------------------ Query END ------------------------
 
 
