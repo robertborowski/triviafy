@@ -1,5 +1,4 @@
 # -------------------------------------------------------------- Imports
-from threading import local
 from backend.db.connection.postgres_connect_to_database import postgres_connect_to_database_function
 from backend.db.connection.postgres_close_connection_to_database import postgres_close_connection_to_database_function
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
@@ -107,7 +106,7 @@ def job_email_skipped_feedback_request_function(arr_to_remove):
 
 
     # ------------------------ Send Account Slack Message START ------------------------
-    slack_message_sent_search_category = 'Skipped Quiz Feedback Request'
+    slack_message_sent_search_category = email_sent_search_category
     check_if_slack_message_already_sent_to_company_user = select_triviafy_slack_messages_sent_table_search_user_uuid_category_without_quiz_function(postgres_connection, postgres_cursor, company_user_uuid, slack_message_sent_search_category)
 
     if check_if_slack_message_already_sent_to_company_user == None:

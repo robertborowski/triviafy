@@ -9,7 +9,7 @@ def select_triviafy_slack_messages_sent_table_search_user_uuid_category_without_
   
   try:
     # ------------------------ Query START ------------------------
-    postgres_cursor.execute("SELECT * FROM triviafy_slack_messages_sent_table WHERE slack_message_sent_to_user_uuid_fk=%s AND slack_message_sent_category=%s", [user_uuid, slack_message_sent_search_category])
+    postgres_cursor.execute("SELECT * FROM triviafy_slack_messages_sent_table WHERE slack_message_sent_to_user_uuid_fk=%s AND slack_message_sent_category=%s AND slack_message_sent_timestamp >= CURRENT_DATE;", [user_uuid, slack_message_sent_search_category])
     # ------------------------ Query END ------------------------
 
 
