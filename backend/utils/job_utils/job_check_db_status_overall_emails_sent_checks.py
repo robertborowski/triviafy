@@ -16,10 +16,6 @@ def job_check_db_status_overall_emails_sent_checks_function(postgres_connection,
   # ------------------------ Count Account Created Email START ------------------------
   email_sent_search_category = 'Account Created'
   total_team_channel_users_received_email_account_created = select_triviafy_emails_sent_table_count_account_created_emails_per_team_channel_function(postgres_connection, postgres_cursor, team_id, channel_id, email_sent_search_category)
-  if total_team_channel_users_received_email_account_created != total_team_channel_users:
-    localhost_print_function('Error: not all users received Account Created Email')
-    localhost_print_function('=========================================== job_check_db_status_overall_emails_sent_checks_function END ===========================================')
-    return False
   db_check_dict[team_id][channel_id]['all_team_channel_users_received_email_account_created'] = total_team_channel_users == total_team_channel_users_received_email_account_created
   # ------------------------ Count Account Created Email END ------------------------
 
