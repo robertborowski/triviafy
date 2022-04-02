@@ -39,3 +39,6 @@ localhost_print_function('- - - - - - - 0 - - - - - - -')
 * Add user's display name to the top under company channel so on Inspeclet you can see who is doing what.
 * remove duplicate redis logged in users
 * # of people who answered quiz questions today. # of people who answered quiz questions this week.
+
+
+-Edit company quiz categories is not in alphabetical order.

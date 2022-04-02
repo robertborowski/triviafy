@@ -90,7 +90,7 @@ def job_email_skipped_feedback_request_function(arr_to_remove):
       if check_if_email_already_sent_to_company_user == None:
         # ------------------------ Send Email START ------------------------
         output_email = company_user_email
-        output_subject_line = 'Triviafy ' + email_sent_search_category + ' - ' + str(today_date)
+        output_subject_line = 'Reply "Cancel" To Delete Account - Triviafy ' + email_sent_search_category + ' - ' + str(today_date)
         output_message_content = f"Hi {company_user_full_name},\n\nCancel Free Trial Period: If you want to stop receiving emails/Slack messages from Triviafy (end your team's free trial period early), then please reply on this email with word 'cancel.'\n\nYour team's Slack channel '{channel_name}' has skipped {skipped_quiz_count_int} Triviafy quizzes.\nWhy is no one on your team participating?\nAny feedback about our product would be greatly appreciated.\n\nCancel Free Trial Period: If you want to stop receiving emails/Slack messages from Triviafy (end your team's free trial period early), then please reply on this email with word 'cancel.'\n\nBest,\nRobert Borowski | Founder\n\nTriviafy your workspace."
         output_message_content_str_for_db = output_message_content
 
