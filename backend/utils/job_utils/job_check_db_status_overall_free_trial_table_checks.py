@@ -56,7 +56,11 @@ def job_check_db_status_overall_free_trial_table_checks_function(postgres_connec
   if len(free_trial_expire_status_arr) != 1:
     localhost_print_function('=========================================== job_check_db_status_overall_function END ===========================================')
     print('Error: Free Trial Expire status is not the same for all users for this team channel combo')
-    return False
+    
+    # return False
+    db_check_dict[team_id][channel_id]['free_trial_expired'] = True
+    db_check_dict[team_id][channel_id]['free_trial_days_left'] = -1
+  
   else:
     free_trial_expire_status = free_trial_expire_status_arr[0][0]
     db_check_dict[team_id][channel_id]['free_trial_expired'] = free_trial_expire_status
