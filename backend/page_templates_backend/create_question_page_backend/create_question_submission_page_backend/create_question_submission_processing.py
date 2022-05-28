@@ -171,4 +171,8 @@ def create_question_submission_processing_function():
 
   
   localhost_print_function('=========================================== /create/question/user/form/submit/processing Page END ===========================================')
+  """
+  # Changing this temporary because it needs to break down into pages instead of one big page that pulls x thousands of images immediately.
   return redirect('/create/question/user/form/submit/success', code=302)
+  """
+  return redirect('/create/question/user/form', code=302)

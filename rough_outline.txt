@@ -22,6 +22,8 @@ To-Do's
 -UX:              Signed in -     You cannot easilty get to /blog unless you type it in. Add it to navbar signed in.
 - - - - - - - - - - - - - -
 
+********- When a user creates a question successfully, they get redirected From:[] -> To:[https://triviafy.com/create/question/user/form/submit/success] page, but the problem is that this page pulls all images. Which will get very expensive in the long run to pull thousands of images from AWS. This page needs to be brokwn doen to 10 images per page. For now just change the redirect to avoid hitting this page altogether.
+
 
 For printing quick tests
 ----------------------------
