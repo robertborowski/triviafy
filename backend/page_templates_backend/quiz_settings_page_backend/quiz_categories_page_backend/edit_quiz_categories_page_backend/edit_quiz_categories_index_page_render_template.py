@@ -95,6 +95,7 @@ def edit_quiz_categories_index_page_render_template_function():
           temp_dict = {}
           word = word.strip()
           if word not in temp_set_checker:
+            temp_set_checker.add(word)
             temp_dict['category'] = word
             temp_dict['category_response_tracking'] = word.replace(" ", "_").lower()
             company_current_deselected_categories_arr_of_dicts.append(temp_dict)
@@ -102,10 +103,15 @@ def edit_quiz_categories_index_page_render_template_function():
         temp_dict = {}
         word = i_unique_categories_zero_split_arr[0]
         if word not in temp_set_checker:
+          temp_set_checker.add(word)
           temp_dict['category'] = word
           temp_dict['category_response_tracking'] = word.replace(" ", "_").lower()
           company_current_deselected_categories_arr_of_dicts.append(temp_dict)
     # ------------------------ Loop Create Arr of Dicts END ------------------------
+    # ------------------------ Sort selected and deselected arr of dicts Start ------------------------
+    company_current_selected_categories_arr_of_dicts = sorted(company_current_selected_categories_arr_of_dicts, key=lambda d: d['category'])
+    company_current_deselected_categories_arr_of_dicts = sorted(company_current_deselected_categories_arr_of_dicts, key=lambda d: d['category'])
+    # ------------------------ Sort selected and deselected arr of dicts End ------------------------
     # ------------------------ Currently Deselected Categories END ------------------------
 
 

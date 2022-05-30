@@ -84,7 +84,7 @@ def submit_edit_quiz_categories_processing_function():
     
     # ------------------------ Logic Selected Pre DB Update START ------------------------
     categories_to_push_to_db_str = ''
-    caps_exceptions_set = {'sql'}
+    caps_exceptions_set = {'sql', 'tv', 'uk'}
     
     # If other categories were checked
     if user_form_categories_selected_select_all_checkbox == None and user_form_categories_selected_deselect_all_checkbox == None:

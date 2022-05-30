@@ -1,6 +1,5 @@
 To-Do's
 - - - - - - - - - - - - - -
-*** Change email new user to talk about how it is a passion project, any feedback.?
 -Setup:           Not Signed in - Add the Integration line to the bottom notifying that this only happens ONCE once the user creates account.
 -UX:              Not Signed in - Comparison guide page against competitors.
 -Blog:            Not Signed in - Add hash tags to the bottoms of blog posts internally on your site, those hashtags should link to Twitter hashtags.
@@ -17,13 +16,21 @@ To-Do's
 -Subscription:    Signed in -     Add a note to the bottom of subscription page saying "Once the monthly subscription is paid you will have access to the dashboard"
 -Best Practice:   Signed in -     Put a ';' at the end of every SQL query you have for Triviafy
 -Quiz Archive:    Signed in -     Fix the way True and False are presented to the end user when looking at Quiz Archive.
+-Quiz Archive:    Signed in -     "x% of your coworkers answered this questions correctly/incorrectly/not answered"
 -Subscription:    Signed in -     Stripe payment setup. Need to be an LLC first.
 -Account Delete:  Signed in -     Account mark for deletion
 -UX:              Signed in -     You cannot easilty get to /blog unless you type it in. Add it to navbar signed in.
 - - - - - - - - - - - - - -
 
+-Change email new user to talk about how it is a passion project, any feedback.?
 ********- When a user creates a question successfully, they get redirected From:[] -> To:[https://triviafy.com/create/question/user/form/submit/success] page, but the problem is that this page pulls all images. Which will get very expensive in the long run to pull thousands of images from AWS. This page needs to be brokwn doen to 10 images per page. For now just change the redirect to avoid hitting this page altogether.
 -----THERE is an issue where if you  click on archive. Look at one archive specific page, then go back and try to click another and it will sign you out. Also if you try by not pressing back and instead clicking archive again from bar up top.
+
+**** Change the way the weekly quiz made printing works. It should have a counter and arr to know how many companies quizzes were made for at the end.
+* Script = delete USER specific info from all tables queries.
+* If user makes account on Saturday, after quiz is already closed and announced, the additoinal late team user should not receive email about quiz open and close for the week. Too many emails at once.
+* Add user's display name to the top under company channel so on Inspeclet you can see who is doing what.
+* remove duplicate redis logged in users
 
 
 For printing quick tests
@@ -33,15 +40,3 @@ localhost_print_function('i')
 localhost_print_function(i)
 localhost_print_function(type(i))
 localhost_print_function('- - - - - - - 0 - - - - - - -')
-
-
-
-**** Change the way the weekly quiz made printing works. It should have a counter and arr to know how many companies quizzes were made for at the end.
-* Script = delete USER specific info from all tables queries.
-* If user makes account on Saturday, after quiz is already closed and announced, the additoinal late team user should not receive email about quiz open and close for the week. Too many emails at once.
-* Add user's display name to the top under company channel so on Inspeclet you can see who is doing what.
-* remove duplicate redis logged in users
-* # of people who answered quiz questions today. # of people who answered quiz questions this week.
-
-
--Edit company quiz categories is not in alphabetical order.
