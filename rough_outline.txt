@@ -23,6 +23,7 @@ To-Do's
 - - - - - - - - - - - - - -
 
 ********- When a user creates a question successfully, they get redirected From:[] -> To:[https://triviafy.com/create/question/user/form/submit/success] page, but the problem is that this page pulls all images. Which will get very expensive in the long run to pull thousands of images from AWS. This page needs to be brokwn doen to 10 images per page. For now just change the redirect to avoid hitting this page altogether.
+-----THERE is an issue where if you  click on archive. Look at one archive specific page, then go back and try to click another and it will sign you out. Also if you try by not pressing back and instead clicking archive again from bar up top.
 
 
 For printing quick tests
