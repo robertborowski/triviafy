@@ -20,6 +20,7 @@ To-Do's
 -Subscription:    Signed in -     Stripe payment setup. Need to be an LLC first.
 -Account Delete:  Signed in -     Account mark for deletion
 -UX:              Signed in -     You cannot easilty get to /blog unless you type it in. Add it to navbar signed in.
+-Create Question: Signed in -     Make it so that a combo team/channel can only "make" 50 questions max per day
 - - - - - - - - - - - - - -
 
 -Change email new user to talk about how it is a passion project, any feedback.?

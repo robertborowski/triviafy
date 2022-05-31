@@ -70,7 +70,7 @@ def create_question_submission_processing_function():
     return redirect('/logout', code=302)
     # return redirect('/', code=302)
 
-
+  """
   # ------------------------ Check create question accesss START ------------------------
   # Get personal email
   personal_email = os.environ.get('PERSONAL_EMAIL')
@@ -81,7 +81,7 @@ def create_question_submission_processing_function():
     localhost_print_function('=========================================== /create/question/user/form/submit/processing Page END ===========================================')
     return redirect('/create/question/user/waitlist', code=302)
   # ------------------------ Check create question accesss END ------------------------
-
+  """
   
   # ------------------------ Sanitize user inputs START ------------------------
   # Get/sanitize user inputs from form
