@@ -7,6 +7,8 @@ from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from backend.utils.sanitize_page_outputs.sanitize_page_output_company_name import sanitize_page_output_company_name_function
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from backend.utils.pre_load_page_checks_utils.pre_load_page_checks import pre_load_page_checks_function
+from backend.db.connection.postgres_connect_to_database import postgres_connect_to_database_function
+from backend.db.connection.postgres_close_connection_to_database import postgres_close_connection_to_database_function
 
 # -------------------------------------------------------------- App Setup
 create_question_index_page_render_template = Blueprint("create_question_index_page_render_template", __name__, static_folder="static", template_folder="templates")
@@ -72,6 +74,14 @@ def create_question_index_page_render_template_function():
 
 
   # ------------------------ Check Team Channel Combo Count START ------------------------
+  # Connect to Postgres database
+  postgres_connection, postgres_cursor = postgres_connect_to_database_function()
+
+  # Build in Check here!
+  # questions_arr = select_query_to_be_built(postgres_connection, postgres_cursor)
+
+  # Close postgres db connection
+  postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)
   # ------------------------ Check Team Channel Combo Count END ------------------------
   
   localhost_print_function('=========================================== /create/question/user/form Page END ===========================================')

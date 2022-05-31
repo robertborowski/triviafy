@@ -63,6 +63,9 @@ def create_question_submission_processing_function():
     
     # Get additional variables
     user_email = user_nested_dict['user_email']
+    question_author_team_id = user_nested_dict['slack_team_id']
+    question_author_channel_id = user_nested_dict['slack_channel_id']
+    question_author_uuid = user_nested_dict['user_uuid']
 
   except:
     localhost_print_function('page load except error hit - /create/question/user/form/submit/processing Page')
@@ -160,7 +163,7 @@ def create_question_submission_processing_function():
   
   # Attempt to upload to database
   try:
-    insert_db_output_message = insert_triviafy_all_questions_table_function(postgres_connection, postgres_cursor, create_question_uuid, create_question_timestamp, user_email, user_create_question_categories, user_create_question_actual_question, user_create_question_accepted_answers, user_create_question_difficulty, user_create_question_hint_allowed, user_create_question_hint, user_create_question_is_deprecated, user_create_question_title, user_create_question_is_approved_for_release, user_create_question_contains_image, create_question_uploaded_image_uuid, create_question_uploaded_image_aws_url, create_question_upload_image_original_filename,question_submission_status)
+    insert_db_output_message = insert_triviafy_all_questions_table_function(postgres_connection, postgres_cursor, create_question_uuid, create_question_timestamp, user_create_question_categories, user_create_question_actual_question, user_create_question_accepted_answers, user_create_question_difficulty, user_create_question_hint_allowed, user_create_question_hint, user_create_question_is_deprecated, user_create_question_title, user_create_question_is_approved_for_release, user_create_question_contains_image, create_question_uploaded_image_uuid, create_question_uploaded_image_aws_url, create_question_upload_image_original_filename,question_submission_status, question_author_team_id, question_author_channel_id, question_author_uuid)
   except:
     localhost_print_function('failed to insert question into database')
     pass
