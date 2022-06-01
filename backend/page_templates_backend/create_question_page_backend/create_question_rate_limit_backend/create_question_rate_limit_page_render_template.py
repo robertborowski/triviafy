@@ -45,7 +45,7 @@ def create_question_rate_limit_page_render_template_function():
     user_uuid = user_nested_dict['user_uuid']
     
     # This is a variable in TWO .py files
-    limit_amount = 20
+    limit_amount = 50
 
   except:
     localhost_print_function('page load except error hit - /create/question/limit Page')
