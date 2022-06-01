@@ -81,12 +81,12 @@ def create_question_index_page_render_template_function():
 
 
     # ------------------------ Redirect If Too Many Questions START ------------------------
-    if num_of_questions_created_team_channel_combo >= 20:
-      localhost_print_function('- - - - - - - 0 - - - - - - -')
-      localhost_print_function(f'{num_of_questions_created_team_channel_combo} questions have been made this month by this team')
-      localhost_print_function('To be redirected!!!!!!!')
-      localhost_print_function('- - - - - - - 0 - - - - - - -')
-      print('nunya')
+    # This is a variable in TWO .py files
+    limit_amount = 20
+    if num_of_questions_created_team_channel_combo >= limit_amount:
+      localhost_print_function('redirecting to the create question wait list page!')
+      localhost_print_function('=========================================== /create/question/user/form Page END ===========================================')
+      return redirect('/create/question/limit', code=302)
     # ------------------------ Redirect If Too Many Questions END ------------------------
 
   except:
