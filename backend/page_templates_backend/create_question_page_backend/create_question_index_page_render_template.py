@@ -1,6 +1,7 @@
 # -------------------------------------------------------------- Imports
 from flask import render_template, Blueprint, redirect, request
 import os
+from datetime import date
 from backend.utils.page_www_to_non_www.check_if_url_www import check_if_url_www_function
 from backend.utils.page_www_to_non_www.remove_www_from_domain import remove_www_from_domain_function
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
@@ -9,6 +10,7 @@ from backend.utils.localhost_print_utils.localhost_print import localhost_print_
 from backend.utils.pre_load_page_checks_utils.pre_load_page_checks import pre_load_page_checks_function
 from backend.db.connection.postgres_connect_to_database import postgres_connect_to_database_function
 from backend.db.connection.postgres_close_connection_to_database import postgres_close_connection_to_database_function
+from backend.db.queries.select_queries.select_queries_triviafy_all_questions_table.select_triviafy_all_questions_table_created_team_channel_combo import select_triviafy_all_questions_table_created_team_channel_combo_function
 
 # -------------------------------------------------------------- App Setup
 create_question_index_page_render_template = Blueprint("create_question_index_page_render_template", __name__, static_folder="static", template_folder="templates")
@@ -52,6 +54,40 @@ def create_question_index_page_render_template_function():
     
     # Get additional variables
     user_email = user_nested_dict['user_email']
+    question_author_team_id = user_nested_dict['slack_team_id']
+    question_author_channel_id = user_nested_dict['slack_channel_id']
+
+
+    # ------------------------ Get Today's Date Information START ------------------------
+    # Today's date
+    today_date = date.today()
+    today_date_split_arr = str(today_date).split('-')
+    # Separate Today's date into year month and day
+    today_date_year = today_date_split_arr[0]
+    today_date_month = today_date_split_arr[1]
+    # ------------------------ Get Today's Date Information END ------------------------
+
+
+    # ------------------------ Check Team Channel Combo Count START ------------------------
+    # Connect to Postgres database
+    postgres_connection, postgres_cursor = postgres_connect_to_database_function()
+
+    # Build in Check here!
+    num_of_questions_created_team_channel_combo = select_triviafy_all_questions_table_created_team_channel_combo_function(postgres_connection, postgres_cursor, question_author_team_id, question_author_channel_id, today_date_year, today_date_month)
+    
+    # Close postgres db connection
+    postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)
+    # ------------------------ Check Team Channel Combo Count END ------------------------
+
+
+    # ------------------------ Redirect If Too Many Questions START ------------------------
+    if num_of_questions_created_team_channel_combo >= 20:
+      localhost_print_function('- - - - - - - 0 - - - - - - -')
+      localhost_print_function(f'{num_of_questions_created_team_channel_combo} questions have been made this month by this team')
+      localhost_print_function('To be redirected!!!!!!!')
+      localhost_print_function('- - - - - - - 0 - - - - - - -')
+      print('nunya')
+    # ------------------------ Redirect If Too Many Questions END ------------------------
 
   except:
     localhost_print_function('page load except error hit - /create/question/user/form Page')
@@ -71,18 +107,6 @@ def create_question_index_page_render_template_function():
     return redirect('/create/question/user/waitlist', code=302)
   # ------------------------ Check create question accesss END ------------------------
   """
-
-
-  # ------------------------ Check Team Channel Combo Count START ------------------------
-  # Connect to Postgres database
-  postgres_connection, postgres_cursor = postgres_connect_to_database_function()
-
-  # Build in Check here!
-  # questions_arr = select_query_to_be_built(postgres_connection, postgres_cursor)
-
-  # Close postgres db connection
-  postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)
-  # ------------------------ Check Team Channel Combo Count END ------------------------
   
   localhost_print_function('=========================================== /create/question/user/form Page END ===========================================')
   return render_template('create_question_page_templates/index.html',
