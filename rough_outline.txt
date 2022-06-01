@@ -28,10 +28,12 @@ To-Do's
 -----THERE is an issue where if you  click on archive. Look at one archive specific page, then go back and try to click another and it will sign you out. Also if you try by not pressing back and instead clicking archive again from bar up top.
 
 **** Change the way the weekly quiz made printing works. It should have a counter and arr to know how many companies quizzes were made for at the end.
-* Script = delete USER specific info from all tables queries.
+* Script = delete USER specific info from all tables queries. <-- Work on this today for the 'joel@...' email
 * If user makes account on Saturday, after quiz is already closed and announced, the additoinal late team user should not receive email about quiz open and close for the week. Too many emails at once.
 * Add user's display name to the top under company channel so on Inspeclet you can see who is doing what.
 * remove duplicate redis logged in users
+- Got feedback that the website color purple is too light and reminds someone it "feels too teenage girl"
+- Add the quiz categories selection for new users to select the categories they want
 
 
 For printing quick tests
