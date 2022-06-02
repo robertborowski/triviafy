@@ -18,7 +18,8 @@
 
 /* - - - - - - - - - - Question Number, Title, Categories, Difficulty START */
 .quiz-question-sub-section-background-color {
-  background-color: rgba(196, 94, 255, 0.400);;
+  /* background-color: rgba(196, 94, 255, 0.400); /* v1 */
+  background-color: rgb(230, 230, 230); /* v2 */
   border-radius: 10px;
 }
 .quiz-question-sub-section-number-and-title p {

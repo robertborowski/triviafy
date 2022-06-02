@@ -23,7 +23,7 @@
 .footer-not-signed-in-2-background-color {
   height: 500px;
   width: 100%;
-  background-image: linear-gradient(to right, var(--company-primary-color) , rgb(136, 142, 255));
+  background-image: linear-gradient(to right, var(--company-primary-color) , rgb(86, 94, 255));
   margin: 150px 0 0 0;
 }
 .footer-not-signed-in-2-section-top {
