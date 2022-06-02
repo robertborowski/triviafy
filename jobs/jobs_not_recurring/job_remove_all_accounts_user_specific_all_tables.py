@@ -3,11 +3,8 @@ from backend.db.connection.postgres_connect_to_database import postgres_connect_
 from backend.db.connection.postgres_close_connection_to_database import postgres_close_connection_to_database_function
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from backend.db.connection.redis_connect_to_database import redis_connect_to_database_function
-from backend.db.queries.select_queries.select_queries_triviafy_user_login_information_table_slack.select_team_name_and_channel_name import select_team_name_and_channel_name_function
-from backend.db.queries.select_queries.select_queries_all_tables.select_count_all_table_team_channel_combo_general import select_count_all_table_team_channel_combo_general_function
-from backend.db.queries.delete_queries.delete_queries_all_tables.delete_query_all_team_channel_combo_general import delete_query_all_team_channel_combo_general_function
-from backend.db.queries.select_queries.select_queries_all_tables.select_count_all_table_team_channel_combo_special import select_count_all_table_team_channel_combo_special_function
-from backend.db.queries.delete_queries.delete_queries_all_tables.delete_query_all_team_channel_combo_special import delete_query_all_team_channel_combo_special_function
+from backend.db.queries.select_queries.select_queries_all_tables.select_count_all_table_team_channel_combo_special_by_user_uuid import select_count_all_table_team_channel_combo_special_by_user_uuid_function
+from backend.db.queries.delete_queries.delete_queries_all_tables.delete_query_all_team_channel_combo_special_by_user_uuid import delete_query_all_team_channel_combo_special_by_user_uuid_function
 import json
 from backend.utils.job_utils.job_pre_delete_table_checks_user_specific import job_pre_delete_table_checks_user_specific_function
 
@@ -30,7 +27,7 @@ def job_remove_all_accounts_user_specific_all_tables_function(arr_to_remove, arr
       return True
     # ------------------------ Pre Delete Info Checks END ------------------------
 
-    """
+
     # ------------------------ Redis Delete START ------------------------
     # Connect to redis database pool (no need to close)
     redis_connection = redis_connect_to_database_function()
@@ -43,26 +40,12 @@ def job_remove_all_accounts_user_specific_all_tables_function(arr_to_remove, arr
       else:
         value = redis_connection.get(key).decode('utf-8')
         user_nested_dict = json.loads(value)
-        redis_slack_team_id = user_nested_dict['slack_team_id']
-        redis_slack_channel_id = user_nested_dict['slack_channel_id']
         redis_user_email = user_nested_dict['user_email']
-        if redis_slack_team_id == team_id and redis_slack_channel_id == channel_id:
+        redis_user_uuid = user_nested_dict['user_uuid']
+        if redis_user_uuid == user_uuid:
           redis_connection.delete(key)
           localhost_print_function('deleted logged in user from Redis. Email: {}'.format(redis_user_email))
     # ------------------------ Redis Delete END ------------------------
-
-
-    # ------------------------ State Team Channel Names START ------------------------
-    try:
-      team_channel_name_arr = select_team_name_and_channel_name_function(postgres_connection, postgres_cursor, team_id, channel_id)
-      team_name = team_channel_name_arr[0]
-      channel_name = team_channel_name_arr[1]
-      localhost_print_function('Team name: {}\nChannel name: {}'.format(team_name, channel_name))
-    except:
-      localhost_print_function('Team name: not found on login\nChannel name: not found on login')
-      localhost_print_function('- - - - - - - - - - - - - - - Team Channel Deletion End - - - - - - - - - - - - - - - - - - ')
-      continue
-    # ------------------------ State Team Channel Names END ------------------------
 
 
     # ------------------------ Special Deletion From Table START ------------------------
@@ -71,37 +54,17 @@ def job_remove_all_accounts_user_specific_all_tables_function(arr_to_remove, arr
       table_user_uuid_fk_column_name = table_arr[1]
       
       try:
-        select_count_arr = select_count_all_table_team_channel_combo_special_function(postgres_connection, postgres_cursor, team_id, channel_id, table_name, table_user_uuid_fk_column_name)
+        select_count_arr = select_count_all_table_team_channel_combo_special_by_user_uuid_function(postgres_connection, postgres_cursor, user_uuid, table_name, table_user_uuid_fk_column_name)
         select_count_int = select_count_arr[0]
         if select_count_int == 0:
           localhost_print_function('No rows to remove from {}'.format(table_name))
 
         if select_count_int > 0:
-          output_message = delete_query_all_team_channel_combo_special_function(postgres_connection, postgres_cursor, team_id, channel_id, table_name, table_user_uuid_fk_column_name)
+          output_message = delete_query_all_team_channel_combo_special_by_user_uuid_function(postgres_connection, postgres_cursor, user_uuid, table_name, table_user_uuid_fk_column_name)
           localhost_print_function('{} row(s) deleted from {}'.format(select_count_int, table_name))
       except:
           localhost_print_function('Error, skiped {}'.format(table_name))
     # ------------------------ Special Deletion From Table END ------------------------
-
-
-    # ------------------------ General Deletion From Table START ------------------------
-    for table_arr in arr_table_names_with_team_id_channel_id_names:
-      table_name = table_arr[0]
-      table_team_id_column_name = table_arr[1]
-      table_channel_id_column_name = table_arr[2]
-      
-      try:
-        select_count_arr = select_count_all_table_team_channel_combo_general_function(postgres_connection, postgres_cursor, team_id, channel_id, table_name, table_team_id_column_name, table_channel_id_column_name)
-        select_count_int = select_count_arr[0]
-        if select_count_int == 0:
-          localhost_print_function('No rows to remove from {}'.format(table_name))
-
-        if select_count_int > 0:
-          output_message = delete_query_all_team_channel_combo_general_function(postgres_connection, postgres_cursor, team_id, channel_id, table_name, table_team_id_column_name, table_channel_id_column_name)
-          localhost_print_function('{} row(s) deleted from {}'.format(select_count_int, table_name))
-      except:
-          localhost_print_function('Error, skiped {}'.format(table_name))
-    # ------------------------ General Deletion From Table END ------------------------
 
     
     localhost_print_function('- - - - - - - - - - - - - - - Team Channel Deletion End - - - - - - - - - - - - - - - - - - ')
@@ -111,7 +74,6 @@ def job_remove_all_accounts_user_specific_all_tables_function(arr_to_remove, arr
   # Close postgres db connection
   postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)
   # ------------------------ DB Close Conection END ------------------------
-  """
 
   localhost_print_function('=========================================== job_remove_all_accounts_user_specific_all_tables_function END ===========================================')
   return True
