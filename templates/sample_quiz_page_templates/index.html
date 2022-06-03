@@ -85,11 +85,6 @@
         <div class="quiz-question-sub-section-number-and-title">
           <p>Q{{ i['quiz_question_number'] }}: {{ i['question_title'] }}</p>
         </div>
-        <!-- <div class="quiz-question-sub-section-categories">
-          <p>Categories: {{ i['question_categories_list'] }}</p>
-        </div> -->
-
-
         <div class="quiz-question-sub-section-categories">
           <p>Categories:
             {% for category_tuple in i['question_categories_list_arr'] %}
@@ -97,8 +92,6 @@
             {% endfor %}
           </p>
         </div>
-
-
         <div class="quiz-question-sub-section-difficulty">
           <p>Difficulty: {{ i['question_difficulty'] }}</p>
         </div>

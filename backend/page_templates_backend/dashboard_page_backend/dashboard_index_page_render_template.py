@@ -162,6 +162,17 @@ def dashboard_index_page_render_template_function():
     # Add current question count to the dictionary for html
     current_count = 0
     for i in quiz_questions_obj_arr_of_dicts:
+      # Words for user html tuple Start
+      categories_str = i['question_categories_list']
+      categories_str_fixed = categories_str.replace(', ',',')
+      categories_arr = categories_str_fixed.split(',')
+      categories_arr_to_html = []
+      for category in categories_arr:
+        category_lower = category.lower()
+        category_replace_space = category_lower.replace(' ','_')
+        categories_arr_to_html.append((category, category_replace_space))
+      i['question_categories_list_arr'] = categories_arr_to_html
+      # Words for user html tuple End
       current_count += 1
       i['quiz_question_number'] = current_count
     # ------------------------ Pull the Quiz Questions END ------------------------

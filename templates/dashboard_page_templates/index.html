@@ -106,7 +106,11 @@
           <p>Q{{ i['quiz_question_number'] }}: {{ i['question_title'] }}</p>
         </div>
         <div class="quiz-question-sub-section-categories">
-          <p>Categories: {{ i['question_categories_list'] }}</p>
+          <p>Categories:
+            {% for category_tuple in i['question_categories_list_arr'] %}
+              <span class="span-question-category-general span-question-category-{{ category_tuple[1] }}">{{ category_tuple[0] }}</span>
+            {% endfor %}
+          </p>
         </div>
         <div class="quiz-question-sub-section-difficulty">
           <p>Difficulty: {{ i['question_difficulty'] }}</p>
