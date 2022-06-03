@@ -36,7 +36,7 @@ def pre_load_page_checks_function(page_location_name):
           localhost_print_function('Error: Free Trial Over and User Subscription Not Paid')
           return '/subscription', None
         else:
-          localhost_print_function('Check Good: User Is Currently In Free Trial Or Latest Month Is Paid')
+          # localhost_print_function('Check Good: User Is Currently In Free Trial Or Latest Month Is Paid')
           pass
 
         days_left = str(user_nested_dict['trial_period_days_left_int']) + " days left."
@@ -63,7 +63,7 @@ def pre_load_page_checks_function(page_location_name):
         localhost_print_function('Error: User Email Permission Not Granted')
         return '/notifications/email/permission', None
       else:
-        localhost_print_function('Check Good: User Email Permission Granted')
+        # localhost_print_function('Check Good: User Email Permission Granted')
         pass
     else:
       localhost_print_function('skipped email permission check for page {}'.format(page_location_name))
@@ -78,7 +78,7 @@ def pre_load_page_checks_function(page_location_name):
         localhost_print_function('Error: New User Questionnaire Not Answered')
         return '/new/user/questionnaire', None
       else:
-        localhost_print_function('Check Good: New User Questionnaire Answered')
+        # localhost_print_function('Check Good: New User Questionnaire Answered')
         pass
     else:
       localhost_print_function('skipped user questionnaire check for page {}'.format(page_location_name))

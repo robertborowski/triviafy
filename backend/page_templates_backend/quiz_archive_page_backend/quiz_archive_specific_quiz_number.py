@@ -121,7 +121,20 @@ def quiz_archive_specific_quiz_number_function(html_variable_quiz_number):
         pulled_dict = pulled_item_arr_of_dict[0]
       pull_info_all_questions_table_arr_of_dicts.append(pulled_dict)
     # ------------------------ Get Info From triviafy_all_questions_table END ------------------------
-    
+
+
+    # ------------------------ CSS fix for category colors START ------------------------
+    for i in pull_info_all_questions_table_arr_of_dicts:
+      categories_str = i['question_categories_list']
+      categories_str_fixed = categories_str.replace(', ',',')
+      categories_arr = categories_str_fixed.split(',')
+      categories_arr_to_html = []
+      for category in categories_arr:
+        category_lower = category.lower()
+        category_replace_space = category_lower.replace(' ','_')
+        categories_arr_to_html.append((category, category_replace_space))
+      i['question_categories_list_arr'] = categories_arr_to_html
+    # ------------------------ CSS fix for category colors END ------------------------
     
     
     # ------------------------ Get Info From triviafy_quiz_answers_master_table START ------------------------
