@@ -73,6 +73,17 @@ def sample_quiz_index_page_render_template_function():
     sample_questions_arr_of_dicts = []
     for sample_question_uuid in sample_question_uuids_arr:
       sample_question_dict = select_company_quiz_questions_individually_function(postgres_connection, postgres_cursor, sample_question_uuid)
+      # Words for user html tuple Start
+      categories_str = sample_question_dict[0]['question_categories_list']
+      categories_str_fixed = categories_str.replace(', ',',')
+      categories_arr = categories_str_fixed.split(',')
+      categories_arr_to_html = []
+      for category in categories_arr:
+        category_lower = category.lower()
+        category_replace_space = category_lower.replace(' ','_')
+        categories_arr_to_html.append((category, category_replace_space))
+      sample_question_dict[0]['question_categories_list_arr'] = categories_arr_to_html
+      # Words for user html tuple End
       sample_questions_arr_of_dicts.append(sample_question_dict[0])
     # ------------------------ Get Quiz Question Arr of Dicts END ------------------------
 
