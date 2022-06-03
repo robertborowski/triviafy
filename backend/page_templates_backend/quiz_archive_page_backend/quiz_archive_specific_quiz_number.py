@@ -72,17 +72,17 @@ def quiz_archive_specific_quiz_number_function(html_variable_quiz_number):
     link_selected_quiz_master_table_arr = select_quiz_uuid_from_quiz_master_table_function(postgres_connection, postgres_cursor, slack_workspace_team_id, slack_channel_id, int_quiz_number)
     
     # Assign Variables from DB pull
-    link_selected_uuid_quiz = link_selected_quiz_master_table_arr[0]
-    link_selected_question_ids_str = convert_question_ids_from_string_to_arr_function(link_selected_quiz_master_table_arr[1])   # list
-    link_selected_company_quiz_count = link_selected_quiz_master_table_arr[8]
-    link_selected_quiz_master_string_start = link_selected_quiz_master_table_arr[2].strftime("%Y-%m-%d") + ', ' + link_selected_quiz_master_table_arr[3] + ', ' + link_selected_quiz_master_table_arr[4]
-    link_selected_quiz_master_string_end = link_selected_quiz_master_table_arr[5].strftime("%Y-%m-%d") + ', ' + link_selected_quiz_master_table_arr[6] + ', ' + link_selected_quiz_master_table_arr[7]
+    link_selected_uuid_quiz = link_selected_quiz_master_table_arr[0]  # str
+    link_selected_question_ids_str = convert_question_ids_from_string_to_arr_function(link_selected_quiz_master_table_arr[1])   # list (array)
+    link_selected_company_quiz_count = link_selected_quiz_master_table_arr[8] # int
+    link_selected_quiz_master_string_start = link_selected_quiz_master_table_arr[2].strftime("%Y-%m-%d") + ', ' + link_selected_quiz_master_table_arr[3] + ', ' + link_selected_quiz_master_table_arr[4]  # str
+    link_selected_quiz_master_string_end = link_selected_quiz_master_table_arr[5].strftime("%Y-%m-%d") + ', ' + link_selected_quiz_master_table_arr[6] + ', ' + link_selected_quiz_master_table_arr[7]  # str
     
     # Put the pulled values into dict
     link_selected_quiz_archive_intro_dict = {
-      'company_quiz_count' : link_selected_company_quiz_count,
-      'quiz_master_string_start' : link_selected_quiz_master_string_start,
-      'quiz_master_string_end' : link_selected_quiz_master_string_end
+      'company_quiz_count' : link_selected_company_quiz_count,  # int
+      'quiz_master_string_start' : link_selected_quiz_master_string_start,  # str
+      'quiz_master_string_end' : link_selected_quiz_master_string_end   # str
     }
 
     # Check to make sure archive quiz number is correct
@@ -96,9 +96,29 @@ def quiz_archive_specific_quiz_number_function(html_variable_quiz_number):
     
     # ------------------------ Get Info From triviafy_all_questions_table START ------------------------
     pull_info_all_questions_table_arr_of_dicts = []
+    # If question was removed
+    removed_question_ids_arr = []
     for question_id in link_selected_question_ids_str:
       pulled_item_arr_of_dict = select_triviafy_all_questions_table_question_info_function(postgres_connection, postgres_cursor, question_id)
-      pulled_dict = pulled_item_arr_of_dict[0]
+      # If question was removed
+      if pulled_item_arr_of_dict == []:
+        removed_question_ids_arr.append(question_id)
+        pulled_dict = {
+          'question_uuid': 'questionid_removed',
+          'question_categories_list': 'Question removed',
+          'question_actual_question': 'Question removed',
+          'question_answers_list':'Question removed',
+          'question_difficulty': 'Easy',
+          'question_hint_allowed': False,
+          'question_hint': 'no hint',
+          'question_deprecated': False,
+          'question_deprecated_timestamp': None,
+          'question_title': 'Question removed',
+          'question_contains_image': True,
+          'question_image_aws_url': 'https://triviafy-create-question-image-uploads.s3.us-east-2.amazonaws.com/_question_removed_image_for_aws_s3.png'
+        }
+      else:
+        pulled_dict = pulled_item_arr_of_dict[0]
       pull_info_all_questions_table_arr_of_dicts.append(pulled_dict)
     # ------------------------ Get Info From triviafy_all_questions_table END ------------------------
     
@@ -108,7 +128,11 @@ def quiz_archive_specific_quiz_number_function(html_variable_quiz_number):
     pull_info_quiz_answers_master_table_answer_dict = {}
     pull_info_quiz_answers_master_table_result_dict = {}
     for question_id in link_selected_question_ids_str:
-      pulled_item_arr = select_triviafy_quiz_answers_master_table_user_answer_function(postgres_connection, postgres_cursor, question_id, user_uuid)
+      # If question was removed
+      if question_id in removed_question_ids_arr:
+        pulled_item_arr = ['questionid_removed', 'question_removed', False]
+      else:
+        pulled_item_arr = select_triviafy_quiz_answers_master_table_user_answer_function(postgres_connection, postgres_cursor, question_id, user_uuid)
       pull_info_quiz_answers_master_table_answer_dict[pulled_item_arr[0]] = pulled_item_arr[1].replace("_", " ")
       pull_info_quiz_answers_master_table_result_dict[pulled_item_arr[0]] = pulled_item_arr[2]
     # ------------------------ Get Info From triviafy_quiz_answers_master_table END ------------------------
