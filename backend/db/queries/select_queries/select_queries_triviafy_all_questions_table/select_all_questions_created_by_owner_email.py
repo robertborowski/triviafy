@@ -4,7 +4,7 @@ from psycopg2 import Error, extras
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 
 # -------------------------------------------------------------- Main Function
-def select_all_questions_created_by_owner_email_function(postgres_connection, postgres_cursor, user_email):
+def select_all_questions_created_by_owner_email_function(postgres_connection, postgres_cursor, user_uuid):
   localhost_print_function('=========================================== select_all_questions_created_by_owner_email_function START ===========================================')
 
   try:
@@ -14,7 +14,7 @@ def select_all_questions_created_by_owner_email_function(postgres_connection, po
 
 
     # ------------------------ Query START ------------------------
-    cursor.execute("SELECT * FROM triviafy_all_questions_table WHERE question_author_created_email=%s", [user_email])
+    cursor.execute("SELECT * FROM triviafy_all_questions_table WHERE question_author_uuid=%s", [user_uuid])
     # ------------------------ Query END ------------------------
 
 

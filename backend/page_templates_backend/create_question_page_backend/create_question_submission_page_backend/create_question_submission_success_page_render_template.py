@@ -54,6 +54,7 @@ def create_question_submission_success_page_render_template_function():
     
     # Get additional variables
     user_email = user_nested_dict['user_email']
+    user_uuid = user_nested_dict['user_uuid']
 
   except:
     localhost_print_function('page load except error hit - /create/question/user/form/submit/success Page')
@@ -80,11 +81,25 @@ def create_question_submission_success_page_render_template_function():
   postgres_connection, postgres_cursor = postgres_connect_to_database_function()
 
   # Pull info from db
-  user_all_questions_submitted_dict = select_all_questions_created_by_owner_email_function(postgres_connection, postgres_cursor, user_email)
+  user_all_questions_submitted_dict = select_all_questions_created_by_owner_email_function(postgres_connection, postgres_cursor, user_uuid)
 
   # Close postgres db connection
   postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)
   # ------------------------ Pull created questions from user END ------------------------
+
+
+  # ------------------------ CSS fix for category colors START ------------------------
+  for i in user_all_questions_submitted_dict:
+    categories_str = i['question_categories_list']
+    categories_str_fixed = categories_str.replace(', ',',')
+    categories_arr = categories_str_fixed.split(',')
+    categories_arr_to_html = []
+    for category in categories_arr:
+      category_lower = category.lower()
+      category_replace_space = category_lower.replace(' ','_')
+      categories_arr_to_html.append((category, category_replace_space))
+    i['question_categories_list_arr'] = categories_arr_to_html
+  # ------------------------ CSS fix for category colors END ------------------------
 
   
   localhost_print_function('=========================================== /create/question/user/form/submit/success Page END ===========================================')
