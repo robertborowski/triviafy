@@ -49,19 +49,17 @@
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Quiz All Questions Start -->
   {% for i in pull_info_all_questions_table_arr_of_dicts_to_html %}
   <div class="quiz-question-section default-box-shadow-grey-reg">
-
-    
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Question Logo START -->
-    <div class="quiz-question-sub-section-logo">
-      <img src="/static/images/logo/Logo.png" alt="Triviafy Logo">
-    </div>
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Question Logo END -->
-    
+      
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Question Number, Title, Categories, Difficulty START -->
     <div class="quiz-question-sub-section-background-color">
+      <div class="quiz-question-sub-section-logo">
+        <img src="/static/images/logo/Logo.png" alt="Triviafy Logo">
+      </div>
       <div class="quiz-question-sub-section-number-and-title">
-        <p>Q{{ i['quiz_question_number'] }}: {{ i['question_title'] }}</p>
+        <p>Q{{ i['quiz_question_number'] }}: {{ i['question_title'] }}
+          <span class="quiz-question-sub-section-difficulty">({{ i['question_difficulty'] }})</span>
+        </p>
       </div>
       <div class="quiz-question-sub-section-categories">
         <p>Categories:
@@ -69,9 +67,6 @@
             <span class="span-question-category-general span-question-category-{{ category_tuple[1] }}">{{ category_tuple[0] }}</span>
           {% endfor %}
         </p>
-      </div>
-      <div class="quiz-question-sub-section-difficulty">
-        <p>Difficulty: {{ i['question_difficulty'] }}</p>
       </div>
     </div>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Question Number, Title, Categories, Difficulty END -->

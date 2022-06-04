@@ -3,46 +3,63 @@
   /* border: 1px solid black; */
   height: auto;
   width: 50%;
-  margin: 25px auto;
-  padding: 10px;
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 15px;
+  border-radius: 25px;
 }
-/* - - - - - - - - - - Question Logo START */
-.quiz-question-sub-section-logo img {
-  margin-top: 5px;
-  height: 75px;
-  width: 75px;
-  float: left;
-}
-/* - - - - - - - - - - Question Logo END */
 
 
 /* - - - - - - - - - - Question Number, Title, Categories, Difficulty START */
 .quiz-question-sub-section-background-color {
-  /* background-color: rgba(196, 94, 255, 0.400); /* v1 */
+  /* border: 1px solid black; */
   background-color: rgb(230, 230, 230); /* v2 */
-  border-radius: 10px;
+  border-radius: 15px;
+  padding: 10px;
 }
+/* - - - - - - - - - - Question Logo START */
+.quiz-question-sub-section-logo img {
+  /* border: 1px solid black; */
+  height: 55px;
+  width: 55px;
+  float: right;
+}
+/* - - - - - - - - - - Question Logo END */
 .quiz-question-sub-section-number-and-title p {
-  font-size: 20px;
-  padding: 5px;
+  /* border: 1px solid black; */
+  font-size: 25px;
+  margin: 0 0 5px 0;
 }
-.quiz-question-sub-section-categories p, .quiz-question-sub-section-difficulty p {
+span.quiz-question-sub-section-difficulty {
+  /* border: 1px solid black; */
+  font-size: 10px;
+  color: rgba(0, 0, 0, 0.50);
+}
+.quiz-question-sub-section-categories p {
+  /* border: 1px solid red; */
   font-size: 15px;
-  padding-bottom: 5px;
 }
 /* - - - - - - - - - - Question Number, Title, Categories, Difficulty END */
 
 
 /* - - - - - - - - - - Question parts underneath title START */
+
+.quiz-question-sub-section-hint p {
+  text-align: center;
+  width: 90%;
+  margin: 15px auto 0 auto;
+}
+
 .quiz-question-sub-section-actual-question p,
-.quiz-question-sub-section-hint p,
+/* .quiz-question-sub-section-hint p, */
 .quiz-question-sub-section-accepted-answers p,
 .quiz-question-sub-section-status p,
 .quiz-question-sub-section-user-submitted-answer p,
 .quiz-question-sub-section-result p {
   text-align: center;
   width: 90%;
-  margin: 10px auto;
+  margin: 15px auto;
+  font-size: 16px;
 }
 /* - - - - - - - - - - Question parts underneath title END */
 
@@ -58,8 +75,8 @@
   max-width: 100%;
   margin: 0 auto;
   display: block;
-  border-radius: 10px;
-  border: 5px solid var(--company-greyed-out-color);
+  border-radius: 25px;
+  border: 5px solid rgb(230, 230, 230);
 }
 .quiz-question-sub-section-image img.no-image-present {
   display: none;
@@ -81,7 +98,7 @@ p.no-hint-present {
 /* - - - - - - - - - - Question User Answers START */
 .quiz-question-sub-section-user-answer {
   text-align: center;
-  margin: 20px 0;
+  margin: 10px 0;
 }
 /* - - - - - - - - - - Question User Answers END */
 
