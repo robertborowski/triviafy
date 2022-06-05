@@ -66,12 +66,12 @@
   transition: 0.2s ease-in;
 }
 .navbar-links ul li ul {
-  border: 1px solid var(--company-primary-color);
+  border: 1px solid rgba(183, 183, 183, 0.533);
   display: none;
   position: absolute;
   background-color: white;
   padding: 5px;
-  border-radius: 0px 0px 5px 5px;
+  border-radius: 5px;
 }
 .navbar-links ul li ul.thicker-ul-item {
   width: 150px;
