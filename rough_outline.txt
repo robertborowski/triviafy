@@ -35,6 +35,19 @@ To-Do's
 - Add the quiz categories selection for new users to select the categories they want
 
 
+-----------------------------------------------------------------------
+Notes:
+-pages that have question on them (this should be templated better across pages)
+  -Not logged in:
+    -All example quiz pages
+  -Logged in:
+    -Sample quiz
+    -Dashboard main page
+    -Quiz Archive specific version pages
+    -Create question, all questions confirmed page
+-----------------------------------------------------------------------
+
+
 For printing quick tests
 ----------------------------
 localhost_print_function('- - - - - - - 0 - - - - - - -')

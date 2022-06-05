@@ -13,6 +13,7 @@ from backend.db.queries.select_queries.select_queries_triviafy_quiz_answers_mast
 from backend.utils.sanitize_page_outputs.sanitize_page_output_company_name import sanitize_page_output_company_name_function
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from backend.utils.pre_load_page_checks_utils.pre_load_page_checks import pre_load_page_checks_function
+from backend.utils.quiz_categories_utils.datatype_change_categories_list_str_to_tuple import datatype_change_categories_list_str_to_tuple_function
 
 # -------------------------------------------------------------- App Setup
 quiz_archive_specific_quiz_number = Blueprint("quiz_archive_specific_quiz_number", __name__, static_folder="static", template_folder="templates")
@@ -125,14 +126,8 @@ def quiz_archive_specific_quiz_number_function(html_variable_quiz_number):
 
     # ------------------------ CSS fix for category colors START ------------------------
     for i in pull_info_all_questions_table_arr_of_dicts:
-      categories_str = i['question_categories_list']
-      categories_str_fixed = categories_str.replace(', ',',')
-      categories_arr = categories_str_fixed.split(',')
-      categories_arr_to_html = []
-      for category in categories_arr:
-        category_lower = category.lower()
-        category_replace_space = category_lower.replace(' ','_')
-        categories_arr_to_html.append((category, category_replace_space))
+      # Create and append category colors for end user css
+      categories_arr_to_html = datatype_change_categories_list_str_to_tuple_function(i['question_categories_list'])
       i['question_categories_list_arr'] = categories_arr_to_html
     # ------------------------ CSS fix for category colors END ------------------------
     
