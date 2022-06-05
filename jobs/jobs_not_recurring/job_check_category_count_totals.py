@@ -37,7 +37,11 @@ def job_check_category_count_totals_function():
   df.index.name = 'category'
   df = df.reset_index()
   # df.rename(columns={0: 'count_col'}, inplace=True)
-  df = df.sort_values(by='count_col', ascending=False)
+  # - - - - - - -
+  # Sorting by col name
+  # df = df.sort_values(by='count_col', ascending=False)
+  df = df.sort_values(by='category', ascending=True)
+  # - - - - - - -
   print(df)
 
   # ------------------------ Sort Data END ------------------------

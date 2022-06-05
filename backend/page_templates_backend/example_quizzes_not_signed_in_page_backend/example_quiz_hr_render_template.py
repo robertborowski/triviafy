@@ -7,6 +7,7 @@ from backend.utils.localhost_print_utils.localhost_print import localhost_print_
 from backend.db.connection.postgres_connect_to_database import postgres_connect_to_database_function
 from backend.db.connection.postgres_close_connection_to_database import postgres_close_connection_to_database_function
 from backend.db.queries.select_queries.select_queries_triviafy_all_questions_table.select_x_questions_category_hr import select_x_questions_category_hr_function
+from backend.utils.quiz_categories_utils.datatype_change_categories_list_str_to_tuple import datatype_change_categories_list_str_to_tuple_function
 
 # -------------------------------------------------------------- App Setup
 example_quiz_hr_render_template = Blueprint("example_quiz_hr_render_template", __name__, static_folder="static", template_folder="templates")
@@ -41,6 +42,9 @@ def example_quiz_hr_render_template_function():
   for i in quiz_questions_obj_arr_of_dicts:
     current_count += 1
     i['quiz_question_number'] = current_count
+    # Create and append category colors for end user css
+    categories_arr_to_html = datatype_change_categories_list_str_to_tuple_function(i['question_categories_list'])
+    i['question_categories_list_arr'] = categories_arr_to_html
   # ------------------------ Pull the Example Quiz Questions END ------------------------
 
 
