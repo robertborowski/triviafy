@@ -42,6 +42,7 @@ Notes:
     -All example quiz pages
   -Logged in:
     -Sample quiz
+      -Sample Quiz results page
     -Dashboard main page
     -Quiz Archive specific version pages
     -Create question, all questions confirmed page

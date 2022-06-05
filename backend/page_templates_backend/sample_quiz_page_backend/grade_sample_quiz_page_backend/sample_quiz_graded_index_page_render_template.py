@@ -13,6 +13,7 @@ from backend.utils.grade_user_answers_utils.check_user_answer_vs_admin_answer im
 from backend.utils.sanitize_page_outputs.sanitize_page_output_company_name import sanitize_page_output_company_name_function
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from backend.utils.pre_load_page_checks_utils.pre_load_page_checks import pre_load_page_checks_function
+from backend.utils.quiz_categories_utils.datatype_change_categories_list_str_to_tuple import datatype_change_categories_list_str_to_tuple_function
 
 # -------------------------------------------------------------- App Setup
 sample_quiz_graded_index_page_render_template = Blueprint("sample_quiz_graded_index_page_render_template", __name__, static_folder="static", template_folder="templates")
@@ -108,6 +109,10 @@ def sample_quiz_graded_index_page_render_template_function():
     sample_questions_arr_of_dicts = []
     for sample_question_uuid in sample_question_uuids_arr:
       sample_question_dict = select_company_quiz_questions_individually_function(postgres_connection, postgres_cursor, sample_question_uuid)
+      # Create and append category colors for end user css
+      categories_arr_to_html = datatype_change_categories_list_str_to_tuple_function(sample_question_dict[0]['question_categories_list'])
+      sample_question_dict[0]['question_categories_list_arr'] = categories_arr_to_html
+      # Words for user html tuple End      
       sample_questions_arr_of_dicts.append(sample_question_dict[0])
     # ------------------------ Get Quiz Question Arr of Dicts END ------------------------
 
