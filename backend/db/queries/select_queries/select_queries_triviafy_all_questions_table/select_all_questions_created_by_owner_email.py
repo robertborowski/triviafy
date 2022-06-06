@@ -14,7 +14,7 @@ def select_all_questions_created_by_owner_email_function(postgres_connection, po
 
 
     # ------------------------ Query START ------------------------
-    cursor.execute("SELECT * FROM triviafy_all_questions_table WHERE question_author_uuid=%s", [user_uuid])
+    cursor.execute("SELECT * FROM triviafy_all_questions_table WHERE question_author_uuid=%s LIMIT 2", [user_uuid])
     # ------------------------ Query END ------------------------
 
 

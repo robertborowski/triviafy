@@ -6,11 +6,14 @@ from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from backend.db.connection.postgres_connect_to_database import postgres_connect_to_database_function
 from backend.db.connection.postgres_close_connection_to_database import postgres_close_connection_to_database_function
 from backend.db.queries.select_queries.select_queries_triviafy_all_questions_table.select_all_questions_created_by_owner_email import select_all_questions_created_by_owner_email_function
+from backend.db.queries.select_queries.select_queries_triviafy_all_questions_table.select_all_questions_created_by_owner_email_count import select_all_questions_created_by_owner_email_count_function
+from backend.db.queries.select_queries.select_queries_triviafy_all_questions_table.select_all_questions_created_by_owner_email_uuid import select_all_questions_created_by_owner_email_uuid_function
 import os
 from backend.utils.sanitize_page_outputs.sanitize_page_output_company_name import sanitize_page_output_company_name_function
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from backend.utils.pre_load_page_checks_utils.pre_load_page_checks import pre_load_page_checks_function
 from backend.utils.quiz_categories_utils.datatype_change_categories_list_str_to_tuple import datatype_change_categories_list_str_to_tuple_function
+import math
 
 # -------------------------------------------------------------- App Setup
 create_question_submission_success_page_render_template = Blueprint("create_question_submission_success_page_render_template", __name__, static_folder="static", template_folder="templates")
@@ -76,17 +79,46 @@ def create_question_submission_success_page_render_template_function():
   # ------------------------ Check create question accesss END ------------------------
   """
   
-  # ------------------------ Pull created questions from user START ------------------------
-  # Pull all questions submitted by this user
+  # ------------------------ Connect DB START ------------------------
   # Connect to Postgres database
   postgres_connection, postgres_cursor = postgres_connect_to_database_function()
-
+  # ------------------------ Connect DB END ------------------------
+  # ------------------------ Break Down to Pages START ------------------------
+  count_user_all_questions_submitted = select_all_questions_created_by_owner_email_count_function(postgres_connection, postgres_cursor, user_uuid)    # int
+  num_questions_per_page = 5
+  if count_user_all_questions_submitted <= num_questions_per_page:
+    total_num_of_pages = 1
+  else:
+    total_num_of_pages = math.floor(count_user_all_questions_submitted / num_questions_per_page)   # int
+  
+  all_question_uuids_arr = select_all_questions_created_by_owner_email_uuid_function(postgres_connection, postgres_cursor, user_uuid)    # arr
+  question_counter = 0    # int
+  current_page_num = 1    # int
+  pages_questions_dict = {}    # dict
+  pages_questions_dict[1] = None
+  current_question_id_arr = []    # arr
+  for i in all_question_uuids_arr:
+    if question_counter >= num_questions_per_page:
+      pages_questions_dict[current_page_num] = current_question_id_arr
+      current_question_id_arr = []
+      question_counter = 0
+      current_page_num += 1
+      pages_questions_dict[current_page_num] = None
+    question_counter += 1
+    question_uuid = i[0]    # str
+    current_question_id_arr.append(question_uuid)
+    if current_page_num > total_num_of_pages:
+      pages_questions_dict[current_page_num] = current_question_id_arr
+  # ------------------------ Break Down to Pages END ------------------------
+  # ------------------------ Pull created questions from user START ------------------------
   # Pull info from db
+  # Pull all questions submitted by this user
   user_all_questions_submitted_dict = select_all_questions_created_by_owner_email_function(postgres_connection, postgres_cursor, user_uuid)
-
+  # ------------------------ Pull created questions from user END ------------------------
+  # ------------------------ Close DB START ------------------------
   # Close postgres db connection
   postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)
-  # ------------------------ Pull created questions from user END ------------------------
+  # ------------------------ Close DB END ------------------------
 
 
   # ------------------------ CSS fix for category colors START ------------------------
