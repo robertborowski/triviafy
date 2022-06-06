@@ -5,8 +5,7 @@ from backend.utils.page_www_to_non_www.remove_www_from_domain import remove_www_
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from backend.db.connection.postgres_connect_to_database import postgres_connect_to_database_function
 from backend.db.connection.postgres_close_connection_to_database import postgres_close_connection_to_database_function
-from backend.db.queries.select_queries.select_queries_triviafy_all_questions_table.select_all_questions_created_by_owner_email import select_all_questions_created_by_owner_email_function
-from backend.db.queries.select_queries.select_queries_triviafy_all_questions_table.select_all_questions_created_by_owner_email_count import select_all_questions_created_by_owner_email_count_function
+from backend.db.queries.select_queries.select_queries_triviafy_all_questions_table.select_all_questions_created_by_owner_specific_page import select_all_questions_created_by_owner_specific_page_function
 from backend.db.queries.select_queries.select_queries_triviafy_all_questions_table.select_all_questions_created_by_owner_email_uuid import select_all_questions_created_by_owner_email_uuid_function
 import os
 from backend.utils.sanitize_page_outputs.sanitize_page_output_company_name import sanitize_page_output_company_name_function
@@ -25,9 +24,9 @@ def before_request():
     return redirect(new_url, code=302)
 
 # -------------------------------------------------------------- App
-@create_question_submission_success_page_render_template.route("/create/question/user/form/submit/success", methods=['GET','POST'])
-def create_question_submission_success_page_render_template_function():
-  localhost_print_function('=========================================== /create/question/user/form/submit/success Page START ===========================================')
+@create_question_submission_success_page_render_template.route("/create/question/user/form/submit/success/<html_variable_created_question_page_number>", methods=['GET','POST'])
+def create_question_submission_success_page_render_template_function(html_variable_created_question_page_number):
+  localhost_print_function('=========================================== /create/question/user/form/submit/success/<html_variable_created_question_page_number> Page START ===========================================')
   
   # ------------------------ CSS support START ------------------------
   # Need to create a css unique key so that cache busting can be done
@@ -37,7 +36,7 @@ def create_question_submission_success_page_render_template_function():
 
   try:
     # ------------------------ Pre Load Page Checks START ------------------------
-    user_nested_dict, free_trial_ends_info = pre_load_page_checks_function('/create/question/user/form/submit/success')
+    user_nested_dict, free_trial_ends_info = pre_load_page_checks_function('/create/question/user/form/submit/success/<html_variable_created_question_page_number>')
     # Redirects based on returned value - pre load checks
     if user_nested_dict == '/subscription':
       return redirect('/subscription', code=302)
@@ -59,10 +58,11 @@ def create_question_submission_success_page_render_template_function():
     # Get additional variables
     user_email = user_nested_dict['user_email']
     user_uuid = user_nested_dict['user_uuid']
+    desired_page_number = int(html_variable_created_question_page_number)
 
   except:
-    localhost_print_function('page load except error hit - /create/question/user/form/submit/success Page')
-    localhost_print_function('=========================================== /create/question/user/form/submit/success Page END ===========================================')
+    localhost_print_function('page load except error hit - /create/question/user/form/submit/success/<html_variable_created_question_page_number> Page')
+    localhost_print_function('=========================================== /create/question/user/form/submit/success/<html_variable_created_question_page_number> Page END ===========================================')
     return redirect('/logout', code=302)
     # return redirect('/', code=302)
 
@@ -74,7 +74,7 @@ def create_question_submission_success_page_render_template_function():
   # If user does not have access to create questions then redirect to waitlist page
   if user_email != personal_email:
     localhost_print_function('redirecting to the create question wait list page!')
-    localhost_print_function('=========================================== /create/question/user/form/submit/success Page END ===========================================')
+    localhost_print_function('=========================================== /create/question/user/form/submit/success/<html_variable_created_question_page_number> Page END ===========================================')
     return redirect('/create/question/user/waitlist', code=302)
   # ------------------------ Check create question accesss END ------------------------
   """
@@ -83,15 +83,13 @@ def create_question_submission_success_page_render_template_function():
   # Connect to Postgres database
   postgres_connection, postgres_cursor = postgres_connect_to_database_function()
   # ------------------------ Connect DB END ------------------------
-  # ------------------------ Break Down to Pages START ------------------------
-  count_user_all_questions_submitted = select_all_questions_created_by_owner_email_count_function(postgres_connection, postgres_cursor, user_uuid)    # int
+  # ------------------------ Break Down to Pages of arr dict START ------------------------
+  all_question_uuids_arr = select_all_questions_created_by_owner_email_uuid_function(postgres_connection, postgres_cursor, user_uuid)    # arr
   num_questions_per_page = 5
-  if count_user_all_questions_submitted <= num_questions_per_page:
+  if len(all_question_uuids_arr) <= num_questions_per_page:
     total_num_of_pages = 1
   else:
-    total_num_of_pages = math.floor(count_user_all_questions_submitted / num_questions_per_page)   # int
-  
-  all_question_uuids_arr = select_all_questions_created_by_owner_email_uuid_function(postgres_connection, postgres_cursor, user_uuid)    # arr
+    total_num_of_pages = math.floor(len(all_question_uuids_arr) / num_questions_per_page)   # int
   question_counter = 0    # int
   current_page_num = 1    # int
   pages_questions_dict = {}    # dict
@@ -109,11 +107,20 @@ def create_question_submission_success_page_render_template_function():
     current_question_id_arr.append(question_uuid)
     if current_page_num > total_num_of_pages:
       pages_questions_dict[current_page_num] = current_question_id_arr
-  # ------------------------ Break Down to Pages END ------------------------
+  # ------------------------ Break Down to Pages of arr dict END ------------------------
+  # ------------------------ Specify Exact Page START ------------------------
+  selected_page_question_uuid_arr = pages_questions_dict[desired_page_number]
+  len_selected_page_question_uuid_arr = len(selected_page_question_uuid_arr)
+  selected_page_question_uuid_str = ''
+  for i in range(len(selected_page_question_uuid_arr)):
+    if i == len_selected_page_question_uuid_arr - 1:
+      selected_page_question_uuid_str += f"'{selected_page_question_uuid_arr[i]}'"
+    else:
+      selected_page_question_uuid_str += f"'{selected_page_question_uuid_arr[i]}'" + ", "
+  # ------------------------ Specify Exact Page END ------------------------
   # ------------------------ Pull created questions from user START ------------------------
-  # Pull info from db
-  # Pull all questions submitted by this user
-  user_all_questions_submitted_dict = select_all_questions_created_by_owner_email_function(postgres_connection, postgres_cursor, user_uuid)
+  # Pull created question info from db
+  user_all_questions_submitted_dict = select_all_questions_created_by_owner_specific_page_function(postgres_connection, postgres_cursor, user_uuid, selected_page_question_uuid_str)
   # ------------------------ Pull created questions from user END ------------------------
   # ------------------------ Close DB START ------------------------
   # Close postgres db connection
@@ -129,7 +136,7 @@ def create_question_submission_success_page_render_template_function():
   # ------------------------ CSS fix for category colors END ------------------------
 
   
-  localhost_print_function('=========================================== /create/question/user/form/submit/success Page END ===========================================')
+  localhost_print_function('=========================================== /create/question/user/form/submit/success/<html_variable_created_question_page_number> Page END ===========================================')
   return render_template('create_question_page_templates/create_question_submission_page_templates/create_question_submission_success.html',
                           css_cache_busting = cache_busting_output,
                           user_company_name_to_html = user_company_name,
