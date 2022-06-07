@@ -76,8 +76,17 @@ def job_daily_backup_all_db_tables_to_aws_function():
     except (Exception, psycopg2.Error) as error:
       if(postgres_connection):
         print("Error: ", error)
+        # ------------------------ DB Close Conection START ------------------------
+        # Close postgres db connection
+        postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)
+        # ------------------------ DB Close Conection END ------------------------
         localhost_print_function('=========================================== job_daily_backup_all_db_tables_to_aws_function END ===========================================')
         return True
+      else:
+        # ------------------------ DB Close Conection START ------------------------
+        # Close postgres db connection
+        postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)
+        # ------------------------ DB Close Conection END ------------------------
     """
     # Except clause
     except (Exception, psycopg2.Error) as error:
