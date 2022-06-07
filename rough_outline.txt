@@ -24,6 +24,8 @@ To-Do's
 - - - - - - - - - - - - - -
 
 - Make the internal logged in pages all the same style (including the 3 steps when creating account). Make it smaller purple banner, with team name / channel name / user name at the top.
+-Schedule Saturday skipped quiz check
+-Fix the schedueled task that stores in aws s3
 
 -Change email new user to talk about how it is a passion project, any feedback.?
 ********- When a user creates a question successfully, they get redirected From:[] -> To:[https://triviafy.com/create/question/user/form/submit/success] page, but the problem is that this page pulls all images. Which will get very expensive in the long run to pull thousands of images from AWS. This page needs to be brokwn doen to 10 images per page. For now just change the redirect to avoid hitting this page altogether.
