@@ -73,7 +73,12 @@ def job_daily_backup_all_db_tables_to_aws_function():
       s3_resource.Object(s3_bucket_name, todays_date + '_' + table_name + '.csv').put(Body=csv_buffer.getvalue())
       # ------------------------ Upload to AWS s3 as csv END ------------------------
     
-
+    except (Exception, psycopg2.Error) as error:
+      if(postgres_connection):
+        print("Error: ", error)
+        localhost_print_function('=========================================== job_daily_backup_all_db_tables_to_aws_function END ===========================================')
+        return True
+    """
     # Except clause
     except (Exception, psycopg2.Error) as error:
       # ------------------------ Email Self About New Account START ------------------------
@@ -109,6 +114,7 @@ def job_daily_backup_all_db_tables_to_aws_function():
 
   localhost_print_function('=========================================== job_daily_backup_all_db_tables_to_aws_function END ===========================================')
   return True
+  """
 
 
 
