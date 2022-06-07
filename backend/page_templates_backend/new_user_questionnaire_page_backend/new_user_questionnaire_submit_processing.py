@@ -88,7 +88,8 @@ def new_user_questionnaire_submit_processing_function():
         redis_connection.set(get_cookie_value_from_browser, json.dumps(user_nested_dict).encode('utf-8'))
         # ------------------------ Update Redis DB END ------------------------
       localhost_print_function('=========================================== /new/user/questionnaire/processing Page END ===========================================')
-      return redirect('/', code=302)
+      # return redirect('/', code=302)
+      return redirect('/categories/edit', code=302)
     # ------------------------ Check If User/Team/Channel Response Already in DB END ------------------------
 
 
@@ -108,7 +109,8 @@ def new_user_questionnaire_submit_processing_function():
     except:
       localhost_print_function('invalid url /new/user/questionnaire/processing Page')
       localhost_print_function('=========================================== /new/user/questionnaire/processing Page END ===========================================')
-      return redirect('/', code=302)
+      # return redirect('/', code=302)
+      return redirect('/categories/edit', code=302)
     # ------------------------ Sanitize user inputs END ------------------------
 
 
@@ -117,7 +119,8 @@ def new_user_questionnaire_submit_processing_function():
     if user_form_input_hear_about == None or user_form_input_gain_from == None or user_form_input_coworker_amount == None or user_form_input_if_competitor == None:
       localhost_print_function('invalid inputs')
       localhost_print_function('=========================================== /new/user/questionnaire/processing Page END ===========================================')
-      return redirect('/', code=302)
+      # return redirect('/', code=302)
+      return redirect('/categories/edit', code=302)
     # ------------------------ Check sanitized results END ------------------------
 
 
@@ -160,4 +163,5 @@ def new_user_questionnaire_submit_processing_function():
 
   
   localhost_print_function('=========================================== /new/user/questionnaire/processing Page END ===========================================')
-  return redirect('/', code=302)
+  # return redirect('/', code=302)
+  return redirect('/categories/edit', code=302)
