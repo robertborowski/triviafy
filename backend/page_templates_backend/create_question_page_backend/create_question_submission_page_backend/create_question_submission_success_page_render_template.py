@@ -117,6 +117,8 @@ def create_question_submission_success_page_render_template_function(html_variab
     current_question_id_arr.append(question_uuid)
     if current_page_num > total_num_of_pages:
       pages_questions_dict[current_page_num] = current_question_id_arr
+    elif current_page_num == total_num_of_pages:
+      pages_questions_dict[current_page_num] = current_question_id_arr
   # ------------------------ Break Down to Pages of arr dict END ------------------------
   # ------------------------ Specify Exact Page START ------------------------
   selected_page_question_uuid_arr = pages_questions_dict[desired_page_number]
@@ -150,6 +152,9 @@ def create_question_submission_success_page_render_template_function(html_variab
   # Page number presentation logic
   total_num_of_pages_fix = total_num_of_pages + 1
   if desired_page_number == 1 and total_num_of_pages_fix == 1:
+    page_previous_number = ''
+    page_next_number = ''
+  if desired_page_number == 1 and total_num_of_pages == 1:
     page_previous_number = ''
     page_next_number = ''
   elif desired_page_number == 1 or total_num_of_pages_fix == 1:
