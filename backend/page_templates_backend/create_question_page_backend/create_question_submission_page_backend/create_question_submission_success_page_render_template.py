@@ -90,6 +90,11 @@ def create_question_submission_success_page_render_template_function(html_variab
     total_num_of_pages = 1
   else:
     total_num_of_pages = math.floor(len(all_question_uuids_arr) / num_questions_per_page)   # int
+  
+  # 404 page if user searches for page number that does not exist for them
+  if desired_page_number > total_num_of_pages + 1:
+    return render_template("error_404_page_templates/index.html")
+  
   question_counter = 0    # int
   current_page_num = 1    # int
   pages_questions_dict = {}    # dict
@@ -128,12 +133,35 @@ def create_question_submission_success_page_render_template_function(html_variab
   # ------------------------ Close DB END ------------------------
 
 
-  # ------------------------ CSS fix for category colors START ------------------------
   for i in user_all_questions_submitted_dict:
+    # ------------------------ CSS fix for category colors START ------------------------
     # Create and append category colors for end user css
     categories_arr_to_html = datatype_change_categories_list_str_to_tuple_function(i['question_categories_list'])
     i['question_categories_list_arr'] = categories_arr_to_html
-  # ------------------------ CSS fix for category colors END ------------------------
+    # ------------------------ CSS fix for category colors END ------------------------
+  
+  
+  # ------------------------ Add page logic for HTML/CSS START ------------------------
+  # Page number presentation logic
+  total_num_of_pages_fix = total_num_of_pages + 1
+  if desired_page_number == 1 and total_num_of_pages_fix == 1:
+    page_previous_number = ''
+    page_next_number = ''
+  elif desired_page_number == 1 or total_num_of_pages_fix == 1:
+    page_previous_number = ''
+    page_next_number = desired_page_number + 1
+  elif desired_page_number == total_num_of_pages_fix:
+    page_previous_number = desired_page_number - 1
+    page_next_number = ''
+  else:
+    page_previous_number = desired_page_number - 1
+    page_next_number = desired_page_number + 1
+  # Append to arr for html
+  created_question_page_numbers_arr = []
+  created_question_page_numbers_arr.append(page_previous_number)
+  created_question_page_numbers_arr.append(desired_page_number)
+  created_question_page_numbers_arr.append(page_next_number)
+  # ------------------------ Add page logic for HTML/CSS END ------------------------
 
   
   localhost_print_function('=========================================== /create/question/user/form/submit/success/<html_variable_created_question_page_number> Page END ===========================================')
@@ -143,7 +171,8 @@ def create_question_submission_success_page_render_template_function(html_variab
                           user_channel_name_to_html = user_channel_name,
                           user_email_to_html = user_email,
                           user_all_submitted_questions_html = user_all_questions_submitted_dict,
-                          free_trial_ends_info_to_html = free_trial_ends_info)
+                          free_trial_ends_info_to_html = free_trial_ends_info,
+                          created_question_page_numbers_arr_to_html = created_question_page_numbers_arr)
 
 
 

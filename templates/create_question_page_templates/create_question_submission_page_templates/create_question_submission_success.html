@@ -100,5 +100,14 @@
   {% endfor %}
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Question Presentation END -->
 
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Page Selection START -->
+  <div class="question-submission-page-section">
+    <a href="{{ url_for('create_question_submission_success_page_render_template.create_question_submission_success_page_render_template_function', html_variable_created_question_page_number=created_question_page_numbers_arr_to_html[0]) }}" class="question-submission-page-section-page-num">{{ created_question_page_numbers_arr_to_html[0] }}</a>
+    <span class="question-submission-page-section-page-num">{{ created_question_page_numbers_arr_to_html[1] }}</span>
+    <a href="{{ url_for('create_question_submission_success_page_render_template.create_question_submission_success_page_render_template_function', html_variable_created_question_page_number=created_question_page_numbers_arr_to_html[2]) }}" class="question-submission-page-section-page-num">{{ created_question_page_numbers_arr_to_html[2] }}</a>
+  </div>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Page Selection END -->
+
   <footer-signed-in-component></footer-signed-in-component>
   {% endblock %}
