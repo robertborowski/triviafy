@@ -21,7 +21,7 @@ def job_weekly_make_latest_quizzes_for_all_companies_function():
   time.tzset()
   # ------------------------ Set Timezone END ------------------------
   
-  
+  """  
   # ------------------------ Running on localhost START ------------------------
   # Check environment variable that was passed in from user on the command line
   server_env = os.environ.get('TESTING', 'false')
@@ -43,6 +43,7 @@ def job_weekly_make_latest_quizzes_for_all_companies_function():
       localhost_print_function('=========================================== job_weekly_make_latest_quizzes_for_all_companies_function END ===========================================')
       return True
   # ------------------------ Get Today's Date END ------------------------
+  """
 
 
   # ------------------------ Get all slack company quiz settings START ------------------------
