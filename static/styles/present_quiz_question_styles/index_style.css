@@ -73,10 +73,11 @@ span.quiz-question-sub-section-difficulty {
   height: 250px;
   width: auto;
   max-width: 100%;
-  margin: 0 auto;
+  margin: 25px auto;
   display: block;
   border-radius: 25px;
-  border: 5px solid rgb(230, 230, 230);
+  /* border: 5px solid rgb(230, 230, 230); */
+  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.444)!important;
 }
 .quiz-question-sub-section-image img.no-image-present {
   display: none;
