@@ -23,12 +23,40 @@ def job_post_quiz_skipped_quiz_check_function():
   summary_arr = []
   # ------------------------ Print Summary Variables END ------------------------
   
-  
+  # ------------------------ Set Timezone START ------------------------
+  # Set the timezone of the application when user creates account is will be in US/Easterm time
+  os.environ['TZ'] = 'US/Eastern'
+  time.tzset()
+  # ------------------------ Set Timezone END ------------------------
+
   # ------------------------ Get Today's Date Information START ------------------------
   # Today's date
   today_date = date.today()# - timedelta(days=1)
   today_date_str = str(today_date)
+  today_day_of_week = today_date.strftime('%A')
   # ------------------------ Get Today's Date Information END ------------------------
+  
+
+  # ------------------------ Running on localhost START ------------------------
+  # Check environment variable that was passed in from user on the command line
+  server_env = os.environ.get('TESTING', 'false')
+  if server_env and server_env == 'true':
+    localhost_print_function('testing mode')
+    if today_day_of_week != 'Saturday':
+      localhost_print_function('Today is not Saturday.')
+      localhost_print_function('continuing function because in testing mode...')
+      localhost_print_function('=========================================== job_weekly_make_latest_quizzes_for_all_companies_function END ===========================================')
+    pass
+  # ------------------------ Running on localhost END ------------------------
+
+
+  # ------------------------ Get Today's Date START ------------------------
+  else:
+    if today_day_of_week != 'Saturday':
+      localhost_print_function('Today is not Saturday.')
+      localhost_print_function('=========================================== job_weekly_make_latest_quizzes_for_all_companies_function END ===========================================')
+      return True
+  # ------------------------ Get Today's Date END ------------------------
 
 
   # ------------------------ Connect to DB START ------------------------
