@@ -122,7 +122,8 @@ def job_remove_all_accounts_team_channel_combo_all_tables_function(arr_to_remove
 if __name__ == "__main__":
   arr_to_remove = [
     # [SlackTeamID, SlackChannelID]
-    ['abc','xyz']
+    # ['abc','xyz']
+    ['T020A8CGF7Y','C02BD7F6F6F']
   ]
 
   arr_table_names_with_user_uuid_names = [

@@ -62,12 +62,6 @@ def submit_edit_quiz_categories_processing_function():
       localhost_print_function('=========================================== /categories/edit/processing Page END ===========================================')
       return redirect('/categories', code=302)
 
-    # Deselect All Category Check
-    user_form_categories_selected_deselect_all_checkbox = request.form.get('deselect_all_category_checkbox_name')
-    if user_form_categories_selected_deselect_all_checkbox != None and user_form_categories_selected_deselect_all_checkbox != 'deselect_all_categories':
-      localhost_print_function('=========================================== /categories/edit/processing Page END ===========================================')
-      return redirect('/categories', code=302)
-
     # Categories that are not Select All or Deselect All
     user_form_categories_selected_arr = request.form.getlist('category_checkbox_name')
     validate_user_form_categories_selected_arr = edit_quiz_categories_validate_user_inputs_function(user_form_categories_selected_arr)
@@ -87,7 +81,7 @@ def submit_edit_quiz_categories_processing_function():
     caps_exceptions_set = {'sql', 'tv', 'uk'}
     
     # If other categories were checked
-    if user_form_categories_selected_select_all_checkbox == None and user_form_categories_selected_deselect_all_checkbox == None:
+    if user_form_categories_selected_select_all_checkbox == None:
       if len(user_form_categories_selected_arr) >= 1:
         categories_to_push_to_db_arr = []
         for i_category in user_form_categories_selected_arr:
@@ -104,10 +98,6 @@ def submit_edit_quiz_categories_processing_function():
     # If select all was checked
     if user_form_categories_selected_select_all_checkbox == 'select_all_categories':
       categories_to_push_to_db_str = 'All Categories'
-
-    # If deselect all was checked
-    if user_form_categories_selected_deselect_all_checkbox == 'deselect_all_categories':
-      categories_to_push_to_db_str = 'Pop Culture'
     # ------------------------ Logic Selected Pre DB Update END ------------------------
 
     

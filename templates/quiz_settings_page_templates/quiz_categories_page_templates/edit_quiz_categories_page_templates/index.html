@@ -58,10 +58,10 @@
         <input type="checkbox" id="select_all_categories" name="select_all_category_checkbox_name" value="select_all_categories">
         <label for="select_all_categories" class="default-not-signed-in-page-p-font"> Select All Categories</label><br>
       </div>
-      <div class="category-section">
+      <!-- <div class="category-section">
         <input type="checkbox" id="select_all_categories" name="deselect_all_category_checkbox_name" value="deselect_all_categories">
         <label for="select_all_categories" class="default-not-signed-in-page-p-font"> Deselect All Categories</label><br>
-      </div>
+      </div> -->
       {% for i in company_current_selected_categories_arr_of_dicts_to_html %}
       <div class="category-section">
         <input type="checkbox" id="{{ i['category_response_tracking'] }}" name="category_checkbox_name" value="{{ i['category_response_tracking'] }}" checked>
