@@ -85,6 +85,11 @@ def create_question_submission_success_page_render_template_function(html_variab
   # ------------------------ Connect DB END ------------------------
   # ------------------------ Break Down to Pages of arr dict START ------------------------
   all_question_uuids_arr = select_all_questions_created_by_owner_email_uuid_function(postgres_connection, postgres_cursor, user_uuid)    # arr
+  
+  # If user has not made any questions yet
+  if all_question_uuids_arr == None:
+    return redirect('/create/question/user/form', code=302)
+
   num_questions_per_page = 5
   if len(all_question_uuids_arr) <= num_questions_per_page:
     total_num_of_pages = 1
