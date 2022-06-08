@@ -22,18 +22,18 @@
 
 
 <main class="logged-in">
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Quiz Intro Start -->
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Page Intro Start -->
   <company-name-channel-component company_name_js="{{ user_company_name_to_html }}",
                                   channel_name_js="{{ user_channel_name_to_html }}",
                                   free_trial_ends_info_js="{{ free_trial_ends_info_to_html }}">
   </company-name-channel-component>
 
-  <div class="default-signed-in-page-into-background default-box-shadow-black-small">
+  <div class="default-signed-in-page-into-background">
     <div class="default-signed-in-page-intro">
-      <p class="default-signed-in-page-intro-title default-signed-in-page-intro-title-dashboard" id='default-signed-in-words-stroke-shadow'>Quiz {{ user_team_latest_quiz_number_to_html }}</p>
-      <p class="default-signed-in-page-intro-sub-title default-signed-in-page-intro-sub-title-dashboard">Due: {{ quiz_end_time_to_html }}, {{ quiz_end_day_of_week_to_html[:3] }}, {{ quiz_end_date_to_html }}</p>
+      <p class="default-signed-in-page-intro-header-v1">Quiz {{ user_team_latest_quiz_number_to_html }}</p>
+      <span class="default-signed-in-page-intro-sub-header-v1">Due: {{ quiz_end_time_to_html }}, {{ quiz_end_day_of_week_to_html[:3] }}, {{ quiz_end_date_to_html }}</span>
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Modal Start -->
-      <a href="#"><p class="modal-see-rules" id="quiz-rules-activate-modal">See Rules</p></a>
+      <a href="#"><span class="modal-see-rules default-signed-in-page-intro-sub-header-v1" id="quiz-rules-activate-modal">See Rules</span></a>
       <div id="quiz-rules-details-modal" class="quiz-modal">
         <div class="modal-content default-box-shadow-black-small">
           
@@ -61,7 +61,7 @@
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Modal End -->
     </div>
   </div>
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Quiz Intro End -->
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Page Intro End -->
 
   
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Answers Submitted Message Start -->
@@ -72,16 +72,16 @@
 
 
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Quiz Feedback Start -->
-  <div class="default-signed-in-hyperlink-redirect-section">
+  <!-- <div class="default-signed-in-hyperlink-redirect-section">
     <a href="{{ url_for('quiz_categories_index_page_render_template.quiz_categories_index_page_render_template_function') }}" class="default-signed-in-hyperlink-redirect-section-a"><p class="default-signed-in-hyperlink-redirect-section-p2">Edit Quiz Categories For Next Quiz.</p></a>
-  </div>
+  </div> -->
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Quiz Feedback End -->
 
 
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Quiz Feedback Start -->
-  <div class="default-signed-in-hyperlink-redirect-section">
+  <!-- <div class="default-signed-in-hyperlink-redirect-section">
     <a href="{{ url_for('quiz_feedback_index_page_render_template.quiz_feedback_index_page_render_template_function') }}" class="default-signed-in-hyperlink-redirect-section-a"><p class="default-signed-in-hyperlink-redirect-section-p2">Request Custom Quiz Categories.</p></a>
-  </div>
+  </div> -->
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Quiz Feedback End -->
 
 
@@ -159,14 +159,6 @@
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Current Quiz Form END -->
 
 
-
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Small Logo Caricature Start -->
-  <div class="default-signed-in-logo-caricature-small-section">
-    <img src="/static/images/logo/Logo_active/Logo_cheering_purple.png" alt="Logo cheering purple" class="default-signed-in-logo-caricature-img">
-  </div>
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Small Logo Caricature End -->
-
-
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Quiz Feedback Start -->
   <div class="default-signed-in-hyperlink-redirect-section">
     <a href="{{ url_for('quiz_categories_index_page_render_template.quiz_categories_index_page_render_template_function') }}" class="default-signed-in-hyperlink-redirect-section-a"><p class="default-signed-in-hyperlink-redirect-section-p2">Edit Quiz Categories For Next Quiz.</p></a>
@@ -178,6 +170,12 @@
     <a href="{{ url_for('quiz_feedback_index_page_render_template.quiz_feedback_index_page_render_template_function') }}" class="default-signed-in-hyperlink-redirect-section-a"><p class="default-signed-in-hyperlink-redirect-section-p">Request Custom Quiz Categories.</p></a>
   </div>
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Quiz Feedback End -->
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Small Logo Caricature Start -->
+  <div class="default-signed-in-logo-caricature-small-section">
+    <img src="/static/images/logo/Logo_active/Logo_cheering_purple.png" alt="Logo cheering purple" class="default-signed-in-logo-caricature-img">
+  </div>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Small Logo Caricature End -->
 
 </main>
 

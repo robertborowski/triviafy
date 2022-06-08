@@ -24,7 +24,6 @@ To-Do's
 - - - - - - - - - - - - - -
 
 - Make the internal logged in pages all the same style (including the 3 steps when creating account). Make it smaller purple banner, with team name / channel name / user name at the top.
--Schedule Saturday skipped quiz check
 -Fix the schedueled task that stores in aws s3
 
 -Change email new user to talk about how it is a passion project, any feedback.?
@@ -34,7 +33,8 @@ To-Do's
 * Add user's display name to the top under company channel so on Inspeclet you can see who is doing what.
 * remove duplicate redis logged in users
 - Add the quiz categories selection for new users to select the categories they want
-
+- Add sample quiz to the logged in page navbar > quiz > first item on dropdown.
+-^ also add quiz categories under quiz settings
 
 -----------------------------------------------------------------------
 Notes:

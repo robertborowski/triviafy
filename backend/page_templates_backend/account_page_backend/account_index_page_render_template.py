@@ -85,4 +85,5 @@ def account_index_page_render_template_function():
                           user_first_name_to_html = user_first_name,
                           user_last_name_to_html = user_last_name,
                           company_all_payment_admins_arr_to_html = company_all_payment_admins_arr,
-                          free_trial_ends_info_to_html = free_trial_ends_info)
+                          free_trial_ends_info_to_html = free_trial_ends_info,
+                          page_title_to_html = 'Account Settings')

@@ -60,4 +60,5 @@ def quiz_feedback_success_page_render_template_function():
                           css_cache_busting = cache_busting_output,
                           user_company_name_to_html = user_company_name,
                           user_channel_name_to_html = user_channel_name,
-                          free_trial_ends_info_to_html = free_trial_ends_info)
+                          free_trial_ends_info_to_html = free_trial_ends_info,
+                          page_title_to_html = 'Feedback Submitted')

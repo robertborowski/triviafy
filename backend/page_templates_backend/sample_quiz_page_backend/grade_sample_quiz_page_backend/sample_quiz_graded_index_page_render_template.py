@@ -194,4 +194,5 @@ def sample_quiz_graded_index_page_render_template_function():
                           quiz_questions_obj_arr_of_dicts_html = sample_questions_arr_of_dicts,
                           total_questions_for_quiz_to_html = total_questions_for_quiz,
                           total_correct_answers_for_quiz_to_html = total_correct_answers_for_quiz,
-                          free_trial_ends_info_to_html = free_trial_ends_info)
+                          free_trial_ends_info_to_html = free_trial_ends_info,
+                          page_title_to_html = 'Sample Quiz Results')

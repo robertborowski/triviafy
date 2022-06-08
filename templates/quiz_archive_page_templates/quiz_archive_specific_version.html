@@ -22,20 +22,20 @@
 
 
 <main class="logged-in">
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Quiz Archive Intro Start -->
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Page Intro Start -->
   <company-name-channel-component company_name_js="{{ user_company_name_to_html }}",
                                   channel_name_js="{{ user_channel_name_to_html }}",
                                   free_trial_ends_info_js="{{ free_trial_ends_info_to_html }}">
   </company-name-channel-component>
 
-  <div class="default-signed-in-page-into-background default-box-shadow-black-small">
+  <div class="default-signed-in-page-into-background">
     <div class="default-signed-in-page-intro">
-      <p class="default-signed-in-page-intro-title default-signed-in-page-intro-title-quiz-archive" id='default-signed-in-words-stroke-shadow'>Archive Quiz {{ link_selected_quiz_archive_intro_dict_to_html['company_quiz_count'] }}</p>
-      <p class="default-signed-in-page-intro-sub-title default-signed-in-page-intro-sub-title-quiz-archive">Start: {{ link_selected_quiz_archive_intro_dict_to_html['quiz_master_string_start'] }}</p>
-      <p class="default-signed-in-page-intro-sub-title default-signed-in-page-intro-sub-title-quiz-archive">End: {{ link_selected_quiz_archive_intro_dict_to_html['quiz_master_string_end'] }}</p>
+      <p class="default-signed-in-page-intro-header-v1">{{ page_title_to_html }} {{ link_selected_quiz_archive_intro_dict_to_html['company_quiz_count'] }}</p>
+      <span class="default-signed-in-page-intro-sub-header-v1">Start: {{ link_selected_quiz_archive_intro_dict_to_html['quiz_master_string_start'] }}</span>
+      <span class="default-signed-in-page-intro-sub-header-v1">End: {{ link_selected_quiz_archive_intro_dict_to_html['quiz_master_string_end'] }}</span>
     </div>
   </div>
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Quiz Archive Intro End -->
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Page Intro End -->
 
   
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Correct Ratio Start -->

@@ -1,25 +1,19 @@
 /* - - - - - - - - - - Company and Channel name - Start */
 .client-company-and-channel-names {
+  /* border: 1px solid black; */
+  /* word-wrap: break-word; */
+  /* background-color: var(--company-primary-color); */
+  width: 80%;
+  max-width: 1200px;
+  margin: 25px auto 0px auto;
   text-align: center;
-  color: var(--company-greyed-out-color);
-  margin-top: 30px;
-  word-wrap: break-word;
 }
-.client-company-name {
-  font-size: 40px;
-  padding-bottom: 20px;
-  word-wrap: break-word;
-}
-.client-channel-name {
-  font-size: 20px;
-  padding-bottom: 20px;
-  word-wrap: break-word;
-}
-.client-free-trial-period {
-  color: red;
-  font-size: 13px;
-  padding-bottom: 10px;
-  display: block;
-  word-wrap: break-word;
+.client-company-and-channel-names span {
+  /* border: 1px solid black; */
+  /* color: var(--company-primary-color); */
+  color: rgb(160, 160, 160);
+  padding: 2px 5px;
+  font-size: 12px;
+  /* border-radius: 6px; */
 }
 /* - - - - - - - - - - Company and Channel name - End */

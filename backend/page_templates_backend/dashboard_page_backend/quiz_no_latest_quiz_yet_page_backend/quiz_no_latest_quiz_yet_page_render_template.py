@@ -122,4 +122,5 @@ def quiz_no_latest_quiz_yet_page_render_template_function():
                           user_channel_name_to_html = user_channel_name,
                           company_first_quiz_will_be_created_start_day_to_html = company_first_quiz_will_be_created_start_day,
                           company_first_quiz_will_be_created_start_date_to_html = company_first_quiz_will_be_created_start_date,
-                          free_trial_ends_info_to_html = free_trial_ends_info)
+                          free_trial_ends_info_to_html = free_trial_ends_info,
+                          page_title_to_html = 'Welcome to Triviafy')

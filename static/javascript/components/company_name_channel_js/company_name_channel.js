@@ -9,9 +9,9 @@ class CompanyNameChannelClass extends HTMLElement {
   connectedCallback() {
     this.innerHTML = `
     <div class="client-company-and-channel-names">
-      <p class="client-free-trial-period">${this.getAttribute("free_trial_ends_info_js")}</p>
-      <p class="client-company-name">${this.getAttribute("company_name_js")}</p>
-      <p class="client-channel-name">${this.getAttribute("channel_name_js")}</p>
+      <span>${this.getAttribute("company_name_js")}</span>
+      <span>${this.getAttribute("channel_name_js")}</span>
+      <span>${this.getAttribute("free_trial_ends_info_js")}</span>
     </div>
     `;
   }

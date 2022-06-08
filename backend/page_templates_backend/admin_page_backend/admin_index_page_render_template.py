@@ -127,4 +127,5 @@ def admin_index_page_render_template_function():
                           new_emails_for_dist_list_int_to_html = new_emails_for_dist_list_int,
                           new_sign_ups_int_to_html = new_sign_ups_int,
                           master_all_companies_remainder_arr_of_dicts_to_html = master_all_companies_remainder_arr_of_dicts,
-                          master_all_companies_winner_counts_arr_of_dicts_to_html = master_all_companies_winner_counts_arr_of_dicts)
+                          master_all_companies_winner_counts_arr_of_dicts_to_html = master_all_companies_winner_counts_arr_of_dicts,
+                          page_title_to_html = 'Admin')

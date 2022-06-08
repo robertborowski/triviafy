@@ -65,4 +65,5 @@ def claim_prize_index_page_render_template_function():
                           user_company_name_to_html = user_company_name,
                           user_channel_name_to_html = user_channel_name,
                           free_trial_ends_info_to_html = free_trial_ends_info,
-                          user_email_to_html = user_email)
+                          user_email_to_html = user_email,
+                          page_title_to_html = 'Claim Prize')

@@ -135,4 +135,5 @@ def quiz_pre_open_page_render_template_function():
                           company_quiz_start_day_to_html = company_quiz_start_day,
                           company_quiz_settings_start_time_to_html = company_quiz_settings_start_time,
                           company_quiz_start_date_to_html = company_quiz_start_date,
-                          free_trial_ends_info_to_html = free_trial_ends_info)
+                          free_trial_ends_info_to_html = free_trial_ends_info,
+                          page_title_to_html = 'Quiz Not Yet Open')

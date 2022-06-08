@@ -59,4 +59,5 @@ def create_question_rate_limit_page_render_template_function():
                           css_cache_busting = cache_busting_output,
                           user_email_html = user_email,
                           free_trial_ends_info_to_html = free_trial_ends_info,
-                          limit_amount_to_html = limit_amount)
+                          limit_amount_to_html = limit_amount,
+                          page_title_to_html = 'Create Question Limit')

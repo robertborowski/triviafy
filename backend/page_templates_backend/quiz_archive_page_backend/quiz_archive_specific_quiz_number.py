@@ -189,4 +189,5 @@ def quiz_archive_specific_quiz_number_function(html_variable_quiz_number):
                           pull_info_all_questions_table_arr_of_dicts_to_html = pull_info_all_questions_table_arr_of_dicts,
                           total_questions_for_quiz_to_html = total_questions_for_quiz,
                           total_correct_answers_for_quiz_to_html = total_correct_answers_for_quiz,
-                          free_trial_ends_info_to_html = free_trial_ends_info)
+                          free_trial_ends_info_to_html = free_trial_ends_info,
+                          page_title_to_html = 'Archive Quiz')

@@ -31,16 +31,6 @@
   /* - - - - - - - - - - Default - Signed In - Hyperlink Redirect Start */
   /* - - - - - - - - - - Default - Signed In - Hyperlink Redirect End */
   /* - - - - - - - - - - Default - Signed In - Page Intro - Start */
-  /* - - - - - - - - - - Default - Signed In - Page Intro Specific Pages - Start */
-  .default-signed-in-page-intro-title-no-latest-quiz, .default-signed-in-page-intro-title-create-question, .default-signed-in-page-intro-title-view_submitted, .default-signed-in-page-intro-title-quiz-feedback, .default-signed-in-page-intro-title-quiz-feedback-success, .default-signed-in-page-intro-title-quiz-settings, .default-signed-in-page-intro-title-quiz-settings-edit, .default-signed-in-page-intro-title-quiz-past-due, .default-signed-in-page-intro-title-quiz-graded, .default-signed-in-page-intro-title-dashboard, .default-signed-in-page-intro-title-quiz-pre-open, .default-signed-in-page-intro-title-leaderboard, .default-signed-in-page-intro-title-quiz-archive {
-    font-size: 50px;
-    padding: 15px 0 0 0;
-  }
-  .default-signed-in-page-intro-title-dashboard {
-    font-size: 50px;
-    padding: 0 0 0 0;
-  }
-  /* - - - - - - - - - - Default - Signed In - Page Intro Specific Pages - End */
   /* - - - - - - - - - - Default - Signed In - Page Intro - End */
   /* - - - - - - - - - - Default - Signed In - Post Intro - Start */
   /* - - - - - - - - - - Default - Signed In - Post Intro - End */

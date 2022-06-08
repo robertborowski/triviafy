@@ -142,4 +142,5 @@ def leaderboard_page_render_template_function():
                           user_company_name_to_html = user_company_name,
                           user_channel_name_to_html = user_channel_name,
                           users_leaderboard_arr_of_dicts_to_html = users_leaderboard_arr_of_dicts,
-                          free_trial_ends_info_to_html = free_trial_ends_info)
+                          free_trial_ends_info_to_html = free_trial_ends_info,
+                          page_title_to_html = 'Leaderboard')

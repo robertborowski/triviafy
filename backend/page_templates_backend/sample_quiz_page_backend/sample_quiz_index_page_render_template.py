@@ -108,4 +108,5 @@ def sample_quiz_index_page_render_template_function():
                           user_company_name_to_html = user_company_name,
                           user_channel_name_to_html = user_channel_name,
                           quiz_questions_obj_arr_of_dicts_html = sample_questions_arr_of_dicts,
-                          free_trial_ends_info_to_html = free_trial_ends_info)
+                          free_trial_ends_info_to_html = free_trial_ends_info,
+                          page_title_to_html = 'Sample Quiz')

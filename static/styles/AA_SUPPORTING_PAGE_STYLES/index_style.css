@@ -140,33 +140,28 @@ a.default-signed-in-hyperlink-redirect-section-a, a.default-signed-in-hyperlink-
 /* - - - - - - - - - - Default - Signed In - Hyperlink Redirect End */
 /* - - - - - - - - - - Default - Signed In - Page Intro - Start */
 .default-signed-in-page-into-background {
-  height: 150px;
-  background-color: var(--company-primary-color);
-  width: 100%;
+  /* background-color: rgb(196, 196, 196); */
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 .default-signed-in-page-intro {
+  margin: 15px 0 0 0;
   text-align: center;
+  color: var(--company-primary-color);
 }
-.default-signed-in-page-intro-title, .default-signed-in-page-intro-sub-title {
-  color: white;
+.default-signed-in-page-intro span {
+  /* border: 1px solid black; */
+  /* color: var(--company-primary-color); */
+  margin: 0 10px 0 0;
 }
-/* - - - - - - - - - - Default - Signed In - Page Intro Specific Pages - Start */
-.default-signed-in-page-intro-title-no-latest-quiz, .default-signed-in-page-intro-title-create-question, .default-signed-in-page-intro-title-view_submitted, .default-signed-in-page-intro-title-quiz-feedback, .default-signed-in-page-intro-title-quiz-feedback-success, .default-signed-in-page-intro-title-quiz-settings, .default-signed-in-page-intro-title-quiz-settings-edit, .default-signed-in-page-intro-title-quiz-past-due, .default-signed-in-page-intro-title-quiz-graded, .default-signed-in-page-intro-title-quiz-pre-open, .default-signed-in-page-intro-title-leaderboard, .default-signed-in-page-intro-title-quiz-archive {
-  font-size: 60px;
-  padding: 30px 0 0 0;
+p.default-signed-in-page-intro-header-v1 {
+  font-size: 50px;
+  margin: 10px 0;
 }
-.default-signed-in-page-intro-title-dashboard {
-  font-size: 60px;
-  padding: 0 0 0 0;
+span.default-signed-in-page-intro-sub-header-v1 {
+  font-size: 15px;
 }
-.default-signed-in-page-intro-sub-title-dashboard {
-  /* font-size: 10px; */
-  padding: 10px;
-}
-.default-signed-in-page-intro-sub-title-quiz-archive {
-  padding: 0px
-}
-/* - - - - - - - - - - Default - Signed In - Page Intro Specific Pages - End */
 /* - - - - - - - - - - Default - Signed In - Page Intro - End */
 /* - - - - - - - - - - Default - Signed In - Post Intro - Start */
 .default-signed-in-post-intro-description-section {

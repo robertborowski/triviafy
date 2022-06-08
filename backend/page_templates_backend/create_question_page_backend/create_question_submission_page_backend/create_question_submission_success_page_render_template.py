@@ -182,7 +182,8 @@ def create_question_submission_success_page_render_template_function(html_variab
                           user_email_to_html = user_email,
                           user_all_submitted_questions_html = user_all_questions_submitted_dict,
                           free_trial_ends_info_to_html = free_trial_ends_info,
-                          created_question_page_numbers_arr_to_html = created_question_page_numbers_arr)
+                          created_question_page_numbers_arr_to_html = created_question_page_numbers_arr,
+                          page_title_to_html = 'Submitted Questions')
 
 
 

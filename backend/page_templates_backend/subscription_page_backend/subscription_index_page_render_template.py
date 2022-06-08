@@ -91,4 +91,5 @@ def subscription_index_page_render_template_function():
                           user_company_name_to_html = user_company_name,
                           user_channel_name_to_html = user_channel_name,
                           user_payment_admin_status_html = user_payment_admin_status,
-                          all_team_payment_admin_emails_arr_to_html = all_team_payment_admin_emails_arr)
+                          all_team_payment_admin_emails_arr_to_html = all_team_payment_admin_emails_arr,
+                          page_title_to_html = 'Subscription')

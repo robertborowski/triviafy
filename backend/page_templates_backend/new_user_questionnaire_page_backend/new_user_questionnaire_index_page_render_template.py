@@ -70,4 +70,5 @@ def new_user_questionnaire_index_page_render_template_function():
                           css_cache_busting = cache_busting_output,
                           user_company_name_to_html = user_company_name,
                           user_channel_name_to_html = user_channel_name,
-                          user_full_name_to_html = user_full_name)
+                          user_full_name_to_html = user_full_name,
+                          page_title_to_html = 'New User Questionnaire')

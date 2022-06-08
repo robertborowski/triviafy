@@ -20,6 +20,19 @@
 
 <main class="logged-in waitlist">
 
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Page Intro Start -->
+  <company-name-channel-component company_name_js="{{ user_company_name_to_html }}",
+                                  channel_name_js="{{ user_channel_name_to_html }}",
+                                  free_trial_ends_info_js="{{ free_trial_ends_info_to_html }}">
+  </company-name-channel-component>
+
+  <div class="default-signed-in-page-into-background">
+    <div class="default-signed-in-page-intro">
+      <p class="default-signed-in-page-intro-header-v1">{{ page_title_to_html }}</p>
+    </div>
+  </div>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Page Intro End -->
+
 
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Waitlist confirm Start -->
   <div class="waitlist-create-question-confirm-section default-box-shadow-grey-reg">
