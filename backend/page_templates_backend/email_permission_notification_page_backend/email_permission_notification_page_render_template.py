@@ -68,4 +68,5 @@ def email_permission_notification_page_render_template_function():
   localhost_print_function('=========================================== /notifications/email/permission Page END ===========================================')
   return render_template('email_permission_notification_page_templates/index.html',
                           css_cache_busting = cache_busting_output,
-                          user_email_to_html = user_email)
+                          user_email_to_html = user_email,
+                          page_title_to_html = 'Confirm Email')

@@ -50,6 +50,14 @@ Notes:
 -----------------------------------------------------------------------
 
 
+
+
+
+
+
+Making changes like the user_nested_dict categories_selected thing. It was added! but people who are signed in already with redis, they will get an error if they try to hit a page that uses that logic. Solution: You need to build a try: except: clause so that it tries for that value and if logged in user redis does not have it, then a function recreated the latest redis columns/values dict and stores it back in redis based on user-uuid.
+
+
 For printing quick tests
 ----------------------------
 localhost_print_function('- - - - - - - 0 - - - - - - -')

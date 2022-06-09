@@ -12,6 +12,11 @@ def pre_load_page_checks_function(page_location_name):
     # ------------------------ Page Pre Load Check - User Logged In Through Cookies START ------------------------
     # Check if user logged in through cookies
     user_nested_dict = check_if_user_login_through_cookies_function()
+    localhost_print_function('- - - - - - - 0 - - - - - - -')
+    localhost_print_function('user_nested_dict')
+    localhost_print_function(user_nested_dict)
+    localhost_print_function(type(user_nested_dict))
+    localhost_print_function('- - - - - - - 0 - - - - - - -')
     # ------------------------ Page Pre Load Check - User Logged In Through Cookies END ------------------------
 
 
