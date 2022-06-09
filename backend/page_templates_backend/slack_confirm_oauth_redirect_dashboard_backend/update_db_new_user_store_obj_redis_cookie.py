@@ -86,6 +86,7 @@ def update_db_new_user_store_obj_redis_cookie_function(client, authed_response_o
     
     user_slack_email_permission_granted = False
     user_slack_new_user_questionnaire_answered = False
+    user_slack_new_user_categories_selected = False
     # ------------------------ Get User Basic Info END ------------------------
 
 
