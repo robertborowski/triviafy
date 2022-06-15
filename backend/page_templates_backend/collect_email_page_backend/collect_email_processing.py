@@ -112,8 +112,8 @@ def collect_email_processing_function():
     email_sent_search_category = 'Notify Me Someone Created Account'
     uuid_quiz = None
     # - - -
-    slack_db_uuid = 'sent_to_personal_email'
-    output_message = insert_triviafy_emails_sent_table_function(postgres_connection, postgres_cursor, uuid_email_sent, email_sent_timestamp, slack_db_uuid, email_sent_search_category, uuid_quiz, output_message_content_str_for_db)
+    user_uuid = 'sent_to_personal_email'
+    output_message = insert_triviafy_emails_sent_table_function(postgres_connection, postgres_cursor, uuid_email_sent, email_sent_timestamp, user_uuid, email_sent_search_category, uuid_quiz, output_message_content_str_for_db)
   # ------------------------ Email Self About New Account END ------------------------
   """
 

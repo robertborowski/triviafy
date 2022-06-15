@@ -10,21 +10,21 @@ from backend.utils.localhost_print_utils.localhost_print import localhost_print_
 
 
 # -------------------------------------------------------------- Main Function
-def update_insert_free_trial_info_team_function(postgres_connection, postgres_cursor, slack_authed_user_id, slack_authed_team_id, slack_authed_channel_id, slack_db_uuid):
+def update_insert_free_trial_info_team_function(postgres_connection, postgres_cursor, user_slack_authed_id, user_slack_workspace_team_id, user_slack_channel_id, user_uuid):
   localhost_print_function('=========================================== update_insert_free_trial_info_team_function START ===========================================')
 
   # ------------------------ Free Trial Period Tracker START ------------------------
   # Check if user slack authed id is already in the free trial table
-  slack_user_authed_id_exists_already = select_triviafy_free_trial_tracker_slack_table_all_authed_id_info_function(postgres_connection, postgres_cursor, slack_authed_user_id)
+  slack_user_authed_id_exists_already = select_triviafy_free_trial_tracker_slack_table_all_authed_id_info_function(postgres_connection, postgres_cursor, user_slack_authed_id)
   if slack_user_authed_id_exists_already == None:
     # Set variables for DB
     uuid_free_trial = create_uuid_function('free_trial_')
     free_trial_created_timestamp = create_timestamp_function()
-    free_trial_user_slack_authed_id_fk = slack_authed_user_id
-    free_trial_user_slack_workspace_team_id_fk = slack_authed_team_id
-    free_trial_user_slack_channel_id_fk = slack_authed_channel_id
+    free_trial_user_slack_authed_id_fk = user_slack_authed_id
+    free_trial_user_slack_workspace_team_id_fk = user_slack_workspace_team_id
+    free_trial_user_slack_channel_id_fk = user_slack_channel_id
     free_trial_period_is_expired = False
-    free_trial_user_uuid_fk = slack_db_uuid
+    free_trial_user_uuid_fk = user_uuid
     
     # ------------------------ Get Earliest Team Member Free Trial Dates START ------------------------
     all_current_team_members_authed_id_for_this_user_arr = select_triviafy_user_login_information_table_slack_all_company_slack_authed_ids_function(postgres_connection, postgres_cursor, free_trial_user_slack_workspace_team_id_fk, free_trial_user_slack_channel_id_fk)

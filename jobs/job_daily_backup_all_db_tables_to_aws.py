@@ -93,8 +93,8 @@ def job_daily_backup_all_db_tables_to_aws_function():
       email_sent_search_category = 'Backup AWS s3 Upload Error'
       uuid_quiz = None
       # - - -
-      slack_db_uuid = 'sent_to_personal_email'
-      output_message = insert_triviafy_emails_sent_table_function(postgres_connection, postgres_cursor, uuid_email_sent, email_sent_timestamp, slack_db_uuid, email_sent_search_category, uuid_quiz, output_message_content_str_for_db)
+      user_uuid = 'sent_to_personal_email'
+      output_message = insert_triviafy_emails_sent_table_function(postgres_connection, postgres_cursor, uuid_email_sent, email_sent_timestamp, user_uuid, email_sent_search_category, uuid_quiz, output_message_content_str_for_db)
       # ------------------------ Email Self About New Account END ------------------------
       localhost_print_function('=========================================== job_daily_backup_all_db_tables_to_aws_function END ===========================================')
       return True

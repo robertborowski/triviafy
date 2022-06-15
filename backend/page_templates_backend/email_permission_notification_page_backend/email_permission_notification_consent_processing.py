@@ -89,14 +89,14 @@ def email_permission_notification_consent_processing_function():
 
 
     # ------------------------ Send Account Created Email START ------------------------
-    slack_db_uuid = user_nested_dict['user_uuid']
+    user_uuid = user_nested_dict['user_uuid']
     user_email = user_nested_dict['user_email']
-    slack_authed_user_real_full_name = user_nested_dict['user_full_name']
+    user_display_name = user_nested_dict['user_full_name']
     user_channel_name = user_nested_dict['slack_channel_name']
 
     output_email = user_email
     output_subject_line = 'Triviafy Account Created - Next Steps'
-    output_message_content = f"Hi {slack_authed_user_real_full_name},\n\nThank you for creating an account with Triviafy.\n\nFAQ: 'What about my team?' In order to get the rest of your team setup with Triviafy please share with them:\n1) The attached Slack Setup Guide PDF file and\n2) The name of the Slack channel you are using for Triviafy: '{user_channel_name}' \n\nYou will be notified by email and Slack once your team's weekly quiz is open.\n\nBest,\nRob\n\nTriviafy your workspace."
+    output_message_content = f"Hi {user_display_name},\n\nThank you for creating an account with Triviafy.\n\nFAQ: 'What about my team?' In order to get the rest of your team setup with Triviafy please share with them:\n1) The attached Slack Setup Guide PDF file and\n2) The name of the Slack channel you are using for Triviafy: '{user_channel_name}' \n\nYou will be notified by email and Slack once your team's weekly quiz is open.\n\nBest,\nRob\n\nTriviafy your workspace."
     output_message_content_str_for_db = output_message_content
 
     # email_sent_successfully = send_email_template_function(output_email, output_subject_line, output_message_content)
@@ -109,7 +109,7 @@ def email_permission_notification_consent_processing_function():
     email_sent_search_category = 'Account Created'
     uuid_quiz = None
     # - - -
-    output_message = insert_triviafy_emails_sent_table_function(postgres_connection, postgres_cursor, uuid_email_sent, email_sent_timestamp, slack_db_uuid, email_sent_search_category, uuid_quiz, output_message_content_str_for_db)
+    output_message = insert_triviafy_emails_sent_table_function(postgres_connection, postgres_cursor, uuid_email_sent, email_sent_timestamp, user_uuid, email_sent_search_category, uuid_quiz, output_message_content_str_for_db)
 
     # Close Connection to Postgres DB
     postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)

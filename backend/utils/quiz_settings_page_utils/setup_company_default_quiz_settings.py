@@ -7,7 +7,7 @@ from backend.db.queries.insert_queries.insert_queries_triviafy_company_quiz_sett
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 
 # -------------------------------------------------------------- Main Function
-def setup_company_default_quiz_settings_function(slack_authed_team_id, slack_authed_channel_id):
+def setup_company_default_quiz_settings_function(user_slack_workspace_team_id, user_slack_channel_id):
   localhost_print_function('=========================================== setup_company_default_quiz_settings_function START ===========================================')
 
   # ------------------------ Set Default Quiz Settings START ------------------------
@@ -18,8 +18,8 @@ def setup_company_default_quiz_settings_function(slack_authed_team_id, slack_aut
   company_quiz_settings_end_day = "Friday"
   company_quiz_settings_end_time = '4 PM'
   company_quiz_settings_questions_per_quiz = '10'
-  company_quiz_settings_slack_workspace_team_id = slack_authed_team_id
-  company_quiz_settings_slack_channel_id = slack_authed_channel_id
+  company_quiz_settings_slack_workspace_team_id = user_slack_workspace_team_id
+  company_quiz_settings_slack_channel_id = user_slack_channel_id
   # ------------------------ Set Default Quiz Settings END ------------------------
 
 

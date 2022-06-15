@@ -9,10 +9,12 @@ from backend.utils.localhost_print_utils.localhost_print import localhost_print_
 def check_if_user_login_through_cookies_function():
   localhost_print_function('=========================================== check_if_user_login_through_cookies_function START ===========================================')
   
-  # Connect to redis database pool (no need to close)
+  # ------------------------ Connect to Redis START ------------------------
   redis_connection = redis_connect_to_database_function()
+  # ------------------------ Connect to Redis END ------------------------
   
-  # -------------------------------------------------------------- Running on localhost
+
+  # ------------------------ Get cookie from localhost START ------------------------
   server_env = os.environ.get('TESTING', 'false')
   # If running on localhost
   if server_env == 'true':
@@ -24,8 +26,10 @@ def check_if_user_login_through_cookies_function():
     except:
       localhost_print_function('=========================================== check_if_user_login_through_cookies_function END ===========================================')
       return redirect('/', code=302)
+  # ------------------------ Get cookie from localhost END ------------------------
 
-  # -------------------------------------------------------------- NOT running on localhost
+
+  # ------------------------ Get cookie from production mode START ------------------------
   else:
     try:
       get_cookie_value_from_browser = request.cookies.get('triviafy_browser_cookie')
@@ -33,17 +37,24 @@ def check_if_user_login_through_cookies_function():
     except:
       localhost_print_function('=========================================== check_if_user_login_through_cookies_function END ===========================================')
       return redirect('/', code=302)
+  # ------------------------ Get cookie from production mode END ------------------------
   
+
+  # ------------------------ Get user nested dict from redis using cookie START ------------------------
   # Get the logged in user info from redis database using browser cookie
   try:
     user_nested_dict_as_str = redis_connection.get(get_cookie_value_from_browser).decode('utf-8')
   # If user is not logged in then kick them back to the landing page
   except:
+    localhost_print_function('Except error hit on check_if_user_login_through_cookies_function')
     localhost_print_function('=========================================== check_if_user_login_through_cookies_function END ===========================================')
     return redirect('/', code=302)
+  # ------------------------ Get user nested dict from redis using cookie END ------------------------
   
-  # Convert the pulled str to dict with json
+
+  # ------------------------ Convert pulled str to json START ------------------------
   user_nested_dict = json.loads(user_nested_dict_as_str)
+  # ------------------------ Convert pulled str to json END ------------------------
   
   localhost_print_function('=========================================== check_if_user_login_through_cookies_function END ===========================================')
   return user_nested_dict
