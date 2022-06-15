@@ -51,7 +51,7 @@ Notes:
 
 hello
 
-For printing quick tests
+For printing quick tests  
 ----------------------------
 localhost_print_function('- - - - - - - 0 - - - - - - -')
 localhost_print_function('i')
