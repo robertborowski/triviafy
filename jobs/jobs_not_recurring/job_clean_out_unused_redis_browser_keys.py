@@ -53,6 +53,7 @@ def job_clean_out_unused_redis_browser_keys_function():
       continue
     elif 'user-slack_' in str(key):
       redis_connection.delete(key)
+      redis_user_email = user_nested_dict['user_email']
       localhost_print_function('deleted logged in user from Redis. Email: {}'.format(redis_user_email))
     else:
       value = redis_connection.get(key).decode('utf-8')

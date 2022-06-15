@@ -9,6 +9,34 @@ from backend.utils.slack.user_info_data_manipulation.transpose_slack_user_data_t
 def slack_oauth_checking_database_for_user_function(response_authed_user_id):
   localhost_print_function('=========================================== slack_oauth_checking_database_for_user_function START ===========================================')
 
+
+  """
+  # Have to come back to this and put this check on every page not the one that you have to memorize to list out.
+  # Pull all info for user uuid
+  # ------------------------ Get Table Columns Info START ------------------------
+  table_all_column_names_arr = select_all_column_names_function(postgres_connection, postgres_cursor)
+  column_names_match_arr = []
+  for i in table_all_column_names_arr:    
+    column_names_match_arr.append(i[0])
+  # ------------------------ Get Table Columns Info END ------------------------
+  
+  
+  # ------------------------ Loop Match Up Info START ------------------------
+  one_specific_user_tuple = select_one_user_uuid_function(postgres_connection, postgres_cursor, user_uuid)
+  
+  # Nested Dict
+  nested_dict = {}
+  for i in range(len(column_names_match_arr)):
+    if column_names_match_arr[i] == 'user_datetime_account_created':
+      nested_dict[column_names_match_arr[i]] = one_specific_user_tuple[i].strftime("%m/%d/%Y, %H:%M:%S")
+    else: 
+      nested_dict[column_names_match_arr[i]] = one_specific_user_tuple[i]
+
+  nested_dict = json.dumps(nested_dict)#.encode('utf-8')
+  # ------------------------ Loop Match Up Info END ------------------------
+  """
+
+
   # Connect to Postgres database
   postgres_connection, postgres_cursor = postgres_connect_to_database_function()
 
@@ -45,11 +73,12 @@ def slack_oauth_checking_database_for_user_function(response_authed_user_id):
     user_slack_email_permission_granted = user_db_object[21]
     slack_authed_webhook_url = user_db_object[22]
     user_slack_new_user_questionnaire_answered = user_db_object[23]
+    user_slack_new_user_categories_selected = user_db_object[24]
     # ------------------------ Account Already Exist END ------------------------
 
     # ------------------------ Transpose the SQL pulled table to dict START ------------------------
     # Transpose user data to nested dictionary. Make timestamp a string because you cannot upload timestamp to redis as a json obj
-    user_nested_dict = transpose_slack_user_data_to_nested_dict_function(slack_db_uuid, str(slack_db_timestamp_created), slack_guess_first_name, slack_guess_last_name, slack_authed_user_real_full_name, slack_authed_user_email, slack_authed_user_id, slack_authed_team_id, slack_authed_team_name, slack_authed_channel_id, slack_authed_channel_name, company_name, slack_authed_bot_user_id, first_user_payment_admin,  slack_authed_token_type, slack_authed_access_token, slack_authed_user_timezone, slack_authed_user_timezone_label, slack_authed_user_timezone_offset, slack_authed_user_job_title, user_slack_email_permission_granted, slack_authed_webhook_url, user_slack_new_user_questionnaire_answered)
+    user_nested_dict = transpose_slack_user_data_to_nested_dict_function(slack_db_uuid, str(slack_db_timestamp_created), slack_guess_first_name, slack_guess_last_name, slack_authed_user_real_full_name, slack_authed_user_email, slack_authed_user_id, slack_authed_team_id, slack_authed_team_name, slack_authed_channel_id, slack_authed_channel_name, company_name, slack_authed_bot_user_id, first_user_payment_admin,  slack_authed_token_type, slack_authed_access_token, slack_authed_user_timezone, slack_authed_user_timezone_label, slack_authed_user_timezone_offset, slack_authed_user_job_title, user_slack_email_permission_granted, slack_authed_webhook_url, user_slack_new_user_questionnaire_answered, user_slack_new_user_categories_selected)
     # ------------------------ Transpose the SQL pulled table to dict END ------------------------
 
     authed_user_id_already_exists = True

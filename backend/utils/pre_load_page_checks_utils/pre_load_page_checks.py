@@ -3,6 +3,7 @@ from backend.utils.cached_login.check_if_user_login_through_cookies import check
 from backend.utils.free_trial_period_utils.check_if_free_trial_period_is_expired_days_left import check_if_free_trial_period_is_expired_days_left_function
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from backend.utils.check_paid_latest_month_utils.check_if_user_team_channel_combo_paid_latest_month import check_if_user_team_channel_combo_paid_latest_month_function
+from backend.utils.cached_login.check_exists_within_user_nested_dict import check_exists_within_user_nested_dict_function
 
 # -------------------------------------------------------------- Main Function
 def pre_load_page_checks_function(page_location_name):
@@ -58,6 +59,8 @@ def pre_load_page_checks_function(page_location_name):
 
     # ------------------------ Page Pre Load Check - Redirect Check - Permission Granted START ------------------------
     if page_location_name not in page_check_skip_step_permission_arr:
+      # Does this item exist in nested dict, if not create new nested dict in redis
+      user_nested_dict = check_exists_within_user_nested_dict_function(user_nested_dict, 'user_slack_email_permission_granted')
       user_slack_email_permission_granted = user_nested_dict['user_slack_email_permission_granted']
       if user_slack_email_permission_granted == False or user_slack_email_permission_granted == 'False':
         localhost_print_function('Error: User Email Permission Not Granted')
@@ -73,6 +76,8 @@ def pre_load_page_checks_function(page_location_name):
 
     # ------------------------ Page Pre Load Check - Redirect Check - New User Questionnaire Answered START ------------------------
     if page_location_name not in page_check_skip_step_questionnaire_arr:
+      # Does this item exist in nested dict, if not create new nested dict in redis
+      user_nested_dict = check_exists_within_user_nested_dict_function(user_nested_dict, 'user_slack_email_permission_granted')
       user_slack_new_user_questionnaire_answered = user_nested_dict['user_slack_new_user_questionnaire_answered']
       if user_slack_new_user_questionnaire_answered == False or user_slack_new_user_questionnaire_answered == 'False':
         localhost_print_function('Error: New User Questionnaire Not Answered')
