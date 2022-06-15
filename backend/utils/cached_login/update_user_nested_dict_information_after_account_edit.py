@@ -37,7 +37,8 @@ def update_user_nested_dict_information_after_account_edit_function(postgres_con
     'slack_user_job_title' : pulled_user_arr[20],
     'user_slack_email_permission_granted' : pulled_user_arr[21],
     'slack_authed_webhook_url' : pulled_user_arr[22],
-    'user_slack_new_user_questionnaire_answered' : pulled_user_arr[23]
+    'user_slack_new_user_questionnaire_answered' : pulled_user_arr[23],
+    'user_slack_new_user_categories_selected' : pulled_user_arr[24]
   }
 
   # Add free trial information
