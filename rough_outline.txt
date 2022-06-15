@@ -49,7 +49,7 @@ Notes:
     -Create question, all questions confirmed page
 -----------------------------------------------------------------------
 
-For printing quick tests 
+For printing quick tests
 ----------------------------
 localhost_print_function('- - - - - - - 0 - - - - - - -')
 localhost_print_function('i')
