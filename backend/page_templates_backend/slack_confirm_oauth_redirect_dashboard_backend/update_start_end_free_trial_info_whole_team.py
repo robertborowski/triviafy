@@ -6,11 +6,11 @@ from backend.db.queries.update_queries.update_queries_triviafy_free_trial_tracke
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
  
 # -------------------------------------------------------------- Main Function
-def update_start_end_free_trial_info_whole_team_function(postgres_connection, postgres_cursor, slack_authed_team_id, slack_authed_channel_id):
+def update_start_end_free_trial_info_whole_team_function(postgres_connection, postgres_cursor, user_slack_workspace_team_id, user_slack_channel_id):
   localhost_print_function('=========================================== update_start_end_free_trial_info_whole_team_function START ===========================================')
 
   # ------------------------ Update All Team Members Same Start End Dates START ------------------------
-  all_current_team_members_authed_id_for_this_user_arr = select_triviafy_user_login_information_table_slack_all_company_slack_authed_ids_function(postgres_connection, postgres_cursor, slack_authed_team_id, slack_authed_channel_id)
+  all_current_team_members_authed_id_for_this_user_arr = select_triviafy_user_login_information_table_slack_all_company_slack_authed_ids_function(postgres_connection, postgres_cursor, user_slack_workspace_team_id, user_slack_channel_id)
   
   if len(all_current_team_members_authed_id_for_this_user_arr) > 1:
     # Make variable for earliest free trial start timestamp

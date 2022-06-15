@@ -4,12 +4,12 @@ from psycopg2 import Error
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 
 # -------------------------------------------------------------- Main Function
-def select_check_assign_payment_admin_function(postgres_connection, postgres_cursor, slack_authed_team_id, slack_authed_channel_id):
+def select_check_assign_payment_admin_function(postgres_connection, postgres_cursor, user_slack_workspace_team_id, user_slack_channel_id):
   localhost_print_function('=========================================== select_check_assign_payment_admin_function START ===========================================')
   
   try:
     # ------------------------ Query START ------------------------
-    postgres_cursor.execute("SELECT * FROM triviafy_user_login_information_table_slack WHERE user_slack_workspace_team_id=%s AND user_slack_channel_id=%s", [slack_authed_team_id, slack_authed_channel_id])
+    postgres_cursor.execute("SELECT * FROM triviafy_user_login_information_table_slack WHERE user_slack_workspace_team_id=%s AND user_slack_channel_id=%s", [user_slack_workspace_team_id, user_slack_channel_id])
     # ------------------------ Query END ------------------------
 
 

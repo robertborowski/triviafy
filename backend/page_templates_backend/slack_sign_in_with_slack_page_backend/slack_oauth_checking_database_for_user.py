@@ -50,35 +50,35 @@ def slack_oauth_checking_database_for_user_function(response_authed_user_id):
   # If user does exist in db
   else:
     # ------------------------ Account Already Exist START ------------------------
-    slack_db_uuid = user_db_object[0]
-    slack_db_timestamp_created = user_db_object[1]
-    slack_guess_first_name = user_db_object[2]
-    slack_guess_last_name = user_db_object[3]
-    slack_authed_user_real_full_name = user_db_object[4]
-    slack_authed_user_email = user_db_object[6]
-    slack_authed_user_id = user_db_object[7]
-    slack_authed_team_id = user_db_object[8]
-    slack_authed_team_name = user_db_object[9]
-    slack_authed_channel_id = user_db_object[10]
-    slack_authed_channel_name = user_db_object[11]
-    company_name = user_db_object[12]
-    slack_authed_bot_user_id = user_db_object[13]
-    first_user_payment_admin = user_db_object[14]
-    slack_authed_token_type = user_db_object[15]
-    slack_authed_access_token = user_db_object[16]
-    slack_authed_user_timezone = user_db_object[17]
-    slack_authed_user_timezone_label = user_db_object[18]
-    slack_authed_user_timezone_offset = user_db_object[19]
-    slack_authed_user_job_title = user_db_object[20]
+    user_uuid = user_db_object[0]
+    user_datetime_account_created = user_db_object[1]
+    user_first_name = user_db_object[2]
+    user_last_name = user_db_object[3]
+    user_display_name = user_db_object[4]
+    user_email = user_db_object[6]
+    user_slack_authed_id = user_db_object[7]
+    user_slack_workspace_team_id = user_db_object[8]
+    user_slack_workspace_team_name = user_db_object[9]
+    user_slack_channel_id = user_db_object[10]
+    user_slack_channel_name = user_db_object[11]
+    user_company_name = user_db_object[12]
+    user_slack_bot_user_id = user_db_object[13]
+    user_is_payment_admin_teamid_channelid = user_db_object[14]
+    user_slack_token_type = user_db_object[15]
+    user_slack_access_token = user_db_object[16]
+    user_slack_timezone = user_db_object[17]
+    user_slack_timezone_label = user_db_object[18]
+    user_slack_timezone_offset = user_db_object[19]
+    user_slack_job_title = user_db_object[20]
     user_slack_email_permission_granted = user_db_object[21]
-    slack_authed_webhook_url = user_db_object[22]
+    user_slack_team_channel_incoming_webhook_url = user_db_object[22]
     user_slack_new_user_questionnaire_answered = user_db_object[23]
     user_slack_new_user_categories_selected = user_db_object[24]
     # ------------------------ Account Already Exist END ------------------------
 
     # ------------------------ Transpose the SQL pulled table to dict START ------------------------
     # Transpose user data to nested dictionary. Make timestamp a string because you cannot upload timestamp to redis as a json obj
-    user_nested_dict = transpose_slack_user_data_to_nested_dict_function(slack_db_uuid, str(slack_db_timestamp_created), slack_guess_first_name, slack_guess_last_name, slack_authed_user_real_full_name, slack_authed_user_email, slack_authed_user_id, slack_authed_team_id, slack_authed_team_name, slack_authed_channel_id, slack_authed_channel_name, company_name, slack_authed_bot_user_id, first_user_payment_admin,  slack_authed_token_type, slack_authed_access_token, slack_authed_user_timezone, slack_authed_user_timezone_label, slack_authed_user_timezone_offset, slack_authed_user_job_title, user_slack_email_permission_granted, slack_authed_webhook_url, user_slack_new_user_questionnaire_answered, user_slack_new_user_categories_selected)
+    user_nested_dict = transpose_slack_user_data_to_nested_dict_function(user_uuid, str(user_datetime_account_created), user_first_name, user_last_name, user_display_name, user_email, user_slack_authed_id, user_slack_workspace_team_id, user_slack_workspace_team_name, user_slack_channel_id, user_slack_channel_name, user_company_name, user_slack_bot_user_id, user_is_payment_admin_teamid_channelid,  user_slack_token_type, user_slack_access_token, user_slack_timezone, user_slack_timezone_label, user_slack_timezone_offset, user_slack_job_title, user_slack_email_permission_granted, user_slack_team_channel_incoming_webhook_url, user_slack_new_user_questionnaire_answered, user_slack_new_user_categories_selected)
     # ------------------------ Transpose the SQL pulled table to dict END ------------------------
 
     authed_user_id_already_exists = True
