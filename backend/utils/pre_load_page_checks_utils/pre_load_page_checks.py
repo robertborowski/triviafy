@@ -36,15 +36,12 @@ def pre_load_page_checks_function(page_location_name):
         if user_nested_dict == None or user_nested_dict == True:
           localhost_print_function('Error: Free Trial Over and User Subscription Not Paid')
           return '/subscription', None
-        else:
-          # localhost_print_function('Check Good: User Is Currently In Free Trial Or Latest Month Is Paid')
-          pass
 
-        days_left = str(user_nested_dict['trial_period_days_left_int']) + " days left."
+        days_left = str(user_nested_dict['trial_period_days_left_int'])
         if user_nested_dict['trial_period_days_left_int'] == 1:
-          days_left = str(user_nested_dict['trial_period_days_left_int']) + " day left."
+          days_left = str(user_nested_dict['trial_period_days_left_int'])
 
-        free_trial_ends_info = "Free Trial Ends: " + user_nested_dict['free_trial_end_date'] + ", " + days_left
+        free_trial_ends_info = "Free Trial Days: " + days_left
       
       # If user's company did pay latest month
       if user_team_channeL_paid_latest_month == True:

@@ -53,13 +53,6 @@ def create_nested_dict_from_uuid_function(user_uuid):
   redis_connection.set(get_cookie_value_from_browser, json.dumps(user_nested_dict).encode('utf-8'))
   # ------------------------ Connect to Redis END ------------------------
   
-  localhost_print_function(' ---------- 0 ---------- ')
-  localhost_print_function('REDIS UPDATED!')
-  localhost_print_function('- - -')
-  localhost_print_function('user_nested_dict')
-  localhost_print_function(user_nested_dict)
-  localhost_print_function(type(user_nested_dict))
-  localhost_print_function(' ---------- 0 ---------- ')
 
   localhost_print_function('=========================================== create_nested_dict_from_uuid_function END ===========================================')
   return user_nested_dict
