@@ -11,6 +11,7 @@ def transpose_slack_user_data_to_nested_dict_function(user_uuid, user_datetime_a
     'user_first_name' : user_first_name,
     'user_last_name' : user_last_name,
     'user_display_name' : user_display_name,
+    'user_phone_number' : None,
     'user_email' : user_email,
     'user_slack_authed_id' : user_slack_authed_id,
     'user_slack_workspace_team_id' : user_slack_workspace_team_id,

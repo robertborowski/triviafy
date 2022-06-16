@@ -167,51 +167,33 @@ def update_db_new_user_store_obj_redis_cookie_function(client, authed_response_o
 
     # Close postgres db connection
     postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)
+   
+   
+    # ------------------------ Transpose the SQL pulled table to dict START ------------------------
+    # Transpose user data to nested dictionary. Make timestamp a string because you cannot upload timestamp to redis as a json obj
+    user_nested_dict = transpose_slack_user_data_to_nested_dict_function(user_uuid, str(user_datetime_account_created), user_first_name, user_last_name, user_display_name, user_email, user_slack_authed_id, user_slack_workspace_team_id, user_slack_workspace_team_name, user_slack_channel_id, user_slack_channel_name, user_company_name, user_slack_bot_user_id, user_is_payment_admin_teamid_channelid,  user_slack_token_type, user_slack_access_token, user_slack_timezone, user_slack_timezone_label, user_slack_timezone_offset, user_slack_job_title, user_slack_email_permission_granted, user_slack_team_channel_incoming_webhook_url, user_slack_new_user_questionnaire_answered, user_slack_new_user_categories_selected)
+    # ------------------------ Transpose the SQL pulled table to dict END ------------------------
+
+
+    # Close postgres db connection
+    postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)
+
+    localhost_print_function('=========================================== update_db_new_user_store_obj_redis_cookie_function END ===========================================')
+    return user_nested_dict
   # ------------------------ Account Does Not Exist END ------------------------  
 
 
   # ------------------------ Account Already Exist START ------------------------
   elif check_slack_user_combo_already_exists_arr != None:
-    # Pull the user info from DB
+    # ------------------------ Latest nested dict and update redis START ------------------------
     user_uuid = check_slack_user_combo_already_exists_arr[0]
-    user_datetime_account_created = check_slack_user_combo_already_exists_arr[1]
-    user_first_name = check_slack_user_combo_already_exists_arr[2]
-    user_last_name = check_slack_user_combo_already_exists_arr[3]
-    user_display_name = check_slack_user_combo_already_exists_arr[4]
-    user_email = check_slack_user_combo_already_exists_arr[6]
-    user_slack_authed_id = check_slack_user_combo_already_exists_arr[7]
-    user_slack_workspace_team_id = check_slack_user_combo_already_exists_arr[8]
-    user_slack_workspace_team_name = check_slack_user_combo_already_exists_arr[9]
-    user_slack_channel_id = check_slack_user_combo_already_exists_arr[10]
-    user_slack_channel_name = check_slack_user_combo_already_exists_arr[11]
-    user_company_name = check_slack_user_combo_already_exists_arr[12]
-    user_slack_bot_user_id = check_slack_user_combo_already_exists_arr[13]
-    user_is_payment_admin_teamid_channelid = check_slack_user_combo_already_exists_arr[14]
-    user_slack_token_type = check_slack_user_combo_already_exists_arr[15]
-    user_slack_access_token = check_slack_user_combo_already_exists_arr[16]
-    user_slack_timezone = check_slack_user_combo_already_exists_arr[17]
-    user_slack_timezone_label = check_slack_user_combo_already_exists_arr[18]
-    user_slack_timezone_offset = check_slack_user_combo_already_exists_arr[19]
-    user_slack_job_title = check_slack_user_combo_already_exists_arr[20]
-    user_slack_email_permission_granted = check_slack_user_combo_already_exists_arr[21]
-    user_slack_team_channel_incoming_webhook_url = check_slack_user_combo_already_exists_arr[22]
-    user_slack_new_user_questionnaire_answered = check_slack_user_combo_already_exists_arr[23]
-    user_slack_new_user_categories_selected = check_slack_user_combo_already_exists_arr[24]
+    user_nested_dict = create_nested_dict_from_uuid_function(user_uuid)
+    # ------------------------ Latest nested dict and update redis END ------------------------
     
-    # This is where you create the new function. You should pass in the user_uuid and it automatically gives you the latest nested dict
-    # user_uuid = check_slack_user_combo_already_exists_arr[0]
-    # user_nested_dict = create_nested_dict_from_uuid_function(user_uuid)
+    # ------------------------ Close postgres connection START ------------------------
+    postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)
+    # ------------------------ Close postgres connection END ------------------------
+
+    localhost_print_function('=========================================== update_db_new_user_store_obj_redis_cookie_function END ===========================================')
+    return user_nested_dict
   # ------------------------ Account Already Exist END ------------------------
-
-
-  # ------------------------ Transpose the SQL pulled table to dict START ------------------------
-  # Transpose user data to nested dictionary. Make timestamp a string because you cannot upload timestamp to redis as a json obj
-  user_nested_dict = transpose_slack_user_data_to_nested_dict_function(user_uuid, str(user_datetime_account_created), user_first_name, user_last_name, user_display_name, user_email, user_slack_authed_id, user_slack_workspace_team_id, user_slack_workspace_team_name, user_slack_channel_id, user_slack_channel_name, user_company_name, user_slack_bot_user_id, user_is_payment_admin_teamid_channelid,  user_slack_token_type, user_slack_access_token, user_slack_timezone, user_slack_timezone_label, user_slack_timezone_offset, user_slack_job_title, user_slack_email_permission_granted, user_slack_team_channel_incoming_webhook_url, user_slack_new_user_questionnaire_answered, user_slack_new_user_categories_selected)
-  # ------------------------ Transpose the SQL pulled table to dict END ------------------------
-
-
-  # Close postgres db connection
-  postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)
-
-  localhost_print_function('=========================================== update_db_new_user_store_obj_redis_cookie_function END ===========================================')
-  return user_nested_dict
