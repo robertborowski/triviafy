@@ -81,12 +81,12 @@ def slack_confirm_oauth_redirect_dashboard_index_function():
       time.sleep(2)
       # ------------------------ Update Postgres DB - END ------------------------
       
-      if user_nested_dict != None:
-        # ------------------------ Update Redis DB - START ------------------------
-        user_store_in_redis_status = user_store_loggedin_data_redis_function(user_nested_dict, get_cookie_value_from_browser)
-        localhost_print_function(user_store_in_redis_status)
-        # ------------------------ Update Redis DB - END ------------------------
-        time.sleep(2)
+      # if user_nested_dict != None:
+      #   # ------------------------ Update Redis DB - START ------------------------
+      #   user_store_in_redis_status = user_store_loggedin_data_redis_function(user_nested_dict, get_cookie_value_from_browser)
+      #   localhost_print_function(user_store_in_redis_status)
+      #   # ------------------------ Update Redis DB - END ------------------------
+      #   time.sleep(2)
     
     except:
       # Try using time.sleep before this step
