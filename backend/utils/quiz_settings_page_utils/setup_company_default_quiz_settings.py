@@ -16,7 +16,7 @@ def setup_company_default_quiz_settings_function(user_slack_workspace_team_id, u
   company_quiz_settings_start_day = "Monday"
   company_quiz_settings_start_time = '1 PM'
   company_quiz_settings_end_day = "Friday"
-  company_quiz_settings_end_time = '4 PM'
+  company_quiz_settings_end_time = '1 PM'
   company_quiz_settings_questions_per_quiz = '10'
   company_quiz_settings_slack_workspace_team_id = user_slack_workspace_team_id
   company_quiz_settings_slack_channel_id = user_slack_channel_id

@@ -46,8 +46,6 @@ def slack_confirm_oauth_redirect_dashboard_index_function():
     # Get key:value from redis
     localhost_redis_browser_cookie_key = 'localhost_redis_browser_cookie_key'
     get_cookie_value_from_browser = redis_connection.get(localhost_redis_browser_cookie_key).decode('utf-8')
-    # redis_connection.delete(localhost_slack_state_key)
-    #redis_connection.delete(localhost_redis_browser_cookie_key) --> DONT Delete this here. When on localhost delete this only when the user clicks Log Out.
 
   # -------------------------------------------------------------- NOT running on localhost
   else:
@@ -77,16 +75,17 @@ def slack_confirm_oauth_redirect_dashboard_index_function():
         code = auth_code_received
       )
       # With the response object, update the postgres database for user
-      # ------------------------ Slack repsonse - Before DB - START ------------------------
+      # ------------------------ Update Postgres DB - START ------------------------
       user_nested_dict = None
       user_nested_dict = update_db_new_user_store_obj_redis_cookie_function(client, authed_response_obj)
       time.sleep(2)
+      # ------------------------ Update Postgres DB - END ------------------------
       
       if user_nested_dict != None:
-        # ------------------------ Slack repsonse - Before DB - END ------------------------
-        # Store in redis
+        # ------------------------ Update Redis DB - START ------------------------
         user_store_in_redis_status = user_store_loggedin_data_redis_function(user_nested_dict, get_cookie_value_from_browser)
         localhost_print_function(user_store_in_redis_status)
+        # ------------------------ Update Redis DB - END ------------------------
         time.sleep(2)
     
     except:

@@ -18,6 +18,7 @@ import os
 from backend.utils.send_emails.send_email_template import send_email_template_function
 from backend.db.queries.insert_queries.insert_queries_triviafy_emails_sent_table.insert_triviafy_emails_sent_table import insert_triviafy_emails_sent_table_function
 from backend.page_templates_backend.slack_confirm_oauth_redirect_dashboard_backend.check_insert_default_categories_team_channel_combo import check_insert_default_categories_team_channel_combo_function
+from backend.utils.cached_login.create_nested_dict_from_uuid import create_nested_dict_from_uuid_function
 
 # -------------------------------------------------------------- Main Function
 def update_db_new_user_store_obj_redis_cookie_function(client, authed_response_obj):
@@ -160,7 +161,6 @@ def update_db_new_user_store_obj_redis_cookie_function(client, authed_response_o
       else:
         user_company_name = company_name_arr[0]
     except:
-      # Transpose user data to nested dictionary
       user_company_name = user_slack_workspace_team_name
     # ------------------------ Use Company Name of Already Existing Users (If Changed) END ------------------------
 
@@ -197,6 +197,10 @@ def update_db_new_user_store_obj_redis_cookie_function(client, authed_response_o
     user_slack_team_channel_incoming_webhook_url = check_slack_user_combo_already_exists_arr[22]
     user_slack_new_user_questionnaire_answered = check_slack_user_combo_already_exists_arr[23]
     user_slack_new_user_categories_selected = check_slack_user_combo_already_exists_arr[24]
+    
+    # This is where you create the new function. You should pass in the user_uuid and it automatically gives you the latest nested dict
+    # user_uuid = check_slack_user_combo_already_exists_arr[0]
+    # user_nested_dict = create_nested_dict_from_uuid_function(user_uuid)
   # ------------------------ Account Already Exist END ------------------------
 
 
