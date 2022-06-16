@@ -7,7 +7,6 @@ from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
 from backend.db.queries.insert_queries.insert_queries_triviafy_user_login_information_table_slack.insert_triviafy_slack_user_login_information_table import insert_triviafy_user_login_information_table_slack_function
 from backend.db.queries.select_queries.select_queries_triviafy_user_login_information_table_slack.select_check_assign_payment_admin import select_check_assign_payment_admin_function
-from backend.utils.slack.user_info_data_manipulation.transpose_slack_user_data_to_nested_dict import transpose_slack_user_data_to_nested_dict_function
 from backend.utils.quiz_settings_page_utils.setup_company_default_quiz_settings import setup_company_default_quiz_settings_function
 from backend.db.queries.select_queries.select_queries_triviafy_user_login_information_table_slack.select_triviafy_user_login_information_table_company_name_check import select_triviafy_user_login_information_table_company_name_check_function
 from datetime import datetime
@@ -151,28 +150,6 @@ def update_db_new_user_store_obj_redis_cookie_function(client, authed_response_o
     # ------------------------ Free Trial Period Tracker Update START ------------------------
     output_message = update_start_end_free_trial_info_whole_team_function(postgres_connection, postgres_cursor, user_slack_workspace_team_id, user_slack_channel_id)
     # ------------------------ Free Trial Period Tracker Update END ------------------------
-
-
-    # ------------------------ Use Company Name of Already Existing Users (If Changed) START ------------------------
-    try:
-      company_name_arr = select_triviafy_user_login_information_table_company_name_check_function(postgres_connection, postgres_cursor, user_slack_workspace_team_id, user_slack_channel_id, user_uuid)
-      if company_name_arr == None:
-        user_company_name = user_slack_workspace_team_name
-      else:
-        user_company_name = company_name_arr[0]
-    except:
-      user_company_name = user_slack_workspace_team_name
-    # ------------------------ Use Company Name of Already Existing Users (If Changed) END ------------------------
-
-
-    # Close postgres db connection
-    postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)
-   
-   
-    # ------------------------ Transpose the SQL pulled table to dict START ------------------------
-    # Transpose user data to nested dictionary. Make timestamp a string because you cannot upload timestamp to redis as a json obj
-    # user_nested_dict = transpose_slack_user_data_to_nested_dict_function(user_uuid, str(user_datetime_account_created), user_first_name, user_last_name, user_display_name, user_email, user_slack_authed_id, user_slack_workspace_team_id, user_slack_workspace_team_name, user_slack_channel_id, user_slack_channel_name, user_company_name, user_slack_bot_user_id, user_is_payment_admin_teamid_channelid,  user_slack_token_type, user_slack_access_token, user_slack_timezone, user_slack_timezone_label, user_slack_timezone_offset, user_slack_job_title, user_slack_email_permission_granted, user_slack_team_channel_incoming_webhook_url, user_slack_new_user_questionnaire_answered, user_slack_new_user_categories_selected)
-    # ------------------------ Transpose the SQL pulled table to dict END ------------------------
 
 
     # Close postgres db connection
