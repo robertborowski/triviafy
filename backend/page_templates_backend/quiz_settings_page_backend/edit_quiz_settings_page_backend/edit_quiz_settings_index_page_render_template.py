@@ -47,7 +47,7 @@ def edit_quiz_settings_index_page_render_template_function():
     
     # ------------------------ Check if user is payment admin in START ------------------------
     # See if user is payment admin. If not then they cannot edit quiz settings
-    user_payment_admin_status = user_nested_dict['user_is_payment_admin']
+    user_payment_admin_status = user_nested_dict['user_is_payment_admin_teamid_channelid']
     if user_payment_admin_status != True:
       localhost_print_function('User is not a payment admin on their team/channel ID combo')
       localhost_print_function('=========================================== /quiz/team/settings/payment/admin/edit Page END ===========================================')
@@ -57,12 +57,12 @@ def edit_quiz_settings_index_page_render_template_function():
     # ------------------------ Page Company Info START ------------------------
     user_company_name = user_nested_dict['user_company_name']
     user_company_name = sanitize_page_output_company_name_function(user_company_name)
-    user_channel_name = user_nested_dict['slack_channel_name']
+    user_channel_name = user_nested_dict['user_slack_channel_name']
     # ------------------------ Page Company Info END ------------------------
     
     # Get additional variables
-    slack_workspace_team_id = user_nested_dict['slack_team_id']
-    slack_channel_id = user_nested_dict['slack_channel_id']
+    slack_workspace_team_id = user_nested_dict['user_slack_workspace_team_id']
+    slack_channel_id = user_nested_dict['user_slack_channel_id']
 
     # ------------------------ Get Quiz Settings Info START ------------------------
     # Connect to Postgres database

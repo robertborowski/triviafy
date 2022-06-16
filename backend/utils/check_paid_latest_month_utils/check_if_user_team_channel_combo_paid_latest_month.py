@@ -13,8 +13,8 @@ def check_if_user_team_channel_combo_paid_latest_month_function(user_nested_dict
   localhost_print_function('=========================================== check_if_user_team_channel_combo_paid_latest_month_function START ===========================================')
 
   # Get/assign variables
-  slack_team_id = user_nested_dict['slack_team_id']
-  slack_channel_id = user_nested_dict['slack_channel_id']
+  slack_team_id = user_nested_dict['user_slack_workspace_team_id']
+  slack_channel_id = user_nested_dict['user_slack_channel_id']
 
   # ------------------------ Get Today's Date Information START ------------------------
   # Today's date

@@ -48,13 +48,13 @@ def subscription_index_page_render_template_function():
     # ------------------------ Page Company Info START ------------------------
     user_company_name = user_nested_dict['user_company_name']
     user_company_name = sanitize_page_output_company_name_function(user_company_name)
-    user_channel_name = user_nested_dict['slack_channel_name']
+    user_channel_name = user_nested_dict['user_slack_channel_name']
     # ------------------------ Page Company Info END ------------------------
 
     # ------------------------ Get Variables From User Nested Dict START ------------------------
-    user_payment_admin_status = user_nested_dict['user_is_payment_admin']
-    slack_workspace_team_id = user_nested_dict['slack_team_id']
-    slack_channel_id = user_nested_dict['slack_channel_id']
+    user_payment_admin_status = user_nested_dict['user_is_payment_admin_teamid_channelid']
+    slack_workspace_team_id = user_nested_dict['user_slack_workspace_team_id']
+    slack_channel_id = user_nested_dict['user_slack_channel_id']
     # ------------------------ Get Variables From User Nested Dict END ------------------------
 
 

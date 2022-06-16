@@ -45,8 +45,8 @@ def job_remove_all_accounts_team_channel_combo_all_tables_function(arr_to_remove
       else:
         value = redis_connection.get(key).decode('utf-8')
         user_nested_dict = json.loads(value)
-        redis_slack_team_id = user_nested_dict['slack_team_id']
-        redis_slack_channel_id = user_nested_dict['slack_channel_id']
+        redis_slack_team_id = user_nested_dict['user_slack_workspace_team_id']
+        redis_slack_channel_id = user_nested_dict['user_slack_channel_id']
         redis_user_email = user_nested_dict['user_email']
         if redis_slack_team_id == team_id and redis_slack_channel_id == channel_id:
           redis_connection.delete(key)

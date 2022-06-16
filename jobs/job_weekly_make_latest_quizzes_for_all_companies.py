@@ -69,8 +69,8 @@ def job_weekly_make_latest_quizzes_for_all_companies_function():
 
     # Put the variables in dict format, becasue a dict is what the get_latest_company_quiz_if_exists_function requires
     function_input_dict = {
-      'slack_team_id' : slack_workspace_team_id,
-      'slack_channel_id' : slack_channel_id 
+      'user_slack_workspace_team_id' : slack_workspace_team_id,
+      'user_slack_channel_id' : slack_channel_id 
     }
 
     # Check if a quiz was already made for this company

@@ -51,12 +51,12 @@ def quiz_no_latest_quiz_yet_page_render_template_function():
     # ------------------------ Page Company Info START ------------------------
     user_company_name = user_nested_dict['user_company_name']
     user_company_name = sanitize_page_output_company_name_function(user_company_name)
-    user_channel_name = user_nested_dict['slack_channel_name']
+    user_channel_name = user_nested_dict['user_slack_channel_name']
     # ------------------------ Page Company Info END ------------------------
     
     # Get additional variables
-    slack_workspace_team_id = user_nested_dict['slack_team_id']
-    slack_channel_id = user_nested_dict['slack_channel_id']
+    slack_workspace_team_id = user_nested_dict['user_slack_workspace_team_id']
+    slack_channel_id = user_nested_dict['user_slack_channel_id']
 
     # ------------------------ If Latest Company Quiz Obj None START ------------------------
     # Make sure that there is no latest company quiz if someone goes to this URL

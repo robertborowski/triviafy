@@ -10,8 +10,8 @@ def get_previous_week_company_quiz_if_exists_function(user_nested_dict):
   localhost_print_function('=========================================== get_previous_week_company_quiz_if_exists_function START ===========================================')
 
   # ------------------------ Get Variables From User Object START ------------------------
-  slack_workspace_team_id = user_nested_dict['slack_team_id']
-  slack_channel_id = user_nested_dict['slack_channel_id']
+  slack_workspace_team_id = user_nested_dict['user_slack_workspace_team_id']
+  slack_channel_id = user_nested_dict['user_slack_channel_id']
   # ------------------------ Get Variables From User Object END ------------------------
 
 

@@ -91,8 +91,8 @@ def email_permission_notification_consent_processing_function():
     # ------------------------ Send Account Created Email START ------------------------
     user_uuid = user_nested_dict['user_uuid']
     user_email = user_nested_dict['user_email']
-    user_display_name = user_nested_dict['user_full_name']
-    user_channel_name = user_nested_dict['slack_channel_name']
+    user_display_name = user_nested_dict['user_display_name']
+    user_channel_name = user_nested_dict['user_slack_channel_name']
 
     output_email = user_email
     output_subject_line = 'Triviafy Account Created - Next Steps'

@@ -9,7 +9,7 @@ from backend.utils.cached_login.check_cookie_browser import check_cookie_browser
 def check_exists_within_user_nested_dict_function(user_nested_dict, user_nested_dict_item_to_search):
   localhost_print_function('=========================================== check_exists_within_user_nested_dict_function START ===========================================')
 
-  slack_user_id = user_nested_dict['slack_user_id']
+  slack_user_id = user_nested_dict['user_slack_authed_id']
   # ------------------------ Check If Column Exists in Redis START ------------------------
   try:
     requested_end_value = user_nested_dict[f'{user_nested_dict_item_to_search}']

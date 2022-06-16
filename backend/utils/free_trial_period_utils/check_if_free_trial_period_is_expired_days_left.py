@@ -12,7 +12,7 @@ def check_if_free_trial_period_is_expired_days_left_function(user_nested_dict):
   localhost_print_function('=========================================== check_if_free_trial_period_is_expired_days_left_function START ===========================================')
 
   # Assign Variable
-  user_slack_authed_id = user_nested_dict['slack_user_id']
+  user_slack_authed_id = user_nested_dict['user_slack_authed_id']
 
   # ------------------------ Connect To DB START ------------------------
   # Connect to Postgres database

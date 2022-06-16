@@ -50,13 +50,13 @@ def edit_quiz_settings_submit_new_quiz_settings_function():
     # ------------------------ Pre Load Page Checks END ------------------------
 
     # Get Company name and channel name (slack ID's)
-    slack_workspace_team_id = user_nested_dict['slack_team_id']
-    slack_channel_id = user_nested_dict['slack_channel_id']
+    slack_workspace_team_id = user_nested_dict['user_slack_workspace_team_id']
+    slack_channel_id = user_nested_dict['user_slack_channel_id']
     
 
     # ------------------------ Check if user is payment admin in START ------------------------
     # See if user is payment admin. If not then they cannot edit quiz settings
-    user_payment_admin_status = user_nested_dict['user_is_payment_admin']
+    user_payment_admin_status = user_nested_dict['user_is_payment_admin_teamid_channelid']
     if user_payment_admin_status != True:
       localhost_print_function('User is not a payment admin on their team/channel ID combo')
       localhost_print_function('=========================================== /quiz/team/settings/payment/admin/edit/submit/processing Page END ===========================================')

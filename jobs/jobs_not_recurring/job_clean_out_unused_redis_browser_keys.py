@@ -58,8 +58,8 @@ def job_clean_out_unused_redis_browser_keys_function():
     else:
       value = redis_connection.get(key).decode('utf-8')
       user_nested_dict = json.loads(value)
-      redis_slack_team_id = user_nested_dict['slack_team_id']
-      redis_slack_channel_id = user_nested_dict['slack_channel_id']
+      redis_slack_team_id = user_nested_dict['user_slack_workspace_team_id']
+      redis_slack_channel_id = user_nested_dict['user_slack_channel_id']
       redis_user_email = user_nested_dict['user_email']
       # ------------------------ Keep Commented Out START ------------------------
       # # Delete specific Email - Keep it commented out

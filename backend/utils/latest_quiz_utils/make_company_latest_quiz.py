@@ -26,8 +26,8 @@ def make_company_latest_quiz_function(user_nested_dict, company_quiz_settings_ar
 
 
   # ------------------------ Get Variables From User Object START ------------------------
-  slack_workspace_team_id = user_nested_dict['slack_team_id']
-  slack_channel_id = user_nested_dict['slack_channel_id']
+  slack_workspace_team_id = user_nested_dict['user_slack_workspace_team_id']
+  slack_channel_id = user_nested_dict['user_slack_channel_id']
   # ------------------------ Get Variables From User Object END ------------------------
   
 

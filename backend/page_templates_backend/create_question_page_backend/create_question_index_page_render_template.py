@@ -49,13 +49,13 @@ def create_question_index_page_render_template_function():
     # ------------------------ Page Company Info START ------------------------
     user_company_name = user_nested_dict['user_company_name']
     user_company_name = sanitize_page_output_company_name_function(user_company_name)
-    user_channel_name = user_nested_dict['slack_channel_name']
+    user_channel_name = user_nested_dict['user_slack_channel_name']
     # ------------------------ Page Company Info END ------------------------
     
     # Get additional variables
     user_email = user_nested_dict['user_email']
-    question_author_team_id = user_nested_dict['slack_team_id']
-    question_author_channel_id = user_nested_dict['slack_channel_id']
+    question_author_team_id = user_nested_dict['user_slack_workspace_team_id']
+    question_author_channel_id = user_nested_dict['user_slack_channel_id']
 
 
     # ------------------------ Get Today's Date Information START ------------------------

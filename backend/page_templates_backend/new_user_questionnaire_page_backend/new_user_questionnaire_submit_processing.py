@@ -59,8 +59,8 @@ def new_user_questionnaire_submit_processing_function():
     questionnaire_timestamp = create_timestamp_function()
     
     user_slack_uuid = user_nested_dict['user_uuid']
-    user_slack_team_id = user_nested_dict['slack_team_id']
-    user_slack_channel_id = user_nested_dict['slack_channel_id']
+    user_slack_team_id = user_nested_dict['user_slack_workspace_team_id']
+    user_slack_channel_id = user_nested_dict['user_slack_channel_id']
     # ------------------------ Declare database variables END ------------------------
 
 

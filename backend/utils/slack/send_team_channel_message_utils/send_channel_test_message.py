@@ -47,11 +47,11 @@ def send_channel_test_message_function():
   user_nested_dict = json.loads(user_nested_dict_as_str)
 
   # Get user information from the nested dict
-  slack_bot_token = user_nested_dict['slack_access_token']
-  user_channel = user_nested_dict['slack_channel_id']
-  user_channel_name = user_nested_dict['slack_channel_name']
-  user_slack_id = user_nested_dict['slack_user_id']
-  user_slack_display_name = user_nested_dict['user_full_name']
+  slack_bot_token = user_nested_dict['user_slack_access_token']
+  user_channel = user_nested_dict['user_slack_channel_id']
+  user_channel_name = user_nested_dict['user_slack_channel_name']
+  user_slack_id = user_nested_dict['user_slack_authed_id']
+  user_slack_display_name = user_nested_dict['user_display_name']
 
   # Set up client with the USER's Bot Access Token. NOT your's from the environment variable
   client = WebClient(token=slack_bot_token)
