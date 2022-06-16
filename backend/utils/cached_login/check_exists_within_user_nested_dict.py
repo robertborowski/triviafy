@@ -9,7 +9,7 @@ from backend.utils.cached_login.check_cookie_browser import check_cookie_browser
 def check_exists_within_user_nested_dict_function(user_nested_dict, user_nested_dict_item_to_search):
   localhost_print_function('=========================================== check_exists_within_user_nested_dict_function START ===========================================')
 
-  slack_user_id = user_nested_dict['user_slack_authed_id']
+  user_slack_authed_id = user_nested_dict['user_slack_authed_id']
   # ------------------------ Check If Column Exists in Redis START ------------------------
   try:
     requested_end_value = user_nested_dict[f'{user_nested_dict_item_to_search}']
@@ -19,7 +19,7 @@ def check_exists_within_user_nested_dict_function(user_nested_dict, user_nested_
     trial_period_days_left_int = user_nested_dict['trial_period_days_left_int']
     free_trial_end_date = user_nested_dict['free_trial_end_date']
     # ------------------------ Pull from dict before db pull END ------------------------
-    authed_user_id_already_exists, user_nested_dict = slack_oauth_checking_database_for_user_function(slack_user_id)
+    authed_user_id_already_exists, user_nested_dict = slack_oauth_checking_database_for_user_function(user_slack_authed_id)
     
     # ------------------------ Add to dict from earlier pull START ------------------------
     user_nested_dict['free_trial_period_is_expired'] = free_trial_period_is_expired
