@@ -10,16 +10,24 @@
 
 <main class="logged-in email-consent-section">
 
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Page Intro Start -->
+  <company-name-channel-component company_name_js="{{ user_company_name_to_html }}",
+                                  channel_name_js="{{ user_channel_name_to_html }}",
+                                  free_trial_ends_info_js="{{ free_trial_ends_info_to_html }}">
+  </company-name-channel-component>
+
+  <div class="default-signed-in-page-into-background">
+    <div class="default-signed-in-page-intro">
+      <p class="default-signed-in-page-intro-header-v1">{{ page_title_to_html }}</p>
+    </div>
+  </div>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Page Intro End -->
+
 
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Img, message, button Start -->
   <div class="email-consent-sub-section">
-    <img src="/static/images/logo/Logo.png" alt="Triviafy Logo" class="email-consent-sub-section-img">
-    
-    <p class="email-consent-sub-section-title">Email Notifications</p>
     <p class="email-consent-sub-section-email">{{ user_email_to_html }}</p>
-    
     <p class="email-consent-sub-section-description">Slack channels can often go unread. As a backup, Triviafy would like to email you about quiz open/close dates. Your email is also how you will receive gift card prizes that you automatically earn every 10th quiz win.</p>
-    
     <form action="{{ url_for('email_permission_notification_consent_processing.email_permission_notification_consent_processing_function') }}" method="post" class='email-consent-form' enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
       <input type="checkbox" id="email-consent-name" name="email-consent-name" value="agree" required class="email-consent-form-label">
       <label for="email-consent-name">I Agree</label>
@@ -30,7 +38,7 @@
       </div>
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Submit Button End --> 
     </form>
-
+    <img src="/static/images/logo/Logo.png" alt="Triviafy Logo" class="email-consent-sub-section-img">
     <p class="email-consent-sub-section-description-disclaimer">Your email information will not be sold to/used by any third parties. Visit triviafy.com/privacy and triviafy.com/tos to learn more.</p>
   </div>
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Img, message, button End -->
