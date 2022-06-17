@@ -44,6 +44,8 @@ def create_question_submission_success_page_render_template_function(html_variab
       return redirect('/notifications/email/permission', code=302)
     elif user_nested_dict == '/new/user/questionnaire':
       return redirect('/new/user/questionnaire', code=302)
+    elif user_nested_dict == '/categories/edit':
+      return redirect('/categories/edit', code=302)
     elif user_nested_dict == '/logout':
       return redirect('/logout', code=302)
     # ------------------------ Pre Load Page Checks END ------------------------

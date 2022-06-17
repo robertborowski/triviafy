@@ -45,6 +45,8 @@ def edit_quiz_settings_submit_new_quiz_settings_function():
       return redirect('/notifications/email/permission', code=302)
     elif user_nested_dict == '/new/user/questionnaire':
       return redirect('/new/user/questionnaire', code=302)
+    elif user_nested_dict == '/categories/edit':
+      return redirect('/categories/edit', code=302)
     elif user_nested_dict == '/logout':
       return redirect('/logout', code=302)
     # ------------------------ Pre Load Page Checks END ------------------------

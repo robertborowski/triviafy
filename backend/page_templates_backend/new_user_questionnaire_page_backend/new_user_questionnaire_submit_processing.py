@@ -42,6 +42,8 @@ def new_user_questionnaire_submit_processing_function():
       return redirect('/notifications/email/permission', code=302)
     elif user_nested_dict == '/new/user/questionnaire':
       return redirect('/new/user/questionnaire', code=302)
+    elif user_nested_dict == '/categories/edit':
+      return redirect('/categories/edit', code=302)
     elif user_nested_dict == '/logout':
       return redirect('/logout', code=302)
     # ------------------------ Pre Load Page Checks END ------------------------
@@ -89,7 +91,7 @@ def new_user_questionnaire_submit_processing_function():
         # ------------------------ Update Redis DB END ------------------------
       localhost_print_function('=========================================== /new/user/questionnaire/processing Page END ===========================================')
       # return redirect('/', code=302)
-      return redirect('/categories/edit', code=302)
+      return redirect('/dashboard', code=302)
     # ------------------------ Check If User/Team/Channel Response Already in DB END ------------------------
 
 
@@ -110,7 +112,7 @@ def new_user_questionnaire_submit_processing_function():
       localhost_print_function('invalid url /new/user/questionnaire/processing Page')
       localhost_print_function('=========================================== /new/user/questionnaire/processing Page END ===========================================')
       # return redirect('/', code=302)
-      return redirect('/categories/edit', code=302)
+      return redirect('/dashboard', code=302)
     # ------------------------ Sanitize user inputs END ------------------------
 
 
@@ -120,7 +122,7 @@ def new_user_questionnaire_submit_processing_function():
       localhost_print_function('invalid inputs')
       localhost_print_function('=========================================== /new/user/questionnaire/processing Page END ===========================================')
       # return redirect('/', code=302)
-      return redirect('/categories/edit', code=302)
+      return redirect('/dashboard', code=302)
     # ------------------------ Check sanitized results END ------------------------
 
 
@@ -164,4 +166,4 @@ def new_user_questionnaire_submit_processing_function():
   
   localhost_print_function('=========================================== /new/user/questionnaire/processing Page END ===========================================')
   # return redirect('/', code=302)
-  return redirect('/categories/edit', code=302)
+  return redirect('/dashboard', code=302)

@@ -10,6 +10,8 @@ from backend.utils.localhost_print_utils.localhost_print import localhost_print_
 from backend.utils.quiz_categories_utils.edit_quiz_categories_validate_user_inputs import edit_quiz_categories_validate_user_inputs_function
 from backend.db.queries.update_queries.update_queries_triviafy_categories_selected_table.update_edit_quiz_categories import update_edit_quiz_categories_function
 from backend.utils.pre_load_page_checks_utils.pre_load_page_checks import pre_load_page_checks_function
+from backend.db.queries.update_queries.update_queries_triviafy_categories_selected_table.update_account_categories_looked_at_complete import update_account_categories_looked_at_complete_function
+from backend.utils.cached_login.create_nested_dict_from_uuid import create_nested_dict_from_uuid_function
 
 # -------------------------------------------------------------- App Setup
 submit_edit_quiz_categories_processing = Blueprint("submit_edit_quiz_categories_processing", __name__, static_folder="static", template_folder="templates")
@@ -41,6 +43,8 @@ def submit_edit_quiz_categories_processing_function():
       return redirect('/notifications/email/permission', code=302)
     elif user_nested_dict == '/new/user/questionnaire':
       return redirect('/new/user/questionnaire', code=302)
+    elif user_nested_dict == '/categories/edit':
+      return redirect('/categories/edit', code=302)
     elif user_nested_dict == '/logout':
       return redirect('/logout', code=302)
     # ------------------------ Pre Load Page Checks END ------------------------
@@ -54,26 +58,34 @@ def submit_edit_quiz_categories_processing_function():
     # Get additional variables
     slack_workspace_team_id = user_nested_dict['user_slack_workspace_team_id']
     slack_channel_id = user_nested_dict['user_slack_channel_id']
+    
+    
+    # ------------------------ Connect to Postgres DB START ------------------------
+    postgres_connection, postgres_cursor = postgres_connect_to_database_function()
+    # ------------------------ Connect to Postgres DB END ------------------------
+
+
+    # ------------------------ Update db for new user onboarding START ------------------------
+    user_uuid = user_nested_dict['user_uuid']
+    output_message = update_account_categories_looked_at_complete_function(postgres_connection, postgres_cursor, user_uuid)
+    user_nested_dict = create_nested_dict_from_uuid_function(user_uuid)
+    # ------------------------ Update db for new user onboarding END ------------------------
+
 
     # ------------------------ Get User Form Checkbox Values START ------------------------
     # Select All Category Check
     user_form_categories_selected_select_all_checkbox = request.form.get('select_all_category_checkbox_name')
     if user_form_categories_selected_select_all_checkbox != None and user_form_categories_selected_select_all_checkbox != 'select_all_categories':
       localhost_print_function('=========================================== /categories/edit/processing Page END ===========================================')
-      return redirect('/categories', code=302)
+      return redirect('/dashboard', code=302)
 
     # Categories that are not Select All or Deselect All
     user_form_categories_selected_arr = request.form.getlist('category_checkbox_name')
     validate_user_form_categories_selected_arr = edit_quiz_categories_validate_user_inputs_function(user_form_categories_selected_arr)
     if validate_user_form_categories_selected_arr == False:
       localhost_print_function('=========================================== /categories/edit/processing Page END ===========================================')
-      return redirect('/categories', code=302)
+      return redirect('/dashboard', code=302)
     # ------------------------ Get User Form Checkbox Values END ------------------------
-
-
-    # ------------------------ Connect to Postgres DB START ------------------------
-    postgres_connection, postgres_cursor = postgres_connect_to_database_function()
-    # ------------------------ Connect to Postgres DB END ------------------------
     
     
     # ------------------------ Logic Selected Pre DB Update START ------------------------
@@ -119,4 +131,4 @@ def submit_edit_quiz_categories_processing_function():
 
   
   localhost_print_function('=========================================== /categories/edit/processing Page END ===========================================')
-  return redirect('/categories', code=302)
+  return redirect('/dashboard', code=302)

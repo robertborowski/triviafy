@@ -18,9 +18,34 @@ def pre_load_page_checks_function(page_location_name):
 
     # ------------------------ Pages To Exclude From Checks START ------------------------
     # page_check_skip_step_subscription_arr = ['/admin', '/subscription']
-    page_check_skip_step_subscription_arr = ['/admin', '/subscription', '/notifications/email/permission/processing', '/notifications/email/permission', '/new/user/questionnaire', '/new/user/questionnaire/processing']
-    page_check_skip_step_permission_arr = ['/notifications/email/permission/processing', '/notifications/email/permission']
-    page_check_skip_step_questionnaire_arr = ['/notifications/email/permission/processing', '/notifications/email/permission', '/new/user/questionnaire', '/new/user/questionnaire/processing']
+    page_check_skip_step_subscription_arr = [
+      '/admin',
+      '/subscription',
+      '/notifications/email/permission',
+      '/notifications/email/permission/processing',
+      '/new/user/questionnaire',
+      '/new/user/questionnaire/processing',
+      '/categories/edit',
+      '/categories/edit/processing'
+    ]
+    page_check_skip_step_permission_arr = [
+      '/notifications/email/permission',
+      '/notifications/email/permission/processing'
+    ]
+    page_check_skip_step_questionnaire_arr = [
+      '/notifications/email/permission',
+      '/notifications/email/permission/processing',
+      '/new/user/questionnaire',
+      '/new/user/questionnaire/processing'
+    ]
+    page_check_skip_step_categories_selected_arr = [
+      '/notifications/email/permission',
+      '/notifications/email/permission/processing',
+      '/new/user/questionnaire',
+      '/new/user/questionnaire/processing',
+      '/categories/edit',
+      '/categories/edit/processing'
+    ]
     # ------------------------ Pages To Exclude From Checks END ------------------------
     
 
@@ -62,9 +87,6 @@ def pre_load_page_checks_function(page_location_name):
       if user_slack_email_permission_granted == False or user_slack_email_permission_granted == 'False':
         localhost_print_function('Error: User Email Permission Not Granted')
         return '/notifications/email/permission', None
-      else:
-        # localhost_print_function('Check Good: User Email Permission Granted')
-        pass
     else:
       localhost_print_function('skipped email permission check for page {}'.format(page_location_name))
       pass
@@ -74,18 +96,29 @@ def pre_load_page_checks_function(page_location_name):
     # ------------------------ Page Pre Load Check - Redirect Check - New User Questionnaire Answered START ------------------------
     if page_location_name not in page_check_skip_step_questionnaire_arr:
       # Does this item exist in nested dict, if not create new nested dict in redis
-      user_nested_dict = check_exists_within_user_nested_dict_function(user_nested_dict, 'user_slack_email_permission_granted')
+      user_nested_dict = check_exists_within_user_nested_dict_function(user_nested_dict, 'user_slack_new_user_questionnaire_answered')
       user_slack_new_user_questionnaire_answered = user_nested_dict['user_slack_new_user_questionnaire_answered']
       if user_slack_new_user_questionnaire_answered == False or user_slack_new_user_questionnaire_answered == 'False':
         localhost_print_function('Error: New User Questionnaire Not Answered')
         return '/new/user/questionnaire', None
-      else:
-        # localhost_print_function('Check Good: New User Questionnaire Answered')
-        pass
     else:
       localhost_print_function('skipped user questionnaire check for page {}'.format(page_location_name))
       pass
     # ------------------------ Page Pre Load Check - Redirect Check - New User Questionnaire Answered END ------------------------
+
+
+    # ------------------------ Page Pre Load Check - Redirect Check - Select Categories START ------------------------
+    if page_location_name not in page_check_skip_step_categories_selected_arr:
+      # Does this item exist in nested dict, if not create new nested dict in redis
+      user_nested_dict = check_exists_within_user_nested_dict_function(user_nested_dict, 'user_slack_new_user_categories_selected')
+      user_slack_new_user_categories_selected = user_nested_dict['user_slack_new_user_categories_selected']
+      if user_slack_new_user_categories_selected == False or user_slack_new_user_categories_selected == 'False':
+        localhost_print_function('Error: New User Categories Selected Not Answered')
+        return '/categories/edit', None
+    else:
+      localhost_print_function('skipped user categories check for page {}'.format(page_location_name))
+      pass
+    # ------------------------ Page Pre Load Check - Redirect Check - Select Categories END ------------------------
 
 
   except:
