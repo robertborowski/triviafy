@@ -81,7 +81,7 @@ def job_post_quiz_skipped_quiz_check_function():
     # Get the quiz info arr of skipped quizzes
     skipped_quizzes_arr = select_skipped_quizzes_company_team_level_function(postgres_connection, postgres_cursor, company_team_id, company_channel_id, today_date_str)
 
-    if skipped_quizzes_arr == None:
+    if skipped_quizzes_arr == None or skipped_quizzes_arr == 'None' or skipped_quizzes_arr == []:
       if count_so_far < count_all_current_slack_team_id_and_channel_id_combos_arr:
         localhost_print_function('move onto next team')
         continue
