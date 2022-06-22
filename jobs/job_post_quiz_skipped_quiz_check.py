@@ -31,7 +31,7 @@ def job_post_quiz_skipped_quiz_check_function():
 
   # ------------------------ Get Today's Date Information START ------------------------
   # Today's date
-  today_date = date.today()# - timedelta(days=1)
+  today_date = date.today()
   today_date_str = str(today_date)
   today_day_of_week = today_date.strftime('%A')
   # ------------------------ Get Today's Date Information END ------------------------
