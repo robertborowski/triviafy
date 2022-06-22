@@ -23,18 +23,16 @@ To-Do's
 -Create Question: Signed in -     Make it so that a combo team/channel can only "make" 50 questions max per day
 - - - - - - - - - - - - - -
 
-- Make the internal logged in pages all the same style (including the 3 steps when creating account). Make it smaller purple banner, with team name / channel name / user name at the top.
 -Fix the schedueled task that stores in aws s3
 
--Change email new user to talk about how it is a passion project, any feedback.?
-********- When a user creates a question successfully, they get redirected From:[] -> To:[https://triviafy.com/create/question/user/form/submit/success] page, but the problem is that this page pulls all images. Which will get very expensive in the long run to pull thousands of images from AWS. This page needs to be brokwn doen to 10 images per page. For now just change the redirect to avoid hitting this page altogether.
-**** Change the way the weekly quiz made printing works. It should have a counter and arr to know how many companies quizzes were made for at the end.
 * If user makes account on Saturday, after quiz is already closed and announced, the additoinal late team user should not receive email about quiz open and close for the week. Too many emails at once.
 * Add user's display name to the top under company channel so on Inspeclet you can see who is doing what.
 * remove duplicate redis logged in users
 - Add the quiz categories selection for new users to select the categories they want
 - Add sample quiz to the logged in page navbar > quiz > first item on dropdown.
 -^ also add quiz categories under quiz settings
+
+Something is not working properly with the skipped quiz script
 
 -----------------------------------------------------------------------
 Notes:

@@ -41,10 +41,10 @@ def job_daily_quiz_close_grade_winner_send_email_function():
   # Today's date, day of week
   today_day_of_week = today_date.strftime('%A')
 
-  #if today_day_of_week == 'Saturday' or today_day_of_week == 'Sunday':
-  #  localhost_print_function('Today is Saturday or Sunday.')
-  #  localhost_print_function('=========================================== job_daily_quiz_close_grade_winner_send_email_function END ===========================================')
-  #  return True
+  if today_day_of_week == 'Saturday' or today_day_of_week == 'Sunday':
+   localhost_print_function('Today is Saturday or Sunday.')
+   localhost_print_function('=========================================== job_daily_quiz_close_grade_winner_send_email_function END ===========================================')
+   return True
   # ------------------------ Get Today's Date END ------------------------
 
 
