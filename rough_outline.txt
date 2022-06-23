@@ -25,10 +25,8 @@ To-Do's
 
 -Fix the schedueled task that stores in aws s3
 
-* If user makes account on Saturday, after quiz is already closed and announced, the additoinal late team user should not receive email about quiz open and close for the week. Too many emails at once.
 * Add user's display name to the top under company channel so on Inspeclet you can see who is doing what.
 * remove duplicate redis logged in users
-- Add the quiz categories selection for new users to select the categories they want
 - Add sample quiz to the logged in page navbar > quiz > first item on dropdown.
 -^ also add quiz categories under quiz settings
 
