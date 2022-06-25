@@ -83,18 +83,15 @@ def job_post_quiz_skipped_quiz_check_function():
 
     if skipped_quizzes_arr == None or skipped_quizzes_arr == 'None' or skipped_quizzes_arr == []:
       if count_so_far < count_all_current_slack_team_id_and_channel_id_combos_arr:
+        localhost_print_function('No latest quiz to delete for this team channel combo')
         localhost_print_function('move onto next team')
         continue
       else:
+        localhost_print_function('No latest quiz to delete for this team channel combo')
         localhost_print_function('Last team channel combo')
-        localhost_print_function('did not run delete, likely because it is day of quiz end')
         # ------------------------ Job Summary Print START ------------------------
         len_summary_arr = len(summary_arr)
-        localhost_print_function('- - - - - - -')
-        localhost_print_function('- - - - - - -')
-        localhost_print_function('deleted quiz count: {}'.format(len_summary_arr))
-        localhost_print_function('- - - - - - -')
-        localhost_print_function('- - - - - - -')
+        localhost_print_function('total deleted quiz count: {}'.format(len_summary_arr))
         # ------------------------ Job Summary Print END ------------------------
         localhost_print_function('=========================================== job_post_quiz_skipped_quiz_check_function END ===========================================')
         return True

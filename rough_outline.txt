@@ -8,7 +8,6 @@ To-Do's
 -UX:              Not Signed in - Before asking to confirm email, check if user is already a member of any other channels within that Team ID. And notify them that they are already memebers of other channels.
 -UX:              Not Signed in - Add Pop culture Example Quiz list to dropdown on the navbar
 - - - - - - - - - - - - - -
--Admin:           Signed in -     Check how many emails / slack messages were actually sent out on schedule vs how many were SUPPOSED to be sent out total. Make it a percentage.
 -UX:              Signed in -     Quiz open and close messages for email, make sure you specify which channel and team name they quiz is open/closed for. Team/Channel should be in the subject line (just the first 10 chars)
 -email            Signed in -     Change the link when it is sent in an email. Why is the link this crazy text
 -email            Signed in -     Fix the name in the email winner. It currently says firstName_lastName it should be firstName lastName (no underscore)
@@ -18,19 +17,10 @@ To-Do's
 -Quiz Archive:    Signed in -     Fix the way True and False are presented to the end user when looking at Quiz Archive.
 -Quiz Archive:    Signed in -     "x% of your coworkers answered this questions correctly/incorrectly/not answered"
 -Subscription:    Signed in -     Stripe payment setup. Need to be an LLC first.
--Account Delete:  Signed in -     Account mark for deletion
 -UX:              Signed in -     You cannot easilty get to /blog unless you type it in. Add it to navbar signed in.
--Create Question: Signed in -     Make it so that a combo team/channel can only "make" 50 questions max per day
 - - - - - - - - - - - - - -
 
 -Fix the schedueled task that stores in aws s3
-
-* Add user's display name to the top under company channel so on Inspeclet you can see who is doing what.
-* remove duplicate redis logged in users
-- Add sample quiz to the logged in page navbar > quiz > first item on dropdown.
--^ also add quiz categories under quiz settings
-
-Something is not working properly with the skipped quiz script
 
 -----------------------------------------------------------------------
 Notes:
