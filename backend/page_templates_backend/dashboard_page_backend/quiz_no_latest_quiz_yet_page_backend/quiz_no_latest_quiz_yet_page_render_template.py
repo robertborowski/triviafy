@@ -4,7 +4,6 @@ from backend.utils.page_www_to_non_www.check_if_url_www import check_if_url_www_
 from backend.utils.page_www_to_non_www.remove_www_from_domain import remove_www_from_domain_function
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from backend.utils.latest_quiz_utils.get_latest_company_quiz_if_exists import get_latest_company_quiz_if_exists_function
-from backend.utils.latest_quiz_utils.supporting_make_company_latest_quiz_utils.get_next_weeks_dates_data_dict import get_next_weeks_dates_data_dict_function
 from backend.db.queries.select_queries.select_queries_triviafy_company_quiz_settings_slack_table.select_company_quiz_settings import select_company_quiz_settings_function
 from backend.db.connection.postgres_connect_to_database import postgres_connect_to_database_function
 from backend.db.connection.postgres_close_connection_to_database import postgres_close_connection_to_database_function
@@ -12,6 +11,7 @@ from backend.utils.latest_quiz_utils.get_previous_week_company_quiz_if_exists im
 from backend.utils.sanitize_page_outputs.sanitize_page_output_company_name import sanitize_page_output_company_name_function
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from backend.utils.pre_load_page_checks_utils.pre_load_page_checks import pre_load_page_checks_function
+from backend.utils.latest_quiz_utils.check_if_today_is_greater_than_equal_to_latest_quiz_start_date_utils.check_if_today_is_greater_than_equal_to_latest_quiz_start_date import check_if_today_is_greater_than_equal_to_latest_quiz_start_date_function
 
 # -------------------------------------------------------------- App Setup
 quiz_no_latest_quiz_yet_page_render_template = Blueprint("quiz_no_latest_quiz_yet_page_render_template", __name__, static_folder="static", template_folder="templates")
@@ -102,11 +102,14 @@ def quiz_no_latest_quiz_yet_page_render_template_function():
     # ------------------------ Get The Company Quiz Settings END ------------------------
 
 
-    # ------------------------ Get Next Week's Dates Dict START ------------------------
-    next_week_dates_dict = get_next_weeks_dates_data_dict_function()
-    company_first_quiz_will_be_created_start_day = company_quiz_settings_start_day
-    company_first_quiz_will_be_created_start_date = next_week_dates_dict[company_quiz_settings_start_day]
-    # ------------------------ Get Next Week's Dates Dict End ------------------------
+    # ------------------------ Check Date Time Comparison START ------------------------
+    quiz_begin_message = 'hello'
+    check_if_quiz_is_open_datetime = check_if_today_is_greater_than_equal_to_latest_quiz_start_date_function(company_quiz_settings_start_day, company_quiz_settings_start_time)
+    if check_if_quiz_is_open_datetime == True:
+      quiz_begin_message = 'Your weekly quiz should be open within 10 minutes. No action is needed on your end.'
+    else:
+      quiz_begin_message = f'Your weekly quiz will open on {company_quiz_settings_start_day} at {company_quiz_settings_start_time}.'
+    # ------------------------ Check Date Time Comparison END ------------------------
 
 
   except:
@@ -122,7 +125,6 @@ def quiz_no_latest_quiz_yet_page_render_template_function():
                           css_cache_busting = cache_busting_output,
                           user_company_name_to_html = user_company_name,
                           user_channel_name_to_html = user_channel_name,
-                          company_first_quiz_will_be_created_start_day_to_html = company_first_quiz_will_be_created_start_day,
-                          company_first_quiz_will_be_created_start_date_to_html = company_first_quiz_will_be_created_start_date,
+                          quiz_begin_message_to_html = quiz_begin_message,
                           free_trial_ends_info_to_html = free_trial_ends_info,
                           page_title_to_html = 'Welcome to Triviafy')
