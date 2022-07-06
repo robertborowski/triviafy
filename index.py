@@ -8,6 +8,7 @@ from flask import Flask, session, render_template
 from backend.page_templates_backend.index_page_backend.index_page_render_template import index_page_render_template
 # Admin page
 from backend.page_templates_backend.admin_page_backend.admin_index_page_render_template import admin_index_page_render_template
+from backend.page_templates_backend.admin_page_backend.admin_leaderboard_index_page_render_template import admin_leaderboard_index_page_render_template
 # About page
 from backend.page_templates_backend.about_page_backend.about_index_page_render_template import about_index_page_render_template
 # Demo page
@@ -143,6 +144,7 @@ def not_found(e):
 app.register_blueprint(index_page_render_template, url_prefix="")
 # Admin page
 app.register_blueprint(admin_index_page_render_template, url_prefix="")
+app.register_blueprint(admin_leaderboard_index_page_render_template, url_prefix="")
 # About page
 app.register_blueprint(about_index_page_render_template, url_prefix="")
 # Demo page

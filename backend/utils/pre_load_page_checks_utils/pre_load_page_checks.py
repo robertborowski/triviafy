@@ -20,6 +20,7 @@ def pre_load_page_checks_function(page_location_name):
     # page_check_skip_step_subscription_arr = ['/admin', '/subscription']
     page_check_skip_step_subscription_arr = [
       '/admin',
+      '/admin/leaderboard',
       '/subscription',
       '/notifications/email/permission',
       '/notifications/email/permission/processing',
