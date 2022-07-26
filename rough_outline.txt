@@ -22,6 +22,8 @@ To-Do's
 
 -Fix the schedueled task that stores in aws s3
 
+Add to summary checker if current quiz has any duplicate question uuids
+
 -----------------------------------------------------------------------
 Notes:
 -pages that have question on them (this should be templated better across pages)
