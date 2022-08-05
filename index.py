@@ -112,7 +112,7 @@ from backend.page_templates_backend.blog_page_backend.blog_single_post_page_back
 from backend.page_templates_backend.blog_page_backend.blog_single_post_page_backend.blog_single_post_0005_index_page_render_template import blog_single_post_0005_index_page_render_template
 from backend.page_templates_backend.blog_page_backend.blog_single_post_page_backend.blog_single_post_0006_index_page_render_template import blog_single_post_0006_index_page_render_template
 # Candidates page
-from backend.page_templates_backend.candidates_page_backend.candidates_page_render_template import candidates_page_render_template
+from backend.page_templates_backend.candidates_page_backend.index_page_backend.candidates_page_render_template import candidates_page_render_template
 # ------------------------ Pages END ------------------------
 
 
