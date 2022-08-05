@@ -1,0 +1,72 @@
+{% extends "AA_SUPPORTING_PAGE_TEMPLATES/index.html" %}
+
+<!-- head tag block content -->
+{% block title %}
+  <title>Triviafy</title>
+{% endblock %}
+
+{% block content %}
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar START -->
+<!--Navigation bar-->
+<nav-not-signed-in-component-2 slack_state_uuid_js="{{ slack_state_uuid_html }}",
+                              link_home_js="{{ url_for('index_page_render_template.index_page_render_template_function') }}",
+                              link_about_js="{{ url_for('about_index_page_render_template.about_index_page_render_template_function') }}",
+                              link_blog_js="{{ url_for('blog_index_page_render_template.blog_index_page_render_template_function') }}",
+                              link_privacy_js="{{ url_for('privacy_policy_index_page_render_template.privacy_policy_index_page_render_template_function') }}",
+                              pdf_slack_setup_js="{{ url_for('setup_slack_index_page_render_template.setup_slack_index_page_render_template_function') }}",
+                              pdf_example_quiz_js="{{ url_for('example_quiz_team_analytics_render_template.example_quiz_team_analytics_render_template_function') }}",
+                              pdf_example_quiz_javascript_js="{{ url_for('example_quiz_javascript_render_template.example_quiz_javascript_render_template_function') }}",
+                              pdf_example_quiz_excel_js="{{ url_for('example_quiz_excel_render_template.example_quiz_excel_render_template_function') }}",
+                              pdf_example_quiz_sql_js="{{ url_for('example_quiz_sql_render_template.example_quiz_sql_render_template_function') }}",
+                              pdf_example_quiz_tableau_js="{{ url_for('example_quiz_tableau_render_template.example_quiz_tableau_render_template_function') }}",
+                              pdf_example_quiz_mixed_categories_js="{{ url_for('example_quiz_mixed_categories_render_template.example_quiz_mixed_categories_render_template_function') }}",
+                              link_demo_js="{{ url_for('demo_page_render_template.demo_page_render_template_function') }}",
+                              link_faq_js="{{ url_for('faq_index_page_render_template.faq_index_page_render_template_function') }}">
+</nav-not-signed-in-component-2>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar END -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Intro START -->
+<div class="landing-page-intro-2">
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Intro Left Side START -->
+  <div class="landing-page-intro-2-words-section">
+    <p class="landing-page-intro-2-header">Weekly trivia quiz for your team.</p>
+    <p class="landing-page-2-subheader landing-page-intro-2-sub-header">Automated internal learning and development tool. Team building activity guaranteed to increase employee engagement.</p>
+
+    <div class="landing-page-intro-2-next-steps-section">
+      <div class="landing-page-intro-2-slack-button-section">
+        <a href="https://slack.com/oauth/v2/authorize?client_id=2010284559270.2041074682000&scope=incoming-webhook,team:read,users.profile:read,users:read,users:read.email&state={{ slack_state_uuid_html }}&user_scope=openid,profile,email"><img alt="Add to Slack" height="50" width="173.75" src="https://platform.slack-edge.com/img/add_to_slack.png" srcSet="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" class="landing-page-2-button" /></a>
+      </div> 
+      <p class="free-trial-no-card-required">30 days free trial. No card required.</p>
+      <div class="landing-page-2-subheader landing-page-intro-2-or-section">
+        <p>OR</p>
+      </div>
+      <form action="{{ url_for('collect_email_processing.collect_email_processing_function') }}" method="post" class="landing-page-email-form" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+        <label for="user_input_email" class="landing-page-form-email-label"></label>
+        <input type="email" pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$" id="user_input_email" name="user_input_email" placeholder="Your work email" class="default-not-signed-in-text-input" required><br><br>
+        <input type="submit" value="Request a demo" class="default-button-format default-button-format-primary-color landing-page-button-position">
+      </form>
+    </div>
+  </div>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Intro Left Side END -->
+  
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Footer START -->
+<!-- Footer Not Signed In -->
+<footer-not-signed-in-component-2 link_home_js="{{ url_for('index_page_render_template.index_page_render_template_function') }}",
+                                link_about_js="{{ url_for('about_index_page_render_template.about_index_page_render_template_function') }}",
+                                link_blog_js="{{ url_for('blog_index_page_render_template.blog_index_page_render_template_function') }}",
+                                link_privacy_js="{{ url_for('privacy_policy_index_page_render_template.privacy_policy_index_page_render_template_function') }}",
+                                link_terms_conditions_js="{{ url_for('terms_of_service_index_page_render_template.terms_of_service_index_page_render_template_function') }}",
+                                pdf_example_quiz_js="{{ url_for('example_quiz_team_analytics_render_template.example_quiz_team_analytics_render_template_function') }}",
+                                pdf_example_quiz_javascript_js="{{ url_for('example_quiz_javascript_render_template.example_quiz_javascript_render_template_function') }}",
+                                pdf_example_quiz_excel_js="{{ url_for('example_quiz_excel_render_template.example_quiz_excel_render_template_function') }}",
+                                pdf_example_quiz_sql_js="{{ url_for('example_quiz_sql_render_template.example_quiz_sql_render_template_function') }}",
+                                pdf_example_quiz_tableau_js="{{ url_for('example_quiz_tableau_render_template.example_quiz_tableau_render_template_function') }}",
+                                pdf_slack_setup_js="{{ url_for('setup_slack_index_page_render_template.setup_slack_index_page_render_template_function') }}",
+                                link_faq_js="{{ url_for('faq_index_page_render_template.faq_index_page_render_template_function') }}">
+</footer-not-signed-in-component-2>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Footer END -->
+{% endblock %}
