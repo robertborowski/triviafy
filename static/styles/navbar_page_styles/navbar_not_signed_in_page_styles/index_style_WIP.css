@@ -132,7 +132,10 @@ i.font-awesome-icon {
 
 
 /* - - - - - - - - - - Dropdown Arrow Animation - Start */
-li.navbar-list-item-1:hover .navbar-drop-down-arrow-1, li.navbar-list-item-2:hover .navbar-drop-down-arrow-2, li.navbar-list-item-3:hover .navbar-drop-down-arrow-3, li.navbar-list-item-4:hover .navbar-drop-down-arrow-4 {
+li.navbar-list-item-1:hover .navbar-drop-down-arrow-1,
+li.navbar-list-item-2:hover .navbar-drop-down-arrow-2,
+li.navbar-list-item-3:hover .navbar-drop-down-arrow-3,
+li.navbar-list-item-4:hover .navbar-drop-down-arrow-4 {
   animation: rotate-dropdown 300ms ease-in-out forwards;
 }
 @keyframes rotate-dropdown {

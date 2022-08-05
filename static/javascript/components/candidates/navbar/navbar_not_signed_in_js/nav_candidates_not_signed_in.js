@@ -3,7 +3,7 @@ class NavbarCandidatesNotSignedInClass extends HTMLElement {
     super();
 
     // print the variable passed in
-    console.log(this.getAttribute("slack_state_uuid_js"));
+    // console.log(this.getAttribute("slack_state_uuid_js"));
   }
 
   connectedCallback() {
@@ -39,18 +39,20 @@ class NavbarCandidatesNotSignedInClass extends HTMLElement {
         <li class="navbar-list-item-2"><a href="#">Resources <i class="fas fa-angle-down navbar-drop-down-arrow-2"></i></a>
           <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar - Links - Level 2 - START -->
           <ul class="links-level-2 default-box-shadow-grey-reg">
-            <li><a href="${this.getAttribute("link_faq_js")}"><i class="fas fa-question-circle font-awesome-icon"></i>FAQ</a></li>
-            <li><a href="${this.getAttribute("link_about_js")}"><i class="fas fa-puzzle-piece font-awesome-icon"></i>About</a></li>
-            <li><a href="${this.getAttribute("link_privacy_js")}"><i class="fas fa-lock font-awesome-icon"></i>Privacy</a></li>
-            <li><a href="${this.getAttribute("link_blog_js")}"><i class="fas fa-pen-square font-awesome-icon"></i>Blog</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">How it works</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Privacy</a></li>
+            <li><a href="#">Blog</a></li>
           </ul>
           <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar - Links - Level 2 - END -->
         </li>
-        <li class="navbar-list-item-1"><a href="#">Test library</a></li>
-        <li class="navbar-list-item-4"><a href="#">Login</a>
+        <li><a href="#">Test library</a></li>
+        <li><a href="#">Login</a>
         </li>
         <div class="navbar-not-signed-in-demo-button-section">
-          <a href="${this.getAttribute("link_demo_js")}"><button class="default-button-format default-button-format-primary-color navbar-not-signed-in-button-position">Try for free!</button></a>
+          <a href="#"><button class="default-button-format default-button-format-primary-color navbar-not-signed-in-button-position">Try for free!</button></a>
         </div>
       </ul>
     </div>
@@ -60,7 +62,7 @@ class NavbarCandidatesNotSignedInClass extends HTMLElement {
 
 </div>
 <div class="spacer-navbar-not-signed-in-2"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar - Entire END -->   
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar - Entire END -->
 `;
   }
 }
