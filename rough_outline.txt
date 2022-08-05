@@ -20,7 +20,7 @@ To-Do's
 -UX:              Signed in -     You cannot easilty get to /blog unless you type it in. Add it to navbar signed in.
 - - - - - - - - - - - - - -
 
--Fix the schedueled task that stores in aws s3 
+-Fix the schedueled task that stores in aws s3
 
 Add to summary checker if current quiz has any duplicate question uuids
 
