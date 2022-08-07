@@ -129,6 +129,7 @@ li.navbar-list-item-a:hover .navbar-drop-down-arrow-a {
 /* - - - - - - - - - - Button - End */
 /* - - - - - - - - - - Spacer - Start */
 .spacer-navbar-not-signed-in-3 {
+  /* border: 1px solid black; */
   width: 100%;
   height: 80px;
   background-color: white;
