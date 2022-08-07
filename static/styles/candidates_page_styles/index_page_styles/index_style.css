@@ -1,0 +1,111 @@
+/* - - - - - - - - - - Intro - Start */
+.landing-page-intro-3 {
+  border: 1px solid black;
+  height: 650px;
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr;
+  column-gap: 55px;
+  row-gap: 0;
+}
+/* - - - - - - - - - - Intro Left Side - Start */
+.landing-page-intro-3-words-section {
+  border: 1px solid green;
+  grid-area: 1 / 1 / 2 / 2; 
+}
+.landing-page-intro-3-header {
+  /* border: 1px solid black; */
+  margin: 150px 0 0 0;
+  font-size: 45px;
+  font-weight: 550;
+}
+.landing-page-3-subheader {
+  /* border: 1px solid black; */
+  font-size: 20px;
+  color: rgb(51, 28, 86);
+}
+.landing-page-3-subheader-a {
+  font-size: 20px;
+  color: var(--company-primary-color);
+  text-decoration: none;
+}
+.landing-page-3-subheader-a:hover {
+  text-decoration: underline;
+}
+/* - - - - - - - - - - Dropdown Arrow Animation - Start */
+.landing-page-3-subheader-a:hover {
+  animation: learn-more-arrow-animation 300ms ease-in-out forwards;
+}
+@keyframes learn-more-arrow-animation {
+  0% {
+    transform:translateX(0px)
+  }
+  100% {
+    transform:translateX(20px)
+  }
+}
+/* - - - - - - - - - - Dropdown Arrow Animation - End */
+.landing-page-intro-3-sub-header {
+  /* border: 1px solid blue; */
+  padding: 20px 0 20px 0;
+}
+.landing-page-button-section {
+  /* border: 1px solid black; */
+  width: 100%;
+  text-align: center;
+}
+.landing-page-button-sub-section-intro {
+  margin: 15px 0 0 0;
+}
+/* - - - - - - - - - - Intro Left Side - End */
+/* - - - - - - - - - - Intro Right Side - Start */
+.landing-page-intro-3-media-section {
+  border: 1px solid red;
+  grid-area: 1 / 2 / 2 / 3;
+}
+.triviafy_promo_video_3 {
+  /* border: 1px solid black; */
+  height: 329.4px;
+  width: 585px;
+  margin: 125px 0 0 0;
+  border-radius: 10px;
+}
+/* - - - - - - - - - - Intro Right Side - End */
+/* - - - - - - - - - - Intro - End */
+
+
+
+
+
+
+
+
+
+
+/* - - - - - - - - - - Collect Email - Start */
+.landing-page-intro-3-next-steps-section {
+  /* border: 1px solid black; */
+  text-align: center;
+}
+form.landing-page-email-form-3 {
+  /* border: 1px solid black; */
+  /* .hero-form */
+  display: flex;
+  margin: 0;
+  align-items: center;
+  justify-content: center;
+  /* Media */
+  /* -webkit-box-direction: normal; */
+}
+.landing-page-button-position-3 {
+  margin: 0 0 0 16px;
+}
+.free-trial-no-card-required-3 {
+  font-size: 10px;
+  padding: 15px 0 0 0;
+  color: rgb(166, 166, 166);
+}
+/* - - - - - - - - - - Collect Email - End */

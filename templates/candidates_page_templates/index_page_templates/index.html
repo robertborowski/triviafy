@@ -2,7 +2,7 @@
 
 <!-- head tag block content -->
 {% block title %}
-  <title>Triviafy</title>
+  <title>Candidates / Triviafy</title>
 {% endblock %}
 
 {% block content %}
@@ -15,35 +15,38 @@
 
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Intro START -->
-<div class="landing-page-intro-2">
+<div class="landing-page-intro-3">
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Intro Left Side START -->
-  <div class="landing-page-intro-2-words-section">
-    <p class="landing-page-intro-2-header">Weekly trivia quiz for your team.</p>
-    <p class="landing-page-2-subheader landing-page-intro-2-sub-header">Automated internal learning and development tool. Team building activity guaranteed to increase employee engagement.</p>
-
-    <div class="landing-page-intro-2-next-steps-section">
-      <div class="landing-page-intro-2-slack-button-section">
-        <a href="https://slack.com/oauth/v2/authorize?client_id=2010284559270.2041074682000&scope=incoming-webhook,team:read,users.profile:read,users:read,users:read.email&state={{ slack_state_uuid_html }}&user_scope=openid,profile,email"><img alt="Add to Slack" height="50" width="173.75" src="https://platform.slack-edge.com/img/add_to_slack.png" srcSet="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" class="landing-page-2-button" /></a>
-      </div> 
-      <p class="free-trial-no-card-required">30 days free trial. No card required.</p>
-      <div class="landing-page-2-subheader landing-page-intro-2-or-section">
-        <p>OR</p>
-      </div>
-      <form action="{{ url_for('collect_email_processing.collect_email_processing_function') }}" method="post" class="landing-page-email-form" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
-        <label for="user_input_email" class="landing-page-form-email-label"></label>
-        <input type="email" pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$" id="user_input_email" name="user_input_email" placeholder="Your work email" class="default-not-signed-in-text-input" required><br><br>
-        <input type="submit" value="Request a demo" class="default-button-format default-button-format-primary-color landing-page-button-position">
-      </form>
+  <div class="landing-page-intro-3-words-section">
+    <p class="landing-page-intro-3-header">The friendliest skill assessment experience.</p>
+    <p class="landing-page-3-subheader landing-page-intro-3-sub-header">Early stage candidate screening made simple.</p>
+    <div class="landing-page-button-section">
+      <a href="#"><button class="default-button-format default-button-format-primary-color landing-page-button-sub-section-intro">Get started!</button></a>
     </div>
   </div>
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Intro Left Side END -->
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Intro Right Side START -->
-  <div class="landing-page-intro-2-video-section">
-    <iframe src="https://player.vimeo.com/video/618792251?h=7cbce57383" class="triviafy_promo_video_2 default-box-shadow-grey-reg" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+  <div class="landing-page-intro-3-media-section">
+    <iframe src="https://player.vimeo.com/video/618792251?h=7cbce57383" class="triviafy_promo_video_3 default-box-shadow-grey-reg" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
   </div>
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Intro Right Side END -->
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Intro END -->
+
+
+
+
+
+
+
+<!-- <div class="landing-page-intro-3-next-steps-section">
+  <form action="{{ url_for('collect_email_processing.collect_email_processing_function') }}" method="post" class="landing-page-email-form-3" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+    <label for="user_input_email" class="landing-page-form-email-label"></label>
+    <input type="email" pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$" id="user_input_email" name="user_input_email" placeholder="Your work email" class="default-not-signed-in-text-input" required><br><br>
+    <input type="submit" value="Request a demo" class="default-button-format default-button-format-primary-color landing-page-button-position-3">
+  </form>
+  <p class="free-trial-no-card-required-3">30 days free trial. No card required.</p>
+</div> -->
 
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Footer START -->
