@@ -1,6 +1,6 @@
 /* - - - - - - - - - - Intro - Start */
 .landing-page-intro-3 {
-  border: 1px solid black;
+  /* border: 1px solid black; */
   height: 650px;
   width: 80%;
   max-width: 1200px;
@@ -13,14 +13,14 @@
 }
 /* - - - - - - - - - - Intro Left Side - Start */
 .landing-page-intro-3-words-section {
-  border: 1px solid green;
+  /* border: 1px solid green; */
   grid-area: 1 / 1 / 2 / 2; 
 }
 .landing-page-intro-3-header {
   /* border: 1px solid black; */
   margin: 150px 0 0 0;
   font-size: 45px;
-  font-weight: 550;
+  font-weight: 700;
 }
 .landing-page-3-subheader {
   /* border: 1px solid black; */
@@ -63,7 +63,7 @@
 /* - - - - - - - - - - Intro Left Side - End */
 /* - - - - - - - - - - Intro Right Side - Start */
 .landing-page-intro-3-media-section {
-  border: 1px solid red;
+  /* border: 1px solid red; */
   grid-area: 1 / 2 / 2 / 3;
 }
 .triviafy_promo_video_3 {
@@ -72,6 +72,10 @@
   width: 585px;
   margin: 125px 0 0 0;
   border-radius: 10px;
+}
+.landing-page-intro-3-media-img {
+  width: 500px;
+  height: 300px;
 }
 /* - - - - - - - - - - Intro Right Side - End */
 /* - - - - - - - - - - Intro - End */
