@@ -1,6 +1,6 @@
 /* - - - - - - - - - - Intro - Start */
 .landing-page-intro-3-section {
-  /* border: 1px solid black; */
+  border: 1px solid black;
   height: 550px;
   width: 80%;
   max-width: 1200px;
@@ -98,3 +98,41 @@ form.landing-page-email-form-3 {
 }
 /* - - - - - - - - - - Intro Right Side - End */
 /* - - - - - - - - - - Intro - End */
+
+
+/* - - - - - - - - - - Supported Frameworks Start */
+.landing-page-supported-frameworks-section {
+  border: 1px solid black;
+  height: 300px;
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+.landing-page-3-header {
+  font-size: 35px;
+  font-weight: 700;
+  color: black;
+}
+/* - - - - - - - - - - Logos flex Start */
+.landing-page-frameworks-section {
+  border: 1px solid black;
+  height: 200px;
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.landing-page-flex-logos-section {
+  /* border: 1px solid green; */
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+img.framework-logo-img {
+  margin: 0 20px;
+  /* border: 1px solid red; */
+  height: 50px;
+  width: auto;
+}
+/* - - - - - - - - - - Logos flex End */
+/* - - - - - - - - - - Supported Frameworks End */

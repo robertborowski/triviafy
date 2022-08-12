@@ -39,4 +39,29 @@
   }
   /* - - - - - - - - - - Intro Right Side - End */
   /* - - - - - - - - - - Intro - End */
+
+
+  /* - - - - - - - - - - Supported Frameworks Start */
+  .landing-page-supported-frameworks-section {
+    width: 90%;
+  }
+  /* - - - - - - - - - - Logos flex Start */
+  .landing-page-frameworks-section {
+    /* border: 1px solid black; */
+    height: 900px;
+    width: 90%;
+  }
+  .landing-page-flex-logos-section {
+    /* border: 1px solid black; */
+    flex-direction: column;
+    align-items: center;
+  }
+  img.framework-logo-img {
+    /* border: 1px solid black; */
+    height: auto;
+    width: 150px;
+    padding: 20px 0;
+  }
+  /* - - - - - - - - - - Logos flex End */
+  /* - - - - - - - - - - Supported Frameworks End */
 }
