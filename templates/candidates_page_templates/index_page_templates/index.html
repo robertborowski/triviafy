@@ -15,39 +15,30 @@
 
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Intro START -->
-<div class="landing-page-intro-3">
+<div class="landing-page-intro-3-section">
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Intro Left Side START -->
   <div class="landing-page-intro-3-words-section">
     <p class="landing-page-intro-3-header">The friendliest skill assessment experience.</p>
     <p class="landing-page-3-subheader landing-page-intro-3-sub-header">Early stage candidate screening made simple.</p>
-    <div class="landing-page-button-section">
-      <a href="#"><button class="default-button-format default-button-format-primary-color landing-page-button-sub-section-intro">Get started!</button></a>
+    <div class="landing-page-get-started-section">
+      <div class="landing-page-intro-3-next-steps-section">
+        <form action="#" method="post" class="landing-page-email-form-3" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+          <label for="user_input_email" class="landing-page-form-email-label"></label>
+          <input type="email" pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,10}$" id="user_input_email" name="user_input_email" placeholder="Your work email" class="default-not-signed-in-text-input" required><br><br>
+          <input type="submit" value="Get started!" class="default-button-format default-button-format-primary-color landing-page-button-position-3">
+        </form>
+        <p class="free-trial-no-card-required-3">(No credit card required.)</p>
+      </div>
     </div>
   </div>
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Intro Left Side END -->
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Intro Right Side START -->
   <div class="landing-page-intro-3-media-section">
-    <!-- <iframe src="https://player.vimeo.com/video/618792251?h=7cbce57383" class="triviafy_promo_video_3 default-box-shadow-grey-reg" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe> -->
-    <img src="static/images/candidates/landing_page/landing_page_intro_media2.jpg" alt="" class="landing-page-intro-3-media-img">
+    <img src="static/images/candidates/landing_page/landing_page_intro_media.jpg" alt="" class="landing-page-intro-3-media-img">
   </div>
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Intro Right Side END -->
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Intro END -->
-
-
-
-
-
-
-
-<!-- <div class="landing-page-intro-3-next-steps-section">
-  <form action="{{ url_for('collect_email_processing.collect_email_processing_function') }}" method="post" class="landing-page-email-form-3" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
-    <label for="user_input_email" class="landing-page-form-email-label"></label>
-    <input type="email" pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$" id="user_input_email" name="user_input_email" placeholder="Your work email" class="default-not-signed-in-text-input" required><br><br>
-    <input type="submit" value="Request a demo" class="default-button-format default-button-format-primary-color landing-page-button-position-3">
-  </form>
-  <p class="free-trial-no-card-required-3">30 days free trial. No card required.</p>
-</div> -->
 
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Footer START -->

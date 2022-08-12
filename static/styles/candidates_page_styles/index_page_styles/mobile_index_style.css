@@ -1,8 +1,8 @@
 @media (max-width: 1200px) {
   /* - - - - - - - - - - Intro - Start */
-  .landing-page-intro-3 {
-    border: 1px solid black;
-    height: 850px;
+  .landing-page-intro-3-section {
+    /* border: 1px solid black; */
+    height: 800px;
     width: 90%;
     grid-template-columns: 1fr;
     grid-template-rows: repeat(2, 1fr);
@@ -11,7 +11,7 @@
   }
   /* - - - - - - - - - - Intro Left Side - Start */
   .landing-page-intro-3-words-section {
-    border: 1px solid green;
+    /* border: 1px solid green; */
     text-align: center;
   }
   .landing-page-intro-3-header {
@@ -19,27 +19,24 @@
     margin: 100px 0 0 0;
     font-size: 40px;
   }
-  /* - - - - - - - - - - Intro Left Side - End */
-  /* - - - - - - - - - - Intro Right Side - Start */
-  .landing-page-intro-3-media-section {
-    border: 1px solid red;
-    grid-area: 2 / 1 / 3 / 2;
-    text-align: center;
-  }
-  .triviafy_promo_video_3 {
-    /* border: 1px solid black; */
-    height: 162px;
-    width: 288px;
-    margin: 0 0 0 0;
-  }
-  /* - - - - - - - - - - Intro Right Side - End */
-  /* - - - - - - - - - - Intro - End */
-
-
   /* - - - - - - - - - - Collect Email - Start */
   form.landing-page-email-form-3 {
     -webkit-box-direction: normal;
     flex-direction: column;
   }
   /* - - - - - - - - - - Collect Email - End */
+  /* - - - - - - - - - - Intro Left Side - End */
+  /* - - - - - - - - - - Intro Right Side - Start */
+  .landing-page-intro-3-media-section {
+    /* border: 1px solid red; */
+    grid-area: 2 / 1 / 3 / 2;
+    text-align: center;
+  }
+  .landing-page-intro-3-media-img {
+    width: 250px;
+    height: 150px;
+    margin: 0 0 0 0;
+  }
+  /* - - - - - - - - - - Intro Right Side - End */
+  /* - - - - - - - - - - Intro - End */
 }
