@@ -1,6 +1,6 @@
 /* - - - - - - - - - - Intro - Start */
 .landing-page-intro-3-section {
-  /* border: 1px solid black; */
+  border: 1px solid black;
   height: 600px;
   width: 80%;
   max-width: 1200px;
@@ -102,8 +102,8 @@ form.landing-page-email-form-3 {
 
 /* - - - - - - - - - - Supported Frameworks Start */
 .landing-page-supported-frameworks-section {
-  /* border: 1px solid black; */
-  height: 300px;
+  border: 1px solid black;
+  height: 350px;
   width: 80%;
   max-width: 1200px;
   margin: 0 auto;
@@ -119,9 +119,8 @@ form.landing-page-email-form-3 {
 }
 /* - - - - - - - - - - Logos flex Start */
 .landing-page-frameworks-section {
-  /* border: 1px solid black; */
-  /* height: 260px; */
-  width: 80%;
+  border: 1px solid green;
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
 }
