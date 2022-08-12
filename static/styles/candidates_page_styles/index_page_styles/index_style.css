@@ -121,20 +121,30 @@ form.landing-page-email-form-3 {
 .landing-page-frameworks-section {
   border: 1px solid green;
   width: 100%;
-  max-width: 1200px;
   margin: 0 auto;
-}
-.landing-page-flex-logos-section {
-  /* border: 1px solid green; */
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
 }
-img.framework-logo-img {
-  margin: 20px;
-  /* border: 1px solid red; */
+.landing-page-framework-container {
+  /* border: 1px solid black; */
   height: 50px;
+  margin: 12px;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+}
+img.framework-logo-img {
+  /* border: 1px solid red; */
+  margin: 5px 10px;
+  height: 20px;
   width: auto;
+}
+.framework-logo-p {
+  padding: 0 10px 0 0;
+  font-size: 12px;
+  color: rgb(120, 120, 120);
+  font-weight: 700;
 }
 /* - - - - - - - - - - Logos flex End */
 /* - - - - - - - - - - Supported Frameworks End */
