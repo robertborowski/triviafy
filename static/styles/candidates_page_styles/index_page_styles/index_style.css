@@ -174,3 +174,14 @@ img.framework-logo-img {
   text-align: center;
 }
 /* - - - - - - - - - - how it works end */
+
+
+/* - - - - - - - - - - foooter start */
+.footer-not-signed-in-candidates {
+  /* border: 1px solid rgb(218, 218, 218); */
+  background-color: rgb(218, 218, 218);;
+  height: 500px;
+  /* width: 100%;
+  background-image: linear-gradient(to right, var(--company-primary-color) , rgb(86, 94, 255)); */
+}
+/* - - - - - - - - - - foooter end */

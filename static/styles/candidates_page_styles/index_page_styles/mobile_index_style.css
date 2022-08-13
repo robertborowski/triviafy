@@ -3,7 +3,7 @@
   /* .landing-spacer-section {} */
   /* - - - - - - - - - - spacer end */
 
-  
+
   /* - - - - - - - - - - Intro - Start */
   .landing-page-intro-3-section {
     /* border: 1px solid black; */
@@ -68,4 +68,11 @@
   /* - - - - - - - - - - how it works start */
   /* .landing-hiw-section {} */
   /* - - - - - - - - - - how it works end */
+
+
+  /* - - - - - - - - - - foooter start */
+  .footer-not-signed-in-candidates {
+    height: 800px;
+  }
+  /* - - - - - - - - - - foooter end */
 }

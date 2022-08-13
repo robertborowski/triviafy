@@ -7,10 +7,15 @@ class FooterNotSignedInClassCandidates extends HTMLElement {
   }
 
   connectedCallback() {
-    this.innerHTML = `
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Footer All - START -->
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Footer All - END -->
-    `;
+    this.innerHTML = 
+`
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - footer all start -->
+<footer class="footer-not-signed-in-candidates">
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - footer top start -->
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - footer top end -->
+</footer>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - footer all end -->
+`;
   }
 }
 
