@@ -1,7 +1,18 @@
+/* - - - - - - - - - - spacer start */
+.landing-spacer-section {
+  /* border: 1px solid black; */
+  height: 100px;
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+/* - - - - - - - - - - spacer end */
+
+
 /* - - - - - - - - - - Intro - Start */
 .landing-page-intro-3-section {
   /* border: 1px solid black; */
-  height: 600px;
+  height: 400px;
   width: 80%;
   max-width: 1200px;
   margin: 0 auto;
@@ -18,7 +29,8 @@
 }
 .landing-page-intro-3-header {
   /* border: 1px solid black; */
-  margin: 150px 0 0 0;
+  /* margin: 150px 0 0 0; */
+  margin: 50px 0 0 0;
   font-size: 45px;
   font-weight: 700;
 }
@@ -94,7 +106,8 @@ form.landing-page-email-form-3 {
 .landing-page-intro-3-media-img {
   width: 500px;
   height: 300px;
-  margin: 100px 0 0 0;
+  /* margin: 100px 0 0 0; */
+  margin: 0;
 }
 /* - - - - - - - - - - Intro Right Side - End */
 /* - - - - - - - - - - Intro - End */
@@ -149,3 +162,15 @@ img.framework-logo-img {
 }
 /* - - - - - - - - - - Logos flex End */
 /* - - - - - - - - - - Supported Frameworks End */
+
+
+/* - - - - - - - - - - how it works start */
+.landing-hiw-section {
+  border: 1px solid pink;
+  height: 250px;
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+/* - - - - - - - - - - how it works end */

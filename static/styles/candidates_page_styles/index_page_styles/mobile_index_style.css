@@ -1,4 +1,9 @@
 @media (max-width: 1200px) {
+  /* - - - - - - - - - - spacer start */
+  /* .landing-spacer-section {} */
+  /* - - - - - - - - - - spacer end */
+
+  
   /* - - - - - - - - - - Intro - Start */
   .landing-page-intro-3-section {
     /* border: 1px solid black; */
@@ -58,4 +63,9 @@
   }
   /* - - - - - - - - - - Logos flex End */
   /* - - - - - - - - - - Supported Frameworks End */
+
+
+  /* - - - - - - - - - - how it works start */
+  /* .landing-hiw-section {} */
+  /* - - - - - - - - - - how it works end */
 }
