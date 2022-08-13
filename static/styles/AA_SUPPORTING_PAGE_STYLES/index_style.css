@@ -23,12 +23,17 @@
 /* ================================================================================================================================================= */
 /* ==================================== Default - Signed In and Not Signed In - Global Colors - START ==================================== */
 :root {
-  /*--company-primary-color: rgb(196, 94, 255);     /* OFFICIAL v1 */
-  /*--company-secondary-color: rgb(0, 255, 192);    /* OFFICIAL v1 */
-  --company-greyed-out-color: rgb(170, 170, 170); /* OFFICIAL v1 */
-  
+  /* - - - - - - - - - - default / signed in and not signed in / company official colors / no category start */
+  /*--company-primary-color: rgb(196, 94, 255);     /* OFFICIAL v1 - DEPRECATED */
   --company-primary-color: rgb(90, 0, 142);     /* OFFICIAL v2 */
+  
+  /*--company-secondary-color: rgb(0, 255, 192);    /* OFFICIAL v1 - DEPRECATED */
   --company-secondary-color: rgb(0, 213, 25);    /* OFFICIAL v2 */
+  /* - - - - - - - - - - default / signed in and not signed in / company official colors / no category end */
+  /* - - - - - - - - - - default / signed in and not signed in / general / no category start */
+  --company-greyed-out-color: rgb(170, 170, 170);
+  --testing-blueprint-color: rgb(226, 247, 255);
+  /* - - - - - - - - - - default / signed in and not signed in / general / no category end */
 }
 /* ==================================== Default - Signed In and Not Signed In - Global Colors - END ==================================== */
 /* ================================================================================================================================================= */

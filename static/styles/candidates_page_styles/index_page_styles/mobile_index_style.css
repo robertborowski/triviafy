@@ -1,6 +1,8 @@
 @media (max-width: 1200px) {
   /* - - - - - - - - - - spacer start */
-  /* .landing-spacer-section {} */
+  .landing-spacer-section {
+    width: 90%;
+  }
   /* - - - - - - - - - - spacer end */
 
 
@@ -49,6 +51,7 @@
   /* - - - - - - - - - - Supported Frameworks Start */
   .landing-page-supported-frameworks-section {
     width: 90%;
+    height: 600px;
   }
   /* - - - - - - - - - - Logos flex Start */
   .landing-page-frameworks-section {
@@ -66,7 +69,9 @@
 
 
   /* - - - - - - - - - - how it works start */
-  /* .landing-hiw-section {} */
+  .landing-hiw-section {
+    width: 90%;
+  }
   /* - - - - - - - - - - how it works end */
 
 

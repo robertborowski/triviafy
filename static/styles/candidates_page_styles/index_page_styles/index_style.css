@@ -1,6 +1,6 @@
 /* - - - - - - - - - - spacer start */
 .landing-spacer-section {
-  /* border: 1px solid black; */
+  /* background-color: var(--testing-blueprint-color); */
   height: 100px;
   width: 80%;
   max-width: 1200px;
@@ -166,7 +166,7 @@ img.framework-logo-img {
 
 /* - - - - - - - - - - how it works start */
 .landing-hiw-section {
-  border: 1px solid pink;
+  /* border: 1px solid black; */
   height: 250px;
   width: 80%;
   max-width: 1200px;
@@ -176,12 +176,43 @@ img.framework-logo-img {
 /* - - - - - - - - - - how it works end */
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* - - - - - - - - - - foooter start */
 .footer-not-signed-in-candidates {
-  /* border: 1px solid rgb(218, 218, 218); */
-  background-color: rgb(218, 218, 218);;
+  /* background-color: var(--testing-blueprint-color); */
   height: 500px;
-  /* width: 100%;
-  background-image: linear-gradient(to right, var(--company-primary-color) , rgb(86, 94, 255)); */
+  width: 100%;
 }
 /* - - - - - - - - - - foooter end */
