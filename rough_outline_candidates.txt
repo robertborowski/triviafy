@@ -6,3 +6,19 @@ Candidates Index Landing page
 -************ How it works (Can add actual screenshots/PDF later)
 -flexbox popular company logos
 -Example quiz 1
+
+How it works
+1. Create a candidate quiz (split screen)
+Left: Make your own custom questions/quizes
+Right: Use our automated quiz builder
+
+2. Send quiz to candidates
+Secure link, expires 24 hours,
+
+3. Receive candidate summary
+
+Company Logos that use candidate screening tests online
+
+Sign up form.
+
+Footer
