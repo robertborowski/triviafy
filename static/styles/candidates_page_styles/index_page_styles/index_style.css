@@ -34,6 +34,12 @@
   font-size: 45px;
   font-weight: 700;
 }
+.landing-page-3-header {
+  /* border: 1px solid black; */
+  font-size: 35px;
+  font-weight: 700;
+  color: black;
+}
 .landing-page-3-subheader {
   /* border: 1px solid black; */
   font-size: 20px;
@@ -122,13 +128,7 @@ form.landing-page-email-form-3 {
   margin: 0 auto;
   text-align: center;
 }
-.landing-page-3-header {
-  /* border: 1px solid black; */
-  font-size: 35px;
-  font-weight: 700;
-  color: black;
-}
-.supported-frameworks-p {
+.section-title-p-margins {
   /* border: 1px solid black; */
   padding: 0 0 25px 0;
 }
@@ -167,8 +167,7 @@ img.framework-logo-img {
 
 /* - - - - - - - - - - how it works start */
 .landing-hiw-section {
-  /* border: 1px solid black; */
-  /* height: 250px; */
+  border: 1px solid black;
   width: 80%;
   max-width: 1200px;
   margin: 0 auto;
@@ -183,7 +182,7 @@ img.framework-logo-img {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: 1fr;
-  column-gap: 50qpx;
+  column-gap: 50px;
   row-gap: 0;
 }
 .hiw-split-left-section {
@@ -205,19 +204,20 @@ img.framework-logo-img {
   text-align: center;
 }
 img.hiw-papers-img {
-  height: 250px;
+  height: 268px;
 }
 .hiw-icons-section {
   /* border: 1px solid black; */
   text-align: center;
-  margin: 20px 0 0 0;
+  margin: 25px 0 0 0;
 }
 .font-awesome-hiw-icon {
   font-size: 35px;
   margin: 0 25px;
   font-weight: 900;
   /* color: var(--company-primary-color); */
-  color: rgb(51, 28, 86)
+  /* color: rgb(51, 28, 86); */
+  color: rgb(183, 183, 183);
 }
 .container-hiw-create-optional-section {
   /* border: 1px solid black; */
@@ -229,14 +229,24 @@ img.hiw-papers-img {
   text-align: center;
 }
 .hiw-title-optional-section {
+  /* border: 1px solid black; */
   padding: 0 0 10px 0;
+}
+.hiw-li-section {
+  /* border: 1px solid black; */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 .hiw-box-li {
   /* border: 1px solid black; */
-  padding: 7px 0;
-  font-size: 16px;
+  font-size: 15px;
   text-decoration: none;
   list-style-type: none;
+  padding: 6px 10px;
+  margin: 10px 5px;
+  border-radius: 20px;
+  background-color: white;
 }
 /* - - - - - - - - - - how it works end */
 
