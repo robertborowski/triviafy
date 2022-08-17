@@ -9,6 +9,23 @@
 /* - - - - - - - - - - spacer end */
 
 
+/* - - - - - - - - - - backdrop start */
+.landing-backdrop-section {
+  /* border: 1px solid black; */
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -100;
+  width: 100%;
+  text-align: center;
+}
+img.landing-backdrop-img {
+  width: 1600px;
+  height: 600px;
+}
+/* - - - - - - - - - - backdrop end */
+
+
 /* - - - - - - - - - - Intro - Start */
 .landing-page-intro-3-section {
   /* border: 1px solid black; */

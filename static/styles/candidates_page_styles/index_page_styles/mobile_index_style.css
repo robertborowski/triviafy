@@ -6,6 +6,13 @@
   /* - - - - - - - - - - spacer end */
 
 
+  /* - - - - - - - - - - backdrop start */
+  .landing-backdrop-section {
+    display: none;
+  }
+  /* - - - - - - - - - - backdrop end */
+
+
   /* - - - - - - - - - - Intro - Start */
   .landing-page-intro-3-section {
     /* border: 1px solid black; */
