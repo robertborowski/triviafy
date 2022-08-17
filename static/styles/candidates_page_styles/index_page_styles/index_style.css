@@ -216,7 +216,7 @@ img.framework-logo-img {
   text-align: center;
   padding: 0 0 25px 0;
 }
-.hiw-papers-section {
+.hiw-papers-section, .hiw-send-to-candidates-picture-section {
   /* border: 1px solid black; */
   text-align: center;
 }
@@ -264,6 +264,14 @@ img.hiw-papers-img {
   margin: 10px 5px;
   border-radius: 20px;
   background-color: white;
+}
+.hiw-send-to-candidates-words {
+  /* border: 1px solid black; */
+  text-align: center;
+  margin: 180px 0 0 0;
+}
+.hiw-send-to-candidates-img {
+  height: 375px;
 }
 /* - - - - - - - - - - how it works end */
 
