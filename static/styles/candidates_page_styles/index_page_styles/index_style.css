@@ -1,6 +1,6 @@
 /* - - - - - - - - - - spacer start */
 .landing-spacer-section {
-  background-color: var(--testing-blueprint-color);
+  /* background-color: var(--testing-blueprint-color); */
   height: 100px;
   width: 80%;
   max-width: 1200px;
@@ -167,7 +167,7 @@ img.framework-logo-img {
 
 /* - - - - - - - - - - how it works start */
 .landing-hiw-section {
-  border: 1px solid black;
+  /* border: 1px solid black; */
   width: 80%;
   max-width: 1200px;
   margin: 0 auto;
@@ -186,15 +186,15 @@ img.framework-logo-img {
   row-gap: 0;
 }
 .hiw-split-left-section {
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
   grid-area: 1 / 1 / 2 / 2;
 }
 .hiw-split-right-section {
-  border: 1px solid red;
+  /* border: 1px solid red; */
   grid-area: 1 / 2 / 2 / 3;
 }
 .hiw-title-center-section {
-  /* border: 1px solid black; */
+  /* border: 1px solid black  ; */
   width: 100%;
   text-align: center;
   padding: 0 0 25px 0;
