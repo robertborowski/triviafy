@@ -139,7 +139,7 @@ form.landing-page-email-form-3 {
 /* - - - - - - - - - - Supported Frameworks Start */
 .landing-page-supported-frameworks-section {
   /* border: 1px solid black; */
-  height: 250px;
+  height: 350px;
   width: 80%;
   max-width: 1200px;
   margin: 0 auto;
@@ -168,7 +168,7 @@ form.landing-page-email-form-3 {
 }
 img.framework-logo-img {
   /* border: 1px solid red; */
-  margin: 5px 10px;
+  margin: 5px 8px;
   height: 20px;
   width: auto;
 }
