@@ -221,7 +221,7 @@ img.framework-logo-img {
   text-align: center;
 }
 img.hiw-papers-img {
-  height: 268px;
+  height: 250px;
 }
 .hiw-icons-section {
   /* border: 1px solid black; */
@@ -259,7 +259,7 @@ img.hiw-papers-img {
   text-decoration: none;
   list-style-type: none;
   padding: 6px 10px;
-  margin: 10px 5px;
+  margin: 8px 5px;
   border-radius: 20px;
   background-color: white;
 }
@@ -272,6 +272,21 @@ img.hiw-papers-img {
   height: 375px;
 }
 /* - - - - - - - - - - how it works end */
+
+
+
+/* - - - - - - - - - - sign up small start */
+.sign-up-small-section {
+  /* border: 1px solid black; */
+  border-radius: 50px;
+  background: linear-gradient(145deg, rgb(255 224 224)0%, rgb(255 254 221)25%, rgb(240 255 238)50%, rgb(233 209 255)100%);
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 110px 0;
+}
+/* - - - - - - - - - - sign up small end */
 
 
 

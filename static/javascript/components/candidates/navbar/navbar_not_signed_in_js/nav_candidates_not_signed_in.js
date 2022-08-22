@@ -40,11 +40,8 @@ class NavbarCandidatesNotSignedInClass extends HTMLElement {
           <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar - Links - Level 2 - START -->
           <ul class="links-level-2 default-box-shadow-grey-reg">
             <li><a href="#">About</a></li>
-            <li><a href="#">Blog</a></li>
             <li><a href="#">FAQ</a></li>
-            <li><a href="#">How it works</a></li>
             <li><a href="#">Pricing</a></li>
-            <li><a href="#">Privacy</a></li>
           </ul>
           <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar - Links - Level 2 - END -->
         </li>
