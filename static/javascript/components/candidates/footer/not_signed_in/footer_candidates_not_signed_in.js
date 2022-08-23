@@ -24,7 +24,7 @@ class FooterNotSignedInClassCandidates extends HTMLElement {
     <div class="footer-not-signed-in-3-sub-section">
       <p class="footer-title-3 footer-title-position-3">Resources</p>
       <ul class="footer-not-signed-in-3-ul">
-        <li class="footer-sub-title-item-3 footer-sub-title-item-position-3"><a href="#" class="footer-a">About</a></li>
+        <li class="footer-sub-title-item-3 footer-sub-title-item-position-3"><a href="${this.getAttribute("redirect_candidates_about_page")}" class="footer-a">About</a></li>
         <li class="footer-sub-title-item-3 footer-sub-title-item-position-3"><a href="#" class="footer-a">FAQ</a></li>
         <li class="footer-sub-title-item-3 footer-sub-title-item-position-3"><a href="#" class="footer-a">Pricing</a></li>
         <li class="footer-sub-title-item-3 footer-sub-title-item-position-3"><a href="#" class="footer-a">Login</a></li>

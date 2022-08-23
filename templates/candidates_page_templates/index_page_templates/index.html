@@ -9,7 +9,8 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar START -->
 <!--Navigation bar-->
-<nav-candidates-not-signed-in-component link_home_js="{{ url_for('candidates_page_render_template.candidates_page_render_template_function') }}">
+<nav-candidates-not-signed-in-component link_home_js="{{ url_for('candidates_page_render_template.candidates_page_render_template_function') }}",
+                                        redirect_candidates_about_page="{{ url_for('candidates_about_page_render_template.candidates_about_page_render_template_function') }}">
 </nav-candidates-not-signed-in-component>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar END -->
 
@@ -419,13 +420,13 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
 <div class="landing-spacer-section"></div>
-<div class="landing-spacer-section"></div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
 
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - footer start -->
 <!-- Footer Not Signed In -->
-<footer-candidates-not-signed-in-component>
+<footer-candidates-not-signed-in-component link_home_js="{{ url_for('candidates_page_render_template.candidates_page_render_template_function') }}",
+                                          redirect_candidates_about_page="{{ url_for('candidates_about_page_render_template.candidates_about_page_render_template_function') }}">
 </footer-candidates-not-signed-in-component>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - footer end -->
 {% endblock %}

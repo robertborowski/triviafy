@@ -202,7 +202,11 @@
     <!-- Candidates Page - Main styles -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/candidates_page_styles/index_page_styles/index_style.css') }}?v={{ css_cache_busting }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/candidates_page_styles/index_page_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
+    <!-- Candidates Page - About styles -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/candidates_page_styles/about_page_styles/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/candidates_page_styles/about_page_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
     <!-- ------------------------------------------------ Connect to the style pages End -->
+
 
     <!-- ------------------------------------------------ Load javascript function(s) Start -->
     <!-- navbar not signed in javascript -->
@@ -257,6 +261,7 @@
     <!-- <script src="/static/javascript/javascript_utils/free_trial_page_js/free_trial_display.js" type="text/javascript" defer></script> -->
     <!-- ------------------------------------------------ Load javascript function(s) End -->
 
+    
     <!-- ------------------------------------------------ Additional head elements per page Start -->
     {% block title %}
     {% endblock %}
