@@ -1,5 +1,18 @@
 /* - - - - - - - - - - spacer start */
-.testing-a {
-  border: 1px solid black;
+.page-title-section {
+  /* border: 1px solid black; */
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+.page-title-words {
+  /* border: 1px solid black; */
+  font-size: 40px;
+  margin: 0 0 15px 0;
+}
+.page-subtitle-words {
+  /* border: 1px solid black; */
+  font-size: 25px;
 }
 /* - - - - - - - - - - spacer end */
