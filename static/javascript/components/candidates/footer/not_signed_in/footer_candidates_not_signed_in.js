@@ -17,7 +17,7 @@ class FooterNotSignedInClassCandidates extends HTMLElement {
     <div class="footer-not-signed-in-3-sub-section">
       <p class="footer-title-3 footer-title-position-3">Triviafy Candidates</p>
       <div class="footer-logo-container-3">
-        <img src="/static/images/logo/Logo.png" alt="logo" class="footer-logo-img-3">
+        <a href="${this.getAttribute("link_home_js")}"><img src="/static/images/logo/Logo.png" alt="logo" class="footer-logo-img-3"></a>
       </div>
     </div>
 
@@ -61,4 +61,4 @@ class FooterNotSignedInClassCandidates extends HTMLElement {
   }
 }
 
-customElements.define('footer-candidates-not-signed-in-component', FooterNotSignedInClassCandidates);
+customElements.define('footer-candidates-not-signed-in-component', FooterNotSignedInClassCandidates); 

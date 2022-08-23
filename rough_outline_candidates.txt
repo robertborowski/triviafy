@@ -1,24 +1,19 @@
 To-Do's
-Candidates Index Landing page
--intro
--flexbox supported frameworks
+----------------------------
+About Page
+-Triviafy has 2 products:
+1. Triviafy for Exmployee Enagagement (Employee Engagement - Internal)
+2. Tirivafy for Candidates (Candidate Screening - External)
 
--************ How it works (Can add actual screenshots/PDF later)
--flexbox popular company logos
--Example quiz 1
-
-How it works
-1. Create a candidate quiz (split screen)
-Left: Make your own custom questions/quizes
-Right: Use our automated quiz builder
-
-2. Send quiz to candidates
-Secure link, expires 24 hours,
-
-3. Receive candidate summary
-
-Company Logos that use candidate screening tests online
-
-Sign up form.
-
-Footer
+-Triviafy Candidates
+-What is it?
+-Why do we need it? Another assessment tool? Because it is extremely simple and low touch for you.
+-Benefits of using skill assessment tools
+  -Time
+  -Money
+  -Grading process
+  -Question ideas
+  -updating outdated questions
+  -User experience is easiest. They get an email with a link.
+  -One product, affordable.
+----------------------------
