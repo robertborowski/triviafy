@@ -33,7 +33,9 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - footer start -->
 <!-- Footer Not Signed In -->
 <footer-candidates-not-signed-in-component link_home_js="{{ url_for('candidates_page_render_template.candidates_page_render_template_function') }}",
-                                          redirect_candidates_about_page="{{ url_for('candidates_about_page_render_template.candidates_about_page_render_template_function') }}">
+                                          redirect_candidates_about_page="{{ url_for('candidates_about_page_render_template.candidates_about_page_render_template_function') }}",
+                                          link_privacy_js="{{ url_for('privacy_policy_index_page_render_template.privacy_policy_index_page_render_template_function') }}",
+                                          link_terms_conditions_js="{{ url_for('terms_of_service_index_page_render_template.terms_of_service_index_page_render_template_function') }}">
 </footer-candidates-not-signed-in-component>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - footer end -->
 {% endblock %}
