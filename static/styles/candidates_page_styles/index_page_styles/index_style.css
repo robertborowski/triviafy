@@ -125,6 +125,7 @@ form.landing-page-email-form-3 {
 .landing-page-intro-3-media-section {
   /* border: 1px solid red; */
   grid-area: 1 / 2 / 2 / 3;
+  text-align: center;
 }
 .landing-page-intro-3-media-img {
   width: 500px;

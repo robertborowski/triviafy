@@ -1,7 +1,9 @@
 @media (max-width: 1200px) {
   /* - - - - - - - - - - spacer start */
-  .testing-a {
-    border: 1px solid black;
+  .general-page-intro-3-media-img {
+    /* border: 1px solid black; */
+    height: 250px;
+    width: 250px;
   }
   /* - - - - - - - - - - spacer end */
 }
