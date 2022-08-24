@@ -115,6 +115,8 @@ from backend.page_templates_backend.blog_page_backend.blog_single_post_page_back
 from backend.page_templates_backend.candidates_page_backend.index_page_backend.candidates_page_render_template import candidates_page_render_template
 # Candidates - about page
 from backend.page_templates_backend.candidates_page_backend.about_page_backend.candidates_about_page_render_template import candidates_about_page_render_template
+# Candidates - faq page
+from backend.page_templates_backend.candidates_page_backend.faq_page_backend.candidates_faq_page_render_template import candidates_faq_page_render_template
 # ------------------------ Pages END ------------------------
 
 
@@ -255,6 +257,8 @@ app.register_blueprint(blog_single_post_0006_index_page_render_template, url_pre
 app.register_blueprint(candidates_page_render_template, url_prefix="")
 # Candidates about page
 app.register_blueprint(candidates_about_page_render_template, url_prefix="")
+# Candidates faq page
+app.register_blueprint(candidates_faq_page_render_template, url_prefix="")
 # ------------------------ Pages - Register END ------------------------
 
 
