@@ -5,5 +5,11 @@
     height: 250px;
     width: 250px;
   }
+  .about-section {
+    width: 90%;
+  }
+  .about-content-section {
+    width: 100%;
+  }
   /* - - - - - - - - - - spacer end */
 }

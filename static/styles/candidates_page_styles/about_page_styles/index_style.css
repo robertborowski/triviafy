@@ -1,6 +1,32 @@
-/* - - - - - - - - - - title start */
 .general-page-intro-3-media-img {
   /* border: 1px solid black; */
   height: 400px;
   width: 400px;
+}
+.about-section {
+  /* border: 1px solid black; */
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.about-title-section {
+  /* border: 1px solid black; */
+  text-align: center;
+  font-size: 35px;
+  font-weight: 700;
+}
+.about-content-section {
+  /* border: 1px solid black; */
+  width: 75%;
+  max-width: 900px;
+  margin: 0 auto;
+  line-height: 1.5;
+  font-size: 20px;
+}
+.about-individual-p {
+  margin: 20px 0 0 0;
+}
+.contact-section {
+  color: var(--company-primary-color);
+  text-align: center;
 }
