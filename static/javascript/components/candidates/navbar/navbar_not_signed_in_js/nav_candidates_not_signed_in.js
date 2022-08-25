@@ -41,7 +41,7 @@ class NavbarCandidatesNotSignedInClass extends HTMLElement {
           <ul class="links-level-2 default-box-shadow-grey-reg">
             <li><a href="${this.getAttribute("link_candidates_about_js")}">About</a></li>
             <li><a href="${this.getAttribute("link_candidates_faq_js")}">FAQ</a></li>
-            <li><a href="#">Pricing</a></li>
+            <li><a href="${this.getAttribute("link_candidates_pricing_js")}">Pricing</a></li>
           </ul>
           <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar - Links - Level 2 - END -->
         </li>

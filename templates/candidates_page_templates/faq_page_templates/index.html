@@ -11,7 +11,8 @@
 <!--Navigation bar-->
 <nav-candidates-not-signed-in-component link_home_js="{{ url_for('candidates_page_render_template.candidates_page_render_template_function') }}",
                                         link_candidates_about_js="{{ url_for('candidates_about_page_render_template.candidates_about_page_render_template_function') }}",
-                                        link_candidates_faq_js="{{ url_for('candidates_faq_page_render_template.candidates_faq_page_render_template_function') }}">
+                                        link_candidates_faq_js="{{ url_for('candidates_faq_page_render_template.candidates_faq_page_render_template_function') }}",
+                                        link_candidates_pricing_js="{{ url_for('candidates_pricing_page_render_template.candidates_pricing_page_render_template_function') }}">
 </nav-candidates-not-signed-in-component>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar END -->
 
@@ -68,11 +69,11 @@
     <div class="faq-spacing-section"></div>
     
     <p class="about-individual-p">Q: Monthly subscription cost?</p>
-    <p class="about-individual-p">A: Please see our <a href="#">pricing</a> page.</p>
+    <p class="about-individual-p">A: Please see our <a href="{{ url_for('candidates_pricing_page_render_template.candidates_pricing_page_render_template_function') }}">pricing</a> page.</p>
     <div class="faq-spacing-section"></div>
 
     <p class="about-individual-p">Q: Can I send unlimited tests?</p>
-    <p class="about-individual-p">A: Please see our <a href="#">pricing</a> page.</p>
+    <p class="about-individual-p">A: Please see our <a href="{{ url_for('candidates_pricing_page_render_template.candidates_pricing_page_render_template_function') }}">pricing</a> page.</p>
     <div class="faq-spacing-section"></div>
 
     <p class="about-individual-p">Q: Does Triviafy offer auto expiring test links?</p>
@@ -155,6 +156,7 @@
 <footer-candidates-not-signed-in-component link_home_js="{{ url_for('candidates_page_render_template.candidates_page_render_template_function') }}",
                                           link_candidates_about_js="{{ url_for('candidates_about_page_render_template.candidates_about_page_render_template_function') }}",
                                           link_candidates_faq_js="{{ url_for('candidates_faq_page_render_template.candidates_faq_page_render_template_function') }}",
+                                          link_candidates_pricing_js="{{ url_for('candidates_pricing_page_render_template.candidates_pricing_page_render_template_function') }}",
                                           link_privacy_js="{{ url_for('privacy_policy_index_page_render_template.privacy_policy_index_page_render_template_function') }}",
                                           link_terms_conditions_js="{{ url_for('terms_of_service_index_page_render_template.terms_of_service_index_page_render_template_function') }}">
 </footer-candidates-not-signed-in-component>

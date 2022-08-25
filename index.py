@@ -117,6 +117,8 @@ from backend.page_templates_backend.candidates_page_backend.index_page_backend.c
 from backend.page_templates_backend.candidates_page_backend.about_page_backend.candidates_about_page_render_template import candidates_about_page_render_template
 # Candidates - faq page
 from backend.page_templates_backend.candidates_page_backend.faq_page_backend.candidates_faq_page_render_template import candidates_faq_page_render_template
+# Candidates - pricing page
+from backend.page_templates_backend.candidates_page_backend.pricing_page_backend.candidates_pricing_page_render_template import candidates_pricing_page_render_template
 # ------------------------ Pages END ------------------------
 
 
@@ -259,6 +261,8 @@ app.register_blueprint(candidates_page_render_template, url_prefix="")
 app.register_blueprint(candidates_about_page_render_template, url_prefix="")
 # Candidates faq page
 app.register_blueprint(candidates_faq_page_render_template, url_prefix="")
+# Candidates pricing page
+app.register_blueprint(candidates_pricing_page_render_template, url_prefix="")
 # ------------------------ Pages - Register END ------------------------
 
 
