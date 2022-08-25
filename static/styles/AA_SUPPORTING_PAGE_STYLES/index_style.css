@@ -92,15 +92,32 @@ input[type=checkbox] {
   /* Media */
   /* -webkit-box-direction: normal; */
 }
+/* - - - - - - - - - - Colors - Start */
 .default-button-format-primary-color {
   color: white;
   background-color: var(--company-primary-color);
 }
 .default-button-format-primary-color:hover {
   color: white;
-  /* background-color: rgb(208, 126, 255);   /* v1 */
-  background-color: rgb(140, 0, 222);   /* v2 */
+  background-color: rgb(140, 0, 222);
 }
+.default-button-format-pricing-green-color {
+  color: white;
+  background-color: rgb(14, 142, 0);
+}
+.default-button-format-pricing-green-color:hover {
+  color: white;
+  background-color: rgb(11, 222, 0);
+}
+.default-button-format-pricing-blue-color {
+  color: white;
+  background-color: rgb(0, 104, 142);
+}
+.default-button-format-pricing-blue-color:hover {
+  color: white;
+  background-color: rgb(0, 148, 222);
+}
+/* - - - - - - - - - - Colors - End */
 .default-button-center-section {
   text-align: center;
 }
