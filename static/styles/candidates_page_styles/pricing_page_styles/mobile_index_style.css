@@ -1,4 +1,7 @@
 @media (max-width: 1200px) {
   /* - - - - - - - - - - pricing master start */
+  .pricing-master-section {
+    height: 1750px;
+  }
   /* - - - - - - - - - - pricing master end */
 }

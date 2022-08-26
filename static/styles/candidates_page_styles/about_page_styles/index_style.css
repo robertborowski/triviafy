@@ -37,3 +37,10 @@
   color: var(--company-primary-color);
   text-align: center;
 }
+.pricing-a {
+  color: var(--company-primary-color);
+  text-decoration: none;
+}
+.pricing-a:hover {
+  text-decoration: underline;
+}
