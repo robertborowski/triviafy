@@ -89,6 +89,9 @@
   border-radius: 15px;
   padding: 5px 10px;
   margin: 20px 0;
-  background: rgb(240 240 240)
+  background: rgb(240 240 240);
+}
+.pricing-stand-out {
+  color: var(--company-primary-color);
 }
 /* - - - - - - - - - - pricing master end */

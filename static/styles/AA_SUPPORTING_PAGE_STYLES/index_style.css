@@ -59,6 +59,16 @@ input[type=checkbox] {
 .default-box-shadow-black-small {
   box-shadow: 0 .125rem .5rem rgba(0,0,0,.750)!important;
 }
+
+.default-box-shadow-green-reg {
+  box-shadow: 0 0.5rem 2.5rem rgba(4, 122, 0, 0.150)!important;
+}
+.default-box-shadow-purple-reg {
+  box-shadow: 0 0.5rem 2.5rem rgba(91, 0, 122, 0.150)!important;
+}
+.default-box-shadow-blue-reg {
+  box-shadow: 0 0.5rem 2.5rem rgba(0, 71, 122, 0.150)!important;
+}
 /* - - - - - - - - - - Default - Signed In and Not Signed In - Box shadows - End */
 /* - - - - - - - - - - Default - Signed In and Not Signed In - Buttons - Start */
 .default-button-format {
