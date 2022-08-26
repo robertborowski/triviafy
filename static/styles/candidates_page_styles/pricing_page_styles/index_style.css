@@ -77,16 +77,18 @@
   /* border: 1px solid black; */
   height: 100%;
   width: 100%;
-  padding: 25px 30px;
+  padding: 15px 20px;
 }
 .pricing-included-title {
   /* border: 1px solid black; */
   text-align: center;
   font-size: 20px;
-  padding: 0 0 10px 0;
 }
 .pricing-included-section li {
   /* border: 1px solid black; */
-  padding: 5px 0;
+  border-radius: 15px;
+  padding: 5px 10px;
+  margin: 20px 0;
+  background: rgb(240 240 240)
 }
 /* - - - - - - - - - - pricing master end */

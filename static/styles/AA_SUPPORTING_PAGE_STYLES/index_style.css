@@ -53,6 +53,9 @@ input[type=checkbox] {
 .default-box-shadow-grey-reg {
   box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.115)!important;
 }
+.default-box-shadow-grey-small {
+  box-shadow: 0 .125rem .5rem rgba(0, 0, 0, 0.115)!important;
+}
 .default-box-shadow-black-small {
   box-shadow: 0 .125rem .5rem rgba(0,0,0,.750)!important;
 }
