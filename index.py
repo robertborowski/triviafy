@@ -104,6 +104,8 @@ from backend.page_templates_backend.blog_page_backend.blog_index_page_render_tem
 # Collect User Email Page
 from backend.page_templates_backend.collect_email_page_backend.collect_email_processing import collect_email_processing
 from backend.page_templates_backend.collect_email_page_backend.collect_email_confirm_page_backend.collect_email_confirm_page_render_template import collect_email_confirm_page_render_template
+from backend.page_templates_backend.candidates_page_backend.utils.collect_email_backend.collect_email_processing_candidates import collect_email_processing_candidates
+from backend.page_templates_backend.candidates_page_backend.utils.collect_email_backend.collect_email_processing_candidates_success import collect_email_processing_candidates_success
 # Blog Single Post page
 from backend.page_templates_backend.blog_page_backend.blog_single_post_page_backend.blog_single_post_0001_index_page_render_template import blog_single_post_0001_index_page_render_template
 from backend.page_templates_backend.blog_page_backend.blog_single_post_page_backend.blog_single_post_0002_index_page_render_template import blog_single_post_0002_index_page_render_template
@@ -111,6 +113,18 @@ from backend.page_templates_backend.blog_page_backend.blog_single_post_page_back
 from backend.page_templates_backend.blog_page_backend.blog_single_post_page_backend.blog_single_post_0004_index_page_render_template import blog_single_post_0004_index_page_render_template
 from backend.page_templates_backend.blog_page_backend.blog_single_post_page_backend.blog_single_post_0005_index_page_render_template import blog_single_post_0005_index_page_render_template
 from backend.page_templates_backend.blog_page_backend.blog_single_post_page_backend.blog_single_post_0006_index_page_render_template import blog_single_post_0006_index_page_render_template
+# Candidates - index page
+from backend.page_templates_backend.candidates_page_backend.index_page_backend.candidates_page_render_template import candidates_page_render_template
+# Candidates - about page
+from backend.page_templates_backend.candidates_page_backend.about_page_backend.candidates_about_page_render_template import candidates_about_page_render_template
+# Candidates - faq page
+from backend.page_templates_backend.candidates_page_backend.faq_page_backend.candidates_faq_page_render_template import candidates_faq_page_render_template
+# Candidates - pricing page
+from backend.page_templates_backend.candidates_page_backend.pricing_page_backend.candidates_pricing_page_render_template import candidates_pricing_page_render_template
+# Candidates - test library page
+from backend.page_templates_backend.candidates_page_backend.test_library_page_backend.candidates_test_library_page_render_template import candidates_test_library_page_render_template
+# Candidates - launch page
+from backend.page_templates_backend.candidates_page_backend.stand_in_page_backend.login_stand_in_page_backend.launch_page_render_template import launch_page_render_template
 # ------------------------ Pages END ------------------------
 
 
@@ -240,6 +254,8 @@ app.register_blueprint(blog_index_page_render_template, url_prefix="")
 # Collect User Email Page
 app.register_blueprint(collect_email_processing, url_prefix="")
 app.register_blueprint(collect_email_confirm_page_render_template, url_prefix="")
+app.register_blueprint(collect_email_processing_candidates, url_prefix="")
+app.register_blueprint(collect_email_processing_candidates_success, url_prefix="")
 # Blog Single Post page
 app.register_blueprint(blog_single_post_0001_index_page_render_template, url_prefix="")
 app.register_blueprint(blog_single_post_0002_index_page_render_template, url_prefix="")
@@ -247,6 +263,18 @@ app.register_blueprint(blog_single_post_0003_index_page_render_template, url_pre
 app.register_blueprint(blog_single_post_0004_index_page_render_template, url_prefix="")
 app.register_blueprint(blog_single_post_0005_index_page_render_template, url_prefix="")
 app.register_blueprint(blog_single_post_0006_index_page_render_template, url_prefix="")
+# Candidates page
+app.register_blueprint(candidates_page_render_template, url_prefix="")
+# Candidates about page
+app.register_blueprint(candidates_about_page_render_template, url_prefix="")
+# Candidates faq page
+app.register_blueprint(candidates_faq_page_render_template, url_prefix="")
+# Candidates pricing page
+app.register_blueprint(candidates_pricing_page_render_template, url_prefix="")
+# Candidates test library page
+app.register_blueprint(candidates_test_library_page_render_template, url_prefix="")
+# Candidates launch  page
+app.register_blueprint(launch_page_render_template, url_prefix="")
 # ------------------------ Pages - Register END ------------------------
 
 

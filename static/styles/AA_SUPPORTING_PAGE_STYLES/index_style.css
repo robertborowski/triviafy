@@ -23,12 +23,17 @@
 /* ================================================================================================================================================= */
 /* ==================================== Default - Signed In and Not Signed In - Global Colors - START ==================================== */
 :root {
-  /*--company-primary-color: rgb(196, 94, 255);     /* OFFICIAL v1 */
-  /*--company-secondary-color: rgb(0, 255, 192);    /* OFFICIAL v1 */
-  --company-greyed-out-color: rgb(170, 170, 170); /* OFFICIAL v1 */
-  
+  /* - - - - - - - - - - default / signed in and not signed in / company official colors / no category start */
+  /*--company-primary-color: rgb(196, 94, 255);     /* OFFICIAL v1 - DEPRECATED */
   --company-primary-color: rgb(90, 0, 142);     /* OFFICIAL v2 */
+  
+  /*--company-secondary-color: rgb(0, 255, 192);    /* OFFICIAL v1 - DEPRECATED */
   --company-secondary-color: rgb(0, 213, 25);    /* OFFICIAL v2 */
+  /* - - - - - - - - - - default / signed in and not signed in / company official colors / no category end */
+  /* - - - - - - - - - - default / signed in and not signed in / general / no category start */
+  --company-greyed-out-color: rgb(170, 170, 170);
+  --testing-blueprint-color: rgb(226, 247, 255);
+  /* - - - - - - - - - - default / signed in and not signed in / general / no category end */
 }
 /* ==================================== Default - Signed In and Not Signed In - Global Colors - END ==================================== */
 /* ================================================================================================================================================= */
@@ -48,8 +53,21 @@ input[type=checkbox] {
 .default-box-shadow-grey-reg {
   box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.115)!important;
 }
+.default-box-shadow-grey-small {
+  box-shadow: 0 .125rem .5rem rgba(0, 0, 0, 0.115)!important;
+}
 .default-box-shadow-black-small {
   box-shadow: 0 .125rem .5rem rgba(0,0,0,.750)!important;
+}
+
+.default-box-shadow-green-reg {
+  box-shadow: 0 0.5rem 2.5rem rgba(4, 122, 0, 0.150)!important;
+}
+.default-box-shadow-purple-reg {
+  box-shadow: 0 0.5rem 2.5rem rgba(91, 0, 122, 0.150)!important;
+}
+.default-box-shadow-blue-reg {
+  box-shadow: 0 0.5rem 2.5rem rgba(0, 71, 122, 0.150)!important;
 }
 /* - - - - - - - - - - Default - Signed In and Not Signed In - Box shadows - End */
 /* - - - - - - - - - - Default - Signed In and Not Signed In - Buttons - Start */
@@ -87,15 +105,32 @@ input[type=checkbox] {
   /* Media */
   /* -webkit-box-direction: normal; */
 }
+/* - - - - - - - - - - Colors - Start */
 .default-button-format-primary-color {
   color: white;
   background-color: var(--company-primary-color);
 }
 .default-button-format-primary-color:hover {
   color: white;
-  /* background-color: rgb(208, 126, 255);   /* v1 */
-  background-color: rgb(140, 0, 222);   /* v2 */
+  background-color: rgb(140, 0, 222);
 }
+.default-button-format-pricing-green-color {
+  color: white;
+  background-color: rgb(14, 142, 0);
+}
+.default-button-format-pricing-green-color:hover {
+  color: white;
+  background-color: rgb(11, 222, 0);
+}
+.default-button-format-pricing-blue-color {
+  color: white;
+  background-color: rgb(0, 104, 142);
+}
+.default-button-format-pricing-blue-color:hover {
+  color: white;
+  background-color: rgb(0, 148, 222);
+}
+/* - - - - - - - - - - Colors - End */
 .default-button-center-section {
   text-align: center;
 }

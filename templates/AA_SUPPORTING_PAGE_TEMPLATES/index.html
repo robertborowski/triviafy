@@ -159,6 +159,8 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/navbar_page_styles/navbar_not_signed_in_page_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/navbar_page_styles/navbar_not_signed_in_page_styles/index_style_WIP.css') }}?v={{ css_cache_busting }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/navbar_page_styles/navbar_not_signed_in_page_styles/mobile_index_style_WIP.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/candidates_page_styles/navbar_page_styles/navbar_not_signed_in_page_styles/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/candidates_page_styles/navbar_page_styles/navbar_not_signed_in_page_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
     <!-- Company name and channel name styles -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/company_name_channel_styles/index_style.css') }}?v={{ css_cache_busting }}">
     <!-- Footer styles -->
@@ -167,6 +169,8 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/footer_page_styles/footer_not_logged_in_page_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/footer_page_styles/footer_not_logged_in_page_styles/index_style_WIP.css') }}?v={{ css_cache_busting }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/footer_page_styles/footer_not_logged_in_page_styles/mobile_index_style_WIP.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/candidates_page_styles/footer_page_styles/footer_not_signed_in_page_styles/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/candidates_page_styles/footer_page_styles/footer_not_signed_in_page_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
     <!-- Present Quiz Question styles -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/present_quiz_question_styles/index_style.css') }}?v={{ css_cache_busting }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/present_quiz_question_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
@@ -195,12 +199,29 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/example_quizzes_not_signed_in_page_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
     <!-- Multi page question category styles -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/multi_page_question_category_styles/index_style.css') }}?v={{ css_cache_busting }}">
+    <!-- Candidates Page - Main styles -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/candidates_page_styles/index_page_styles/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/candidates_page_styles/index_page_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
+    <!-- Candidates Page - About styles -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/candidates_page_styles/about_page_styles/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/candidates_page_styles/about_page_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
+    <!-- Candidates Page - FAQ styles -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/candidates_page_styles/faq_page_styles/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/candidates_page_styles/faq_page_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
+    <!-- Candidates Page - Pricing styles -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/candidates_page_styles/pricing_page_styles/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/candidates_page_styles/pricing_page_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
+    <!-- Candidates Page - Test Library styles -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/candidates_page_styles/test_library_page_styles/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/candidates_page_styles/test_library_page_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
     <!-- ------------------------------------------------ Connect to the style pages End -->
+
 
     <!-- ------------------------------------------------ Load javascript function(s) Start -->
     <!-- navbar not signed in javascript -->
     <script src="/static/javascript/components/navbar_not_signed_in_js/nav.js" type="text/javascript" defer></script>
     <script src="/static/javascript/components/navbar_not_signed_in_js/nav_2.js" type="text/javascript" defer></script>
+    <script src="/static/javascript/components/candidates/navbar/navbar_not_signed_in_js/nav_candidates_not_signed_in.js" type="text/javascript" defer></script>
     <!-- navbar signed in javascript -->
     <script src="/static/javascript/components/navbar_signed_in_js/nav.js" type="text/javascript" defer></script>
     <script src="/static/javascript/javascript_utils/navbar_signed_in_js/navbar_hamburger_toggle.js" type="text/javascript" defer></script>
@@ -210,10 +231,12 @@
     <script src="/static/javascript/components/navbar_not_signed_in_js/nav.js" type="text/javascript" defer></script>
     <script src="/static/javascript/javascript_utils/navbar_not_signed_in_js/navbar_hamburger_toggle.js" type="text/javascript" defer></script>
     <script src="/static/javascript/javascript_utils/navbar_not_signed_in_js/navbar_hamburger_toggle_WIP.js" type="text/javascript" defer></script>
+    <script src="/static/javascript/components/candidates/navbar/navbar_not_signed_in_js/navbar_hamburger_toggle.js" type="text/javascript" defer></script>
     <!-- footer signed in javascript -->
     <script src="/static/javascript/components/footer_signed_in_js/footer.js" type="text/javascript" defer></script>
     <script src="/static/javascript/components/footer_not_signed_in_js/footer.js" type="text/javascript" defer></script>
     <script src="/static/javascript/components/footer_not_signed_in_js/footer_2.js" type="text/javascript" defer></script>
+    <script src="/static/javascript/components/candidates/footer/not_signed_in/footer_candidates_not_signed_in.js" type="text/javascript" defer></script>
     <!-- Company name and channel name component javascript -->
     <script src="/static/javascript/components/company_name_channel_js/company_name_channel.js" type="text/javascript" defer></script>
     <!-- Count characters in input text field javascript -->
@@ -247,6 +270,7 @@
     <!-- <script src="/static/javascript/javascript_utils/free_trial_page_js/free_trial_display.js" type="text/javascript" defer></script> -->
     <!-- ------------------------------------------------ Load javascript function(s) End -->
 
+    
     <!-- ------------------------------------------------ Additional head elements per page Start -->
     {% block title %}
     {% endblock %}

@@ -37,6 +37,15 @@ Notes:
     -Create question, all questions confirmed page
 -----------------------------------------------------------------------
 
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - navbar start - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+Test Library
+Resources > Hover: ['About', 'Blog', 'Pricing', 'Privacy', 'etc.']
+Get Started > Clicked: ['Create Account', 'Login']
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - navbar end - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+
 For printing quick tests
 ----------------------------
 localhost_print_function('- - - - - - - 0 - - - - - - -')
