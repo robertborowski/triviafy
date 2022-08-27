@@ -2,11 +2,11 @@
     /* - - - - - - - - - - Footer All - Start */
     /* - - - - - - - - - - Footer Top - Start */
     .footer-not-signed-in-3-background-color {
-      height: 800px;
+      height: 900px;
     }
     .footer-not-signed-in-3-section-top {
       /* border: 1px solid black; */
-      height: 600px;
+      height: 700px;
       width: 90%;
       flex-direction: column;
       text-align: center;
