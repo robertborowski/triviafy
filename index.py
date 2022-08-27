@@ -123,6 +123,8 @@ from backend.page_templates_backend.candidates_page_backend.faq_page_backend.can
 from backend.page_templates_backend.candidates_page_backend.pricing_page_backend.candidates_pricing_page_render_template import candidates_pricing_page_render_template
 # Candidates - test library page
 from backend.page_templates_backend.candidates_page_backend.test_library_page_backend.candidates_test_library_page_render_template import candidates_test_library_page_render_template
+# Candidates - launch page
+from backend.page_templates_backend.candidates_page_backend.stand_in_page_backend.login_stand_in_page_backend.launch_page_render_template import launch_page_render_template
 # ------------------------ Pages END ------------------------
 
 
@@ -271,6 +273,8 @@ app.register_blueprint(candidates_faq_page_render_template, url_prefix="")
 app.register_blueprint(candidates_pricing_page_render_template, url_prefix="")
 # Candidates test library page
 app.register_blueprint(candidates_test_library_page_render_template, url_prefix="")
+# Candidates launch  page
+app.register_blueprint(launch_page_render_template, url_prefix="")
 # ------------------------ Pages - Register END ------------------------
 
 
