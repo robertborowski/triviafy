@@ -26,4 +26,5 @@ def candidates_test_library_page_render_template_function():
 
 
   localhost_print_function('=========================================== candidates_test_library_page_render_template_function END ===========================================')
-  return render_template('candidates_page_templates/test_library_page_templates/index.html', css_cache_busting = cache_busting_output)
+  return render_template('candidates_page_templates/test_library_page_templates/index.html',
+                          css_cache_busting = cache_busting_output)
