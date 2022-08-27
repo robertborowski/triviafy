@@ -31,7 +31,7 @@
     <p class="landing-page-3-subheader landing-page-intro-3-sub-header">Early stage candidate screening made simple.</p>
     <div class="landing-page-get-started-section">
       <div class="landing-page-intro-3-next-steps-section">
-        <form action="#" method="post" class="landing-page-email-form-3" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+        <form action="{{ url_for('collect_email_processing_candidates.collect_email_processing_candidates_function') }}" method="post" class="landing-page-email-form-3" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
           <label for="user_input_email" class="landing-page-form-email-label"></label>
           <input type="email" pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,10}$" id="user_input_email" name="user_input_email" placeholder="Your work email" class="default-not-signed-in-text-input" required><br><br>
           <input type="submit" value="Get started!" class="default-button-format default-button-format-primary-color landing-page-button-position-3">
@@ -149,7 +149,7 @@
   </div>
   <div class="landing-page-get-started-section">
     <div class="landing-page-intro-3-next-steps-section">
-      <form action="#" method="post" class="landing-page-email-form-3" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+      <form action="{{ url_for('collect_email_processing_candidates.collect_email_processing_candidates_function') }}" method="post" class="landing-page-email-form-3" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
         <label for="user_input_email" class="landing-page-form-email-label"></label>
         <input type="email" pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,10}$" id="user_input_email" name="user_input_email" placeholder="Your work email" class="default-not-signed-in-text-input" required><br><br>
         <input type="submit" value="Get started!" class="default-button-format default-button-format-primary-color landing-page-button-position-3">

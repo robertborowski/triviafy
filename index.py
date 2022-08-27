@@ -104,6 +104,7 @@ from backend.page_templates_backend.blog_page_backend.blog_index_page_render_tem
 # Collect User Email Page
 from backend.page_templates_backend.collect_email_page_backend.collect_email_processing import collect_email_processing
 from backend.page_templates_backend.collect_email_page_backend.collect_email_confirm_page_backend.collect_email_confirm_page_render_template import collect_email_confirm_page_render_template
+from backend.page_templates_backend.candidates_page_backend.utils.collect_email_backend.collect_email_processing_candidates import collect_email_processing_candidates
 # Blog Single Post page
 from backend.page_templates_backend.blog_page_backend.blog_single_post_page_backend.blog_single_post_0001_index_page_render_template import blog_single_post_0001_index_page_render_template
 from backend.page_templates_backend.blog_page_backend.blog_single_post_page_backend.blog_single_post_0002_index_page_render_template import blog_single_post_0002_index_page_render_template
@@ -250,6 +251,7 @@ app.register_blueprint(blog_index_page_render_template, url_prefix="")
 # Collect User Email Page
 app.register_blueprint(collect_email_processing, url_prefix="")
 app.register_blueprint(collect_email_confirm_page_render_template, url_prefix="")
+app.register_blueprint(collect_email_processing_candidates, url_prefix="")
 # Blog Single Post page
 app.register_blueprint(blog_single_post_0001_index_page_render_template, url_prefix="")
 app.register_blueprint(blog_single_post_0002_index_page_render_template, url_prefix="")
