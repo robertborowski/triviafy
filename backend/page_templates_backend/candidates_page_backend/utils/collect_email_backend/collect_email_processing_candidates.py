@@ -62,7 +62,7 @@ def collect_email_processing_candidates_function():
   if email_collected_exists != None:
     localhost_print_function('email already exists in DB')
     localhost_print_function('=========================================== /candidates/email Page END ===========================================')
-    return redirect('/collect/email/confirm', code=302)
+    return redirect('/candidates/email/success', code=302)
   # ------------------------ Check If Email Already in DB END ------------------------
 
 
@@ -106,4 +106,4 @@ def collect_email_processing_candidates_function():
 
   
   localhost_print_function('=========================================== /candidates/email Page END ===========================================')
-  return redirect('/collect/email/confirm', code=302)
+  return redirect('/candidates/email/success', code=302)
