@@ -17,12 +17,12 @@ def before_request():
 # -------------------------------------------------------------- App
 @login_success_page_render_template.route("/candidates/login/success", methods=['GET','POST'])
 def login_success_page_render_template_function():
-  localhost_print_function('=========================================== /candidates/login Page START ===========================================')
+  localhost_print_function('=========================================== /candidates/login/success Page START ===========================================')
   
   # ------------------------ CSS support START ------------------------
   # Need to create a css unique key so that cache busting can be done
   cache_busting_output = create_uuid_function('css_')
   # ------------------------ CSS support END ------------------------
 
-  localhost_print_function('=========================================== /candidates/login Page END ===========================================')
+  localhost_print_function('=========================================== /candidates/login/success Page END ===========================================')
   return render_template('candidates_page_templates/login_page_templates/index_success.html', css_cache_busting = cache_busting_output)
