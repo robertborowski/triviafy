@@ -8,7 +8,7 @@ def insert_user_collected_email_candidates_function(postgres_connection, postgre
   localhost_print_function('=========================================== insert_user_collected_email_candidates_function START ===========================================')
   
   # ------------------------ Query START ------------------------
-  postgres_insert_query = """INSERT INTO triviafy_landing_emails_candidates_table(collect_email_uuid,collect_email_timestamp,collect_email_actual_email) VALUES(%s,%s,%s)"""
+  postgres_insert_query = """INSERT INTO z_candidates_collect_email(collect_email_uuid,collect_email_timestamp,collect_email_actual_email) VALUES(%s,%s,%s)"""
   # ------------------------ Query END ------------------------
 
 

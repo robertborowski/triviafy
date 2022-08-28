@@ -9,7 +9,7 @@ def select_if_email_collected_exists_candidates_function(postgres_connection, po
   
   try:
     # ------------------------ Query START ------------------------
-    postgres_cursor.execute("SELECT * FROM triviafy_landing_emails_candidates_table WHERE collect_email_actual_email=%s", [user_collected_email])
+    postgres_cursor.execute("SELECT * FROM z_candidates_collect_email WHERE collect_email_actual_email=%s", [user_collected_email])
     # ------------------------ Query END ------------------------
 
 
