@@ -1,0 +1,12 @@
+Notes
+
+-Link: [https://www.youtube.com/watch?v=dam0GPOAvVI&ab_channel=TechWithTim]
+-Q01:What does "__init__.py" mean? And why is it located at almost every folder level that contains .py files
+  -A01: The "__init__.py" file turns the desired folder into a "Python Package" which means that you can call from it like any other import (ex: import pandas as pd) same thing is possible because of __init__.py file.
+
+-
+
+
+
+
+
