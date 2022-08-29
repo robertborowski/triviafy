@@ -26,8 +26,8 @@ class FooterNotSignedInClassCandidates extends HTMLElement {
       <ul class="footer-not-signed-in-3-ul">
         <li class="footer-sub-title-item-3 footer-sub-title-item-position-3"><a href="${this.getAttribute("link_candidates_about_js")}" class="footer-a-3">About</a></li>
         <li class="footer-sub-title-item-3 footer-sub-title-item-position-3"><a href="${this.getAttribute("link_candidates_faq_js")}" class="footer-a-3">FAQ</a></li>
-        <li class="footer-sub-title-item-3 footer-sub-title-item-position-3"><a href="${this.getAttribute("link_candidates_pricing_js")}" class="footer-a-3">Pricing</a></li>
         <li class="footer-sub-title-item-3 footer-sub-title-item-position-3"><a href="${this.getAttribute("link_candidates_library_js")}" class="footer-a-3">Test library</a></li>
+        <li class="footer-sub-title-item-3 footer-sub-title-item-position-3"><a href="${this.getAttribute("link_candidates_pricing_js")}" class="footer-a-3">Pricing</a></li>
         <li class="footer-sub-title-item-3 footer-sub-title-item-position-3"><a href="${this.getAttribute("link_candidates_login_js")}" class="footer-a-3">Login</a></li>
         <li class="footer-sub-title-item-3 footer-sub-title-item-position-3"><a href="${this.getAttribute("link_candidates_create_account_js")}" class="footer-a-3">Create Account</a></li>
       </ul>
