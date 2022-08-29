@@ -1,9 +1,11 @@
-# -------------------------------------------------------------- Imports
-from flask import render_template, Blueprint, redirect, request
+# -------------------------------------------------------------- Imports start
+from flask import render_template, Blueprint, redirect, request, session, globals as g
 from backend.utils.page_www_to_non_www.check_if_url_www import check_if_url_www_function
 from backend.utils.page_www_to_non_www.remove_www_from_domain import remove_www_from_domain_function
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
+# -------------------------------------------------------------- Imports end
+
 
 # -------------------------------------------------------------- App Setup
 login_page_render_template = Blueprint("login_page_render_template", __name__, static_folder="static", template_folder="templates")

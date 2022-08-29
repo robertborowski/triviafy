@@ -3,7 +3,7 @@ import os, time
 import datetime
 from flask import Flask, session, render_template
 
-# ------------------------ Pages START ------------------------
+# ------------------------ imports start ------------------------
 # Index page
 from backend.page_templates_backend.index_page_backend.index_page_render_template import index_page_render_template
 # Admin page
@@ -128,7 +128,7 @@ from backend.page_templates_backend.candidates_page_backend.stand_in_page_backen
 # Candidates - login page
 from backend.page_templates_backend.candidates_page_backend.login_page_backend.login_page_render_template import login_page_render_template
 from backend.page_templates_backend.candidates_page_backend.login_page_backend.login_success_page_render_template import login_success_page_render_template
-# ------------------------ Pages END ------------------------
+# ------------------------ imports end ------------------------
 
 
 # ------------------------ App setup START ------------------------
@@ -146,7 +146,6 @@ app.permanent_session_lifetime = datetime.timedelta(days=30)
 
 # For removing cache from images for quiz questions. The URL was auto caching and not updating
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
-
   # ------------------------ Handleing Error Messages START ------------------------
 @app.errorhandler(404)
 # inbuilt function which takes error as parameter
