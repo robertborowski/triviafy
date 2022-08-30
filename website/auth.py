@@ -6,7 +6,7 @@
 
 
 # ------------------------ imports start ------------------------
-from flask import Blueprint
+from flask import Blueprint, render_template
 # ------------------------ imports end ------------------------
 
 
@@ -18,7 +18,7 @@ auth = Blueprint('auth', __name__)
 # ------------------------ individual route start ------------------------
 @auth.route('/login')
 def login_function():
-  return "<h1>Login</h1>"
+  return render_template('login.html')
 # ------------------------ individual route end ------------------------
 
 
@@ -32,5 +32,5 @@ def logout_function():
 # ------------------------ individual route start ------------------------
 @auth.route('/sign-up')
 def sign_up_function():
-  return "<h1>Sign Up</h1>"
+  return render_template('sign_up.html')
 # ------------------------ individual route end ------------------------
