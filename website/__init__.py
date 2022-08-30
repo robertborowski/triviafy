@@ -27,6 +27,7 @@ def create_app_function():
   # For removing cache from images for quiz questions. The URL was auto caching and not updating
   app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
   # ------------------------ additional flask app configurations end ------------------------
+  """
   # ------------------------ Handleing Error Messages START ------------------------
   @app.errorhandler(404)
   # inbuilt function which takes error as parameter
@@ -35,6 +36,15 @@ def create_app_function():
     localhost_print_function('=========================================== create_app_function END ===========================================')
     return render_template("error_404_page_templates/index.html")
     # ------------------------ Handleing Error Messages END ------------------------
+  """
+  # ------------------------ views/auths/routes imports start ------------------------
+  from .views import views
+  from .auth import auth
+  # ------------------------ views/auths/routes imports end ------------------------
+  # ------------------------ views/auths/routes register blueprints start ------------------------
+  app.register_blueprint(views, url_prefix='/')
+  app.register_blueprint(auth, url_prefix='/')
+  # ------------------------ views/auths/routes register blueprints end ------------------------
   # ------------------------ app setup end ------------------------
   localhost_print_function('=========================================== create_app_function END ===========================================')
   return app

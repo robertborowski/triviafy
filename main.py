@@ -17,8 +17,12 @@ if __name__ == '__main__':
   localhost_print_function('=========================================== if __name__ == "__main__": START ===========================================')
   # ------------------------ youtube app configs start ------------------------
   # debug = True means that each time we make a change to our python code it will automatically rerun the webserver.
+  localhost_print_function('=========================================== if __name__ == "__main__": END ===========================================')
+  localhost_print_function(' --- about to run app --- ')
   app.run(debug=True)
   # ------------------------ youtube app configs emd ------------------------
+
+  """
   # ------------------------ additional configs start ------------------------
   # Check environment variable that was passed in from user on the command line, assume false
   server_env = os.environ.get('TESTING', 'false')
@@ -39,4 +43,5 @@ if __name__ == '__main__':
     app.run(host = '0.0.0.0', port = port)
   # ------------------------ Running on heroku server END ------------------------
   # ------------------------ additional configs end ------------------------
+  """
 # ------------------------ call app directly end ------------------------
