@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content%}
+<h1>Notes</h1>
+<ul id="notes">
+  <li>
+    <button type="button" onclick="deleteNote()"><span></span></button>
+  </li>
+</ul>
+<form method="POST">
+  <textarea name="note" id="note"></textarea>
+  <div>
+    <button type="submit">Add Note</button>
+  </div>
+</form>
+{% endblock %}

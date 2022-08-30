@@ -6,14 +6,17 @@
 
 
 # ------------------------ imports start ------------------------
-from flask import Blueprint
+from flask import Blueprint, render_template
 # ------------------------ imports end ------------------------
 
 
 # ------------------------ function start ------------------------
 views = Blueprint('views', __name__)
+# ------------------------ function end ------------------------
 
+
+# ------------------------ individual route start ------------------------
 @views.route('/')
 def home():
-  return "<h1>Test</h1>"
-# ------------------------ function end ------------------------
+  return render_template('home.html')
+# ------------------------ individual route end ------------------------

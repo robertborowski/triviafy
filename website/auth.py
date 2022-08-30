@@ -13,3 +13,24 @@ from flask import Blueprint
 # ------------------------ function start ------------------------
 auth = Blueprint('auth', __name__)
 # ------------------------ function end ------------------------
+
+
+# ------------------------ individual route start ------------------------
+@auth.route('/login')
+def login_function():
+  return "<h1>Login</h1>"
+# ------------------------ individual route end ------------------------
+
+
+# ------------------------ individual route start ------------------------
+@auth.route('/logout')
+def logout_function():
+  return "<h1>Logout</h1>"
+# ------------------------ individual route end ------------------------
+
+
+# ------------------------ individual route start ------------------------
+@auth.route('/sign-up')
+def sign_up_function():
+  return "<h1>Sign Up</h1>"
+# ------------------------ individual route end ------------------------
