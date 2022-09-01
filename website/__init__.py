@@ -5,6 +5,7 @@ import datetime
 from flask import Flask, session, render_template
 from flask_sqlalchemy import SQLAlchemy
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
+from flask_login import LoginManager
 # ------------------------ imports end ------------------------
 
 
@@ -60,6 +61,16 @@ def create_app_function():
   from .models import User, Note
   create_database_function(app)
   # ------------------------ import models before creating db for first time end ------------------------
+  # ------------------------ login manager start ------------------------
+  login_manager = LoginManager()
+  login_manager.login_view = 'auth.login_function'   # where does the person go if they are not logged in -> auth.login route
+  login_manager.init_app(app)
+  # ------------------------ function start ------------------------
+  @login_manager.user_loader
+  def load_user(id):
+    return User.query.get(int(id))  # when you write query.get -> .get: automatically knows it is looking through the primary key in sqlite
+  # ------------------------ function end ------------------------
+  # ------------------------ login manager end ------------------------
   # ------------------------ app setup end ------------------------
   localhost_print_function('=========================================== create_app_function END ===========================================')
   return app

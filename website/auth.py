@@ -29,6 +29,7 @@ def login_function():
   if user:
     if check_password_hash(user.password, password):
       flash('Logged in successfully!', category='success')
+      login_user(user, remember=True)
       return redirect(url_for('views.home'))
     else:
       flash('Incorrect password, try again.', category='error')
@@ -41,8 +42,10 @@ def login_function():
 
 # ------------------------ individual route start ------------------------
 @auth.route('/logout')
+@login_required   # this decorator says that url cannot be accessed unless the user is logged in.
 def logout_function():
-  return "<h1>Logout</h1>"
+  logout_user()
+  return redirect(url_for('auth.login_function'))
 # ------------------------ individual route end ------------------------
 
 
@@ -71,6 +74,7 @@ def sign_up_function():
       db.session.add(new_user)
       db.session.commit()
       flash('Account created!', category='success')
+      login_user(user, remember=True)
       return redirect(url_for('views.home'))
 
   return render_template('sign_up.html')
