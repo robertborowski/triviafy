@@ -6,7 +6,11 @@
 
 
 # ------------------------ imports start ------------------------
-from flask import Blueprint, render_template, request, flash
+from flask import Blueprint, render_template, request, flash, redirect, url_for
+from .models import User
+from werkzeug.security import generate_password_hash, check_password_hash
+from website import db
+from flask_login import login_user, login_required, logout_user, current_user
 # ------------------------ imports end ------------------------
 
 
@@ -47,8 +51,11 @@ def sign_up_function():
     elif len(password1) < 7:
       flash('Password must be at least 7 characters.', category='error')
     else:
+      new_user = User(email=email, first_name=firstName, password=generate_password_hash(password1, method="sha256"))
+      db.session.add(new_user)
+      db.session.commit()
       flash('Account created!', category='success')
-      pass
+      return redirect(url_for('views.home'))
 
   return render_template('sign_up.html')
 # ------------------------ individual route end ------------------------

@@ -1,9 +1,17 @@
 # ------------------------ imports start ------------------------
 import os, time
+from os import path
 import datetime
 from flask import Flask, session, render_template
+from flask_sqlalchemy import SQLAlchemy
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 # ------------------------ imports end ------------------------
+
+
+# ------------------------ define/initialize a new db sql_alchemy function start ------------------------
+db = SQLAlchemy()
+DB_NAME = 'triviafy_candidates_sqlalchemy_database.db'
+# ------------------------ define/initialize a new db sql_alchemy function end ------------------------
 
 
 # ------------------------ __init__ function start ------------------------
@@ -20,6 +28,9 @@ def create_app_function():
   app = Flask(__name__)
   # To use a session, there has to be a secret key. The string should be something difficult to guess
   app.secret_key = os.urandom(64)
+  # config to point to where db connection is
+  app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+  db.init_app(app)
   # Set session variables to perm so that user can remain signed in for x days
   app.permanent_session_lifetime = datetime.timedelta(days=30)
   # ------------------------ create flask app end ------------------------
@@ -45,7 +56,22 @@ def create_app_function():
   app.register_blueprint(views, url_prefix='/')
   app.register_blueprint(auth, url_prefix='/')
   # ------------------------ views/auths/routes register blueprints end ------------------------
+  # ------------------------ import models before creating db for first time start ------------------------
+  from .models import User, Note
+  create_database_function(app)
+  # ------------------------ import models before creating db for first time end ------------------------
   # ------------------------ app setup end ------------------------
   localhost_print_function('=========================================== create_app_function END ===========================================')
   return app
 # ------------------------ __init__ function end ------------------------
+
+
+# ------------------------ create_db_function start ------------------------
+def create_database_function(app):
+  if not path.exists('website/' + DB_NAME):
+    db.create_all(app=app)
+    print('Created database!')
+  else:
+    print('Database already exists!')
+    pass
+# ------------------------ create_db_function end ------------------------
