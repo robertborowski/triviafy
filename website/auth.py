@@ -36,7 +36,7 @@ def login_function():
   else:
     flash('Email does not exist.', category='error')
 
-  return render_template('login.html')
+  return render_template('login.html', user=current_user)
 # ------------------------ individual route end ------------------------
 
 
@@ -77,5 +77,5 @@ def sign_up_function():
       login_user(user, remember=True)
       return redirect(url_for('views.home'))
 
-  return render_template('sign_up.html')
+  return render_template('sign_up.html', user=current_user)
 # ------------------------ individual route end ------------------------

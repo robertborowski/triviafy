@@ -24,10 +24,13 @@
       </button>
       <div id="navbar">
         <div>
+          {% if user.is_authenticated %}
           <a id="home" href="/">Home</a>
           <a id="logout" href="/logout">Logout</a>
+          {% else %}
           <a id="login" href="/login">Login</a>
           <a id="signUp" href="/sign-up">Sign Up</a>
+          {% endif %}
         </div>
       </div>
     </nav>
