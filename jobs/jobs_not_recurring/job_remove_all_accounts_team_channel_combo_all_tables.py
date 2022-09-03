@@ -40,7 +40,7 @@ def job_remove_all_accounts_team_channel_combo_all_tables_function(arr_to_remove
 
     for key in redis_keys:
       if 'user-slack_' in str(key) or 'aa_foo' in str(key) or 'localhost_' in str(key):
-        localhost_print_function('skipping key: {}'.format(key))
+        # localhost_print_function('skipping key: {}'.format(key))
         continue
       else:
         value = redis_connection.get(key).decode('utf-8')
