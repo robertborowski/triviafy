@@ -1,15 +1,20 @@
 # ------------------------ imports start ------------------------
+from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 import os, time
 from os import path
 import datetime
-from flask import Flask, session, render_template
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from flask_login import LoginManager
 # ------------------------ imports end ------------------------
 
 
 # ------------------------ define/initialize a new db sql_alchemy function start ------------------------
+# what is SQLAlchemy: https://www.youtube.com/watch?v=6k6NxFyKKQo&ab_channel=Treehouse
+# transfers data stored in a SQL database into python objects. (models.py file)
+# Use python code to the read, create, delete, update the objects as well as the SQL database at the same time. 
+# Instead of writing SQL scripts every step of the way.
+# Result: No SQL is needed to create, maintain, and query the db! ORM: Object Relational Mapping 
 db = SQLAlchemy()
 DB_NAME = 'triviafy_candidates_sqlalchemy_database.db'
 # ------------------------ define/initialize a new db sql_alchemy function end ------------------------
@@ -29,8 +34,14 @@ def create_app_function():
   app = Flask(__name__)
   # To use a session, there has to be a secret key. The string should be something difficult to guess
   app.secret_key = os.urandom(64)
+  
+  
   # config to point to where db connection is
   app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+  # app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL DBUSER')
+  
+  
+  # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
   db.init_app(app)
   # Set session variables to perm so that user can remain signed in for x days
   app.permanent_session_lifetime = datetime.timedelta(days=30)

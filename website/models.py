@@ -6,6 +6,7 @@ from sqlalchemy.sql import func
 
 
 # ------------------------ models start ------------------------
+# Note: models vs tables: https://stackoverflow.com/questions/45044926/db-model-vs-db-table-in-flask-sqlalchemy
 class Note(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   data = db.Column(db.String(10000))

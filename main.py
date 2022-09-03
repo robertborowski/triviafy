@@ -1,7 +1,6 @@
 # ------------------------ imports start ------------------------
-from website import create_app_function
-import os
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
+from website import create_app_function
 # ------------------------ imports end ------------------------
 
 
