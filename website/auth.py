@@ -54,9 +54,12 @@ def logout_function():
 def sign_up_function():
   if request.method == 'POST':
     email = request.form.get('email')
-    firstName = request.form.get('firstName')
     password1 = request.form.get('password1')
     password2 = request.form.get('password2')
+    firstName = request.form.get('firstName')
+    lastName = request.form.get('lastName')
+    companyName = request.form.get('companyName')
+    departmentName = request.form.get('departmentName')
 
     user = CandidatesUserObj.query.filter_by(email=email).first()
     if user:
@@ -70,7 +73,14 @@ def sign_up_function():
     elif len(password1) < 7:
       flash('Password must be at least 7 characters.', category='error')
     else:
-      new_user = CandidatesUserObj(email=email, first_name=firstName, password=generate_password_hash(password1, method="sha256"))
+      new_user = CandidatesUserObj(
+        email=email,
+        password=generate_password_hash(password1, method="sha256"),
+        first_name = firstName,
+        last_name = lastName,
+        company_name = companyName,
+        department_name = departmentName
+      )
       db.session.add(new_user)
       db.session.commit()
       flash('Account created!', category='success')
