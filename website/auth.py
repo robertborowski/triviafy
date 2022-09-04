@@ -7,7 +7,7 @@
 
 # ------------------------ imports start ------------------------
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-from .models import User
+from .models import CandidatesUserObj
 from werkzeug.security import generate_password_hash, check_password_hash
 from website import db
 from flask_login import login_user, login_required, logout_user, current_user
@@ -25,7 +25,7 @@ def login_function():
   email = request.form.get('email')
   password = request.form.get('password')
   
-  user = User.query.filter_by(email=email).first()
+  user = CandidatesUserObj.query.filter_by(email=email).first()
   if user:
     if check_password_hash(user.password, password):
       flash('Logged in successfully!', category='success')
@@ -58,7 +58,7 @@ def sign_up_function():
     password1 = request.form.get('password1')
     password2 = request.form.get('password2')
 
-    user = User.query.filter_by(email=email).first()
+    user = CandidatesUserObj.query.filter_by(email=email).first()
     if user:
       flash('Email already exists.', category='error')
     elif len(email) < 4:
@@ -70,7 +70,7 @@ def sign_up_function():
     elif len(password1) < 7:
       flash('Password must be at least 7 characters.', category='error')
     else:
-      new_user = User(email=email, first_name=firstName, password=generate_password_hash(password1, method="sha256"))
+      new_user = CandidatesUserObj(email=email, first_name=firstName, password=generate_password_hash(password1, method="sha256"))
       db.session.add(new_user)
       db.session.commit()
       flash('Account created!', category='success')

@@ -73,7 +73,7 @@ def create_app_function():
   app.register_blueprint(auth, url_prefix='/')
   # ------------------------ views/auths/routes register blueprints end ------------------------
   # ------------------------ import models before creating db for first time start ------------------------
-  from .models import User, Note
+  from .models import CandidatesUserObj, Note
   create_database_function(app)
   # ------------------------ import models before creating db for first time end ------------------------
   # ------------------------ login manager start ------------------------
@@ -83,7 +83,7 @@ def create_app_function():
   # ------------------------ function start ------------------------
   @login_manager.user_loader
   def load_user(id):
-    return User.query.get(int(id))  # when you write query.get -> .get: automatically knows it is looking through the primary key in sqlite
+    return CandidatesUserObj.query.get(int(id))  # when you write query.get -> .get: automatically knows it is looking through the primary key in sqlite
   # ------------------------ function end ------------------------
   # ------------------------ login manager end ------------------------
   # ------------------------ app setup end ------------------------
