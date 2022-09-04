@@ -15,8 +15,10 @@ from flask_login import LoginManager
 # Use python code to the read, create, delete, update the objects as well as the SQL database at the same time. 
 # Instead of writing SQL scripts every step of the way.
 # Result: No SQL is needed to create, maintain, and query the db! ORM: Object Relational Mapping 
+# and you can connect it directly to Postgres
 db = SQLAlchemy()
-DB_NAME = 'triviafy_candidates_sqlalchemy_database.db'
+# DB_NAME = 'triviafy_candidates_sqlalchemy_database.db'
+DB_NAME = os.environ.get('DATABASE_URL')
 # ------------------------ define/initialize a new db sql_alchemy function end ------------------------
 
 
@@ -37,8 +39,10 @@ def create_app_function():
   
   
   # config to point to where db connection is
-  app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
-  # app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL DBUSER')
+  # sqlite
+  # app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+  # postgres
+  app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
   
   
   # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

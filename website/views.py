@@ -19,6 +19,6 @@ views = Blueprint('views', __name__)
 # ------------------------ individual route start ------------------------
 @views.route('/')
 @login_required   # this decorator says that url cannot be accessed unless the user is logged in.
-def home():
+def home_function():
   return render_template('home.html', user=current_user)
 # ------------------------ individual route end ------------------------
