@@ -15,7 +15,7 @@ def before_request():
     return redirect(new_url, code=302)
 
 # -------------------------------------------------------------- App
-@launch_page_render_template.route("/launch", methods=['GET','POST'])
+@launch_page_render_template.route("/launch2", methods=['GET','POST'])
 def launch_page_render_template_function():
   localhost_print_function('=========================================== /launch Page START ===========================================')
   

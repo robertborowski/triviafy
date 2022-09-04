@@ -15,7 +15,7 @@ def before_request():
     return redirect(new_url, code=302)
 
 # -------------------------------------------------------------- App
-@candidates_faq_page_render_template.route("/candidates/faq", methods=['GET','POST'])
+@candidates_faq_page_render_template.route("/candidates/faq2", methods=['GET','POST'])
 def candidates_faq_page_render_template_function():
   localhost_print_function('=========================================== candidates_faq_page_render_template_function START ===========================================')
   

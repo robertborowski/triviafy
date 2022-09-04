@@ -15,7 +15,7 @@ def before_request():
     return redirect(new_url, code=302)
 
 # -------------------------------------------------------------- App
-@candidates_test_library_page_render_template.route("/candidates/library", methods=['GET','POST'])
+@candidates_test_library_page_render_template.route("/candidates/library2", methods=['GET','POST'])
 def candidates_test_library_page_render_template_function():
   localhost_print_function('=========================================== candidates_test_library_page_render_template_function START ===========================================')
   
