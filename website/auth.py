@@ -8,11 +8,13 @@
 
 
 # ------------------------ imports start ------------------------
+from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from .models import CandidatesUserObj
 from werkzeug.security import generate_password_hash, check_password_hash
 from website import db
 from flask_login import login_user, login_required, logout_user, current_user
+from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 # ------------------------ imports end ------------------------
 
 
@@ -21,9 +23,15 @@ auth = Blueprint('auth', __name__)
 # ------------------------ function end ------------------------
 
 
+# ------------------------ before page variables start ------------------------
+cache_busting_output = create_uuid_function('css_')
+# ------------------------ before page variables end ------------------------
+
+
 # ------------------------ individual route start ------------------------
 @auth.route('/login', methods=['GET', 'POST'])
 def login_function():
+  localhost_print_function('=========================================== login_function START ===========================================')
   email = request.form.get('email')
   password = request.form.get('password')
   
@@ -38,7 +46,9 @@ def login_function():
   else:
     flash('Email does not exist.', category='error')
 
-  return render_template('login.html', user=current_user)
+  localhost_print_function('=========================================== login_function END ===========================================')
+  # return render_template('login.html', user=current_user)
+  return render_template('candidates_page_templates/login_page_templates/index.html', user=current_user)
 # ------------------------ individual route end ------------------------
 
 
@@ -46,7 +56,9 @@ def login_function():
 @auth.route('/logout')
 @login_required
 def logout_function():
+  localhost_print_function('=========================================== logout_function START ===========================================')
   logout_user()
+  localhost_print_function('=========================================== logout_function END ===========================================')
   return redirect(url_for('auth.login_function'))
 # ------------------------ individual route end ------------------------
 
@@ -54,6 +66,7 @@ def logout_function():
 # ------------------------ individual route start ------------------------
 @auth.route('/sign-up', methods=['GET', 'POST'])
 def sign_up_function():
+  localhost_print_function('=========================================== sign_up_function START ===========================================')
   if request.method == 'POST':
     email = request.form.get('email')
     password1 = request.form.get('password1')
@@ -87,7 +100,9 @@ def sign_up_function():
       db.session.commit()
       flash('Account created!', category='success')
       login_user(new_user, remember=True)
+      localhost_print_function('=========================================== sign_up_function END ===========================================')
       return redirect(url_for('views.home_function'))
 
+  localhost_print_function('=========================================== sign_up_function END ===========================================')
   return render_template('sign_up.html', user=current_user)
 # ------------------------ individual route end ------------------------

@@ -89,11 +89,13 @@ def create_app_function():
 
 # ------------------------ create_db_function start ------------------------
 def create_database_function(app):
+  localhost_print_function('=========================================== create_database_function START ===========================================')
   if not path.exists('website/' + DB_NAME):
     db.create_all(app=app)
     print('Created database!')
   else:
     print('Database already exists!')
     pass
+  localhost_print_function('=========================================== create_database_function END ===========================================')
 # ------------------------ create_db_function end ------------------------
 localhost_print_function('=========================================== website __init__ END ===========================================')
