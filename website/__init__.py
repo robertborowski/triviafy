@@ -3,12 +3,13 @@ from backend.utils.localhost_print_utils.localhost_print import localhost_print_
 import os, time
 from os import path
 import datetime
-from flask import Flask
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 # ------------------------ imports end ------------------------
 
 
+localhost_print_function('=========================================== website __init__ START ===========================================')
 # ------------------------ define/initialize a new db sql_alchemy function start ------------------------
 # what is SQLAlchemy: https://www.youtube.com/watch?v=6k6NxFyKKQo&ab_channel=Treehouse
 # transfers data stored in a SQL database into python objects. (models.py file)
@@ -36,25 +37,17 @@ def create_app_function():
   app = Flask(__name__)
   # To use a session, there has to be a secret key. The string should be something difficult to guess
   app.secret_key = os.urandom(64)
-  
-  
-  # config to point to where db connection is
-  # sqlite
-  # app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
-  # postgres
+  # use sqlalchemy to point to the correct db (postgres)
   app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-  
-  
-  # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
   db.init_app(app)
-  # Set session variables to perm so that user can remain signed in for x days
-  app.permanent_session_lifetime = datetime.timedelta(days=30)
   # ------------------------ create flask app end ------------------------
   # ------------------------ additional flask app configurations start ------------------------
+  # Set session variables to perm so that user can remain signed in for x days
+  app.permanent_session_lifetime = datetime.timedelta(days=30)
   # For removing cache from images for quiz questions. The URL was auto caching and not updating
   app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
+  # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
   # ------------------------ additional flask app configurations end ------------------------
-  """
   # ------------------------ Handleing Error Messages START ------------------------
   @app.errorhandler(404)
   # inbuilt function which takes error as parameter
@@ -62,8 +55,7 @@ def create_app_function():
     localhost_print_function('exception hit create_app_function')
     localhost_print_function('=========================================== create_app_function END ===========================================')
     return render_template("error_404_page_templates/index.html")
-    # ------------------------ Handleing Error Messages END ------------------------
-  """
+  # ------------------------ Handleing Error Messages END ------------------------
   # ------------------------ views/auths/routes imports start ------------------------
   from .views import views
   from .auth import auth
@@ -83,10 +75,13 @@ def create_app_function():
   # ------------------------ function start ------------------------
   @login_manager.user_loader
   def load_user(id):
+    localhost_print_function('def load_user function hit')
+    localhost_print_function('=========================================== create_app_function END ===========================================')
     return CandidatesUserObj.query.get(id)  # when you write query.get -> .get: automatically knows it is looking through the primary key in sqlite
   # ------------------------ function end ------------------------
   # ------------------------ login manager end ------------------------
   # ------------------------ app setup end ------------------------
+  localhost_print_function('returning app')
   localhost_print_function('=========================================== create_app_function END ===========================================')
   return app
 # ------------------------ __init__ function end ------------------------
@@ -101,3 +96,4 @@ def create_database_function(app):
     print('Database already exists!')
     pass
 # ------------------------ create_db_function end ------------------------
+localhost_print_function('=========================================== website __init__ END ===========================================')

@@ -61,6 +61,11 @@ def candidates_stand_in_page_function():
 def candidates_test_library_page_function():
   return render_template('candidates_page_templates/test_library_page_templates/index.html', user=current_user)
 # ------------------------ individual route - candidates test library end ------------------------
+# ------------------------ individual route - error 404 start ------------------------
+@views.route('/404')
+def error_page_function():
+  return render_template('error_404_page_templates/index.html', user=current_user)
+# ------------------------ individual route - error 404 end ------------------------
 # ------------------------ individual route - privacy start ------------------------
 @views.route('/privacy')
 def privacy_page_function():
