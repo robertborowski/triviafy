@@ -47,7 +47,6 @@ def login_function():
     flash('Email does not exist.', category='error')
 
   localhost_print_function('=========================================== login_function END ===========================================')
-  # return render_template('login.html', user=current_user)
   return render_template('candidates_page_templates/login_page_templates/index.html', user=current_user)
 # ------------------------ individual route end ------------------------
 

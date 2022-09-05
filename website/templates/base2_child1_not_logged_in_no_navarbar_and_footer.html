@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+<!-- head tag block content -->
+{% block title %}
+  <title>base2_child1_not_logged_in_no_navarbar_and_footer.html</title>
+{% endblock %}
+
+{% block contentEntirePage %}
+<!-- ------------------------------------- navbar start ------------------------------------- -->
+<!-- <nav-candidates-not-signed-in-component
+  link_home_js="/candidates",
+  link_candidates_about_js="/candidates/about",
+  link_candidates_faq_js="/candidates/faq",
+  link_candidates_pricing_js="/candidates/pricing",
+  link_candidates_library_js="/candidates/library",
+  link_candidates_login_js="/candidates/launch",
+  link_candidates_create_account_js="/candidates/launch">
+</nav-candidates-not-signed-in-component> -->
+<!-- ------------------------------------- navbar end ------------------------------------- -->
+{% block contentExceptNavbarAndFooter %}
+{% endblock %}
+<!-- <footer-candidates-not-signed-in-component
+  link_home_js="/candidates",
+  link_candidates_about_js="/candidates/about",
+  link_candidates_faq_js="/candidates/faq",
+  link_candidates_pricing_js="/candidates/pricing",
+  link_candidates_library_js="/candidates/library",
+  link_candidates_login_js="/candidates/launch",
+  link_candidates_create_account_js="/candidates/launch",
+  link_privacy_js="/privacy",
+  link_terms_conditions_js="/tos">
+</footer-candidates-not-signed-in-component> -->
+<!-- ------------------------------------- footer end ------------------------------------- -->
+{% endblock %}

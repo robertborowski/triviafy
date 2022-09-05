@@ -139,22 +139,12 @@
 
     <!-- ------------------------------------- javascript end ------------------------------------- -->
     <!-- ------------------------------------- title start ------------------------------------- -->
-    {% block title %}Home{% endblock %}
+    {% block title %}base.html{% endblock %}
     <!-- ------------------------------------- title end ------------------------------------- -->
   </head>
   <body>
-    <!-- ------------------------------------- navbar start ------------------------------------- -->
-    <nav-candidates-not-signed-in-component
-      link_home_js="/candidates",
-      link_candidates_about_js="/candidates/about",
-      link_candidates_faq_js="/candidates/faq",
-      link_candidates_pricing_js="/candidates/pricing",
-      link_candidates_library_js="/candidates/library",
-      link_candidates_login_js="/candidates/launch",
-      link_candidates_create_account_js="/candidates/launch">
-    </nav-candidates-not-signed-in-component>
-    <!-- ------------------------------------- navbar end ------------------------------------- -->
     <!-- ------------------------------------- flash messages start ------------------------------------- -->
+    <!-- This will pop up before/above the navbar -->
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
         {% for category, message in messages %}
@@ -178,21 +168,8 @@
     {% endwith %}
     <!-- ------------------------------------- flash messages end ------------------------------------- -->
     <!-- ------------------------------------- actual new dependent page start ------------------------------------- -->
-    {% block content %}
+    {% block contentEntirePage %}
     {% endblock %}
     <!-- ------------------------------------- actual new dependent page end ------------------------------------- -->
-    <!-- ------------------------------------- footer start ------------------------------------- -->
-    <footer-candidates-not-signed-in-component
-      link_home_js="/candidates",
-      link_candidates_about_js="/candidates/about",
-      link_candidates_faq_js="/candidates/faq",
-      link_candidates_pricing_js="/candidates/pricing",
-      link_candidates_library_js="/candidates/library",
-      link_candidates_login_js="/candidates/launch",
-      link_candidates_create_account_js="/candidates/launch",
-      link_privacy_js="/privacy",
-      link_terms_conditions_js="/tos">
-    </footer-candidates-not-signed-in-component>
-    <!-- ------------------------------------- footer end ------------------------------------- -->
     </body>
 </html>
