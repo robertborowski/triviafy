@@ -33,40 +33,42 @@ cache_busting_output = create_uuid_function('css_')
 @auth.route('/candidates/login', methods=['GET', 'POST'])
 def candidates_login_page_function():
   localhost_print_function('=========================================== candidates_login_page_function START ===========================================')
+  # ------------------------ post request sent start ------------------------
   email = request.form.get('email')
   password = request.form.get('password')
+  # ------------------------ post request sent end ------------------------
   
   user = CandidatesUserObj.query.filter_by(email=email).first()
   if user:
     if check_password_hash(user.password, password):
       flash('Logged in successfully!', category='success')
       login_user(user, remember=True)
-      return redirect(url_for('views.home_function'))
+      return redirect(url_for('views.dashboard_test_login_page_function'))
     else:
       flash('Incorrect password, try again.', category='error')
   else:
     flash('Email does not exist.', category='error')
 
   localhost_print_function('=========================================== candidates_login_page_function END ===========================================')
-  return render_template('candidates_page_templates/login_page_templates/index.html', user=current_user)
+  return render_template('candidates_page_templates/not_logged_in_page_templates/login_page_templates/index.html', user=current_user)
 # ------------------------ individual route end ------------------------
 
 
 # ------------------------ individual route start ------------------------
-@auth.route('/logout')
+@auth.route('/candidates/logout')
 @login_required
-def logout_function():
-  localhost_print_function('=========================================== logout_function START ===========================================')
+def candidates_logout_function():
+  localhost_print_function('=========================================== candidates_logout_function START ===========================================')
   logout_user()
-  localhost_print_function('=========================================== logout_function END ===========================================')
+  localhost_print_function('=========================================== candidates_logout_function END ===========================================')
   return redirect(url_for('auth.candidates_login_page_function'))
 # ------------------------ individual route end ------------------------
 
 
 # ------------------------ individual route start ------------------------
-@auth.route('/sign-up', methods=['GET', 'POST'])
-def sign_up_function():
-  localhost_print_function('=========================================== sign_up_function START ===========================================')
+@auth.route('/candidates/signup', methods=['GET', 'POST'])
+def candidates_signup_function():
+  localhost_print_function('=========================================== candidates_signup_function START ===========================================')
   if request.method == 'POST':
     email = request.form.get('email')
     password1 = request.form.get('password1')
@@ -100,9 +102,9 @@ def sign_up_function():
       db.session.commit()
       flash('Account created!', category='success')
       login_user(new_user, remember=True)
-      localhost_print_function('=========================================== sign_up_function END ===========================================')
-      return redirect(url_for('views.home_function'))
+      localhost_print_function('=========================================== candidates_signup_function END ===========================================')
+      return redirect(url_for('views.dashboard_test_login_page_function'))
 
-  localhost_print_function('=========================================== sign_up_function END ===========================================')
-  return render_template('sign_up.html', user=current_user)
+  localhost_print_function('=========================================== candidates_signup_function END ===========================================')
+  return render_template('candidates_page_templates/not_logged_in_page_templates/create_account_templates/index.html', user=current_user)
 # ------------------------ individual route end ------------------------

@@ -54,7 +54,7 @@ def create_app_function():
   def not_found(e):
     localhost_print_function('exception hit create_app_function')
     localhost_print_function('=========================================== create_app_function END ===========================================')
-    return render_template("error_404_page_templates/index.html")
+    return render_template("candidates_page_templates/not_logged_in_page_templates/error_404_page_templates/index.html")
   # ------------------------ Handleing Error Messages END ------------------------
   # ------------------------ views/auths/routes imports start ------------------------
   from .views import views

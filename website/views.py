@@ -25,12 +25,12 @@ cache_busting_output = create_uuid_function('css_')
 
 # ------------------------ routes start ------------------------
 # ------------------------ individual route - aaaa youtube start ------------------------
-@views.route('/')
+@views.route('/candidates/dashboard')
 @login_required
-def home_function():
-  localhost_print_function('=========================================== home_function START ===========================================')
-  localhost_print_function('=========================================== home_function END ===========================================')
-  return render_template('home.html', user=current_user)
+def dashboard_test_login_page_function():
+  localhost_print_function('=========================================== dashboard_test_login_page_function START ===========================================')
+  localhost_print_function('=========================================== dashboard_test_login_page_function END ===========================================')
+  return render_template('candidates_page_templates/logged_in_page_templates/dashboard_page_templates/dashboard_test_login_page_templates/index.html', user=current_user)
 # ------------------------ individual route - aaaa youtube end ------------------------
 
 # ------------------------ individual route - candidates about start ------------------------
@@ -38,7 +38,7 @@ def home_function():
 def candidates_about_page_function():
   localhost_print_function('=========================================== candidates_about_page_function START ===========================================')
   localhost_print_function('=========================================== candidates_about_page_function END ===========================================')
-  return render_template('candidates_page_templates/about_page_templates/index.html', user=current_user)
+  return render_template('candidates_page_templates/not_logged_in_page_templates/about_page_templates/index.html', user=current_user)
 # ------------------------ individual route - candidates about end ------------------------
 
 # ------------------------ individual route - candidates collect email start ------------------------
@@ -46,7 +46,7 @@ def candidates_about_page_function():
 def candidates_email_page_function():
   localhost_print_function('=========================================== candidates_email_page_function START ===========================================')
   localhost_print_function('=========================================== candidates_email_page_function END ===========================================')
-  return render_template('candidates_page_templates/collect_email_page_templates/index.html', user=current_user)
+  return render_template('candidates_page_templates/not_logged_in_page_templates/collect_email_page_templates/index.html', user=current_user)
 # ------------------------ individual route - candidates collect email end ------------------------
 
 # ------------------------ individual route - candidates faq start ------------------------
@@ -54,7 +54,7 @@ def candidates_email_page_function():
 def candidates_faq_page_function():
   localhost_print_function('=========================================== candidates_faq_page_function START ===========================================')
   localhost_print_function('=========================================== candidates_faq_page_function END ===========================================')
-  return render_template('candidates_page_templates/faq_page_templates/index.html', user=current_user)
+  return render_template('candidates_page_templates/not_logged_in_page_templates/faq_page_templates/index.html', user=current_user)
 # ------------------------ individual route - candidates faq end ------------------------
 
 # ------------------------ individual route - candidates index main start ------------------------
@@ -62,7 +62,7 @@ def candidates_faq_page_function():
 def landing_index_page_function():
   localhost_print_function('=========================================== landing_index_page_function START ===========================================')
   localhost_print_function('=========================================== landing_index_page_function END ===========================================')
-  return render_template('candidates_page_templates/index_page_templates/index.html', user=current_user)
+  return render_template('candidates_page_templates/not_logged_in_page_templates/index_page_templates/index.html', user=current_user)
 # ------------------------ individual route - candidates index main end ------------------------
 
 
@@ -71,7 +71,7 @@ def landing_index_page_function():
 def candidates_stand_in_page_function():
   localhost_print_function('=========================================== candidates_stand_in_page_function START ===========================================')
   localhost_print_function('=========================================== candidates_stand_in_page_function END ===========================================')
-  return render_template('candidates_page_templates/stand_in_page_templates/index.html', user=current_user)
+  return render_template('candidates_page_templates/not_logged_in_page_templates/stand_in_page_templates/index.html', user=current_user)
 # ------------------------ individual route - candidates stand in end ------------------------
 
 # ------------------------ individual route - candidates test library start ------------------------
@@ -79,7 +79,7 @@ def candidates_stand_in_page_function():
 def candidates_test_library_page_function():
   localhost_print_function('=========================================== candidates_test_library_page_function START ===========================================')
   localhost_print_function('=========================================== candidates_test_library_page_function END ===========================================')
-  return render_template('candidates_page_templates/test_library_page_templates/index.html', user=current_user)
+  return render_template('candidates_page_templates/not_logged_in_page_templates/test_library_page_templates/index.html', user=current_user)
 # ------------------------ individual route - candidates test library end ------------------------
 
 # ------------------------ individual route - candidates pricing start ------------------------
@@ -87,7 +87,7 @@ def candidates_test_library_page_function():
 def candidates_pricing_page_function():
   localhost_print_function('=========================================== candidates_pricing_page_function START ===========================================')
   localhost_print_function('=========================================== candidates_pricing_page_function END ===========================================')
-  return render_template('candidates_page_templates/pricing_page_templates/index.html', user=current_user)
+  return render_template('candidates_page_templates/not_logged_in_page_templates/pricing_page_templates/index.html', user=current_user)
 # ------------------------ individual route - candidates pricing end ------------------------
 
 # ------------------------ individual route - error 404 start ------------------------
@@ -95,7 +95,7 @@ def candidates_pricing_page_function():
 def error_page_function():
   localhost_print_function('=========================================== error_page_function START ===========================================')
   localhost_print_function('=========================================== error_page_function END ===========================================')
-  return render_template('error_404_page_templates/index.html', user=current_user)
+  return render_template('candidates_page_templates/not_logged_in_page_templates/error_404_page_templates/index.html', user=current_user)
 # ------------------------ individual route - error 404 end ------------------------
 
 # ------------------------ individual route - privacy start ------------------------
@@ -103,7 +103,7 @@ def error_page_function():
 def privacy_page_function():
   localhost_print_function('=========================================== privacy_page_function START ===========================================')
   localhost_print_function('=========================================== privacy_page_function END ===========================================')
-  return render_template('privacy_policy_page_templates/index.html', user=current_user)
+  return render_template('candidates_page_templates/not_logged_in_page_templates/privacy_policy_page_templates/index.html', user=current_user)
 # ------------------------ individual route - privacy end ------------------------
 
 # ------------------------ individual route - privacy start ------------------------
@@ -111,6 +111,6 @@ def privacy_page_function():
 def terms_of_service_page_function():
   localhost_print_function('=========================================== terms_of_service_page_function START ===========================================')
   localhost_print_function('=========================================== terms_of_service_page_function END ===========================================')
-  return render_template('terms_of_service_page_templates/index.html', user=current_user)
+  return render_template('candidates_page_templates/not_logged_in_page_templates/terms_of_service_page_templates/index.html', user=current_user)
 # ------------------------ individual route - privacy end ------------------------
 # ------------------------ routes end ------------------------
