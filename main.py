@@ -16,8 +16,8 @@ if __name__ == '__main__':
   localhost_print_function('=========================================== if __name__ == "__main__": START ===========================================')
   # ------------------------ youtube app configs start ------------------------
   # debug = True means that each time we make a change to our python code it will automatically rerun the webserver.
-  localhost_print_function('=========================================== if __name__ == "__main__": END ===========================================')
   localhost_print_function(' --- about to run app --- ')
+  localhost_print_function('=========================================== if __name__ == "__main__": END ===========================================')
   app.run(debug=True)
   # ------------------------ youtube app configs emd ------------------------
 
