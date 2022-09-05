@@ -70,6 +70,13 @@ def candidates_logout_function():
 def candidates_signup_function():
   localhost_print_function('=========================================== candidates_signup_function START ===========================================')
   if request.method == 'POST':
+    # ------------------------ 2. added logic for passing along email from one page to next start ------------------------
+    user_input_email = request.form.get('user_input_email')
+    if user_input_email != None:
+      localhost_print_function('user is being redirected to full sign up page')
+      localhost_print_function('=========================================== candidates_signup_function END ===========================================')
+      return render_template('candidates_page_templates/not_logged_in_page_templates/create_account_templates/index.html', user=current_user)
+    # ------------------------ 2. added logic for passing along email from one page to next end ------------------------
     email = request.form.get('email')
     password1 = request.form.get('password1')
     password2 = request.form.get('password2')
