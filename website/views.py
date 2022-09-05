@@ -4,6 +4,7 @@
 # -Note: any pages related to authentication will not be in this file, they will be routed in the auth.py file.
 # -@login_required   # this decorator says that url cannot be accessed unless the user is logged in. 
 # -@login_required: <-- This decorator will bring a user to __init__ code: [login_manager.login_view = 'auth.candidates_login_page_function'] if they hit a page that requires login and they are not logged in.
+# -use code: <methods=['GET', 'POST']> when you want the user to interact with the page through forms/checkbox/textbox/radio/etc.
 # ------------------------ info about this file end ------------------------
 
 
