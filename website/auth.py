@@ -2,8 +2,8 @@
 # -routes = pages. Examples: [landing, about, faq, pricing] pages = routes
 # -in this file we store the standard routes for our website
 # -note: any pages related to authentication will not be in this file, they will be routed in the auth.py file.
-# -note: @login_required   # this decorator says that url cannot be accessed unless the user is logged in. 
-# @login_required: <-- This decorator will bring a user to __init__ code: [login_manager.login_view = 'auth.login_function'] if they hit a page that requires login and they are not logged in.
+# -@login_required   # this decorator says that url cannot be accessed unless the user is logged in. 
+# -@login_required: <-- This decorator will bring a user to __init__ code: [login_manager.login_view = 'auth.login_function'] if they hit a page that requires login and they are not logged in.
 # ------------------------ info about this file end ------------------------
 
 
