@@ -11,48 +11,60 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
 
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - backdrop cover start -->
-<div class="login-background-whole-screen">
-  <form method="POST">
-    <h3>Sign Up</h3>
-    
-    <label for="email">Email Address</label>
-    <input type="email" id="email" name="email" placeholder="Enter email" />
-    <br />
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - top page start -->
+<div class="login-and-create-account-background-whole-screen">
   
+  <form method="POST" class="login-create-account-form default-box-shadow-grey-reg">
+    <h1 class="login-create-account-title">Triviafy Sign Up!</h1>
+    <div class="create-account-user-input-section">
+      <label for="firstName"></label>
+      <input type="text" id="firstName" name="firstName" class="default-not-signed-in-text-input" placeholder="First name*" required />
+    </div>
   
-    <label for="password1">Password</label>
-    <input type="password" id="password1" name="password1" placeholder="Enter password" />
-    <br />
+    <div class="create-account-user-input-section">
+      <label for="lastName"></label>
+      <input type="text" id="lastName" name="lastName" class="default-not-signed-in-text-input" placeholder="Last name*" required />
+    </div>
   
-    <label for="password2">Password (Confirm)</label>
-    <input type="password" id="password2" name="password2" placeholder="Confirm password" />
-    <br />
+    <div class="create-account-user-input-section">
+      <label for="companyName"></label>
+      <input type="text" id="companyName" name="companyName" class="default-not-signed-in-text-input" placeholder="Company name*" required />
+    </div>
   
-    <label for="firstName">First Name</label>
-    <input type="text" id="firstName" name="firstName" placeholder="Enter first name" />
-    <br />
+    <div class="create-account-user-input-section">
+      <label for="departmentName"></label>
+      <input type="text" id="departmentName" name="departmentName" class="default-not-signed-in-text-input" placeholder="Department name" />
+    </div>
+
+    <div class="create-account-user-input-section">
+      <label for="email"></label>
+      <input type="email" id="email" name="email" class="default-not-signed-in-text-input" placeholder="Work email*" required />
+    </div>
   
-    <label for="lastName">Last Name</label>
-    <input type="text" id="lastName" name="lastName" placeholder="Enter last name" />
-    <br />
+    <div class="create-account-user-input-section">
+      <label for="password1"></label>
+      <input type="password" id="password1" name="password1" class="default-not-signed-in-text-input" placeholder="Password*" required />
+    </div>
   
-    <label for="companyName">Company Name</label>
-    <input type="text" id="companyName" name="companyName" placeholder="Enter company name" />
-    <br />
-  
-    <label for="departmentName">Department Name</label>
-    <input type="text" id="departmentName" name="departmentName" placeholder="Enter department name" />
-    <br />
-  
-    <button type="submit">Submit</button>
+    <div class="create-account-user-input-section">
+      <label for="password2"></label>
+      <input type="password" id="password2" name="password2" class="default-not-signed-in-text-input" placeholder="Confirm password*" required />
+    </div>
+
+    <div class="create-account-user-input-button-section">
+      <button type="submit" class="default-button-format default-button-format-primary-color">Create account</button>
+    </div>
   </form>
 </div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - backdrop cover end -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - top page end -->
 
 
-<a href="/candidates/login">Login</a>
-<a href="/candidates">Home</a>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - other links start -->
+<div class="login-create-account-other-links-section">
+  <p><a href="/candidates/login" class="pricing-a">Login</a></p>
+  <p><a href="/candidates" class="pricing-a">Home</a></p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - other links end -->
 
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
