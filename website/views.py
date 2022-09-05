@@ -3,7 +3,7 @@
 # -in this file we store the standard routes for our website
 # -Note: any pages related to authentication will not be in this file, they will be routed in the auth.py file.
 # -@login_required   # this decorator says that url cannot be accessed unless the user is logged in. 
-# -@login_required: <-- This decorator will bring a user to __init__ code: [login_manager.login_view = 'auth.login_function'] if they hit a page that requires login and they are not logged in.
+# -@login_required: <-- This decorator will bring a user to __init__ code: [login_manager.login_view = 'auth.candidates_login_page_function'] if they hit a page that requires login and they are not logged in.
 # ------------------------ info about this file end ------------------------
 
 
@@ -63,14 +63,6 @@ def landing_index_page_function():
   localhost_print_function('=========================================== landing_index_page_function END ===========================================')
   return render_template('candidates_page_templates/index_page_templates/index.html', user=current_user)
 # ------------------------ individual route - candidates index main end ------------------------
-
-# ------------------------ individual route - candidates login start ------------------------
-@views.route('/candidates/login')
-def candidates_login_page_function():
-  localhost_print_function('=========================================== candidates_login_page_function START ===========================================')
-  localhost_print_function('=========================================== candidates_login_page_function END ===========================================')
-  return render_template('candidates_page_templates/login_page_templates/index.html', user=current_user)
-# ------------------------ individual route - candidates login end ------------------------
 
 
 # ------------------------ individual route - candidates stand in start ------------------------

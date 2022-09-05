@@ -3,7 +3,7 @@
 # -in this file we store the standard routes for our website
 # -note: any pages related to authentication will not be in this file, they will be routed in the auth.py file.
 # -@login_required   # this decorator says that url cannot be accessed unless the user is logged in. 
-# -@login_required: <-- This decorator will bring a user to __init__ code: [login_manager.login_view = 'auth.login_function'] if they hit a page that requires login and they are not logged in.
+# -@login_required: <-- This decorator will bring a user to __init__ code: [login_manager.login_view = 'auth.candidates_login_page_function'] if they hit a page that requires login and they are not logged in.
 # ------------------------ info about this file end ------------------------
 
 
@@ -29,9 +29,9 @@ cache_busting_output = create_uuid_function('css_')
 
 
 # ------------------------ individual route start ------------------------
-@auth.route('/login', methods=['GET', 'POST'])
-def login_function():
-  localhost_print_function('=========================================== login_function START ===========================================')
+@auth.route('/candidates/login', methods=['GET', 'POST'])
+def candidates_login_page_function():
+  localhost_print_function('=========================================== candidates_login_page_function START ===========================================')
   email = request.form.get('email')
   password = request.form.get('password')
   
@@ -46,7 +46,7 @@ def login_function():
   else:
     flash('Email does not exist.', category='error')
 
-  localhost_print_function('=========================================== login_function END ===========================================')
+  localhost_print_function('=========================================== candidates_login_page_function END ===========================================')
   return render_template('candidates_page_templates/login_page_templates/index.html', user=current_user)
 # ------------------------ individual route end ------------------------
 
@@ -58,7 +58,7 @@ def logout_function():
   localhost_print_function('=========================================== logout_function START ===========================================')
   logout_user()
   localhost_print_function('=========================================== logout_function END ===========================================')
-  return redirect(url_for('auth.login_function'))
+  return redirect(url_for('auth.candidates_login_page_function'))
 # ------------------------ individual route end ------------------------
 
 
