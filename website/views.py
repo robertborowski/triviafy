@@ -23,16 +23,7 @@ views = Blueprint('views', __name__)
 cache_busting_output = create_uuid_function('css_')
 # ------------------------ before page variables end ------------------------
 
-# ------------------------ routes start ------------------------
-# ------------------------ individual route - aaaa youtube start ------------------------
-@views.route('/candidates/dashboard')
-@login_required
-def dashboard_test_login_page_function():
-  localhost_print_function('=========================================== dashboard_test_login_page_function START ===========================================')
-  localhost_print_function('=========================================== dashboard_test_login_page_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/dashboard_page_templates/dashboard_test_login_page_templates/index.html', user=current_user)
-# ------------------------ individual route - aaaa youtube end ------------------------
-
+# ------------------------ routes not logged in start ------------------------
 # ------------------------ individual route - candidates about start ------------------------
 @views.route('/candidates/about')
 def candidates_about_page_function():
@@ -113,4 +104,18 @@ def terms_of_service_page_function():
   localhost_print_function('=========================================== terms_of_service_page_function END ===========================================')
   return render_template('candidates_page_templates/not_logged_in_page_templates/terms_of_service_page_templates/index.html', user=current_user)
 # ------------------------ individual route - privacy end ------------------------
-# ------------------------ routes end ------------------------
+# ------------------------ routes not logged in end ------------------------
+
+
+
+# ------------------------ routes logged in start ------------------------
+# @login_required should be a decorator on all of the pages in this section
+# ------------------------ individual route - aaaa youtube start ------------------------
+@views.route('/candidates/dashboard')
+@login_required
+def dashboard_test_login_page_function():
+  localhost_print_function('=========================================== dashboard_test_login_page_function START ===========================================')
+  localhost_print_function('=========================================== dashboard_test_login_page_function END ===========================================')
+  return render_template('candidates_page_templates/logged_in_page_templates/dashboard_page_templates/dashboard_test_login_page_templates/index.html', user=current_user)
+# ------------------------ individual route - aaaa youtube end ------------------------
+# ------------------------ routes logged in end ------------------------
