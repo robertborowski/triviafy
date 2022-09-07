@@ -58,6 +58,7 @@ def candidates_login_page_function():
         # ============================================================================================================
         # ============================================================================================================
         # ------------------------ add redis code here start ------------------------
+        # because of code: login_user(new_user, remember=True) the remember = true part makes it so that Flask remembers the user as long as the app does not reset. Once you push this to heroku and github test this out to see if it is true? You might not even need redis
         # ------------------------ add redis code here end ------------------------
         # ============================================================================================================
         # ============================================================================================================
@@ -85,6 +86,7 @@ def candidates_logout_function():
   # ============================================================================================================
   # ============================================================================================================
   # ------------------------ add redis code here start ------------------------
+  # because of code: login_user(new_user, remember=True) the remember = true part makes it so that Flask remembers the user as long as the app does not reset. Once you push this to heroku and github test this out to see if it is true? You might not even need redis
   # ------------------------ add redis code here end ------------------------
   # ============================================================================================================
   # ============================================================================================================
@@ -162,6 +164,7 @@ def candidates_signup_function():
       # ============================================================================================================
       # ============================================================================================================
       # ------------------------ add redis code here start ------------------------
+      # because of code: login_user(new_user, remember=True) the remember = true part makes it so that Flask remembers the user as long as the app does not reset. Once you push this to heroku and github test this out to see if it is true? You might not even need redis
       # ------------------------ add redis code here end ------------------------
       # ============================================================================================================
       # ============================================================================================================
