@@ -45,7 +45,13 @@ def candidates_login_page_function():
   if user:
     if check_password_hash(user.password, ui_password):
       flash('Logged in successfully!', category='success')
+      # ------------------------ keep user logged in start ------------------------
       login_user(user, remember=True)
+      # ============================================================================================================
+      # ------------------------ add redis code here start ------------------------
+      # ------------------------ add redis code here end ------------------------
+      # ============================================================================================================
+      # ------------------------ keep user logged in end ------------------------
       return redirect(url_for('views.dashboard_test_login_page_function'))
     else:
       flash('Incorrect email/password, try again.', category='error')
@@ -123,6 +129,10 @@ def candidates_signup_function():
       # ------------------------ create new user in db end ------------------------
       # ------------------------ keep user logged in start ------------------------
       login_user(new_user, remember=True)
+      # ============================================================================================================
+      # ------------------------ add redis code here start ------------------------
+      # ------------------------ add redis code here end ------------------------
+      # ============================================================================================================
       # ------------------------ keep user logged in end ------------------------
       localhost_print_function('=========================================== candidates_signup_function END ===========================================')
       return redirect(url_for('views.dashboard_test_login_page_function'))
