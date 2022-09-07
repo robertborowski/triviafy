@@ -34,6 +34,7 @@ cache_busting_output = create_uuid_function('css_')
 def candidates_login_page_function():
   localhost_print_function('=========================================== candidates_login_page_function START ===========================================')
   if request.method == 'POST':
+    # ------------------------ post method hit #1 - regular login start ------------------------
     # ------------------------ post request sent start ------------------------
     ui_email = request.form.get('login_page_ui_email')
     ui_password = request.form.get('login_page_ui_password')
@@ -66,6 +67,7 @@ def candidates_login_page_function():
         flash('Incorrect email/password, try again.', category='error')
     else:
       flash('Incorrect email/password, try again.', category='error')
+    # ------------------------ post method hit #1 - regular login end ------------------------
 
   localhost_print_function('=========================================== candidates_login_page_function END ===========================================')
   return render_template('candidates_page_templates/not_logged_in_page_templates/login_page_templates/index.html', user=current_user)
