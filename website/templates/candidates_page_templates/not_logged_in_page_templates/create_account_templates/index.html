@@ -16,39 +16,40 @@
   
   <form method="POST" class="login-create-account-form default-box-shadow-grey-reg">
     <h1 class="login-create-account-title">Triviafy Sign Up!</h1>
+    
     <div class="create-account-user-input-section">
-      <label for="firstName"></label>
-      <input type="text" id="firstName" name="firstName" class="default-not-signed-in-text-input" placeholder="First name*" required />
+      <label for="create_account_page_ui_email"></label>
+      <input type="email" id="create_account_page_ui_email" name="create_account_page_ui_email" class="default-not-signed-in-text-input" placeholder="Work email*" value="{{ redirect_var_email }}" required />
     </div>
   
     <div class="create-account-user-input-section">
-      <label for="lastName"></label>
-      <input type="text" id="lastName" name="lastName" class="default-not-signed-in-text-input" placeholder="Last name*" required />
+      <label for="create_account_page_ui_password"></label>
+      <input type="password" id="create_account_page_ui_password" name="create_account_page_ui_password" class="default-not-signed-in-text-input" placeholder="Password*" required />
     </div>
   
     <div class="create-account-user-input-section">
-      <label for="companyName"></label>
-      <input type="text" id="companyName" name="companyName" class="default-not-signed-in-text-input" placeholder="Company name*" required />
-    </div>
-  
-    <div class="create-account-user-input-section">
-      <label for="departmentName"></label>
-      <input type="text" id="departmentName" name="departmentName" class="default-not-signed-in-text-input" placeholder="Department name" />
+      <label for="create_account_page_ui_password_confirmed"></label>
+      <input type="password" id="create_account_page_ui_password_confirmed" name="create_account_page_ui_password_confirmed" class="default-not-signed-in-text-input" placeholder="Confirm password*" required />
     </div>
 
     <div class="create-account-user-input-section">
-      <label for="email"></label>
-      <input type="email" id="email" name="email" class="default-not-signed-in-text-input" placeholder="Work email*" required />
+      <label for="create_account_page_ui_first_name"></label>
+      <input type="text" id="create_account_page_ui_first_name" name="create_account_page_ui_first_name" class="default-not-signed-in-text-input" placeholder="First name*" required />
     </div>
   
     <div class="create-account-user-input-section">
-      <label for="password1"></label>
-      <input type="password" id="password1" name="password1" class="default-not-signed-in-text-input" placeholder="Password*" required />
+      <label for="create_account_page_ui_last_name"></label>
+      <input type="text" id="create_account_page_ui_last_name" name="create_account_page_ui_last_name" class="default-not-signed-in-text-input" placeholder="Last name*" required />
     </div>
   
     <div class="create-account-user-input-section">
-      <label for="password2"></label>
-      <input type="password" id="password2" name="password2" class="default-not-signed-in-text-input" placeholder="Confirm password*" required />
+      <label for="create_account_page_ui_company_name"></label>
+      <input type="text" id="create_account_page_ui_company_name" name="create_account_page_ui_company_name" class="default-not-signed-in-text-input" placeholder="Company name*" required />
+    </div>
+  
+    <div class="create-account-user-input-section">
+      <label for="create_account_page_ui_department_name"></label>
+      <input type="text" id="create_account_page_ui_department_name" name="create_account_page_ui_department_name" class="default-not-signed-in-text-input" placeholder="Department name" />
     </div>
 
     <div class="create-account-user-input-button-section">
