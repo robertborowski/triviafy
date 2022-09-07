@@ -145,30 +145,6 @@
     <!-- ------------------------------------- title end ------------------------------------- -->
   </head>
   <body>
-    <!-- ------------------------------------- flash messages start ------------------------------------- -->
-    <!-- This will pop up before/above the navbar -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, message in messages %}
-          {% if category == 'error' %}
-          <div role="alert">
-            {{ message }}
-            <button type="button" data-dismiss="alert">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          {% else %}
-          <div role="alert">
-            {{ message }}
-            <button type="button" data-dismiss="alert">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          {% endif %}
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
-    <!-- ------------------------------------- flash messages end ------------------------------------- -->
     <!-- ------------------------------------- actual new dependent page start ------------------------------------- -->
     {% block contentBody %}
     {% endblock %}

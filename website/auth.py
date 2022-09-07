@@ -16,6 +16,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from website import db
 from flask_login import login_user, login_required, logout_user, current_user
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
+from website.backend.user_inputs import sanitize_email_function
 # ------------------------ imports end ------------------------
 
 
@@ -125,6 +126,7 @@ def candidates_signup_function():
     # ============================================================================================================
     # ============================================================================================================
     # ------------------------ Sanitize: Here you have to run backend checks on all the user inputs/sanitize start ------------------------
+    ui_email_cleaned = sanitize_email_function(ui_email)
     # ------------------------ Sanitize: Here you have to run backend checks on all the user inputs/sanitize end ------------------------
     # ============================================================================================================
     # ============================================================================================================

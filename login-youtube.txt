@@ -3,3 +3,8 @@ testing
 1. rewatch the 2hr flask video make sure you understand all
 2. include redis logic for the logged in user, and auto login if they are stored in cookies.
 3. incorporate code from the old index.py file into the main.py file then rename the main.py file to index.py file.
+
+
+- Replace flash with actual p tags that show on the screen at the top.
+-Incorporate redis for auto login
+-sanitize user inputs on login/create account
