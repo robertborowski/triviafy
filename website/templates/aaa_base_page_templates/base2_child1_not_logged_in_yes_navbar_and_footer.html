@@ -5,7 +5,7 @@
   <title>base2_child1_not_logged_in_yes_navbar_and_footer.html</title>
 {% endblock %}
 
-{% block contentEntirePage %}
+{% block contentBody %}
 <!-- ------------------------------------- navbar start ------------------------------------- -->
 <nav-candidates-not-signed-in-component
   link_home_js="/candidates",
@@ -17,7 +17,7 @@
   link_candidates_create_account_js="/candidates/signup">
 </nav-candidates-not-signed-in-component>
 <!-- ------------------------------------- navbar end ------------------------------------- -->
-{% block contentExceptNavbarAndFooter %}
+{% block contentBodyExceptNavbarAndFooter %}
 {% endblock %}
 <footer-candidates-not-signed-in-component
   link_home_js="/candidates",
