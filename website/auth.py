@@ -96,9 +96,7 @@ def candidates_logout_function():
     try:
       redis_connection = redis_connect_to_database_function()
       redis_connection.delete(get_cookie_value_from_browser)
-      localhost_print_function(f'deleted cookie from redis!')
     except:
-      localhost_print_function(f'did not deleted cookie from redis!')
       pass
   # ------------------------ auto sign in with cookie end ------------------------
   localhost_print_function('=========================================== candidates_logout_function END ===========================================')

@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block contentBodyExceptNavbarAndFooter %}
-<h1>You are logged in!</h1>
+<h1>You are logged in! {{ users_name_to_html }}</h1>
 <br />
 
 <a href="/candidates/logout">Logout</a>

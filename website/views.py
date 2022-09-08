@@ -138,7 +138,7 @@ def dashboard_test_login_page_function():
   if get_cookie_value_from_browser == None:
     # ------------------------ set cookie on browser start ------------------------
     set_browser_cookie_key, set_browser_cookie_value = redis_set_browser_cookie_function()
-    browser_response = make_response(render_template('candidates_page_templates/logged_in_page_templates/dashboard_page_templates/dashboard_test_login_page_templates/index.html', user=current_user))
+    browser_response = make_response(render_template('candidates_page_templates/logged_in_page_templates/dashboard_page_templates/dashboard_test_login_page_templates/index.html', user=current_user, users_name_to_html=current_user.first_name))
     browser_response.set_cookie(set_browser_cookie_key, set_browser_cookie_value, expires=datetime.datetime.now() + datetime.timedelta(days=60))
     # ------------------------ set cookie on browser end ------------------------
     # ------------------------ set cookie in redis start ------------------------
@@ -152,6 +152,6 @@ def dashboard_test_login_page_function():
     redis_connection = redis_connect_to_database_function()
     redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
     # ------------------------ set cookie in redis start ------------------------
-    return render_template('candidates_page_templates/logged_in_page_templates/dashboard_page_templates/dashboard_test_login_page_templates/index.html', user=current_user)
+    return render_template('candidates_page_templates/logged_in_page_templates/dashboard_page_templates/dashboard_test_login_page_templates/index.html', user=current_user, users_name_to_html=current_user.first_name)
 # ------------------------ individual route - aaaa youtube end ------------------------
 # ------------------------ routes logged in end ------------------------
