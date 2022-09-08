@@ -16,7 +16,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from website import db
 from flask_login import login_user, login_required, logout_user, current_user
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
-from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function
+from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function, sanitize_create_account_text_inputs_function
 # ------------------------ imports end ------------------------
 
 
@@ -34,24 +34,26 @@ cache_busting_output = create_uuid_function('css_')
 @auth.route('/candidates/login', methods=['GET', 'POST'])
 def candidates_login_page_function():
   localhost_print_function('=========================================== candidates_login_page_function START ===========================================')
+  login_error_statement = ''
   if request.method == 'POST':
     # ------------------------ post method hit #1 - regular login start ------------------------
     # ------------------------ post request sent start ------------------------
     ui_email = request.form.get('login_page_ui_email')
     ui_password = request.form.get('login_page_ui_password')
     # ------------------------ post request sent end ------------------------
-    # ============================================================================================================
-    # ============================================================================================================
-    # ============================================================================================================
-    # ------------------------ Sanitize: Here you have to run backend checks on all the user inputs/sanitize start ------------------------
-    # ------------------------ Sanitize: Here you have to run backend checks on all the user inputs/sanitize end ------------------------
-    # ============================================================================================================
-    # ============================================================================================================
-    # ============================================================================================================
+    # ------------------------ sanitize/check user input email start ------------------------
+    ui_email_cleaned = sanitize_email_function(ui_email)
+    if ui_email_cleaned == False:
+      login_error_statement = 'Please enter a valid work email.'
+    # ------------------------ sanitize/check user input email end ------------------------
+    # ------------------------ sanitize/check user input password start ------------------------
+    ui_password_cleaned = sanitize_password_function(ui_password)
+    if ui_password_cleaned == False:
+      login_error_statement = 'Password is not valid.'
+    # ------------------------ sanitize/check user input password end ------------------------
     user = CandidatesUserObj.query.filter_by(email=ui_email).first()
     if user:
       if check_password_hash(user.password, ui_password):
-        flash('Logged in successfully!', category='success')
         # ------------------------ keep user logged in start ------------------------
         login_user(user, remember=True)
         # ============================================================================================================
@@ -66,14 +68,23 @@ def candidates_login_page_function():
         # ------------------------ keep user logged in end ------------------------
         return redirect(url_for('views.dashboard_test_login_page_function'))
       else:
-        flash('Incorrect email/password, try again.', category='error')
+        login_error_statement = 'Incorrect email/password, try again.'
     else:
-      flash('Incorrect email/password, try again.', category='error')
+      login_error_statement = 'Incorrect email/password, try again.'
     # ------------------------ post method hit #1 - regular login end ------------------------
 
   localhost_print_function('=========================================== candidates_login_page_function END ===========================================')
-  return render_template('candidates_page_templates/not_logged_in_page_templates/login_page_templates/index.html', user=current_user)
+  return render_template('candidates_page_templates/not_logged_in_page_templates/login_page_templates/index.html', user=current_user, error_message_to_html = login_error_statement)
 # ------------------------ individual route end ------------------------
+
+
+
+
+
+
+
+
+
 
 
 # ------------------------ individual route start ------------------------
@@ -96,6 +107,15 @@ def candidates_logout_function():
 # ------------------------ individual route end ------------------------
 
 
+
+
+
+
+
+
+
+
+
 # ------------------------ individual route start ------------------------
 @auth.route('/candidates/signup', methods=['GET', 'POST'])
 def candidates_signup_function():
@@ -105,17 +125,14 @@ def candidates_signup_function():
     # ------------------------ post method hit #1 - quick sign up start ------------------------
     ui_email = request.form.get('various_pages1_ui_email')
     if ui_email != None:
-      # ============================================================================================================
-      # ============================================================================================================
-      # ============================================================================================================
-      # ------------------------ Sanitize: Here you have to run backend checks on all the user inputs/sanitize start ------------------------
-      # ------------------------ Sanitize: Here you have to run backend checks on all the user inputs/sanitize end ------------------------
-      # ============================================================================================================
-      # ============================================================================================================
-      # ============================================================================================================
+      # ------------------------ sanitize/check user input email start ------------------------
+      ui_email_cleaned = sanitize_email_function(ui_email)
+      if ui_email_cleaned == False:
+        create_account_error_statement = 'Please enter a valid work email.'
+      # ------------------------ sanitize/check user input email end ------------------------
       localhost_print_function('user is being redirected to full sign up page')
       localhost_print_function('=========================================== candidates_signup_function END ===========================================')
-      return render_template('candidates_page_templates/not_logged_in_page_templates/create_account_templates/index.html', user=current_user, redirect_var_email = ui_email)
+      return render_template('candidates_page_templates/not_logged_in_page_templates/create_account_templates/index.html', user=current_user, redirect_var_email = ui_email, error_message_to_html = create_account_error_statement)
     # ------------------------ post method hit #1 - quick sign up end ------------------------
     # ------------------------ post method hit #2 - full sign up start ------------------------
     ui_email = request.form.get('create_account_page_ui_email')
@@ -125,23 +142,56 @@ def candidates_signup_function():
     ui_last_name = request.form.get('create_account_page_ui_last_name')
     ui_company_name = request.form.get('create_account_page_ui_company_name')
     ui_department_name = request.form.get('create_account_page_ui_department_name')
-    # ============================================================================================================
-    # ============================================================================================================
-    # ============================================================================================================
-    # ------------------------ Sanitize: Here you have to run backend checks on all the user inputs/sanitize start ------------------------
+    # ------------------------ sanitize/check user inputs start ------------------------
+    # ------------------------ sanitize/check user input email start ------------------------
     ui_email_cleaned = sanitize_email_function(ui_email)
     if ui_email_cleaned == False:
-      create_account_error_statement = 'Email is not a valid work email.'
-    
+      create_account_error_statement = 'Please enter a valid work email.'
+    # ------------------------ sanitize/check user input email end ------------------------
+    # ------------------------ sanitize/check user input password start ------------------------
     ui_password_cleaned = sanitize_password_function(ui_password)
     if ui_password_cleaned == False:
-      create_account_error_statement = 'Password is not valid'
+      create_account_error_statement = 'Password is not valid.'
+    if ui_password != ui_password_confirmed:
+      create_account_error_statement = 'Passwords do not match.'
+    # ------------------------ sanitize/check user input password end ------------------------
+    # ------------------------ sanitize/check user input first name start ------------------------
+    if len(ui_first_name) < 2 or len(ui_first_name) > 20:
+      create_account_error_statement = 'First name needs to be 2-20 characters.'
+    ui_first_name_cleaned = sanitize_create_account_text_inputs_function(ui_first_name)
+    if ui_first_name_cleaned == False:
+      create_account_error_statement = 'First name needs to be 2-20 characters. No special characters.'
+    # ------------------------ sanitize/check user input first name end ------------------------
+    # ------------------------ sanitize/check user input last name start ------------------------
+    if len(ui_last_name) < 1 or len(ui_last_name) > 20:
+      create_account_error_statement = 'Last name needs to be 1-20 characters.'
+    ui_last_name_cleaned = sanitize_create_account_text_inputs_function(ui_last_name)
+    if ui_last_name_cleaned == False:
+      create_account_error_statement = 'Last name needs to be 1-20 characters. No special characters.'
+    # ------------------------ sanitize/check user input last name end ------------------------
+    # ------------------------ sanitize/check user input company name start ------------------------
+    if len(ui_company_name) < 2 or len(ui_company_name) > 50:
+      create_account_error_statement = 'Company name needs to be 2-20 characters.'
+    ui_company_name_cleaned = sanitize_create_account_text_inputs_function(ui_company_name)
+    if ui_company_name_cleaned == False:
+      create_account_error_statement = 'Company name needs to be 2-20 characters. No special characters.'
+    # ------------------------ sanitize/check user input company name end ------------------------
+    try:
+      # ------------------------ sanitize/check user input department name start ------------------------
+      if ui_department_name != None:
+        ui_department_name_cleaned = sanitize_create_account_text_inputs_function(ui_department_name)
+        if ui_department_name_cleaned == False:
+          create_account_error_statement = 'Department name cannot contain special characters.'
+      # ------------------------ sanitize/check user input department name end ------------------------
+    except:
+      pass
+    # ------------------------ sanitize/check user inputs end ------------------------
     # ------------------------ if user input error start ------------------------
-    if len(create_account_error_statement) > 0:
+    if create_account_error_statement != '':
       localhost_print_function('=========================================== candidates_signup_function END ===========================================')
       return render_template('candidates_page_templates/not_logged_in_page_templates/create_account_templates/index.html',
                               user = current_user,
-                              create_account_error_statement_to_html = create_account_error_statement,
+                              error_message_to_html = create_account_error_statement,
                               redirect_var_email = ui_email,
                               redirect_var_password = ui_password,
                               redirect_var_password_confirmed = ui_password_confirmed,
@@ -150,15 +200,22 @@ def candidates_signup_function():
                               redirect_var_company_name = ui_company_name,
                               redirect_var_department_name = ui_department_name)
     # ------------------------ if user input error end ------------------------
-    # ------------------------ Sanitize: Here you have to run backend checks on all the user inputs/sanitize end ------------------------
-    # ============================================================================================================
-    # ============================================================================================================
-    # ============================================================================================================
+    # ------------------------ check if user email already exists in db start ------------------------
     user = CandidatesUserObj.query.filter_by(email=ui_email).first()
     if user:
-      flash('Email already exists.', category='error')
-    elif ui_password != ui_password_confirmed:
-      create_account_error_statement = 'Passwords do not match'
+      create_account_error_statement = 'Account already created for email.'
+      localhost_print_function('=========================================== candidates_signup_function END ===========================================')
+      return render_template('candidates_page_templates/not_logged_in_page_templates/create_account_templates/index.html',
+                              user = current_user,
+                              error_message_to_html = create_account_error_statement,
+                              redirect_var_email = ui_email,
+                              redirect_var_password = ui_password,
+                              redirect_var_password_confirmed = ui_password_confirmed,
+                              redirect_var_first_name = ui_first_name,
+                              redirect_var_last_name = ui_last_name,
+                              redirect_var_company_name = ui_company_name,
+                              redirect_var_department_name = ui_department_name)
+    # ------------------------ check if user email already exists in db start ------------------------
     else:
       # ------------------------ create new user in db start ------------------------
       new_user = CandidatesUserObj(
@@ -190,5 +247,5 @@ def candidates_signup_function():
     # ------------------------ post method hit #2 - full sign up end ------------------------
 
   localhost_print_function('=========================================== candidates_signup_function END ===========================================')
-  return render_template('candidates_page_templates/not_logged_in_page_templates/create_account_templates/index.html', user=current_user, create_account_error_statement_to_html = create_account_error_statement)
+  return render_template('candidates_page_templates/not_logged_in_page_templates/create_account_templates/index.html', user=current_user, error_message_to_html = create_account_error_statement)
 # ------------------------ individual route end ------------------------

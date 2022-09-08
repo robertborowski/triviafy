@@ -29,3 +29,14 @@ form.login-create-account-form {
   color: rgb(51, 28, 86);
 }
 /* - - - - - - - - - - spacer end */
+/* - - - - - - - - - - error message start */
+.error-message-section {
+  /* border: 1px solid black; */
+  width: 100%;
+  text-align: center;
+}
+.error-message-section p {
+  font-size: 20px;
+  color: rgb(255, 0, 0);
+}
+/* - - - - - - - - - - error message end */
