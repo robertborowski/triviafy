@@ -52,8 +52,8 @@ def create_app_function():
   @app.errorhandler(404)
   # inbuilt function which takes error as parameter
   def not_found(e):
-    localhost_print_function('exception hit create_app_function')
-    localhost_print_function('=========================================== create_app_function END ===========================================')
+    # localhost_print_function('exception hit create_app_function')
+    # localhost_print_function('=========================================== create_app_function END ===========================================')
     return render_template("candidates_page_templates/not_logged_in_page_templates/error_404_page_templates/index.html")
   # ------------------------ Handleing Error Messages END ------------------------
   # ------------------------ views/auths/routes imports start ------------------------

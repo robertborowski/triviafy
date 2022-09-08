@@ -17,6 +17,7 @@ from website import db
 from flask_login import login_user, login_required, logout_user, current_user
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function, sanitize_create_account_text_inputs_function
+from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
 # ------------------------ imports end ------------------------
 
 
@@ -34,6 +35,9 @@ cache_busting_output = create_uuid_function('css_')
 @auth.route('/candidates/login', methods=['GET', 'POST'])
 def candidates_login_page_function():
   localhost_print_function('=========================================== candidates_login_page_function START ===========================================')
+  # ------------------------ auto sign in with cookie start ------------------------
+  get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
+  # ------------------------ auto sign in with cookie end ------------------------
   login_error_statement = ''
   if request.method == 'POST':
     # ------------------------ post method hit #1 - regular login start ------------------------
@@ -56,15 +60,6 @@ def candidates_login_page_function():
       if check_password_hash(user.password, ui_password):
         # ------------------------ keep user logged in start ------------------------
         login_user(user, remember=True)
-        # ============================================================================================================
-        # ============================================================================================================
-        # ============================================================================================================
-        # ------------------------ add redis code here start ------------------------
-        # because of code: login_user(new_user, remember=True) the remember = true part makes it so that Flask remembers the user as long as the app does not reset. Once you push this to heroku and github test this out to see if it is true? You might not even need redis
-        # ------------------------ add redis code here end ------------------------
-        # ============================================================================================================
-        # ============================================================================================================
-        # ============================================================================================================
         # ------------------------ keep user logged in end ------------------------
         return redirect(url_for('views.dashboard_test_login_page_function'))
       else:
@@ -93,15 +88,18 @@ def candidates_login_page_function():
 def candidates_logout_function():
   localhost_print_function('=========================================== candidates_logout_function START ===========================================')
   logout_user()
-  # ============================================================================================================
-  # ============================================================================================================
-  # ============================================================================================================
-  # ------------------------ add redis code here start ------------------------
-  # because of code: login_user(new_user, remember=True) the remember = true part makes it so that Flask remembers the user as long as the app does not reset. Once you push this to heroku and github test this out to see if it is true? You might not even need redis
-  # ------------------------ add redis code here end ------------------------
-  # ============================================================================================================
-  # ============================================================================================================
-  # ============================================================================================================
+  # ------------------------ auto sign in with cookie start ------------------------
+  get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
+  # ------------------------ auto sign in with cookie end ------------------------
+  if get_cookie_value_from_browser != None:
+    try:
+      redis_connection = redis_connect_to_database_function()
+      redis_connection.delete(get_cookie_value_from_browser)
+      localhost_print_function(f'deleted cookie from redis!')
+    except:
+      localhost_print_function(f'did not deleted cookie from redis!')
+      pass
+  # ------------------------ auto sign in with cookie end ------------------------
   localhost_print_function('=========================================== candidates_logout_function END ===========================================')
   return redirect(url_for('auth.candidates_login_page_function'))
 # ------------------------ individual route end ------------------------
@@ -120,6 +118,9 @@ def candidates_logout_function():
 @auth.route('/candidates/signup', methods=['GET', 'POST'])
 def candidates_signup_function():
   localhost_print_function('=========================================== candidates_signup_function START ===========================================')
+  # ------------------------ auto sign in with cookie start ------------------------
+  get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
+  # ------------------------ auto sign in with cookie end ------------------------
   create_account_error_statement = ''
   if request.method == 'POST':
     # ------------------------ post method hit #1 - quick sign up start ------------------------
@@ -232,15 +233,6 @@ def candidates_signup_function():
       # ------------------------ create new user in db end ------------------------
       # ------------------------ keep user logged in start ------------------------
       login_user(new_user, remember=True)
-      # ============================================================================================================
-      # ============================================================================================================
-      # ============================================================================================================
-      # ------------------------ add redis code here start ------------------------
-      # because of code: login_user(new_user, remember=True) the remember = true part makes it so that Flask remembers the user as long as the app does not reset. Once you push this to heroku and github test this out to see if it is true? You might not even need redis
-      # ------------------------ add redis code here end ------------------------
-      # ============================================================================================================
-      # ============================================================================================================
-      # ============================================================================================================
       # ------------------------ keep user logged in end ------------------------
       localhost_print_function('=========================================== candidates_signup_function END ===========================================')
       return redirect(url_for('views.dashboard_test_login_page_function'))
