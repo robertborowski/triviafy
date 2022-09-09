@@ -93,6 +93,11 @@ def create_app_function():
 
 # ------------------------ create_db_function start ------------------------
 def create_database_function(app):
+  """
+  -Note: How to log everyone off. Remove all browser cookie keys from redis, THEN,
+  you have to restart the app from heroku. restarting the main/index .py file will 
+  log everyone off from flask login manager.
+  """
   localhost_print_function('=========================================== create_database_function START ===========================================')
   if not path.exists('website/' + DB_NAME):
     db.create_all(app=app)
