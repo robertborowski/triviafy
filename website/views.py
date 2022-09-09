@@ -206,14 +206,14 @@ def dashboard_test_login_page_function():
   -These pages will require the template_location_url variable
   """
   template_location_url = 'candidates_page_templates/logged_in_page_templates/dashboard_page_templates/dashboard_test_login_page_templates/index.html'
-  # ------------------------ sql check db start ------------------------
-  query_result_arr_of_dicts = select_general_function()
-  localhost_print_function('- - - - - - - 0 - - - - - - -')
-  localhost_print_function('query_result_arr_of_dicts')
-  localhost_print_function(query_result_arr_of_dicts)
-  localhost_print_function(type(query_result_arr_of_dicts))
-  localhost_print_function('- - - - - - - 0 - - - - - - -')
-  # ------------------------ sql check db end ------------------------
+  # ------------------------ individual redirect start ------------------------
+  query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
+  check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
+  if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
+    localhost_print_function('redirecting user to capacity selection page')
+    localhost_print_function('=========================================== dashboard_test_login_page_function END ===========================================')
+    return redirect(url_for('views.capacity_page_function'))
+  # ------------------------ individual redirect end ------------------------
   # ------------------------ auto redirect checks end ------------------------
   # ------------------------ auto set cookie start ------------------------
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
