@@ -24,8 +24,8 @@ class CandidatesUserObj(db.Model, UserMixin):   # Only the users object inherits
 class CandidatesCapacityOptionsObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
   created_timestamp = db.Column(db.DateTime(timezone=True))
-  price_per_month = db.Column(db.Float)
-  price_per_year = db.Column(db.Float)
+  candence = db.Column(db.String(10))
+  price = db.Column(db.Float)
 # ------------------------ individual model end ------------------------
 # ------------------------ models end ------------------------
 
