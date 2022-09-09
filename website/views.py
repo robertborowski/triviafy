@@ -11,12 +11,12 @@
 # ------------------------ imports start ------------------------
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
-from flask import Blueprint, render_template, request, make_response, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required, current_user, login_user
-from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_set_browser_cookie_function, redis_connect_to_database_function
-import datetime
+from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
 from website.models import CandidatesUserObj
 from website.backend.candidates.browser import browser_response_set_cookie_function
+from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 # ------------------------ imports end ------------------------
 
 
@@ -206,7 +206,14 @@ def dashboard_test_login_page_function():
   -These pages will require the template_location_url variable
   """
   template_location_url = 'candidates_page_templates/logged_in_page_templates/dashboard_page_templates/dashboard_test_login_page_templates/index.html'
-  # Here write code that checks if the user has a capacity selection associated with their account. If not then it has to auto redirect them there.
+  # ------------------------ sql check db start ------------------------
+  query_result_arr_of_dicts = select_general_function()
+  localhost_print_function('- - - - - - - 0 - - - - - - -')
+  localhost_print_function('query_result_arr_of_dicts')
+  localhost_print_function(query_result_arr_of_dicts)
+  localhost_print_function(type(query_result_arr_of_dicts))
+  localhost_print_function('- - - - - - - 0 - - - - - - -')
+  # ------------------------ sql check db end ------------------------
   # ------------------------ auto redirect checks end ------------------------
   # ------------------------ auto set cookie start ------------------------
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
