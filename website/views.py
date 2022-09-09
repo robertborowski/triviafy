@@ -16,6 +16,7 @@ from flask_login import login_required, current_user, login_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_set_browser_cookie_function, redis_connect_to_database_function
 import datetime
 from website.models import CandidatesUserObj
+from website.backend.candidates.browser import browser_response_set_cookie_function
 # ------------------------ imports end ------------------------
 
 
@@ -190,29 +191,53 @@ def terms_of_service_page_function():
 
 # ------------------------ routes logged in start ------------------------
 # @login_required should be a decorator on all of the pages in this section
-# ------------------------ individual route - aaaa youtube start ------------------------
+# ------------------------ individual route start ------------------------
+# ------------------------ individual route start ------------------------
 @views.route('/candidates/dashboard')
 @login_required
 def dashboard_test_login_page_function():
   localhost_print_function('=========================================== dashboard_test_login_page_function START ===========================================')
-  # ------------------------ auto sign in with cookie start ------------------------
+  # ------------------------ auto redirect checks start ------------------------
+  """
+  -The code will always hit this dashboard on login or create account. BUT BEFORE setting the cookie on the browser, we are going to auto redirect
+  users this makes the UX better so they dont have to click, read, or think, just auto redirect. The downside is that you cannot set the cookie
+  unless you know for sure where the user is ending up. So the redirected page will ALSO have to include the function that sets the cookie.
+  Downside is repeating code but it is not for all pages, only for the pages that auto redirect on new account creation.
+  -These pages will require the template_location_url variable
+  """
+  template_location_url = 'candidates_page_templates/logged_in_page_templates/dashboard_page_templates/dashboard_test_login_page_templates/index.html'
+  # Here write code that checks if the user has a capacity selection associated with their account. If not then it has to auto redirect them there.
+  # ------------------------ auto redirect checks end ------------------------
+  # ------------------------ auto set cookie start ------------------------
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
-  # ------------------------ auto sign in with cookie end ------------------------
-  if get_cookie_value_from_browser == None:
-    # ------------------------ set cookie on browser start ------------------------
-    set_browser_cookie_key, set_browser_cookie_value = redis_set_browser_cookie_function()
-    browser_response = make_response(render_template('candidates_page_templates/logged_in_page_templates/dashboard_page_templates/dashboard_test_login_page_templates/index.html', user=current_user, users_name_to_html=current_user.first_name))
-    browser_response.set_cookie(set_browser_cookie_key, set_browser_cookie_value, expires=datetime.datetime.now() + datetime.timedelta(days=60))
-    # ------------------------ set cookie on browser end ------------------------
-    # ------------------------ set cookie in redis start ------------------------
-    redis_connection.set(set_browser_cookie_value, current_user.id.encode('utf-8'))
-    # ------------------------ set cookie in redis start ------------------------
+  if get_cookie_value_from_browser != None:
+    redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
+    return render_template(template_location_url, user=current_user, users_name_to_html=current_user.first_name)
+  else:
+    browser_response = browser_response_set_cookie_function(current_user, template_location_url)
     localhost_print_function('=========================================== dashboard_test_login_page_function END ===========================================')
     return browser_response
-  else:
-    # ------------------------ set cookie in redis start ------------------------
+  # ------------------------ auto set cookie end ------------------------
+# ------------------------ individual route end ------------------------
+
+
+# ------------------------ individual route start ------------------------
+@views.route('/candidates/capacity')
+@login_required
+def capacity_page_function():
+  localhost_print_function('=========================================== capacity_page_function START ===========================================')
+  # ------------------------ auto redirect checks start ------------------------
+  template_location_url = 'candidates_page_templates/logged_in_page_templates/select_candidates_per_month_page_templates/index.html'
+  # ------------------------ auto redirect checks end ------------------------
+  # ------------------------ auto set cookie start ------------------------
+  get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
+  if get_cookie_value_from_browser != None:
     redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
-    # ------------------------ set cookie in redis start ------------------------
-    return render_template('candidates_page_templates/logged_in_page_templates/dashboard_page_templates/dashboard_test_login_page_templates/index.html', user=current_user, users_name_to_html=current_user.first_name)
-# ------------------------ individual route - aaaa youtube end ------------------------
+    return render_template(template_location_url, user=current_user, users_name_to_html=current_user.first_name)
+  else:
+    browser_response = browser_response_set_cookie_function(current_user, template_location_url)
+    localhost_print_function('=========================================== capacity_page_function END ===========================================')
+    return browser_response
+  # ------------------------ auto set cookie end ------------------------
+# ------------------------ individual route end ------------------------
 # ------------------------ routes logged in end ------------------------
