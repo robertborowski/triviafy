@@ -110,6 +110,8 @@ def candidates_signup_function():
     # ------------------------ sanitize/check user input company name end ------------------------
     try:
       # ------------------------ sanitize/check user input department name start ------------------------
+      if len(ui_department_name) == 0: # returns blank string which messes up database to EMPTY instead of NULL.
+        ui_department_name = None
       if ui_department_name != None:
         ui_department_name_cleaned = sanitize_create_account_text_inputs_function(ui_department_name)
         if ui_department_name_cleaned == False:
