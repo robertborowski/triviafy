@@ -11,13 +11,14 @@
 # ------------------------ imports start ------------------------
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, session
 from flask_login import login_required, current_user, login_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
 from website.models import CandidatesUserObj
 from website.backend.candidates.browser import browser_response_set_cookie_function
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
+from website import db
 # ------------------------ imports end ------------------------
 
 
@@ -251,14 +252,9 @@ def capacity_page_function():
     # ------------------------ valid input check end ------------------------
     # ------------------------ update db start ------------------------
     if ui_capacity_selected != None:
-
-
-
-      pass
-
-
-
-
+      current_user.capacity_id_fk = ui_capacity_selected
+      db.session.commit()
+      return redirect(url_for('views.dashboard_test_login_page_function'))
     # ------------------------ update db end ------------------------
   # ------------------------ capacity selection end ------------------------
   # ------------------------ auto redirect checks start ------------------------
