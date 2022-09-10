@@ -228,13 +228,18 @@ def dashboard_test_login_page_function():
 
 
 # ------------------------ individual route start ------------------------
-@views.route('/candidates/capacity')
+@views.route('/candidates/capacity', methods=['GET', 'POST'])
 @login_required
 def capacity_page_function():
   localhost_print_function('=========================================== capacity_page_function START ===========================================')
   # ------------------------ capacity selection start ------------------------
   if request.method == 'POST':
     ui_capacity_selected = request.form.get('capacity_page_ui_capacity_selected')
+    localhost_print_function('- - - - - - - 0 - - - - - - -')
+    localhost_print_function('ui_capacity_selected')
+    localhost_print_function(ui_capacity_selected)
+    localhost_print_function(type(ui_capacity_selected))
+    localhost_print_function('- - - - - - - 0 - - - - - - -')
   # ------------------------ capacity selection end ------------------------
   # ------------------------ auto redirect checks start ------------------------
   template_location_url = 'candidates_page_templates/logged_in_page_templates/capacity_select_page_templates/index.html'

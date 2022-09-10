@@ -6,30 +6,31 @@
 {% endblock %}
 
 {% block contentBodyExceptNavbarAndFooter %}
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="landing-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
 
 <div class="capacity-background-container">
-  <form method="POST">
-    <p>Hi {{ users_name_to_html }}, how many skill assessments do you currently send per month (average)?</p>
-    
-    <div>
-      <input type="radio" id="contactChoice1" name="contact" value="email">
-      <label for="contactChoice1">1-500</label>
-
-      <input type="radio" id="contactChoice2" name="contact" value="phone">
-      <label for="contactChoice2">501-1,000</label>
-
-      <input type="radio" id="contactChoice3" name="contact" value="mail">
-      <label for="contactChoice3">1,000+</label>
+  <form method="POST" class="capacity-entire-form-section default-box-shadow-grey-reg">
+    <div class="capacity-form-header-section">
+      <p class="capacity-title">Hi {{ users_name_to_html }}, on average, how many skill assessments do you currently send per month?</p>
     </div>
 
-    <div>
-      <button type="submit">Submit</button>
+    <div class="capacity-form-body-section">
+      <input type="radio" id="capacity_choice_1" name="capacity_page_ui_capacity_selected" value="1m" checked>
+      <label for="capacity_choice_1" class="capacity-radio-label">1 - 500</label>
+
+      <input type="radio" id="capacity_choice_2" name="capacity_page_ui_capacity_selected" value="2m">
+      <label for="capacity_choice_2" class="capacity-radio-label">501 - 1,000</label>
+
+      <input type="radio" id="capacity_choice_3" name="capacity_page_ui_capacity_selected" value="3m">
+      <label for="capacity_choice_3" class="capacity-radio-label">1,000+</label>
+    </div>
+
+    <div class="capacity-form-footer-section">
+      <button type="submit" class="default-button-format default-button-format-primary-color">Submit</button>
     </div>
   </form>
 </div>
-
-
-<a href="{{ url_for('views.dashboard_test_login_page_function') }}">Dashboard</a>
-<a href="{{ url_for('auth.candidates_logout_function') }}">Logout</a>
 
 {% endblock %}
