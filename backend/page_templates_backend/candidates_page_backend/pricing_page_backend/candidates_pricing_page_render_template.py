@@ -26,4 +26,4 @@ def candidates_pricing_page_render_template_function():
 
 
   localhost_print_function('=========================================== candidates_pricing_page_render_template_function END ===========================================')
-  return render_template('candidates_page_templates/pricing_page_templates/index.html', css_cache_busting = cache_busting_output)
+  return render_template('employee_engagement_page_templates/candidates_page_templates/pricing_page_templates/index.html', css_cache_busting = cache_busting_output)

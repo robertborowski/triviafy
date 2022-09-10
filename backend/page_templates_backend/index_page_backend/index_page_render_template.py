@@ -95,13 +95,13 @@ def index_page_render_template_function():
       redis_connection.set(localhost_redis_browser_cookie_key, get_cookie_value_from_browser.encode('utf-8'))
 
     if get_cookie_value_from_browser == '' or get_cookie_value_from_browser == None:
-      browser_response = make_response(render_template('index_page_templates/index.html', css_cache_busting = cache_busting_output, slack_state_uuid_html = localhost_slack_state_uuid_value))
+      browser_response = make_response(render_template('employee_engagement_page_templates/index_page_templates/index.html', css_cache_busting = cache_busting_output, slack_state_uuid_html = localhost_slack_state_uuid_value))
       browser_response.set_cookie(set_browser_cookie_key, set_browser_cookie_value, expires=datetime.datetime.now() + datetime.timedelta(days=60))
       localhost_print_function('=========================================== Landing Page END ===========================================')
       return browser_response
     else:
       localhost_print_function('=========================================== Landing Page END ===========================================')
-      return render_template('index_page_templates/index.html', css_cache_busting = cache_busting_output, slack_state_uuid_html = localhost_slack_state_uuid_value)
+      return render_template('employee_engagement_page_templates/index_page_templates/index.html', css_cache_busting = cache_busting_output, slack_state_uuid_html = localhost_slack_state_uuid_value)
 
   # -------------------------------------------------------------- NOT running on localhost
   else:
@@ -110,10 +110,10 @@ def index_page_render_template_function():
     session['slack_state_uuid_value'] = create_uuid_function('slv_')
 
     if get_cookie_value_from_browser == '' or get_cookie_value_from_browser == None:
-      browser_response = make_response(render_template('index_page_templates/index.html', css_cache_busting = cache_busting_output, slack_state_uuid_html = session['slack_state_uuid_value']))
+      browser_response = make_response(render_template('employee_engagement_page_templates/index_page_templates/index.html', css_cache_busting = cache_busting_output, slack_state_uuid_html = session['slack_state_uuid_value']))
       browser_response.set_cookie(set_browser_cookie_key, set_browser_cookie_value, expires=datetime.datetime.now() + datetime.timedelta(days=60))
       localhost_print_function('=========================================== Landing Page END ===========================================')
       return browser_response
     else:
       localhost_print_function('=========================================== Landing Page END ===========================================')
-      return render_template('index_page_templates/index.html', css_cache_busting = cache_busting_output, slack_state_uuid_html = session['slack_state_uuid_value'])
+      return render_template('employee_engagement_page_templates/index_page_templates/index.html', css_cache_busting = cache_busting_output, slack_state_uuid_html = session['slack_state_uuid_value'])

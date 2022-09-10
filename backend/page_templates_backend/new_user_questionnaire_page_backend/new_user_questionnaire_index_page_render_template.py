@@ -68,7 +68,7 @@ def new_user_questionnaire_index_page_render_template_function():
 
   
   localhost_print_function('=========================================== /new/user/questionnaire Page END ===========================================')
-  return render_template('new_user_questionnaire_templates/index.html',
+  return render_template('employee_engagement_page_templates/new_user_questionnaire_templates/index.html',
                           css_cache_busting = cache_busting_output,
                           user_company_name_to_html = user_company_name,
                           user_channel_name_to_html = user_channel_name,

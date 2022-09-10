@@ -121,7 +121,7 @@ def quiz_no_latest_quiz_yet_page_render_template_function():
 
   
   localhost_print_function('=========================================== /dashboard/quiz/first/pending Page END ===========================================')
-  return render_template('dashboard_page_templates/quiz_no_latest_quiz_yet_page_templates/index.html',
+  return render_template('employee_engagement_page_templates/dashboard_page_templates/quiz_no_latest_quiz_yet_page_templates/index.html',
                           css_cache_busting = cache_busting_output,
                           user_company_name_to_html = user_company_name,
                           user_channel_name_to_html = user_channel_name,

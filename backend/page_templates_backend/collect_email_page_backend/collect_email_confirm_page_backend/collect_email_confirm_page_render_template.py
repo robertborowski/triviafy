@@ -25,4 +25,4 @@ def collect_email_confirm_page_render_template_function():
   # ------------------------ CSS support END ------------------------
 
   localhost_print_function('=========================================== /collect/email/confirm Page END ===========================================')
-  return render_template('collect_email_confirm_page_templates/index.html', css_cache_busting = cache_busting_output)
+  return render_template('employee_engagement_page_templates/collect_email_confirm_page_templates/index.html', css_cache_busting = cache_busting_output)

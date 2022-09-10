@@ -25,4 +25,4 @@ def collect_email_processing_candidates_success_function():
   # ------------------------ CSS support END ------------------------
 
   localhost_print_function('=========================================== /candidates/email/success Page END ===========================================')
-  return render_template('candidates_page_templates/collect_email_page_templates/index.html', css_cache_busting = cache_busting_output)
+  return render_template('employee_engagement_page_templates/candidates_page_templates/collect_email_page_templates/index.html', css_cache_busting = cache_busting_output)

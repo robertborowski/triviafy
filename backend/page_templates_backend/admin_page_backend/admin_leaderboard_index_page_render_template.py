@@ -73,6 +73,6 @@ def admin_leaderboard_index_page_render_template_function():
 
   
   localhost_print_function('=========================================== /admin/leaderboard Page END ===========================================')
-  return render_template('admin_page_templates/index_leaderboard.html',
+  return render_template('employee_engagement_page_templates/admin_page_templates/index_leaderboard.html',
                           css_cache_busting = cache_busting_output,
                           page_title_to_html = 'Leaderboard')

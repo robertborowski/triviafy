@@ -25,4 +25,4 @@ def setup_slack_index_page_render_template_function():
   # ------------------------ CSS support END ------------------------
 
   localhost_print_function('=========================================== /setup/slack Page END ===========================================')
-  return render_template('setup_slack_page_templates/index.html', css_cache_busting = cache_busting_output)
+  return render_template('employee_engagement_page_templates/setup_slack_page_templates/index.html', css_cache_busting = cache_busting_output)

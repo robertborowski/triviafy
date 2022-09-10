@@ -189,7 +189,7 @@ def sample_quiz_graded_index_page_render_template_function():
 
   
   localhost_print_function('=========================================== /sample/quiz/graded Page END ===========================================')
-  return render_template('sample_quiz_page_templates/graded_sample_quiz_page_templates/graded_sample_quiz_index.html',
+  return render_template('employee_engagement_page_templates/sample_quiz_page_templates/graded_sample_quiz_page_templates/graded_sample_quiz_index.html',
                           css_cache_busting = cache_busting_output,
                           user_company_name_to_html = user_company_name,
                           user_channel_name_to_html = user_channel_name,
