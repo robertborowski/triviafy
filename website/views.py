@@ -232,8 +232,12 @@ def dashboard_test_login_page_function():
 @login_required
 def capacity_page_function():
   localhost_print_function('=========================================== capacity_page_function START ===========================================')
+  # ------------------------ capacity selection start ------------------------
+  if request.method == 'POST':
+    ui_capacity_selected = request.form.get('capacity_page_ui_capacity_selected')
+  # ------------------------ capacity selection end ------------------------
   # ------------------------ auto redirect checks start ------------------------
-  template_location_url = 'candidates_page_templates/logged_in_page_templates/select_candidates_per_month_page_templates/index.html'
+  template_location_url = 'candidates_page_templates/logged_in_page_templates/capacity_select_page_templates/index.html'
   # ------------------------ auto redirect checks end ------------------------
   # ------------------------ auto set cookie start ------------------------
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()

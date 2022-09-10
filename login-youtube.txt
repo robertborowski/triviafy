@@ -8,3 +8,6 @@ testing
 - Replace flash with actual p tags that show on the screen at the top.
 -Incorporate redis for auto login
 -sanitize user inputs on login/create account
+
+
+-A lot of your Google ads traffic shows people are getting yo Triviafy by phone. Need to run through all the mobile pages and improve the css.

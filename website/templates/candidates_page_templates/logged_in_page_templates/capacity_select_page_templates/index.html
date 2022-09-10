@@ -1,0 +1,35 @@
+{% extends "aaa_base_page_templates/base2_child1_not_logged_in_no_navbar_and_footer.html" %}
+
+<!-- head tag block content -->
+{% block title %}
+  <title>Select / Triviafy</title>
+{% endblock %}
+
+{% block contentBodyExceptNavbarAndFooter %}
+
+<div class="capacity-background-container">
+  <form method="POST">
+    <p>Hi {{ users_name_to_html }}, how many skill assessments do you currently send per month (average)?</p>
+    
+    <div>
+      <input type="radio" id="contactChoice1" name="contact" value="email">
+      <label for="contactChoice1">1-500</label>
+
+      <input type="radio" id="contactChoice2" name="contact" value="phone">
+      <label for="contactChoice2">501-1,000</label>
+
+      <input type="radio" id="contactChoice3" name="contact" value="mail">
+      <label for="contactChoice3">1,000+</label>
+    </div>
+
+    <div>
+      <button type="submit">Submit</button>
+    </div>
+  </form>
+</div>
+
+
+<a href="{{ url_for('views.dashboard_test_login_page_function') }}">Dashboard</a>
+<a href="{{ url_for('auth.candidates_logout_function') }}">Logout</a>
+
+{% endblock %}
