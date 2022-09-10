@@ -25,4 +25,4 @@ def blog_single_post_0001_index_page_render_template_function():
   # ------------------------ CSS support END ------------------------
 
   localhost_print_function('=========================================== /blog/post/0001 Page END ===========================================')
-  return render_template('blog_page_templates/blog_single_post_page_templates/index_0001.html', css_cache_busting = cache_busting_output)
+  return render_template('employee_engagement_page_templates/blog_page_templates/blog_single_post_page_templates/index_0001.html', css_cache_busting = cache_busting_output)

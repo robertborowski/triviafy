@@ -15,7 +15,7 @@ def before_request():
     return redirect(new_url, code=302)
 
 # -------------------------------------------------------------- App
-@launch_page_render_template.route("/launch", methods=['GET','POST'])
+@launch_page_render_template.route("/launch2", methods=['GET','POST'])
 def launch_page_render_template_function():
   localhost_print_function('=========================================== /launch Page START ===========================================')
   
@@ -25,4 +25,4 @@ def launch_page_render_template_function():
   # ------------------------ CSS support END ------------------------
 
   localhost_print_function('=========================================== /launch Page END ===========================================')
-  return render_template('candidates_page_templates/stand_in_page_templates/login_stand_in_page_templates/index.html', css_cache_busting = cache_busting_output)
+  return render_template('employee_engagement_page_templates/candidates_page_templates/stand_in_page_templates/login_stand_in_page_templates/index.html', css_cache_busting = cache_busting_output)

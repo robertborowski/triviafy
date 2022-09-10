@@ -124,7 +124,7 @@ def admin_index_page_render_template_function():
 
   
   localhost_print_function('=========================================== /admin Page END ===========================================')
-  return render_template('admin_page_templates/index.html',
+  return render_template('employee_engagement_page_templates/admin_page_templates/index.html',
                           css_cache_busting = cache_busting_output,
                           new_emails_for_dist_list_int_to_html = new_emails_for_dist_list_int,
                           new_sign_ups_int_to_html = new_sign_ups_int,

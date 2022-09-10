@@ -25,4 +25,4 @@ def faq_index_page_render_template_function():
   # ------------------------ CSS support END ------------------------
 
   localhost_print_function('=========================================== /faq Page END ===========================================')
-  return render_template('faq_page_templates/index.html', css_cache_busting = cache_busting_output)
+  return render_template('employee_engagement_page_templates/faq_page_templates/index.html', css_cache_busting = cache_busting_output)

@@ -25,4 +25,4 @@ def terms_of_service_index_page_render_template_function():
   # ------------------------ CSS support END ------------------------
 
   localhost_print_function('=========================================== /tos Page END ===========================================')
-  return render_template('terms_of_service_page_templates/index.html', css_cache_busting = cache_busting_output)
+  return render_template('employee_engagement_page_templates/terms_of_service_page_templates/index.html', css_cache_busting = cache_busting_output)

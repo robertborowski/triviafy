@@ -73,7 +73,7 @@ def waitlist_create_question_page_render_template_function():
 
   
   localhost_print_function('=========================================== /create/question/user/waitlist Page END ===========================================')
-  return render_template('waitlist_page_templates/waitlist_create_question_page_template/index.html',
+  return render_template('employee_engagement_page_templates/waitlist_page_templates/waitlist_create_question_page_template/index.html',
                           css_cache_busting = cache_busting_output,
                           user_email_html = user_email,
                           free_trial_ends_info_to_html = free_trial_ends_info)

@@ -53,6 +53,6 @@ def example_quiz_tableau_render_template_function():
   # ------------------------ Close Postgrest DB END ------------------------
 
   localhost_print_function('=========================================== /example/tableau Page END ===========================================')
-  return render_template('example_quizzes_not_signed_in_page_templates/index_tableau.html',
+  return render_template('employee_engagement_page_templates/example_quizzes_not_signed_in_page_templates/index_tableau.html',
                           css_cache_busting = cache_busting_output,
                           quiz_questions_obj_arr_of_dicts_html = quiz_questions_obj_arr_of_dicts)

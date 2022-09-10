@@ -1,0 +1,54 @@
+/* - - - - - - - - - - capacity start */
+.capacity-background-container {
+  /* border: 1px solid black; */
+  width: 100%;
+}
+.capacity-entire-form-section {
+  /* border: 1px solid green; */
+  border-radius: 25px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 0;
+}
+.capacity-form-header-section {
+  /* border: 1px solid blue; */
+  text-align: center;
+}
+.capacity-title {
+  /* border: 1px solid red; */
+  font-size: 20px;
+}
+/* - - - - - - - - - - radio section start */
+.capacity-form-body-section {
+  /* border: 1px solid red; */
+  padding: 50px 0;
+  text-align: center;
+}
+.capacity-form-body-section input[type="radio"] + label.capacity-radio-label {
+  border: 1px solid rgb(190, 190, 190);
+  color: rgb(190, 190, 190);
+  padding: 10px;
+  cursor: pointer;
+  width: 100px;
+  display: inline-block;
+  border-radius: 10px;
+  /* text-align: center; */
+}
+.capacity-form-body-section input[type="radio"]:hover + label.capacity-radio-label {
+  transition: .75s;
+  border: none;
+  background-color: var(--company-primary-color);
+  color: white;
+}
+.capacity-form-body-section input[type="radio"]:checked + label.capacity-radio-label {
+  border: none;
+  background-color: var(--company-primary-color);
+  color: white;
+}
+/* - - - - - - - - - - radio section end */
+.capacity-form-footer-section {
+  /* border: 1px solid green; */
+  width: 100%;
+  text-align: center;
+}
+/* - - - - - - - - - - capacity end */

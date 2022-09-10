@@ -183,7 +183,7 @@ def quiz_archive_specific_quiz_number_function(html_variable_quiz_number):
 
   
   localhost_print_function('=========================================== /quiz/archive/<html_variable_quiz_number> Page END ===========================================')
-  return render_template('quiz_archive_page_templates/quiz_archive_specific_version.html',
+  return render_template('employee_engagement_page_templates/quiz_archive_page_templates/quiz_archive_specific_version.html',
                           css_cache_busting = cache_busting_output,
                           user_company_name_to_html = user_company_name,
                           user_channel_name_to_html = user_channel_name,

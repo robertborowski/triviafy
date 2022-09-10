@@ -105,7 +105,7 @@ def sample_quiz_index_page_render_template_function():
 
   
   localhost_print_function('=========================================== /sample/quiz Page END ===========================================')
-  return render_template('sample_quiz_page_templates/index.html',
+  return render_template('employee_engagement_page_templates/sample_quiz_page_templates/index.html',
                           css_cache_busting = cache_busting_output,
                           user_company_name_to_html = user_company_name,
                           user_channel_name_to_html = user_channel_name,

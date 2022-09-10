@@ -26,5 +26,5 @@ def slack_sign_in_with_before_add_to_slack_page_render_template_function():
 
   
   localhost_print_function('=========================================== /slack/integration/buttons Page END ===========================================')
-  return render_template('slack_sign_in_with_before_add_to_slack_page_templates/index.html',
+  return render_template('employee_engagement_page_templates/slack_sign_in_with_before_add_to_slack_page_templates/index.html',
                           css_cache_busting = cache_busting_output)

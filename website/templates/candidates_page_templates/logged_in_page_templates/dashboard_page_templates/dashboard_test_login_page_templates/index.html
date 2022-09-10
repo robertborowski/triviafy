@@ -1,0 +1,23 @@
+{% extends "aaa_base_page_templates/base2_child1_not_logged_in_no_navbar_and_footer.html" %}
+
+<!-- head tag block content -->
+{% block title %}
+  <title>Dashboard / Triviafy</title>
+{% endblock %}
+
+{% block contentBodyExceptNavbarAndFooter %}
+<div class="default-not-signed-in-simple-page-section">
+  <h1>Hi {{ users_name_to_html }},</h1>
+
+  <div class="default-not-signed-in-simple-page-desctiption-section">
+    <p class="default-not-signed-in-page-p-font default-not-signed-in-page-content-sub-section">"Triviafy Candidates" is set to launch October 2022.</p>
+    <p class="default-not-signed-in-page-p-font default-not-signed-in-page-content-sub-section">We will email you on product launch day!</p>
+  </div>
+
+  <div class="default-not-signed-in-simple-page-img-section">
+    <img src="/static/images/candidates/logo/Logo.png" alt="Triviafy logo" class="default-not-signed-in-simple-page-img">
+  </div>
+  
+  <a href="{{ url_for('views.capacity_page_function') }}">Capacity</a>
+</div>
+{% endblock %}

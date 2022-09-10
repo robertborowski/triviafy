@@ -1,0 +1,42 @@
+/* - - - - - - - - - - spacer start */
+.login-and-create-account-background-whole-screen {
+  /* border: 1px solid black; */
+  width: 100%;
+}
+form.login-create-account-form {
+  /* border: 1px solid black; */
+  border-radius: 25px;
+  max-width: 423px;
+  margin: 0 auto;
+  padding: 50px;
+  text-align: center;
+  background: linear-gradient(145deg, rgb(255 224 224)0%, rgb(255 254 221)25%, rgb(240 255 238)50%, rgb(233 209 255)100%);
+}
+.login-create-account-title {
+  margin: 0 0 25px 0;
+}
+.create-account-user-input-section {
+  /* border: 1px solid blue; */
+  margin: 20px 0;
+}
+.login-create-account-other-links-section {
+  text-align: center;
+  margin: 50px 0 0 0;
+}
+.login-create-account-other-links-section p {
+  padding: 10px 0;
+  font-size: 20px;
+  color: rgb(51, 28, 86);
+}
+/* - - - - - - - - - - spacer end */
+/* - - - - - - - - - - error message start */
+.error-message-section {
+  /* border: 1px solid black; */
+  width: 100%;
+  text-align: center;
+}
+.error-message-section p {
+  font-size: 20px;
+  color: rgb(255, 0, 0);
+}
+/* - - - - - - - - - - error message end */

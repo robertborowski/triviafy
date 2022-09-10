@@ -1,0 +1,156 @@
+<!-- -------------------- info start -------------------- -->
+<!--
+  Info About this file:
+  [22:56, https://www.youtube.com/watch?v=dam0GPOAvVI&ab_channel=TechWithTim ]
+  -Think of the base template as the Theme (Master/Main) of your website html
+  -So whatever you have in this base.html template is what your entire website is going to look like.
+    -Examples: [navbar, footer, header, general-page-fonts, general-page-formating]
+    -Then you 'override' parts of the base.html template with more specific templates.
+-->
+<!-- -------------------- info end -------------------- -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- ------------------------------------- basic start ------------------------------------- -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- ------------------------------------- basic end ------------------------------------- -->
+    <!-- ------------------------------------- connect to google fonts start ------------------------------------- -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist&display=swap" rel="stylesheet">
+    <!-- ------------------------------------- connect to google fonts end ------------------------------------- -->
+    <!-- ------------------------------------- favicon start ------------------------------------- -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/images/logo/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/images/logo/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/images/logo/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="/static/images/logo/favicon_io/site.webmanifest">
+    <!-- ------------------------------------- favicon end ------------------------------------- -->
+    <!-- ------------------------------------- drift start ------------------------------------- -->
+    <script>
+    "use strict";      
+    !function() {
+      var t = window.driftt = window.drift = window.driftt || [];
+      if (!t.init) {
+        if (t.invoked) return void (window.console && console.error && console.error("Drift snippet included twice."));
+        t.invoked = !0, t.methods = [ "identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on" ], 
+        t.factory = function(e) {
+          return function() {
+            var n = Array.prototype.slice.call(arguments);
+            return n.unshift(e), t.push(n), t;
+          };
+        }, t.methods.forEach(function(e) {
+          t[e] = t.factory(e);
+        }), t.load = function(t) {
+          var e = 3e5, n = Math.ceil(new Date() / e) * e, o = document.createElement("script");
+          o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous", o.src = "https://js.driftt.com/include/" + n + "/" + t + ".js";
+          var i = document.getElementsByTagName("script")[0];
+          i.parentNode.insertBefore(o, i);
+        };
+      }
+    }();
+    drift.SNIPPET_VERSION = '0.3.1';
+    drift.load('yswrg7k94p8d');
+    </script>
+    <!-- ------------------------------------- drift end ------------------------------------- -->
+    <!-- ------------------------------------- termly start ------------------------------------- -->
+    <script
+    type="text/javascript"
+    src="https://app.termly.io/embed.min.js"
+    data-auto-block="off"
+    data-website-uuid="62df3bec-aeeb-4113-a6de-739a72c66c75"
+    ></script>
+    <!-- ------------------------------------- termly end ------------------------------------- -->
+    <!-- ------------------------------------- global site tag (gtag.js) - google analytics start ------------------------------------- -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RV52SWE7RC"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    // old
+    // gtag('config', 'G-RV52SWE7RC');
+    // new
+    gtag('config', 'AW-10937231585');
+    </script>
+    <!-- ------------------------------------- global site tag (gtag.js) - google analytics end ------------------------------------- -->
+    <!-- ------------------------------------- global ads start ------------------------------------- -->
+    <!-- From email subject: "robert@triviafy.com sent you a conversion tracking tag" -->
+    <!-- Global site tag (gtag.js) - Google Ads: 10937231585 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-10937231585"></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-10937231585'); </script>
+    <!-- ------------------------------------- global ads end ------------------------------------- -->
+    <!-- ------------------------------------- inspectlet start ------------------------------------- -->
+    <script type="text/javascript">
+    (function() {
+    window.__insp = window.__insp || [];
+    __insp.push(['wid', 121057973]);
+    var ldinsp = function(){
+    if(typeof window.__inspld != "undefined") return; window.__inspld = 1; var insp = document.createElement('script'); insp.type = 'text/javascript'; insp.async = true; insp.id = "inspsync"; insp.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://cdn.inspectlet.com/inspectlet.js?wid=121057973&r=' + Math.floor(new Date().getTime()/3600000); var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(insp, x); };
+    setTimeout(ldinsp, 0);
+    })();
+    </script>
+    <!-- ------------------------------------- inspectlet end ------------------------------------- -->
+
+    <!-- ------------------------------------------------ Font awesome icons Start -->
+    <script src="https://kit.fontawesome.com/f23f12952c.js" crossorigin="anonymous"></script>
+    <!-- ------------------------------------------------ Font awesome icons End -->
+    <!-- ------------------------------------- css start ------------------------------------- -->
+    <!-- css candidates all supporting page styles -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/AA_SUPPORTING_PAGE_STYLES/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/AA_SUPPORTING_PAGE_STYLES/mobile_index_style.css') }}?v={{ css_cache_busting }}">
+    <!-- css candidates about -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/not_logged_in_styles/about_page_styles/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/not_logged_in_styles/about_page_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
+    <!-- css candidates faq -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/not_logged_in_styles/faq_page_styles/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/not_logged_in_styles/faq_page_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
+    <!-- css candidates footer -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/not_logged_in_styles/footer/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/not_logged_in_styles/footer/mobile_index_style.css') }}?v={{ css_cache_busting }}">
+    <!-- css candidates index main -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/not_logged_in_styles/index_page_styles/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/not_logged_in_styles/index_page_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
+    <!-- css candidates navbar -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/not_logged_in_styles/navbar/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/not_logged_in_styles/navbar/mobile_index_style.css') }}?v={{ css_cache_busting }}">
+    <!-- css candidates pricing -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/not_logged_in_styles/pricing_page_styles/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/not_logged_in_styles/pricing_page_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
+    <!-- css candidates test library -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/not_logged_in_styles/test_library_page_styles/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/not_logged_in_styles/test_library_page_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
+    <!-- css candidates login -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/not_logged_in_styles/login_page_styles/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/not_logged_in_styles/login_page_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
+    <!-- css candidates create account -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/not_logged_in_styles/create_account_page_styles/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/not_logged_in_styles/create_account_page_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
+    <!-- css candidates capacity select -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/capacity_select_styles/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/capacity_select_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
+    <!-- ------------------------------------- css end ------------------------------------- -->
+    <!-- ------------------------------------- javascript start ------------------------------------- -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <!-- <script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script> -->
+    <!-- js candidates footer -->
+    <script type="text/javascript" src="{{ url_for('static', filename='javascript/components/candidates/footer/not_signed_in/footer_candidates_not_signed_in.js') }}"></script>
+    <!-- js candidates navbar -->
+    <script type="text/javascript" src="{{ url_for('static', filename='javascript/components/candidates/navbar/navbar_not_signed_in_js/nav_candidates_not_signed_in.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='javascript/components/candidates/navbar/navbar_not_signed_in_js/navbar_hamburger_toggle.js') }}"></script>
+    <!-- js click submit button only once navbar -->
+    <script type="text/javascript" src="{{ url_for('static', filename='javascript/submit_button_js/click_submit_button_once.js') }}"></script>
+    <!-- ------------------------------------- javascript end ------------------------------------- -->
+    <!-- ------------------------------------- title start ------------------------------------- -->
+    {% block title %}base.html{% endblock %}
+    <!-- ------------------------------------- title end ------------------------------------- -->
+  </head>
+  <body>
+    <!-- ------------------------------------- actual new dependent page start ------------------------------------- -->
+    {% block contentBody %}
+    {% endblock %}
+    <!-- ------------------------------------- actual new dependent page end ------------------------------------- -->
+    </body>
+</html>

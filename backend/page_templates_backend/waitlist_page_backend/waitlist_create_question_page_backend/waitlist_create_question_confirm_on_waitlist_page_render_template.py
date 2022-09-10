@@ -71,5 +71,5 @@ def waitlist_create_question_confirm_on_waitlist_page_render_template_function()
 
 
   # ------------------------ Return confirm page START ------------------------
-  return render_template('waitlist_page_templates/waitlist_create_question_page_template/waitlist_create_question_confirm_on_waitlist.html')
+  return render_template('employee_engagement_page_templates/waitlist_page_templates/waitlist_create_question_page_template/waitlist_create_question_confirm_on_waitlist.html')
   # ------------------------ Return confirm page END ------------------------

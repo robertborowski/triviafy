@@ -177,7 +177,7 @@ def create_question_submission_success_page_render_template_function(html_variab
 
   
   localhost_print_function('=========================================== /create/question/user/form/submit/success/<html_variable_created_question_page_number> Page END ===========================================')
-  return render_template('create_question_page_templates/create_question_submission_page_templates/create_question_submission_success.html',
+  return render_template('employee_engagement_page_templates/create_question_page_templates/create_question_submission_page_templates/create_question_submission_success.html',
                           css_cache_busting = cache_busting_output,
                           user_company_name_to_html = user_company_name,
                           user_channel_name_to_html = user_channel_name,
