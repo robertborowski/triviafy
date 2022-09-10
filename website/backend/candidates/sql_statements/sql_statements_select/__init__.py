@@ -32,14 +32,8 @@ def select_general_function(tag_query_to_use):
   # ------------------------ default result end ------------------------
   # ------------------------ existing result start ------------------------
   for i_row in result_obj:
-    print('- - - - 0 - - - -')
-    print(f'i_row | {i_row} | {type(i_row)}')
-    print('- - - - 0 - - - -')
     # result_dict = dict(i_row.items()) # convert to dict keyed by column names
     result_dict = dict(i_row) # convert to dict keyed by column names
-    print('- - - - 1 - - - -')
-    print(f'result_dict | {result_dict} | {type(result_dict)}')
-    print('- - - - 1 - - - -')
     result_arr_of_dicts.append(result_dict)
   # ------------------------ existing result end ------------------------
   localhost_print_function('=========================================== select_general_function START ===========================================')
