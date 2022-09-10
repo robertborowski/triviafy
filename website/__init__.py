@@ -38,7 +38,8 @@ def create_app_function():
   # To use a session, there has to be a secret key. The string should be something difficult to guess
   app.secret_key = os.urandom(64)
   # use sqlalchemy to point to the correct db (postgres)
-  app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+  # app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+  app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace("://", "ql://", 1)
   db.init_app(app)
   # ------------------------ create flask app end ------------------------
   # ------------------------ additional flask app configurations start ------------------------
