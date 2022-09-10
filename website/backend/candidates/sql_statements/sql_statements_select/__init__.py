@@ -17,9 +17,9 @@ def select_general_function(tag_query_to_use):
       'raw_query': 'SELECT capacity_id_fk FROM candidates_user_obj WHERE id = :val',
       'input_args': {'val': current_user.id}
     },
-    'select_example_tag': {
-      'raw_query': 'SELECT * FROM candidates_user_obj WHERE id = :val',
-      'input_args': {'val': current_user.id}
+    'select_all_capacity_options': {
+      'raw_query': 'SELECT id FROM candidates_capacity_options_obj',
+      'input_args': {}
     }
   }
   # ------------------------ select queries end ------------------------

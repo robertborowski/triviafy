@@ -17,6 +17,7 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website.models import CandidatesUserObj
 from website.backend.candidates.browser import browser_response_set_cookie_function
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
+from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
 # ------------------------ imports end ------------------------
 
 
@@ -235,11 +236,30 @@ def capacity_page_function():
   # ------------------------ capacity selection start ------------------------
   if request.method == 'POST':
     ui_capacity_selected = request.form.get('capacity_page_ui_capacity_selected')
-    localhost_print_function('- - - - - - - 0 - - - - - - -')
-    localhost_print_function('ui_capacity_selected')
-    localhost_print_function(ui_capacity_selected)
-    localhost_print_function(type(ui_capacity_selected))
-    localhost_print_function('- - - - - - - 0 - - - - - - -')
+    # ------------------------ postman checks start ------------------------
+    try:
+      if len(ui_capacity_selected) != 2:
+        ui_capacity_selected = None
+    except:
+      ui_capacity_selected = None
+    # ------------------------ postman checks end ------------------------
+    # ------------------------ valid input check start ------------------------
+    query_result_arr_of_dicts = select_general_function('select_all_capacity_options')
+    capacity_options_arr = one_col_dict_to_arr_function(query_result_arr_of_dicts)
+    if ui_capacity_selected not in capacity_options_arr:
+      ui_capacity_selected = None
+    # ------------------------ valid input check end ------------------------
+    # ------------------------ update db start ------------------------
+    if ui_capacity_selected != None:
+
+
+
+      pass
+
+
+
+
+    # ------------------------ update db end ------------------------
   # ------------------------ capacity selection end ------------------------
   # ------------------------ auto redirect checks start ------------------------
   template_location_url = 'candidates_page_templates/logged_in_page_templates/capacity_select_page_templates/index.html'
