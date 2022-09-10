@@ -1,4 +1,8 @@
 @media (max-width: 1200px) {
   /* - - - - - - - - - - abc start */
+  .capacity-entire-form-section {
+    /* border: 1px solid green; */
+    width: 90%;
+  }
   /* - - - - - - - - - - abc end */
 }
