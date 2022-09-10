@@ -39,7 +39,7 @@ def create_app_function():
   app.secret_key = os.urandom(64)
   # use sqlalchemy to point to the correct db (postgres)
   # app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-  app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace("://", "ql://", 1)
+  app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace("postgres://", "postgresql://", 1) # This .replace was added because of an issue when pushing to heroku. Link: https://stackoverflow.com/questions/66690321/flask-and-heroku-sqlalchemy-exc-nosuchmoduleerror-cant-load-plugin-sqlalchemy 
   db.init_app(app)
   # ------------------------ create flask app end ------------------------
   # ------------------------ additional flask app configurations start ------------------------
