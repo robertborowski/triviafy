@@ -11,18 +11,40 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
 
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - forgot password form start -->
-<p>Triviafy Forgot Password</p>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - forgot password form end -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message start -->
+<div class="error-message-section">
+  <p>{{ error_message_to_html }}</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message end -->
 
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="landing-spacer-section"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - backdrop cover start -->
+<div class="login-and-create-account-background-whole-screen">
+  <form method="POST" class="login-create-account-form default-box-shadow-grey-reg">
+    <h1 class="login-create-account-title">Forgot Password</h1>
+    
+    <div class="create-account-user-input-section">
+      <label for="forgot_password_page_ui_email"></label>
+      <input type="email" id="forgot_password_page_ui_email" name="forgot_password_page_ui_email" class="default-not-signed-in-text-input" placeholder="Work email*" pattern="\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b" required />
+    </div>
+
+    <div class="create-account-user-input-button-section">
+      <button type="submit" class="default-button-format default-button-format-primary-color">Send link</button>
+    </div>
+  </form>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - backdrop cover end -->
+
+
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - other links start -->
 <div class="login-create-account-other-links-section">
   <p><a href="{{ url_for('auth.candidates_signup_function') }}" class="pricing-a">Create account</a></p>
   <p><a href="{{ url_for('views.landing_index_page_function') }}" class="pricing-a">Home</a></p>
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - other links end -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="landing-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
 {% endblock %}

@@ -19,6 +19,7 @@ from website.backend.candidates.browser import browser_response_set_cookie_funct
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
 from website import db
+from website.backend.candidates.user_inputs import sanitize_email_function
 # ------------------------ imports end ------------------------
 
 
@@ -114,11 +115,32 @@ def terms_of_service_page_function():
 # ------------------------ individual route - privacy end ------------------------
 
 # ------------------------ individual route - candidates about start ------------------------
-@views.route('/candidates/reset')
+@views.route('/candidates/reset', methods=['GET', 'POST'])
 def candidates_forgot_password_page_function():
   localhost_print_function('=========================================== candidates_forgot_password_page_function START ===========================================')  
+  forgot_password_error_statement = ''
+  if request.method == 'POST':
+    # ------------------------ post request sent start ------------------------
+    ui_email = request.form.get('forgot_password_page_ui_email')
+    # ------------------------ post request sent end ------------------------
+    # ------------------------ sanitize/check user input email start ------------------------
+    ui_email_cleaned = sanitize_email_function(ui_email)
+    if ui_email_cleaned == False:
+      forgot_password_error_statement = 'Please enter a valid work email.'
+    # ------------------------ sanitize/check user input email end ------------------------
+    # ------------------------ check if user email exists in db start ------------------------
+    user_exists = CandidatesUserObj.query.filter_by(email=ui_email).first()
+    if user_exists:
+      forgot_password_error_statement = 'Password reset link sent to email.'
+      # ------------------------ functino to send user the email with token start ------------------------
+      
+      # ------------------------ functino to send user the email with token end ------------------------
+    else:
+      forgot_password_error_statement = 'Password reset link sent to email.'
+      pass
+    # ------------------------ check if user email exists in db end ------------------------
   localhost_print_function('=========================================== candidates_forgot_password_page_function END ===========================================')
-  return render_template('candidates_page_templates/not_logged_in_page_templates/forgot_password_page_templates/index.html', user=current_user)
+  return render_template('candidates_page_templates/not_logged_in_page_templates/forgot_password_page_templates/index.html', user=current_user, error_message_to_html = forgot_password_error_statement)
 # ------------------------ individual route - candidates about end ------------------------
 # ------------------------ routes not logged in end ------------------------
 
