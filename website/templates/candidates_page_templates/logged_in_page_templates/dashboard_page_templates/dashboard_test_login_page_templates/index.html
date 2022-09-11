@@ -7,7 +7,7 @@
 
 {% block contentBodyExceptNavbarAndFooter %}
 <div class="default-not-signed-in-simple-page-section">
-  <h1>Hi {{ users_name_to_html }},</h1>
+  <h1>Hi {{ users_company_name_to_html }},</h1>
 
   <div class="default-not-signed-in-simple-page-desctiption-section">
     <p class="default-not-signed-in-page-p-font default-not-signed-in-page-content-sub-section">"Triviafy Candidates" is set to launch October 2022.</p>
@@ -18,6 +18,8 @@
     <img src="/static/images/candidates/logo/Logo.png" alt="Triviafy logo" class="default-not-signed-in-simple-page-img">
   </div>
   
-  <a href="{{ url_for('views.capacity_page_function') }}">Capacity</a>
+  <p><a href="{{ url_for('views.capacity_page_function') }}">Capacity</a></p>
+  <br />
+  <p><a href="{{ url_for('views.landing_index_page_function') }}">Home</a></p>
 </div>
 {% endblock %}

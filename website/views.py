@@ -36,22 +36,7 @@ redis_connection = redis_connect_to_database_function()
 # ------------------------ individual route - candidates about start ------------------------
 @views.route('/candidates/about')
 def candidates_about_page_function():
-  localhost_print_function('=========================================== candidates_about_page_function START ===========================================')
-  # ------------------------ auto sign in with cookie start ------------------------
-  get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
-  if get_cookie_value_from_browser != None:
-    try:
-      user_id_from_redis = redis_connection.get(get_cookie_value_from_browser).decode('utf-8')
-      if user_id_from_redis != None:
-        user = CandidatesUserObj.query.filter_by(id=user_id_from_redis).first()
-        # ------------------------ keep user logged in start ------------------------
-        login_user(user, remember=True)
-        # ------------------------ keep user logged in end ------------------------
-        localhost_print_function('redirecting to logged in page')
-        return redirect(url_for('views.dashboard_test_login_page_function'))
-    except:
-      pass
-  # ------------------------ auto sign in with cookie end ------------------------
+  localhost_print_function('=========================================== candidates_about_page_function START ===========================================')  
   localhost_print_function('=========================================== candidates_about_page_function END ===========================================')
   return render_template('candidates_page_templates/not_logged_in_page_templates/about_page_templates/index.html', user=current_user)
 # ------------------------ individual route - candidates about end ------------------------
@@ -60,21 +45,6 @@ def candidates_about_page_function():
 @views.route('/candidates/faq')
 def candidates_faq_page_function():
   localhost_print_function('=========================================== candidates_faq_page_function START ===========================================')
-  # ------------------------ auto sign in with cookie start ------------------------
-  get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
-  if get_cookie_value_from_browser != None:
-    try:
-      user_id_from_redis = redis_connection.get(get_cookie_value_from_browser).decode('utf-8')
-      if user_id_from_redis != None:
-        user = CandidatesUserObj.query.filter_by(id=user_id_from_redis).first()
-        # ------------------------ keep user logged in start ------------------------
-        login_user(user, remember=True)
-        # ------------------------ keep user logged in end ------------------------
-        localhost_print_function('redirecting to logged in page')
-        return redirect(url_for('views.dashboard_test_login_page_function'))
-    except:
-      pass
-  # ------------------------ auto sign in with cookie end ------------------------
   localhost_print_function('=========================================== candidates_faq_page_function END ===========================================')
   return render_template('candidates_page_templates/not_logged_in_page_templates/faq_page_templates/index.html', user=current_user)
 # ------------------------ individual route - candidates faq end ------------------------
@@ -83,21 +53,6 @@ def candidates_faq_page_function():
 @views.route('/candidates')
 def landing_index_page_function():
   localhost_print_function('=========================================== landing_index_page_function START ===========================================')
-  # ------------------------ auto sign in with cookie start ------------------------
-  get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
-  if get_cookie_value_from_browser != None:
-    try:
-      user_id_from_redis = redis_connection.get(get_cookie_value_from_browser).decode('utf-8')
-      if user_id_from_redis != None:
-        user = CandidatesUserObj.query.filter_by(id=user_id_from_redis).first()
-        # ------------------------ keep user logged in start ------------------------
-        login_user(user, remember=True)
-        # ------------------------ keep user logged in end ------------------------
-        localhost_print_function('redirecting to logged in page')
-        return redirect(url_for('views.dashboard_test_login_page_function'))
-    except:
-      pass
-  # ------------------------ auto sign in with cookie end ------------------------
   localhost_print_function('=========================================== landing_index_page_function END ===========================================')
   return render_template('candidates_page_templates/not_logged_in_page_templates/index_page_templates/index.html', user=current_user)
 # ------------------------ individual route - candidates index main end ------------------------
@@ -106,21 +61,6 @@ def landing_index_page_function():
 @views.route('/candidates/library')
 def candidates_test_library_page_function():
   localhost_print_function('=========================================== candidates_test_library_page_function START ===========================================')
-  # ------------------------ auto sign in with cookie start ------------------------
-  get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
-  if get_cookie_value_from_browser != None:
-    try:
-      user_id_from_redis = redis_connection.get(get_cookie_value_from_browser).decode('utf-8')
-      if user_id_from_redis != None:
-        user = CandidatesUserObj.query.filter_by(id=user_id_from_redis).first()
-        # ------------------------ keep user logged in start ------------------------
-        login_user(user, remember=True)
-        # ------------------------ keep user logged in end ------------------------
-        localhost_print_function('redirecting to logged in page')
-        return redirect(url_for('views.dashboard_test_login_page_function'))
-    except:
-      pass
-  # ------------------------ auto sign in with cookie end ------------------------
   localhost_print_function('=========================================== candidates_test_library_page_function END ===========================================')
   return render_template('candidates_page_templates/not_logged_in_page_templates/test_library_page_templates/index.html', user=current_user)
 # ------------------------ individual route - candidates test library end ------------------------
@@ -129,21 +69,6 @@ def candidates_test_library_page_function():
 @views.route('/candidates/pricing')
 def candidates_pricing_page_function():
   localhost_print_function('=========================================== candidates_pricing_page_function START ===========================================')
-  # ------------------------ auto sign in with cookie start ------------------------
-  get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
-  if get_cookie_value_from_browser != None:
-    try:
-      user_id_from_redis = redis_connection.get(get_cookie_value_from_browser).decode('utf-8')
-      if user_id_from_redis != None:
-        user = CandidatesUserObj.query.filter_by(id=user_id_from_redis).first()
-        # ------------------------ keep user logged in start ------------------------
-        login_user(user, remember=True)
-        # ------------------------ keep user logged in end ------------------------
-        localhost_print_function('redirecting to logged in page')
-        return redirect(url_for('views.dashboard_test_login_page_function'))
-    except:
-      pass
-  # ------------------------ auto sign in with cookie end ------------------------
   localhost_print_function('=========================================== candidates_pricing_page_function END ===========================================')
   return render_template('candidates_page_templates/not_logged_in_page_templates/pricing_page_templates/index.html', user=current_user)
 # ------------------------ individual route - candidates pricing end ------------------------
@@ -220,7 +145,7 @@ def dashboard_test_login_page_function():
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
   if get_cookie_value_from_browser != None:
     redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
-    return render_template(template_location_url, user=current_user, users_name_to_html=current_user.name)
+    return render_template(template_location_url, user=current_user, users_company_name_to_html=current_user.company_name)
   else:
     browser_response = browser_response_set_cookie_function(current_user, template_location_url)
     localhost_print_function('=========================================== dashboard_test_login_page_function END ===========================================')
@@ -264,7 +189,7 @@ def capacity_page_function():
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
   if get_cookie_value_from_browser != None:
     redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
-    return render_template(template_location_url, user=current_user, users_name_to_html=current_user.name)
+    return render_template(template_location_url, user=current_user, users_company_name_to_html=current_user.company_name)
   else:
     browser_response = browser_response_set_cookie_function(current_user, template_location_url)
     localhost_print_function('=========================================== capacity_page_function END ===========================================')

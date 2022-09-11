@@ -37,21 +37,6 @@ redis_connection = redis_connect_to_database_function()
 @auth.route('/candidates/signup', methods=['GET', 'POST'])
 def candidates_signup_function():
   localhost_print_function('=========================================== candidates_signup_function START ===========================================')
-  # ------------------------ auto sign in with cookie start ------------------------
-  get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
-  if get_cookie_value_from_browser != None:
-    try:
-      user_id_from_redis = redis_connection.get(get_cookie_value_from_browser).decode('utf-8')
-      if user_id_from_redis != None:
-        user = CandidatesUserObj.query.filter_by(id=user_id_from_redis).first()
-        # ------------------------ keep user logged in start ------------------------
-        login_user(user, remember=True)
-        # ------------------------ keep user logged in end ------------------------
-        localhost_print_function('redirecting to logged in page')
-        return redirect(url_for('views.dashboard_test_login_page_function'))
-    except:
-      pass
-  # ------------------------ auto sign in with cookie end ------------------------
   create_account_error_statement = ''
   if request.method == 'POST':
     # ------------------------ post method hit #1 - quick sign up start ------------------------
