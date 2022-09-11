@@ -20,6 +20,7 @@ from website.backend.candidates.sql_statements.sql_statements_select import sele
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
 from website import db
 from website.backend.candidates.user_inputs import sanitize_email_function
+from website.backend.candidates.send_emails import send_email_template_function
 # ------------------------ imports end ------------------------
 
 
@@ -132,9 +133,18 @@ def candidates_forgot_password_page_function():
     user_exists = CandidatesUserObj.query.filter_by(email=ui_email).first()
     if user_exists:
       forgot_password_error_statement = 'Password reset link sent to email.'
-      # ------------------------ function to send user the email with token start ------------------------
-      
-      # ------------------------ function to send user the email with token end ------------------------
+      # ------------------------ send email with token url start ------------------------
+      token = CandidatesUserObj.get_reset_token_function(self=user_exists)
+      localhost_print_function('- - - - - - - 0 - - - - - - -')
+      localhost_print_function('token')
+      localhost_print_function(token)
+      localhost_print_function(type(token))
+      localhost_print_function('- - - - - - - 0 - - - - - - -')
+      output_email = ui_email
+      output_subject_line = 'Password Reset - Triviafy'
+      output_message_content = f"To reset your password, visit the following link: https://triviafy.com/candidates/reset/{token} \nIf you did not make this request then simply ignore this email and no changes will be made."
+      send_email_template_function(output_email, output_subject_line, output_message_content)
+      # ------------------------ send email with token url end ------------------------
     else:
       forgot_password_error_statement = 'Password reset link sent to email.'
       pass
@@ -147,9 +157,19 @@ def candidates_forgot_password_page_function():
 # ------------------------ individual route - candidates about start ------------------------
 @views.route('/candidates/reset/<token>', methods=['GET', 'POST'])
 def candidates_reset_forgot_password_page_function(token):
-  localhost_print_function('=========================================== candidates_reset_forgot_password_page_function START ===========================================')  
+  localhost_print_function('=========================================== candidates_reset_forgot_password_page_function START ===========================================')
+  if current_user.is_authenticated:
+    return redirect(url_for('views.candidates_pricing_page_function'))
+  reset_password_error_statement = ''
+  user = CandidatesUserObj.verify_reset_token_function(token)
+  if user is None:
+    reset_password_error_statement = 'That is an invalid or expired token'
+    localhost_print_function('=========================================== candidates_reset_forgot_password_page_function END ===========================================')
+    return render_template('candidates_page_templates/not_logged_in_page_templates/forgot_password_page_templates/index.html', user=current_user, error_message_to_html = reset_password_error_statement)
+  if request.method == 'POST':
+    pass
   localhost_print_function('=========================================== candidates_reset_forgot_password_page_function END ===========================================')
-  return render_template('candidates_page_templates/not_logged_in_page_templates/forgot_password_page_templates/index.html', user=current_user)
+  return render_template('candidates_page_templates/not_logged_in_page_templates/forgot_password_page_templates/reset_forgot_password_page_templates/index.html', user=current_user)
 # ------------------------ individual route - candidates about end ------------------------
 # ------------------------ routes not logged in end ------------------------
 

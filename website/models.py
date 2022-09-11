@@ -2,6 +2,8 @@
 from email.policy import default
 from website import db
 from flask_login import UserMixin
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from website import secret_key_ref
 # ------------------------ imports end ------------------------
 
 
@@ -16,6 +18,19 @@ class CandidatesUserObj(db.Model, UserMixin):   # Only the users object inherits
   name = db.Column(db.String(150))
   company_name = db.Column(db.String(150))
   capacity_id_fk = db.Column(db.String(150), default=None)
+
+  def get_reset_token_function(self, expires_sec=30):
+    s = Serializer(secret_key_ref, expires_sec)
+    return s.dumps({'dump_load_user_id': self.id}).decode('utf-8')
+
+  @staticmethod
+  def verify_reset_token_function(token):
+    s = Serializer(secret_key_ref)
+    try:
+      dl_user_id_from_token = s.loads(token)['dump_load_user_id']
+    except:
+      return None
+    return CandidatesUserObj.query.get(dl_user_id_from_token)
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
