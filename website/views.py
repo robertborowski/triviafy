@@ -132,15 +132,24 @@ def candidates_forgot_password_page_function():
     user_exists = CandidatesUserObj.query.filter_by(email=ui_email).first()
     if user_exists:
       forgot_password_error_statement = 'Password reset link sent to email.'
-      # ------------------------ functino to send user the email with token start ------------------------
+      # ------------------------ function to send user the email with token start ------------------------
       
-      # ------------------------ functino to send user the email with token end ------------------------
+      # ------------------------ function to send user the email with token end ------------------------
     else:
       forgot_password_error_statement = 'Password reset link sent to email.'
       pass
     # ------------------------ check if user email exists in db end ------------------------
   localhost_print_function('=========================================== candidates_forgot_password_page_function END ===========================================')
   return render_template('candidates_page_templates/not_logged_in_page_templates/forgot_password_page_templates/index.html', user=current_user, error_message_to_html = forgot_password_error_statement)
+# ------------------------ individual route - candidates about end ------------------------
+
+
+# ------------------------ individual route - candidates about start ------------------------
+@views.route('/candidates/reset/<token>', methods=['GET', 'POST'])
+def candidates_reset_forgot_password_page_function(token):
+  localhost_print_function('=========================================== candidates_reset_forgot_password_page_function START ===========================================')  
+  localhost_print_function('=========================================== candidates_reset_forgot_password_page_function END ===========================================')
+  return render_template('candidates_page_templates/not_logged_in_page_templates/forgot_password_page_templates/index.html', user=current_user)
 # ------------------------ individual route - candidates about end ------------------------
 # ------------------------ routes not logged in end ------------------------
 
