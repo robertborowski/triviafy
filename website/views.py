@@ -112,6 +112,14 @@ def terms_of_service_page_function():
   localhost_print_function('=========================================== terms_of_service_page_function END ===========================================')
   return render_template('candidates_page_templates/not_logged_in_page_templates/terms_of_service_page_templates/index.html', user=current_user)
 # ------------------------ individual route - privacy end ------------------------
+
+# ------------------------ individual route - candidates about start ------------------------
+@views.route('/candidates/reset')
+def candidates_forgot_password_page_function():
+  localhost_print_function('=========================================== candidates_forgot_password_page_function START ===========================================')  
+  localhost_print_function('=========================================== candidates_forgot_password_page_function END ===========================================')
+  return render_template('candidates_page_templates/not_logged_in_page_templates/forgot_password_page_templates/index.html', user=current_user)
+# ------------------------ individual route - candidates about end ------------------------
 # ------------------------ routes not logged in end ------------------------
 
 
