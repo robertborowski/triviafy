@@ -33,30 +33,15 @@
       <label for="create_account_page_ui_password"></label>
       <input type="password" id="create_account_page_ui_password" name="create_account_page_ui_password" class="default-not-signed-in-text-input" placeholder="Password*" value="{{ redirect_var_password }}" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$" title="8+ total characters | 1+ uppercase, lowercase, digit, and special character" required />
     </div>
-  
-    <div class="create-account-user-input-section">
-      <label for="create_account_page_ui_password_confirmed"></label>
-      <input type="password" id="create_account_page_ui_password_confirmed" name="create_account_page_ui_password_confirmed" class="default-not-signed-in-text-input" value="{{ redirect_var_password_confirmed }}" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$" placeholder="Confirm password*" required />
-    </div>
 
     <div class="create-account-user-input-section">
-      <label for="create_account_page_ui_first_name"></label>
-      <input type="text" id="create_account_page_ui_first_name" name="create_account_page_ui_first_name" class="default-not-signed-in-text-input" placeholder="First name*" value="{{ redirect_var_first_name }}" title="First name needs to be 2-20 characters" pattern="^[\w\s-]{2,20}$" required />
-    </div>
-  
-    <div class="create-account-user-input-section">
-      <label for="create_account_page_ui_last_name"></label>
-      <input type="text" id="create_account_page_ui_last_name" name="create_account_page_ui_last_name" class="default-not-signed-in-text-input" placeholder="Last name*" value="{{ redirect_var_last_name }}" title="Last name needs to be 1-20 characters" pattern="^[\w\s-]{1,20}$" required />
+      <label for="create_account_page_ui_name"></label>
+      <input type="text" id="create_account_page_ui_name" name="create_account_page_ui_name" class="default-not-signed-in-text-input" placeholder="Name" value="{{ redirect_var_first_name }}" title="First name needs to be 2-20 characters" pattern="^[\w\s-]{2,20}$" />
     </div>
   
     <div class="create-account-user-input-section">
       <label for="create_account_page_ui_company_name"></label>
       <input type="text" id="create_account_page_ui_company_name" name="create_account_page_ui_company_name" class="default-not-signed-in-text-input" placeholder="Company name*" value="{{ redirect_var_company_name }}" title="Company name needs to be 2-20 characters" pattern="^[\w\s-]{2,20}$" required />
-    </div>
-  
-    <div class="create-account-user-input-section">
-      <label for="create_account_page_ui_department_name"></label>
-      <input type="text" id="create_account_page_ui_department_name" name="create_account_page_ui_department_name" class="default-not-signed-in-text-input" placeholder="Department name" value="{{ redirect_var_department_name }}" pattern="^[\w\s-]{2,20}$" />
     </div>
 
     <div class="create-account-user-input-button-section">

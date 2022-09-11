@@ -69,11 +69,8 @@ def candidates_signup_function():
     # ------------------------ post method hit #2 - full sign up start ------------------------
     ui_email = request.form.get('create_account_page_ui_email')
     ui_password = request.form.get('create_account_page_ui_password')
-    ui_password_confirmed = request.form.get('create_account_page_ui_password_confirmed')
-    ui_first_name = request.form.get('create_account_page_ui_first_name')
-    ui_last_name = request.form.get('create_account_page_ui_last_name')
+    ui_name = request.form.get('create_account_page_ui_name')
     ui_company_name = request.form.get('create_account_page_ui_company_name')
-    ui_department_name = request.form.get('create_account_page_ui_department_name')
     # ------------------------ sanitize/check user inputs start ------------------------
     # ------------------------ sanitize/check user input email start ------------------------
     ui_email_cleaned = sanitize_email_function(ui_email)
@@ -84,23 +81,14 @@ def candidates_signup_function():
     ui_password_cleaned = sanitize_password_function(ui_password)
     if ui_password_cleaned == False:
       create_account_error_statement = 'Password is not valid.'
-    if ui_password != ui_password_confirmed:
-      create_account_error_statement = 'Passwords do not match.'
     # ------------------------ sanitize/check user input password end ------------------------
-    # ------------------------ sanitize/check user input first name start ------------------------
-    if len(ui_first_name) < 2 or len(ui_first_name) > 20:
-      create_account_error_statement = 'First name needs to be 2-20 characters.'
-    ui_first_name_cleaned = sanitize_create_account_text_inputs_function(ui_first_name)
-    if ui_first_name_cleaned == False:
-      create_account_error_statement = 'First name needs to be 2-20 characters. No special characters.'
-    # ------------------------ sanitize/check user input first name end ------------------------
-    # ------------------------ sanitize/check user input last name start ------------------------
-    if len(ui_last_name) < 1 or len(ui_last_name) > 20:
-      create_account_error_statement = 'Last name needs to be 1-20 characters.'
-    ui_last_name_cleaned = sanitize_create_account_text_inputs_function(ui_last_name)
-    if ui_last_name_cleaned == False:
-      create_account_error_statement = 'Last name needs to be 1-20 characters. No special characters.'
-    # ------------------------ sanitize/check user input last name end ------------------------
+    # ------------------------ sanitize/check user input name start ------------------------
+    if len(ui_name) > 20:
+      create_account_error_statement = 'Name can only be 2-20 characters.'
+    ui_name_cleaned = sanitize_create_account_text_inputs_function(ui_name)
+    if ui_name_cleaned == False:
+      create_account_error_statement = 'Name needs to be 2-20 characters. No special characters.'
+    # ------------------------ sanitize/check user input name end ------------------------
     # ------------------------ sanitize/check user input company name start ------------------------
     if len(ui_company_name) < 2 or len(ui_company_name) > 50:
       create_account_error_statement = 'Company name needs to be 2-20 characters.'
@@ -108,17 +96,6 @@ def candidates_signup_function():
     if ui_company_name_cleaned == False:
       create_account_error_statement = 'Company name needs to be 2-20 characters. No special characters.'
     # ------------------------ sanitize/check user input company name end ------------------------
-    try:
-      # ------------------------ sanitize/check user input department name start ------------------------
-      if len(ui_department_name) == 0: # returns blank string which messes up database to EMPTY instead of NULL.
-        ui_department_name = None
-      if ui_department_name != None:
-        ui_department_name_cleaned = sanitize_create_account_text_inputs_function(ui_department_name)
-        if ui_department_name_cleaned == False:
-          create_account_error_statement = 'Department name cannot contain special characters.'
-      # ------------------------ sanitize/check user input department name end ------------------------
-    except:
-      pass
     # ------------------------ sanitize/check user inputs end ------------------------
     # ------------------------ if user input error start ------------------------
     if create_account_error_statement != '':
@@ -128,11 +105,8 @@ def candidates_signup_function():
                               error_message_to_html = create_account_error_statement,
                               redirect_var_email = ui_email,
                               redirect_var_password = ui_password,
-                              redirect_var_password_confirmed = ui_password_confirmed,
-                              redirect_var_first_name = ui_first_name,
-                              redirect_var_last_name = ui_last_name,
-                              redirect_var_company_name = ui_company_name,
-                              redirect_var_department_name = ui_department_name)
+                              redirect_var_first_name = ui_name,
+                              redirect_var_company_name = ui_company_name)
     # ------------------------ if user input error end ------------------------
     # ------------------------ check if user email already exists in db start ------------------------
     user = CandidatesUserObj.query.filter_by(email=ui_email).first()
@@ -144,11 +118,8 @@ def candidates_signup_function():
                               error_message_to_html = create_account_error_statement,
                               redirect_var_email = ui_email,
                               redirect_var_password = ui_password,
-                              redirect_var_password_confirmed = ui_password_confirmed,
-                              redirect_var_first_name = ui_first_name,
-                              redirect_var_last_name = ui_last_name,
-                              redirect_var_company_name = ui_company_name,
-                              redirect_var_department_name = ui_department_name)
+                              redirect_var_first_name = ui_name,
+                              redirect_var_company_name = ui_company_name)
     # ------------------------ check if user email already exists in db start ------------------------
     else:
       # ------------------------ create new user in db start ------------------------
@@ -157,10 +128,8 @@ def candidates_signup_function():
         created_timestamp=create_timestamp_function(),
         email=ui_email,
         password=generate_password_hash(ui_password, method="sha256"),
-        first_name = ui_first_name,
-        last_name = ui_last_name,
+        name = ui_name,
         company_name = ui_company_name,
-        department_name = ui_department_name
       )
       db.session.add(new_user)
       db.session.commit()

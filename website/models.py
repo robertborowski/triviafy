@@ -13,10 +13,8 @@ class CandidatesUserObj(db.Model, UserMixin):   # Only the users object inherits
   created_timestamp = db.Column(db.DateTime(timezone=True))
   email = db.Column(db.String(150), unique=True)
   password = db.Column(db.String(150))
-  first_name = db.Column(db.String(150))
-  last_name = db.Column(db.String(150))
+  name = db.Column(db.String(150))
   company_name = db.Column(db.String(150))
-  department_name = db.Column(db.String(150), default=None)
   capacity_id_fk = db.Column(db.String(150), default=None)
 # ------------------------ individual model end ------------------------
 

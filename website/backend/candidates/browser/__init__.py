@@ -17,7 +17,7 @@ localhost_print_function('=========================================== browser __
 def browser_response_set_cookie_function(current_user, input_template_url):
   localhost_print_function('=========================================== browser_response_set_cookie_function START ===========================================')
   set_browser_cookie_key, set_browser_cookie_value = redis_set_browser_cookie_function()
-  browser_response = make_response(render_template(input_template_url, user=current_user, users_name_to_html=current_user.first_name))
+  browser_response = make_response(render_template(input_template_url, user=current_user, users_name_to_html=current_user.name))
   browser_response.set_cookie(set_browser_cookie_key, set_browser_cookie_value, expires=datetime.datetime.now() + datetime.timedelta(days=60))
   redis_connection.set(set_browser_cookie_value, current_user.id.encode('utf-8'))
   localhost_print_function('=========================================== browser_response_set_cookie_function END ===========================================')

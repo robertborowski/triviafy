@@ -220,7 +220,7 @@ def dashboard_test_login_page_function():
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
   if get_cookie_value_from_browser != None:
     redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
-    return render_template(template_location_url, user=current_user, users_name_to_html=current_user.first_name)
+    return render_template(template_location_url, user=current_user, users_name_to_html=current_user.name)
   else:
     browser_response = browser_response_set_cookie_function(current_user, template_location_url)
     localhost_print_function('=========================================== dashboard_test_login_page_function END ===========================================')
@@ -264,7 +264,7 @@ def capacity_page_function():
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
   if get_cookie_value_from_browser != None:
     redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
-    return render_template(template_location_url, user=current_user, users_name_to_html=current_user.first_name)
+    return render_template(template_location_url, user=current_user, users_name_to_html=current_user.name)
   else:
     browser_response = browser_response_set_cookie_function(current_user, template_location_url)
     localhost_print_function('=========================================== capacity_page_function END ===========================================')
