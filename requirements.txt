@@ -11,4 +11,4 @@ redis
 psycopg2
 boto3
 sendgrid
-itsdangerous
+itsdangerous==2.0.1
