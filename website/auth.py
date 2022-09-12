@@ -11,7 +11,7 @@
 # ------------------------ imports start ------------------------
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-from .models import CandidatesUserObj
+from .models import CandidatesUserObj, CandidatesCollectEmailObj
 from werkzeug.security import generate_password_hash, check_password_hash
 from website import db
 from flask_login import login_user, login_required, logout_user, current_user
@@ -47,6 +47,19 @@ def candidates_signup_function():
       if ui_email_cleaned == False:
         create_account_error_statement = 'Please enter a valid work email.'
       # ------------------------ sanitize/check user input email end ------------------------
+      # ------------------------ check if email already exists in db start ------------------------
+      email_exists = CandidatesCollectEmailObj.query.filter_by(email=ui_email).first()
+      # ------------------------ check if email already exists in db end ------------------------
+      # ------------------------ create new signup in db start ------------------------
+      if not email_exists and create_account_error_statement == '':
+        new_email = CandidatesCollectEmailObj(
+          id=create_uuid_function('collect_email_'),
+          created_timestamp=create_timestamp_function(),
+          email=ui_email
+        )
+        db.session.add(new_email)
+        db.session.commit()
+      # ------------------------ create new signup in db end ------------------------
       localhost_print_function('user is being redirected to full sign up page')
       localhost_print_function('=========================================== candidates_signup_function END ===========================================')
       return render_template('candidates_page_templates/not_logged_in_page_templates/create_account_templates/index.html', user=current_user, redirect_var_email = ui_email, error_message_to_html = create_account_error_statement)
@@ -118,7 +131,6 @@ def candidates_signup_function():
       )
       db.session.add(new_user)
       db.session.commit()
-      flash('Account created!', category='success')
       # ------------------------ create new user in db end ------------------------
       # ------------------------ keep user logged in start ------------------------
       login_user(new_user, remember=True)
