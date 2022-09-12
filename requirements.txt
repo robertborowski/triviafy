@@ -11,3 +11,4 @@ redis
 psycopg2
 boto3
 sendgrid
+itsdangerous
