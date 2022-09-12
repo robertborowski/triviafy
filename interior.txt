@@ -1,1 +1,12 @@
-test
+Navbar
+
+Logo
+
+Candidates
+  -View Candidates (Tag for M roles)
+    -Upload csv of candidate emails
+Assessments
+  -View current Assessments
+-Account
+  -Settings
+  -Subscription
