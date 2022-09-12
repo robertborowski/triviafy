@@ -19,8 +19,9 @@ from website.backend.candidates.browser import browser_response_set_cookie_funct
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
 from website import db
-from website.backend.candidates.user_inputs import sanitize_email_function
+from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function
 from website.backend.candidates.send_emails import send_email_template_function
+from werkzeug.security import generate_password_hash
 # ------------------------ imports end ------------------------
 
 
@@ -134,15 +135,10 @@ def candidates_forgot_password_page_function():
     if user_exists:
       forgot_password_error_statement = 'Password reset link sent to email.'
       # ------------------------ send email with token url start ------------------------
-      token = CandidatesUserObj.get_reset_token_function(self=user_exists)
-      localhost_print_function('- - - - - - - 0 - - - - - - -')
-      localhost_print_function('token')
-      localhost_print_function(token)
-      localhost_print_function(type(token))
-      localhost_print_function('- - - - - - - 0 - - - - - - -')
+      serializer_token_obj = CandidatesUserObj.get_reset_token_function(self=user_exists)
       output_email = ui_email
       output_subject_line = 'Password Reset - Triviafy'
-      output_message_content = f"To reset your password, visit the following link: https://triviafy.com/candidates/reset/{token} \nIf you did not make this request then simply ignore this email and no changes will be made."
+      output_message_content = f"To reset your password, visit the following link: https://triviafy.com/candidates/reset/{serializer_token_obj} \n\nThis link will expire after 30 minutes.\nIf you did not make this request then simply ignore this email and no changes will be made."
       send_email_template_function(output_email, output_subject_line, output_message_content)
       # ------------------------ send email with token url end ------------------------
     else:
@@ -161,15 +157,39 @@ def candidates_reset_forgot_password_page_function(token):
   if current_user.is_authenticated:
     return redirect(url_for('views.candidates_pricing_page_function'))
   reset_password_error_statement = ''
-  user = CandidatesUserObj.verify_reset_token_function(token)
-  if user is None:
+  user_obj_from_token = CandidatesUserObj.verify_reset_token_function(token)
+  if user_obj_from_token is None:
     reset_password_error_statement = 'That is an invalid or expired token'
     localhost_print_function('=========================================== candidates_reset_forgot_password_page_function END ===========================================')
     return render_template('candidates_page_templates/not_logged_in_page_templates/forgot_password_page_templates/index.html', user=current_user, error_message_to_html = reset_password_error_statement)
   if request.method == 'POST':
-    pass
+    reset_password_error_statement = ''
+    # ------------------------ get inputs from form start ------------------------
+    ui_password = request.form.get('reset_forgot_password_page_ui_password')
+    ui_password_confirmed = request.form.get('reset_forgot_password_page_ui_password_confirmed')
+    # ------------------------ get inputs from form end ------------------------
+    # ------------------------ check match start ------------------------
+    if ui_password != ui_password_confirmed:
+      reset_password_error_statement = 'Passwords do not match.'
+    # ------------------------ check match end ------------------------
+    # ------------------------ sanitize/check user input password start ------------------------
+    ui_password_cleaned = sanitize_password_function(ui_password)
+    if ui_password_cleaned == False:
+      reset_password_error_statement = 'Password is not valid.'
+    # ------------------------ sanitize/check user input password end ------------------------
+    # ------------------------ sanitize/check user input password start ------------------------
+    ui_password_confirmed_cleaned = sanitize_password_function(ui_password_confirmed)
+    if ui_password_confirmed_cleaned == False:
+      reset_password_error_statement = 'Password is not valid.'
+    # ------------------------ sanitize/check user input password end ------------------------
+    # ------------------------ update db start ------------------------
+    if reset_password_error_statement == '':
+      user_obj_from_token.password = generate_password_hash(ui_password, method="sha256")
+      db.session.commit()
+      return redirect(url_for('views.dashboard_test_login_page_function'))
+    # ------------------------ update db end ------------------------
   localhost_print_function('=========================================== candidates_reset_forgot_password_page_function END ===========================================')
-  return render_template('candidates_page_templates/not_logged_in_page_templates/forgot_password_page_templates/reset_forgot_password_page_templates/index.html', user=current_user)
+  return render_template('candidates_page_templates/not_logged_in_page_templates/forgot_password_page_templates/reset_forgot_password_page_templates/index.html', user=current_user, error_message_to_html = reset_password_error_statement)
 # ------------------------ individual route - candidates about end ------------------------
 # ------------------------ routes not logged in end ------------------------
 
