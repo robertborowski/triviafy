@@ -47,6 +47,14 @@ class CandidatesCollectEmailObj(db.Model):
   created_timestamp = db.Column(db.DateTime(timezone=True))
   email = db.Column(db.String(150))
 # ------------------------ individual model end ------------------------
+
+# ------------------------ individual model start ------------------------
+class CandidatesDesiredLanguagesObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  user_id_fk = db.Column(db.String(150))
+  desired_languages = db.Column(db.String(150))
+# ------------------------ individual model end ------------------------
 # ------------------------ models end ------------------------
 
 

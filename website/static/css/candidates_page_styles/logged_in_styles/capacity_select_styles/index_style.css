@@ -46,6 +46,14 @@
   background-color: var(--company-primary-color);
   color: white;
 }
+.capacity-user-input-section {
+  /* border: 1px solid black; */
+  margin: 75px 0 0 0;
+}
+.capacity-user-input-section input[type="text"] {
+  /* border: 1px solid black; */
+  margin: 20px 0 0 0;
+}
 /* - - - - - - - - - - radio section end */
 .capacity-form-footer-section {
   /* border: 1px solid green; */

@@ -20,6 +20,10 @@ def select_general_function(tag_query_to_use):
     'select_all_capacity_options': {
       'raw_query': 'SELECT id FROM candidates_capacity_options_obj',
       'input_args': {}
+    },
+    'select_if_desired_languages_captured': {
+      'raw_query': 'SELECT desired_languages FROM candidates_desired_languages_obj WHERE user_id_fk = :val ORDER BY created_timestamp DESC',
+      'input_args': {'val': current_user.id}
     }
   }
   # ------------------------ select queries end ------------------------

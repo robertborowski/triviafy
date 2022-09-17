@@ -11,15 +11,16 @@
 # ------------------------ imports start ------------------------
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
+from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
 from flask import Blueprint, render_template, request, redirect, url_for, session
 from flask_login import login_required, current_user, login_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
-from website.models import CandidatesUserObj
+from website.models import CandidatesUserObj, CandidatesDesiredLanguagesObj
 from website.backend.candidates.browser import browser_response_set_cookie_function
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
 from website import db
-from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function
+from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function, sanitize_create_account_text_inputs_function
 from website.backend.candidates.send_emails import send_email_template_function
 from werkzeug.security import generate_password_hash
 # ------------------------ imports end ------------------------
@@ -219,6 +220,16 @@ def dashboard_test_login_page_function():
     localhost_print_function('=========================================== dashboard_test_login_page_function END ===========================================')
     return redirect(url_for('views.capacity_page_function'))
   # ------------------------ individual redirect end ------------------------
+  # ------------------------ individual redirect start ------------------------
+  query_result_arr_of_dicts = select_general_function('select_if_desired_languages_captured')
+  try:
+    check_desired_languages_value = query_result_arr_of_dicts[0]['desired_languages']
+  except:
+    check_desired_languages_value = None
+  if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
+    localhost_print_function('=========================================== dashboard_test_login_page_function END ===========================================')
+    return redirect(url_for('views.capacity_page_function'))
+  # ------------------------ individual redirect end ------------------------
   # ------------------------ auto redirect checks end ------------------------
   # ------------------------ auto set cookie start ------------------------
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
@@ -241,6 +252,7 @@ def capacity_page_function():
   # ------------------------ capacity selection start ------------------------
   if request.method == 'POST':
     ui_capacity_selected = request.form.get('capacity_page_ui_capacity_selected')
+    ui_desired_languages = request.form.get('capacity_page_ui_desired_languages')
     # ------------------------ postman checks start ------------------------
     try:
       if len(ui_capacity_selected) != 2:
@@ -254,10 +266,27 @@ def capacity_page_function():
     if ui_capacity_selected not in capacity_options_arr:
       ui_capacity_selected = None
     # ------------------------ valid input check end ------------------------
+    # ------------------------ sanitize/check ui_desired_languages start ------------------------
+    if len(ui_desired_languages) > 20:
+      ui_desired_languages = None
+    ui_desired_languages_cleaned = sanitize_create_account_text_inputs_function(ui_desired_languages)
+    if ui_desired_languages_cleaned == False:
+      ui_desired_languages = None
+    # ------------------------ sanitize/check ui_desired_languages end ------------------------
     # ------------------------ update db start ------------------------
-    if ui_capacity_selected != None:
+    if ui_capacity_selected != None and ui_desired_languages != None:
       current_user.capacity_id_fk = ui_capacity_selected
       db.session.commit()
+      # ------------------------ create new user in db start ------------------------
+      insert_new_row = CandidatesDesiredLanguagesObj(
+        id=create_uuid_function('langs_'),
+        created_timestamp=create_timestamp_function(),
+        user_id_fk=current_user.id,
+        desired_languages=ui_desired_languages
+      )
+      db.session.add(insert_new_row)
+      db.session.commit()
+      # ------------------------ create new user in db end ------------------------
       return redirect(url_for('views.dashboard_test_login_page_function'))
     # ------------------------ update db end ------------------------
   # ------------------------ capacity selection end ------------------------
