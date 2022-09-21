@@ -293,11 +293,19 @@ def capacity_page_function():
   # ------------------------ auto redirect checks start ------------------------
   template_location_url = 'candidates_page_templates/logged_in_page_templates/capacity_select_page_templates/index.html'
   # ------------------------ auto redirect checks end ------------------------
+  # ------------------------ latest_language_selection start ------------------------
+  curr_user_id = current_user.id
+  try:
+    query_result_desired_languages_obj = CandidatesDesiredLanguagesObj.query.filter(CandidatesDesiredLanguagesObj.user_id_fk == curr_user_id).order_by(CandidatesDesiredLanguagesObj.created_timestamp.desc()).first()
+    user_id_fk_desired_languages = query_result_desired_languages_obj.desired_languages
+  except:
+    user_id_fk_desired_languages = None
+  # ------------------------ latest_language_selection end ------------------------
   # ------------------------ auto set cookie start ------------------------
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
   if get_cookie_value_from_browser != None:
     redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
-    return render_template(template_location_url, user=current_user, users_company_name_to_html=current_user.company_name)
+    return render_template(template_location_url, user=current_user, users_company_name_to_html=current_user.company_name, user_id_fk_desired_languages_to_html = user_id_fk_desired_languages)
   else:
     browser_response = browser_response_set_cookie_function(current_user, template_location_url)
     localhost_print_function('=========================================== capacity_page_function END ===========================================')
