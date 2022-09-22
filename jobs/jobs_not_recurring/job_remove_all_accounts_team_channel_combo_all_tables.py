@@ -39,7 +39,7 @@ def job_remove_all_accounts_team_channel_combo_all_tables_function(arr_to_remove
     redis_keys = redis_connection.keys()
 
     for key in redis_keys:
-      if 'user-slack_' in str(key) or 'aa_foo' in str(key) or 'localhost_' in str(key):
+      if 'user-slack_' in str(key) or 'aa_foo' in str(key) or 'localhost_' in str(key) or 'bcooke_' in str(key):
         # localhost_print_function('skipping key: {}'.format(key))
         continue
       else:
