@@ -13,7 +13,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 65px;
+  height: 40px;
   width: 80%;
   max-width: 1200px;
   margin: 0 auto;
@@ -27,12 +27,12 @@
 .navbar-4-not-signed-in-logo {
   /* border: 1px solid black; */
   margin: 5px 0 0 0;
-  height: 55px;
-  width: 55px;
+  height: 35px;
+  width: 35px;
 }
 .brand-title-4-signed-in {
   /* border: 1px solid black; */
-  font-size: 40px;
+  font-size: 28px;
   display: flex;
   align-items: center;
   font-weight: 900;
@@ -69,12 +69,12 @@
 .navbar-links-4-signed-in ul li {
   /* border: 1px solid black; */
   list-style: none;
-  font-size: 16px;
+  font-size: 14px;
 }
 .navbar-links-4-signed-in ul li a, .navbar-links-4-signed-in ul li a:visited {
   /* border: 1px solid black; */
   text-decoration: none;
-  padding: 25px 30px;
+  padding: 10px 20px;
   display: block;
   color: black;
 }

@@ -1,0 +1,15 @@
+/* - - - - - - - - - - Footer All - Start */
+.footer-signed-in-4-background-color {
+  /* border: 1px solid black; */
+  height: 40px;
+  width: 100%;
+  /* background: linear-gradient(145deg, rgb(36 169 255)0%, rgb(96 0 255)25%, rgb(96 0 255)50%, rgb(255 146 0)100%) */
+  background: white;
+  text-align: center;
+}
+.footer-signed-in-content p {
+  margin: 10px 0 0 0;
+  color: grey;
+  font-size: 10px;
+}
+/* - - - - - - - - - - Footer All - End */
