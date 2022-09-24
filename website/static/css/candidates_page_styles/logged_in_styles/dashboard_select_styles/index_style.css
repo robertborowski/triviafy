@@ -1,6 +1,33 @@
-/* - - - - - - - - - - capacity start */
-.dashboard-texting-test {
+/* - - - - - - - - - - dashboard start */
+.candidates-assessment-split-section {
   /* border: 1px solid black; */
-  width: 100%;
+  height: 400px;
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr;
+  column-gap: 50px;
+  row-gap: 0;
 }
-/* - - - - - - - - - - capacity end */
+.split-side-dashboard-general {
+  /* border: 1px solid green; */
+  border-radius: 25px;
+}
+.split-side-candidates {
+  border: 1px solid blue;
+  grid-area: 1 / 1 / 2 / 2;
+}
+.split-side-assessments {
+  border: 1px solid red;
+  grid-area: 1 / 2 / 2 / 3;
+}
+.dashboard-split-title-section {
+  /* border: 1px solid black; */
+  text-align: center;
+}
+.dashboard-split-title {
+  font-size: 25px;
+}
+/* - - - - - - - - - - dashboard end */

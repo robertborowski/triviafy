@@ -12,9 +12,28 @@
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name end -->
 
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+
+
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
-<div class="default-not-signed-in-simple-page-section">
-  <p>Total candidates uploaded: {{ len_current_user_uploaded_emails_arr_to_html }}</p>
+<div class="candidates-assessment-split-section">
+  
+  <div class="split-side-dashboard-general split-side-candidates">
+    <div class="dashboard-split-title-section">
+      <p class="dashboard-split-title">Candidates</p>
+    </div>
+    <p>Total candidates uploaded: {{ len_current_user_uploaded_emails_arr_to_html }}</p>
+  </div>
+
+  <div class="split-side-dashboard-general split-side-assessments">
+    <div class="dashboard-split-title-section">
+      <p class="dashboard-split-title">Assessments</p>
+    </div>
+  </div>
+
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page end -->
 {% endblock %}

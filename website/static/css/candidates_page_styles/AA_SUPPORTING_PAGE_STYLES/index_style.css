@@ -64,6 +64,27 @@
 }
 .general-signed-in-company-name-title {
   font-size: 25px;
-  margin: 20px 0;
+  margin: 25px 0 0 0;
 }
 /* - - - - - - - - - - Default - Signed In - Company Name - End */
+
+
+/* - - - - - - - - - - Default - Signed In - Spacer - Start */
+.general-spacer-section {
+  /* background-color: var(--testing-blueprint-color); */
+  height: 50px;
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+/* - - - - - - - - - - Default - Signed In - Spacer - End */
+
+
+/* - - - - - - - - - - Default - Signed In - Box Shadows - Start */
+.candidates-default-box-shadow-grey-regular {
+  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.115)!important;
+}
+.candidates-default-box-shadow-grey-small {
+  box-shadow: 0 .125rem .5rem rgba(0, 0, 0, 0.115)!important;
+}
+/* - - - - - - - - - - Default - Signed In - Box Shadows - End */
