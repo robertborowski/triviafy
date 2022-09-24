@@ -1,5 +1,5 @@
 /* - - - - - - - - - - Top Shadow - Start */
-.navbar-3-outline-shadow {
+.navbar-4-outline-shadow {
   /* border: 1px solid black; */
   width: 100%;
   position: fixed;
@@ -8,7 +8,7 @@
 }
 /* - - - - - - - - - - Top Shadow - Start */
 /* - - - - - - - - - - Navbar - Entire - Start */
-.navbar-3-not-signed-in {
+.navbar-4-signed-in {
   /* border: 1px solid black; */
   display: flex;
   justify-content: space-between;
@@ -20,30 +20,30 @@
 }
 /* - - - - - - - - - - Navbar - Entire - End */
 /* - - - - - - - - - - Navbar - Logo and Name - Start */
-.navbar-3-logo-and-name-section {
+.navbar-4-logo-and-name-section {
   /* border: 1px solid black; */
   display: flex;
 }
-.navbar-3-not-signed-in-logo {
+.navbar-4-not-signed-in-logo {
   /* border: 1px solid black; */
   margin: 5px 0 0 0;
   height: 55px;
   width: 55px;
 }
-.brand-title-3-not-signed-in {
+.brand-title-4-signed-in {
   /* border: 1px solid black; */
   font-size: 40px;
   display: flex;
   align-items: center;
   font-weight: 900;
 }
-.brand-title-3-not-signed-in a, .brand-title-3-not-signed-in a:hover, .brand-title-3-not-signed-in a:visited {
+.brand-title-4-signed-in a, .brand-title-4-signed-in a:hover, .brand-title-4-signed-in a:visited {
   color: var(--company-primary-color);
   text-decoration: none;
 }
 /* - - - - - - - - - - Navbar - Logo and Name - End */
 /* - - - - - - - - - - Navbar - Hamburger Toggle - Start */
-.toggle-button-3 {
+.toggle-button-4 {
   /* border: 1px solid black; */
   position: absolute;
   top: 20px;
@@ -54,7 +54,7 @@
   width: 31px;
   height: 21px;
 }
-.toggle-button-3 .toggle-bar-3 {
+.toggle-button-4 .toggle-bar-4 {
   height: 3px;
   width: 100%;
   border-radius: 10px;
@@ -62,29 +62,29 @@
 }
 /* - - - - - - - - - - Navbar - Hamburger Toggle - End */
 /* - - - - - - - - - - Navbar - Links - Level 1 - Start */
-.navbar-links-3-not-signed-in ul {
+.navbar-links-4-signed-in ul {
   /* border: 1px solid black; */
   display: flex;
 }
-.navbar-links-3-not-signed-in ul li {
+.navbar-links-4-signed-in ul li {
   /* border: 1px solid black; */
   list-style: none;
   font-size: 16px;
 }
-.navbar-links-3-not-signed-in ul li a, .navbar-links-3-not-signed-in ul li a:visited {
+.navbar-links-4-signed-in ul li a, .navbar-links-4-signed-in ul li a:visited {
   /* border: 1px solid black; */
   text-decoration: none;
   padding: 25px 30px;
   display: block;
   color: black;
 }
-.navbar-links-3-not-signed-in ul li a:hover {
+.navbar-links-4-signed-in ul li a:hover {
   color: var(--company-primary-color);
   transition: 0.4s;
 }
 /* - - - - - - - - - - Navbar - Links - Level 1 - End */
 /* - - - - - - - - - - Navbar - Links - Level 2 - Start */
-.navbar-links-3-not-signed-in ul li ul {
+.navbar-links-4-signed-in ul li ul {
   display: none;
   position: absolute;
   background-color: white;
@@ -93,21 +93,21 @@
   border-radius: 8px;
   width: 175px;
 }
-.navbar-links-3-not-signed-in ul li:hover ul {
+.navbar-links-4-signed-in ul li:hover ul {
   /* border: 1px solid black; */
   display: block;
 }
-.navbar-links-3-not-signed-in ul li ul li a {
+.navbar-links-4-signed-in ul li ul li a {
   padding: 20px 10px;
   margin: 0 0 0 10px;
 }
-.navbar-links-3-not-signed-in ul li ul li {
+.navbar-links-4-signed-in ul li ul li {
   /* border: 1px solid black; */
   width: 100%;
 }
 /* - - - - - - - - - - Navbar - Links - Level 2 - End */
 /* - - - - - - - - - - Dropdown Arrow Animation - Start */
-li.navbar-list-item-a:hover .navbar-drop-down-arrow-a {
+li.navbar-list-item-a-candidates:hover .navbar-drop-down-arrow-a-candidates {
   animation: rotate-dropdown 300ms ease-in-out forwards;
 }
 @keyframes rotate-dropdown {
@@ -128,7 +128,7 @@ li.navbar-list-item-a:hover .navbar-drop-down-arrow-a {
 }
 /* - - - - - - - - - - Button - End */
 /* - - - - - - - - - - Spacer - Start */
-.spacer-navbar-not-signed-in-3 {
+.spacer-navbar-not-signed-in-4 {
   /* border: 1px solid black; */
   width: 100%;
   height: 65px;
