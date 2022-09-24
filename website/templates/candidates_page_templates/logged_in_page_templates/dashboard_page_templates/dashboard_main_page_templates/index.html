@@ -6,13 +6,19 @@
 {% endblock %}
 
 {% block contentBodyExceptNavbarAndFooter %}
-<div class="default-not-signed-in-simple-page-section">
-  <h1>Hi {{ users_company_name_to_html }},</h1>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name start -->
+<div class="general-signed-in-company-name-section">
+  <p class="general-signed-in-company-name-title">{{ users_company_name_to_html }}</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name end -->
 
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
+<div class="default-not-signed-in-simple-page-section">
+  <p>Total candidates uploaded: {{ len_current_user_uploaded_emails_arr_to_html }}</p>
   <div class="default-not-signed-in-simple-page-desctiption-section">
     <p class="default-not-signed-in-page-p-font default-not-signed-in-page-content-sub-section">Dashboard</p>
   </div>
-  
   <p><a href="{{ url_for('views.landing_index_page_function') }}">Home</a></p>
 </div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page end -->
 {% endblock %}

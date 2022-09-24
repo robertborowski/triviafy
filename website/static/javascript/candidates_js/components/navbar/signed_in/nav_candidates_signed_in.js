@@ -58,7 +58,7 @@ class NavbarCandidatesSignedInClass extends HTMLElement {
           <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar - Links - Level 2 - START -->
           <ul class="default-box-shadow-grey-reg">
             <li><a href="#">Account settings</a></li>
-            <li><a href="#">Triviafy home</a></li>
+            <li><a href="${this.getAttribute("link_landing_js")}">Triviafy home</a></li>
           </ul>
           <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar - Links - Level 2 - END -->
         </li>
