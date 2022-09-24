@@ -15,10 +15,6 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
 <div class="default-not-signed-in-simple-page-section">
   <p>Total candidates uploaded: {{ len_current_user_uploaded_emails_arr_to_html }}</p>
-  <div class="default-not-signed-in-simple-page-desctiption-section">
-    <p class="default-not-signed-in-page-p-font default-not-signed-in-page-content-sub-section">Dashboard</p>
-  </div>
-  <p><a href="{{ url_for('views.landing_index_page_function') }}">Home</a></p>
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page end -->
 {% endblock %}

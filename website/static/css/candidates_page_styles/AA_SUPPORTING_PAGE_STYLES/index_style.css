@@ -57,4 +57,13 @@
   }
 /* - - - - - - - - - - Default - Not Signed In - Text Input - End */
 
-
+/* - - - - - - - - - - Default - Signed In - Company Name - Start */
+.general-signed-in-company-name-section {
+  /* border: 1px solid black; */
+  text-align: center;
+}
+.general-signed-in-company-name-title {
+  font-size: 25px;
+  margin: 20px 0;
+}
+/* - - - - - - - - - - Default - Signed In - Company Name - End */
