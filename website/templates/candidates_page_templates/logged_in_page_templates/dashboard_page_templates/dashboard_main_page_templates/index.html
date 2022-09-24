@@ -1,0 +1,18 @@
+{% extends "candidates_page_templates/aaa_base_page_templates/base2_child1_logged_in_yes_navbar_and_footer.html" %}
+
+<!-- head tag block content -->
+{% block title %}
+  <title>Dashboard / Triviafy</title>
+{% endblock %}
+
+{% block contentBodyExceptNavbarAndFooter %}
+<div class="default-not-signed-in-simple-page-section">
+  <h1>Hi {{ users_company_name_to_html }},</h1>
+
+  <div class="default-not-signed-in-simple-page-desctiption-section">
+    <p class="default-not-signed-in-page-p-font default-not-signed-in-page-content-sub-section">Dashboard</p>
+  </div>
+  
+  <p><a href="{{ url_for('views.landing_index_page_function') }}">Home</a></p>
+</div>
+{% endblock %}
