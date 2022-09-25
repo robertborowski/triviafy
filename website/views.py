@@ -319,4 +319,12 @@ def capacity_page_function():
     return browser_response
   # ------------------------ auto set cookie end ------------------------
 # ------------------------ individual route end ------------------------
+
+# ------------------------ individual route - candidates collect email start ------------------------
+@views.route('/candidates/upload')
+def candidates_upload_emails_function():
+  localhost_print_function('=========================================== candidates_upload_emails_function START ===========================================')
+  localhost_print_function('=========================================== candidates_upload_emails_function END ===========================================')
+  return render_template('candidates_page_templates/logged_in_page_templates/candidates_page_templates/candidates_upload_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name)
+# ------------------------ individual route - candidates collect email end ------------------------
 # ------------------------ routes logged in end ------------------------

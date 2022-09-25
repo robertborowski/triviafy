@@ -36,10 +36,10 @@ class NavbarCandidatesSignedInClass extends HTMLElement {
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar - Links - Level 1 - START -->
     <div class="navbar-links-4-signed-in">
       <ul>
-        <li class="navbar-list-item-a-candidates"><a href="#">Candidates <i class="fas fa-angle-down navbar-drop-down-arrow-a-candidates"></i></a>
+        <li class="navbar-list-item-a-candidates"><a href="${this.getAttribute("link_candidates_upload_emails_js")}">Candidates <i class="fas fa-angle-down navbar-drop-down-arrow-a-candidates"></i></a>
           <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar - Links - Level 2 - START -->
           <ul class="default-box-shadow-grey-reg">
-            <li><a href="#">Candidate upload</a></li>
+            <li><a href="${this.getAttribute("link_candidates_upload_emails_js")}">Candidate upload</a></li>
             <li><a href="#">Candidate analytics</a></li>
           </ul>
           <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar - Links - Level 2 - END -->
