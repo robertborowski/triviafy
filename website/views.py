@@ -239,10 +239,7 @@ def dashboard_test_login_page_function():
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
   if get_cookie_value_from_browser != None:
     redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
-    return render_template(template_location_url,
-                          user = current_user,
-                          users_company_name_to_html = current_user.company_name,
-                          len_current_user_uploaded_emails_arr_to_html = len_current_user_uploaded_emails_arr)
+    return render_template(template_location_url, user = current_user, users_company_name_to_html = current_user.company_name, len_current_user_uploaded_emails_arr_to_html = len_current_user_uploaded_emails_arr)
   else:
     browser_response = browser_response_set_cookie_function(current_user, template_location_url)
     localhost_print_function('=========================================== dashboard_test_login_page_function END ===========================================')
@@ -326,27 +323,39 @@ def capacity_page_function():
 def candidates_upload_emails_function():
   localhost_print_function('=========================================== candidates_upload_emails_function START ===========================================')
   candidate_upload_error_statement = ''
+  # ------------------------ get users total uploaded candidates start ------------------------
+  current_user_uploaded_emails_arr = CandidatesUploadedCandidatesObj.query.filter_by(user_id_fk=current_user.id).all()
+  len_current_user_uploaded_emails_arr = len(current_user_uploaded_emails_arr)
+  # ------------------------ get users total uploaded candidates end ------------------------
   if request.method == 'POST':
     # ------------------------ post method hit #2 - full sign up start ------------------------
     ui_email = request.form.get('candidate_upload_page_ui_email')
-    localhost_print_function(' ------------------ 1 ------------------ ')
-    localhost_print_function('ui_email')
-    localhost_print_function(ui_email)
-    localhost_print_function(type(ui_email))
-    localhost_print_function(' ------------------ 1 ------------------ ')
     # ------------------------ sanitize/check user inputs start ------------------------
     # ------------------------ sanitize/check user input email start ------------------------
     ui_email_cleaned = sanitize_email_function(ui_email)
     if ui_email_cleaned == False:
       candidate_upload_error_statement = 'Please enter a valid email.'
     # ------------------------ sanitize/check user input email end ------------------------
-    localhost_print_function(' ------------------ 2 ------------------ ')
-    localhost_print_function('ui_email_cleaned')
-    localhost_print_function(ui_email_cleaned)
-    localhost_print_function(type(ui_email_cleaned))
-    localhost_print_function(' ------------------ 2 ------------------ ')
-    pass
+    else:
+      # ------------------------ check if exists in db start ------------------------
+      candidate_uploaded_email_exists = CandidatesUploadedCandidatesObj.query.filter_by(user_id_fk=current_user.id).filter_by(email=ui_email_cleaned).first()
+      # ------------------------ check if exists in db end ------------------------
+      if candidate_uploaded_email_exists != None:
+        candidate_upload_error_statement = f'Candidate email: {ui_email_cleaned} already added.'
+      else:
+        # ------------------------ create new user in db start ------------------------
+        new_user = CandidatesUploadedCandidatesObj(
+          id=create_uuid_function('candup_'),
+          created_timestamp=create_timestamp_function(),
+          user_id_fk=current_user.id,
+          candidate_id=create_uuid_function('cand_'),
+          email = ui_email_cleaned,
+          upload_type = 'individual'
+        )
+        db.session.add(new_user)
+        db.session.commit()
+        # ------------------------ create new user in db end ------------------------
   localhost_print_function('=========================================== candidates_upload_emails_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/candidates_page_templates/candidates_upload_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name)
+  return render_template('candidates_page_templates/logged_in_page_templates/candidates_page_templates/candidates_upload_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name, len_current_user_uploaded_emails_arr_to_html = len_current_user_uploaded_emails_arr, error_message_to_html=candidate_upload_error_statement)
 # ------------------------ individual route - candidates collect email end ------------------------
 # ------------------------ routes logged in end ------------------------

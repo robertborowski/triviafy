@@ -63,6 +63,7 @@ class CandidatesUploadedCandidatesObj(db.Model):
   user_id_fk = db.Column(db.String(150))
   candidate_id = db.Column(db.String(150))
   email = db.Column(db.String(150))
+  upload_type = db.Column(db.String(15))
 # ------------------------ individual model end ------------------------
 # ------------------------ models end ------------------------
 

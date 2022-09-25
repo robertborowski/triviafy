@@ -109,3 +109,12 @@
   color: var(--company-primary-color);
 }
 /* - - - - - - - - - - Default - Signed In - Span - End */
+
+
+/* - - - - - - - - - - Default - Signed In - Center - Start */
+.general-center-container {
+  /* border: 1px solid black; */
+  width: 100%;
+  text-align: center;
+}
+/* - - - - - - - - - - Default - Signed In - Center - Start */
