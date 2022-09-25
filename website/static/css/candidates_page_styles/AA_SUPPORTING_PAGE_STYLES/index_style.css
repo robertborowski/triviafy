@@ -91,6 +91,13 @@
   max-width: 1200px;
   margin: 0 auto;
 }
+.general-spacer-section-large {
+  /* background-color: var(--testing-blueprint-color); */
+  height: 100px;
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
 /* - - - - - - - - - - Default - Signed In - Spacer - End */
 
 
