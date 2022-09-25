@@ -19,21 +19,46 @@
 
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - split section start -->
 <div class="candidates-assessment-split-section">
-  
   <div class="split-side-dashboard-general split-side-candidates">
-    <div class="dashboard-split-title-section">
+    <div class="dashboard-split-inner-section">
       <p class="dashboard-split-title">Candidates</p>
     </div>
-    <p>Total candidates uploaded: {{ len_current_user_uploaded_emails_arr_to_html }}</p>
-  </div>
-
-  <div class="split-side-dashboard-general split-side-assessments">
-    <div class="dashboard-split-title-section">
-      <p class="dashboard-split-title">Assessments</p>
+    <div class="dashboard-split-inner-section">
+      <img src="/static/images/candidates/dashboard/purple_dashboard_upload.png" alt="upload candidates img" class="upload-candidates-img">
+    </div>
+    <div class="dashboard-split-inner-section">
+      <p class="dashboard-split-subtitle">Total candidates uploaded: {{ len_current_user_uploaded_emails_arr_to_html }}</p>
+    </div>
+    <div class="dashboard-split-inner-section">
+      <form action="{{ url_for('views.landing_index_page_function') }}">
+        <button type="submit" class="default-button-format default-button-format-primary-color">Upload candidates</button>
+      </form>
     </div>
   </div>
-
+  <div class="split-side-dashboard-general split-side-assessments">
+    <div class="dashboard-split-inner-section">
+      <p class="dashboard-split-title">Assessments</p>
+    </div>
+    <div class="dashboard-split-inner-section">
+      <img src="/static/images/candidates/dashboard/dashboard_page_assessment_example.png" alt="upload candidates img" class="upload-candidates-img">
+    </div>
+    <div class="dashboard-split-inner-section">
+      <p class="dashboard-split-subtitle">Total assessments created: {{ len_current_user_uploaded_emails_arr_to_html }}</p>
+    </div>
+    <div class="dashboard-split-inner-section">
+      <form action="{{ url_for('views.landing_index_page_function') }}">
+        <button type="submit" class="default-button-format default-button-format-primary-color">Create assessment</button>
+      </form>
+    </div>
+  </div>
 </div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - split section end -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page end -->
 {% endblock %}
