@@ -102,3 +102,10 @@
   box-shadow: 0 .125rem .5rem rgba(0, 0, 0, 0.115)!important;
 }
 /* - - - - - - - - - - Default - Signed In - Box Shadows - End */
+
+
+/* - - - - - - - - - - Default - Signed In - Span - Start */
+.general-highlight-primary {
+  color: var(--company-primary-color);
+}
+/* - - - - - - - - - - Default - Signed In - Span - End */

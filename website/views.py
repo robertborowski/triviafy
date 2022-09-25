@@ -327,9 +327,24 @@ def candidates_upload_emails_function():
   localhost_print_function('=========================================== candidates_upload_emails_function START ===========================================')
   candidate_upload_error_statement = ''
   if request.method == 'POST':
+    # ------------------------ post method hit #2 - full sign up start ------------------------
+    ui_email = request.form.get('candidate_upload_page_ui_email')
     localhost_print_function(' ------------------ 1 ------------------ ')
-    localhost_print_function('post request received')
+    localhost_print_function('ui_email')
+    localhost_print_function(ui_email)
+    localhost_print_function(type(ui_email))
     localhost_print_function(' ------------------ 1 ------------------ ')
+    # ------------------------ sanitize/check user inputs start ------------------------
+    # ------------------------ sanitize/check user input email start ------------------------
+    ui_email_cleaned = sanitize_email_function(ui_email)
+    if ui_email_cleaned == False:
+      candidate_upload_error_statement = 'Please enter a valid email.'
+    # ------------------------ sanitize/check user input email end ------------------------
+    localhost_print_function(' ------------------ 2 ------------------ ')
+    localhost_print_function('ui_email_cleaned')
+    localhost_print_function(ui_email_cleaned)
+    localhost_print_function(type(ui_email_cleaned))
+    localhost_print_function(' ------------------ 2 ------------------ ')
     pass
   localhost_print_function('=========================================== candidates_upload_emails_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/candidates_page_templates/candidates_upload_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name)

@@ -49,7 +49,7 @@ class NavbarCandidatesSignedInClass extends HTMLElement {
           <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar - Links - Level 2 - START -->
           <ul class="default-box-shadow-grey-reg">
             <li><a href="#">Create new assessment</a></li>
-            <li><a href="#">Assessment results</a></li>
+            <li><a href="#">Assessment analytics</a></li>
           </ul>
           <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar - Links - Level 2 - END -->
         </li>
