@@ -1,0 +1,7 @@
+@media (max-width: 1200px) {
+  /* - - - - - - - - - - abc start */
+  .candidate-upload-content {
+    border: 1px solid green;
+  }
+  /* - - - - - - - - - - abc end */
+}

@@ -321,9 +321,16 @@ def capacity_page_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route - candidates collect email start ------------------------
-@views.route('/candidates/upload')
+@views.route('/candidates/upload', methods=['GET', 'POST'])
+@login_required
 def candidates_upload_emails_function():
   localhost_print_function('=========================================== candidates_upload_emails_function START ===========================================')
+  candidate_upload_error_statement = ''
+  if request.method == 'POST':
+    localhost_print_function(' ------------------ 1 ------------------ ')
+    localhost_print_function('post request received')
+    localhost_print_function(' ------------------ 1 ------------------ ')
+    pass
   localhost_print_function('=========================================== candidates_upload_emails_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/candidates_page_templates/candidates_upload_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name)
 # ------------------------ individual route - candidates collect email end ------------------------
