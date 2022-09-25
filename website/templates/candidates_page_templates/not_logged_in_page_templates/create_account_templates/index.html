@@ -26,22 +26,22 @@
     
     <div class="create-account-user-input-section">
       <label for="create_account_page_ui_email"></label>
-      <input type="email" id="create_account_page_ui_email" name="create_account_page_ui_email" class="default-not-signed-in-text-input" placeholder="Work email*" value="{{ redirect_var_email }}" pattern="\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b" required />
+      <input type="email" id="create_account_page_ui_email" name="create_account_page_ui_email" class="candidates-default-text-input" placeholder="Work email*" value="{{ redirect_var_email }}" pattern="\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b" required />
     </div>
   
     <div class="create-account-user-input-section">
       <label for="create_account_page_ui_password"></label>
-      <input type="password" id="create_account_page_ui_password" name="create_account_page_ui_password" class="default-not-signed-in-text-input" placeholder="Password*" value="{{ redirect_var_password }}" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$" title="8+ total characters | 1+ uppercase, lowercase, digit, and special character" required />
+      <input type="password" id="create_account_page_ui_password" name="create_account_page_ui_password" class="candidates-default-text-input" placeholder="Password*" value="{{ redirect_var_password }}" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$" title="8+ total characters | 1+ uppercase, lowercase, digit, and special character" required />
     </div>
 
     <div class="create-account-user-input-section">
       <label for="create_account_page_ui_name"></label>
-      <input type="text" id="create_account_page_ui_name" name="create_account_page_ui_name" class="default-not-signed-in-text-input" placeholder="Name" value="{{ redirect_var_first_name }}" title="First name needs to be 2-20 characters" pattern="^[\w\s-]{2,20}$" />
+      <input type="text" id="create_account_page_ui_name" name="create_account_page_ui_name" class="candidates-default-text-input" placeholder="Name" value="{{ redirect_var_first_name }}" title="First name needs to be 2-20 characters" pattern="^[\w\s-]{2,20}$" />
     </div>
   
     <div class="create-account-user-input-section">
       <label for="create_account_page_ui_company_name"></label>
-      <input type="text" id="create_account_page_ui_company_name" name="create_account_page_ui_company_name" class="default-not-signed-in-text-input" placeholder="Company name*" value="{{ redirect_var_company_name }}" title="Company name needs to be 2-20 characters" pattern="^[\w\s-]{2,20}$" required />
+      <input type="text" id="create_account_page_ui_company_name" name="create_account_page_ui_company_name" class="candidates-default-text-input" placeholder="Company name*" value="{{ redirect_var_company_name }}" title="Company name needs to be 2-20 characters" pattern="^[\w\s-]{2,20}$" required />
     </div>
 
     <div class="create-account-user-input-button-section">
