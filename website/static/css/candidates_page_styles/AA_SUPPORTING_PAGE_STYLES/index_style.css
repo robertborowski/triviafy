@@ -69,6 +69,20 @@
 /* - - - - - - - - - - Default - Signed In - Company Name - End */
 
 
+/* - - - - - - - - - - Default - Signed In - Page Title - Start */
+.general-page-title-section {
+  /* border: 1px solid black; */
+  text-align: center;
+}
+.general-page-title {
+  font-size: 40px;
+}
+.general-page-font {
+  font-size: 20px;
+}
+/* - - - - - - - - - - Default - Signed In - Page Title - End */
+
+
 /* - - - - - - - - - - Default - Signed In - Spacer - Start */
 .general-spacer-section {
   /* background-color: var(--testing-blueprint-color); */
@@ -88,14 +102,3 @@
   box-shadow: 0 .125rem .5rem rgba(0, 0, 0, 0.115)!important;
 }
 /* - - - - - - - - - - Default - Signed In - Box Shadows - End */
-
-
-/* - - - - - - - - - - Default - Signed In - Page Title - Start */
-.general-page-title-section {
-  /* border: 1px solid black; */
-  text-align: center;
-}
-.general-page-title {
-  font-size: 40px;
-}
-/* - - - - - - - - - - Default - Signed In - Page Title - End */
