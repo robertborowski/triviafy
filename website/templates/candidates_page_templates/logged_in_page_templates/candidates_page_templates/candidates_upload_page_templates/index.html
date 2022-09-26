@@ -32,6 +32,11 @@
 <div class="general-center-container">
   <a href="{{ url_for('views.candidates_about_page_function') }}"><p class="general-page-font">View all candidates</p></a>
 </div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message start -->
+<div class="error-message-section">
+  <p>{{ error_message_to_html }}</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message end -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - page highlight end -->
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
@@ -49,11 +54,6 @@
       <input type="email" id="candidate_upload_page_ui_email" name="candidate_upload_page_ui_email" class="candidates-default-text-input" placeholder="Candidate email" pattern="\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b" required />
       <button type="submit" class="default-button-format default-button-format-primary-color">Add candidate</button>
     </form>
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message start -->
-    <div class="error-message-section">
-      <p>{{ error_message_to_html }}</p>
-    </div>
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message end -->
   </div>
   <div class="candidate-upload-split-section candidate-upload-split-right">
     <div class="candidate-upload-img-section">
@@ -80,16 +80,10 @@
     <div class="candidate-upload-form-title">
       <p class="general-page-font">Option 2: Upload <span class="general-highlight-primary">bulk</span> candidates .csv</p>
     </div>
-    <form method="POST" class="upload-email-form">
-      <label for="candidate_upload_page_ui_email"></label>
-      <input type="email" id="candidate_upload_page_ui_email" name="candidate_upload_page_ui_email" class="candidates-default-text-input" placeholder="Candidate email" pattern="\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b" required />
+    <form method="POST" class="upload-email-form-bulk" enctype="multipart/form-data">
+      <input type="file" name="file" />
       <button type="submit" class="default-button-format default-button-format-primary-color">Add candidates</button>
     </form>
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message start -->
-    <div class="error-message-section">
-      <p>{{ error_message_to_html }}</p>
-    </div>
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message end -->
   </div>
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - split section end -->

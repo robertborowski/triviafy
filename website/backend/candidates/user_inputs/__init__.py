@@ -1,6 +1,9 @@
 # ------------------------ imports start ------------------------
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 import re
+from website.models import CandidatesUploadedCandidatesObj
+from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
+from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
 # ------------------------ imports end ------------------------
 
 
@@ -104,5 +107,43 @@ def sanitize_create_account_text_inputs_function(user_input):
     return user_input
   localhost_print_function('=========================================== sanitize_password_function END ===========================================')
   return False
+# ------------------------ individual function end ------------------------
+
+
+# ------------------------ individual function start ------------------------
+def validate_upload_candidate_function(db, current_user, ui_email, user_input_type):
+  localhost_print_function('=========================================== validate_upload_candidate_function START ===========================================')
+  candidate_upload_error_statement = ''
+  # ------------------------ ui_email start ------------------------
+  # ------------------------ sanitize/check user input email start ------------------------
+  if ui_email != None:
+    ui_email_cleaned = sanitize_email_function(ui_email)
+    if ui_email_cleaned == False and user_input_type == 'individual':
+      candidate_upload_error_statement = 'Please enter a valid email.'
+    # ------------------------ sanitize/check user input email end ------------------------
+    if ui_email_cleaned != False:
+      # ------------------------ check if exists in db start ------------------------
+      candidate_uploaded_email_exists = CandidatesUploadedCandidatesObj.query.filter_by(user_id_fk=current_user.id).filter_by(email=ui_email_cleaned).first()
+      # ------------------------ check if exists in db end ------------------------
+      if candidate_uploaded_email_exists != None and user_input_type == 'individual':
+        candidate_upload_error_statement = f'Candidate email: {ui_email_cleaned} already added.'
+      if candidate_uploaded_email_exists == None:
+        # ------------------------ create new user in db start ------------------------
+        new_user = CandidatesUploadedCandidatesObj(
+          id=create_uuid_function('candup_'),
+          created_timestamp=create_timestamp_function(),
+          user_id_fk=current_user.id,
+          candidate_id=create_uuid_function('cand_'),
+          email = ui_email_cleaned,
+          upload_type = user_input_type
+        )
+        db.session.add(new_user)
+        db.session.commit()
+        # ------------------------ create new user in db end ------------------------
+  # ------------------------ ui_email end ------------------------
+  if candidate_upload_error_statement == '':
+    candidate_upload_error_statement = 'Uploaded successfully!'
+  localhost_print_function('=========================================== validate_upload_candidate_function END ===========================================')
+  return candidate_upload_error_statement
 # ------------------------ individual function end ------------------------
 localhost_print_function('=========================================== user_inputs __init__ END ===========================================')

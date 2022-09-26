@@ -32,6 +32,10 @@
   display: flex;
   justify-content: space-between;
 }
+.upload-email-form-bulk {
+  /* border: 1px solid black; */
+  text-align: center;
+}
 .candidate-upload-img-section {
   /* border: 1px solid black; */
   text-align: center;

@@ -20,9 +20,10 @@ from website.backend.candidates.browser import browser_response_set_cookie_funct
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
 from website import db
-from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function, sanitize_create_account_text_inputs_function
+from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function, sanitize_create_account_text_inputs_function, validate_upload_candidate_function
 from website.backend.candidates.send_emails import send_email_template_function
 from werkzeug.security import generate_password_hash
+import pandas as pd
 # ------------------------ imports end ------------------------
 
 
@@ -328,33 +329,27 @@ def candidates_upload_emails_function():
   len_current_user_uploaded_emails_arr = len(current_user_uploaded_emails_arr)
   # ------------------------ get users total uploaded candidates end ------------------------
   if request.method == 'POST':
-    # ------------------------ post method hit #2 - full sign up start ------------------------
+    # ------------------------ form results start ------------------------
+    try:
+      ui_csv_file_uploaded = request.files['file']
+    except:
+      ui_csv_file_uploaded = None
     ui_email = request.form.get('candidate_upload_page_ui_email')
-    # ------------------------ sanitize/check user inputs start ------------------------
-    # ------------------------ sanitize/check user input email start ------------------------
-    ui_email_cleaned = sanitize_email_function(ui_email)
-    if ui_email_cleaned == False:
-      candidate_upload_error_statement = 'Please enter a valid email.'
-    # ------------------------ sanitize/check user input email end ------------------------
-    else:
-      # ------------------------ check if exists in db start ------------------------
-      candidate_uploaded_email_exists = CandidatesUploadedCandidatesObj.query.filter_by(user_id_fk=current_user.id).filter_by(email=ui_email_cleaned).first()
-      # ------------------------ check if exists in db end ------------------------
-      if candidate_uploaded_email_exists != None:
-        candidate_upload_error_statement = f'Candidate email: {ui_email_cleaned} already added.'
-      else:
-        # ------------------------ create new user in db start ------------------------
-        new_user = CandidatesUploadedCandidatesObj(
-          id=create_uuid_function('candup_'),
-          created_timestamp=create_timestamp_function(),
-          user_id_fk=current_user.id,
-          candidate_id=create_uuid_function('cand_'),
-          email = ui_email_cleaned,
-          upload_type = 'individual'
-        )
-        db.session.add(new_user)
-        db.session.commit()
-        # ------------------------ create new user in db end ------------------------
+    # ------------------------ form results end ------------------------
+    # ------------------------ ui_email individual start ------------------------
+    if ui_email != None:
+      candidate_upload_error_statement = validate_upload_candidate_function(db, current_user, ui_email, 'individual')
+    # ------------------------ ui_email individual end ------------------------
+    # ------------------------ ui_email bulk start ------------------------
+    if ui_csv_file_uploaded != None:
+      try:
+        df_csv_data = pd.read_csv(ui_csv_file_uploaded)
+        for i, r in df_csv_data.iterrows():
+          ui_email = r[0]
+          candidate_upload_error_statement = validate_upload_candidate_function(db, current_user, ui_email, 'bulk')
+      except:
+        candidate_upload_error_statement = 'uploaded file must be .csv format'
+    # ------------------------ ui_email bulk end ------------------------
   localhost_print_function('=========================================== candidates_upload_emails_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/candidates_page_templates/candidates_upload_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name, len_current_user_uploaded_emails_arr_to_html = len_current_user_uploaded_emails_arr, error_message_to_html=candidate_upload_error_statement)
 # ------------------------ individual route - candidates collect email end ------------------------
