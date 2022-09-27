@@ -100,12 +100,24 @@ def sanitize_password_function(user_input_password):
 
 # ------------------------ individual function start ------------------------
 def sanitize_create_account_text_inputs_function(user_input):
-  localhost_print_function('=========================================== sanitize_password_function START ===========================================')
+  localhost_print_function('=========================================== sanitize_create_account_text_inputs_function START ===========================================')
   desired_regex_pattern = "^[\w\s-]{0,20}$"
   if(re.fullmatch(desired_regex_pattern, user_input)):
-    localhost_print_function('=========================================== sanitize_password_function END ===========================================')
+    localhost_print_function('=========================================== sanitize_create_account_text_inputs_function END ===========================================')
     return user_input
-  localhost_print_function('=========================================== sanitize_password_function END ===========================================')
+  localhost_print_function('=========================================== sanitize_create_account_text_inputs_function END ===========================================')
+  return False
+# ------------------------ individual function end ------------------------
+
+
+# ------------------------ individual function start ------------------------
+def sanitize_create_account_text_inputs_large_function(user_input):
+  localhost_print_function('=========================================== sanitize_create_account_text_inputs_large_function START ===========================================')
+  desired_regex_pattern = "^[\w\s-]{0,50}$"
+  if(re.fullmatch(desired_regex_pattern, user_input)):
+    localhost_print_function('=========================================== sanitize_create_account_text_inputs_large_function END ===========================================')
+    return user_input
+  localhost_print_function('=========================================== sanitize_create_account_text_inputs_large_function END ===========================================')
   return False
 # ------------------------ individual function end ------------------------
 

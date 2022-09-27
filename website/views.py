@@ -15,12 +15,12 @@ from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_f
 from flask import Blueprint, render_template, request, redirect, url_for, session
 from flask_login import login_required, current_user, login_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
-from website.models import CandidatesUserObj, CandidatesDesiredLanguagesObj, CandidatesUploadedCandidatesObj
+from website.models import CandidatesUserObj, CandidatesDesiredLanguagesObj, CandidatesUploadedCandidatesObj, CandidatesAssessmentsCreatedObj
 from website.backend.candidates.browser import browser_response_set_cookie_function
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
 from website import db
-from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function, sanitize_create_account_text_inputs_function, validate_upload_candidate_function
+from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function, sanitize_create_account_text_inputs_function, sanitize_create_account_text_inputs_large_function, validate_upload_candidate_function
 from website.backend.candidates.send_emails import send_email_template_function
 from werkzeug.security import generate_password_hash
 import pandas as pd
@@ -38,87 +38,87 @@ redis_connection = redis_connect_to_database_function()
 # ------------------------ connect to redis end ------------------------
 
 # ------------------------ routes not logged in start ------------------------
-# ------------------------ individual route - candidates about start ------------------------
+# ------------------------ individual route start ------------------------
 @views.route('/candidates/about')
 def candidates_about_page_function():
   localhost_print_function('=========================================== candidates_about_page_function START ===========================================')  
   localhost_print_function('=========================================== candidates_about_page_function END ===========================================')
   return render_template('candidates_page_templates/not_logged_in_page_templates/about_page_templates/index.html', user=current_user)
-# ------------------------ individual route - candidates about end ------------------------
+# ------------------------ individual route end ------------------------
 
-# ------------------------ individual route - candidates faq start ------------------------
+# ------------------------ individual route start ------------------------
 @views.route('/candidates/faq')
 def candidates_faq_page_function():
   localhost_print_function('=========================================== candidates_faq_page_function START ===========================================')
   localhost_print_function('=========================================== candidates_faq_page_function END ===========================================')
   return render_template('candidates_page_templates/not_logged_in_page_templates/faq_page_templates/index.html', user=current_user)
-# ------------------------ individual route - candidates faq end ------------------------
+# ------------------------ individual route end ------------------------
 
-# ------------------------ individual route - candidates index main start ------------------------
+# ------------------------ individual route start ------------------------
 @views.route('/candidates')
 def landing_index_page_function():
   localhost_print_function('=========================================== landing_index_page_function START ===========================================')
   localhost_print_function('=========================================== landing_index_page_function END ===========================================')
   return render_template('candidates_page_templates/not_logged_in_page_templates/index_page_templates/index.html', user=current_user)
-# ------------------------ individual route - candidates index main end ------------------------
+# ------------------------ individual route end ------------------------
 
-# ------------------------ individual route - candidates test library start ------------------------
+# ------------------------ individual route start ------------------------
 @views.route('/candidates/library')
 def candidates_test_library_page_function():
   localhost_print_function('=========================================== candidates_test_library_page_function START ===========================================')
   localhost_print_function('=========================================== candidates_test_library_page_function END ===========================================')
   return render_template('candidates_page_templates/not_logged_in_page_templates/test_library_page_templates/index.html', user=current_user)
-# ------------------------ individual route - candidates test library end ------------------------
+# ------------------------ individual route end ------------------------
 
-# ------------------------ individual route - candidates pricing start ------------------------
+# ------------------------ individual route start ------------------------
 @views.route('/candidates/pricing')
 def candidates_pricing_page_function():
   localhost_print_function('=========================================== candidates_pricing_page_function START ===========================================')
   localhost_print_function('=========================================== candidates_pricing_page_function END ===========================================')
   return render_template('candidates_page_templates/not_logged_in_page_templates/pricing_page_templates/index.html', user=current_user)
-# ------------------------ individual route - candidates pricing end ------------------------
+# ------------------------ individual route end ------------------------
 
-# ------------------------ individual route - candidates stand in start ------------------------
+# ------------------------ individual route start ------------------------
 @views.route('/candidates/launch')
 def candidates_stand_in_page_function():
   localhost_print_function('=========================================== candidates_stand_in_page_function START ===========================================')
   localhost_print_function('=========================================== candidates_stand_in_page_function END ===========================================')
   return render_template('candidates_page_templates/not_logged_in_page_templates/stand_in_page_templates/index.html', user=current_user)
-# ------------------------ individual route - candidates stand in end ------------------------
+# ------------------------ individual route end ------------------------
 
-# ------------------------ individual route - candidates collect email start ------------------------
+# ------------------------ individual route start ------------------------
 @views.route('/candidates/email')
 def candidates_email_page_function():
   localhost_print_function('=========================================== candidates_email_page_function START ===========================================')
   localhost_print_function('=========================================== candidates_email_page_function END ===========================================')
   return render_template('candidates_page_templates/not_logged_in_page_templates/collect_email_page_templates/index.html', user=current_user)
-# ------------------------ individual route - candidates collect email end ------------------------
+# ------------------------ individual route end ------------------------
 
-# ------------------------ individual route - error 404 start ------------------------
+# ------------------------ individual route start ------------------------
 @views.route('/404')
 def error_page_function():
   localhost_print_function('=========================================== error_page_function START ===========================================')
   localhost_print_function('=========================================== error_page_function END ===========================================')
   return render_template('candidates_page_templates/not_logged_in_page_templates/error_404_page_templates/index.html', user=current_user)
-# ------------------------ individual route - error 404 end ------------------------
+# ------------------------ individual route end ------------------------
 
-# ------------------------ individual route - privacy start ------------------------
+# ------------------------ individual route start ------------------------
 @views.route('/privacy')
 def privacy_page_function():
   localhost_print_function('=========================================== privacy_page_function START ===========================================')
   localhost_print_function('=========================================== privacy_page_function END ===========================================')
   return render_template('candidates_page_templates/not_logged_in_page_templates/privacy_policy_page_templates/index.html', user=current_user)
-# ------------------------ individual route - privacy end ------------------------
+# ------------------------ individual route end ------------------------
 
-# ------------------------ individual route - privacy start ------------------------
+# ------------------------ individual route start ------------------------
 @views.route('/tos')
 def terms_of_service_page_function():
   localhost_print_function('=========================================== terms_of_service_page_function START ===========================================')
   localhost_print_function('=========================================== terms_of_service_page_function END ===========================================')
   return render_template('candidates_page_templates/not_logged_in_page_templates/terms_of_service_page_templates/index.html', user=current_user)
-# ------------------------ individual route - privacy end ------------------------
+# ------------------------ individual route end ------------------------
 
-# ------------------------ individual route - candidates about start ------------------------
+# ------------------------ individual route start ------------------------
 @views.route('/candidates/reset', methods=['GET', 'POST'])
 def candidates_forgot_password_page_function():
   localhost_print_function('=========================================== candidates_forgot_password_page_function START ===========================================')  
@@ -149,10 +149,10 @@ def candidates_forgot_password_page_function():
     # ------------------------ check if user email exists in db end ------------------------
   localhost_print_function('=========================================== candidates_forgot_password_page_function END ===========================================')
   return render_template('candidates_page_templates/not_logged_in_page_templates/forgot_password_page_templates/index.html', user=current_user, error_message_to_html = forgot_password_error_statement)
-# ------------------------ individual route - candidates about end ------------------------
+# ------------------------ individual route end ------------------------
 
 
-# ------------------------ individual route - candidates about start ------------------------
+# ------------------------ individual route start ------------------------
 @views.route('/candidates/reset/<token>', methods=['GET', 'POST'])
 def candidates_reset_forgot_password_page_function(token):
   localhost_print_function('=========================================== candidates_reset_forgot_password_page_function START ===========================================')
@@ -192,7 +192,7 @@ def candidates_reset_forgot_password_page_function(token):
     # ------------------------ update db end ------------------------
   localhost_print_function('=========================================== candidates_reset_forgot_password_page_function END ===========================================')
   return render_template('candidates_page_templates/not_logged_in_page_templates/forgot_password_page_templates/reset_forgot_password_page_templates/index.html', user=current_user, error_message_to_html = reset_password_error_statement)
-# ------------------------ individual route - candidates about end ------------------------
+# ------------------------ individual route end ------------------------
 # ------------------------ routes not logged in end ------------------------
 
 
@@ -318,7 +318,7 @@ def capacity_page_function():
   # ------------------------ auto set cookie end ------------------------
 # ------------------------ individual route end ------------------------
 
-# ------------------------ individual route - candidates collect email start ------------------------
+# ------------------------ individual route start ------------------------
 @views.route('/candidates/account', methods=['GET', 'POST'])
 @login_required
 def candidates_account_settings_function():
@@ -342,9 +342,9 @@ def candidates_account_settings_function():
   # ------------------------ individual redirect end ------------------------
   localhost_print_function('=========================================== candidates_account_settings_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/account_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name)
-# ------------------------ individual route - candidates collect email end ------------------------
+# ------------------------ individual route end ------------------------
 
-# ------------------------ individual route - candidates collect email start ------------------------
+# ------------------------ individual route start ------------------------
 @views.route('/candidates/upload', methods=['GET', 'POST'])
 @login_required
 def candidates_upload_emails_function():
@@ -395,9 +395,9 @@ def candidates_upload_emails_function():
     # ------------------------ ui_email bulk end ------------------------
   localhost_print_function('=========================================== candidates_upload_emails_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/candidates_page_templates/candidates_upload_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name, len_current_user_uploaded_emails_arr_to_html = len_current_user_uploaded_emails_arr, error_message_to_html=candidate_upload_error_statement)
-# ------------------------ individual route - candidates collect email end ------------------------
+# ------------------------ individual route end ------------------------
 
-# ------------------------ individual route - candidates collect email start ------------------------
+# ------------------------ individual route start ------------------------
 @views.route('/candidates/analytics', methods=['GET', 'POST'])
 @login_required
 def candidates_analytics_function():
@@ -432,9 +432,9 @@ def candidates_analytics_function():
   # ------------------------ pull all candidates end ------------------------
   localhost_print_function('=========================================== candidates_analytics_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/candidates_page_templates/candidates_analytics_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name, all_candidates_arr_of_dicts_to_html=all_candidates_arr_of_dicts)
-# ------------------------ individual route - candidates collect email end ------------------------
+# ------------------------ individual route end ------------------------
 
-# ------------------------ individual route - candidates collect email start ------------------------
+# ------------------------ individual route start ------------------------
 @views.route('/candidates/assessments/dashboard', methods=['GET', 'POST'])
 @login_required
 def candidates_assessments_dashboard_function():
@@ -458,9 +458,9 @@ def candidates_assessments_dashboard_function():
   # ------------------------ individual redirect end ------------------------
   localhost_print_function('=========================================== candidates_assessments_dashboard_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_dashboard_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name)
-# ------------------------ individual route - candidates collect email end ------------------------
+# ------------------------ individual route end ------------------------
 
-# ------------------------ individual route - candidates collect email start ------------------------
+# ------------------------ individual route start ------------------------
 @views.route('/candidates/assessments/analytics', methods=['GET', 'POST'])
 @login_required
 def candidates_assessments_analytics_function():
@@ -484,9 +484,9 @@ def candidates_assessments_analytics_function():
   # ------------------------ individual redirect end ------------------------
   localhost_print_function('=========================================== candidates_assessments_analytics_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_analytics_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name)
-# ------------------------ individual route - candidates collect email end ------------------------
+# ------------------------ individual route end ------------------------
 
-# ------------------------ individual route - candidates collect email start ------------------------
+# ------------------------ individual route start ------------------------
 @views.route('/candidates/assessment/new', methods=['GET', 'POST'])
 @login_required
 def candidates_assessment_create_new_function():
@@ -508,7 +508,34 @@ def candidates_assessment_create_new_function():
     localhost_print_function('=========================================== candidates_account_settings_function END ===========================================')
     return redirect(url_for('views.capacity_page_function'))
   # ------------------------ individual redirect end ------------------------
+  create_assessment_error_statement = ''
+  # ------------------------ post method hit start ------------------------
+  if request.method == 'POST':
+    # ------------------------ get form user inputs start ------------------------
+    ui_assessment_name = request.form.get('create_assessment_page_ui_name')
+    # ------------------------ get form user inputs end ------------------------
+    # ------------------------ sanitize/check user inputs start ------------------------
+    ui_assessment_name_cleaned = sanitize_create_account_text_inputs_large_function(ui_assessment_name)
+    if ui_assessment_name_cleaned == False:
+      create_assessment_error_statement = 'Please enter a valid work email.'
+    # ------------------------ sanitize/check user inputs end ------------------------
+    # ------------------------ create new assessment in db start ------------------------
+    if ui_assessment_name_cleaned != False:
+      new_row = CandidatesAssessmentsCreatedObj(
+        id=create_uuid_function('assessment_'),
+        created_timestamp=create_timestamp_function(),
+        user_id_fk=current_user.id,
+        assessment_name=ui_assessment_name,
+        desired_languages_arr = 'Python',
+        total_questions = 10,
+        delivery_type = 'standard',
+        question_ids_arr = '123,456,789,101'
+      )
+      db.session.add(new_row)
+      db.session.commit()
+    # ------------------------ create new assessment in db end ------------------------
+  # ------------------------ post method hit end ------------------------
   localhost_print_function('=========================================== candidates_account_settings_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_create_new_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name)
-# ------------------------ individual route - candidates collect email end ------------------------
+# ------------------------ individual route end ------------------------
 # ------------------------ routes logged in end ------------------------

@@ -1,3 +1,18 @@
 /* - - - - - - - - - - capacity start */
-
+.create-assessment-form-container {
+  /* border: 1px solid black; */
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.create-assessment-form {
+  /* border: 1px solid red; */
+  border-radius: 25px;
+  text-align: center;
+}
+.create-assessment-user-input-section {
+  /* border: 1px solid blue; */
+  padding: 30px 0;
+}
+/* .create-assessment-user-input-button-section {} */
 /* - - - - - - - - - - capacity end */

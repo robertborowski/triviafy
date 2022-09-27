@@ -1,4 +1,8 @@
 @media (max-width: 1200px) {
   /* - - - - - - - - - - abc start */
+  .create-assessment-form-container {
+    /* border: 1px solid black; */
+    width: 90%;
+  }
   /* - - - - - - - - - - abc end */
 }
