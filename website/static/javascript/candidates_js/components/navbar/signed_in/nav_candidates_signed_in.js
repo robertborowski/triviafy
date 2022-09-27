@@ -40,7 +40,7 @@ class NavbarCandidatesSignedInClass extends HTMLElement {
           <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar - Links - Level 2 - START -->
           <ul class="default-box-shadow-grey-reg">
             <li><a href="${this.getAttribute("link_candidates_upload_emails_js")}">Candidate upload</a></li>
-            <li><a href="#">Candidate analytics</a></li>
+            <li><a href="${this.getAttribute("link_candidates_analytics_js")}">Candidate analytics</a></li>
           </ul>
           <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar - Links - Level 2 - END -->
         </li>
