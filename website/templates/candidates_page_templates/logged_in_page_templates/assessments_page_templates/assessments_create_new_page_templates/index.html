@@ -2,7 +2,7 @@
 
 <!-- head tag block content -->
 {% block title %}
-  <title>Assessments Dashboard / Triviafy</title>
+  <title>Create New Assessments / Triviafy</title>
 {% endblock %}
 
 {% block contentBodyExceptNavbarAndFooter %}
@@ -19,30 +19,15 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title start -->
 <div class="general-page-title-section">
-  <p class="general-page-title">Assessment Dashboard</p>
+  <p class="general-page-title">Create Assessment</p>
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title end -->
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="general-spacer-section-large"></div>
+<div class="general-spacer-section"></div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
-<div class="assessment-dashboard-create-new-section">
-  <div class="dashboard-split-inner-section">
-    <p class="dashboard-split-title">Create Assessment</p>
-  </div>
-  <div class="dashboard-split-inner-section">
-    <img src="/static/images/candidates/dashboard/dashboard_page_assessment_example.png" alt="upload candidates img" class="upload-candidates-img">
-  </div>
-  <div class="dashboard-split-inner-section">
-    <form action="{{ url_for('views.candidates_assessment_create_new_function') }}">
-      <button type="submit" class="default-button-format default-button-format-primary-color">Create Assessment</button>
-    </form>
-  </div>
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="general-spacer-section"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+<p>Hello</p>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page end -->
 {% endblock %}
