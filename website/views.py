@@ -401,9 +401,89 @@ def candidates_analytics_function():
     all_candidates_dict['email'] = i.email
     all_candidates_dict['total_assessments'] = 0
     all_candidates_dict['total_correct_answers'] = 0
+    all_candidates_dict['top_skill'] = 'Python'
     all_candidates_arr_of_dicts.append(all_candidates_dict)
   # ------------------------ pull all candidates end ------------------------
   localhost_print_function('=========================================== candidates_analytics_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/candidates_page_templates/candidates_analytics_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name, all_candidates_arr_of_dicts_to_html=all_candidates_arr_of_dicts)
+# ------------------------ individual route - candidates collect email end ------------------------
+
+# ------------------------ individual route - candidates collect email start ------------------------
+@views.route('/candidates/assessments/dashboard', methods=['GET', 'POST'])
+@login_required
+def candidates_assessments_dashboard_function():
+  localhost_print_function('=========================================== candidates_assessments_dashboard_function START ===========================================')
+  # ------------------------ individual redirect start ------------------------
+  query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
+  check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
+  if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
+    localhost_print_function('=========================================== candidates_assessments_dashboard_function END ===========================================')
+    return redirect(url_for('views.capacity_page_function'))
+  # ------------------------ individual redirect end ------------------------
+  # ------------------------ individual redirect start ------------------------
+  query_result_arr_of_dicts = select_general_function('select_if_desired_languages_captured')
+  try:
+    check_desired_languages_value = query_result_arr_of_dicts[0]['desired_languages']
+  except:
+    check_desired_languages_value = None
+  if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
+    localhost_print_function('=========================================== candidates_assessments_dashboard_function END ===========================================')
+    return redirect(url_for('views.capacity_page_function'))
+  # ------------------------ individual redirect end ------------------------
+  localhost_print_function('=========================================== candidates_assessments_dashboard_function END ===========================================')
+  return render_template('candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_dashboard_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name)
+# ------------------------ individual route - candidates collect email end ------------------------
+
+# ------------------------ individual route - candidates collect email start ------------------------
+@views.route('/candidates/assessments/analytics', methods=['GET', 'POST'])
+@login_required
+def candidates_assessments_analytics_function():
+  localhost_print_function('=========================================== candidates_assessments_analytics_function START ===========================================')
+  # ------------------------ individual redirect start ------------------------
+  query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
+  check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
+  if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
+    localhost_print_function('=========================================== candidates_assessments_analytics_function END ===========================================')
+    return redirect(url_for('views.capacity_page_function'))
+  # ------------------------ individual redirect end ------------------------
+  # ------------------------ individual redirect start ------------------------
+  query_result_arr_of_dicts = select_general_function('select_if_desired_languages_captured')
+  try:
+    check_desired_languages_value = query_result_arr_of_dicts[0]['desired_languages']
+  except:
+    check_desired_languages_value = None
+  if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
+    localhost_print_function('=========================================== candidates_assessments_analytics_function END ===========================================')
+    return redirect(url_for('views.capacity_page_function'))
+  # ------------------------ individual redirect end ------------------------
+  localhost_print_function('=========================================== candidates_assessments_analytics_function END ===========================================')
+  return render_template('candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_analytics_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name)
+# ------------------------ individual route - candidates collect email end ------------------------
+
+
+# ------------------------ individual route - candidates collect email start ------------------------
+@views.route('/candidates/account', methods=['GET', 'POST'])
+@login_required
+def candidates_account_settings_function():
+  localhost_print_function('=========================================== candidates_account_settings_function START ===========================================')
+  # ------------------------ individual redirect start ------------------------
+  query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
+  check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
+  if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
+    localhost_print_function('=========================================== candidates_account_settings_function END ===========================================')
+    return redirect(url_for('views.capacity_page_function'))
+  # ------------------------ individual redirect end ------------------------
+  # ------------------------ individual redirect start ------------------------
+  query_result_arr_of_dicts = select_general_function('select_if_desired_languages_captured')
+  try:
+    check_desired_languages_value = query_result_arr_of_dicts[0]['desired_languages']
+  except:
+    check_desired_languages_value = None
+  if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
+    localhost_print_function('=========================================== candidates_account_settings_function END ===========================================')
+    return redirect(url_for('views.capacity_page_function'))
+  # ------------------------ individual redirect end ------------------------
+  localhost_print_function('=========================================== candidates_account_settings_function END ===========================================')
+  return render_template('candidates_page_templates/logged_in_page_templates/account_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name)
 # ------------------------ individual route - candidates collect email end ------------------------
 # ------------------------ routes logged in end ------------------------

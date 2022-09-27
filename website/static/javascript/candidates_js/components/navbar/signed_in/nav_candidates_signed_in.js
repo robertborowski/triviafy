@@ -45,19 +45,19 @@ class NavbarCandidatesSignedInClass extends HTMLElement {
           <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar - Links - Level 2 - END -->
         </li>
         
-        <li class="navbar-list-item-a-candidates"><a href="#">Assessments <i class="fas fa-angle-down navbar-drop-down-arrow-a-candidates"></i></a>
+        <li class="navbar-list-item-a-candidates"><a href="${this.getAttribute("link_candidates_assessments_new_js")}">Assessments <i class="fas fa-angle-down navbar-drop-down-arrow-a-candidates"></i></a>
           <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar - Links - Level 2 - START -->
           <ul class="default-box-shadow-grey-reg">
-            <li><a href="#">Create new assessment</a></li>
-            <li><a href="#">Assessment analytics</a></li>
+            <li><a href="${this.getAttribute("link_candidates_assessments_new_js")}">Assessment dashboard</a></li>
+            <li><a href="${this.getAttribute("link_candidates_assessments_analytics_js")}">Assessment analytics</a></li>
           </ul>
           <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar - Links - Level 2 - END -->
         </li>
         
-        <li class="navbar-list-item-a-candidates"><a href="#">Account <i class="fas fa-angle-down navbar-drop-down-arrow-a-candidates"></i></a>
+        <li class="navbar-list-item-a-candidates"><a href="${this.getAttribute("link_candidates_account_settings_js")}">Account <i class="fas fa-angle-down navbar-drop-down-arrow-a-candidates"></i></a>
           <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar - Links - Level 2 - START -->
           <ul class="default-box-shadow-grey-reg">
-            <li><a href="#">Account settings</a></li>
+            <li><a href="${this.getAttribute("link_candidates_account_settings_js")}">Account settings</a></li>
             <li><a href="${this.getAttribute("link_landing_js")}">Triviafy home</a></li>
           </ul>
           <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar - Links - Level 2 - END -->

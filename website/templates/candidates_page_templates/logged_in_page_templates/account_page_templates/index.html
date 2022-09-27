@@ -2,7 +2,7 @@
 
 <!-- head tag block content -->
 {% block title %}
-  <title>Candidate Analytics / Triviafy</title>
+  <title>Account / Triviafy</title>
 {% endblock %}
 
 {% block contentBodyExceptNavbarAndFooter %}
@@ -19,7 +19,7 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title start -->
 <div class="general-page-title-section">
-  <p class="general-page-title">Candidate Analytics</p>
+  <p class="general-page-title">Account</p>
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title end -->
 
@@ -28,30 +28,6 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - candidate analytics datatables start -->
-<div class="candidate-datatable-section">
-  <table id="table_id_triviafy_candidate_analytics" class="display">
-    <thead>
-      <tr>
-        <th>Email</th>
-        <th>Total Assessments</th>
-        <th>Total Correct Answers</th>
-        <th>Top Skill</th>
-      </tr>
-    </thead>
-    
-    <tbody>
-      {% for i in all_candidates_arr_of_dicts_to_html %}
-      <tr>
-        <td>{{ i['email'] }}</td>
-        <td>{{ i['total_assessments'] }}</td>
-        <td>{{ i['total_correct_answers'] }}</td>
-        <td>{{ i['top_skill'] }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - candidate analytics datatables end -->
+<p>Hello</p>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page end -->
 {% endblock %}
