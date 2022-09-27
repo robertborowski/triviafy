@@ -65,6 +65,18 @@ class CandidatesUploadedCandidatesObj(db.Model):
   email = db.Column(db.String(150))
   upload_type = db.Column(db.String(15))
 # ------------------------ individual model end ------------------------
+
+# ------------------------ individual model start ------------------------
+class CandidatesAssessmentsCreatedObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  user_id_fk = db.Column(db.String(150))
+  assessment_name = db.Column(db.String(150))
+  desired_languages_arr = db.Column(db.String(1000))
+  total_questions = db.Column(db.Integer)
+  delivery_type = db.Column(db.String(150))
+  question_ids_arr = db.Column(db.String(1000))
+# ------------------------ individual model end ------------------------
 # ------------------------ models end ------------------------
 
 
