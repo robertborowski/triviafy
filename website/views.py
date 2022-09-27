@@ -393,7 +393,17 @@ def candidates_analytics_function():
     localhost_print_function('=========================================== candidates_analytics_function END ===========================================')
     return redirect(url_for('views.capacity_page_function'))
   # ------------------------ individual redirect end ------------------------
+  # ------------------------ pull all candidates start ------------------------
+  current_user_uploaded_emails_arr = CandidatesUploadedCandidatesObj.query.filter_by(user_id_fk=current_user.id).all()
+  all_candidates_arr_of_dicts = []
+  for i in current_user_uploaded_emails_arr:
+    all_candidates_dict = {}
+    all_candidates_dict['email'] = i.email
+    all_candidates_dict['total_assessments'] = 0
+    all_candidates_dict['total_correct_answers'] = 0
+    all_candidates_arr_of_dicts.append(all_candidates_dict)
+  # ------------------------ pull all candidates end ------------------------
   localhost_print_function('=========================================== candidates_analytics_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/candidates_page_templates/candidates_analytics_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name)
+  return render_template('candidates_page_templates/logged_in_page_templates/candidates_page_templates/candidates_analytics_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name, all_candidates_arr_of_dicts_to_html=all_candidates_arr_of_dicts)
 # ------------------------ individual route - candidates collect email end ------------------------
 # ------------------------ routes logged in end ------------------------

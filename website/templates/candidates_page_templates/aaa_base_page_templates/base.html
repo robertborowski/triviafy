@@ -145,6 +145,9 @@
     <!-- css candidate analytics -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/candidates_styles/candidates_analytics_styles/index_style.css') }}?v={{ css_cache_busting }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/candidates_styles/candidates_analytics_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
+    <!-- css DataTables.net -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/datatables_styles/index_style.css') }}?v={{ css_cache_busting }}">
     <!-- ------------------------------------- css end ------------------------------------- -->
     <!-- ------------------------------------- javascript start ------------------------------------- -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous" defer></script>
@@ -160,6 +163,11 @@
     <script type="text/javascript" src="{{ url_for('static', filename='javascript/candidates_js/components/navbar/signed_in/navbar_hamburger_toggle.js') }}" defer></script>
     <!-- js click submit button only once navbar -->
     <script type="text/javascript" src="{{ url_for('static', filename='javascript/candidates_js/javascript_utils/submit_button_js/click_submit_button_once.js') }}" defer></script>
+    <!-- jQuery CDN nessessary to use DataTables -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" defer></script>
+    <!-- js DataTables.net -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js" defer></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='javascript/candidates_js/javascript_utils/datatables_js/datatables.js') }}" defer></script>
     <!-- ------------------------------------- javascript end ------------------------------------- -->
     <!-- ------------------------------------- title start ------------------------------------- -->
     {% block title %}base.html{% endblock %}
