@@ -77,6 +77,15 @@ class CandidatesAssessmentsCreatedObj(db.Model):
   delivery_type = db.Column(db.String(150))
   question_ids_arr = db.Column(db.String(1000))
 # ------------------------ individual model end ------------------------
+
+# ------------------------ individual model start ------------------------
+class CandidatesRequestLanguageObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  user_id_fk = db.Column(db.String(150))
+  desired_languages_str = db.Column(db.String(1000))
+  approved_to_view = db.Column(db.Boolean, default=False)
+# ------------------------ individual model end ------------------------
 # ------------------------ models end ------------------------
 
 

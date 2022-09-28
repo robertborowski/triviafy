@@ -15,7 +15,7 @@ from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_f
 from flask import Blueprint, render_template, request, redirect, url_for, session
 from flask_login import login_required, current_user, login_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
-from website.models import CandidatesUserObj, CandidatesDesiredLanguagesObj, CandidatesUploadedCandidatesObj, CandidatesAssessmentsCreatedObj
+from website.models import CandidatesUserObj, CandidatesDesiredLanguagesObj, CandidatesUploadedCandidatesObj, CandidatesAssessmentsCreatedObj, CandidatesRequestLanguageObj
 from website.backend.candidates.browser import browser_response_set_cookie_function
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
@@ -25,6 +25,7 @@ from website.backend.candidates.send_emails import send_email_template_function
 from werkzeug.security import generate_password_hash
 import pandas as pd
 from website.backend.candidates.string_manipulation import all_question_candidate_categories_sorted_function
+from website.backend.candidates.sqlalchemy_manipulation import pull_desired_languages_arr_function
 # ------------------------ imports end ------------------------
 
 
@@ -517,6 +518,16 @@ def candidates_assessment_create_new_function():
   query_result_arr_of_dicts = select_general_function('select_all_candidate_categories_chosen')
   candidate_categories_arr = all_question_candidate_categories_sorted_function(query_result_arr_of_dicts)
   # ------------------------ pull all categories associated with candidates end ------------------------
+  # ------------------------ pull all categories requested start ------------------------
+  requested_languages_obj = CandidatesRequestLanguageObj.query.filter_by(approved_to_view=True).all()
+  requested_languages_arr = pull_desired_languages_arr_function(requested_languages_obj)
+  # ------------------------ pull all categories requested end ------------------------
+  # ------------------------ combine lists categories exist and requested start ------------------------
+  for i in requested_languages_arr:
+    if i not in candidate_categories_arr:
+      candidate_categories_arr.append(i)
+  candidate_categories_arr = sorted(candidate_categories_arr)
+  # ------------------------ combine lists categories exist and requested end ------------------------
   create_assessment_error_statement = ''
   # ------------------------ post method hit start ------------------------
   if request.method == 'POST':
