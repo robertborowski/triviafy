@@ -18,18 +18,21 @@
 
 
 
-/* - - - - - - - - - - tutorial start */
+/* - - - - - - - - - - dropdown list start */
 .create-assessment-dropdown-check-list {
+  /* border: 1px solid black; */
   display: inline-block;
 }
-.create-assessment-dropdown-check-list .create-assessment-anchor {
+.create-assessment-dropdown-check-list .create-assessment-anchor-span {
+  /* border: 1px solid black; */
   position: relative;
   cursor: pointer;
   display: inline-block;
   padding: 5px 50px 5px 10px;
   border: 1px solid #ccc;
 }
-.create-assessment-dropdown-check-list .create-assessment-anchor:after {
+.create-assessment-dropdown-check-list .create-assessment-anchor-span:after {
+  /* border: 1px solid black; */
   position: absolute;
   content: "";
   border-left: 2px solid black;
@@ -43,11 +46,13 @@
   -webkit-transform: rotate(-135deg);
   transform: rotate(-135deg);
 }
-.create-assessment-dropdown-check-list .create-assessment-anchor:active:after {
+.create-assessment-dropdown-check-list .create-assessment-anchor-span:active:after {
+  /* border: 1px solid black; */
   right: 8px;
   top: 21%;
 }
 .create-assessment-dropdown-check-list ul.create-assessment-items {
+  /* border: 1px solid black; */
   padding: 2px;
   display: none;
   margin: 0;
@@ -56,15 +61,18 @@
   text-align: left;
 }
 .create-assessment-dropdown-check-list ul.create-assessment-items li {
+  /* border: 1px solid black; */
   list-style: none;
 }
-.create-assessment-dropdown-check-list.visible .create-assessment-anchor {
-  color: #0094ff;
+.create-assessment-dropdown-check-list.visible .create-assessment-anchor-span {
+  /* border: 1px solid black; */
+  color: var(--company-primary-color);
 }
 .create-assessment-dropdown-check-list.visible .create-assessment-items {
+  /* border: 1px solid black; */
   display: block;
 }
-/* - - - - - - - - - - tutorial end */
+/* - - - - - - - - - - dropdown list end */
 
 
 /* - - - - - - - - - - assessment create end */
