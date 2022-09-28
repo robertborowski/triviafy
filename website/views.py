@@ -24,6 +24,7 @@ from website.backend.candidates.user_inputs import sanitize_email_function, sani
 from website.backend.candidates.send_emails import send_email_template_function
 from werkzeug.security import generate_password_hash
 import pandas as pd
+from website.backend.candidates.string_manipulation import all_question_candidate_categories_sorted_function
 # ------------------------ imports end ------------------------
 
 
@@ -511,6 +512,10 @@ def candidates_assessment_create_new_function():
   if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
     localhost_print_function('=========================================== candidates_account_settings_function END ===========================================')
     return redirect(url_for('views.capacity_page_function'))
+  # ------------------------ pull all categories associated with candidates start ------------------------
+  query_result_arr_of_dicts = select_general_function('select_all_candidate_categories_chosen')
+  candidate_categories_arr = all_question_candidate_categories_sorted_function(query_result_arr_of_dicts)
+  # ------------------------ pull all categories associated with candidates end ------------------------
   # ------------------------ individual redirect end ------------------------
   create_assessment_error_statement = ''
   # ------------------------ post method hit start ------------------------
@@ -532,7 +537,7 @@ def candidates_assessment_create_new_function():
         assessment_name=ui_assessment_name,
         desired_languages_arr = 'Python',
         total_questions = 10,
-        delivery_type = 'standard',
+        delivery_type = 'default',
         question_ids_arr = '123,456,789,101'
       )
       db.session.add(new_row)
@@ -540,6 +545,6 @@ def candidates_assessment_create_new_function():
     # ------------------------ create new assessment in db end ------------------------
   # ------------------------ post method hit end ------------------------
   localhost_print_function('=========================================== candidates_account_settings_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_create_new_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name)
+  return render_template('candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_create_new_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name, error_message_to_html=create_assessment_error_statement, candidate_categories_arr_to_html=candidate_categories_arr)
 # ------------------------ individual route end ------------------------
 # ------------------------ routes logged in end ------------------------

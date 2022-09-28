@@ -23,6 +23,13 @@
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title end -->
 
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message start -->
+<div class="error-message-section">
+  <p>{{ error_message_to_html }}</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message end -->
+
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
 <div class="general-spacer-section"></div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
@@ -34,6 +41,27 @@
     <div class="create-assessment-user-input-section">
       <label for="create_assessment_page_ui_name"></label>
       <input type="text" id="create_assessment_page_ui_name" name="create_assessment_page_ui_name" class="candidates-default-text-input" placeholder="Assessment name" value="{{ redirect_var_first_name }}" title="Assessment name needs to be 2-50 characters" pattern="^[\w\s-]{2,50}$" />
+    </div>
+
+    <div class="create-assessment-user-input-section">
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - tutorial start -->
+      <!-- link: https://stackoverflow.com/questions/19206919/how-to-create-checkbox-inside-dropdown -->
+      <div id="list1" class="dropdown-check-list" tabindex="100">
+        <span class="anchor">Select desired languages</span>
+        <ul class="items">
+          {% for i in candidate_categories_arr_to_html %}
+          <li><input type="checkbox" />{{ i }}</li>
+          {% endfor %}
+          <!-- <li><input type="checkbox" />Apple </li>
+          <li><input type="checkbox" />Orange</li>
+          <li><input type="checkbox" />Grapes </li>
+          <li><input type="checkbox" />Berry </li>
+          <li><input type="checkbox" />Mango </li>
+          <li><input type="checkbox" />Banana </li>
+          <li><input type="checkbox" />Tomato</li> -->
+        </ul>
+      </div>
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - tutorial end -->
     </div>
 
     <div class="create-assessment-user-input-button-section">

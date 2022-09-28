@@ -24,6 +24,9 @@ def select_general_function(tag_query_to_use):
     'select_if_desired_languages_captured': {
       'raw_query': 'SELECT desired_languages FROM candidates_desired_languages_obj WHERE user_id_fk = :val ORDER BY created_timestamp DESC',
       'input_args': {'val': current_user.id}
+    },'select_all_candidate_categories_chosen': {
+      'raw_query': "SELECT DISTINCT q.question_categories_list FROM triviafy_all_questions_table AS q WHERE q.question_categories_list LIKE'%Candidates' ORDER BY q.question_categories_list;",
+      'input_args': {}
     }
   }
   # ------------------------ select queries end ------------------------
