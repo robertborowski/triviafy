@@ -512,11 +512,11 @@ def candidates_assessment_create_new_function():
   if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
     localhost_print_function('=========================================== candidates_account_settings_function END ===========================================')
     return redirect(url_for('views.capacity_page_function'))
+  # ------------------------ individual redirect end ------------------------
   # ------------------------ pull all categories associated with candidates start ------------------------
   query_result_arr_of_dicts = select_general_function('select_all_candidate_categories_chosen')
   candidate_categories_arr = all_question_candidate_categories_sorted_function(query_result_arr_of_dicts)
   # ------------------------ pull all categories associated with candidates end ------------------------
-  # ------------------------ individual redirect end ------------------------
   create_assessment_error_statement = ''
   # ------------------------ post method hit start ------------------------
   if request.method == 'POST':
