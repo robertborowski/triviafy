@@ -19,17 +19,17 @@
 
 
 /* - - - - - - - - - - tutorial start */
-.dropdown-check-list {
+.create-assessment-dropdown-check-list {
   display: inline-block;
 }
-.dropdown-check-list .anchor {
+.create-assessment-dropdown-check-list .create-assessment-anchor {
   position: relative;
   cursor: pointer;
   display: inline-block;
   padding: 5px 50px 5px 10px;
   border: 1px solid #ccc;
 }
-.dropdown-check-list .anchor:after {
+.create-assessment-dropdown-check-list .create-assessment-anchor:after {
   position: absolute;
   content: "";
   border-left: 2px solid black;
@@ -43,11 +43,11 @@
   -webkit-transform: rotate(-135deg);
   transform: rotate(-135deg);
 }
-.dropdown-check-list .anchor:active:after {
+.create-assessment-dropdown-check-list .create-assessment-anchor:active:after {
   right: 8px;
   top: 21%;
 }
-.dropdown-check-list ul.items {
+.create-assessment-dropdown-check-list ul.create-assessment-items {
   padding: 2px;
   display: none;
   margin: 0;
@@ -55,13 +55,13 @@
   border-top: none;
   text-align: left;
 }
-.dropdown-check-list ul.items li {
+.create-assessment-dropdown-check-list ul.create-assessment-items li {
   list-style: none;
 }
-.dropdown-check-list.visible .anchor {
+.create-assessment-dropdown-check-list.visible .create-assessment-anchor {
   color: #0094ff;
 }
-.dropdown-check-list.visible .items {
+.create-assessment-dropdown-check-list.visible .create-assessment-items {
   display: block;
 }
 /* - - - - - - - - - - tutorial end */

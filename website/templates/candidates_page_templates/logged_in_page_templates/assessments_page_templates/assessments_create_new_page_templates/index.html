@@ -46,19 +46,12 @@
     <div class="create-assessment-user-input-section">
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - tutorial start -->
       <!-- link: https://stackoverflow.com/questions/19206919/how-to-create-checkbox-inside-dropdown -->
-      <div id="list1" class="dropdown-check-list" tabindex="100">
-        <span class="anchor">Select desired languages</span>
-        <ul class="items">
+      <div id="create-assessment-choose-lang-list1" class="create-assessment-dropdown-check-list" tabindex="100">
+        <span class="create-assessment-anchor">Select desired languages</span>
+        <ul class="create-assessment-items">
           {% for i in candidate_categories_arr_to_html %}
           <li><input type="checkbox" />{{ i }}</li>
           {% endfor %}
-          <!-- <li><input type="checkbox" />Apple </li>
-          <li><input type="checkbox" />Orange</li>
-          <li><input type="checkbox" />Grapes </li>
-          <li><input type="checkbox" />Berry </li>
-          <li><input type="checkbox" />Mango </li>
-          <li><input type="checkbox" />Banana </li>
-          <li><input type="checkbox" />Tomato</li> -->
         </ul>
       </div>
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - tutorial end -->
