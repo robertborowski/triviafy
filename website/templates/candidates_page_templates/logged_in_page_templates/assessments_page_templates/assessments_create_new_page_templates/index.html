@@ -50,7 +50,10 @@
         <span class="create-assessment-anchor-span">Select desired languages</span>
         <ul class="create-assessment-items">
           {% for i in candidate_categories_arr_to_html %}
-          <li><input type="checkbox" />{{ i }}</li>
+          <li>
+            <input type="checkbox" id="testLabelAdded" name="testLabelAdded" value="{{ i }}"/>{{ i }}
+            <label for="testLabelAdded"></label>
+          </li>
           {% endfor %}
         </ul>
       </div>

@@ -533,6 +533,12 @@ def candidates_assessment_create_new_function():
   if request.method == 'POST':
     # ------------------------ get form user inputs start ------------------------
     ui_assessment_name = request.form.get('create_assessment_page_ui_name')
+    ui_desired_languages_checkboxes = request.form.get('testLabelAdded')
+    localhost_print_function('- - - - - - - 0 - - - - - - -')
+    localhost_print_function('ui_desired_languages_checkboxes')
+    localhost_print_function(ui_desired_languages_checkboxes)
+    localhost_print_function(type(ui_desired_languages_checkboxes))
+    localhost_print_function('- - - - - - - 0 - - - - - - -')
     # ------------------------ get form user inputs end ------------------------
     # ------------------------ sanitize/check user inputs start ------------------------
     ui_assessment_name_cleaned = sanitize_create_account_text_inputs_large_function(ui_assessment_name)
