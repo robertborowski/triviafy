@@ -528,6 +528,13 @@ def candidates_assessment_create_new_function():
       candidate_categories_arr.append(i)
   candidate_categories_arr = sorted(candidate_categories_arr)
   # ------------------------ combine lists categories exist and requested end ------------------------
+  # ------------------------ break down array for html columns start ------------------------
+  len_candidate_categories_arr = len(candidate_categories_arr)
+  rows_per_col = int((len_candidate_categories_arr / 3) + 1)
+  candidate_categories_arr_1 = candidate_categories_arr[:rows_per_col]
+  candidate_categories_arr_2 = candidate_categories_arr[rows_per_col:rows_per_col*2]
+  candidate_categories_arr_3 = candidate_categories_arr[rows_per_col*2:]
+  # ------------------------ break down array for html columns end ------------------------
   create_assessment_error_statement = ''
   # ------------------------ post method hit start ------------------------
   if request.method == 'POST':
@@ -567,6 +574,6 @@ def candidates_assessment_create_new_function():
     # ------------------------ create new assessment in db end ------------------------
   # ------------------------ post method hit end ------------------------
   localhost_print_function('=========================================== candidates_account_settings_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_create_new_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name, error_message_to_html=create_assessment_error_statement, candidate_categories_arr_to_html=candidate_categories_arr)
+  return render_template('candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_create_new_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name, error_message_to_html=create_assessment_error_statement, candidate_categories_arr_1_to_html=candidate_categories_arr_1, candidate_categories_arr_2_to_html=candidate_categories_arr_2, candidate_categories_arr_3_to_html=candidate_categories_arr_3)
 # ------------------------ individual route end ------------------------
 # ------------------------ routes logged in end ------------------------

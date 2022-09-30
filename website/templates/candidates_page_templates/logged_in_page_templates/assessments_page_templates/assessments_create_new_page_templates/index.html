@@ -49,12 +49,35 @@
       <div id="create-assessment-choose-lang-list1" class="create-assessment-dropdown-check-list" tabindex="100">
         <span class="create-assessment-anchor-span">Select desired languages</span>
         <ul class="create-assessment-items">
-          {% for i in candidate_categories_arr_to_html %}
-          <li>
-            <input type="checkbox" id="testLabelAdded" name="testLabelAdded" value="{{ i }}"/>{{ i }}
-            <label for="testLabelAdded"></label>
-          </li>
-          {% endfor %}
+          
+          <div class="create-assessment-items-col1">
+            {% for i in candidate_categories_arr_1_to_html %}
+            <li>
+              <input type="checkbox" id="testLabelAdded" name="testLabelAdded" value="{{ i }}"/>{{ i }}
+              <label for="testLabelAdded"></label>
+            </li>
+            {% endfor %}
+          </div>
+
+          <div class="create-assessment-items-col2">
+            {% for i in candidate_categories_arr_2_to_html %}
+            <li>
+              <input type="checkbox" id="testLabelAdded" name="testLabelAdded" value="{{ i }}"/>{{ i }}
+              <label for="testLabelAdded"></label>
+            </li>
+            {% endfor %}
+          </div>
+
+
+          <div class="create-assessment-items-col3">
+            {% for i in candidate_categories_arr_3_to_html %}
+            <li>
+              <input type="checkbox" id="testLabelAdded" name="testLabelAdded" value="{{ i }}"/>{{ i }}
+              <label for="testLabelAdded"></label>
+            </li>
+            {% endfor %}
+          </div>
+
         </ul>
       </div>
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - tutorial end -->
