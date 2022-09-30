@@ -123,6 +123,18 @@ def sanitize_create_account_text_inputs_large_function(user_input):
 
 
 # ------------------------ individual function start ------------------------
+def sanitize_loop_check_if_exists_within_arr_function(user_input_arr, correct_master_arr):
+  localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function START ===========================================')
+  for i_str in user_input_arr:
+    if i_str not in correct_master_arr:
+      localhost_print_function('user input provided is not an option')
+      return False
+  localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function END ===========================================')
+  return user_input_arr
+# ------------------------ individual function end ------------------------
+
+
+# ------------------------ individual function start ------------------------
 def validate_upload_candidate_function(db, current_user, ui_email, user_input_type):
   localhost_print_function('=========================================== validate_upload_candidate_function START ===========================================')
   candidate_upload_error_statement = ''

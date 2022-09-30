@@ -20,7 +20,7 @@ from website.backend.candidates.browser import browser_response_set_cookie_funct
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
 from website import db
-from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function, sanitize_create_account_text_inputs_function, sanitize_create_account_text_inputs_large_function, validate_upload_candidate_function
+from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function, sanitize_create_account_text_inputs_function, sanitize_create_account_text_inputs_large_function, validate_upload_candidate_function, sanitize_loop_check_if_exists_within_arr_function
 from website.backend.candidates.send_emails import send_email_template_function
 from werkzeug.security import generate_password_hash
 import pandas as pd
@@ -533,17 +533,22 @@ def candidates_assessment_create_new_function():
   if request.method == 'POST':
     # ------------------------ get form user inputs start ------------------------
     ui_assessment_name = request.form.get('create_assessment_page_ui_name')
-    ui_desired_languages_checkboxes = request.form.get('testLabelAdded')
-    localhost_print_function('- - - - - - - 0 - - - - - - -')
-    localhost_print_function('ui_desired_languages_checkboxes')
-    localhost_print_function(ui_desired_languages_checkboxes)
-    localhost_print_function(type(ui_desired_languages_checkboxes))
-    localhost_print_function('- - - - - - - 0 - - - - - - -')
+    ui_desired_languages_checkboxes_arr = request.form.getlist('testLabelAdded')
     # ------------------------ get form user inputs end ------------------------
     # ------------------------ sanitize/check user inputs start ------------------------
+    # ------------------------ sanitize/check name start ------------------------
     ui_assessment_name_cleaned = sanitize_create_account_text_inputs_large_function(ui_assessment_name)
     if ui_assessment_name_cleaned == False:
-      create_assessment_error_statement = 'Please enter a valid work email.'
+      create_assessment_error_statement = 'Please fill out all required fields.'
+    # ------------------------ sanitize/check name end ------------------------
+    # ------------------------ sanitize/check desired languages start ------------------------
+    ui_desired_languages_checkboxes_arr = sanitize_loop_check_if_exists_within_arr_function(ui_desired_languages_checkboxes_arr, candidate_categories_arr)
+    if ui_desired_languages_checkboxes_arr == [] or ui_desired_languages_checkboxes_arr == False:
+      create_assessment_error_statement = 'Please fill out all required fields.'
+    ui_desired_languages_checkboxes_str = ''
+    if ui_desired_languages_checkboxes_arr != False:
+      ui_desired_languages_checkboxes_str = ','.join(ui_desired_languages_checkboxes_arr)
+    # ------------------------ sanitize/check desired languages end ------------------------
     # ------------------------ sanitize/check user inputs end ------------------------
     # ------------------------ create new assessment in db start ------------------------
     if ui_assessment_name_cleaned != False:
@@ -552,7 +557,7 @@ def candidates_assessment_create_new_function():
         created_timestamp=create_timestamp_function(),
         user_id_fk=current_user.id,
         assessment_name=ui_assessment_name,
-        desired_languages_arr = 'Python',
+        desired_languages_arr = ui_desired_languages_checkboxes_str,
         total_questions = 10,
         delivery_type = 'default',
         question_ids_arr = '123,456,789,101'
