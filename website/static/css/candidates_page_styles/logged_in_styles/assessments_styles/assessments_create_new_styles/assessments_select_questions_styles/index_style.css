@@ -23,12 +23,22 @@
   text-align: center;
 }
 .select-question-img {
-  border: 1px solid black;
+  /* border: 1px solid black; */
   max-width: 500px;
   max-height: 500px;
   width: 100%;
+  border-radius: 10px;
 }
 .select-questions-button-section {
   text-align: center;
+}
+.select-question-header {
+  border: 1px solid black;
+}
+.select-question-body {
+  border: 1px solid blue;
+}
+.select-question-footer {
+  border: 1px solid purple;
 }
 /* - - - - - - - - - - assessment create end */

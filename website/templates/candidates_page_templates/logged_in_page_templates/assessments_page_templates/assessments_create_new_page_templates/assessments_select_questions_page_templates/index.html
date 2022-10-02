@@ -42,16 +42,20 @@
     {% for i in query_result_arr_of_dicts_to_html %}
     <div class="select-question-container">
       <div class="select-question-left-side">
-        <p>{{ i['question_title'] }}</p>
-        <p>{{ i['question_categories_list'] }}</p>
-        <p>{{ i['question_difficulty'] }}</p>
-        <p>{{ i['question_actual_question'] }}</p>
-        <p>{{ i['question_hint'] }}</p>
-        <p>{{ i['question_answers_list'] }}</p>
-        <p>{{ i['question_uuid'] }}</p>
+        <div class="select-question-header">
+          <p>{{ i['question_title'] }}</p>
+          <p>{{ i['question_categories_list'] }}</p>
+          <p>{{ i['question_difficulty'] }}</p>
+        </div>
+        <div class="select-question-body">
+          <p>{{ i['question_actual_question'] }}</p>
+        </div>
+        <div class="select-question-footer">
+          <p>{{ i['question_answers_list'] }}</p>
+        </div>
       </div>
       <div class="select-question-right-side">
-        <img src="{{ i['question_image_aws_url'] }}" alt="" class="select-question-img">
+        <img src="{{ i['question_image_aws_url'] }}" alt="" class="select-question-img candidates-default-box-shadow-grey-regular">
       </div>
     </div>
     {% endfor %}
