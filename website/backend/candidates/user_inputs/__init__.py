@@ -113,7 +113,10 @@ def sanitize_create_account_text_inputs_function(user_input):
 # ------------------------ individual function start ------------------------
 def sanitize_create_account_text_inputs_large_function(user_input):
   localhost_print_function('=========================================== sanitize_create_account_text_inputs_large_function START ===========================================')
-  desired_regex_pattern = "^[\w\s-]{0,50}$"
+  if len(user_input) == 0:
+    localhost_print_function('=========================================== sanitize_create_account_text_inputs_function END ===========================================')
+    return False
+  desired_regex_pattern = "^[\w\s-]{1,50}$"
   if(re.fullmatch(desired_regex_pattern, user_input)):
     localhost_print_function('=========================================== sanitize_create_account_text_inputs_large_function END ===========================================')
     return user_input

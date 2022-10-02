@@ -76,7 +76,7 @@
 }
 .create-assessment-dropdown-check-list ul.create-assessment-items {
   /* border: 1px solid red; */
-  padding: 10px;
+  padding: 15px;
   display: none;
   margin: 0;
   border: 1px solid #ccc;
@@ -90,6 +90,9 @@
 .create-assessment-dropdown-check-list ul.create-assessment-items li {
   /* border: 1px solid black; */
   list-style: none;
+}
+.create-assessment-dropdown-check-list ul.create-assessment-items li input {
+  margin: 0 5px 0 0;
 }
 .create-assessment-dropdown-check-list.visible .create-assessment-anchor-span {
   /* border: 1px solid black; */
