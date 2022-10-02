@@ -9,7 +9,7 @@ localhost_print_function('=========================================== sql_statem
 
 
 # ------------------------ individual function start ------------------------
-def select_general_function(tag_query_to_use):
+def select_general_function(tag_query_to_use, additional_inputs=[None, None]):
   localhost_print_function('=========================================== select_general_function START ===========================================')
   # ------------------------ select queries start ------------------------
   select_queries_dict = {
@@ -26,6 +26,18 @@ def select_general_function(tag_query_to_use):
       'input_args': {'val': current_user.id}
     },'select_all_candidate_categories_chosen': {
       'raw_query': "SELECT DISTINCT q.question_categories_list FROM triviafy_all_questions_table AS q WHERE q.question_categories_list LIKE'%Candidates' ORDER BY q.question_categories_list;",
+      'input_args': {}
+    },'select_all_questions_for_x_categories': {
+      'raw_query': f"SELECT \
+                      question_uuid, question_categories_list, question_actual_question, question_answers_list, question_difficulty, question_hint, question_title, question_image_aws_url \
+                    FROM \
+                      triviafy_all_questions_table \
+                    WHERE \
+                      (question_approved_for_release = TRUE AND question_status_for_creator = 'Approved') \
+                      AND ({additional_inputs[0]}) \
+                    ORDER BY \
+                      RANDOM() \
+                    LIMIT 10;",
       'input_args': {}
     }
   }

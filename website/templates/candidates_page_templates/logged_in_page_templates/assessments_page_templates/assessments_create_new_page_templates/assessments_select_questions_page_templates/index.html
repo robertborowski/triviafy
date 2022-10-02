@@ -38,6 +38,13 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
 <div class="create-assessment-form-container">
   <form method="POST" class="create-assessment-form">
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select questions arr start -->
+    {% for i in query_result_arr_of_dicts_to_html %}
+    <div class="select-question-container">
+      <p>{{ i['question_uuid'] }}</p>
+    </div>
+    {% endfor %}
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select questions arr end -->
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - submit button start -->
     <div class="create-assessment-user-input-button-section">
       <button type="submit" class="default-button-format default-button-format-primary-color">Save Assessment</button>

@@ -614,13 +614,30 @@ def candidates_assessment_select_questions_function(url_assessment_name):
     return redirect(url_for('views.dashboard_test_login_page_function'))
   # ------------------------ invalid url_assessment_name end ------------------------
   select_questions_error_statement = ''
-  # ------------------------ get assessment obj details start ------------------------  
+  # ------------------------ get assessment obj details start ------------------------
   db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(assessment_name=url_assessment_name,user_id_fk=current_user.id).first()
   db_assessment_obj_id = db_assessment_obj.id
   db_assessment_obj_name = db_assessment_obj.assessment_name
   db_assessment_obj_desired_langs = db_assessment_obj.desired_languages_arr
   # ------------------------ get assessment obj details end ------------------------
+  # ------------------------ prepare where statement start ------------------------
+  where_clause_arr = []
+  desired_langs_arr = db_assessment_obj_desired_langs.split(',')
+  master_where_statement = ''
+  for i in range(len(desired_langs_arr)):
+    if i == (len(desired_langs_arr) - 1):
+      master_where_statement += f"(question_categories_list LIKE '%{desired_langs_arr[i]}%' AND question_categories_list LIKE '%Candidates%')"
+    else:
+      master_where_statement += f"(question_categories_list LIKE '%{desired_langs_arr[i]}%' AND question_categories_list LIKE '%Candidates%') OR "
+  where_clause_arr.append(master_where_statement)
+  # ------------------------ prepare where statement end ------------------------
+  # ------------------------ prepare where statement exclude start ------------------------
+  where_clause_arr.append('123')
+  # ------------------------ prepare where statement exclude end ------------------------
+  # ------------------------ pull question obj from db start ------------------------
+  query_result_arr_of_dicts = select_general_function('select_all_questions_for_x_categories', where_clause_arr)
+  # ------------------------ pull question obj from db end ------------------------
   localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_create_new_page_templates/assessments_select_questions_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=select_questions_error_statement)
+  return render_template('candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_create_new_page_templates/assessments_select_questions_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=select_questions_error_statement, query_result_arr_of_dicts_to_html=query_result_arr_of_dicts)
 # ------------------------ individual route end ------------------------
 # ------------------------ routes logged in end ------------------------
