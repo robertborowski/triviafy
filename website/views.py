@@ -496,12 +496,12 @@ def candidates_assessments_analytics_function():
 @views.route('/candidates/assessment/new', methods=['GET', 'POST'])
 @login_required
 def candidates_assessment_create_new_function():
-  localhost_print_function('=========================================== candidates_account_settings_function START ===========================================')
+  localhost_print_function('=========================================== candidates_assessment_create_new_function START ===========================================')
   # ------------------------ individual redirect start ------------------------
   query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
   check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
   if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
-    localhost_print_function('=========================================== candidates_account_settings_function END ===========================================')
+    localhost_print_function('=========================================== candidates_assessment_create_new_function END ===========================================')
     return redirect(url_for('views.capacity_page_function'))
   # ------------------------ individual redirect end ------------------------
   # ------------------------ individual redirect start ------------------------
@@ -511,7 +511,7 @@ def candidates_assessment_create_new_function():
   except:
     check_desired_languages_value = None
   if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
-    localhost_print_function('=========================================== candidates_account_settings_function END ===========================================')
+    localhost_print_function('=========================================== candidates_assessment_create_new_function END ===========================================')
     return redirect(url_for('views.capacity_page_function'))
   # ------------------------ individual redirect end ------------------------
   # ------------------------ pull all categories associated with candidates start ------------------------
@@ -548,6 +548,13 @@ def candidates_assessment_create_new_function():
     if ui_assessment_name_cleaned == False:
       create_assessment_error_statement = 'Please fill out all required fields.'
     # ------------------------ sanitize/check name end ------------------------
+    # ------------------------ check if assessment name already exists for user start ------------------------
+    if ui_assessment_name_cleaned != False:
+      user_assessment_name_already_exists = CandidatesAssessmentsCreatedObj.query.filter_by(assessment_name=ui_assessment_name,user_id_fk=current_user.id).first()
+      if user_assessment_name_already_exists != None:
+        ui_assessment_name_cleaned = False
+        create_assessment_error_statement = f'Assessment name "{ui_assessment_name}" already exists.'
+    # ------------------------ check if assessment name already exists for user end ------------------------
     # ------------------------ sanitize/check desired languages start ------------------------
     ui_desired_languages_checkboxes_arr = sanitize_loop_check_if_exists_within_arr_function(ui_desired_languages_checkboxes_arr, candidate_categories_arr)
     if ui_desired_languages_checkboxes_arr == [] or ui_desired_languages_checkboxes_arr == False:
@@ -558,7 +565,7 @@ def candidates_assessment_create_new_function():
     # ------------------------ sanitize/check desired languages end ------------------------
     # ------------------------ sanitize/check user inputs end ------------------------
     # ------------------------ create new assessment in db start ------------------------
-    if ui_assessment_name_cleaned != False:
+    if ui_assessment_name_cleaned != False and ui_desired_languages_checkboxes_arr != False:
       new_row = CandidatesAssessmentsCreatedObj(
         id=create_uuid_function('assessment_'),
         created_timestamp=create_timestamp_function(),
@@ -567,13 +574,40 @@ def candidates_assessment_create_new_function():
         desired_languages_arr = ui_desired_languages_checkboxes_str,
         total_questions = 10,
         delivery_type = 'default',
-        question_ids_arr = '123,456,789,101'
+        question_ids_arr = '1'
       )
       db.session.add(new_row)
       db.session.commit()
     # ------------------------ create new assessment in db end ------------------------
   # ------------------------ post method hit end ------------------------
-  localhost_print_function('=========================================== candidates_account_settings_function END ===========================================')
+  localhost_print_function('=========================================== candidates_assessment_create_new_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_create_new_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name, error_message_to_html=create_assessment_error_statement, candidate_categories_arr_1_to_html=candidate_categories_arr_1, candidate_categories_arr_2_to_html=candidate_categories_arr_2, candidate_categories_arr_3_to_html=candidate_categories_arr_3)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@views.route('/candidates/assessment/new/questions', methods=['GET', 'POST'])
+@login_required
+def candidates_assessment_select_questions_function():
+  localhost_print_function('=========================================== candidates_assessment_select_questions_function START ===========================================')
+  # ------------------------ individual redirect start ------------------------
+  query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
+  check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
+  if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
+    localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
+    return redirect(url_for('views.capacity_page_function'))
+  # ------------------------ individual redirect end ------------------------
+  # ------------------------ individual redirect start ------------------------
+  query_result_arr_of_dicts = select_general_function('select_if_desired_languages_captured')
+  try:
+    check_desired_languages_value = query_result_arr_of_dicts[0]['desired_languages']
+  except:
+    check_desired_languages_value = None
+  if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
+    localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
+    return redirect(url_for('views.capacity_page_function'))
+  # ------------------------ individual redirect end ------------------------
+  select_questions_error_statement = ''
+  localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
+  return render_template('candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_create_new_page_templates/assessments_select_questions_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=select_questions_error_statement)
 # ------------------------ individual route end ------------------------
 # ------------------------ routes logged in end ------------------------

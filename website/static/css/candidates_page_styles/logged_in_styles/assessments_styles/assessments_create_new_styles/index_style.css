@@ -114,5 +114,18 @@
 }
 /* - - - - - - - - - - dropdown list end */
 
-
+.create-assessment-title {
+  /* border: 1px solid red; */
+  font-size: 20px;
+  color: rgb(105, 105, 105);
+}
+.create-assessment-sub-title {
+  /* border: 1px solid red; */
+  font-size: 12px;
+  color: rgb(105, 105, 105);
+}
+.create-assessment-small-spacer {
+  /* border: 1px solid red; */
+  padding: 10px 0 0 0;
+}
 /* - - - - - - - - - - assessment create end */
