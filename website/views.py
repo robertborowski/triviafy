@@ -579,15 +579,17 @@ def candidates_assessment_create_new_function():
       db.session.add(new_row)
       db.session.commit()
     # ------------------------ create new assessment in db end ------------------------
+    localhost_print_function('=========================================== candidates_assessment_create_new_function END ===========================================')
+    return redirect(url_for('views.candidates_assessment_select_questions_function', url_assessment_name=ui_assessment_name))
   # ------------------------ post method hit end ------------------------
   localhost_print_function('=========================================== candidates_assessment_create_new_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_create_new_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name, error_message_to_html=create_assessment_error_statement, candidate_categories_arr_1_to_html=candidate_categories_arr_1, candidate_categories_arr_2_to_html=candidate_categories_arr_2, candidate_categories_arr_3_to_html=candidate_categories_arr_3)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views.route('/candidates/assessment/new/questions', methods=['GET', 'POST'])
+@views.route('/candidates/assessment/new/questions/<url_assessment_name>', methods=['GET', 'POST'])
 @login_required
-def candidates_assessment_select_questions_function():
+def candidates_assessment_select_questions_function(url_assessment_name):
   localhost_print_function('=========================================== candidates_assessment_select_questions_function START ===========================================')
   # ------------------------ individual redirect start ------------------------
   query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
@@ -606,7 +608,18 @@ def candidates_assessment_select_questions_function():
     localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
     return redirect(url_for('views.capacity_page_function'))
   # ------------------------ individual redirect end ------------------------
+  # ------------------------ invalid url_assessment_name start ------------------------
+  if url_assessment_name == False or url_assessment_name == None or url_assessment_name == '':
+    localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
+    return redirect(url_for('views.dashboard_test_login_page_function'))
+  # ------------------------ invalid url_assessment_name end ------------------------
   select_questions_error_statement = ''
+  # ------------------------ get assessment obj details start ------------------------  
+  db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(assessment_name=url_assessment_name,user_id_fk=current_user.id).first()
+  db_assessment_obj_id = db_assessment_obj.id
+  db_assessment_obj_name = db_assessment_obj.assessment_name
+  db_assessment_obj_desired_langs = db_assessment_obj.desired_languages_arr
+  # ------------------------ get assessment obj details end ------------------------
   localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_create_new_page_templates/assessments_select_questions_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=select_questions_error_statement)
 # ------------------------ individual route end ------------------------
