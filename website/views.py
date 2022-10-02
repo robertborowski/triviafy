@@ -565,7 +565,7 @@ def candidates_assessment_create_new_function():
     # ------------------------ sanitize/check desired languages end ------------------------
     # ------------------------ sanitize/check user inputs end ------------------------
     # ------------------------ create new assessment in db start ------------------------
-    if ui_assessment_name_cleaned != False and ui_desired_languages_checkboxes_arr != False:
+    if ui_assessment_name_cleaned != False and ui_desired_languages_checkboxes_arr != False and ui_desired_languages_checkboxes_arr != []:
       new_row = CandidatesAssessmentsCreatedObj(
         id=create_uuid_function('assessment_'),
         created_timestamp=create_timestamp_function(),
@@ -578,9 +578,9 @@ def candidates_assessment_create_new_function():
       )
       db.session.add(new_row)
       db.session.commit()
-    # ------------------------ create new assessment in db end ------------------------
-    localhost_print_function('=========================================== candidates_assessment_create_new_function END ===========================================')
-    return redirect(url_for('views.candidates_assessment_select_questions_function', url_assessment_name=ui_assessment_name))
+      # ------------------------ create new assessment in db end ------------------------
+      localhost_print_function('=========================================== candidates_assessment_create_new_function END ===========================================')
+      return redirect(url_for('views.candidates_assessment_select_questions_function', url_assessment_name=ui_assessment_name))
   # ------------------------ post method hit end ------------------------
   localhost_print_function('=========================================== candidates_assessment_create_new_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_create_new_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name, error_message_to_html=create_assessment_error_statement, candidate_categories_arr_1_to_html=candidate_categories_arr_1, candidate_categories_arr_2_to_html=candidate_categories_arr_2, candidate_categories_arr_3_to_html=candidate_categories_arr_3)

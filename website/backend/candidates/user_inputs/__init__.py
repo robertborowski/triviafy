@@ -128,9 +128,13 @@ def sanitize_create_account_text_inputs_large_function(user_input):
 # ------------------------ individual function start ------------------------
 def sanitize_loop_check_if_exists_within_arr_function(user_input_arr, correct_master_arr):
   localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function START ===========================================')
+  if len(user_input_arr) == 0:
+    localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function END ===========================================')
+    return False
   for i_str in user_input_arr:
     if i_str not in correct_master_arr:
       localhost_print_function('user input provided is not an option')
+      localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function END ===========================================')
       return False
   localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function END ===========================================')
   return user_input_arr

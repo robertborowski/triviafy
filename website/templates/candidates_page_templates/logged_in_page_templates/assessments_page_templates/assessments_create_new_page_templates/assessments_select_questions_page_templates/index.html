@@ -36,24 +36,35 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
-<div class="create-assessment-form-container">
-  <form method="POST" class="create-assessment-form">
+<div class="select-questions-form-container">
+  <form method="POST" class="select-questions-form">
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select questions arr start -->
     {% for i in query_result_arr_of_dicts_to_html %}
     <div class="select-question-container">
-      <p>{{ i['question_uuid'] }}</p>
+      <div class="select-question-left-side">
+        <p>{{ i['question_title'] }}</p>
+        <p>{{ i['question_categories_list'] }}</p>
+        <p>{{ i['question_difficulty'] }}</p>
+        <p>{{ i['question_actual_question'] }}</p>
+        <p>{{ i['question_hint'] }}</p>
+        <p>{{ i['question_answers_list'] }}</p>
+        <p>{{ i['question_uuid'] }}</p>
+      </div>
+      <div class="select-question-right-side">
+        <img src="{{ i['question_image_aws_url'] }}" alt="" class="select-question-img">
+      </div>
     </div>
     {% endfor %}
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select questions arr end -->
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - submit button start -->
-    <div class="create-assessment-user-input-button-section">
+    <div class="select-questions-button-section">
       <button type="submit" class="default-button-format default-button-format-primary-color">Save Assessment</button>
     </div>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - submit button end -->
   </form>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page end -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
 <div class="general-spacer-section-large"></div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page end -->
 {% endblock %}
