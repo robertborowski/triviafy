@@ -26,6 +26,7 @@ from werkzeug.security import generate_password_hash
 import pandas as pd
 from website.backend.candidates.string_manipulation import all_question_candidate_categories_sorted_function
 from website.backend.candidates.sqlalchemy_manipulation import pull_desired_languages_arr_function
+from website.backend.candidates.dict_manipulation import question_arr_of_dicts_manipulations_function
 # ------------------------ imports end ------------------------
 
 
@@ -636,6 +637,7 @@ def candidates_assessment_select_questions_function(url_assessment_name):
   # ------------------------ prepare where statement exclude end ------------------------
   # ------------------------ pull question obj from db start ------------------------
   query_result_arr_of_dicts = select_general_function('select_all_questions_for_x_categories', where_clause_arr)
+  query_result_arr_of_dicts = question_arr_of_dicts_manipulations_function(query_result_arr_of_dicts)
   # ------------------------ pull question obj from db end ------------------------
   localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_create_new_page_templates/assessments_select_questions_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=select_questions_error_statement, query_result_arr_of_dicts_to_html=query_result_arr_of_dicts)
