@@ -63,6 +63,10 @@ span.span-question-difficulty {
   margin: 0 0 5px 0;
 }
 .select-questions-button-section {
+  display: none;
+}
+.select-questions-button-section.active {
+  display: block;
   text-align: center;
 }
 /* - - - - - - - - - - assessment create end */
