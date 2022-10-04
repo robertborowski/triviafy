@@ -43,9 +43,14 @@
     <div class="select-question-container">
       <div class="select-question-left-side">
         <div class="select-question-header">
-          <p>Q{{ i['question_counter'] }}: {{ i['question_title'] }}</p>
-          <p>{{ i['question_categories_list'] }}</p>
-          <p>{{ i['question_difficulty'] }}</p>
+          <p>Q{{ i['question_counter'] }}: {{ i['question_title'] }}
+            <span class="quiz-question-sub-section-difficulty">({{ i['question_difficulty'] }})</span>
+          </p>
+          <p>Categories:
+            {% for category_tuple in i['question_categories_list'] %}
+              <span class="span-candidates-question-category-general span-candidates-question-category-{{ category_tuple[1] }}">{{ category_tuple[0] }}</span>
+            {% endfor %}
+          </p>
         </div>
         <div class="select-question-body">
           <p>{{ i['question_actual_question'] }}</p>
