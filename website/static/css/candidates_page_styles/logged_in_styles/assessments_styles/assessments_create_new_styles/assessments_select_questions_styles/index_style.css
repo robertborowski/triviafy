@@ -62,6 +62,18 @@ span.span-question-difficulty {
   font-size: 10px;
   margin: 0 0 5px 0;
 }
+.select-questions-button-stand-in-section {
+  /* border: 1px solid black; */
+  text-align: center;
+  display: block;
+}
+.select-questions-button-stand-in-section.hide-mock-button {
+  display: none;
+}
+.select-questions-stand-in-note {
+  font-size: 15px;
+  margin: 15px 0 0 0;
+}
 .select-questions-button-section {
   display: none;
 }
