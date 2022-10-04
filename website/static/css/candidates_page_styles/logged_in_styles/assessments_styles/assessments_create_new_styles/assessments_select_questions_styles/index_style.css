@@ -54,6 +54,7 @@ span.span-question-difficulty {
   border-radius: 10px;
   width: 75%;
   margin: 25px auto 0 auto;
+  text-align: left;
 }
 .candidates-note-wont-see {
   font-size: 10px;
