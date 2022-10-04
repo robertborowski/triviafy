@@ -55,6 +55,9 @@
     border: 2px solid #b7b7b7;
     transition: 0.2s;
   }
+  .candidates-default-text-input-full-width {
+    width: 100%;
+  }
 /* - - - - - - - - - - Default - Not Signed In - Text Input - End */
 
 /* - - - - - - - - - - Default - Signed In - Company Name - Start */

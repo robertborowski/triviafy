@@ -621,6 +621,15 @@ def candidates_assessment_select_questions_function(url_assessment_name):
   db_assessment_obj_name = db_assessment_obj.assessment_name
   db_assessment_obj_desired_langs = db_assessment_obj.desired_languages_arr
   # ------------------------ get assessment obj details end ------------------------
+  # ------------------------ post method hit start ------------------------
+  if request.method == 'POST':
+    candidate_ui_question_answer_1 = request.form.get('candidate_ui_question_answer_1')
+    localhost_print_function('- - - - - - - 0 - - - - - - -')
+    localhost_print_function('candidate_ui_question_answer_1')
+    localhost_print_function(candidate_ui_question_answer_1)
+    localhost_print_function(type(candidate_ui_question_answer_1))
+    localhost_print_function('- - - - - - - 0 - - - - - - -')
+  # ------------------------ post method hit end ------------------------
   # ------------------------ prepare where statement start ------------------------
   where_clause_arr = []
   desired_langs_arr = db_assessment_obj_desired_langs.split(',')
