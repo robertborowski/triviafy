@@ -1,4 +1,8 @@
 /* - - - - - - - - - - span candidates question category general - Start */
+.candidate-question-categories {
+  font-size: 12px;
+  margin: 5px 0 0 0;
+}
 .span-candidates-question-category-general {
   /* background: #5e866b; */
   background: var(--company-primary-color);

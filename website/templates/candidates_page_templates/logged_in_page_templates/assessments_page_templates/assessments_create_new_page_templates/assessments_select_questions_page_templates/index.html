@@ -43,20 +43,25 @@
     <div class="select-question-container">
       <div class="select-question-left-side">
         <div class="select-question-header">
-          <p>Q{{ i['question_counter'] }}: {{ i['question_title'] }}
-            <span class="quiz-question-sub-section-difficulty">({{ i['question_difficulty'] }})</span>
+          <p class="candidate-question-title">Q{{ i['question_counter'] }}: {{ i['question_title'] }}
+            <span class="span-question-difficulty">({{ i['question_difficulty'] }})</span>
           </p>
-          <p>Categories:
+          <p class="candidate-question-categories">Categories:
             {% for category_tuple in i['question_categories_list'] %}
               <span class="span-candidates-question-category-general span-candidates-question-category-{{ category_tuple[1] }}">{{ category_tuple[0] }}</span>
             {% endfor %}
           </p>
         </div>
         <div class="select-question-body">
-          <p>{{ i['question_actual_question'] }}</p>
+          <p class="candidate-question-actual-question">{{ i['question_actual_question'] }}</p>
         </div>
         <div class="select-question-footer">
-          <p>{{ i['question_answers_list'] }}</p>
+          <label for="candidate_upload_page_ui_email"></label>
+          <input type="email" id="candidate_upload_page_ui_email" name="candidate_upload_page_ui_email" class="candidates-default-text-input" placeholder="Candidate email" pattern="\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b" required />
+          <div class="candidates-footer-message-box">
+            <p class="candidates-note-wont-see">Note: Candidate will not see this section</p>
+            <p>Acceptable answers: [{{ i['question_answers_list'] }}]</p>
+          </div>
         </div>
       </div>
       <div class="select-question-right-side">
