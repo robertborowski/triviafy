@@ -55,7 +55,7 @@ span.span-question-difficulty {
   width: 200px;
   margin: 15px auto 0 auto;
 }
-.candidates-footer-select-question-section label, .candidates-footer-select-question-section input {
+.candidates-footer-select-question-section input {
   cursor: pointer;
 }
 .candidates-note-wont-see {

@@ -575,7 +575,7 @@ def candidates_assessment_create_new_function():
         desired_languages_arr = ui_desired_languages_checkboxes_str,
         total_questions = 10,
         delivery_type = 'default',
-        question_ids_arr = '1'
+        question_ids_arr = None
       )
       db.session.add(new_row)
       db.session.commit()
@@ -620,15 +620,32 @@ def candidates_assessment_select_questions_function(url_assessment_name):
   db_assessment_obj_id = db_assessment_obj.id
   db_assessment_obj_name = db_assessment_obj.assessment_name
   db_assessment_obj_desired_langs = db_assessment_obj.desired_languages_arr
+  db_assessment_question_ids_arr = db_assessment_obj.question_ids_arr
   # ------------------------ get assessment obj details end ------------------------
+  # ------------------------ individual redirect start ------------------------
+  if db_assessment_question_ids_arr != None:
+    localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
+    return redirect(url_for('views.dashboard_test_login_page_function'))
+  # ------------------------ individual redirect end ------------------------
   # ------------------------ post method hit start ------------------------
   if request.method == 'POST':
-    candidate_ui_question_answer_1 = request.form.get('candidate_ui_question_answer_1')
-    localhost_print_function('- - - - - - - 0 - - - - - - -')
-    localhost_print_function('candidate_ui_question_answer_1')
-    localhost_print_function(candidate_ui_question_answer_1)
-    localhost_print_function(type(candidate_ui_question_answer_1))
-    localhost_print_function('- - - - - - - 0 - - - - - - -')
+    ui_select_question_checkbox_arr = request.form.getlist('ui_select_question_checkbox')
+    # ------------------------ postman incorrect submission start ------------------------
+    if len(ui_select_question_checkbox_arr) != 10:
+      localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
+      return redirect(url_for('views.dashboard_test_login_page_function'))
+    # ------------------------ postman incorrect submission end ------------------------
+    # ------------------------ update row in db start ------------------------
+    ui_select_question_checkbox_str = ','.join(ui_select_question_checkbox_arr)
+    try:
+      db_assessment_obj.question_ids_arr = ui_select_question_checkbox_str
+      db.session.commit()
+    except:
+      localhost_print_function('error cannot update row')
+      pass
+    # ------------------------ update row in db end ------------------------
+    localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
+    return redirect(url_for('views.dashboard_test_login_page_function'))
   # ------------------------ post method hit end ------------------------
   # ------------------------ prepare where statement start ------------------------
   where_clause_arr = []
