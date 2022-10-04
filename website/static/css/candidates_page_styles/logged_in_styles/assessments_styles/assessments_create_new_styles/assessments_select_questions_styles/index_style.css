@@ -47,14 +47,16 @@ span.span-question-difficulty {
 .select-question-footer {
   text-align: center;
 }
-.candidates-footer-message-box {
-  /* border: 1px solid purple; */
-  padding: 10px;
-  background-color: rgb(255, 255, 210);
+.candidates-footer-select-question-section {
+  background-color: rgb(230, 230, 230);
+  cursor: pointer;
   border-radius: 10px;
-  width: 75%;
-  margin: 25px auto 0 auto;
-  text-align: left;
+  padding: 10px 5px;
+  width: 200px;
+  margin: 15px auto 0 auto;
+}
+.candidates-footer-select-question-section label, .candidates-footer-select-question-section input {
+  cursor: pointer;
 }
 .candidates-note-wont-see {
   font-size: 10px;
