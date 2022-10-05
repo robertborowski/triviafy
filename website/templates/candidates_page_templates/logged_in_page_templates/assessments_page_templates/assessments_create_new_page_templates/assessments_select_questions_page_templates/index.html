@@ -67,7 +67,7 @@
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - question footer start -->
         <div class="select-question-footer">
           <label for="candidate_ui_question_answer_{{ i['question_counter'] }}"></label>
-          <input type="text" id="candidate_ui_question_answer_{{ i['question_counter'] }}" name="candidate_ui_question_answer_{{ i['question_counter'] }}" class="candidates-default-text-input candidates-default-text-input-full-width" placeholder="Letters Numbers Spaces only"  maxlength="100" pattern="[a-zA-z0-9 ]{0,100}"/>
+          <input type="text" id="candidate_ui_question_answer_{{ i['question_counter'] }}" name="candidate_ui_question_answer_{{ i['question_counter'] }}" class="candidates-default-text-input candidates-default-text-input-full-width" placeholder="Candidate answer here"  maxlength="100" pattern="[a-zA-z0-9 ]{0,100}"/>
           <div class="candidates-footer-select-question-section">
             <input type="checkbox" id="ui_select_question_checkbox" name="ui_select_question_checkbox" value="{{ i['question_uuid'] }}" onchange="count_checked_checkboxes()"/> Add to assessment
             <label for="ui_select_question_checkbox"></label>

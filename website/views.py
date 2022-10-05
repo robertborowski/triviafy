@@ -515,6 +515,11 @@ def candidates_assessment_create_new_function():
     localhost_print_function('=========================================== candidates_assessment_create_new_function END ===========================================')
     return redirect(url_for('views.capacity_page_function'))
   # ------------------------ individual redirect end ------------------------
+  # ------------------------ delete all assessments that have been started by this user so far but abandoned start ------------------------
+  CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr=None).delete()
+  CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr='').delete()
+  db.session.commit()
+  # ------------------------ delete all assessments that have been started by this user so far but abandoned end ------------------------
   # ------------------------ pull all categories associated with candidates start ------------------------
   query_result_arr_of_dicts = select_general_function('select_all_candidate_categories_chosen')
   candidate_categories_arr = all_question_candidate_categories_sorted_function(query_result_arr_of_dicts)
