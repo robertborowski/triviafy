@@ -9,7 +9,7 @@ localhost_print_function('=========================================== sql_statem
 
 
 # ------------------------ individual function start ------------------------
-def select_general_function(tag_query_to_use, additional_inputs=[None, None]):
+def select_general_function(tag_query_to_use, additional_input=None):
   localhost_print_function('=========================================== select_general_function START ===========================================')
   # ------------------------ select queries start ------------------------
   select_queries_dict = {
@@ -34,10 +34,13 @@ def select_general_function(tag_query_to_use, additional_inputs=[None, None]):
                       triviafy_all_questions_table \
                     WHERE \
                       (question_approved_for_release = TRUE AND question_status_for_creator = 'Approved') \
-                      AND ({additional_inputs[0]}) \
+                      AND ({additional_input}) \
                     ORDER BY \
                       RANDOM();",
       'input_args': {}
+    },'select_question_id_actually_exists': {
+      'raw_query': "SELECT question_uuid FROM triviafy_all_questions_table WHERE question_uuid=:val;",
+      'input_args': {'val': additional_input}
     }
   }
   # ------------------------ select queries end ------------------------

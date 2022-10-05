@@ -1,4 +1,13 @@
 /* - - - - - - - - - - assessment create start */
+.only-paying-customers {
+  background-color: rgb(255, 255, 225);
+  border-radius: 10px;
+  padding: 15px;
+  width: 400px;
+  margin: 25px auto 0 auto;
+  text-align: center;
+  color: rgb(101, 101, 101);
+}
 .select-questions-form-container {
   /* border: 1px solid black; */
   width: 80%;

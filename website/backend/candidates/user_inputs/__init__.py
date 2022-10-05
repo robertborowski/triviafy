@@ -4,6 +4,7 @@ import re
 from website.models import CandidatesUploadedCandidatesObj
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
+from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 # ------------------------ imports end ------------------------
 
 
@@ -176,5 +177,16 @@ def validate_upload_candidate_function(db, current_user, ui_email, user_input_ty
     candidate_upload_error_statement = 'Uploaded successfully!'
   localhost_print_function('=========================================== validate_upload_candidate_function END ===========================================')
   return candidate_upload_error_statement
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def check_if_question_id_arr_exists_function(user_input_arr):
+  localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function START ===========================================')
+  for i in user_input_arr:
+    sql_result = select_general_function('select_question_id_actually_exists', i)
+    if sql_result == [] or len(sql_result) == 0:
+      return False
+  localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function END ===========================================')
+  return True
 # ------------------------ individual function end ------------------------
 localhost_print_function('=========================================== user_inputs __init__ END ===========================================')

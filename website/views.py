@@ -20,7 +20,7 @@ from website.backend.candidates.browser import browser_response_set_cookie_funct
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
 from website import db
-from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function, sanitize_create_account_text_inputs_function, sanitize_create_account_text_inputs_large_function, validate_upload_candidate_function, sanitize_loop_check_if_exists_within_arr_function
+from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function, sanitize_create_account_text_inputs_function, sanitize_create_account_text_inputs_large_function, validate_upload_candidate_function, sanitize_loop_check_if_exists_within_arr_function, check_if_question_id_arr_exists_function
 from website.backend.candidates.send_emails import send_email_template_function
 from werkzeug.security import generate_password_hash
 import pandas as pd
@@ -617,13 +617,17 @@ def candidates_assessment_select_questions_function(url_assessment_name):
   select_questions_error_statement = ''
   # ------------------------ get assessment obj details start ------------------------
   db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(assessment_name=url_assessment_name,user_id_fk=current_user.id).first()
+  if db_assessment_obj == None:
+    localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
+    return redirect(url_for('views.dashboard_test_login_page_function'))
   db_assessment_obj_id = db_assessment_obj.id
   db_assessment_obj_name = db_assessment_obj.assessment_name
   db_assessment_obj_desired_langs = db_assessment_obj.desired_languages_arr
   db_assessment_question_ids_arr = db_assessment_obj.question_ids_arr
   # ------------------------ get assessment obj details end ------------------------
   # ------------------------ individual redirect start ------------------------
-  if db_assessment_question_ids_arr != None:
+  # if questions were already selected for quiz
+  if db_assessment_question_ids_arr != None and db_assessment_question_ids_arr != '' and (len(db_assessment_question_ids_arr) != 0 and len(db_assessment_question_ids_arr) != 1):
     localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
     return redirect(url_for('views.dashboard_test_login_page_function'))
   # ------------------------ individual redirect end ------------------------
@@ -635,6 +639,12 @@ def candidates_assessment_select_questions_function(url_assessment_name):
       localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
       return redirect(url_for('views.dashboard_test_login_page_function'))
     # ------------------------ postman incorrect submission end ------------------------
+    # ------------------------ make sure that all ids provided actually exist in db start ------------------------
+    question_ids_actually_exist_check = check_if_question_id_arr_exists_function(ui_select_question_checkbox_arr)
+    if question_ids_actually_exist_check == False:
+      localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
+      return redirect(url_for('views.dashboard_test_login_page_function'))
+    # ------------------------ make sure that all ids provided actually exist in db end ------------------------
     # ------------------------ update row in db start ------------------------
     ui_select_question_checkbox_str = ','.join(ui_select_question_checkbox_arr)
     try:
@@ -658,11 +668,8 @@ def candidates_assessment_select_questions_function(url_assessment_name):
       master_where_statement += f"(question_categories_list LIKE '%{desired_langs_arr[i]}%' AND question_categories_list LIKE '%Candidates%') OR "
   where_clause_arr.append(master_where_statement)
   # ------------------------ prepare where statement end ------------------------
-  # ------------------------ prepare where statement exclude start ------------------------
-  where_clause_arr.append('123')
-  # ------------------------ prepare where statement exclude end ------------------------
   # ------------------------ pull question obj from db start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_all_questions_for_x_categories', where_clause_arr)
+  query_result_arr_of_dicts = select_general_function('select_all_questions_for_x_categories', where_clause_arr[0])
   query_result_arr_of_dicts = question_arr_of_dicts_manipulations_function(query_result_arr_of_dicts)
   # ------------------------ pull question obj from db end ------------------------
   localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
