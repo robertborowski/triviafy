@@ -71,6 +71,16 @@ span.span-question-difficulty {
   font-size: 10px;
   margin: 0 0 5px 0;
 }
+.select-questions-floating-buttons {
+  /* border: 1px solid black; */
+  height: 52px;
+  position: fixed;
+  bottom: 50px;
+  border-radius: 10px;
+  text-align: center;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
 .select-questions-button-stand-in-section {
   /* border: 1px solid black; */
   text-align: center;
