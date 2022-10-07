@@ -146,6 +146,7 @@ def sanitize_loop_check_if_exists_within_arr_function(user_input_arr, correct_ma
 def validate_upload_candidate_function(db, current_user, ui_email, user_input_type):
   localhost_print_function('=========================================== validate_upload_candidate_function START ===========================================')
   candidate_upload_error_statement = ''
+  candidate_upload_success_statement = ''
   # ------------------------ ui_email start ------------------------
   # ------------------------ sanitize/check user input email start ------------------------
   if ui_email != None:
@@ -173,10 +174,10 @@ def validate_upload_candidate_function(db, current_user, ui_email, user_input_ty
         db.session.commit()
         # ------------------------ create new user in db end ------------------------
   # ------------------------ ui_email end ------------------------
-  if candidate_upload_error_statement == '':
-    candidate_upload_error_statement = 'Uploaded successfully!'
+  if candidate_upload_success_statement == '' and candidate_upload_error_statement == '':
+    candidate_upload_success_statement = 'Uploaded successfully!'
   localhost_print_function('=========================================== validate_upload_candidate_function END ===========================================')
-  return candidate_upload_error_statement
+  return candidate_upload_error_statement, candidate_upload_success_statement
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------

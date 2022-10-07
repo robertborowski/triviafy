@@ -374,6 +374,7 @@ def candidates_upload_emails_function():
     return redirect(url_for('views.capacity_page_function'))
   # ------------------------ individual redirect end ------------------------
   candidate_upload_error_statement = ''
+  candidate_upload_success_statement = ''
   # ------------------------ get users total uploaded candidates start ------------------------
   current_user_uploaded_emails_arr = CandidatesUploadedCandidatesObj.query.filter_by(user_id_fk=current_user.id).all()
   len_current_user_uploaded_emails_arr = len(current_user_uploaded_emails_arr)
@@ -388,7 +389,7 @@ def candidates_upload_emails_function():
     # ------------------------ form results end ------------------------
     # ------------------------ ui_email individual start ------------------------
     if ui_email != None:
-      candidate_upload_error_statement = validate_upload_candidate_function(db, current_user, ui_email, 'individual')
+      candidate_upload_error_statement, candidate_upload_success_statement = validate_upload_candidate_function(db, current_user, ui_email, 'individual')
     # ------------------------ ui_email individual end ------------------------
     # ------------------------ ui_email bulk start ------------------------
     if ui_csv_file_uploaded != None:
@@ -396,12 +397,12 @@ def candidates_upload_emails_function():
         df_csv_data = pd.read_csv(ui_csv_file_uploaded)
         for i, r in df_csv_data.iterrows():
           ui_email = r[0]
-          candidate_upload_error_statement = validate_upload_candidate_function(db, current_user, ui_email, 'bulk')
+          candidate_upload_error_statement, candidate_upload_success_statement = validate_upload_candidate_function(db, current_user, ui_email, 'bulk')
       except:
         candidate_upload_error_statement = 'uploaded file must be .csv format'
     # ------------------------ ui_email bulk end ------------------------
   localhost_print_function('=========================================== candidates_upload_emails_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/candidates_page_templates/candidates_upload_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name, len_current_user_uploaded_emails_arr_to_html = len_current_user_uploaded_emails_arr, error_message_to_html=candidate_upload_error_statement)
+  return render_template('candidates_page_templates/logged_in_page_templates/candidates_page_templates/candidates_upload_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name, len_current_user_uploaded_emails_arr_to_html = len_current_user_uploaded_emails_arr, error_message_to_html=candidate_upload_error_statement, success_message_to_html=candidate_upload_success_statement)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------

@@ -30,7 +30,7 @@ form.login-create-account-form {
 }
 /* - - - - - - - - - - spacer end */
 /* - - - - - - - - - - error message start */
-.error-message-section {
+.error-message-section, .success-message-section {
   /* border: 1px solid black; */
   width: 100%;
   text-align: center;
@@ -38,5 +38,9 @@ form.login-create-account-form {
 .error-message-section p {
   font-size: 20px;
   color: rgb(255, 0, 0);
+}
+.success-message-section p {
+  font-size: 20px;
+  color: rgb(0, 182, 33);
 }
 /* - - - - - - - - - - error message end */
