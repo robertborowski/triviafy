@@ -12,7 +12,7 @@ class FooterSignedInClassCandidates extends HTMLElement {
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Footer All - START -->
 <footer class="footer-signed-in-4-background-color">
   <div class="footer-signed-in-content">
-    <p>Contact: Robert@Triviafy.com</p>
+    <p>Contact: robert@triviafy.com</p>
   </div>
 </footer>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Footer All - END -->
