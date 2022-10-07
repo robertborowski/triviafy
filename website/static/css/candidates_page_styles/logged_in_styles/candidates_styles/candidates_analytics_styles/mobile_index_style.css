@@ -1,5 +1,7 @@
 @media (max-width: 1200px) {
   /* - - - - - - - - - - abc start */
-  /* .testing123 {} */
+  .candidate-datatable-section {
+    width: 90%;
+  }
   /* - - - - - - - - - - abc end */
 }

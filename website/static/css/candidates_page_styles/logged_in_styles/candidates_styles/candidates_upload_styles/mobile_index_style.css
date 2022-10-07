@@ -29,5 +29,8 @@
   .upload-email-form button {
     margin: 20px 0 0 0;
   }
+  .candidate-upload-bulk-button {
+    margin: 15px 0 0 0;
+  }
   /* - - - - - - - - - - abc end */
 }
