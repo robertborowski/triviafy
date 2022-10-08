@@ -543,6 +543,7 @@ def candidates_assessment_create_new_function():
   candidate_categories_arr_3 = candidate_categories_arr[rows_per_col*2:]
   # ------------------------ break down array for html columns end ------------------------
   create_assessment_error_statement = ''
+  trial_name_attempt = ''
   # ------------------------ post method hit start ------------------------
   if request.method == 'POST':
     # ------------------------ get form user inputs start ------------------------
@@ -566,6 +567,7 @@ def candidates_assessment_create_new_function():
     ui_desired_languages_checkboxes_arr = sanitize_loop_check_if_exists_within_arr_function(ui_desired_languages_checkboxes_arr, candidate_categories_arr)
     if ui_desired_languages_checkboxes_arr == [] or ui_desired_languages_checkboxes_arr == False:
       create_assessment_error_statement = 'Please fill out all required fields.'
+      trial_name_attempt = ui_assessment_name
     ui_desired_languages_checkboxes_str = ''
     if ui_desired_languages_checkboxes_arr != False:
       ui_desired_languages_checkboxes_str = ','.join(ui_desired_languages_checkboxes_arr)
@@ -590,7 +592,7 @@ def candidates_assessment_create_new_function():
       return redirect(url_for('views.candidates_assessment_select_questions_function', url_assessment_name=ui_assessment_name))
   # ------------------------ post method hit end ------------------------
   localhost_print_function('=========================================== candidates_assessment_create_new_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_create_new_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name, error_message_to_html=create_assessment_error_statement, candidate_categories_arr_1_to_html=candidate_categories_arr_1, candidate_categories_arr_2_to_html=candidate_categories_arr_2, candidate_categories_arr_3_to_html=candidate_categories_arr_3)
+  return render_template('candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_create_new_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name, error_message_to_html=create_assessment_error_statement, candidate_categories_arr_1_to_html=candidate_categories_arr_1, candidate_categories_arr_2_to_html=candidate_categories_arr_2, candidate_categories_arr_3_to_html=candidate_categories_arr_3, trial_name_attempt_to_html=trial_name_attempt)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------

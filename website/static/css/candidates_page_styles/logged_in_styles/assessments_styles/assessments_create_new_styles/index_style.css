@@ -1,4 +1,13 @@
 /* - - - - - - - - - - assessment create start */
+.create-assessment-defaults {
+  /* border: 1px solid black; */
+  border-radius: 10px;
+  padding: 15px;
+  background-color: rgb(255, 255, 225);
+  width: 400px;
+  margin: 25px auto 0 auto;
+  color: rgb(101, 101, 101);
+}
 .create-assessment-form-container {
   /* border: 1px solid black; */
   width: 80%;
