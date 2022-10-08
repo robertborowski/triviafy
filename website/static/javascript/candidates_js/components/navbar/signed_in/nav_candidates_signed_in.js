@@ -39,7 +39,7 @@ class NavbarCandidatesSignedInClass extends HTMLElement {
         <li class="navbar-list-item-a-candidates"><a href="#">Candidates <i class="fas fa-angle-down navbar-drop-down-arrow-a-candidates"></i></a>
           <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar - Links - Level 2 - START -->
           <ul class="default-box-shadow-grey-reg">
-            <li><a href="${this.getAttribute("link_candidates_upload_emails_js")}">Candidate upload</a></li>
+            <li><a href="${this.getAttribute("link_candidates_upload_emails_js")}">Candidate dashboard</a></li>
             <li><a href="${this.getAttribute("link_candidates_analytics_js")}">Candidate analytics</a></li>
           </ul>
           <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar - Links - Level 2 - END -->
@@ -57,6 +57,7 @@ class NavbarCandidatesSignedInClass extends HTMLElement {
         <li class="navbar-list-item-a-candidates"><a href="#">Account <i class="fas fa-angle-down navbar-drop-down-arrow-a-candidates"></i></a>
           <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar - Links - Level 2 - START -->
           <ul class="default-box-shadow-grey-reg">
+            <li><a href="${this.getAttribute("link_home_js")}">Dashboard</a></li>
             <li><a href="${this.getAttribute("link_candidates_account_settings_js")}">Account settings</a></li>
             <li><a href="${this.getAttribute("link_landing_js")}">Triviafy home</a></li>
           </ul>
