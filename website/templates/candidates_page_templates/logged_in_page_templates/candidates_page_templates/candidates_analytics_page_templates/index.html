@@ -36,6 +36,7 @@
         <th>Email</th>
         <th>Total Assessments</th>
         <th>Total Correct Answers</th>
+        <th>Total Correct %</th>
         <th>Top Skill</th>
       </tr>
     </thead>
@@ -46,6 +47,7 @@
         <td>{{ i['email'] }}</td>
         <td>{{ i['total_assessments'] }}</td>
         <td>{{ i['total_correct_answers'] }}</td>
+        <td>{{ i['total_correct_percent'] }}</td>
         <td>{{ i['top_skill'] }}</td>
       </tr>
       {% endfor %}

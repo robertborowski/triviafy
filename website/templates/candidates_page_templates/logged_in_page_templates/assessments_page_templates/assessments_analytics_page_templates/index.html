@@ -38,6 +38,7 @@
         <th>Candidates Pending</th>
         <th>Candidates Received</th>
         <th>Candidates Completed</th>
+        <th>Results</th>
       </tr>
     </thead>
     
@@ -49,6 +50,7 @@
         <td>{{ i['candidates_pending'] }}</td>
         <td>{{ i['candidates_received'] }}</td>
         <td>{{ i['candidates_completed'] }}</td>
+        <td><a href="{{ url_for('views.dashboard_test_login_page_function') }}">Results</a></td>
       </tr>
       {% endfor %}
     </tbody>

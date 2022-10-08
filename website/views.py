@@ -435,6 +435,7 @@ def candidates_analytics_function():
     all_candidates_dict['email'] = i.email
     all_candidates_dict['total_assessments'] = 0
     all_candidates_dict['total_correct_answers'] = 0
+    all_candidates_dict['total_correct_percent'] = 0
     all_candidates_dict['top_skill'] = 'Python'
     all_candidates_arr_of_dicts.append(all_candidates_dict)
   # ------------------------ pull all candidates end ------------------------
