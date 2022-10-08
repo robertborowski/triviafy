@@ -4,3 +4,11 @@ $(document).ready( function () {
     // "searching": false
   });
 } );
+
+
+$(document).ready( function () {
+  $('#table_id_triviafy_assessment_analytics').DataTable({
+    "paging": false,
+    // "searching": false
+  });
+} );

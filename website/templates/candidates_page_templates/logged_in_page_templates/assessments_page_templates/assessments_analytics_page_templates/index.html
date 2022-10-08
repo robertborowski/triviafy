@@ -28,6 +28,32 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
-<p>Hello</p>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - candidate analytics datatables start -->
+<div class="assessment-analytics-datatable-section">
+  <table id="table_id_triviafy_assessment_analytics" class="display">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>View</th>
+        <th>Candidates Pending</th>
+        <th>Candidates Received</th>
+        <th>Candidates Completed</th>
+      </tr>
+    </thead>
+    
+    <tbody>
+      {% for i in all_assessments_arr_of_dicts_to_html %}
+      <tr>
+        <td>{{ i['assessment_name'] }}</td>
+        <td>link here</td>
+        <td>{{ i['candidates_pending'] }}</td>
+        <td>{{ i['candidates_received'] }}</td>
+        <td>{{ i['candidates_completed'] }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - candidate analytics datatables end -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page end -->
 {% endblock %}
