@@ -2,7 +2,7 @@
 
 <!-- head tag block content -->
 {% block title %}
-  <title>Assessments Analytics / Triviafy</title>
+  <title>View Assessment / Triviafy</title>
 {% endblock %}
 
 {% block contentBodyExceptNavbarAndFooter %}
@@ -19,41 +19,30 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title start -->
 <div class="general-page-title-section">
-  <p class="general-page-title">Assessment Analytics</p>
+  <p class="general-page-title">View Assessment</p>
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - paying customers start -->
+<div class="only-paying-customers candidates-default-box-shadow-grey-small">
+  <p>Note: To help curb cheating, only paying users can view question answers</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - paying customers end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message start -->
+<div class="error-message-section">
+  <p>{{ error_message_to_html }}</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message end -->
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
 <div class="general-spacer-section"></div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - candidate analytics datatables start -->
-<div class="assessment-analytics-datatable-section">
-  <table id="table_id_triviafy_assessment_analytics" class="display">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>View</th>
-        <th>Candidates Pending</th>
-        <th>Candidates Received</th>
-        <th>Candidates Completed</th>
-      </tr>
-    </thead>
-    
-    <tbody>
-      {% for i in all_assessments_arr_of_dicts_to_html %}
-      <tr>
-        <td>{{ i['assessment_name'] }}</td>
-        <td><a href="{{ url_for('views.candidates_assessment_view_specific_function', url_assessment_name=i['assessment_name']) }}">View</a></td>
-        <td>{{ i['candidates_pending'] }}</td>
-        <td>{{ i['candidates_received'] }}</td>
-        <td>{{ i['candidates_completed'] }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - candidate analytics datatables end -->
+<p>Hello</p>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page end -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section-large"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
 {% endblock %}

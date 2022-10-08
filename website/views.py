@@ -26,7 +26,7 @@ from werkzeug.security import generate_password_hash
 import pandas as pd
 from website.backend.candidates.string_manipulation import all_question_candidate_categories_sorted_function
 from website.backend.candidates.sqlalchemy_manipulation import pull_desired_languages_arr_function
-from website.backend.candidates.dict_manipulation import question_arr_of_dicts_manipulations_function
+from website.backend.candidates.dict_manipulation import question_arr_of_dicts_manipulations_function, create_assessment_info_dict_function
 # ------------------------ imports end ------------------------
 
 
@@ -693,5 +693,50 @@ def candidates_assessment_select_questions_function(url_assessment_name):
   # ------------------------ pull question obj from db end ------------------------
   localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_create_new_page_templates/assessments_select_questions_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=select_questions_error_statement, query_result_arr_of_dicts_to_html=query_result_arr_of_dicts)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@views.route('/candidates/assessment/view/<url_assessment_name>', methods=['GET', 'POST'])
+@login_required
+def candidates_assessment_view_specific_function(url_assessment_name):
+  localhost_print_function('=========================================== candidates_assessment_select_questions_function START ===========================================')
+  # ------------------------ individual redirect start ------------------------
+  query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
+  check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
+  if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
+    localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
+    return redirect(url_for('views.capacity_page_function'))
+  # ------------------------ individual redirect end ------------------------
+  # ------------------------ individual redirect start ------------------------
+  query_result_arr_of_dicts = select_general_function('select_if_desired_languages_captured')
+  try:
+    check_desired_languages_value = query_result_arr_of_dicts[0]['desired_languages']
+  except:
+    check_desired_languages_value = None
+  if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
+    localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
+    return redirect(url_for('views.capacity_page_function'))
+  # ------------------------ individual redirect end ------------------------
+  # ------------------------ invalid url_assessment_name start ------------------------
+  if url_assessment_name == False or url_assessment_name == None or url_assessment_name == '':
+    localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
+    return redirect(url_for('views.dashboard_test_login_page_function'))
+  # ------------------------ invalid url_assessment_name end ------------------------
+  # ------------------------ pull assessment info start ------------------------
+  db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(assessment_name=url_assessment_name,user_id_fk=current_user.id).first()
+  # ------------------------ pull assessment info end ------------------------
+  # ------------------------ assign assessment info to dict start ------------------------
+  assessment_info_dict = create_assessment_info_dict_function(db_assessment_obj)
+  # ------------------------ assign assessment info to dict end ------------------------
+  # ------------------------ check if user paid latest month start ------------------------
+  user_paid_latest_month = False
+  # ------------------------ check if user paid latest month end ------------------------
+  # ------------------------ remove answers for non paying users start ------------------------
+  if user_paid_latest_month == False:
+    for i in assessment_info_dict['questions_arr_of_dicts']:
+      i['question_answers_list'] = None
+  # ------------------------ remove answers for non paying users end ------------------------
+  localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
+  return render_template('candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_view_specific_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, assessment_info_dict_to_html=assessment_info_dict)
 # ------------------------ individual route end ------------------------
 # ------------------------ routes logged in end ------------------------
