@@ -700,12 +700,12 @@ def candidates_assessment_select_questions_function(url_assessment_name):
 @views.route('/candidates/assessment/view/<url_assessment_name>', methods=['GET', 'POST'])
 @login_required
 def candidates_assessment_view_specific_function(url_assessment_name):
-  localhost_print_function('=========================================== candidates_assessment_select_questions_function START ===========================================')
+  localhost_print_function('=========================================== candidates_assessment_view_specific_function START ===========================================')
   # ------------------------ individual redirect start ------------------------
   query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
   check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
   if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
-    localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
+    localhost_print_function('=========================================== candidates_assessment_view_specific_function END ===========================================')
     return redirect(url_for('views.capacity_page_function'))
   # ------------------------ individual redirect end ------------------------
   # ------------------------ individual redirect start ------------------------
@@ -715,12 +715,12 @@ def candidates_assessment_view_specific_function(url_assessment_name):
   except:
     check_desired_languages_value = None
   if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
-    localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
+    localhost_print_function('=========================================== candidates_assessment_view_specific_function END ===========================================')
     return redirect(url_for('views.capacity_page_function'))
   # ------------------------ individual redirect end ------------------------
   # ------------------------ invalid url_assessment_name start ------------------------
   if url_assessment_name == False or url_assessment_name == None or url_assessment_name == '':
-    localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
+    localhost_print_function('=========================================== candidates_assessment_view_specific_function END ===========================================')
     return redirect(url_for('views.dashboard_test_login_page_function'))
   # ------------------------ invalid url_assessment_name end ------------------------
   # ------------------------ pull assessment info start ------------------------
@@ -737,7 +737,7 @@ def candidates_assessment_view_specific_function(url_assessment_name):
     for i in assessment_info_dict['questions_arr_of_dicts']:
       i['question_answers_list'] = None
   # ------------------------ remove answers for non paying users end ------------------------
-  localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
+  localhost_print_function('=========================================== candidates_assessment_view_specific_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_view_specific_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, assessment_info_dict_to_html=assessment_info_dict)
 # ------------------------ individual route end ------------------------
 
@@ -745,12 +745,12 @@ def candidates_assessment_view_specific_function(url_assessment_name):
 @views.route('/candidates/schedule', methods=['GET', 'POST'])
 @login_required
 def candidates_schedule_dashboard_function():
-  localhost_print_function('=========================================== candidates_assessment_select_questions_function START ===========================================')
+  localhost_print_function('=========================================== candidates_schedule_dashboard_function START ===========================================')
   # ------------------------ individual redirect start ------------------------
   query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
   check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
   if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
-    localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
+    localhost_print_function('=========================================== candidates_schedule_dashboard_function END ===========================================')
     return redirect(url_for('views.capacity_page_function'))
   # ------------------------ individual redirect end ------------------------
   # ------------------------ individual redirect start ------------------------
@@ -760,11 +760,38 @@ def candidates_schedule_dashboard_function():
   except:
     check_desired_languages_value = None
   if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
-    localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
+    localhost_print_function('=========================================== candidates_schedule_dashboard_function END ===========================================')
     return redirect(url_for('views.capacity_page_function'))
   # ------------------------ individual redirect end ------------------------
   # ------------------------ remove answers for non paying users end ------------------------
-  localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
+  localhost_print_function('=========================================== candidates_schedule_dashboard_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/schedule_page_templates/schedule_dashboard_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@views.route('/candidates/schedule/new', methods=['GET', 'POST'])
+@login_required
+def candidates_schedule_create_new_function():
+  localhost_print_function('=========================================== candidates_schedule_create_new_function START ===========================================')
+  # ------------------------ individual redirect start ------------------------
+  query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
+  check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
+  if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
+    localhost_print_function('=========================================== candidates_schedule_create_new_function END ===========================================')
+    return redirect(url_for('views.capacity_page_function'))
+  # ------------------------ individual redirect end ------------------------
+  # ------------------------ individual redirect start ------------------------
+  query_result_arr_of_dicts = select_general_function('select_if_desired_languages_captured')
+  try:
+    check_desired_languages_value = query_result_arr_of_dicts[0]['desired_languages']
+  except:
+    check_desired_languages_value = None
+  if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
+    localhost_print_function('=========================================== candidates_schedule_create_new_function END ===========================================')
+    return redirect(url_for('views.capacity_page_function'))
+  # ------------------------ individual redirect end ------------------------
+  # ------------------------ remove answers for non paying users end ------------------------
+  localhost_print_function('=========================================== candidates_schedule_create_new_function END ===========================================')
+  return render_template('candidates_page_templates/logged_in_page_templates/schedule_page_templates/schedule_create_new_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name)
 # ------------------------ individual route end ------------------------
 # ------------------------ routes logged in end ------------------------
