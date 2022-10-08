@@ -21,7 +21,7 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - split section start -->
 <div class="candidates-assessment-split-section">
-  <div class="split-side-dashboard-general split-side-candidates">
+  <div class="split-side-dashboard-general split-side-candidates candidates-default-box-shadow-grey-small">
     <div class="dashboard-split-inner-section">
       <p class="dashboard-split-title">Candidates</p>
     </div>
@@ -33,11 +33,12 @@
     </div>
     <div class="dashboard-split-inner-section">
       <form action="{{ url_for('views.candidates_upload_emails_function') }}">
-        <button type="submit" class="default-button-format default-button-format-primary-color">Upload candidates</button>
+        <button type="submit" class="default-button-format default-button-format-primary-color">Candidate Dashboard</button>
       </form>
     </div>
   </div>
-  <div class="split-side-dashboard-general split-side-assessments">
+
+  <div class="split-side-dashboard-general split-side-assessments candidates-default-box-shadow-grey-small">
     <div class="dashboard-split-inner-section">
       <p class="dashboard-split-title">Assessments</p>
     </div>
@@ -50,6 +51,23 @@
     <div class="dashboard-split-inner-section">
       <form action="{{ url_for('views.candidates_assessments_dashboard_function') }}">
         <button type="submit" class="default-button-format default-button-format-primary-color">Assessment Dashboard</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="split-side-dashboard-general split-side-sending candidates-default-box-shadow-grey-small">
+    <div class="dashboard-split-inner-section">
+      <p class="dashboard-split-title">Schedule Send</p>
+    </div>
+    <div class="dashboard-split-inner-section">
+      <img src="/static/images/candidates/dashboard/send_to_candidate.png" alt="upload candidates img" class="upload-candidates-img">
+    </div>
+    <div class="dashboard-split-inner-section">
+      <p class="dashboard-split-subtitle">Simple scheduling</p>
+    </div>
+    <div class="dashboard-split-inner-section">
+      <form action="{{ url_for('views.candidates_assessments_dashboard_function') }}">
+        <button type="submit" class="default-button-format default-button-format-primary-color">Schedule Dashboard</button>
       </form>
     </div>
   </div>
