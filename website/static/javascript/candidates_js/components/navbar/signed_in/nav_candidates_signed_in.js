@@ -57,7 +57,7 @@ class NavbarCandidatesSignedInClass extends HTMLElement {
         <li class="navbar-list-item-a-candidates"><a href="#">Schedules <i class="fas fa-angle-down navbar-drop-down-arrow-a-candidates"></i></a>
           <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar - Links - Level 2 - START -->
           <ul class="default-box-shadow-grey-reg">
-            <li><a href="#">Schedule dashboard</a></li>
+            <li><a href="${this.getAttribute("link_schedule_dashboard_js")}">Schedule dashboard</a></li>
             <li><a href="#">Schedule analytics</a></li>
           </ul>
           <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar - Links - Level 2 - END -->

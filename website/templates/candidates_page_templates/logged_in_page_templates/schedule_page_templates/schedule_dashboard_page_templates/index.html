@@ -2,7 +2,7 @@
 
 <!-- head tag block content -->
 {% block title %}
-  <title>Assessments Dashboard / Triviafy</title>
+  <title>Schedule Dashboard / Triviafy</title>
 {% endblock %}
 
 {% block contentBodyExceptNavbarAndFooter %}
@@ -19,7 +19,7 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title start -->
 <div class="general-page-title-section">
-  <p class="general-page-title">Assessment Dashboard</p>
+  <p class="general-page-title">Schedule Dashboard</p>
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title end -->
 
@@ -29,7 +29,7 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - view all start -->
 <div class="general-center-container">
-  <a href="{{ url_for('views.candidates_assessments_analytics_function') }}"><p class="general-page-font">View all assessments</p></a>
+  <a href="{{ url_for('views.candidates_assessments_analytics_function') }}"><p class="general-page-font">View all schedules</p></a>
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - view all end -->
 
@@ -40,13 +40,13 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
 <div class="assessment-dashboard-create-new-section">
   <div class="dashboard-split-inner-section">
-    <p class="dashboard-split-title">Create Assessment</p>
+    <p class="dashboard-split-title">Schedule Send Assessment</p>
   </div>
   <div class="dashboard-split-inner-section">
-    <img src="/static/images/candidates/dashboard/dashboard_page_assessment_example.png" alt="upload candidates img" class="upload-candidates-img">
+    <img src="/static/images/candidates/dashboard/send_to_candidate.png" alt="upload candidates img" class="upload-candidates-img">
   </div>
   <div class="dashboard-split-inner-section">
-    <a href="{{ url_for('views.candidates_assessment_create_new_function') }}"><p class="default-button-format default-button-format-primary-color">Create Assessment</p></a>
+    <a href="{{ url_for('views.candidates_assessment_create_new_function') }}"><p class="default-button-format default-button-format-primary-color">Create New</p></a>
   </div>
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
