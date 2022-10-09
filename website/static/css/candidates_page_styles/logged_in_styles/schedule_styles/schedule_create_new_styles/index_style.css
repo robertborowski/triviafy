@@ -68,7 +68,8 @@
   appearance: auto;
   -webkit-rtl-ordering: logical;
 }
-.schedule-anchor-span-date {
+.schedule-anchor-span-date,
+.schedule-anchor-span-time {
   /* border: 1px solid black; */
   position: relative;
   cursor: pointer;
@@ -102,13 +103,15 @@
 }
 .schedule-anchor-span-assessment-names:hover,
 .schedule-anchor-span-candidate-names:hover,
-.schedule-anchor-span-date:hover {
+.schedule-anchor-span-date:hover,
+.schedule-anchor-span-time:hover {
   border: 2px solid #b7b7b7;
   transition: 0.2s;
 }
 .schedule-anchor-span-assessment-names:after,
 .schedule-anchor-span-candidate-names:after,
-.schedule-anchor-span-date:after {
+.schedule-anchor-span-date:after,
+.schedule-anchor-span-time:after {
   /* border: 1px solid black; */
   position: absolute;
   content: "";
@@ -144,7 +147,8 @@ ul.schedule-items-assessment-names li input {
 }
 .dropdown-list-assessment-names.visible .schedule-anchor-span-assessment-names,
 .dropdown-list-assessment-names.visible .schedule-anchor-span-candidate-names,
-.dropdown-list-assessment-names.visible .schedule-anchor-span-date {
+.dropdown-list-assessment-names.visible .schedule-anchor-span-date,
+.dropdown-list-assessment-names.visible .schedule-anchor-span-time {
   /* border: 1px solid black; */
   color: var(--company-primary-color);
 }

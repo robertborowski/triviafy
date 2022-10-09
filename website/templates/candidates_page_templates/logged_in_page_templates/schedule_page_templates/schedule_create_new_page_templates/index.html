@@ -89,6 +89,18 @@
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select send date end -->
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select send time start -->
         <div class="schedule-ui-inner-section-2">
+          <!-- link: https://stackoverflow.com/questions/19206919/how-to-create-checkbox-inside-dropdown -->
+          <div id="js-schedule-list-time" class="dropdown-list-assessment-names" tabindex="100">
+            <span class="schedule-anchor-span-time">Time*</span>
+            <ul class="schedule-items-assessment-names">
+              {% for i in times_arr_to_html %}
+              <li>
+                <input type="radio" id="ui_schedule_time_selected" name="ui_schedule_time_selected" value="{{ i }}"/>
+                <label for="ui_schedule_time_selected">{{ i }}</label>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
         </div>
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select send time end -->
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select send timezone start -->

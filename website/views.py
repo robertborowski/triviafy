@@ -27,7 +27,7 @@ import pandas as pd
 from website.backend.candidates.string_manipulation import all_question_candidate_categories_sorted_function
 from website.backend.candidates.sqlalchemy_manipulation import pull_desired_languages_arr_function
 from website.backend.candidates.dict_manipulation import question_arr_of_dicts_manipulations_function, create_assessment_info_dict_function
-from website.backend.candidates.datetime_manipulation import next_x_days_function
+from website.backend.candidates.datetime_manipulation import next_x_days_function, times_arr_function
 # ------------------------ imports end ------------------------
 
 
@@ -805,14 +805,16 @@ def candidates_schedule_create_new_function():
     current_user_candidates_arr.append(i.email)
   current_user_candidates_arr = sorted(current_user_candidates_arr)
   # ------------------------ pull all user assessments end ------------------------
-  # ------------------------ pull all available dates start ------------------------
+  # ------------------------ pull all available dates, times, timezones start ------------------------
   next_x_days_arr = next_x_days_function()
-  # ------------------------ pull all available dates end ------------------------
+  times_arr = times_arr_function()
+  # ------------------------ pull all available dates, times, timezones end ------------------------
   # ------------------------ post triggered start ------------------------
   if request.method == 'POST':
     ui_schedule_assessment_selected = request.form.get('ui_schedule_assessment_selected')
     ui_schedule_candidates_selected = request.form.getlist('ui_schedule_candidates_selected')
     ui_schedule_date_selected = request.form.get('ui_schedule_date_selected')
+    ui_schedule_time_selected = request.form.get('ui_schedule_time_selected')
     localhost_print_function('- - - - - - - 0 - - - - - - -')
     localhost_print_function('ui_schedule_assessment_selected')
     localhost_print_function(ui_schedule_assessment_selected)
@@ -828,8 +830,13 @@ def candidates_schedule_create_new_function():
     localhost_print_function(ui_schedule_date_selected)
     localhost_print_function(type(ui_schedule_date_selected))
     localhost_print_function('- - - - - - - 2 - - - - - - -')
+    localhost_print_function('- - - - - - - 3 - - - - - - -')
+    localhost_print_function('ui_schedule_time_selected')
+    localhost_print_function(ui_schedule_time_selected)
+    localhost_print_function(type(ui_schedule_time_selected))
+    localhost_print_function('- - - - - - - 3 - - - - - - -')
   # ------------------------ post triggered end ------------------------
   localhost_print_function('=========================================== candidates_schedule_create_new_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/schedule_page_templates/schedule_create_new_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, current_user_assessment_names_arr_to_html=current_user_assessment_names_arr, current_user_candidates_arr_to_html=current_user_candidates_arr, next_x_days_arr_to_html=next_x_days_arr)
+  return render_template('candidates_page_templates/logged_in_page_templates/schedule_page_templates/schedule_create_new_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, current_user_assessment_names_arr_to_html=current_user_assessment_names_arr, current_user_candidates_arr_to_html=current_user_candidates_arr, next_x_days_arr_to_html=next_x_days_arr, times_arr_to_html=times_arr)
 # ------------------------ individual route end ------------------------
 # ------------------------ routes logged in end ------------------------
