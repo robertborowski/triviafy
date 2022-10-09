@@ -57,8 +57,14 @@ def times_arr_function():
     '10 PM',
     '11 PM'
   ]
+  timezone_arr = [
+    'CST',
+    'EST',
+    'MST',
+    'PST'
+  ]
   # ------------------------ get todays date end ------------------------
   localhost_print_function('=========================================== next_x_days_function END ===========================================')
-  return times_arr
+  return times_arr, timezone_arr
 # ------------------------ individual function end ------------------------
 localhost_print_function('=========================================== datetime_manipulation __init__ END ===========================================')

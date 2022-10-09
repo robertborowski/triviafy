@@ -4,5 +4,40 @@
     /* border: 1px solid black; */
     width: 90%;
   }
+  .schedule-options-grid {
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    justify-content: center;
+  }
+  .schedule-user-input-section-1 {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto 50px auto;
+  }
+  .schedule-user-input-section-2 {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto 50px auto;
+  }
+  .schedule-user-input-section-3 {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .schedule-ui-inner-section-1,
+  .schedule-ui-inner-section-2,
+  .schedule-ui-inner-section-3 {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin: 0 auto 50px auto;
+    justify-content: center;;
+  }
+  .schedule-anchor-span-date,
+  .schedule-anchor-span-time,
+  .schedule-anchor-span-timezone {
+    width: 275px;
+    margin: 0 auto;
+  }
   /* - - - - - - - - - - abc end */
 }

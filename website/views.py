@@ -807,36 +807,19 @@ def candidates_schedule_create_new_function():
   # ------------------------ pull all user assessments end ------------------------
   # ------------------------ pull all available dates, times, timezones start ------------------------
   next_x_days_arr = next_x_days_function()
-  times_arr = times_arr_function()
+  times_arr, timezone_arr = times_arr_function()
   # ------------------------ pull all available dates, times, timezones end ------------------------
   # ------------------------ post triggered start ------------------------
   if request.method == 'POST':
-    ui_schedule_assessment_selected = request.form.get('ui_schedule_assessment_selected')
-    ui_schedule_candidates_selected = request.form.getlist('ui_schedule_candidates_selected')
-    ui_schedule_date_selected = request.form.get('ui_schedule_date_selected')
-    ui_schedule_time_selected = request.form.get('ui_schedule_time_selected')
-    localhost_print_function('- - - - - - - 0 - - - - - - -')
-    localhost_print_function('ui_schedule_assessment_selected')
-    localhost_print_function(ui_schedule_assessment_selected)
-    localhost_print_function(type(ui_schedule_assessment_selected))
-    localhost_print_function('- - - - - - - 0 - - - - - - -')
-    localhost_print_function('- - - - - - - 1 - - - - - - -')
-    localhost_print_function('ui_schedule_candidates_selected')
-    localhost_print_function(ui_schedule_candidates_selected)
-    localhost_print_function(type(ui_schedule_candidates_selected))
-    localhost_print_function('- - - - - - - 1 - - - - - - -')
-    localhost_print_function('- - - - - - - 2 - - - - - - -')
-    localhost_print_function('ui_schedule_date_selected')
-    localhost_print_function(ui_schedule_date_selected)
-    localhost_print_function(type(ui_schedule_date_selected))
-    localhost_print_function('- - - - - - - 2 - - - - - - -')
-    localhost_print_function('- - - - - - - 3 - - - - - - -')
-    localhost_print_function('ui_schedule_time_selected')
-    localhost_print_function(ui_schedule_time_selected)
-    localhost_print_function(type(ui_schedule_time_selected))
-    localhost_print_function('- - - - - - - 3 - - - - - - -')
+    # ------------------------ get user inputs start ------------------------
+    ui_schedule_assessment_selected = request.form.get('ui_schedule_assessment_selected')       # str
+    ui_schedule_candidates_selected = request.form.getlist('ui_schedule_candidates_selected')   # list of str
+    ui_schedule_date_selected = request.form.get('ui_schedule_date_selected')                   # str
+    ui_schedule_time_selected = request.form.get('ui_schedule_time_selected')                   # str
+    ui_schedule_timezone_selected = request.form.get('ui_schedule_timezone_selected')           # str
+    # ------------------------ get user inputs end ------------------------
   # ------------------------ post triggered end ------------------------
   localhost_print_function('=========================================== candidates_schedule_create_new_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/schedule_page_templates/schedule_create_new_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, current_user_assessment_names_arr_to_html=current_user_assessment_names_arr, current_user_candidates_arr_to_html=current_user_candidates_arr, next_x_days_arr_to_html=next_x_days_arr, times_arr_to_html=times_arr)
+  return render_template('candidates_page_templates/logged_in_page_templates/schedule_page_templates/schedule_create_new_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, current_user_assessment_names_arr_to_html=current_user_assessment_names_arr, current_user_candidates_arr_to_html=current_user_candidates_arr, next_x_days_arr_to_html=next_x_days_arr, times_arr_to_html=times_arr, timezone_arr_to_html=timezone_arr)
 # ------------------------ individual route end ------------------------
 # ------------------------ routes logged in end ------------------------

@@ -12,6 +12,8 @@ checkListAssessment.getElementsByClassName('schedule-anchor-span-assessment-name
       checkListDate.classList.remove('visible');
     if (checkListTime.classList.contains('visible'))
       checkListTime.classList.remove('visible');
+    if (checkListTimeZone.classList.contains('visible'))
+      checkListTimeZone.classList.remove('visible');
     // -------------- Turn off others end --------------
 }
 // -------------- 1 end --------------
@@ -30,6 +32,8 @@ checkListCandidate.getElementsByClassName('schedule-anchor-span-candidate-names'
       checkListDate.classList.remove('visible');
     if (checkListTime.classList.contains('visible'))
       checkListTime.classList.remove('visible');
+    if (checkListTimeZone.classList.contains('visible'))
+      checkListTimeZone.classList.remove('visible');
     // -------------- Turn off others end --------------
 }
 // -------------- 2 end --------------
@@ -48,6 +52,8 @@ checkListDate.getElementsByClassName('schedule-anchor-span-date')[0].onclick = f
       checkListCandidate.classList.remove('visible');
     if (checkListTime.classList.contains('visible'))
       checkListTime.classList.remove('visible');
+    if (checkListTimeZone.classList.contains('visible'))
+      checkListTimeZone.classList.remove('visible');
     // -------------- Turn off others end --------------
 }
 // -------------- 3 end --------------
@@ -66,6 +72,28 @@ checkListTime.getElementsByClassName('schedule-anchor-span-time')[0].onclick = f
       checkListCandidate.classList.remove('visible');
     if (checkListDate.classList.contains('visible'))
       checkListDate.classList.remove('visible');
+    if (checkListTimeZone.classList.contains('visible'))
+      checkListTimeZone.classList.remove('visible');
     // -------------- Turn off others end --------------
 }
 // -------------- 4 end --------------
+
+// -------------- 5 start --------------
+var checkListTimeZone = document.getElementById('js-schedule-list-timezone');
+checkListTimeZone.getElementsByClassName('schedule-anchor-span-timezone')[0].onclick = function(evt) {
+  if (checkListTimeZone.classList.contains('visible'))
+    checkListTimeZone.classList.remove('visible');
+  else
+    checkListTimeZone.classList.add('visible');
+    // -------------- Turn off others start --------------
+    if (checkListAssessment.classList.contains('visible'))
+      checkListAssessment.classList.remove('visible');
+    if (checkListCandidate.classList.contains('visible'))
+      checkListCandidate.classList.remove('visible');
+    if (checkListDate.classList.contains('visible'))
+      checkListDate.classList.remove('visible');
+    if (checkListTime.classList.contains('visible'))
+      checkListTime.classList.remove('visible');
+    // -------------- Turn off others end --------------
+}
+// -------------- 5 end --------------
