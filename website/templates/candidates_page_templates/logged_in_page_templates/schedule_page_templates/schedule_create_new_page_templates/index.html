@@ -45,8 +45,8 @@
           <ul class="schedule-items-assessment-names">
             {% for i in current_user_assessment_names_arr_to_html %}
             <li>
-              <input type="checkbox" id="ui_schedule_assessment_selected" name="ui_schedule_assessment_selected" value="{{ i }}"/>{{ i }}
-              <label for="ui_schedule_assessment_selected"></label>
+              <input type="radio" id="ui_schedule_assessment_selected" name="ui_schedule_assessment_selected" value="{{ i }}"/>
+              <label for="ui_schedule_assessment_selected">{{ i }}</label>
             </li>
             {% endfor %}
           </ul>
@@ -55,6 +55,18 @@
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select assessment end -->
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select candidates start -->
       <div class="schedule-user-input-section-2">
+        <!-- link: https://stackoverflow.com/questions/19206919/how-to-create-checkbox-inside-dropdown -->
+        <div id="js-schedule-list-candidate-names" class="dropdown-list-assessment-names" tabindex="100">
+          <span class="schedule-anchor-span-candidate-names">Select candidates*</span>
+          <ul class="schedule-items-assessment-names">
+            {% for i in current_user_candidates_arr_to_html %}
+            <li>
+              <input type="checkbox" id="ui_schedule_candidates_selected" name="ui_schedule_candidates_selected" value="{{ i }}"/>{{ i }}
+              <label for="ui_schedule_candidates_selected"></label>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
       </div>
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select candidates end -->
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select send datetime start -->

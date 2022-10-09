@@ -791,12 +791,25 @@ def candidates_schedule_create_new_function():
     return redirect(url_for('views.capacity_page_function'))
   # ------------------------ individual redirect end ------------------------
   # ------------------------ pull all user assessments start ------------------------
-  current_user_assessments_created_arr = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id).all()
+  current_user_assessments_created_arr = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id).order_by(CandidatesAssessmentsCreatedObj.assessment_name).all()
   current_user_assessment_names_arr = []
   for i in current_user_assessments_created_arr:
     current_user_assessment_names_arr.append(i.assessment_name)
+  current_user_assessment_names_arr = sorted(current_user_assessment_names_arr)
   # ------------------------ pull all user assessments end ------------------------
+  # ------------------------ pull all user assessments start ------------------------
+  current_user_candidates_uploaded_arr = CandidatesUploadedCandidatesObj.query.filter_by(user_id_fk=current_user.id).order_by(CandidatesUploadedCandidatesObj.email).all()
+  current_user_candidates_arr = []
+  for i in current_user_candidates_uploaded_arr:
+    current_user_candidates_arr.append(i.email)
+  current_user_candidates_arr = sorted(current_user_candidates_arr)
+  # ------------------------ pull all user assessments end ------------------------
+  # ------------------------ post triggered start ------------------------
+  if request.method == 'POST':
+    ui_schedule_assessment_selected = request.form.get('ui_schedule_assessment_selected')
+    ui_schedule_candidates_selected = request.form.getlist('ui_schedule_candidates_selected')
+  # ------------------------ post triggered end ------------------------
   localhost_print_function('=========================================== candidates_schedule_create_new_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/schedule_page_templates/schedule_create_new_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, current_user_assessment_names_arr_to_html=current_user_assessment_names_arr)
+  return render_template('candidates_page_templates/logged_in_page_templates/schedule_page_templates/schedule_create_new_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, current_user_assessment_names_arr_to_html=current_user_assessment_names_arr, current_user_candidates_arr_to_html=current_user_candidates_arr)
 # ------------------------ individual route end ------------------------
 # ------------------------ routes logged in end ------------------------
