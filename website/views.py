@@ -15,12 +15,12 @@ from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_f
 from flask import Blueprint, render_template, request, redirect, url_for, session
 from flask_login import login_required, current_user, login_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
-from website.models import CandidatesUserObj, CandidatesDesiredLanguagesObj, CandidatesUploadedCandidatesObj, CandidatesAssessmentsCreatedObj, CandidatesRequestLanguageObj
+from website.models import CandidatesUserObj, CandidatesDesiredLanguagesObj, CandidatesUploadedCandidatesObj, CandidatesAssessmentsCreatedObj, CandidatesRequestLanguageObj, CandidatesScheduleObj
 from website.backend.candidates.browser import browser_response_set_cookie_function
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
 from website import db
-from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function, sanitize_create_account_text_inputs_function, sanitize_create_account_text_inputs_large_function, validate_upload_candidate_function, sanitize_loop_check_if_exists_within_arr_function, check_if_question_id_arr_exists_function
+from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function, sanitize_create_account_text_inputs_function, sanitize_create_account_text_inputs_large_function, validate_upload_candidate_function, sanitize_loop_check_if_exists_within_arr_function, sanitize_check_if_str_exists_within_arr_function, check_if_question_id_arr_exists_function
 from website.backend.candidates.send_emails import send_email_template_function
 from werkzeug.security import generate_password_hash
 import pandas as pd
@@ -791,6 +791,10 @@ def candidates_schedule_create_new_function():
     localhost_print_function('=========================================== candidates_schedule_create_new_function END ===========================================')
     return redirect(url_for('views.capacity_page_function'))
   # ------------------------ individual redirect end ------------------------
+  # ------------------------ messages start ------------------------
+  success_message_schedule = ''
+  error_message_schedule = ''
+  # ------------------------ messages end ------------------------
   # ------------------------ pull all user assessments start ------------------------
   current_user_assessments_created_arr = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id).order_by(CandidatesAssessmentsCreatedObj.assessment_name).all()
   current_user_assessment_names_arr = []
@@ -818,8 +822,38 @@ def candidates_schedule_create_new_function():
     ui_schedule_time_selected = request.form.get('ui_schedule_time_selected')                   # str
     ui_schedule_timezone_selected = request.form.get('ui_schedule_timezone_selected')           # str
     # ------------------------ get user inputs end ------------------------
+    # ------------------------ verify user inputs start ------------------------
+    all_ui_verified_correct = True
+    ui_schedule_assessment_selected_check = sanitize_check_if_str_exists_within_arr_function(ui_schedule_assessment_selected, current_user_assessment_names_arr)
+    ui_schedule_candidates_selected_check = sanitize_loop_check_if_exists_within_arr_function(ui_schedule_candidates_selected, current_user_candidates_arr)
+    ui_schedule_date_selected_check = sanitize_check_if_str_exists_within_arr_function(ui_schedule_date_selected, next_x_days_arr)
+    ui_schedule_time_selected_check = sanitize_check_if_str_exists_within_arr_function(ui_schedule_time_selected, times_arr)
+    ui_schedule_timezone_selected_check = sanitize_check_if_str_exists_within_arr_function(ui_schedule_timezone_selected, timezone_arr)
+    if ui_schedule_assessment_selected_check == False or ui_schedule_candidates_selected_check == False or ui_schedule_date_selected_check == False or ui_schedule_time_selected_check == False or ui_schedule_timezone_selected_check == False:
+      error_message_schedule = 'Please fill out all fields.'
+      all_ui_verified_correct = False
+    # ------------------------ verify user inputs end ------------------------
+    # ------------------------ pre insert start ------------------------
+    ui_schedule_candidates_selected = ",".join(ui_schedule_candidates_selected)
+    # ------------------------ pre insert end ------------------------
+    # ------------------------ insert to db start ------------------------
+    if all_ui_verified_correct == True:
+      new_row = CandidatesScheduleObj(
+        id = create_uuid_function('schedule_'),
+        created_timestamp = create_timestamp_function(),
+        user_id_fk = current_user.id,
+        assessment_name = ui_schedule_assessment_selected,
+        candidates = ui_schedule_candidates_selected,
+        send_date = ui_schedule_date_selected,
+        send_time = ui_schedule_time_selected,
+        send_timezone = ui_schedule_timezone_selected
+      )
+      db.session.add(new_row)
+      db.session.commit()
+      success_message_schedule = 'Schedule created!'
+    # ------------------------ insert to db end ------------------------
   # ------------------------ post triggered end ------------------------
   localhost_print_function('=========================================== candidates_schedule_create_new_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/schedule_page_templates/schedule_create_new_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, current_user_assessment_names_arr_to_html=current_user_assessment_names_arr, current_user_candidates_arr_to_html=current_user_candidates_arr, next_x_days_arr_to_html=next_x_days_arr, times_arr_to_html=times_arr, timezone_arr_to_html=timezone_arr)
+  return render_template('candidates_page_templates/logged_in_page_templates/schedule_page_templates/schedule_create_new_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, current_user_assessment_names_arr_to_html=current_user_assessment_names_arr, current_user_candidates_arr_to_html=current_user_candidates_arr, next_x_days_arr_to_html=next_x_days_arr, times_arr_to_html=times_arr, timezone_arr_to_html=timezone_arr, success_message_to_html=success_message_schedule, error_message_to_html=error_message_schedule)
 # ------------------------ individual route end ------------------------
 # ------------------------ routes logged in end ------------------------

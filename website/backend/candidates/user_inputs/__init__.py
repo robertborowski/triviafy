@@ -141,6 +141,20 @@ def sanitize_loop_check_if_exists_within_arr_function(user_input_arr, correct_ma
   return user_input_arr
 # ------------------------ individual function end ------------------------
 
+# ------------------------ individual function start ------------------------
+def sanitize_check_if_str_exists_within_arr_function(user_input_str, correct_master_arr):
+  localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function START ===========================================')
+  if len(user_input_str) == 0:
+    localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function END ===========================================')
+    return False
+  if user_input_str not in correct_master_arr:
+    localhost_print_function('user input provided is not an option')
+    localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function END ===========================================')
+    return False
+  localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function END ===========================================')
+  return user_input_str
+# ------------------------ individual function end ------------------------
+
 
 # ------------------------ individual function start ------------------------
 def validate_upload_candidate_function(db, current_user, ui_email, user_input_type):

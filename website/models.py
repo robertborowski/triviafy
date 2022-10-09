@@ -86,6 +86,18 @@ class CandidatesRequestLanguageObj(db.Model):
   desired_languages_str = db.Column(db.String(1000))
   approved_to_view = db.Column(db.Boolean, default=False)
 # ------------------------ individual model end ------------------------
+
+# ------------------------ individual model start ------------------------
+class CandidatesScheduleObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  user_id_fk = db.Column(db.String(150))
+  assessment_name = db.Column(db.String(150))
+  candidates = db.Column(db.String(150))
+  send_date = db.Column(db.String(150))
+  send_time = db.Column(db.String(150))
+  send_timezone = db.Column(db.String(150))
+# ------------------------ individual model end ------------------------
 # ------------------------ models end ------------------------
 
 
