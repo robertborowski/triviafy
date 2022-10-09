@@ -109,7 +109,7 @@ ul.schedule-items-assessment-names li input {
   /* border: 1px solid black; */
   display: block;
 }
-li input[type="radio"] {
+.schedule-items-assessment-names li input[type="radio"] {
   border: 1px solid rgb(190, 190, 190);
   color: rgb(190, 190, 190);
   padding: 5px;
@@ -118,11 +118,11 @@ li input[type="radio"] {
   display: inline-block;
   border-radius: 10px;
 }
-li input[type="radio"]:hover {
+.schedule-items-assessment-names li input[type="radio"]:hover {
   background-color: var(--company-primary-color);
   color: white;
 }
-li input[type="radio"]:checked {
+.schedule-items-assessment-names li input[type="radio"]:checked {
   background-color: var(--company-primary-color);
   color: white;
 }
