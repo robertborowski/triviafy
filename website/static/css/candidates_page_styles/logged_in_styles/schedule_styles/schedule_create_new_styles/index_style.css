@@ -12,33 +12,38 @@
 .schedule-options-grid {
   /* border: 1px solid black; */
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  /* grid-template-columns: repeat(3, 1fr); */
+  grid-template-columns: 1fr 1fr 1.5fr;
   grid-template-rows: 1fr;
 }
 .schedule-user-input-section-1 {
-  /* border: 1px solid blue; */
+  border: 1px solid blue;
   grid-area: 1 / 1 / 2 / 2;
 }
 .schedule-user-input-section-2 {
-  /* border: 1px solid red; */
+  border: 1px solid red;
   grid-area: 1 / 2 / 2 / 3;
 }
 .schedule-user-input-section-3 {
-  /* border: 1px solid green; */
+  border: 1px solid green;
   grid-area: 1 / 3 / 2 / 4;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr;
 }
 .dropdown-list-assessment-names {
   /* border: 1px solid black; */
   display: inline-block;
 }
-.schedule-anchor-span-assessment-names, .schedule-anchor-span-candidate-names {
+.schedule-anchor-span-assessment-names,
+.schedule-anchor-span-candidate-names {
   /* border: 1px solid black; */
   position: relative;
   cursor: pointer;
   display: inline-block;
   /* padding: 5px 50px 5px 10px;
   border: 1px solid #ccc; */
-  width: 250px;
+  width: 275px;
   /* .input */
   height: 50px;
   margin-bottom: 0px;
@@ -63,11 +68,47 @@
   appearance: auto;
   -webkit-rtl-ordering: logical;
 }
-.schedule-anchor-span-assessment-names:hover, .schedule-anchor-span-candidate-names:hover {
+.schedule-anchor-span-date {
+  /* border: 1px solid black; */
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+  /* padding: 5px 50px 5px 10px;
+  border: 1px solid #ccc; */
+  width: 125px;
+  /* .input */
+  height: 50px;
+  margin-bottom: 0px;
+  padding: 12px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #fff;
+  transition: border-color .3s,box-shadow .4s,border-width .2s linear,background-color .4s linear;
+  font-size: 16px;
+  line-height: 28px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  /* .w-input */
+  /* display: flex; */
+  color: rgb(117, 117, 117);
+  /* input */
+  word-spacing: normal;
+  text-transform: none;
+  text-indent: 0px;
+  text-shadow: none;
+  text-align: start;
+  appearance: auto;
+  -webkit-rtl-ordering: logical;
+}
+.schedule-anchor-span-assessment-names:hover,
+.schedule-anchor-span-candidate-names:hover,
+.schedule-anchor-span-date:hover {
   border: 2px solid #b7b7b7;
   transition: 0.2s;
 }
-.schedule-anchor-span-assessment-names:after, .schedule-anchor-span-candidate-names:after {
+.schedule-anchor-span-assessment-names:after,
+.schedule-anchor-span-candidate-names:after,
+.schedule-anchor-span-date:after {
   /* border: 1px solid black; */
   position: absolute;
   content: "";
@@ -101,7 +142,9 @@ ul.schedule-items-assessment-names li {
 ul.schedule-items-assessment-names li input {
   margin: 0 5px 0 0;
 }
-.dropdown-list-assessment-names.visible .schedule-anchor-span-assessment-names, .dropdown-list-assessment-names.visible .schedule-anchor-span-candidate-names {
+.dropdown-list-assessment-names.visible .schedule-anchor-span-assessment-names,
+.dropdown-list-assessment-names.visible .schedule-anchor-span-candidate-names,
+.dropdown-list-assessment-names.visible .schedule-anchor-span-date {
   /* border: 1px solid black; */
   color: var(--company-primary-color);
 }
@@ -125,5 +168,17 @@ ul.schedule-items-assessment-names li input {
 .schedule-items-assessment-names li input[type="radio"]:checked {
   background-color: var(--company-primary-color);
   color: white;
+}
+.schedule-ui-inner-section-1 {
+  border: 1px solid black;
+  grid-area: 1 / 1 / 2 / 2;
+}
+.schedule-ui-inner-section-2 {
+  border: 1px solid red;
+  grid-area: 1 / 2 / 2 / 3;
+}
+.schedule-ui-inner-section-3 {
+  border: 1px solid blue;
+  grid-area: 1 / 3 / 2 / 4;
 }
 /* - - - - - - - - - - assessment create end */

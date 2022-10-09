@@ -41,7 +41,7 @@
       <div class="schedule-user-input-section-1">
         <!-- link: https://stackoverflow.com/questions/19206919/how-to-create-checkbox-inside-dropdown -->
         <div id="js-schedule-list-assessment-names" class="dropdown-list-assessment-names" tabindex="100">
-          <span class="schedule-anchor-span-assessment-names">Select one assessment*</span>
+          <span class="schedule-anchor-span-assessment-names">Assessment*</span>
           <ul class="schedule-items-assessment-names">
             {% for i in current_user_assessment_names_arr_to_html %}
             <li>
@@ -57,7 +57,7 @@
       <div class="schedule-user-input-section-2">
         <!-- link: https://stackoverflow.com/questions/19206919/how-to-create-checkbox-inside-dropdown -->
         <div id="js-schedule-list-candidate-names" class="dropdown-list-assessment-names" tabindex="100">
-          <span class="schedule-anchor-span-candidate-names">Select candidates*</span>
+          <span class="schedule-anchor-span-candidate-names">Candidates*</span>
           <ul class="schedule-items-assessment-names">
             {% for i in current_user_candidates_arr_to_html %}
             <li>
@@ -71,6 +71,30 @@
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select candidates end -->
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select send datetime start -->
       <div class="schedule-user-input-section-3">
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select send date start -->
+        <div class="schedule-ui-inner-section-1">
+          <!-- link: https://stackoverflow.com/questions/19206919/how-to-create-checkbox-inside-dropdown -->
+          <div id="js-schedule-list-date" class="dropdown-list-assessment-names" tabindex="100">
+            <span class="schedule-anchor-span-date">Date*</span>
+            <ul class="schedule-items-assessment-names">
+              {% for i in next_x_days_arr_to_html %}
+              <li>
+                <input type="radio" id="ui_schedule_date_selected" name="ui_schedule_date_selected" value="{{ i }}"/>
+                <label for="ui_schedule_date_selected">{{ i }}</label>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select send date end -->
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select send time start -->
+        <div class="schedule-ui-inner-section-2">
+        </div>
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select send time end -->
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select send timezone start -->
+        <div class="schedule-ui-inner-section-3">
+        </div>
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select send timezone end -->
       </div>
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select send datetime end -->
     </div>
