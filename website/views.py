@@ -790,8 +790,13 @@ def candidates_schedule_create_new_function():
     localhost_print_function('=========================================== candidates_schedule_create_new_function END ===========================================')
     return redirect(url_for('views.capacity_page_function'))
   # ------------------------ individual redirect end ------------------------
-  # ------------------------ remove answers for non paying users end ------------------------
+  # ------------------------ pull all user assessments start ------------------------
+  current_user_assessments_created_arr = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id).all()
+  current_user_assessment_names_arr = []
+  for i in current_user_assessments_created_arr:
+    current_user_assessment_names_arr.append(i.assessment_name)
+  # ------------------------ pull all user assessments end ------------------------
   localhost_print_function('=========================================== candidates_schedule_create_new_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/schedule_page_templates/schedule_create_new_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name)
+  return render_template('candidates_page_templates/logged_in_page_templates/schedule_page_templates/schedule_create_new_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, current_user_assessment_names_arr_to_html=current_user_assessment_names_arr)
 # ------------------------ individual route end ------------------------
 # ------------------------ routes logged in end ------------------------

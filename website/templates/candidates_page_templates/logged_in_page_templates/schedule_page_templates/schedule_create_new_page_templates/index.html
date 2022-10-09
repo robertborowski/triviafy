@@ -36,6 +36,35 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
 <div class="schedule-new-form-container">
   <form method="POST" class="schedule-new-form">
+    <div class="schedule-options-grid">
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select assessment start -->
+      <div class="schedule-user-input-section-1">
+        <!-- link: https://stackoverflow.com/questions/19206919/how-to-create-checkbox-inside-dropdown -->
+        <div id="js-schedule-list-assessment-names" class="dropdown-list-assessment-names" tabindex="100">
+          <span class="schedule-anchor-span-assessment-names">Select one assessment*</span>
+          <ul class="schedule-items-assessment-names">
+            {% for i in current_user_assessment_names_arr_to_html %}
+            <li>
+              <input type="checkbox" id="ui_schedule_assessment_selected" name="ui_schedule_assessment_selected" value="{{ i }}"/>{{ i }}
+              <label for="ui_schedule_assessment_selected"></label>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select assessment end -->
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select candidates start -->
+      <div class="schedule-user-input-section-2">
+      </div>
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select candidates end -->
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select send datetime start -->
+      <div class="schedule-user-input-section-3">
+      </div>
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select send datetime end -->
+    </div>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+    <div class="general-spacer-section"></div>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - submit button start -->
     <button type="submit" class="default-button-format default-button-format-primary-color">Submit Schedule</button>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - submit button end -->
