@@ -129,6 +129,9 @@ def sanitize_create_account_text_inputs_large_function(user_input):
 # ------------------------ individual function start ------------------------
 def sanitize_loop_check_if_exists_within_arr_function(user_input_arr, correct_master_arr):
   localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function START ===========================================')
+  if user_input_arr == None:
+    localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function END ===========================================')
+    return False
   if len(user_input_arr) == 0:
     localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function END ===========================================')
     return False
@@ -144,6 +147,9 @@ def sanitize_loop_check_if_exists_within_arr_function(user_input_arr, correct_ma
 # ------------------------ individual function start ------------------------
 def sanitize_check_if_str_exists_within_arr_function(user_input_str, correct_master_arr):
   localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function START ===========================================')
+  if user_input_str == None:
+    localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function END ===========================================')
+    return False
   if len(user_input_str) == 0:
     localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function END ===========================================')
     return False
