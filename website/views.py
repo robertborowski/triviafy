@@ -244,11 +244,15 @@ def dashboard_test_login_page_function():
   current_user_assessments_created_arr = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id).all()
   len_current_user_assessments_created_arr = len(current_user_assessments_created_arr)
   # ------------------------ get users total assessments created end ------------------------
+  # ------------------------ get users total schedules created start ------------------------
+  current_user_schedules_created_arr = CandidatesScheduleObj.query.filter_by(user_id_fk=current_user.id).all()
+  len_current_user_schedules_created_arr = len(current_user_schedules_created_arr)
+  # ------------------------ get users total schedules created end ------------------------
   # ------------------------ auto set cookie start ------------------------
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
   if get_cookie_value_from_browser != None:
     redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
-    return render_template(template_location_url, user = current_user, users_company_name_to_html = current_user.company_name, len_current_user_uploaded_emails_arr_to_html = len_current_user_uploaded_emails_arr, len_current_user_assessments_created_arr_to_html=len_current_user_assessments_created_arr)
+    return render_template(template_location_url, user = current_user, users_company_name_to_html = current_user.company_name, len_current_user_uploaded_emails_arr_to_html = len_current_user_uploaded_emails_arr, len_current_user_assessments_created_arr_to_html=len_current_user_assessments_created_arr, len_current_user_schedules_created_arr_to_html=len_current_user_schedules_created_arr)
   else:
     browser_response = browser_response_set_cookie_function(current_user, template_location_url)
     localhost_print_function('=========================================== dashboard_test_login_page_function END ===========================================')
