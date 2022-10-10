@@ -97,6 +97,8 @@ class CandidatesScheduleObj(db.Model):
   send_date = db.Column(db.String(150))
   send_time = db.Column(db.String(150))
   send_timezone = db.Column(db.String(150))
+  candidate_status = db.Column(db.String(150))
+  expiring_url = db.Column(db.String(150), unique=True)
 # ------------------------ individual model end ------------------------
 # ------------------------ models end ------------------------
 
