@@ -806,13 +806,13 @@ def candidates_schedule_create_new_function():
     current_user_assessment_names_arr.append(i.assessment_name)
   current_user_assessment_names_arr = sorted(current_user_assessment_names_arr)
   # ------------------------ pull all user assessments end ------------------------
-  # ------------------------ pull all user assessments start ------------------------
+  # ------------------------ pull all user candidates start ------------------------
   current_user_candidates_uploaded_arr = CandidatesUploadedCandidatesObj.query.filter_by(user_id_fk=current_user.id).order_by(CandidatesUploadedCandidatesObj.email).all()
   current_user_candidates_arr = []
   for i in current_user_candidates_uploaded_arr:
     current_user_candidates_arr.append(i.email)
   current_user_candidates_arr = sorted(current_user_candidates_arr)
-  # ------------------------ pull all user assessments end ------------------------
+  # ------------------------ pull all user candidates end ------------------------
   # ------------------------ pull all available dates, times, timezones start ------------------------
   next_x_days_arr = next_x_days_function()
   times_arr, timezone_arr = times_arr_function()
@@ -859,6 +859,84 @@ def candidates_schedule_create_new_function():
   # ------------------------ post triggered end ------------------------
   localhost_print_function('=========================================== candidates_schedule_create_new_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/schedule_page_templates/schedule_create_new_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, current_user_assessment_names_arr_to_html=current_user_assessment_names_arr, current_user_candidates_arr_to_html=current_user_candidates_arr, next_x_days_arr_to_html=next_x_days_arr, times_arr_to_html=times_arr, timezone_arr_to_html=timezone_arr, success_message_to_html=success_message_schedule, error_message_to_html=error_message_schedule)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@views.route('/candidates/schedule/now', methods=['GET', 'POST'])
+@login_required
+def candidates_schedule_create_now_function():
+  localhost_print_function('=========================================== candidates_schedule_create_now_function START ===========================================')
+  # ------------------------ individual redirect start ------------------------
+  query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
+  check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
+  if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
+    localhost_print_function('=========================================== candidates_schedule_create_now_function END ===========================================')
+    return redirect(url_for('views.capacity_page_function'))
+  # ------------------------ individual redirect end ------------------------
+  # ------------------------ individual redirect start ------------------------
+  query_result_arr_of_dicts = select_general_function('select_if_desired_languages_captured')
+  try:
+    check_desired_languages_value = query_result_arr_of_dicts[0]['desired_languages']
+  except:
+    check_desired_languages_value = None
+  if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
+    localhost_print_function('=========================================== candidates_schedule_create_now_function END ===========================================')
+    return redirect(url_for('views.capacity_page_function'))
+  # ------------------------ individual redirect end ------------------------
+  # ------------------------ messages start ------------------------
+  success_message_schedule = ''
+  error_message_schedule = ''
+  # ------------------------ messages end ------------------------
+  # ------------------------ pull all user assessments start ------------------------
+  current_user_assessments_created_arr = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id).order_by(CandidatesAssessmentsCreatedObj.assessment_name).all()
+  current_user_assessment_names_arr = []
+  for i in current_user_assessments_created_arr:
+    current_user_assessment_names_arr.append(i.assessment_name)
+  current_user_assessment_names_arr = sorted(current_user_assessment_names_arr)
+  # ------------------------ pull all user assessments end ------------------------
+  # ------------------------ pull all user candidates start ------------------------
+  current_user_candidates_uploaded_arr = CandidatesUploadedCandidatesObj.query.filter_by(user_id_fk=current_user.id).order_by(CandidatesUploadedCandidatesObj.email).all()
+  current_user_candidates_arr = []
+  for i in current_user_candidates_uploaded_arr:
+    current_user_candidates_arr.append(i.email)
+  current_user_candidates_arr = sorted(current_user_candidates_arr)
+  # ------------------------ pull all user candidates end ------------------------
+  # ------------------------ post triggered start ------------------------
+  if request.method == 'POST':
+    # ------------------------ get user inputs start ------------------------
+    ui_schedule_assessment_selected = request.form.get('ui_schedule_assessment_selected')       # str
+    ui_schedule_candidates_selected = request.form.getlist('ui_schedule_candidates_selected')   # list of str
+    # ------------------------ get user inputs end ------------------------
+    # ------------------------ verify user inputs start ------------------------
+    all_ui_verified_correct = True
+    ui_schedule_assessment_selected_check = sanitize_check_if_str_exists_within_arr_function(ui_schedule_assessment_selected, current_user_assessment_names_arr)
+    ui_schedule_candidates_selected_check = sanitize_loop_check_if_exists_within_arr_function(ui_schedule_candidates_selected, current_user_candidates_arr)
+    if ui_schedule_assessment_selected_check == False or ui_schedule_candidates_selected_check == False:
+      error_message_schedule = 'Please fill out all fields.'
+      all_ui_verified_correct = False
+    # ------------------------ verify user inputs end ------------------------
+    # ------------------------ insert to db start ------------------------
+    if all_ui_verified_correct == True:
+      for i in ui_schedule_candidates_selected:
+        new_row = CandidatesScheduleObj(
+          id = create_uuid_function('schedule_'),
+          created_timestamp = create_timestamp_function(),
+          user_id_fk = current_user.id,
+          assessment_name = ui_schedule_assessment_selected,
+          candidates = i,
+          send_date = 'Immediate',
+          send_time = 'Immediate',
+          send_timezone = 'Immediate',
+          candidate_status = 'Pending',
+          expiring_url = create_uuid_function('expire_')
+        )
+        db.session.add(new_row)
+        db.session.commit()
+      success_message_schedule = 'Schedule created!'
+    # ------------------------ insert to db end ------------------------
+  # ------------------------ post triggered end ------------------------
+  localhost_print_function('=========================================== candidates_schedule_create_now_function END ===========================================')
+  return render_template('candidates_page_templates/logged_in_page_templates/schedule_page_templates/schedule_create_now_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, current_user_assessment_names_arr_to_html=current_user_assessment_names_arr, current_user_candidates_arr_to_html=current_user_candidates_arr, success_message_to_html=success_message_schedule, error_message_to_html=error_message_schedule)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
