@@ -17,9 +17,6 @@
 }
 /* ==================================== Default - Signed In and Not Signed In - Global Font and Borders - END ==================================== */
 
-
-/* ==================================== Default - Not Signed In - Global Classes - START ==================================== */
-/* - - - - - - - - - - Default - Not Signed In - Text Input - Start */
 .candidates-default-text-input {
   /* border: 1px solid green; */
   /* .input.form__input */
@@ -58,9 +55,6 @@
   .candidates-default-text-input-full-width {
     width: 100%;
   }
-/* - - - - - - - - - - Default - Not Signed In - Text Input - End */
-
-/* - - - - - - - - - - Default - Signed In - Company Name - Start */
 .general-signed-in-company-name-section {
   /* border: 1px solid black; */
   text-align: center;
@@ -69,10 +63,6 @@
   font-size: 25px;
   margin: 25px 0 0 0;
 }
-/* - - - - - - - - - - Default - Signed In - Company Name - End */
-
-
-/* - - - - - - - - - - Default - Signed In - Page Title - Start */
 .general-page-title-section {
   /* border: 1px solid black; */
   text-align: center;
@@ -88,10 +78,6 @@
 .general-page-font {
   font-size: 20px;
 }
-/* - - - - - - - - - - Default - Signed In - Page Title - End */
-
-
-/* - - - - - - - - - - Default - Signed In - Spacer - Start */
 .general-spacer-section {
   /* background-color: var(--testing-blueprint-color); */
   height: 50px;
@@ -113,30 +99,29 @@
   max-width: 1200px;
   margin: 0 
 }
-/* - - - - - - - - - - Default - Signed In - Spacer - End */
-
-
-/* - - - - - - - - - - Default - Signed In - Box Shadows - Start */
 .candidates-default-box-shadow-grey-regular {
   box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.115)!important;
 }
 .candidates-default-box-shadow-grey-small {
   box-shadow: 0 .125rem .5rem rgba(0, 0, 0, 0.115)!important;
 }
-/* - - - - - - - - - - Default - Signed In - Box Shadows - End */
-
-
-/* - - - - - - - - - - Default - Signed In - Span - Start */
 .general-highlight-primary {
   color: var(--company-primary-color);
 }
-/* - - - - - - - - - - Default - Signed In - Span - End */
-
-
-/* - - - - - - - - - - Default - Signed In - Center - Start */
 .general-center-container {
   /* border: 1px solid black; */
   width: 100%;
   text-align: center;
 }
-/* - - - - - - - - - - Default - Signed In - Center - Start */
+.general-a-black {
+  text-decoration: none;
+  color: black;
+}
+.general-a-primary {
+  text-decoration: none;
+  color: var(--company-primary-color);
+}
+.general-a-black:hover,
+.general-a-primary:hover {
+  text-decoration: underline;
+}

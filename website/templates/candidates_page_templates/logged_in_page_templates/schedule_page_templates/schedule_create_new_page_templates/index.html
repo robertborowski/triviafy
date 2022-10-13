@@ -23,6 +23,16 @@
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title end -->
 
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - view all start -->
+<div class="general-center-container">
+  <a href="{{ url_for('views.candidates_schedule_analytics_function') }}" class="general-a-primary"><p class="general-page-font">View all schedules</p></a>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - view all end -->
+
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message start -->
 <div class="error-message-section">
   <p>{{ error_message_to_html }}</p>

@@ -29,7 +29,7 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - redirect link start -->
 <div class="general-center-container">
-  <a href="{{ url_for('views.candidates_assessments_dashboard_function') }}"><p class="general-page-font">Create assessment</p></a>
+  <a href="{{ url_for('views.candidates_assessments_dashboard_function') }}" class="general-a-primary"><p class="general-page-font">Create assessment</p></a>
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - redirect link end -->
 
@@ -52,11 +52,11 @@
       {% for i in all_assessments_arr_of_dicts_to_html %}
       <tr>
         <td>{{ i['assessment_name'] }}</td>
-        <td><a href="{{ url_for('views.candidates_assessment_view_specific_function', url_assessment_name=i['assessment_name']) }}">View</a></td>
+        <td><a href="{{ url_for('views.candidates_assessment_view_specific_function', url_assessment_name=i['assessment_name']) }}" class="general-a-black">View</a></td>
         <td>{{ i['candidates_pending'] }}</td>
         <td>{{ i['candidates_received'] }}</td>
         <td>{{ i['candidates_completed'] }}</td>
-        <td><a href="{{ url_for('views.dashboard_test_login_page_function') }}">Results</a></td>
+        <td><a href="{{ url_for('views.dashboard_test_login_page_function') }}" class="general-a-primary">Results</a></td>
       </tr>
       {% endfor %}
     </tbody>
