@@ -38,16 +38,44 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
-<div class="assessment-dashboard-create-new-section candidates-default-box-shadow-grey-small">
-  <div class="dashboard-split-inner-section">
-    <p class="dashboard-split-title general-margin-top-small">Schedule Assessment</p>
+<div class="schedule-options-container">
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - option 1 schedule later start -->
+  <div class="schedule-dash-left">
+    <div class="schedule-dashboard-section candidates-default-box-shadow-grey-small">
+      <div class="dashboard-split-inner-section">
+        <p class="dashboard-split-title general-margin-top-small">Schedule Assessment</p>
+      </div>
+      <div class="dashboard-split-inner-section">
+        <img src="/static/images/candidates/dashboard/send_to_candidate_time.png" alt="upload candidates img" class="upload-candidates-img">
+      </div>
+      <div class="dashboard-split-inner-section">
+        <a href="{{ url_for('views.candidates_schedule_create_new_function') }}"><p class="default-button-format default-button-format-primary-color">Create New</p></a>
+      </div>
+    </div>
   </div>
-  <div class="dashboard-split-inner-section">
-    <img src="/static/images/candidates/dashboard/send_to_candidate.png" alt="upload candidates img" class="upload-candidates-img">
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - option 1 schedule later end -->
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - or section start -->
+  <div class="schedule-dash-middle">
+    <p class="schedule-or-p">OR</p>
   </div>
-  <div class="dashboard-split-inner-section">
-    <a href="{{ url_for('views.candidates_schedule_create_new_function') }}"><p class="default-button-format default-button-format-primary-color">Create New</p></a>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - or section end -->
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - option 2 send now start -->
+  <div class="schedule-dash-right">
+    <div class="schedule-dashboard-section candidates-default-box-shadow-grey-small">
+      <div class="dashboard-split-inner-section">
+        <p class="dashboard-split-title general-margin-top-small">Send Assessment Now</p>
+      </div>
+      <div class="dashboard-split-inner-section">
+        <img src="/static/images/candidates/dashboard/send_to_candidate_now.png" alt="upload candidates img" class="upload-candidates-img">
+      </div>
+      <div class="dashboard-split-inner-section">
+        <a href="{{ url_for('views.candidates_schedule_create_new_function') }}"><p class="default-button-format default-button-format-primary-color">Create New</p></a>
+      </div>
+    </div>
   </div>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - option 2 send now end -->
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
 <div class="general-spacer-section"></div>
