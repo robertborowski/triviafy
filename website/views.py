@@ -1016,7 +1016,7 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
     localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
     return redirect(url_for('views.candidates_assessment_invalid_function'))
   # ------------------------ invalid url_assessment_name end ------------------------
-  error_message_test = 'Please fill out all fields.'
+  error_message_test = ''
   # ------------------------ pull schedule info start ------------------------
   db_schedule_obj = CandidatesScheduleObj.query.filter_by(expiring_url=url_assessment_expiring).first()
   # ------------------------ pull schedule info end ------------------------
@@ -1025,21 +1025,11 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
     localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
     return redirect(url_for('views.candidates_assessment_invalid_function'))
   # ------------------------ check if url exists end ------------------------
-  localhost_print_function('- - - - - - - (1) - - - - - - -')
-  localhost_print_function('db_schedule_obj')
-  localhost_print_function(db_schedule_obj)
-  localhost_print_function(type(db_schedule_obj))
-  localhost_print_function('- - - - - - - (1) - - - - - - -')
-  localhost_print_function('- - - - - - - 0 - - - - - - -')
-  localhost_print_function('db_schedule_obj.user_id_fk')
-  localhost_print_function(db_schedule_obj.user_id_fk)
-  localhost_print_function(type(db_schedule_obj.user_id_fk))
-  localhost_print_function('- - - - - - - 0 - - - - - - -')
-  localhost_print_function('- - - - - - - 1 - - - - - - -')
-  localhost_print_function('db_schedule_obj.assessment_name')
-  localhost_print_function(db_schedule_obj.assessment_name)
-  localhost_print_function(type(db_schedule_obj.assessment_name))
-  localhost_print_function('- - - - - - - 1 - - - - - - -')
+  # ------------------------ check if schedule id expired start ------------------------
+  db_schedule_obj_created_timestamp = db_schedule_obj.created_timestamp
+  # check if current time is 1 hour greater than db_schedule_obj_created_timestamp, if so then it is expired
+
+  # ------------------------ check if schedule id expired end ------------------------
   localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
   return render_template('candidates_page_templates/not_logged_in_page_templates/assessments_page_templates/assessment_candidate_test/index.html', users_company_name_to_html='tobeAdded', error_message_to_html=error_message_test)
 # ------------------------ individual route end ------------------------
