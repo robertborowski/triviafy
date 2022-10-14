@@ -1,7 +1,8 @@
 # ------------------------ imports start ------------------------
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 import os, time
-import datetime
+from datetime import datetime, timedelta
+from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ set timezone start ------------------------
@@ -19,7 +20,7 @@ def next_x_days_function():
   days_counter_limit = 40
   next_x_days_arr = []
   while days_counter < days_counter_limit:
-    current_date_str = (datetime.datetime.now() + datetime.timedelta(days=days_counter)).strftime('%m-%d-%Y')
+    current_date_str = (datetime.now() + timedelta(days=days_counter)).strftime('%m-%d-%Y')
     days_counter += 1
     next_x_days_arr.append(current_date_str)
   # ------------------------ get todays date end ------------------------
@@ -66,5 +67,98 @@ def times_arr_function():
   # ------------------------ get todays date end ------------------------
   localhost_print_function('=========================================== next_x_days_function END ===========================================')
   return times_arr, timezone_arr
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def expired_assessment_check_function(input_timestamp):
+  localhost_print_function('=========================================== expired_assessment_check_function START ===========================================')
+  # ------------------------ expire settings start ------------------------  
+  expire_limit = 60 * 60
+  is_expired = False
+  # ------------------------ expire settings end ------------------------  
+  # ------------------------ current time start ------------------------  
+  current_datetime_str = create_timestamp_function()
+  current_datetime = datetime.strptime(current_datetime_str, '%Y-%m-%d %H:%M:%S')
+  # ------------------------ current time end ------------------------  
+  # ------------------------ schedule time start ------------------------  
+  schedule_timestamp_str = input_timestamp.strftime('%Y-%m-%d %H:%M:%S')
+  schedule_timestamp = datetime.strptime(schedule_timestamp_str, '%Y-%m-%d %H:%M:%S')
+  # ------------------------ schedule time end ------------------------
+  # ------------------------ compare start ------------------------
+  difference_datetime = (current_datetime - schedule_timestamp).total_seconds()
+  if difference_datetime > expire_limit:
+    is_expired = True
+  # ------------------------ compare end ------------------------
+  localhost_print_function('=========================================== expired_assessment_check_function END ===========================================')
+  return is_expired
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def times_dict_mapping_function():
+  localhost_print_function('=========================================== next_x_days_function START ===========================================')
+  # ------------------------ get todays date start ------------------------
+  time_mapping_dict = {
+    '12 AM': '00:00:00',
+    '1 AM': '01:00:00',
+    '2 AM': '02:00:00',
+    '3 AM': '03:00:00',
+    '4 AM': '04:00:00',
+    '5 AM': '05:00:00',
+    '6 AM': '06:00:00',
+    '7 AM': '07:00:00',
+    '8 AM': '08:00:00',
+    '9 AM': '09:00:00',
+    '10 AM': '10:00:00',
+    '11 AM': '11:00:00',
+    '12 PM': '12:00:00',
+    '1 PM': '13:00:00',
+    '2 PM': '14:00:00',
+    '3 PM': '15:00:00',
+    '4 PM': '16:00:00',
+    '5 PM': '17:00:00',
+    '6 PM': '18:00:00',
+    '7 PM': '19:00:00',
+    '8 PM': '20:00:00',
+    '9 PM': '21:00:00',
+    '10 PM': '22:00:00',
+    '11 PM': '23:00:00'
+  }
+  # ------------------------ get todays date end ------------------------
+  localhost_print_function('=========================================== next_x_days_function END ===========================================')
+  return time_mapping_dict
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def build_out_datetime_from_parts_function(input_date, input_time, input_timezone):
+  localhost_print_function('=========================================== expired_assessment_check_function START ===========================================')
+  # Current = '10-17-2022', '7 AM', 'EST'
+  # Goal = '2022-10-14 06:43:18'
+  # ------------------------ fix date start ------------------------
+  input_date_arr = input_date.split('-')
+  input_date_month = input_date_arr[0]
+  input_date_day = input_date_arr[1]
+  input_date_year = input_date_arr[2]
+  goal_date_str = input_date_year + '-' + input_date_month + '-' + input_date_day
+  # ------------------------ fix date end ------------------------
+  # ------------------------ fix time based on timezone start ------------------------
+  time_mapping_dict = times_dict_mapping_function()
+  goal_time_str = ''
+  hour_times_arr = ['12 AM', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM']
+  input_time_index_position = hour_times_arr.index(input_time)
+  if input_timezone == 'EST':
+    goal_time_str = time_mapping_dict[hour_times_arr[input_time_index_position]]
+  elif input_timezone == 'PST':
+    goal_time_str = time_mapping_dict[hour_times_arr[input_time_index_position-3]]
+  elif input_timezone == 'MST':
+    goal_time_str = time_mapping_dict[hour_times_arr[input_time_index_position-2]]
+  elif input_timezone == 'CST':
+    goal_time_str = time_mapping_dict[hour_times_arr[input_time_index_position-1]]
+  # ------------------------ fix time based on timezone end ------------------------
+  # ------------------------ output manipulation start ------------------------
+  goal_str = goal_date_str + ' ' + goal_time_str
+  goal_timestamp = datetime.strptime(goal_str, '%Y-%m-%d %H:%M:%S')
+  # ------------------------ output manipulation end ------------------------
+  localhost_print_function('=========================================== expired_assessment_check_function END ===========================================')
+  return goal_timestamp
 # ------------------------ individual function end ------------------------
 localhost_print_function('=========================================== datetime_manipulation __init__ END ===========================================')

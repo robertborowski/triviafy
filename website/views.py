@@ -27,7 +27,8 @@ import pandas as pd
 from website.backend.candidates.string_manipulation import all_question_candidate_categories_sorted_function
 from website.backend.candidates.sqlalchemy_manipulation import pull_desired_languages_arr_function
 from website.backend.candidates.dict_manipulation import question_arr_of_dicts_manipulations_function, create_assessment_info_dict_function
-from website.backend.candidates.datetime_manipulation import next_x_days_function, times_arr_function
+from website.backend.candidates.datetime_manipulation import next_x_days_function, times_arr_function, expired_assessment_check_function, build_out_datetime_from_parts_function
+import datetime
 # ------------------------ imports end ------------------------
 
 
@@ -1025,11 +1026,29 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
     localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
     return redirect(url_for('views.candidates_assessment_invalid_function'))
   # ------------------------ check if url exists end ------------------------
+  # ------------------------ expire check based on email send start ------------------------
+  # <---- LEFT OFF HERE
+  # ------------------------ expire check based on email send end ------------------------
+  """
+  # ------------------------ check schedule type start ------------------------
+  db_schedule_obj_goal_timestamp = ''
+  schedule_type = db_schedule_obj.send_date
+  if schedule_type == 'Immediate':
+    db_schedule_obj_goal_timestamp = db_schedule_obj.created_timestamp
+  else:
+    db_schedule_obj_goal_timestamp = build_out_datetime_from_parts_function(db_schedule_obj.send_date, db_schedule_obj.send_time, db_schedule_obj.send_timezone)
+  # ------------------------ check schedule type end ------------------------
   # ------------------------ check if schedule id expired start ------------------------
-  db_schedule_obj_created_timestamp = db_schedule_obj.created_timestamp
-  # check if current time is 1 hour greater than db_schedule_obj_created_timestamp, if so then it is expired
-
+  expired_assessment_check = expired_assessment_check_function(db_schedule_obj_goal_timestamp)
+  if expired_assessment_check == True:
+    localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
+    return redirect(url_for('views.candidates_assessment_invalid_function'))
   # ------------------------ check if schedule id expired end ------------------------
+  """
+  # ------------------------ pull desired schedule info start ------------------------
+  db_schedule_obj_user_id_fk = db_schedule_obj.user_id_fk
+  db_schedule_obj_assessment_name = db_schedule_obj.assessment_name
+  # ------------------------ pull desired schedule info end ------------------------
   localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
   return render_template('candidates_page_templates/not_logged_in_page_templates/assessments_page_templates/assessment_candidate_test/index.html', users_company_name_to_html='tobeAdded', error_message_to_html=error_message_test)
 # ------------------------ individual route end ------------------------
