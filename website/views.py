@@ -1000,18 +1000,36 @@ def candidates_schedule_analytics_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
+@views.route('/candidates/assessment/invalid')
+def candidates_assessment_invalid_function():
+  localhost_print_function('=========================================== candidates_assessment_invalid_function START ===========================================')
+  localhost_print_function('=========================================== candidates_assessment_invalid_function END ===========================================')
+  return render_template('candidates_page_templates/not_logged_in_page_templates/assessments_page_templates/assessment_not_found/index.html')
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
 @views.route('/candidates/assessment/<url_assessment_expiring>', methods=['GET', 'POST'])
 def candidates_assessment_expiring_function(url_assessment_expiring):
   localhost_print_function('=========================================== candidates_assessment_expiring_function START ===========================================')
   # ------------------------ invalid url_assessment_name start ------------------------
   if url_assessment_expiring == False or url_assessment_expiring == None or url_assessment_expiring == '':
     localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
-    return redirect(url_for('views.landing_index_page_function'))
+    return redirect(url_for('views.candidates_assessment_invalid_function'))
   # ------------------------ invalid url_assessment_name end ------------------------
   error_message_test = 'Please fill out all fields.'
   # ------------------------ pull schedule info start ------------------------
   db_schedule_obj = CandidatesScheduleObj.query.filter_by(expiring_url=url_assessment_expiring).first()
   # ------------------------ pull schedule info end ------------------------
+  # ------------------------ check if url exists start ------------------------
+  if db_schedule_obj == None:
+    localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
+    return redirect(url_for('views.candidates_assessment_invalid_function'))
+  # ------------------------ check if url exists end ------------------------
+  localhost_print_function('- - - - - - - (1) - - - - - - -')
+  localhost_print_function('db_schedule_obj')
+  localhost_print_function(db_schedule_obj)
+  localhost_print_function(type(db_schedule_obj))
+  localhost_print_function('- - - - - - - (1) - - - - - - -')
   localhost_print_function('- - - - - - - 0 - - - - - - -')
   localhost_print_function('db_schedule_obj.user_id_fk')
   localhost_print_function(db_schedule_obj.user_id_fk)
@@ -1023,6 +1041,6 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
   localhost_print_function(type(db_schedule_obj.assessment_name))
   localhost_print_function('- - - - - - - 1 - - - - - - -')
   localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_candidate_test/index.html', users_company_name_to_html='tobeAdded', error_message_to_html=error_message_test)
+  return render_template('candidates_page_templates/not_logged_in_page_templates/assessments_page_templates/assessment_candidate_test/index.html', users_company_name_to_html='tobeAdded', error_message_to_html=error_message_test)
 # ------------------------ individual route end ------------------------
 # ------------------------ routes logged in end ------------------------
