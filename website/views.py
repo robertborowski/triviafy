@@ -15,7 +15,7 @@ from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_f
 from flask import Blueprint, render_template, request, redirect, url_for, session
 from flask_login import login_required, current_user, login_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
-from website.models import CandidatesUserObj, CandidatesDesiredLanguagesObj, CandidatesUploadedCandidatesObj, CandidatesAssessmentsCreatedObj, CandidatesRequestLanguageObj, CandidatesScheduleObj
+from website.models import CandidatesUserObj, CandidatesDesiredLanguagesObj, CandidatesUploadedCandidatesObj, CandidatesAssessmentsCreatedObj, CandidatesRequestLanguageObj, CandidatesScheduleObj, CandidatesEmailSentObj
 from website.backend.candidates.browser import browser_response_set_cookie_function
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
@@ -917,23 +917,43 @@ def candidates_schedule_create_now_function():
     # ------------------------ verify user inputs end ------------------------
     # ------------------------ insert to db start ------------------------
     if all_ui_verified_correct == True:
-      for i in ui_schedule_candidates_selected:
+      for i_email in ui_schedule_candidates_selected:
+        expiring_url_i_created = create_uuid_function('expire_')
         new_row = CandidatesScheduleObj(
           id = create_uuid_function('schedule_'),
           created_timestamp = create_timestamp_function(),
           user_id_fk = current_user.id,
           assessment_name = ui_schedule_assessment_selected,
-          candidates = i,
+          candidates = i_email,
           send_date = 'Immediate',
           send_time = 'Immediate',
           send_timezone = 'Immediate',
           candidate_status = 'Pending',
-          expiring_url = create_uuid_function('expire_')
+          expiring_url = expiring_url_i_created
         )
         db.session.add(new_row)
         db.session.commit()
-      success_message_schedule = 'Schedule created!'
-    # ------------------------ insert to db end ------------------------
+        # ------------------------ insert to db end ------------------------
+        # ------------------------ send email start ------------------------
+        output_to_email = i_email
+        output_subject = f'Triviafy Candidate Assessment: {ui_schedule_assessment_selected}'
+        output_body = f"Hi,\n\nYour Triviafy candidate assessment is ready!\nThe following link will expire 1 hour from the time you receive this email.\n\nPlease visit the following link to complete your assessment: https://triviafy.com/candidates/assessment/{expiring_url_i_created} \n\nBest,\nTriviafy"
+        send_email_template_function(output_to_email, output_subject, output_body)
+        # ------------------------ send email end ------------------------
+        # ------------------------ insert email to db start ------------------------
+        new_row_email = CandidatesEmailSentObj(
+          id = create_uuid_function('email_test_'),
+          created_timestamp = create_timestamp_function(),
+          from_user_id_fk = current_user.id,
+          to_email = output_to_email,
+          assessment_expiring_url_fk = expiring_url_i_created,
+          subject = output_subject,
+          body = output_body
+        )
+        db.session.add(new_row_email)
+        db.session.commit()
+        # ------------------------ insert email to db end ------------------------
+      success_message_schedule = 'Assessment email sent!'
   # ------------------------ post triggered end ------------------------
   localhost_print_function('=========================================== candidates_schedule_create_now_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/schedule_page_templates/schedule_create_now_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, current_user_assessment_names_arr_to_html=current_user_assessment_names_arr, current_user_candidates_arr_to_html=current_user_candidates_arr, success_message_to_html=success_message_schedule, error_message_to_html=error_message_schedule)
@@ -977,5 +997,32 @@ def candidates_schedule_analytics_function():
   # ------------------------ pull schedules end ------------------------
   localhost_print_function('=========================================== candidates_schedule_analytics_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/schedule_page_templates/schedule_analytics_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, all_schedules_arr_of_dicts_to_html=all_schedules_arr_of_dicts)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@views.route('/candidates/assessment/<url_assessment_expiring>', methods=['GET', 'POST'])
+def candidates_assessment_expiring_function(url_assessment_expiring):
+  localhost_print_function('=========================================== candidates_assessment_expiring_function START ===========================================')
+  # ------------------------ invalid url_assessment_name start ------------------------
+  if url_assessment_expiring == False or url_assessment_expiring == None or url_assessment_expiring == '':
+    localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
+    return redirect(url_for('views.landing_index_page_function'))
+  # ------------------------ invalid url_assessment_name end ------------------------
+  error_message_test = 'Please fill out all fields.'
+  # ------------------------ pull schedule info start ------------------------
+  db_schedule_obj = CandidatesScheduleObj.query.filter_by(expiring_url=url_assessment_expiring).first()
+  # ------------------------ pull schedule info end ------------------------
+  localhost_print_function('- - - - - - - 0 - - - - - - -')
+  localhost_print_function('db_schedule_obj.user_id_fk')
+  localhost_print_function(db_schedule_obj.user_id_fk)
+  localhost_print_function(type(db_schedule_obj.user_id_fk))
+  localhost_print_function('- - - - - - - 0 - - - - - - -')
+  localhost_print_function('- - - - - - - 1 - - - - - - -')
+  localhost_print_function('db_schedule_obj.assessment_name')
+  localhost_print_function(db_schedule_obj.assessment_name)
+  localhost_print_function(type(db_schedule_obj.assessment_name))
+  localhost_print_function('- - - - - - - 1 - - - - - - -')
+  localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
+  return render_template('candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_candidate_test/index.html', users_company_name_to_html='tobeAdded', error_message_to_html=error_message_test)
 # ------------------------ individual route end ------------------------
 # ------------------------ routes logged in end ------------------------

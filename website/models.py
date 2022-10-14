@@ -100,6 +100,17 @@ class CandidatesScheduleObj(db.Model):
   candidate_status = db.Column(db.String(150))
   expiring_url = db.Column(db.String(150), unique=True)
 # ------------------------ individual model end ------------------------
+
+# ------------------------ individual model start ------------------------
+class CandidatesEmailSentObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  from_user_id_fk = db.Column(db.String(150))
+  to_email = db.Column(db.String(150))
+  assessment_expiring_url_fk = db.Column(db.String(150), unique=True)
+  subject = db.Column(db.String(1000))
+  body = db.Column(db.String(1000))
+# ------------------------ individual model end ------------------------
 # ------------------------ models end ------------------------
 
 
