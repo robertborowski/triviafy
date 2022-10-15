@@ -63,4 +63,43 @@ def create_assessment_info_dict_function(db_assessment_obj):
   localhost_print_function('=========================================== create_assessment_info_dict_function END ===========================================')
   return assessment_info_dict
 # ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def map_user_answers_to_questions_dict_function(assessment_info_dict, candidate_ui_question_answer_1, candidate_ui_question_answer_2, candidate_ui_question_answer_3, candidate_ui_question_answer_4, candidate_ui_question_answer_5, candidate_ui_question_answer_6, candidate_ui_question_answer_7, candidate_ui_question_answer_8, candidate_ui_question_answer_9, candidate_ui_question_answer_10):
+  localhost_print_function('=========================================== map_user_answers_to_questions_dict_function START ===========================================')
+  for i_dict in assessment_info_dict['questions_arr_of_dicts']:
+    question_counter = i_dict['question_counter']
+    if question_counter == 1:
+      i_dict['ui_answer'] = candidate_ui_question_answer_1
+    elif question_counter == 2:
+      i_dict['ui_answer'] = candidate_ui_question_answer_2
+    elif question_counter == 3:
+      i_dict['ui_answer'] = candidate_ui_question_answer_3
+    elif question_counter == 4:
+      i_dict['ui_answer'] = candidate_ui_question_answer_4
+    elif question_counter == 5:
+      i_dict['ui_answer'] = candidate_ui_question_answer_5
+    elif question_counter == 6:
+      i_dict['ui_answer'] = candidate_ui_question_answer_6
+    elif question_counter == 7:
+      i_dict['ui_answer'] = candidate_ui_question_answer_7
+    elif question_counter == 8:
+      i_dict['ui_answer'] = candidate_ui_question_answer_8
+    elif question_counter == 9:
+      i_dict['ui_answer'] = candidate_ui_question_answer_9
+    elif question_counter == 10:
+      i_dict['ui_answer'] = candidate_ui_question_answer_10
+  localhost_print_function('=========================================== map_user_answers_to_questions_dict_function END ===========================================')
+  return assessment_info_dict
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def backend_store_question_answers_dict_function(assessment_info_dict):
+  localhost_print_function('=========================================== backend_store_question_answers_dict_function START ===========================================')
+  backend_store_question_answers_dict = {}
+  for i_dict in assessment_info_dict['questions_arr_of_dicts']:
+    backend_store_question_answers_dict[i_dict['question_uuid']] = i_dict['question_answers_list']
+  localhost_print_function('=========================================== backend_store_question_answers_dict_function END ===========================================')
+  return backend_store_question_answers_dict
+# ------------------------ individual function end ------------------------
 localhost_print_function('=========================================== dict_manipulation __init__ END ===========================================')

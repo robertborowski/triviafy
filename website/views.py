@@ -26,7 +26,7 @@ from werkzeug.security import generate_password_hash
 import pandas as pd
 from website.backend.candidates.string_manipulation import all_question_candidate_categories_sorted_function
 from website.backend.candidates.sqlalchemy_manipulation import pull_desired_languages_arr_function
-from website.backend.candidates.dict_manipulation import question_arr_of_dicts_manipulations_function, create_assessment_info_dict_function
+from website.backend.candidates.dict_manipulation import question_arr_of_dicts_manipulations_function, create_assessment_info_dict_function, map_user_answers_to_questions_dict_function, backend_store_question_answers_dict_function
 from website.backend.candidates.datetime_manipulation import next_x_days_function, times_arr_function, expired_assessment_check_function, build_out_datetime_from_parts_function
 import datetime
 # ------------------------ imports end ------------------------
@@ -1046,7 +1046,6 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
     localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
     return redirect(url_for('views.candidates_assessment_invalid_function'))
   # ------------------------ invalid url_assessment_name end ------------------------
-  error_message_test = ''
   # ------------------------ check if answers already submitted start ------------------------
   # Code to be added here once models/tables created
   # ------------------------ check if answers already submitted end ------------------------
@@ -1088,14 +1087,13 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
   # ------------------------ assign assessment info to dict start ------------------------
   assessment_info_dict = create_assessment_info_dict_function(db_assessment_obj)
   # ------------------------ assign assessment info to dict end ------------------------
-  # ------------------------ check if user paid latest month start ------------------------
-  user_paid_latest_month = False
-  # ------------------------ check if user paid latest month end ------------------------
-  # ------------------------ remove answers for non paying users start ------------------------
-  if user_paid_latest_month == False:
-    for i in assessment_info_dict['questions_arr_of_dicts']:
-      i['question_answers_list'] = None
-  # ------------------------ remove answers for non paying users end ------------------------
+  # ------------------------ store answers in backend for later reference start ------------------------
+  backend_store_question_answers_dict = backend_store_question_answers_dict_function(assessment_info_dict)
+  # ------------------------ store answers in backend for later reference end ------------------------
+  # ------------------------ remove answers for candidate start ------------------------
+  for i in assessment_info_dict['questions_arr_of_dicts']:
+    i['question_answers_list'] = None
+  # ------------------------ remove answers for candidate end ------------------------
   # ------------------------ pull user info for company name start ------------------------
   db_user_obj = CandidatesUserObj.query.filter_by(id=db_schedule_obj_user_id_fk).first()
   if db_user_obj == None:
@@ -1132,10 +1130,25 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
     # ------------------------ sanitize ui answers end ------------------------
     # ------------------------ check if invalid inputs start ------------------------
     if candidate_ui_question_answer_1_checked == False or candidate_ui_question_answer_2_checked == False or candidate_ui_question_answer_3_checked == False or candidate_ui_question_answer_4_checked == False or candidate_ui_question_answer_5_checked == False or candidate_ui_question_answer_6_checked == False or candidate_ui_question_answer_7_checked == False or candidate_ui_question_answer_8_checked == False or candidate_ui_question_answer_9_checked == False or candidate_ui_question_answer_10_checked == False:
-      ui_answers_error_statement = 'Password is not valid.'
+      ui_answers_error_statement = 'Please answer all questions.'
     # ------------------------ check if invalid inputs end ------------------------
+    # ------------------------ add user answers to assessment arr of dict start ------------------------
+    assessment_info_dict = map_user_answers_to_questions_dict_function(assessment_info_dict, candidate_ui_question_answer_1, candidate_ui_question_answer_2, candidate_ui_question_answer_3, candidate_ui_question_answer_4, candidate_ui_question_answer_5, candidate_ui_question_answer_6, candidate_ui_question_answer_7, candidate_ui_question_answer_8, candidate_ui_question_answer_9, candidate_ui_question_answer_10)
+    # ------------------------ add user answers to assessment arr of dict end ------------------------
+    # ------------------------ only start grading if all valid answers provided start ------------------------
+    if candidate_ui_question_answer_1_checked != False and candidate_ui_question_answer_2_checked != False and candidate_ui_question_answer_3_checked != False and candidate_ui_question_answer_4_checked != False and candidate_ui_question_answer_5_checked != False and candidate_ui_question_answer_6_checked != False and candidate_ui_question_answer_7_checked != False and candidate_ui_question_answer_8_checked != False and candidate_ui_question_answer_9_checked != False and candidate_ui_question_answer_10_checked != False:
+      # ------------------------ reassign correct answers back to dict start ------------------------
+      for i_dict in assessment_info_dict['questions_arr_of_dicts']:
+        i_question_uuid = i_dict['question_uuid']
+        answer_list_lookup = backend_store_question_answers_dict[i_question_uuid]
+        i_dict['question_answers_list'] = answer_list_lookup
+        # ------------------------ grading function start ------------------------
+        # <- - - -  LEFT OFF HERE
+        # ------------------------ grading function end ------------------------
+      # ------------------------ reassign correct answers back to dict end ------------------------
+    # ------------------------ only start grading if all valid answers provided end ------------------------
   # ------------------------ post triggered end ------------------------
   localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
-  return render_template('candidates_page_templates/not_logged_in_page_templates/assessments_page_templates/assessment_candidate_test/index.html', users_company_name_to_html=db_user_obj_company_name, error_message_to_html=error_message_test, assessment_info_dict_to_html=assessment_info_dict, error_message_to_html=ui_answers_error_statement)
+  return render_template('candidates_page_templates/not_logged_in_page_templates/assessments_page_templates/assessment_candidate_test/index.html', users_company_name_to_html=db_user_obj_company_name, error_message_to_html=ui_answers_error_statement, assessment_info_dict_to_html=assessment_info_dict)
 # ------------------------ individual route end ------------------------
 # ------------------------ routes logged in end ------------------------
