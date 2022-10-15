@@ -75,6 +75,7 @@ def expired_assessment_check_function(input_timestamp):
   # ------------------------ expire settings start ------------------------  
   expire_limit = 60 * 60
   is_expired = False
+  not_open_yet = False
   # ------------------------ expire settings end ------------------------  
   # ------------------------ current time start ------------------------  
   current_datetime_str = create_timestamp_function()
@@ -88,6 +89,9 @@ def expired_assessment_check_function(input_timestamp):
   difference_datetime = (current_datetime - schedule_timestamp).total_seconds()
   if difference_datetime > expire_limit:
     is_expired = True
+  if difference_datetime <= -1:
+    not_open_yet = True
+    is_expired = not_open_yet
   # ------------------------ compare end ------------------------
   localhost_print_function('=========================================== expired_assessment_check_function END ===========================================')
   return is_expired

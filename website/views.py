@@ -1027,6 +1027,21 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
     return redirect(url_for('views.candidates_assessment_invalid_function'))
   # ------------------------ invalid url_assessment_name end ------------------------
   error_message_test = ''
+  # ------------------------ expire check based on email send datetime start ------------------------
+  db_email_obj = CandidatesEmailSentObj.query.filter_by(assessment_expiring_url_fk=url_assessment_expiring).order_by(CandidatesEmailSentObj.created_timestamp.desc()).first()
+  # ------------------------ check if url exists start ------------------------
+  if db_email_obj == None:
+    localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
+    return redirect(url_for('views.candidates_assessment_invalid_function'))
+  # ------------------------ check if url exists end ------------------------
+  email_sent_timestamp = db_email_obj.created_timestamp      # type: datetime.datetime
+  # ------------------------ expire check based on email send datetime end ------------------------
+  # ------------------------ check if schedule id expired start ------------------------
+  expired_assessment_check = expired_assessment_check_function(email_sent_timestamp)
+  if expired_assessment_check == True:
+    localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
+    return redirect(url_for('views.candidates_assessment_invalid_function'))
+  # ------------------------ check if schedule id expired end ------------------------
   # ------------------------ pull schedule info start ------------------------
   db_schedule_obj = CandidatesScheduleObj.query.filter_by(expiring_url=url_assessment_expiring).first()
   # ------------------------ pull schedule info end ------------------------
@@ -1035,20 +1050,11 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
     localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
     return redirect(url_for('views.candidates_assessment_invalid_function'))
   # ------------------------ check if url exists end ------------------------
-  # ------------------------ expire check based on email send datetime start ------------------------
-  db_email_obj = CandidatesEmailSentObj.query.filter_by(assessment_expiring_url_fk=url_assessment_expiring).order_by(CandidatesEmailSentObj.created_timestamp.desc()).first()
-  # ------------------------ check if url exists start ------------------------
-  if db_email_obj == None:
-    localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
-    return redirect(url_for('views.candidates_assessment_invalid_function'))
-  # ------------------------ check if url exists end ------------------------
-  email_sent_time = db_email_obj.created_timestamp
-  localhost_print_function('- - - - - - - 0 - - - - - - -')
-  localhost_print_function('email_sent_time')
-  localhost_print_function(email_sent_time)
-  localhost_print_function(type(email_sent_time))
-  localhost_print_function('- - - - - - - 0 - - - - - - -')
-  # ------------------------ expire check based on email send datetime end ------------------------
+  # ------------------------ pull desired schedule info start ------------------------
+  db_schedule_obj_user_id_fk = db_schedule_obj.user_id_fk
+  db_schedule_obj_assessment_name = db_schedule_obj.assessment_name
+  db_schedule_obj_question_ids_str = db_schedule_obj.question_ids_arr
+  # ------------------------ pull desired schedule info end ------------------------
   """
   # ------------------------ check schedule type start ------------------------
   db_schedule_obj_goal_timestamp = ''
@@ -1058,17 +1064,7 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
   else:
     db_schedule_obj_goal_timestamp = build_out_datetime_from_parts_function(db_schedule_obj.send_date, db_schedule_obj.send_time, db_schedule_obj.send_timezone)
   # ------------------------ check schedule type end ------------------------
-  # ------------------------ check if schedule id expired start ------------------------
-  expired_assessment_check = expired_assessment_check_function(db_schedule_obj_goal_timestamp)
-  if expired_assessment_check == True:
-    localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
-    return redirect(url_for('views.candidates_assessment_invalid_function'))
-  # ------------------------ check if schedule id expired end ------------------------
   """
-  # ------------------------ pull desired schedule info start ------------------------
-  db_schedule_obj_user_id_fk = db_schedule_obj.user_id_fk
-  db_schedule_obj_assessment_name = db_schedule_obj.assessment_name
-  # ------------------------ pull desired schedule info end ------------------------
   localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
   return render_template('candidates_page_templates/not_logged_in_page_templates/assessments_page_templates/assessment_candidate_test/index.html', users_company_name_to_html='tobeAdded', error_message_to_html=error_message_test)
 # ------------------------ individual route end ------------------------
