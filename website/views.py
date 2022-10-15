@@ -849,11 +849,16 @@ def candidates_schedule_create_new_function():
     # ------------------------ verify user inputs end ------------------------
     # ------------------------ insert to db start ------------------------
     if all_ui_verified_correct == True:
+      # ------------------------ get assessment id based on name and user id fk start ------------------------
+      db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id, assessment_name=ui_schedule_assessment_selected).first()
+      db_assessment_obj_assessment_id = db_assessment_obj.id
+      # ------------------------ get assessment id based on name and user id fk end ------------------------
       for i in ui_schedule_candidates_selected:
         new_row = CandidatesScheduleObj(
           id = create_uuid_function('schedule_'),
           created_timestamp = create_timestamp_function(),
           user_id_fk = current_user.id,
+          assessment_id_fk = db_assessment_obj_assessment_id,
           assessment_name = ui_schedule_assessment_selected,
           candidates = i,
           send_date = ui_schedule_date_selected,
@@ -927,12 +932,17 @@ def candidates_schedule_create_now_function():
     # ------------------------ verify user inputs end ------------------------
     # ------------------------ insert to db start ------------------------
     if all_ui_verified_correct == True:
+      # ------------------------ get assessment id based on name and user id fk start ------------------------
+      db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id, assessment_name=ui_schedule_assessment_selected).first()
+      db_assessment_obj_assessment_id = db_assessment_obj.id
+      # ------------------------ get assessment id based on name and user id fk end ------------------------
       for i_email in ui_schedule_candidates_selected:
         expiring_url_i_created = create_uuid_function('expire_')
         new_row = CandidatesScheduleObj(
           id = create_uuid_function('schedule_'),
           created_timestamp = create_timestamp_function(),
           user_id_fk = current_user.id,
+          assessment_id_fk = db_assessment_obj_assessment_id,
           assessment_name = ui_schedule_assessment_selected,
           candidates = i_email,
           send_date = 'Immediate',
@@ -1052,9 +1062,9 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
   # ------------------------ check if url exists end ------------------------
   # ------------------------ pull desired schedule info start ------------------------
   db_schedule_obj_user_id_fk = db_schedule_obj.user_id_fk
-  db_schedule_obj_assessment_name = db_schedule_obj.assessment_name
-  db_schedule_obj_question_ids_str = db_schedule_obj.question_ids_arr
+  db_schedule_obj_assessment_id_fk = db_schedule_obj.assessment_id_fk
   # ------------------------ pull desired schedule info end ------------------------
+  #<--LEFT OFF
   """
   # ------------------------ check schedule type start ------------------------
   db_schedule_obj_goal_timestamp = ''
