@@ -23,7 +23,6 @@ def sanitize_email_function(user_input_email):
   return False
 # ------------------------ individual function end ------------------------
 
-
 # ------------------------ individual function start ------------------------
 # ------------------------ block email list start ------------------------
 blocked_email_arr = [
@@ -86,7 +85,6 @@ def check_email_personal_tags_function(user_input_email):
   return user_input_email
 # ------------------------ individual function end ------------------------
 
-
 # ------------------------ individual function start ------------------------
 def sanitize_password_function(user_input_password):
   localhost_print_function('=========================================== sanitize_password_function START ===========================================')
@@ -98,7 +96,6 @@ def sanitize_password_function(user_input_password):
   return False
 # ------------------------ individual function end ------------------------
 
-
 # ------------------------ individual function start ------------------------
 def sanitize_create_account_text_inputs_function(user_input):
   localhost_print_function('=========================================== sanitize_create_account_text_inputs_function START ===========================================')
@@ -109,7 +106,6 @@ def sanitize_create_account_text_inputs_function(user_input):
   localhost_print_function('=========================================== sanitize_create_account_text_inputs_function END ===========================================')
   return False
 # ------------------------ individual function end ------------------------
-
 
 # ------------------------ individual function start ------------------------
 def sanitize_create_account_text_inputs_large_function(user_input):
@@ -125,6 +121,19 @@ def sanitize_create_account_text_inputs_large_function(user_input):
   return False
 # ------------------------ individual function end ------------------------
 
+# ------------------------ individual function start ------------------------
+def sanitize_candidate_ui_answer_text_function(user_input):
+  localhost_print_function('=========================================== sanitize_candidate_ui_answer_text_function START ===========================================')
+  if len(user_input) == 0:
+    localhost_print_function('=========================================== sanitize_candidate_ui_answer_text_function END ===========================================')
+    return False
+  desired_regex_pattern = "^[\w\s-]{1,100}$"
+  if(re.fullmatch(desired_regex_pattern, user_input)):
+    localhost_print_function('=========================================== sanitize_candidate_ui_answer_text_function END ===========================================')
+    return user_input
+  localhost_print_function('=========================================== sanitize_candidate_ui_answer_text_function END ===========================================')
+  return False
+# ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def sanitize_loop_check_if_exists_within_arr_function(user_input_arr, correct_master_arr):
@@ -160,7 +169,6 @@ def sanitize_check_if_str_exists_within_arr_function(user_input_str, correct_mas
   localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function END ===========================================')
   return user_input_str
 # ------------------------ individual function end ------------------------
-
 
 # ------------------------ individual function start ------------------------
 def validate_upload_candidate_function(db, current_user, ui_email, user_input_type):

@@ -43,47 +43,49 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select questions arr start -->
 <div class="select-questions-form-container">
-  {% for i in assessment_info_dict_to_html['questions_arr_of_dicts'] %}
-  <div class="select-question-container">
-    <div class="select-question-left-side">
-      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - question header start -->
-      <div class="select-question-header">
-        <p class="candidate-question-title">Q{{ i['question_counter'] }}: {{ i['question_title'] }}
-          <span class="span-question-difficulty">({{ i['question_difficulty'] }})</span>
-        </p>
-        <p class="candidate-question-categories">Categories:
-          {% for category_tuple in i['question_categories_list'] %}
-            <span class="span-candidates-question-category-general span-candidates-question-category-{{ category_tuple[1] }}">{{ category_tuple[0] }}</span>
-          {% endfor %}
-        </p>
+  <form method="POST" enctype="multipart/form-data">
+    {% for i in assessment_info_dict_to_html['questions_arr_of_dicts'] %}
+    <div class="select-question-container">
+      <div class="select-question-left-side">
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - question header start -->
+        <div class="select-question-header">
+          <p class="candidate-question-title">Q{{ i['question_counter'] }}: {{ i['question_title'] }}
+            <span class="span-question-difficulty">({{ i['question_difficulty'] }})</span>
+          </p>
+          <p class="candidate-question-categories">Categories:
+            {% for category_tuple in i['question_categories_list'] %}
+              <span class="span-candidates-question-category-general span-candidates-question-category-{{ category_tuple[1] }}">{{ category_tuple[0] }}</span>
+            {% endfor %}
+          </p>
+        </div>
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - question header end -->
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - question body start -->
+        <div class="select-question-body">
+          <p class="candidate-question-actual-question">{{ i['question_actual_question'] }}</p>
+        </div>
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - question body end -->
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - question footer start -->
+        <div class="select-question-footer">
+          <label for="candidate_ui_question_answer_{{ i['question_counter'] }}"></label>
+          <input type="text" id="candidate_ui_question_answer_{{ i['question_counter'] }}" name="candidate_ui_question_answer_{{ i['question_counter'] }}" class="candidates-default-text-input candidates-default-text-input-full-width" placeholder="Candidate answer here"  maxlength="100" pattern="[a-zA-z0-9 ]{0,100}" title="Only letters numbers and spaces accepted"/>
+        </div>
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - question footer end -->
       </div>
-      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - question header end -->
-      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - question body start -->
-      <div class="select-question-body">
-        <p class="candidate-question-actual-question">{{ i['question_actual_question'] }}</p>
+      <div class="select-question-right-side">
+        <img src="{{ i['question_image_aws_url'] }}" alt="" class="select-question-img candidates-default-box-shadow-grey-regular">
       </div>
-      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - question body end -->
-      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - question footer start -->
-      <div class="select-question-footer">
-        <label for="candidate_ui_question_answer_{{ i['question_counter'] }}"></label>
-        <input type="text" id="candidate_ui_question_answer_{{ i['question_counter'] }}" name="candidate_ui_question_answer_{{ i['question_counter'] }}" class="candidates-default-text-input candidates-default-text-input-full-width" placeholder="Candidate answer here"  maxlength="100" pattern="[a-zA-z0-9 ]{0,100}"/>
-      </div>
-      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - question footer end -->
     </div>
-    <div class="select-question-right-side">
-      <img src="{{ i['question_image_aws_url'] }}" alt="" class="select-question-img candidates-default-box-shadow-grey-regular">
+    {% endfor %}
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - submit button start -->
+    <div class="view-specific-assessment-submit-section">
+      <button type="submit" class="default-button-format default-button-format-primary-color">Submit</button>
+      <p class="candidate-submission-note">Note: You will not be able to view or change your answers once submitted.</p>
     </div>
-  </div>
-  {% endfor %}
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - submit button end -->
+  </form>
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select questions arr end -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - standin for button start -->
-<div class="view-specific-assessment-submit-section">
-  <p class="default-button-format default-button-format-grey-color">Submit</p>
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - standin for button end -->
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
 <div class="general-spacer-section-large"></div>

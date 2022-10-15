@@ -20,7 +20,7 @@ from website.backend.candidates.browser import browser_response_set_cookie_funct
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
 from website import db
-from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function, sanitize_create_account_text_inputs_function, sanitize_create_account_text_inputs_large_function, validate_upload_candidate_function, sanitize_loop_check_if_exists_within_arr_function, sanitize_check_if_str_exists_within_arr_function, check_if_question_id_arr_exists_function
+from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function, sanitize_create_account_text_inputs_function, sanitize_create_account_text_inputs_large_function, validate_upload_candidate_function, sanitize_loop_check_if_exists_within_arr_function, sanitize_check_if_str_exists_within_arr_function, check_if_question_id_arr_exists_function, sanitize_candidate_ui_answer_text_function
 from website.backend.candidates.send_emails import send_email_template_function
 from werkzeug.security import generate_password_hash
 import pandas as pd
@@ -1031,12 +1031,25 @@ def candidates_assessment_invalid_function():
 @views.route('/candidates/assessment/<url_assessment_expiring>', methods=['GET', 'POST'])
 def candidates_assessment_expiring_function(url_assessment_expiring):
   localhost_print_function('=========================================== candidates_assessment_expiring_function START ===========================================')
+  """
+  # ------------------------ check schedule type start ------------------------
+  db_schedule_obj_goal_timestamp = ''
+  schedule_type = db_schedule_obj.send_date
+  if schedule_type == 'Immediate':
+    db_schedule_obj_goal_timestamp = db_schedule_obj.created_timestamp
+  else:
+    db_schedule_obj_goal_timestamp = build_out_datetime_from_parts_function(db_schedule_obj.send_date, db_schedule_obj.send_time, db_schedule_obj.send_timezone)
+  # ------------------------ check schedule type end ------------------------
+  """
   # ------------------------ invalid url_assessment_name start ------------------------
   if url_assessment_expiring == False or url_assessment_expiring == None or url_assessment_expiring == '':
     localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
     return redirect(url_for('views.candidates_assessment_invalid_function'))
   # ------------------------ invalid url_assessment_name end ------------------------
   error_message_test = ''
+  # ------------------------ check if answers already submitted start ------------------------
+  # Code to be added here once models/tables created
+  # ------------------------ check if answers already submitted end ------------------------
   # ------------------------ expire check based on email send datetime start ------------------------
   db_email_obj = CandidatesEmailSentObj.query.filter_by(assessment_expiring_url_fk=url_assessment_expiring).order_by(CandidatesEmailSentObj.created_timestamp.desc()).first()
   # ------------------------ check if url exists start ------------------------
@@ -1090,17 +1103,39 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
     return redirect(url_for('views.candidates_assessment_invalid_function'))
   db_user_obj_company_name = db_user_obj.company_name
   # ------------------------ pull user info for company name end ------------------------
-  """
-  # ------------------------ check schedule type start ------------------------
-  db_schedule_obj_goal_timestamp = ''
-  schedule_type = db_schedule_obj.send_date
-  if schedule_type == 'Immediate':
-    db_schedule_obj_goal_timestamp = db_schedule_obj.created_timestamp
-  else:
-    db_schedule_obj_goal_timestamp = build_out_datetime_from_parts_function(db_schedule_obj.send_date, db_schedule_obj.send_time, db_schedule_obj.send_timezone)
-  # ------------------------ check schedule type end ------------------------
-  """
+  # ------------------------ post triggered start ------------------------
+  ui_answers_error_statement = ''
+  if request.method == 'POST':
+    # ------------------------ ui candidate answers original start ------------------------
+    candidate_ui_question_answer_1 = request.form.get('candidate_ui_question_answer_1')
+    candidate_ui_question_answer_2 = request.form.get('candidate_ui_question_answer_2')
+    candidate_ui_question_answer_3 = request.form.get('candidate_ui_question_answer_3')
+    candidate_ui_question_answer_4 = request.form.get('candidate_ui_question_answer_4')
+    candidate_ui_question_answer_5 = request.form.get('candidate_ui_question_answer_5')
+    candidate_ui_question_answer_6 = request.form.get('candidate_ui_question_answer_6')
+    candidate_ui_question_answer_7 = request.form.get('candidate_ui_question_answer_7')
+    candidate_ui_question_answer_8 = request.form.get('candidate_ui_question_answer_8')
+    candidate_ui_question_answer_9 = request.form.get('candidate_ui_question_answer_9')
+    candidate_ui_question_answer_10 = request.form.get('candidate_ui_question_answer_10')
+    # ------------------------ ui candidate answers original end ------------------------
+    # ------------------------ sanitize ui answers start ------------------------
+    candidate_ui_question_answer_1_checked = sanitize_candidate_ui_answer_text_function(candidate_ui_question_answer_1)
+    candidate_ui_question_answer_2_checked = sanitize_candidate_ui_answer_text_function(candidate_ui_question_answer_2)
+    candidate_ui_question_answer_3_checked = sanitize_candidate_ui_answer_text_function(candidate_ui_question_answer_3)
+    candidate_ui_question_answer_4_checked = sanitize_candidate_ui_answer_text_function(candidate_ui_question_answer_4)
+    candidate_ui_question_answer_5_checked = sanitize_candidate_ui_answer_text_function(candidate_ui_question_answer_5)
+    candidate_ui_question_answer_6_checked = sanitize_candidate_ui_answer_text_function(candidate_ui_question_answer_6)
+    candidate_ui_question_answer_7_checked = sanitize_candidate_ui_answer_text_function(candidate_ui_question_answer_7)
+    candidate_ui_question_answer_8_checked = sanitize_candidate_ui_answer_text_function(candidate_ui_question_answer_8)
+    candidate_ui_question_answer_9_checked = sanitize_candidate_ui_answer_text_function(candidate_ui_question_answer_9)
+    candidate_ui_question_answer_10_checked = sanitize_candidate_ui_answer_text_function(candidate_ui_question_answer_10)
+    # ------------------------ sanitize ui answers end ------------------------
+    # ------------------------ check if invalid inputs start ------------------------
+    if candidate_ui_question_answer_1_checked == False or candidate_ui_question_answer_2_checked == False or candidate_ui_question_answer_3_checked == False or candidate_ui_question_answer_4_checked == False or candidate_ui_question_answer_5_checked == False or candidate_ui_question_answer_6_checked == False or candidate_ui_question_answer_7_checked == False or candidate_ui_question_answer_8_checked == False or candidate_ui_question_answer_9_checked == False or candidate_ui_question_answer_10_checked == False:
+      ui_answers_error_statement = 'Password is not valid.'
+    # ------------------------ check if invalid inputs end ------------------------
+  # ------------------------ post triggered end ------------------------
   localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
-  return render_template('candidates_page_templates/not_logged_in_page_templates/assessments_page_templates/assessment_candidate_test/index.html', users_company_name_to_html=db_user_obj_company_name, error_message_to_html=error_message_test, assessment_info_dict_to_html=assessment_info_dict)
+  return render_template('candidates_page_templates/not_logged_in_page_templates/assessments_page_templates/assessment_candidate_test/index.html', users_company_name_to_html=db_user_obj_company_name, error_message_to_html=error_message_test, assessment_info_dict_to_html=assessment_info_dict, error_message_to_html=ui_answers_error_statement)
 # ------------------------ individual route end ------------------------
 # ------------------------ routes logged in end ------------------------
