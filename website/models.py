@@ -107,7 +107,7 @@ class CandidatesEmailSentObj(db.Model):
   created_timestamp = db.Column(db.DateTime(timezone=True))
   from_user_id_fk = db.Column(db.String(150))
   to_email = db.Column(db.String(150))
-  assessment_expiring_url_fk = db.Column(db.String(150), unique=True)
+  assessment_expiring_url_fk = db.Column(db.String(150))
   subject = db.Column(db.String(1000))
   body = db.Column(db.String(1000))
 # ------------------------ individual model end ------------------------

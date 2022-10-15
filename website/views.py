@@ -681,7 +681,7 @@ def candidates_assessment_select_questions_function(url_assessment_name):
       pass
     # ------------------------ update row in db end ------------------------
     localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
-    return redirect(url_for('views.dashboard_test_login_page_function'))
+    return redirect(url_for('views.candidates_assessment_sucessfully_created_function'))
   # ------------------------ post method hit end ------------------------
   # ------------------------ prepare where statement start ------------------------
   where_clause_arr = []
@@ -700,6 +700,15 @@ def candidates_assessment_select_questions_function(url_assessment_name):
   # ------------------------ pull question obj from db end ------------------------
   localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_create_new_page_templates/assessments_select_questions_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=select_questions_error_statement, query_result_arr_of_dicts_to_html=query_result_arr_of_dicts)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@views.route('/candidates/assessment/new/success', methods=['GET'])
+@login_required
+def candidates_assessment_sucessfully_created_function():
+  localhost_print_function('=========================================== candidates_assessment_sucessfully_created_function START ===========================================')
+  localhost_print_function('=========================================== candidates_assessment_sucessfully_created_function END ===========================================')
+  return render_template('candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_create_new_page_templates/assessments_successfully_created_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -1026,9 +1035,20 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
     localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
     return redirect(url_for('views.candidates_assessment_invalid_function'))
   # ------------------------ check if url exists end ------------------------
-  # ------------------------ expire check based on email send start ------------------------
-  # <---- LEFT OFF HERE
-  # ------------------------ expire check based on email send end ------------------------
+  # ------------------------ expire check based on email send datetime start ------------------------
+  db_email_obj = CandidatesEmailSentObj.query.filter_by(assessment_expiring_url_fk=url_assessment_expiring).order_by(CandidatesEmailSentObj.created_timestamp.desc()).first()
+  # ------------------------ check if url exists start ------------------------
+  if db_email_obj == None:
+    localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
+    return redirect(url_for('views.candidates_assessment_invalid_function'))
+  # ------------------------ check if url exists end ------------------------
+  email_sent_time = db_email_obj.created_timestamp
+  localhost_print_function('- - - - - - - 0 - - - - - - -')
+  localhost_print_function('email_sent_time')
+  localhost_print_function(email_sent_time)
+  localhost_print_function(type(email_sent_time))
+  localhost_print_function('- - - - - - - 0 - - - - - - -')
+  # ------------------------ expire check based on email send datetime end ------------------------
   """
   # ------------------------ check schedule type start ------------------------
   db_schedule_obj_goal_timestamp = ''
