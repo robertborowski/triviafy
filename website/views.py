@@ -1064,7 +1064,32 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
   db_schedule_obj_user_id_fk = db_schedule_obj.user_id_fk
   db_schedule_obj_assessment_id_fk = db_schedule_obj.assessment_id_fk
   # ------------------------ pull desired schedule info end ------------------------
-  #<--LEFT OFF
+  # ------------------------ pull assessment info start ------------------------
+  db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(id=db_schedule_obj_assessment_id_fk).first()
+  # ------------------------ pull assessment info end ------------------------
+  # ------------------------ check if url exists start ------------------------
+  if db_assessment_obj == None:
+    localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
+    return redirect(url_for('views.candidates_assessment_invalid_function'))
+  # ------------------------ check if url exists end ------------------------
+  # ------------------------ assign assessment info to dict start ------------------------
+  assessment_info_dict = create_assessment_info_dict_function(db_assessment_obj)
+  # ------------------------ assign assessment info to dict end ------------------------
+  # ------------------------ check if user paid latest month start ------------------------
+  user_paid_latest_month = False
+  # ------------------------ check if user paid latest month end ------------------------
+  # ------------------------ remove answers for non paying users start ------------------------
+  if user_paid_latest_month == False:
+    for i in assessment_info_dict['questions_arr_of_dicts']:
+      i['question_answers_list'] = None
+  # ------------------------ remove answers for non paying users end ------------------------
+  # ------------------------ pull user info for company name start ------------------------
+  db_user_obj = CandidatesUserObj.query.filter_by(id=db_schedule_obj_user_id_fk).first()
+  if db_user_obj == None:
+    localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
+    return redirect(url_for('views.candidates_assessment_invalid_function'))
+  db_user_obj_company_name = db_user_obj.company_name
+  # ------------------------ pull user info for company name end ------------------------
   """
   # ------------------------ check schedule type start ------------------------
   db_schedule_obj_goal_timestamp = ''
@@ -1076,6 +1101,6 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
   # ------------------------ check schedule type end ------------------------
   """
   localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
-  return render_template('candidates_page_templates/not_logged_in_page_templates/assessments_page_templates/assessment_candidate_test/index.html', users_company_name_to_html='tobeAdded', error_message_to_html=error_message_test)
+  return render_template('candidates_page_templates/not_logged_in_page_templates/assessments_page_templates/assessment_candidate_test/index.html', users_company_name_to_html=db_user_obj_company_name, error_message_to_html=error_message_test, assessment_info_dict_to_html=assessment_info_dict)
 # ------------------------ individual route end ------------------------
 # ------------------------ routes logged in end ------------------------
