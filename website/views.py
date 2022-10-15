@@ -26,7 +26,7 @@ from werkzeug.security import generate_password_hash
 import pandas as pd
 from website.backend.candidates.string_manipulation import all_question_candidate_categories_sorted_function
 from website.backend.candidates.sqlalchemy_manipulation import pull_desired_languages_arr_function
-from website.backend.candidates.dict_manipulation import question_arr_of_dicts_manipulations_function, create_assessment_info_dict_function, map_user_answers_to_questions_dict_function, backend_store_question_answers_dict_function
+from website.backend.candidates.dict_manipulation import question_arr_of_dicts_manipulations_function, create_assessment_info_dict_function, map_user_answers_to_questions_dict_function, backend_store_question_answers_dict_function, grade_assessment_answers_dict_function
 from website.backend.candidates.datetime_manipulation import next_x_days_function, times_arr_function, expired_assessment_check_function, build_out_datetime_from_parts_function
 import datetime
 # ------------------------ imports end ------------------------
@@ -1142,10 +1142,10 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
         i_question_uuid = i_dict['question_uuid']
         answer_list_lookup = backend_store_question_answers_dict[i_question_uuid]
         i_dict['question_answers_list'] = answer_list_lookup
-        # ------------------------ grading function start ------------------------
-        # <- - - -  LEFT OFF HERE
-        # ------------------------ grading function end ------------------------
       # ------------------------ reassign correct answers back to dict end ------------------------
+      # ------------------------ grading function start ------------------------
+      assessment_info_dict = grade_assessment_answers_dict_function(assessment_info_dict)
+      # ------------------------ grading function end ------------------------
     # ------------------------ only start grading if all valid answers provided end ------------------------
   # ------------------------ post triggered end ------------------------
   localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
