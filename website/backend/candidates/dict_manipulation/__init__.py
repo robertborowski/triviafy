@@ -2,6 +2,7 @@
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 import re
+import difflib
 # ------------------------ imports end ------------------------
 
 
@@ -115,9 +116,24 @@ def question_dict_clean_input_function(input_phrase):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
+def check_two_phrase_similarity_score_function(correct_answer, ui_answer):
+  # localhost_print_function('=========================================== check_two_phrase_similarity_score_function START ===========================================')
+  answer_match_score = 0
+  try:
+    answer_match_score = difflib.SequenceMatcher(None, correct_answer, ui_answer).ratio()*100
+  except:
+    pass
+  # localhost_print_function('=========================================== check_two_phrase_similarity_score_function END ===========================================')
+  return answer_match_score
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
 def grade_assessment_answers_dict_function(assessment_info_dict):
   localhost_print_function('=========================================== grade_assessment_answers_dict_function START ===========================================')
-  localhost_print_function(' ----------- 0 ----------- ')
+  # ------------------------ set variables start ------------------------
+  ui_total_correct_answers = 0
+  # ------------------------ set variables end ------------------------
+  # ------------------------ loop through questions 1 by 1 start ------------------------
   for i_dict in assessment_info_dict['questions_arr_of_dicts']:
     # ------------------------ pull what is needed start ------------------------
     question_answers_str_original = i_dict['question_answers_list']   # str
@@ -129,17 +145,30 @@ def grade_assessment_answers_dict_function(assessment_info_dict):
     for i_answer in question_answers_arr_original:
       i_answer_corrected = question_dict_clean_input_function(i_answer)
       question_answers_arr_corrected.append(i_answer_corrected)
-    localhost_print_function(f'question_answers_arr_corrected | type: {type(question_answers_arr_corrected)} | {question_answers_arr_corrected}')
     # ------------------------ clean question answers end ------------------------
     # ------------------------ clean user answer start ------------------------
     ui_answer_corrected = question_dict_clean_input_function(ui_answer_original)
-    localhost_print_function(f'ui_answer_corrected | type: {type(ui_answer_corrected)} | {ui_answer_corrected}')
     # ------------------------ clean user answer end ------------------------
     # ------------------------ compare answers start ------------------------
-    # LEFT OFF HERE
+    # ------------------------ set variables start ------------------------
+    current_question_max_score = 0
+    i_dict['ui_answer_correct'] = False
+    i_dict['ui_answer_max_score'] = 0
+    # ------------------------ set variables end ------------------------
+    for i_answer_corrected in question_answers_arr_corrected:
+      i_score = check_two_phrase_similarity_score_function(i_answer_corrected, ui_answer_corrected)
+      if i_score >= current_question_max_score:
+        current_question_max_score = i_score
+      if current_question_max_score >= 80:
+        i_dict['ui_answer_correct'] = True
+        i_dict['ui_answer_max_score'] = current_question_max_score
+        ui_total_correct_answers += 1
+        break
     # ------------------------ compare answers end ------------------------
-    localhost_print_function(' ')
-  localhost_print_function(' ----------- 0 ----------- ')
+  # ------------------------ loop through questions 1 by 1 end ------------------------
+  assessment_info_dict['ui_total_correct_answers'] = ui_total_correct_answers
+  ui_final_score = (assessment_info_dict['ui_total_correct_answers'] / assessment_info_dict['total_questions'])
+  assessment_info_dict['ui_final_score'] = ui_final_score
   localhost_print_function('=========================================== grade_assessment_answers_dict_function END ===========================================')
   return assessment_info_dict
 # ------------------------ individual function end ------------------------

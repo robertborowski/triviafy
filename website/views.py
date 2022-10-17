@@ -1146,6 +1146,11 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
       # ------------------------ grading function start ------------------------
       assessment_info_dict = grade_assessment_answers_dict_function(assessment_info_dict)
       # ------------------------ grading function end ------------------------
+      # ------------------------ insert db start ------------------------
+      ui_total_correct_answers = assessment_info_dict['ui_total_correct_answers']
+      ui_final_score = assessment_info_dict['ui_final_score']
+      # LEFT OFF HERE
+      # ------------------------ insert db end ------------------------
     # ------------------------ only start grading if all valid answers provided end ------------------------
   # ------------------------ post triggered end ------------------------
   localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
