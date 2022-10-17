@@ -15,7 +15,7 @@ from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_f
 from flask import Blueprint, render_template, request, redirect, url_for, session
 from flask_login import login_required, current_user, login_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
-from website.models import CandidatesUserObj, CandidatesDesiredLanguagesObj, CandidatesUploadedCandidatesObj, CandidatesAssessmentsCreatedObj, CandidatesRequestLanguageObj, CandidatesScheduleObj, CandidatesEmailSentObj
+from website.models import CandidatesUserObj, CandidatesDesiredLanguagesObj, CandidatesUploadedCandidatesObj, CandidatesAssessmentsCreatedObj, CandidatesRequestLanguageObj, CandidatesScheduleObj, CandidatesEmailSentObj, CandidatesAssessmentGradedObj
 from website.backend.candidates.browser import browser_response_set_cookie_function
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
@@ -29,6 +29,7 @@ from website.backend.candidates.sqlalchemy_manipulation import pull_desired_lang
 from website.backend.candidates.dict_manipulation import question_arr_of_dicts_manipulations_function, create_assessment_info_dict_function, map_user_answers_to_questions_dict_function, backend_store_question_answers_dict_function, grade_assessment_answers_dict_function
 from website.backend.candidates.datetime_manipulation import next_x_days_function, times_arr_function, expired_assessment_check_function, build_out_datetime_from_parts_function
 import datetime
+import json
 # ------------------------ imports end ------------------------
 
 
@@ -1075,6 +1076,7 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
   # ------------------------ pull desired schedule info start ------------------------
   db_schedule_obj_user_id_fk = db_schedule_obj.user_id_fk
   db_schedule_obj_assessment_id_fk = db_schedule_obj.assessment_id_fk
+  db_schedule_obj_candidate_email = db_schedule_obj.candidates
   # ------------------------ pull desired schedule info end ------------------------
   # ------------------------ pull assessment info start ------------------------
   db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(id=db_schedule_obj_assessment_id_fk).first()
@@ -1149,7 +1151,22 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
       # ------------------------ insert db start ------------------------
       ui_total_correct_answers = assessment_info_dict['ui_total_correct_answers']
       ui_final_score = assessment_info_dict['ui_final_score']
-      # LEFT OFF HERE
+      # ------------------------ insert email to db start ------------------------
+      try:
+        new_row_graded = CandidatesAssessmentGradedObj(
+          id = create_uuid_function('graded_'),
+          created_timestamp = create_timestamp_function(),
+          candidate_email = db_schedule_obj_candidate_email,
+          assessment_expiring_url_fk = url_assessment_expiring,
+          correct_count = ui_total_correct_answers,
+          final_score = ui_final_score,
+          assessment_obj = json.dumps(assessment_info_dict)
+        )
+        db.session.add(new_row_graded)
+        db.session.commit()
+      except:
+        pass
+      # ------------------------ insert email to db end ------------------------
       # ------------------------ insert db end ------------------------
     # ------------------------ only start grading if all valid answers provided end ------------------------
   # ------------------------ post triggered end ------------------------
