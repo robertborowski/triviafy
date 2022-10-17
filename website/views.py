@@ -1029,6 +1029,14 @@ def candidates_assessment_invalid_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
+@views.route('/candidates/assessment/completed/success')
+def candidates_assessment_completed_success_function():
+  localhost_print_function('=========================================== candidates_assessment_invalid_function START ===========================================')
+  localhost_print_function('=========================================== candidates_assessment_invalid_function END ===========================================')
+  return render_template('candidates_page_templates/not_logged_in_page_templates/assessments_page_templates/assessment_completed_success/index.html')
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
 @views.route('/candidates/assessment/<url_assessment_expiring>', methods=['GET', 'POST'])
 def candidates_assessment_expiring_function(url_assessment_expiring):
   localhost_print_function('=========================================== candidates_assessment_expiring_function START ===========================================')
@@ -1166,6 +1174,8 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
         db.session.commit()
       except:
         pass
+      localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
+      return redirect(url_for('views.candidates_assessment_completed_success_function'))
       # ------------------------ insert email to db end ------------------------
       # ------------------------ insert db end ------------------------
     # ------------------------ only start grading if all valid answers provided end ------------------------
