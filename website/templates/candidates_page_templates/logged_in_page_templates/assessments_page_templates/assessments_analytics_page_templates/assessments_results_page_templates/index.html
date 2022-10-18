@@ -2,7 +2,7 @@
 
 <!-- head tag block content -->
 {% block title %}
-  <title>Assessments Analytics / Triviafy</title>
+  <title>Results / Triviafy</title>
 {% endblock %}
 
 {% block contentBodyExceptNavbarAndFooter %}
@@ -19,7 +19,8 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title start -->
 <div class="general-page-title-section">
-  <p class="general-page-title">Assessment Analytics</p>
+  <p class="general-page-title">Assessment Results</p>
+  <p class="general-page-sub-title">{{ assessment_name_title_to_html }}</p>
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title end -->
 
@@ -29,34 +30,32 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - redirect link start -->
 <div class="general-center-container">
-  <a href="{{ url_for('views.candidates_assessments_dashboard_function') }}" class="general-a-primary"><p class="general-page-font">Create assessment</p></a>
+  <a href="{{ url_for('views.candidates_upload_emails_function') }}" class="general-a-primary"><p class="general-page-font">Upload candidates</p></a>
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - redirect link end -->
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - candidate analytics datatables start -->
-<!-- <div class="assessment-analytics-datatable-section">
-  <table id="table_id_triviafy_assessment_analytics" class="display"> -->
 <div class="candidate-datatable-section">
   <table id="table_id_triviafy_candidate_analytics" class="display">
     <thead>
       <tr>
-        <th>Name</th>
-        <th>View</th>
-        <th>Schedule Send Pending</th>
-        <th>Candidates Completed</th>
-        <th>Results</th>
+        <th>Email</th>
+        <th>Schedule Pending</th>
+        <th>Assessment Completed</th>
+        <th>Total Correct</th>
+        <th>Correct %</th>
       </tr>
     </thead>
     
     <tbody>
-      {% for i in all_assessments_arr_of_dicts_to_html %}
+      {% for i in all_candidates_arr_of_dicts_to_html %}
       <tr>
-        <td>{{ i['assessment_name'] }}</td>
-        <td><a href="{{ url_for('views.candidates_assessment_view_specific_function', url_assessment_name=i['assessment_name']) }}" class="general-a-black">View</a></td>
-        <td>{{ i['candidates_pending'] }}</td>
-        <td>{{ i['candidates_completed'] }}</td>
-        <td><a href="{{ url_for('views.candidates_assessment_results_specific_function', url_assessment_name=i['assessment_name']) }}" class="general-a-primary">Results</a></td>
+        <td>{{ i['email'] }}</td>
+        <td>{{ i['total_schedules_pending'] }}</td>
+        <td>{{ i['total_schedules_completed'] }}</td>
+        <td>{{ i['total_correct_count'] }}</td>
+        <td>{{ i['average_final_score'] }}</td>
       </tr>
       {% endfor %}
     </tbody>

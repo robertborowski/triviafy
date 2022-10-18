@@ -800,6 +800,87 @@ def candidates_assessment_view_specific_function(url_assessment_name):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
+@views.route('/candidates/assessment/results/<url_assessment_name>', methods=['GET', 'POST'])
+@login_required
+def candidates_assessment_results_specific_function(url_assessment_name):
+  localhost_print_function('=========================================== candidates_assessment_results_specific_function START ===========================================')
+  # ------------------------ individual redirect start ------------------------
+  query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
+  check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
+  if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
+    localhost_print_function('=========================================== candidates_assessment_results_specific_function END ===========================================')
+    return redirect(url_for('views.capacity_page_function'))
+  # ------------------------ individual redirect end ------------------------
+  # ------------------------ individual redirect start ------------------------
+  query_result_arr_of_dicts = select_general_function('select_if_desired_languages_captured')
+  try:
+    check_desired_languages_value = query_result_arr_of_dicts[0]['desired_languages']
+  except:
+    check_desired_languages_value = None
+  if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
+    localhost_print_function('=========================================== candidates_assessment_results_specific_function END ===========================================')
+    return redirect(url_for('views.capacity_page_function'))
+  # ------------------------ individual redirect end ------------------------
+  # ------------------------ invalid url_assessment_name start ------------------------
+  if url_assessment_name == False or url_assessment_name == None or url_assessment_name == '':
+    localhost_print_function('=========================================== candidates_assessment_results_specific_function END ===========================================')
+    return redirect(url_for('views.dashboard_test_login_page_function'))
+  # ------------------------ invalid url_assessment_name end ------------------------
+  # ------------------------ set variables start ------------------------
+  assessment_name_title = url_assessment_name
+  all_candidates_arr_of_dicts = []
+  assessment_info_dict = {}
+  emails_tracked_set = {'a'}
+  # ------------------------ set variables end ------------------------
+  # ------------------------ pull db info schedule start ------------------------
+  db_schedule_obj = CandidatesScheduleObj.query.filter_by(assessment_name=url_assessment_name,user_id_fk=current_user.id).all()
+  for i_schedule_obj in db_schedule_obj:
+    i_email = i_schedule_obj.candidates
+    if i_email not in emails_tracked_set:
+      emails_tracked_set.add(i_email)
+      assessment_info_dict = {}
+      assessment_info_dict['email'] = i_email
+      total_schedules_pending = 0
+      total_schedules_completed = 0
+      # ------------------------ pull db info schedule candidate specific start ------------------------
+      db_schedule_email_specific_obj = CandidatesScheduleObj.query.filter_by(assessment_name=url_assessment_name,user_id_fk=current_user.id,candidates=i_email).all()
+      for i_schedule_email_specific_obj in db_schedule_email_specific_obj:
+        if i_schedule_email_specific_obj.candidate_status == 'Pending':
+          total_schedules_pending += 1
+        elif i_schedule_email_specific_obj.candidate_status == 'Completed':
+          total_schedules_completed += 1
+      assessment_info_dict['total_schedules_pending'] = total_schedules_pending
+      assessment_info_dict['total_schedules_completed'] = total_schedules_completed
+      # ------------------------ pull db info schedule candidate specific end ------------------------
+      # ------------------------ pull db info graded candidate specific start ------------------------
+      db_assessments_email_specific_obj = CandidatesAssessmentGradedObj.query.filter_by(assessment_name=url_assessment_name,created_assessment_user_id_fk=current_user.id,candidate_email=i_email).all()
+      total_correct_count = 0
+      total_final_score = 0
+      total_final_score_counter = 0
+      average_final_score = 0
+      for i_assessment_email_specific_obj in db_assessments_email_specific_obj:
+        total_final_score_counter += 1
+        total_correct_count += i_assessment_email_specific_obj.correct_count
+        total_final_score += i_assessment_email_specific_obj.final_score
+      assessment_info_dict['total_correct_count'] = total_correct_count
+      try:
+        average_final_score = (total_final_score / total_final_score_counter) * 100
+        average_final_score = str(average_final_score)[0:-2] + '%'
+        assessment_info_dict['average_final_score'] = average_final_score
+      except:
+        average_final_score = (total_final_score / 1) * 100
+        average_final_score = str(average_final_score)[0:-2] + '%'
+        assessment_info_dict['average_final_score'] = average_final_score
+      # ------------------------ pull db info graded candidate specific end ------------------------
+      all_candidates_arr_of_dicts.append(assessment_info_dict)
+  # ------------------------ pull db info schedule end ------------------------
+  emails_tracked_set.remove('a')
+  # ------------------------ remove answers for non paying users end ------------------------
+  localhost_print_function('=========================================== candidates_assessment_results_specific_function END ===========================================')
+  return render_template('candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_analytics_page_templates/assessments_results_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, all_candidates_arr_of_dicts_to_html=all_candidates_arr_of_dicts, assessment_name_title_to_html=assessment_name_title)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
 @views.route('/candidates/schedule', methods=['GET', 'POST'])
 @login_required
 def candidates_schedule_dashboard_function():
@@ -1149,6 +1230,7 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
   db_schedule_obj_user_id_fk = db_schedule_obj.user_id_fk
   db_schedule_obj_assessment_id_fk = db_schedule_obj.assessment_id_fk
   db_schedule_obj_candidate_email = db_schedule_obj.candidates
+  db_schedule_obj_assessment_name = db_schedule_obj.assessment_name
   # ------------------------ pull desired schedule info end ------------------------
   # ------------------------ pull assessment info start ------------------------
   db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(id=db_schedule_obj_assessment_id_fk).first()
@@ -1228,6 +1310,8 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
           id = create_uuid_function('graded_'),
           created_timestamp = create_timestamp_function(),
           candidate_email = db_schedule_obj_candidate_email,
+          assessment_name = db_schedule_obj_assessment_name,
+          created_assessment_user_id_fk = db_schedule_obj_user_id_fk,
           assessment_expiring_url_fk = url_assessment_expiring,
           correct_count = ui_total_correct_answers,
           final_score = ui_final_score,

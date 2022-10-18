@@ -118,6 +118,8 @@ class CandidatesAssessmentGradedObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
   created_timestamp = db.Column(db.DateTime(timezone=True))
   candidate_email = db.Column(db.String(150))
+  assessment_name = db.Column(db.String(150))
+  created_assessment_user_id_fk = db.Column(db.String(150))
   assessment_expiring_url_fk = db.Column(db.String(150), unique=True)
   correct_count = db.Column(db.Integer)
   final_score = db.Column(db.Float)
