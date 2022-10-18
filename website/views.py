@@ -535,9 +535,20 @@ def candidates_assessments_analytics_function():
   for i in current_user_assessments_created_arr:
     all_assessments_dict = {}
     all_assessments_dict['assessment_name'] = i.assessment_name
-    all_assessments_dict['candidates_pending'] = 0
-    all_assessments_dict['candidates_received'] = 0
-    all_assessments_dict['candidates_completed'] = 0
+    # ------------------------ pull info schedules start ------------------------
+    db_schedule_obj = CandidatesScheduleObj.query.filter_by(user_id_fk=current_user.id, assessment_name=i.assessment_name).all()
+    # ------------------------ set variables start ------------------------
+    candidates_pending = 0
+    candidates_completed = 0
+    # ------------------------ set variables end ------------------------
+    for i_schedule_obj in db_schedule_obj:
+      if i_schedule_obj.candidate_status == 'Pending':
+        candidates_pending += 1
+      elif i_schedule_obj.candidate_status == 'Completed':
+        candidates_completed += 1
+    all_assessments_dict['candidates_pending'] = candidates_pending
+    all_assessments_dict['candidates_completed'] = candidates_completed
+    # ------------------------ pull info schedules end ------------------------
     all_assessments_arr_of_dicts.append(all_assessments_dict)
   # ------------------------ pull all assessments end ------------------------
   localhost_print_function('=========================================== candidates_assessments_analytics_function END ===========================================')

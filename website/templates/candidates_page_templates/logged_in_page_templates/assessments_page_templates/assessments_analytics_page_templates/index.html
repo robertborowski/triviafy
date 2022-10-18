@@ -41,8 +41,7 @@
       <tr>
         <th>Name</th>
         <th>View</th>
-        <th>Candidates Pending</th>
-        <th>Candidates Received</th>
+        <th>Schedule Send Pending</th>
         <th>Candidates Completed</th>
         <th>Results</th>
       </tr>
@@ -54,7 +53,6 @@
         <td>{{ i['assessment_name'] }}</td>
         <td><a href="{{ url_for('views.candidates_assessment_view_specific_function', url_assessment_name=i['assessment_name']) }}" class="general-a-black">View</a></td>
         <td>{{ i['candidates_pending'] }}</td>
-        <td>{{ i['candidates_received'] }}</td>
         <td>{{ i['candidates_completed'] }}</td>
         <td><a href="{{ url_for('views.dashboard_test_login_page_function') }}" class="general-a-primary">Results</a></td>
       </tr>
