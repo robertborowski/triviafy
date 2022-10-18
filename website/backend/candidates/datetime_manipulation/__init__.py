@@ -94,7 +94,7 @@ def expired_assessment_check_function(input_timestamp):
     is_expired = not_open_yet
   # ------------------------ compare end ------------------------
   localhost_print_function('=========================================== expired_assessment_check_function END ===========================================')
-  return is_expired
+  return is_expired, not_open_yet
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------

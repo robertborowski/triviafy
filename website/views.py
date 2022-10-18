@@ -1029,11 +1029,27 @@ def candidates_assessment_invalid_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
+@views.route('/candidates/assessment/early')
+def candidates_assessment_early_function():
+  localhost_print_function('=========================================== candidates_assessment_early_function START ===========================================')
+  localhost_print_function('=========================================== candidates_assessment_early_function END ===========================================')
+  return render_template('candidates_page_templates/not_logged_in_page_templates/assessments_page_templates/assessment_early/index.html')
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
 @views.route('/candidates/assessment/completed/success')
 def candidates_assessment_completed_success_function():
-  localhost_print_function('=========================================== candidates_assessment_invalid_function START ===========================================')
-  localhost_print_function('=========================================== candidates_assessment_invalid_function END ===========================================')
+  localhost_print_function('=========================================== candidates_assessment_completed_success_function START ===========================================')
+  localhost_print_function('=========================================== candidates_assessment_completed_success_function END ===========================================')
   return render_template('candidates_page_templates/not_logged_in_page_templates/assessments_page_templates/assessment_completed_success/index.html')
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@views.route('/candidates/assessment/closed')
+def candidates_assessment_closed_function():
+  localhost_print_function('=========================================== candidates_assessment_closed_function START ===========================================')
+  localhost_print_function('=========================================== candidates_assessment_closed_function END ===========================================')
+  return render_template('candidates_page_templates/not_logged_in_page_templates/assessments_page_templates/assessment_closed/index.html')
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -1056,7 +1072,10 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
     return redirect(url_for('views.candidates_assessment_invalid_function'))
   # ------------------------ invalid url_assessment_name end ------------------------
   # ------------------------ check if answers already submitted start ------------------------
-  # Code to be added here once models/tables created
+  db_already_graded_obj = CandidatesAssessmentGradedObj.query.filter_by(assessment_expiring_url_fk=url_assessment_expiring).first()
+  if db_already_graded_obj != None:
+    localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
+    return redirect(url_for('views.candidates_assessment_closed_function'))
   # ------------------------ check if answers already submitted end ------------------------
   # ------------------------ expire check based on email send datetime start ------------------------
   db_email_obj = CandidatesEmailSentObj.query.filter_by(assessment_expiring_url_fk=url_assessment_expiring).order_by(CandidatesEmailSentObj.created_timestamp.desc()).first()
@@ -1068,7 +1087,10 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
   email_sent_timestamp = db_email_obj.created_timestamp      # type: datetime.datetime
   # ------------------------ expire check based on email send datetime end ------------------------
   # ------------------------ check if schedule id expired start ------------------------
-  expired_assessment_check = expired_assessment_check_function(email_sent_timestamp)
+  expired_assessment_check, assessment_not_open_yet_check = expired_assessment_check_function(email_sent_timestamp)
+  if assessment_not_open_yet_check == True:
+    localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
+    return redirect(url_for('views.candidates_assessment_early_function'))
   if expired_assessment_check == True:
     localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
     return redirect(url_for('views.candidates_assessment_invalid_function'))
