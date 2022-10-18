@@ -440,10 +440,41 @@ def candidates_analytics_function():
   for i in current_user_uploaded_emails_arr:
     all_candidates_dict = {}
     all_candidates_dict['email'] = i.email
-    all_candidates_dict['total_assessments'] = 0
-    all_candidates_dict['total_correct_answers'] = 0
-    all_candidates_dict['total_correct_percent'] = 0
-    all_candidates_dict['top_skill'] = 'Python'
+    # ------------------------ get candidate stats start ------------------------
+    db_assessment_graded_obj = CandidatesAssessmentGradedObj.query.filter_by(candidate_email=i.email).all()
+    if db_assessment_graded_obj == None:
+      all_candidates_dict['total_assessments'] = 0
+      all_candidates_dict['total_correct_answers'] = 0
+      all_candidates_dict['total_correct_percent'] = '0%'
+    else:
+      # ------------------------ set variables start ------------------------
+      total_assessments = 0
+      total_correct_answers = 0
+      total_correct_percent = 0
+      total_correct_percent_counter = 0
+      # ------------------------ set variables end ------------------------
+      # ------------------------ loop add start ------------------------
+      for i_assessment_obj in db_assessment_graded_obj:
+        total_assessments += 1
+        total_correct_answers += i_assessment_obj.correct_count
+        total_correct_percent += i_assessment_obj.final_score
+        total_correct_percent_counter += 1
+      # ------------------------ loop add end ------------------------
+      # ------------------------ assign result start ------------------------
+      all_candidates_dict['total_assessments'] = total_assessments
+      all_candidates_dict['total_correct_answers'] = total_correct_answers
+      # ------------------------ divide by 0 error start ------------------------
+      try:
+        total_correct_percent_float = (total_correct_percent / total_correct_percent_counter) * 100
+        total_correct_percent_str = str(total_correct_percent_float)[0:-2] + '%'
+        all_candidates_dict['total_correct_percent'] = total_correct_percent_str
+      except:
+        total_correct_percent_float = (total_correct_percent / 1) * 100
+        total_correct_percent_str = str(total_correct_percent_float)[0:-2] + '%'
+        all_candidates_dict['total_correct_percent'] = total_correct_percent
+      # ------------------------ divide by 0 error end ------------------------
+      # ------------------------ assign result end ------------------------
+    # ------------------------ get candidate stats end ------------------------
     all_candidates_arr_of_dicts.append(all_candidates_dict)
   # ------------------------ pull all candidates end ------------------------
   localhost_print_function('=========================================== candidates_analytics_function END ===========================================')
@@ -1181,7 +1212,6 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
       # ------------------------ insert db start ------------------------
       ui_total_correct_answers = assessment_info_dict['ui_total_correct_answers']
       ui_final_score = assessment_info_dict['ui_final_score']
-      # ------------------------ insert email to db start ------------------------
       try:
         new_row_graded = CandidatesAssessmentGradedObj(
           id = create_uuid_function('graded_'),
@@ -1196,10 +1226,18 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
         db.session.commit()
       except:
         pass
+      # ------------------------ insert db end ------------------------
+      # ------------------------ update row in db schedule start ------------------------
+      try:
+        db_schedule_obj = CandidatesScheduleObj.query.filter_by(expiring_url=url_assessment_expiring).first()
+        db_schedule_obj.candidate_status = 'Completed'
+        db.session.commit()
+      except:
+        localhost_print_function('error cannot update row')
+        pass
+      # ------------------------ update row in db schedule end ------------------------
       localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
       return redirect(url_for('views.candidates_assessment_completed_success_function'))
-      # ------------------------ insert email to db end ------------------------
-      # ------------------------ insert db end ------------------------
     # ------------------------ only start grading if all valid answers provided end ------------------------
   # ------------------------ post triggered end ------------------------
   localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
