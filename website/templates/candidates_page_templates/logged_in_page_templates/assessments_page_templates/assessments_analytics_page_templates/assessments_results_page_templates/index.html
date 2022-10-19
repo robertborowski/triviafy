@@ -30,14 +30,14 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - redirect link start -->
 <div class="general-center-container">
-  <a href="{{ url_for('views.candidates_upload_emails_function') }}" class="general-a-primary"><p class="general-page-font">Upload candidates</p></a>
+  <a href="{{ url_for('views.candidates_assessments_analytics_function') }}" class="general-a-primary"><p class="general-page-font">Back</p></a>
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - redirect link end -->
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - candidate analytics datatables start -->
-<div class="candidate-datatable-section">
-  <table id="table_id_triviafy_candidate_analytics" class="display">
+<div class="assessment-analytics-datatable-section">
+  <table id="table_id_triviafy_assessment_analytics" class="display">
     <thead>
       <tr>
         <th>Email</th>
@@ -45,6 +45,7 @@
         <th>Assessment Completed</th>
         <th>Total Correct</th>
         <th>Correct %</th>
+        <th>Candidate Answers</th>
       </tr>
     </thead>
     
@@ -56,6 +57,7 @@
         <td>{{ i['total_schedules_completed'] }}</td>
         <td>{{ i['total_correct_count'] }}</td>
         <td>{{ i['average_final_score'] }}</td>
+        <td><a href="{{ url_for('views.candidates_assessments_analytics_function') }}" class="general-a-primary">View</a></td>
       </tr>
       {% endfor %}
     </tbody>

@@ -43,6 +43,7 @@
         <th>Assessments Completed</th>
         <th>Correct Answers</th>
         <th>Correct %</th>
+        <th>Summary</th>
       </tr>
     </thead>
     
@@ -53,6 +54,7 @@
         <td>{{ i['total_assessments'] }}</td>
         <td>{{ i['total_correct_answers'] }}</td>
         <td>{{ i['total_correct_percent'] }}</td>
+        <td><a href="{{ url_for('views.candidates_assessment_view_specific_function', url_assessment_name=i['email']) }}" class="general-a-primary">View</a></td>
       </tr>
       {% endfor %}
     </tbody>

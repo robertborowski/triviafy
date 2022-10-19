@@ -42,7 +42,7 @@
     <thead>
       <tr>
         <th>Name</th>
-        <th>View</th>
+        <th>Candidate View</th>
         <th>Schedule Send Pending</th>
         <th>Candidates Completed</th>
         <th>Results</th>
@@ -53,7 +53,7 @@
       {% for i in all_assessments_arr_of_dicts_to_html %}
       <tr>
         <td>{{ i['assessment_name'] }}</td>
-        <td><a href="{{ url_for('views.candidates_assessment_view_specific_function', url_assessment_name=i['assessment_name']) }}" class="general-a-black">View</a></td>
+        <td><a href="{{ url_for('views.candidates_assessment_view_specific_function', url_assessment_name=i['assessment_name']) }}" class="general-a-primary">View</a></td>
         <td>{{ i['candidates_pending'] }}</td>
         <td>{{ i['candidates_completed'] }}</td>
         <td><a href="{{ url_for('views.candidates_assessment_results_specific_function', url_assessment_name=i['assessment_name']) }}" class="general-a-primary">Results</a></td>

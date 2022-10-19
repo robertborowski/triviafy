@@ -466,11 +466,11 @@ def candidates_analytics_function():
       # ------------------------ divide by 0 error start ------------------------
       try:
         total_correct_percent_float = (total_correct_percent / total_correct_percent_counter) * 100
-        total_correct_percent_str = str(total_correct_percent_float)[0:-2] + '%'
+        total_correct_percent_str = str(total_correct_percent_float)[0:2] + '%'
         all_candidates_dict['total_correct_percent'] = total_correct_percent_str
       except:
         total_correct_percent_float = (total_correct_percent / 1) * 100
-        total_correct_percent_str = str(total_correct_percent_float)[0:-2] + '%'
+        total_correct_percent_str = str(total_correct_percent_float)[0:2] + '%'
         all_candidates_dict['total_correct_percent'] = total_correct_percent
       # ------------------------ divide by 0 error end ------------------------
       # ------------------------ assign result end ------------------------
@@ -865,11 +865,11 @@ def candidates_assessment_results_specific_function(url_assessment_name):
       assessment_info_dict['total_correct_count'] = total_correct_count
       try:
         average_final_score = (total_final_score / total_final_score_counter) * 100
-        average_final_score = str(average_final_score)[0:-2] + '%'
+        average_final_score = str(average_final_score)[0:2] + '%'
         assessment_info_dict['average_final_score'] = average_final_score
       except:
         average_final_score = (total_final_score / 1) * 100
-        average_final_score = str(average_final_score)[0:-2] + '%'
+        average_final_score = str(average_final_score)[0:2] + '%'
         assessment_info_dict['average_final_score'] = average_final_score
       # ------------------------ pull db info graded candidate specific end ------------------------
       all_candidates_arr_of_dicts.append(assessment_info_dict)
