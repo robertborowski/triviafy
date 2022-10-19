@@ -45,7 +45,7 @@
         <th>Candidate View</th>
         <th>Schedule Send Pending</th>
         <th>Candidates Completed</th>
-        <th>Results</th>
+        <th>Summary</th>
       </tr>
     </thead>
     
@@ -56,7 +56,7 @@
         <td><a href="{{ url_for('views.candidates_assessment_view_specific_function', url_assessment_name=i['assessment_name']) }}" class="general-a-primary">View</a></td>
         <td>{{ i['candidates_pending'] }}</td>
         <td>{{ i['candidates_completed'] }}</td>
-        <td><a href="{{ url_for('views.candidates_assessment_results_specific_function', url_assessment_name=i['assessment_name']) }}" class="general-a-primary">Results</a></td>
+        <td><a href="{{ url_for('views.candidates_assessment_results_specific_function', url_assessment_name=i['assessment_name']) }}" class="general-a-primary">View</a></td>
       </tr>
       {% endfor %}
     </tbody>
