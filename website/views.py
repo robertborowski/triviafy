@@ -1259,16 +1259,6 @@ def candidates_assessment_closed_function():
 @views.route('/candidates/assessment/<url_assessment_expiring>', methods=['GET', 'POST'])
 def candidates_assessment_expiring_function(url_assessment_expiring):
   localhost_print_function('=========================================== candidates_assessment_expiring_function START ===========================================')
-  """
-  # ------------------------ check schedule type start ------------------------
-  db_schedule_obj_goal_timestamp = ''
-  schedule_type = db_schedule_obj.send_date
-  if schedule_type == 'Immediate':
-    db_schedule_obj_goal_timestamp = db_schedule_obj.created_timestamp
-  else:
-    db_schedule_obj_goal_timestamp = build_out_datetime_from_parts_function(db_schedule_obj.send_date, db_schedule_obj.send_time, db_schedule_obj.send_timezone)
-  # ------------------------ check schedule type end ------------------------
-  """
   # ------------------------ invalid url_assessment_name start ------------------------
   if url_assessment_expiring == False or url_assessment_expiring == None or url_assessment_expiring == '':
     localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
