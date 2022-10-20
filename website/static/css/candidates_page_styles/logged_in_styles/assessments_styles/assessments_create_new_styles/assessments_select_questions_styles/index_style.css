@@ -105,4 +105,19 @@ span.span-question-difficulty {
   font-size: 12px;
   color: rgb(135, 135, 135);
 }
+.result-check-section {
+  /* border: 1px solid black; */
+  border-radius: 10px;
+  padding: 20px;
+}
+.result-check-p {
+  font-size: 18px;
+  margin: 5px 0;
+}
+.result-check-correct {
+  color: green;
+}
+.result-check-incorrect {
+  color: red;
+}
 /* - - - - - - - - - - assessment create end */

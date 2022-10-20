@@ -57,7 +57,7 @@
         <td>{{ i['total_schedules_completed'] }}</td>
         <td>{{ i['total_correct_count'] }}</td>
         <td>{{ i['average_final_score'] }}</td>
-        <td><a href="{{ url_for('views.candidates_assessments_analytics_function') }}" class="general-a-primary">View</a></td>
+        <td><a href="{{ url_for('views.candidates_assessment_i_answers_function', url_email=i['email'], url_assessment_name=assessment_name_title_to_html) }}" class="general-a-primary">View latest</a></td>
       </tr>
       {% endfor %}
     </tbody>

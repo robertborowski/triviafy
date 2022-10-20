@@ -1419,4 +1419,45 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
   localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
   return render_template('candidates_page_templates/not_logged_in_page_templates/assessments_page_templates/assessment_candidate_test/index.html', users_company_name_to_html=db_user_obj_company_name, error_message_to_html=ui_answers_error_statement, assessment_info_dict_to_html=assessment_info_dict)
 # ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@views.route('/candidates/assessment/<url_email>/<url_assessment_name>', methods=['GET', 'POST'])
+@login_required
+def candidates_assessment_i_answers_function(url_email, url_assessment_name):
+  localhost_print_function('=========================================== candidates_assessment_i_answers_function START ===========================================')
+  # ------------------------ individual redirect start ------------------------
+  query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
+  check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
+  if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
+    localhost_print_function('=========================================== candidates_assessment_i_answers_function END ===========================================')
+    return redirect(url_for('views.capacity_page_function'))
+  # ------------------------ individual redirect end ------------------------
+  # ------------------------ individual redirect start ------------------------
+  query_result_arr_of_dicts = select_general_function('select_if_desired_languages_captured')
+  try:
+    check_desired_languages_value = query_result_arr_of_dicts[0]['desired_languages']
+  except:
+    check_desired_languages_value = None
+  if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
+    localhost_print_function('=========================================== candidates_assessment_i_answers_function END ===========================================')
+    return redirect(url_for('views.capacity_page_function'))
+  # ------------------------ individual redirect end ------------------------
+  # ------------------------ invalid url_candidate_email start ------------------------
+  if url_email == False or url_email == None or url_email == '' or url_assessment_name == False or url_assessment_name == None or url_assessment_name == '':
+    localhost_print_function('=========================================== candidates_assessment_i_answers_function END ===========================================')
+    return redirect(url_for('views.dashboard_test_login_page_function'))
+  # ------------------------ invalid url_assessment_name end ------------------------
+  # ------------------------ pull assessment graded obj start ------------------------
+  db_assessment_graded_obj = CandidatesAssessmentGradedObj.query.filter_by(created_assessment_user_id_fk=current_user.id,candidate_email=url_email,assessment_name=url_assessment_name).order_by(CandidatesAssessmentGradedObj.created_timestamp.desc()).first()
+  # ------------------------ pull assessment graded obj end ------------------------
+  # ------------------------ redirect if no obj found start ------------------------
+  if db_assessment_graded_obj == None:
+    localhost_print_function('=========================================== candidates_assessment_i_answers_function END ===========================================')
+    return redirect(url_for('views.dashboard_test_login_page_function'))
+  # ------------------------ redirect if no obj found end ------------------------
+  ui_answers_error_statement = ''
+  assessment_info_dict = json.loads(db_assessment_graded_obj.assessment_obj)
+  localhost_print_function('=========================================== candidates_assessment_i_answers_function END ===========================================')
+  return render_template('candidates_page_templates/logged_in_page_templates/candidates_page_templates/candidates_view_specific_page_templates/candidates_view_specific_answers_page_templates/index.html', error_message_to_html=ui_answers_error_statement, users_company_name_to_html = current_user.company_name, user_email_to_html=url_email, assessment_info_dict_to_html=assessment_info_dict)
+# ------------------------ individual route end ------------------------
 # ------------------------ routes logged in end ------------------------

@@ -1,0 +1,107 @@
+{% extends "candidates_page_templates/aaa_base_page_templates/base2_child1_logged_in_yes_navbar_and_footer.html" %}
+
+<!-- head tag block content -->
+{% block title %}
+  <title>View Assessment / Triviafy</title>
+{% endblock %}
+
+{% block contentBodyExceptNavbarAndFooter %}
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name start -->
+<div class="general-signed-in-company-name-section">
+  <p class="general-signed-in-company-name-title">{{ users_company_name_to_html }}</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name end -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title start -->
+<div class="general-page-title-section">
+  <!-- <p class="general-page-title">Assessment</p> -->
+  <p class="general-page-title">{{ assessment_info_dict_to_html['name'] }}</p>
+  <!-- <p class="general-page-sub-title">{{ assessment_info_dict_to_html['name'] }}</p> -->
+  <p class="general-page-sub-title">{{ user_email_to_html }}</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - paying customers start -->
+<div class="only-paying-customers candidates-default-box-shadow-grey-small">
+  <p>Note: To help curb cheating, only paying users can view question answers</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - paying customers end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - paying customers start -->
+<!-- <div class="only-paying-customers candidates-default-box-shadow-grey-small">
+  <p>Note: Candidates will not see this message box</p>
+</div> -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - paying customers end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message start -->
+<div class="error-message-section">
+  <p>{{ error_message_to_html }}</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select questions arr start -->
+<div class="select-questions-form-container">
+  {% for i in assessment_info_dict_to_html['questions_arr_of_dicts'] %}
+  <div class="select-question-container">
+    <div class="select-question-left-side">
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - question header start -->
+      <div class="select-question-header">
+        <p class="candidate-question-title">Q{{ i['question_counter'] }}: {{ i['question_title'] }}
+          <span class="span-question-difficulty">({{ i['question_difficulty'] }})</span>
+        </p>
+        <p class="candidate-question-categories">Categories:
+          {% for category_tuple in i['question_categories_list'] %}
+            <span class="span-candidates-question-category-general span-candidates-question-category-{{ category_tuple[1] }}">{{ category_tuple[0] }}</span>
+          {% endfor %}
+        </p>
+      </div>
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - question header end -->
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - question body start -->
+      <div class="select-question-body">
+        <p class="candidate-question-actual-question">{{ i['question_actual_question'] }}</p>
+      </div>
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - question body end -->
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - question footer start -->
+      <div class="select-question-footer">
+        <label for="candidate_ui_question_answer_{{ i['question_counter'] }}"></label>
+        <input type="text" id="candidate_ui_question_answer_{{ i['question_counter'] }}" name="candidate_ui_question_answer_{{ i['question_counter'] }}" class="candidates-default-text-input candidates-default-text-input-full-width" placeholder="Candidate answer here"  maxlength="100" pattern="[a-zA-z0-9 ]{0,100}" title="Only letters numbers and spaces accepted" value="{{ i['ui_answer'] }}" required />
+      </div>
+      <div class="result-check-section">
+        <p class="result-check-p">Submitted: {{ i['ui_answer'] }}</p>
+        {% if i['ui_answer_correct'] is true %}
+          <p class="result-check-p result-check-correct">Correct</p>
+        {% endif %}
+        {% if i['ui_answer_correct'] is false %}
+          <p class="result-check-p result-check-incorrect">Incorrect</p>
+        {% endif %}
+      </div>
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - question footer end -->
+    </div>
+    <div class="select-question-right-side">
+      <img src="{{ i['question_image_aws_url'] }}" alt="" class="select-question-img candidates-default-box-shadow-grey-regular">
+    </div>
+  </div>
+  {% endfor %}
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - standin for button start -->
+  <div class="view-specific-assessment-submit-section">
+    <p class="default-button-format default-button-format-grey-color">Submit</p>
+  </div>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - standin for button end -->
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select questions arr end -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section-large"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+{% endblock %}
