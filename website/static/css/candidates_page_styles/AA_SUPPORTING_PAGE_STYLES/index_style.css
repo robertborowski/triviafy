@@ -75,6 +75,12 @@
   margin: 10px 0 0 0;
   color: rgb(139, 139, 139);
 }
+.general-page-fine-print {
+  font-size: 10px;
+}
+.general-top-margin {
+  margin: 10px 0 0 0;
+}
 .general-page-font {
   font-size: 20px;
 }
@@ -121,7 +127,12 @@
   text-decoration: none;
   color: var(--company-primary-color);
 }
+.general-a-grey {
+  text-decoration: none;
+  color: rgb(139, 139, 139);
+}
 .general-a-black:hover,
-.general-a-primary:hover {
+.general-a-primary:hover,
+.general-a-grey:hover {
   text-decoration: underline;
 }

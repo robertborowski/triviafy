@@ -354,8 +354,12 @@ def candidates_account_settings_function():
     localhost_print_function('=========================================== candidates_account_settings_function END ===========================================')
     return redirect(url_for('views.capacity_page_function'))
   # ------------------------ individual redirect end ------------------------
+  # ------------------------ pull user info start ------------------------
+  user_account_created_timestamp = current_user.created_timestamp
+  user_account_created_str = user_account_created_timestamp.strftime('%m/%Y')
+  # ------------------------ pull user info end ------------------------
   localhost_print_function('=========================================== candidates_account_settings_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/account_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name)
+  return render_template('candidates_page_templates/logged_in_page_templates/account_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, user_email_to_html=current_user.email, user_account_created_str_to_html=user_account_created_str)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
