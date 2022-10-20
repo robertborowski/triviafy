@@ -30,6 +30,8 @@ from website.backend.candidates.dict_manipulation import question_arr_of_dicts_m
 from website.backend.candidates.datetime_manipulation import next_x_days_function, times_arr_function, expired_assessment_check_function
 import datetime
 import json
+import stripe
+import os
 # ------------------------ imports end ------------------------
 
 
@@ -337,6 +339,9 @@ def capacity_page_function():
 @login_required
 def candidates_account_settings_function():
   localhost_print_function('=========================================== candidates_account_settings_function START ===========================================')
+  # ------------------------ stripe setup start ------------------------
+  stripe.api_key = os.environ.get('STRIPE_API_KEY')
+  # ------------------------ stripe setup end ------------------------
   # ------------------------ individual redirect start ------------------------
   query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
   check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
