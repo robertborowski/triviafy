@@ -15,7 +15,7 @@ def select_todays_pending_schedules_function(postgres_connection, postgres_curso
                               candidates_schedule_obj \
                             WHERE \
                               candidate_status='Pending' AND \
-                              send_date=%s;", [additional_input])
+                              send_date<=%s;", [additional_input])
     # ------------------------ Query END ------------------------
 
 
