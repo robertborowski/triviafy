@@ -33,7 +33,14 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
-<p>Hello</p>
+<div class="subscription-checkout-section">
+  <!-- <form action="/create-checkout-session" method="POST">
+    <button type="submit" id="stripe-sub-month-basic-button">Continue</button>
+  </form> -->
+  <div class="dashboard-split-inner-section">
+    <a href="{{ url_for('views.candidates_stripe_checkout_function') }}"><p class="default-button-format default-button-format-primary-color">Continue</p></a>
+  </div>
+</div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page end -->
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->

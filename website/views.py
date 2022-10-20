@@ -339,9 +339,6 @@ def capacity_page_function():
 @login_required
 def candidates_account_settings_function():
   localhost_print_function('=========================================== candidates_account_settings_function START ===========================================')
-  # ------------------------ stripe setup start ------------------------
-  stripe.api_key = os.environ.get('STRIPE_API_KEY')
-  # ------------------------ stripe setup end ------------------------
   # ------------------------ individual redirect start ------------------------
   query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
   check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
@@ -365,6 +362,60 @@ def candidates_account_settings_function():
   # ------------------------ pull user info end ------------------------
   localhost_print_function('=========================================== candidates_account_settings_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/account_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, user_email_to_html=current_user.email, user_account_created_str_to_html=user_account_created_str)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@views.route('/candidates/stripe/checkout', methods=['GET', 'POST'])
+@login_required
+def candidates_stripe_checkout_function():
+  localhost_print_function('=========================================== candidates_stripe_checkout_function START ===========================================')
+  # ------------------------ stripe setup start ------------------------
+  # stripe.api_key = os.environ.get('STRIPE_API_KEY')
+  stripe.api_key = os.environ.get('STRIPE_TEST_API_KEY')
+  # ------------------------ stripe setup end ------------------------
+  # ------------------------ individual redirect start ------------------------
+  query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
+  check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
+  if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
+    localhost_print_function('=========================================== candidates_stripe_checkout_function END ===========================================')
+    return redirect(url_for('views.capacity_page_function'))
+  # ------------------------ individual redirect end ------------------------
+  # ------------------------ individual redirect start ------------------------
+  query_result_arr_of_dicts = select_general_function('select_if_desired_languages_captured')
+  try:
+    check_desired_languages_value = query_result_arr_of_dicts[0]['desired_languages']
+  except:
+    check_desired_languages_value = None
+  if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
+    localhost_print_function('=========================================== candidates_stripe_checkout_function END ===========================================')
+    return redirect(url_for('views.capacity_page_function'))
+  # ------------------------ individual redirect end ------------------------
+  # ------------------------ stripe testing start ------------------------
+  
+  # ------------------------ stripe testing end ------------------------
+  """
+  # ------------------------ stripe start ------------------------
+  try:
+    checkout_session = stripe.checkout.Session.create(
+      line_items=[
+      {
+      # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+      'price': 'price_1Lv1ddCBQxSX3q4EJwIBKvAN',
+      'quantity': 1,
+      },
+      ],
+      mode='subscription',
+      success_url='https://triviafy.com/candidates/about',
+      cancel_url='https://triviafy.com/candidates/faq',
+    )
+  except Exception as e:
+    return str(e)
+  localhost_print_function('=========================================== candidates_stripe_checkout_function END ===========================================')
+  return redirect(checkout_session.url, code=303)
+  # ------------------------ stripe end ------------------------
+  """
+  localhost_print_function('=========================================== candidates_stripe_checkout_function END ===========================================')
+  return redirect(url_for('views.candidates_pricing_page_function'))
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
