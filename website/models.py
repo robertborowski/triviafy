@@ -39,6 +39,7 @@ class CandidatesCapacityOptionsObj(db.Model):
   created_timestamp = db.Column(db.DateTime(timezone=True))
   candence = db.Column(db.String(10))
   price = db.Column(db.Float)
+  fk_stripe_price_id = db.Column(db.String(150))
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
