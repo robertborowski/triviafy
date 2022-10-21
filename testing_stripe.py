@@ -7,6 +7,7 @@ import os
 import stripe
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
+from datetime import datetime
 # ------------------------ imports end ------------------------
 
 # ------------------------ individual function start ------------------------
@@ -17,8 +18,13 @@ def testing_stripe_function():
   stripe.api_key = os.environ.get('STRIPE_TEST_API_KEY')
   # ------------------------ stripe api environment end ------------------------
   # ------------------------ testing start ------------------------
-  checkout_session_obj = stripe.checkout.Session.retrieve('cs_test_a149rUv7INTg0dpIKU1SWRKaxpMKFAAlEzKFgqGjGU2VFkx0Clr2IT8q7x')
+  checkout_session_obj = stripe.checkout.Session.retrieve('cs_test_a1NMLaOLE6l7Zeie2sJtX4yjlmBkbnbqIwdEQppQVPPKmshtaPvXApXUvw')
   print(checkout_session_obj)
+  print(' -------------------- -------------------- -------------------- ')
+  sub_obj = stripe.Subscription.retrieve('sub_1LvPOxCBQxSX3q4EOzSC3c4a')
+  print(sub_obj)
+  ts = sub_obj.current_period_end
+  print(datetime.utcfromtimestamp(ts).strftime('%m/%d/%Y'))
   # ------------------------ testing end ------------------------
   localhost_print_function('=========================================== testing_stripe_function end ===========================================')
   return True

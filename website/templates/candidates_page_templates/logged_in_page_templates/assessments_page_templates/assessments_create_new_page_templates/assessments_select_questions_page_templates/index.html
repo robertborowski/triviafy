@@ -24,11 +24,13 @@
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title end -->
 
+{% if user_sub_active_to_html == false %}
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - paying customers start -->
 <div class="only-paying-customers candidates-default-box-shadow-grey-small">
   <p>Note: To help curb cheating, only paying users can view question answers</p>
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - paying customers end -->
+{% endif %}
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message start -->
 <div class="error-message-section">
@@ -68,6 +70,11 @@
         <div class="select-question-footer">
           <label for="candidate_ui_question_answer_{{ i['question_counter'] }}"></label>
           <input type="text" id="candidate_ui_question_answer_{{ i['question_counter'] }}" name="candidate_ui_question_answer_{{ i['question_counter'] }}" class="candidates-default-text-input candidates-default-text-input-full-width" placeholder="Candidate answer here"  maxlength="100" pattern="[a-zA-z0-9 ]{0,100}"/>
+          {% if user_sub_active_to_html == true %}
+          <div class="select-question-footer-answers-list-section candidates-default-box-shadow-grey-small">
+            <p class="candidate-question-actual-question">Answer(s): {{ i['question_answers_list'] }}</p>
+          </div>
+          {% endif %}
           <div class="candidates-footer-select-question-section">
             <input type="checkbox" id="ui_select_question_checkbox" name="ui_select_question_checkbox" value="{{ i['question_uuid'] }}" onchange="count_checked_checkboxes()" class="js-auto-checkbox" /> Add to assessment
             <label for="ui_select_question_checkbox"></label>
