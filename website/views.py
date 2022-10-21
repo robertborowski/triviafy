@@ -369,10 +369,6 @@ def candidates_account_settings_function():
 @login_required
 def candidates_stripe_checkout_function():
   localhost_print_function('=========================================== candidates_stripe_checkout_function START ===========================================')
-  # ------------------------ stripe setup start ------------------------
-  # stripe.api_key = os.environ.get('STRIPE_API_KEY')
-  stripe.api_key = os.environ.get('STRIPE_TEST_API_KEY')
-  # ------------------------ stripe setup end ------------------------
   # ------------------------ individual redirect start ------------------------
   query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
   check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']

@@ -6,6 +6,7 @@ import datetime
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+import stripe
 # ------------------------ imports end ------------------------
 
 
@@ -62,6 +63,10 @@ def create_app_function():
     # localhost_print_function('=========================================== create_app_function END ===========================================')
     return render_template("candidates_page_templates/not_logged_in_page_templates/error_404_page_templates/index.html")
   # ------------------------ Handleing Error Messages END ------------------------
+  # ------------------------ stripe api environment start ------------------------
+  stripe.api_key = os.environ.get('STRIPE_API_KEY')
+  # stripe.api_key = os.environ.get('STRIPE_TEST_API_KEY')
+  # ------------------------ stripe api environment end ------------------------
   # ------------------------ views/auths/routes imports start ------------------------
   from .views import views
   from .auth import auth

@@ -18,6 +18,7 @@ class CandidatesUserObj(db.Model, UserMixin):   # Only the users object inherits
   name = db.Column(db.String(150))
   company_name = db.Column(db.String(150))
   capacity_id_fk = db.Column(db.String(150), default=None)
+  fk_stripe_customer_id = db.Column(db.String(150))
 
   def get_reset_token_function(self, expires_sec=1800):
     serializer_token_obj = Serializer(secret_key_ref, expires_sec)

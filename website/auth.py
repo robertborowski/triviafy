@@ -19,6 +19,7 @@ from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function, sanitize_create_account_text_inputs_function
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
 from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
+import stripe
 # ------------------------ imports end ------------------------
 
 
@@ -120,14 +121,25 @@ def candidates_signup_function():
                               redirect_var_company_name = ui_company_name)
     # ------------------------ check if user email already exists in db start ------------------------
     else:
+      newly_created_user_id = create_uuid_function('user_')
+      # ------------------------ create new customer in stripe start ------------------------
+      new_customer_obj = stripe.Customer.create(
+                                          name=ui_email,
+                                          email=ui_email,
+                                          metadata={
+                                            'fk_user_id': newly_created_user_id
+                                          }
+                                        )
+      # ------------------------ create new customer in stripe end ------------------------
       # ------------------------ create new user in db start ------------------------
       new_user = CandidatesUserObj(
-        id=create_uuid_function('user_'),
+        id=newly_created_user_id,
         created_timestamp=create_timestamp_function(),
         email=ui_email,
         password=generate_password_hash(ui_password, method="sha256"),
         name = ui_name,
         company_name = ui_company_name,
+        fk_stripe_customer_id=new_customer_obj.id
       )
       db.session.add(new_user)
       db.session.commit()
