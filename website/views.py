@@ -15,7 +15,7 @@ from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_f
 from flask import Blueprint, render_template, request, redirect, url_for, session
 from flask_login import login_required, current_user, login_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
-from website.models import CandidatesUserObj, CandidatesDesiredLanguagesObj, CandidatesUploadedCandidatesObj, CandidatesAssessmentsCreatedObj, CandidatesRequestLanguageObj, CandidatesScheduleObj, CandidatesEmailSentObj, CandidatesAssessmentGradedObj, CandidatesCapacityOptionsObj
+from website.models import CandidatesUserObj, CandidatesDesiredLanguagesObj, CandidatesUploadedCandidatesObj, CandidatesAssessmentsCreatedObj, CandidatesRequestLanguageObj, CandidatesScheduleObj, CandidatesEmailSentObj, CandidatesAssessmentGradedObj, CandidatesCapacityOptionsObj, CandidatesStripeCheckoutSessionObj
 from website.backend.candidates.browser import browser_response_set_cookie_function
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
@@ -381,34 +381,45 @@ def candidates_account_settings_function():
       localhost_print_function('=========================================== candidates_account_settings_function END ===========================================')
       return redirect(url_for('views.dashboard_test_login_page_function'))
     # ------------------------ redirect if invalid end ------------------------
-    # ------------------------ db get price id start ------------------------
-    db_capacity_obj = CandidatesCapacityOptionsObj.query.filter_by(id=ui_capacity_selected).first()
-    fk_stripe_price_id = db_capacity_obj.fk_stripe_price_id
-    localhost_print_function('- - - - - - - 0 - - - - - - -')
-    localhost_print_function(f'fk_stripe_price_id | type: {type(fk_stripe_price_id)} | {fk_stripe_price_id}')
-    localhost_print_function('- - - - - - - 0 - - - - - - -')
-    # ------------------------ db get price id end ------------------------
-    """
-    # ------------------------ stripe start ------------------------
-    try:
-      checkout_session = stripe.checkout.Session.create(
-        line_items=[
-        {
-        # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-        'price': 'price_1Lv1ddCBQxSX3q4EJwIBKvAN',
-        'quantity': 1,
-        },
-        ],
-        mode='subscription',
-        success_url='https://triviafy.com/candidates/about',
-        cancel_url='https://triviafy.com/candidates/faq',
-      )
-    except Exception as e:
-      return str(e)
-    localhost_print_function('=========================================== candidates_account_settings_function END ===========================================')
-    return redirect(checkout_session.url, code=303)
-    # ------------------------ stripe end ------------------------
-    """
+    if ui_capacity_selected != None:
+      # ------------------------ db get price id start ------------------------
+      db_capacity_obj = CandidatesCapacityOptionsObj.query.filter_by(id=ui_capacity_selected).first()
+      fk_stripe_price_id = db_capacity_obj.fk_stripe_price_id
+      # ------------------------ db get price id end ------------------------
+      # ------------------------ stripe checkout start ------------------------
+      try:
+        checkout_session = stripe.checkout.Session.create(
+          line_items=[
+            {
+            'price': fk_stripe_price_id,
+            'quantity': 1,
+            },
+          ],
+          mode='subscription',
+          success_url='https://triviafy.com/candidates/about',
+          cancel_url='https://triviafy.com/candidates/faq',
+          metadata={
+            'fk_user_id': current_user.id
+          }
+        )
+        # ------------------------ create db row start ------------------------
+        # This is so I can easily get the customer id and subscription id in a future lookup
+        checkout_session_id = checkout_session.id
+        current_user_id = current_user.id
+        new_checkout_session_obj = CandidatesStripeCheckoutSessionObj(
+          id = create_uuid_function('checkout_'),
+          created_timestamp = create_timestamp_function(),
+          fk_checkout_session_id = checkout_session_id,
+          fk_user_id = current_user_id
+        )
+        db.session.add(new_checkout_session_obj)
+        db.session.commit()
+        # ------------------------ create db row end ------------------------
+      except Exception as e:
+        return str(e)
+      localhost_print_function('=========================================== candidates_account_settings_function END ===========================================')
+      return redirect(checkout_session.url, code=303)
+      # ------------------------ stripe checkout end ------------------------
   # ------------------------ if post data end ------------------------
   localhost_print_function('=========================================== candidates_account_settings_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/account_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, user_email_to_html=current_user.email, user_account_created_str_to_html=user_account_created_str)

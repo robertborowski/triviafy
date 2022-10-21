@@ -19,6 +19,7 @@ class CandidatesUserObj(db.Model, UserMixin):   # Only the users object inherits
   company_name = db.Column(db.String(150))
   capacity_id_fk = db.Column(db.String(150), default=None)
   fk_stripe_customer_id = db.Column(db.String(150))
+  fk_stripe_subscription_id = db.Column(db.String(150))
 
   def get_reset_token_function(self, expires_sec=1800):
     serializer_token_obj = Serializer(secret_key_ref, expires_sec)
@@ -127,6 +128,14 @@ class CandidatesAssessmentGradedObj(db.Model):
   correct_count = db.Column(db.Integer)
   final_score = db.Column(db.Float)
   assessment_obj = db.Column(db.String(15000))
+# ------------------------ individual model end ------------------------
+
+# ------------------------ individual model start ------------------------
+class CandidatesStripeCheckoutSessionObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  fk_checkout_session_id = db.Column(db.String(150))
+  fk_user_id = db.Column(db.String(150))
 # ------------------------ individual model end ------------------------
 # ------------------------ models end ------------------------
 

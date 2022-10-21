@@ -121,25 +121,14 @@ def candidates_signup_function():
                               redirect_var_company_name = ui_company_name)
     # ------------------------ check if user email already exists in db start ------------------------
     else:
-      newly_created_user_id = create_uuid_function('user_')
-      # ------------------------ create new customer in stripe start ------------------------
-      new_customer_obj = stripe.Customer.create(
-                                          name=ui_email,
-                                          email=ui_email,
-                                          metadata={
-                                            'fk_user_id': newly_created_user_id
-                                          }
-                                        )
-      # ------------------------ create new customer in stripe end ------------------------
       # ------------------------ create new user in db start ------------------------
       new_user = CandidatesUserObj(
-        id=newly_created_user_id,
+        id=create_uuid_function('user_'),
         created_timestamp=create_timestamp_function(),
         email=ui_email,
         password=generate_password_hash(ui_password, method="sha256"),
         name = ui_name,
-        company_name = ui_company_name,
-        fk_stripe_customer_id=new_customer_obj.id
+        company_name = ui_company_name
       )
       db.session.add(new_user)
       db.session.commit()
