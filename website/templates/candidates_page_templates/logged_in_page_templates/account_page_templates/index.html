@@ -21,9 +21,7 @@
 <div class="general-page-title-section">
   <p class="general-page-title">Account Settings</p>
   <p class="general-page-sub-title">{{ user_email_to_html }} joined {{ user_account_created_str_to_html }}</p>
-  <!-- If statement here for if subscription started or not start -->
-  <p class="general-page-sub-title">Subscription continues: *date here*</p>
-  <!-- If statement here for if subscription started or not end -->
+  <p class="general-page-sub-title">Subscription status: {{ stripe_subscription_obj_status_to_html }}</p>
   <a href="#" class="general-a-grey"><p class="general-page-fine-print general-top-margin">Cancel subscription</p></a>
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title end -->

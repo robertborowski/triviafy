@@ -401,6 +401,24 @@ def candidates_account_settings_function():
   user_account_created_timestamp = current_user.created_timestamp
   user_account_created_str = user_account_created_timestamp.strftime('%m/%Y')
   # ------------------------ pull user info end ------------------------
+  # ------------------------ stripe subscription status check start ------------------------
+  user_obj = CandidatesUserObj.query.filter_by(id=current_user.id).first()
+  fk_stripe_subscription_id = user_obj.fk_stripe_subscription_id
+  stripe_subscription_obj = ''
+  stripe_subscription_obj_status = 'not active'
+  stripe_current_period_end_datetime_str = ''
+  try:
+    stripe_subscription_obj = stripe.Subscription.retrieve(fk_stripe_subscription_id)
+    stripe_subscription_obj_status = stripe_subscription_obj.status
+    stripe_current_period_end_timestamp = stripe_subscription_obj.current_period_end
+    stripe_current_period_end_datetime_str = datetime.datetime.utcfromtimestamp(stripe_current_period_end_timestamp).strftime('%m/%d/%Y')
+  except:
+    pass
+  # ------------------------ stripe subscription status check end ------------------------
+  # ------------------------ if subscription not paid start ------------------------
+  user_sub_active = False
+  if stripe_subscription_obj_status == 'active':
+    user_sub_active = True
   # ------------------------ if post data start ------------------------
   if request.method == 'POST':
     ui_capacity_selected = request.form.get('capacity_page_ui_capacity_selected')
@@ -468,7 +486,7 @@ def candidates_account_settings_function():
       # ------------------------ stripe checkout end ------------------------
   # ------------------------ if post data end ------------------------
   localhost_print_function('=========================================== candidates_account_settings_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/account_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, user_email_to_html=current_user.email, user_account_created_str_to_html=user_account_created_str)
+  return render_template('candidates_page_templates/logged_in_page_templates/account_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, user_email_to_html=current_user.email, user_account_created_str_to_html=user_account_created_str,stripe_subscription_obj_status_to_html=stripe_subscription_obj_status,user_sub_active_to_html=user_sub_active,stripe_current_period_end_datetime_str_to_html=stripe_current_period_end_datetime_str)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
