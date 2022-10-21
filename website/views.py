@@ -335,6 +335,42 @@ def capacity_page_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
+@views.route('/candidates/subscription/success')
+@login_required
+def candidates_subscription_success_function():
+  localhost_print_function('=========================================== candidates_subscription_success_function START ===========================================')
+  # ------------------------ get from db start ------------------------
+  db_checkout_session_obj = CandidatesStripeCheckoutSessionObj.query.filter_by(fk_user_id=current_user.id).order_by(CandidatesStripeCheckoutSessionObj.created_timestamp.desc()).first()
+  # ------------------------ get from db end ------------------------
+  # ------------------------ if not found start ------------------------
+  if db_checkout_session_obj == None or db_checkout_session_obj == '' or db_checkout_session_obj == False:
+    localhost_print_function('=========================================== candidates_subscription_success_function END ===========================================')
+    return redirect(url_for('views.dashboard_test_login_page_function'))
+  # ------------------------ if not found end ------------------------
+  # ------------------------ get desired start ------------------------
+  fk_checkout_session_id = db_checkout_session_obj.fk_checkout_session_id
+  # ------------------------ get desired end ------------------------
+  # ------------------------ stripe lookup start ------------------------
+  stripe_checkout_session_obj = stripe.checkout.Session.retrieve(fk_checkout_session_id)
+  # ------------------------ if not found start ------------------------
+  if stripe_checkout_session_obj == None:
+    localhost_print_function('=========================================== candidates_subscription_success_function END ===========================================')
+    return redirect(url_for('views.dashboard_test_login_page_function'))
+  # ------------------------ if not found end ------------------------
+  stripe_customer_id = stripe_checkout_session_obj.customer
+  stripe_subscription_id = stripe_checkout_session_obj.subscription
+  # ------------------------ stripe lookup end ------------------------
+  # ------------------------ update db start ------------------------
+  user_obj = CandidatesUserObj.query.filter_by(id=current_user.id).first()
+  user_obj.fk_stripe_customer_id = stripe_customer_id
+  user_obj.fk_stripe_subscription_id = stripe_subscription_id
+  db.session.commit()
+  # ------------------------ update db end ------------------------
+  localhost_print_function('=========================================== candidates_subscription_success_function END ===========================================')
+  return render_template('candidates_page_templates/logged_in_page_templates/subscription_page_templates/index.html')
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
 @views.route('/candidates/account', methods=['GET', 'POST'])
 @login_required
 def candidates_account_settings_function():
@@ -396,8 +432,8 @@ def candidates_account_settings_function():
             },
           ],
           mode='subscription',
-          success_url='https://triviafy.com/candidates/about',
-          cancel_url='https://triviafy.com/candidates/faq',
+          success_url='https://triviafy.com/candidates/subscription/success',
+          cancel_url='https://triviafy.com/candidates/account',
           metadata={
             'fk_user_id': current_user.id
           }
