@@ -26,11 +26,13 @@
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title end -->
 
+{% if user_sub_active_to_html == false %}
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - paying customers start -->
 <div class="only-paying-customers candidates-default-box-shadow-grey-small">
   <p>Note: To help curb cheating, only paying users can view question answers</p>
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - paying customers end -->
+{% endif %}
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - paying customers start -->
 <!-- <div class="only-paying-customers candidates-default-box-shadow-grey-small">
@@ -83,6 +85,11 @@
         {% endif %}
         {% if i['ui_answer_correct'] is false %}
           <p class="result-check-p result-check-incorrect">Incorrect</p>
+          {% if user_sub_active_to_html == true %}
+          <div class="select-question-footer-answers-list-section candidates-default-box-shadow-grey-small">
+            <p class="candidate-question-actual-question">Answer(s): {{ i['question_answers_list'] }}</p>
+          </div>
+          {% endif %}
         {% endif %}
       </div>
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - question footer end -->

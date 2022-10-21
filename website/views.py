@@ -456,6 +456,11 @@ def candidates_account_settings_function():
         db.session.add(new_checkout_session_obj)
         db.session.commit()
         # ------------------------ create db row end ------------------------
+        # ------------------------ update row in db user start ------------------------
+        user_obj = CandidatesUserObj.query.filter_by(id=current_user.id).first()
+        user_obj.capacity_id_fk = ui_capacity_selected
+        db.session.commit()
+        # ------------------------ update row in db user end ------------------------
       except Exception as e:
         return str(e)
       localhost_print_function('=========================================== candidates_account_settings_function END ===========================================')
@@ -1604,7 +1609,26 @@ def candidates_assessment_i_answers_function(url_email, url_assessment_name):
   # ------------------------ redirect if no obj found end ------------------------
   ui_answers_error_statement = ''
   assessment_info_dict = json.loads(db_assessment_graded_obj.assessment_obj)
+  # ------------------------ stripe subscription status check start ------------------------
+  user_obj = CandidatesUserObj.query.filter_by(id=current_user.id).first()
+  fk_stripe_subscription_id = user_obj.fk_stripe_subscription_id
+  stripe_subscription_obj = ''
+  stripe_subscription_obj_status = 'not active'
+  try:
+    stripe_subscription_obj = stripe.Subscription.retrieve(fk_stripe_subscription_id)
+    stripe_subscription_obj_status = stripe_subscription_obj.status
+  except:
+    pass
+  # ------------------------ stripe subscription status check end ------------------------
+  # ------------------------ if subscription not paid start ------------------------
+  user_sub_active = False
+  if stripe_subscription_obj_status == 'active':
+    user_sub_active = True
+  if stripe_subscription_obj_status != 'active':
+    for i_dict in assessment_info_dict['questions_arr_of_dicts']:
+      i_dict['question_answers_list'] = ''
+  # ------------------------ if subscription not paid end ------------------------
   localhost_print_function('=========================================== candidates_assessment_i_answers_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/candidates_page_templates/candidates_view_specific_page_templates/candidates_view_specific_answers_page_templates/index.html', error_message_to_html=ui_answers_error_statement, users_company_name_to_html = current_user.company_name, user_email_to_html=url_email, assessment_info_dict_to_html=assessment_info_dict)
+  return render_template('candidates_page_templates/logged_in_page_templates/candidates_page_templates/candidates_view_specific_page_templates/candidates_view_specific_answers_page_templates/index.html', error_message_to_html=ui_answers_error_statement, users_company_name_to_html = current_user.company_name, user_email_to_html=url_email, assessment_info_dict_to_html=assessment_info_dict,user_sub_active_to_html=user_sub_active)
 # ------------------------ individual route end ------------------------
 # ------------------------ routes logged in end ------------------------
