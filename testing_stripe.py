@@ -11,8 +11,12 @@ from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_f
 # ------------------------ individual function start ------------------------
 def testing_stripe_function():
   localhost_print_function('=========================================== testing_stripe_function start ===========================================')
+  # ------------------------ stripe api environment start ------------------------
+  stripe.api_key = os.environ.get('STRIPE_API_KEY')
+  # stripe.api_key = os.environ.get('STRIPE_TEST_API_KEY')
+  # ------------------------ stripe api environment end ------------------------
   # ------------------------ testing start ------------------------
-  
+  print(stripe.Customer.retrieve('abc'))
   # ------------------------ testing end ------------------------
   localhost_print_function('=========================================== testing_stripe_function end ===========================================')
   return True

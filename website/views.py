@@ -15,7 +15,7 @@ from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_f
 from flask import Blueprint, render_template, request, redirect, url_for, session
 from flask_login import login_required, current_user, login_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
-from website.models import CandidatesUserObj, CandidatesDesiredLanguagesObj, CandidatesUploadedCandidatesObj, CandidatesAssessmentsCreatedObj, CandidatesRequestLanguageObj, CandidatesScheduleObj, CandidatesEmailSentObj, CandidatesAssessmentGradedObj
+from website.models import CandidatesUserObj, CandidatesDesiredLanguagesObj, CandidatesUploadedCandidatesObj, CandidatesAssessmentsCreatedObj, CandidatesRequestLanguageObj, CandidatesScheduleObj, CandidatesEmailSentObj, CandidatesAssessmentGradedObj, CandidatesCapacityOptionsObj
 from website.backend.candidates.browser import browser_response_set_cookie_function
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
@@ -360,58 +360,58 @@ def candidates_account_settings_function():
   user_account_created_timestamp = current_user.created_timestamp
   user_account_created_str = user_account_created_timestamp.strftime('%m/%Y')
   # ------------------------ pull user info end ------------------------
+  # ------------------------ if post data start ------------------------
+  if request.method == 'POST':
+    ui_capacity_selected = request.form.get('capacity_page_ui_capacity_selected')
+    # ------------------------ postman checks start ------------------------
+    try:
+      if len(ui_capacity_selected) != 2:
+        ui_capacity_selected = None
+    except:
+      ui_capacity_selected = None
+    # ------------------------ postman checks end ------------------------
+    # ------------------------ valid input check start ------------------------
+    query_result_arr_of_dicts = select_general_function('select_all_capacity_options')
+    capacity_options_arr = one_col_dict_to_arr_function(query_result_arr_of_dicts)
+    if ui_capacity_selected not in capacity_options_arr:
+      ui_capacity_selected = None
+    # ------------------------ valid input check end ------------------------
+    # ------------------------ redirect if invalid start ------------------------
+    if ui_capacity_selected == None:
+      localhost_print_function('=========================================== candidates_account_settings_function END ===========================================')
+      return redirect(url_for('views.dashboard_test_login_page_function'))
+    # ------------------------ redirect if invalid end ------------------------
+    # ------------------------ db get price id start ------------------------
+    db_capacity_obj = CandidatesCapacityOptionsObj.query.filter_by(id=ui_capacity_selected).first()
+    fk_stripe_price_id = db_capacity_obj.fk_stripe_price_id
+    localhost_print_function('- - - - - - - 0 - - - - - - -')
+    localhost_print_function(f'fk_stripe_price_id | type: {type(fk_stripe_price_id)} | {fk_stripe_price_id}')
+    localhost_print_function('- - - - - - - 0 - - - - - - -')
+    # ------------------------ db get price id end ------------------------
+    """
+    # ------------------------ stripe start ------------------------
+    try:
+      checkout_session = stripe.checkout.Session.create(
+        line_items=[
+        {
+        # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+        'price': 'price_1Lv1ddCBQxSX3q4EJwIBKvAN',
+        'quantity': 1,
+        },
+        ],
+        mode='subscription',
+        success_url='https://triviafy.com/candidates/about',
+        cancel_url='https://triviafy.com/candidates/faq',
+      )
+    except Exception as e:
+      return str(e)
+    localhost_print_function('=========================================== candidates_account_settings_function END ===========================================')
+    return redirect(checkout_session.url, code=303)
+    # ------------------------ stripe end ------------------------
+    """
+  # ------------------------ if post data end ------------------------
   localhost_print_function('=========================================== candidates_account_settings_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/account_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, user_email_to_html=current_user.email, user_account_created_str_to_html=user_account_created_str)
-# ------------------------ individual route end ------------------------
-
-# ------------------------ individual route start ------------------------
-@views.route('/candidates/stripe/checkout', methods=['GET', 'POST'])
-@login_required
-def candidates_stripe_checkout_function():
-  localhost_print_function('=========================================== candidates_stripe_checkout_function START ===========================================')
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
-  check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
-  if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
-    localhost_print_function('=========================================== candidates_stripe_checkout_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_desired_languages_captured')
-  try:
-    check_desired_languages_value = query_result_arr_of_dicts[0]['desired_languages']
-  except:
-    check_desired_languages_value = None
-  if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
-    localhost_print_function('=========================================== candidates_stripe_checkout_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
-  # ------------------------ stripe testing start ------------------------
-  
-  # ------------------------ stripe testing end ------------------------
-  """
-  # ------------------------ stripe start ------------------------
-  try:
-    checkout_session = stripe.checkout.Session.create(
-      line_items=[
-      {
-      # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-      'price': 'price_1Lv1ddCBQxSX3q4EJwIBKvAN',
-      'quantity': 1,
-      },
-      ],
-      mode='subscription',
-      success_url='https://triviafy.com/candidates/about',
-      cancel_url='https://triviafy.com/candidates/faq',
-    )
-  except Exception as e:
-    return str(e)
-  localhost_print_function('=========================================== candidates_stripe_checkout_function END ===========================================')
-  return redirect(checkout_session.url, code=303)
-  # ------------------------ stripe end ------------------------
-  """
-  localhost_print_function('=========================================== candidates_stripe_checkout_function END ===========================================')
-  return redirect(url_for('views.candidates_pricing_page_function'))
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
