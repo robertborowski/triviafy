@@ -1206,6 +1206,29 @@ def candidates_schedule_create_new_function():
   next_x_days_arr = next_x_days_function()
   times_arr, timezone_arr = times_arr_function()
   # ------------------------ pull all available dates, times, timezones end ------------------------
+  # ------------------------ stripe subscription status check start ------------------------
+  user_obj = CandidatesUserObj.query.filter_by(id=current_user.id).first()
+  fk_stripe_subscription_id = user_obj.fk_stripe_subscription_id
+  stripe_subscription_obj = ''
+  stripe_subscription_obj_status = 'not active'
+  try:
+    stripe_subscription_obj = stripe.Subscription.retrieve(fk_stripe_subscription_id)
+    stripe_subscription_obj_status = stripe_subscription_obj.status
+  except:
+    pass
+  # ------------------------ stripe subscription status check end ------------------------
+  # ------------------------ if subscription not paid start ------------------------
+  user_sub_active = False
+  if stripe_subscription_obj_status == 'active':
+    user_sub_active = True
+    pass
+  if stripe_subscription_obj_status != 'active':
+    db_schedule_obj = CandidatesScheduleObj.query.filter_by(user_id_fk=current_user.id).all()
+    if len(db_schedule_obj) <= 3:
+      current_user_candidates_arr = [user_obj.email]
+    else:
+      current_user_candidates_arr = []
+  # ------------------------ if subscription not paid end ------------------------
   # ------------------------ post triggered start ------------------------
   if request.method == 'POST':
     # ------------------------ get user inputs start ------------------------
@@ -1252,7 +1275,7 @@ def candidates_schedule_create_new_function():
     # ------------------------ insert to db end ------------------------
   # ------------------------ post triggered end ------------------------
   localhost_print_function('=========================================== candidates_schedule_create_new_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/schedule_page_templates/schedule_create_new_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, current_user_assessment_names_arr_to_html=current_user_assessment_names_arr, current_user_candidates_arr_to_html=current_user_candidates_arr, next_x_days_arr_to_html=next_x_days_arr, times_arr_to_html=times_arr, timezone_arr_to_html=timezone_arr, success_message_to_html=success_message_schedule, error_message_to_html=error_message_schedule)
+  return render_template('candidates_page_templates/logged_in_page_templates/schedule_page_templates/schedule_create_new_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, current_user_assessment_names_arr_to_html=current_user_assessment_names_arr, current_user_candidates_arr_to_html=current_user_candidates_arr, next_x_days_arr_to_html=next_x_days_arr, times_arr_to_html=times_arr, timezone_arr_to_html=timezone_arr, success_message_to_html=success_message_schedule, error_message_to_html=error_message_schedule,user_sub_active_to_html=user_sub_active)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -1295,6 +1318,29 @@ def candidates_schedule_create_now_function():
     current_user_candidates_arr.append(i.email)
   current_user_candidates_arr = sorted(current_user_candidates_arr)
   # ------------------------ pull all user candidates end ------------------------
+  # ------------------------ stripe subscription status check start ------------------------
+  user_obj = CandidatesUserObj.query.filter_by(id=current_user.id).first()
+  fk_stripe_subscription_id = user_obj.fk_stripe_subscription_id
+  stripe_subscription_obj = ''
+  stripe_subscription_obj_status = 'not active'
+  try:
+    stripe_subscription_obj = stripe.Subscription.retrieve(fk_stripe_subscription_id)
+    stripe_subscription_obj_status = stripe_subscription_obj.status
+  except:
+    pass
+  # ------------------------ stripe subscription status check end ------------------------
+  # ------------------------ if subscription not paid start ------------------------
+  user_sub_active = False
+  if stripe_subscription_obj_status == 'active':
+    user_sub_active = True
+    pass
+  if stripe_subscription_obj_status != 'active':
+    db_schedule_obj = CandidatesScheduleObj.query.filter_by(user_id_fk=current_user.id).all()
+    if len(db_schedule_obj) <= 3:
+      current_user_candidates_arr = [user_obj.email]
+    else:
+      current_user_candidates_arr = []
+  # ------------------------ if subscription not paid end ------------------------
   # ------------------------ post triggered start ------------------------
   if request.method == 'POST':
     # ------------------------ get user inputs start ------------------------
@@ -1355,7 +1401,7 @@ def candidates_schedule_create_now_function():
       success_message_schedule = 'Assessment email sent!'
   # ------------------------ post triggered end ------------------------
   localhost_print_function('=========================================== candidates_schedule_create_now_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/schedule_page_templates/schedule_create_now_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, current_user_assessment_names_arr_to_html=current_user_assessment_names_arr, current_user_candidates_arr_to_html=current_user_candidates_arr, success_message_to_html=success_message_schedule, error_message_to_html=error_message_schedule)
+  return render_template('candidates_page_templates/logged_in_page_templates/schedule_page_templates/schedule_create_now_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, current_user_assessment_names_arr_to_html=current_user_assessment_names_arr, current_user_candidates_arr_to_html=current_user_candidates_arr, success_message_to_html=success_message_schedule, error_message_to_html=error_message_schedule,user_sub_active_to_html=user_sub_active)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------

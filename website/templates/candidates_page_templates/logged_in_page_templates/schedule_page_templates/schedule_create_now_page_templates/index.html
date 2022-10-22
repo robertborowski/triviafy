@@ -33,6 +33,14 @@
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - view all end -->
 
+{% if user_sub_active_to_html == false %}
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - paying customers start -->
+<div class="only-paying-customers candidates-default-box-shadow-grey-small">
+  <p>Note: Only paying users can send scheduled assessment links to candidates. Users can send themselves up to three test assessments.</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - paying customers end -->
+{% endif %}
+
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message start -->
 <div class="error-message-section">
   <p>{{ error_message_to_html }}</p>
