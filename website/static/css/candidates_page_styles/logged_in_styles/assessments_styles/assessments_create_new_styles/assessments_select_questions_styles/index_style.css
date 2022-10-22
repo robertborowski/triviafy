@@ -8,6 +8,9 @@
   text-align: center;
   color: rgb(101, 101, 101);
 }
+.subscription-p {
+  margin: 10px 0 0 0;
+}
 .select-questions-form-container {
   /* border: 1px solid black; */
   width: 80%;

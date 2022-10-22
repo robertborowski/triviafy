@@ -397,6 +397,11 @@ def candidates_account_settings_function():
     localhost_print_function('=========================================== candidates_account_settings_function END ===========================================')
     return redirect(url_for('views.capacity_page_function'))
   # ------------------------ individual redirect end ------------------------
+  # ------------------------ delete all assessments that have been started by this user so far but abandoned start ------------------------
+  CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr=None).delete()
+  CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr='').delete()
+  db.session.commit()
+  # ------------------------ delete all assessments that have been started by this user so far but abandoned end ------------------------
   # ------------------------ pull user info start ------------------------
   user_account_created_timestamp = current_user.created_timestamp
   user_account_created_str = user_account_created_timestamp.strftime('%m/%Y')

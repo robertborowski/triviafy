@@ -37,6 +37,7 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - paying customers start -->
 <div class="only-paying-customers candidates-default-box-shadow-grey-small">
   <p>Note: Only paying users can send scheduled assessment links to candidates. Users can send themselves up to three test assessments.</p>
+  <a href="{{ url_for('views.candidates_account_settings_function') }}" class="general-a-primary"><p class="subscription-p">Select subscription</p></a>
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - paying customers end -->
 {% endif %}
