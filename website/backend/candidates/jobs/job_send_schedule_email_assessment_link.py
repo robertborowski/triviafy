@@ -97,6 +97,12 @@ def job_send_schedule_email_assessment_link_function():
   # ------------------------ pull from db start ------------------------
   result_schedules_arr = select_todays_pending_schedules_function(postgres_connection, postgres_cursor, current_datetime_str)
   # ------------------------ pull from db end ------------------------
+  # ------------------------ if none start ------------------------
+  if result_schedules_arr == None:
+    localhost_print_function('no schedules to send out today')
+    localhost_print_function('=========================================== job_send_schedule_email_assessment_link_function END ===========================================')
+    return True
+  # ------------------------ if none end ------------------------
   # ------------------------ loop through each schedule item start ------------------------
   for i_schedule_arr in result_schedules_arr:
     # ------------------------ assign variables start ------------------------
