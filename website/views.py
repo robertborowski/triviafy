@@ -413,10 +413,23 @@ def candidates_account_settings_function():
   stripe_subscription_obj_status = 'not active'
   stripe_current_period_end_datetime_str = ''
   try:
+    # ------------------------ stripe subscription object start ------------------------
     stripe_subscription_obj = stripe.Subscription.retrieve(fk_stripe_subscription_id)
+    # ------------------------ stripe subscription object end ------------------------
     stripe_subscription_obj_status = stripe_subscription_obj.status
     stripe_current_period_end_timestamp = stripe_subscription_obj.current_period_end
     stripe_current_period_end_datetime_str = datetime.datetime.utcfromtimestamp(stripe_current_period_end_timestamp).strftime('%m/%d/%Y')
+    # ------------------------ get plan name start ------------------------
+    stripe_user_subscription_price_id_fk = stripe_subscription_obj.plan.id
+    db_capacity_obj = CandidatesCapacityOptionsObj.query.filter_by(fk_stripe_price_id=stripe_user_subscription_price_id_fk).first()
+    current_stripe_capacity = db_capacity_obj.id
+    user_obj = CandidatesUserObj.query.filter_by(id=current_user.id).first()
+    current_users_capacity = user_obj.capacity_id_fk
+    if current_users_capacity != current_stripe_capacity:
+      # ------------------------ update row in db user start ------------------------
+      user_obj.capacity_id_fk = current_stripe_capacity
+      db.session.commit()
+      # ------------------------ update row in db user end ------------------------
   except:
     pass
   # ------------------------ stripe subscription status check end ------------------------
@@ -424,6 +437,7 @@ def candidates_account_settings_function():
   user_sub_active = False
   if stripe_subscription_obj_status == 'active':
     user_sub_active = True
+  # ------------------------ if subscription not paid end ------------------------
   # ------------------------ get plan name start ------------------------
   user_obj = CandidatesUserObj.query.filter_by(id=current_user.id).first()
   user_obj_capacity_id = user_obj.capacity_id_fk
@@ -489,12 +503,7 @@ def candidates_account_settings_function():
         db.session.add(new_checkout_session_obj)
         db.session.commit()
         # ------------------------ create db row end ------------------------
-        # ------------------------ update row in db user start ------------------------
-        user_obj = CandidatesUserObj.query.filter_by(id=current_user.id).first()
-        user_obj.capacity_id_fk = ui_capacity_selected
-        db.session.commit()
-        # ------------------------ update row in db user end ------------------------
-        # ------------------------ get plan name start ------------------------
+        # ------------------------ for presentation start ------------------------
         user_obj = CandidatesUserObj.query.filter_by(id=current_user.id).first()
         user_obj_capacity_id = user_obj.capacity_id_fk
         if user_obj_capacity_id == '1m':
@@ -503,7 +512,7 @@ def candidates_account_settings_function():
           user_obj_capacity_id = 'Professional'
         if user_obj_capacity_id == '3m':
           user_obj_capacity_id = 'Premium'
-        # ------------------------ get plan name end ------------------------
+        # ------------------------ for presentation end ------------------------
       except Exception as e:
         return str(e)
       localhost_print_function('=========================================== candidates_account_settings_function END ===========================================')
