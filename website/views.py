@@ -212,7 +212,7 @@ def dashboard_test_login_page_function():
   Downside is repeating code but it is not for all pages, only for the pages that auto redirect on new account creation.
   -These pages will require the template_location_url variable
   """
-  template_location_url = 'candidates_page_templates/logged_in_page_templates/dashboard_page_templates/dashboard_test_login_page_templates/index.html'
+  template_location_url = 'candidates_page_templates/logged_in_page_templates/dashboard_page_templates/index.html'
   # ------------------------ individual redirect start ------------------------
   query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
   check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
