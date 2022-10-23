@@ -1,0 +1,161 @@
+{% extends "candidates_page_templates/aaa_base_page_templates/base2_child1_logged_in_yes_navbar_and_footer.html" %}
+
+<!-- head tag block content -->
+{% block title %}
+  <title>Create New Schedule / Triviafy</title>
+{% endblock %}
+
+{% block contentBodyExceptNavbarAndFooter %}
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name start -->
+<div class="general-signed-in-company-name-section">
+  <p class="general-signed-in-company-name-title">{{ users_company_name_to_html }}</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name end -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title start -->
+<div class="general-page-title-section">
+  <p class="general-page-title">Create Schedule</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - view all start -->
+<div class="general-center-container">
+  <a href="{{ url_for('views.candidates_schedule_analytics_function') }}" class="general-a-primary"><p class="general-page-font">View all schedules</p></a>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - view all end -->
+
+{% if user_sub_active_to_html == false %}
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - paying customers start -->
+<div class="only-paying-customers candidates-default-box-shadow-grey-small">
+  <p>Note: Only paying users can send scheduled assessment links to candidates. Users can send themselves up to three test assessments.</p>
+  <a href="{{ url_for('views.candidates_account_settings_function') }}" class="general-a-primary"><p class="subscription-p">Select subscription</p></a>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - paying customers end -->
+{% endif %}
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message start -->
+<div class="error-message-section">
+  <p>{{ error_message_to_html }}</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message end -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - success message start -->
+<div class="success-message-section">
+  <p>{{ success_message_to_html }}</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - success message end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
+<div class="schedule-new-form-container">
+  <form method="POST" class="schedule-new-form" enctype="multipart/form-data">
+    <div class="schedule-options-grid">
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select assessment start -->
+      <div class="schedule-user-input-section-1">
+        <!-- link: https://stackoverflow.com/questions/19206919/how-to-create-checkbox-inside-dropdown -->
+        <div id="js-schedule-list-assessment-names" class="dropdown-list-assessment-names" tabindex="100">
+          <span class="schedule-anchor-span-assessment-names">Assessment*</span>
+          <ul class="schedule-items-assessment-names">
+            {% for i in current_user_assessment_names_arr_to_html %}
+            <li>
+              <input type="radio" id="ui_schedule_assessment_selected" name="ui_schedule_assessment_selected" value="{{ i }}"/>
+              <label for="ui_schedule_assessment_selected">{{ i }}</label>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select assessment end -->
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select candidates start -->
+      <div class="schedule-user-input-section-2">
+        <!-- link: https://stackoverflow.com/questions/19206919/how-to-create-checkbox-inside-dropdown -->
+        <div id="js-schedule-list-candidate-names" class="dropdown-list-assessment-names" tabindex="100">
+          <span class="schedule-anchor-span-candidate-names">Candidates*</span>
+          <ul class="schedule-items-assessment-names">
+            {% for i in current_user_candidates_arr_to_html %}
+            <li>
+              <input type="checkbox" id="ui_schedule_candidates_selected" name="ui_schedule_candidates_selected" value="{{ i }}"/>{{ i }}
+              <label for="ui_schedule_candidates_selected"></label>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select candidates end -->
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select send datetime start -->
+      <div class="schedule-user-input-section-3">
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select send date start -->
+        <div class="schedule-ui-inner-section-1">
+          <!-- link: https://stackoverflow.com/questions/19206919/how-to-create-checkbox-inside-dropdown -->
+          <div id="js-schedule-list-date" class="dropdown-list-assessment-names" tabindex="100">
+            <span class="schedule-anchor-span-date">Date*</span>
+            <ul class="schedule-items-assessment-names">
+              {% for i in next_x_days_arr_to_html %}
+              <li>
+                <input type="radio" id="ui_schedule_date_selected" name="ui_schedule_date_selected" value="{{ i }}"/>
+                <label for="ui_schedule_date_selected">{{ i }}</label>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select send date end -->
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select send time start -->
+        <div class="schedule-ui-inner-section-2">
+          <!-- link: https://stackoverflow.com/questions/19206919/how-to-create-checkbox-inside-dropdown -->
+          <div id="js-schedule-list-time" class="dropdown-list-assessment-names" tabindex="100">
+            <span class="schedule-anchor-span-time">Time*</span>
+            <ul class="schedule-items-assessment-names">
+              {% for i in times_arr_to_html %}
+              <li>
+                <input type="radio" id="ui_schedule_time_selected" name="ui_schedule_time_selected" value="{{ i }}"/>
+                <label for="ui_schedule_time_selected">{{ i }}</label>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select send time end -->
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select send timezone start -->
+        <div class="schedule-ui-inner-section-3">
+          <!-- link: https://stackoverflow.com/questions/19206919/how-to-create-checkbox-inside-dropdown -->
+          <div id="js-schedule-list-timezone" class="dropdown-list-assessment-names" tabindex="100">
+            <span class="schedule-anchor-span-timezone">Time zone*</span>
+            <ul class="schedule-items-assessment-names">
+              {% for i in timezone_arr_to_html %}
+              <li>
+                <input type="radio" id="ui_schedule_timezone_selected" name="ui_schedule_timezone_selected" value="{{ i }}"/>
+                <label for="ui_schedule_timezone_selected">{{ i }}</label>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select send timezone end -->
+      </div>
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select send datetime end -->
+    </div>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+    <div class="general-spacer-section"></div>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - submit button start -->
+    <button type="submit" class="default-button-format default-button-format-primary-color">Submit Schedule</button>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - submit button end -->
+  </form>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section-large"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page end -->
+{% endblock %}

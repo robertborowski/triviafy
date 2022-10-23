@@ -17,9 +17,6 @@
 }
 /* ==================================== Default - Signed In and Not Signed In - Global Font and Borders - END ==================================== */
 
-
-/* ==================================== Default - Not Signed In - Global Classes - START ==================================== */
-/* - - - - - - - - - - Default - Not Signed In - Text Input - Start */
 .candidates-default-text-input {
   /* border: 1px solid green; */
   /* .input.form__input */
@@ -55,6 +52,87 @@
     border: 2px solid #b7b7b7;
     transition: 0.2s;
   }
-/* - - - - - - - - - - Default - Not Signed In - Text Input - End */
-
-
+  .candidates-default-text-input-full-width {
+    width: 100%;
+  }
+.general-signed-in-company-name-section {
+  /* border: 1px solid black; */
+  text-align: center;
+}
+.general-signed-in-company-name-title {
+  font-size: 25px;
+  margin: 25px 0 0 0;
+}
+.general-page-title-section {
+  /* border: 1px solid black; */
+  text-align: center;
+}
+.general-page-title {
+  font-size: 40px;
+}
+.general-page-sub-title {
+  font-size: 20px;
+  margin: 10px 0 0 0;
+  color: rgb(139, 139, 139);
+}
+.general-page-fine-print {
+  font-size: 10px;
+}
+.general-top-margin {
+  margin: 10px 0 0 0;
+}
+.general-page-font {
+  font-size: 20px;
+}
+.general-spacer-section {
+  /* background-color: var(--testing-blueprint-color); */
+  height: 50px;
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.general-spacer-section-large {
+  /* background-color: var(--testing-blueprint-color); */
+  height: 100px;
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.general-spacer-section-small {
+  /* background-color: var(--testing-blueprint-color); */
+  height: 25px;
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 
+}
+.candidates-default-box-shadow-grey-regular {
+  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.115)!important;
+}
+.candidates-default-box-shadow-grey-small {
+  box-shadow: 0 .125rem .5rem rgba(0, 0, 0, 0.115)!important;
+}
+.general-highlight-primary {
+  color: var(--company-primary-color);
+}
+.general-center-container {
+  /* border: 1px solid black; */
+  width: 100%;
+  text-align: center;
+}
+.general-a-black {
+  text-decoration: none;
+  color: black;
+}
+.general-a-primary {
+  text-decoration: none;
+  color: var(--company-primary-color);
+}
+.general-a-grey {
+  text-decoration: none;
+  color: rgb(139, 139, 139);
+}
+.general-a-black:hover,
+.general-a-primary:hover,
+.general-a-grey:hover {
+  text-decoration: underline;
+}

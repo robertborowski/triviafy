@@ -11,6 +11,22 @@
   padding: 40px 0;
   background-color: rgb(255, 255, 255);
 }
+.capacity-entire-form-section-colorful {
+  /* border: 1px solid green; */
+  border-radius: 25px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 0;
+  background: linear-gradient(145deg, rgb(255 224 224)0%, rgb(255 254 221)25%, rgb(240 255 238)50%, rgb(233 209 255)100%);
+}
+.stripe-powered-section {
+  margin: 15px 0 0 0;
+  /* border: 1px solid black; */
+}
+img.stripe-img {
+  height: 100%;
+  width: 100px;
+}
 .capacity-form-header-section {
   /* border: 1px solid blue; */
   text-align: center;

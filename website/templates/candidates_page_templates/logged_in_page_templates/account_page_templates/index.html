@@ -1,0 +1,131 @@
+{% extends "candidates_page_templates/aaa_base_page_templates/base2_child1_logged_in_yes_navbar_and_footer.html" %}
+
+<!-- head tag block content -->
+{% block title %}
+  <title>Account / Triviafy</title>
+{% endblock %}
+
+{% block contentBodyExceptNavbarAndFooter %}
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name start -->
+<div class="general-signed-in-company-name-section">
+  <p class="general-signed-in-company-name-title">{{ users_company_name_to_html }}</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name end -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title start -->
+<div class="general-page-title-section">
+  <p class="general-page-title">Account Settings</p>
+  <p class="general-page-sub-title">{{ user_email_to_html }} joined {{ user_account_created_str_to_html }}</p>
+  <p class="general-page-sub-title">Subscription status: {{ stripe_subscription_obj_status_to_html }} | Plan: {{ user_obj_capacity_id_to_html }}</p>
+  <!-- <a href="#" class="general-a-grey"><p class="general-page-fine-print general-top-margin">Cancel subscription</p></a> -->
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - form start -->
+<form method="POST" class="capacity-entire-form-section-colorful default-box-shadow-grey-reg" enctype="multipart/form-data">
+  <div class="capacity-form-header-section">
+    <p class="capacity-title">Select Subscription</p>
+  </div>
+
+  <div class="capacity-form-body-section">
+    <input type="radio" id="capacity_choice_1" name="capacity_page_ui_capacity_selected" value="1m" checked>
+    <label for="capacity_choice_1" class="capacity-radio-label">Basic</label>
+
+    <input type="radio" id="capacity_choice_2" name="capacity_page_ui_capacity_selected" value="2m">
+    <label for="capacity_choice_2" class="capacity-radio-label">Professional</label>
+
+    <input type="radio" id="capacity_choice_3" name="capacity_page_ui_capacity_selected" value="3m">
+    <label for="capacity_choice_3" class="capacity-radio-label">Premium</label>
+
+  </div>
+
+  <div class="capacity-form-footer-section">
+    <button type="submit" class="default-button-format default-button-format-primary-color">Checkout</button>
+    <div class="stripe-powered-section">
+      <img src="/static/images/candidates/stripe/stripe_t.png" alt="powered by stripe" class="stripe-img">
+    </div>
+  </div>
+</form>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - form end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section-large"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - pricing master start -->
+<div class="pricing-master-section">
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - pricing individual section start -->
+  <div class="pricing-individual-section default-box-shadow-green-reg">
+    <div class="pricing-individual-header-section-01">
+      <p class="pricing-title">Basic</p>
+      <p class="pricing-cost"><span class="pricing-dollar-sign-span">$ </span>99 <span class="pricing-per-month-span">/ month<span></p>
+    </div>
+
+    <div class="pricing-individual-body-section">
+      <div class="pricing-included-section">
+        <p class="pricing-included-title">Includes</p>
+        <li class="default-box-shadow-grey-small">100% fully customizable skill assessment questions.</li>
+        <li class="default-box-shadow-grey-small">50+ frameworks supported.</li>
+        <li class="default-box-shadow-grey-small">Candidate analytics.</li>
+        <li class="default-box-shadow-grey-small">Email assessment monthly limit: <span class="pricing-stand-out">50</span> candidates.</li>
+      </div>
+    </div>
+  </div>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - pricing individual section end -->
+  
+  
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - pricing individual section start -->
+  <div class="pricing-individual-section default-box-shadow-purple-reg">
+    <div class="pricing-individual-header-section-02">
+      <p class="pricing-title">Professional</p>
+      <p class="pricing-cost"><span class="pricing-dollar-sign-span">$ </span>149 <span class="pricing-per-month-span">/ month<span></p>
+    </div>
+
+    <div class="pricing-individual-body-section">
+      <div class="pricing-included-section">
+        <p class="pricing-included-title">Includes</p>
+        <li class="default-box-shadow-grey-small">Everything the Basic plan includes.</li>
+        <li class="default-box-shadow-grey-small">Email assessment monthly limit: <span class="pricing-stand-out">100</span> candidates.</li>
+      </div>
+    </div>
+  </div>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - pricing individual section end -->
+
+
+
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - pricing individual section start -->
+  <div class="pricing-individual-section default-box-shadow-blue-reg">
+    <div class="pricing-individual-header-section-03">
+      <p class="pricing-title">Premium</p>
+      <p class="pricing-cost"><span class="pricing-dollar-sign-span">$ </span>199 <span class="pricing-per-month-span">/ month<span></p>
+    </div>
+
+    <div class="pricing-individual-body-section">
+      <div class="pricing-included-section">
+        <p class="pricing-included-title">Includes</p>
+        <li class="default-box-shadow-grey-small">Everything the Professional plan includes.</li>
+        <li class="default-box-shadow-grey-small">Email assessment monthly limit: <span class="pricing-stand-out">unlimited</span> candidates.</li>
+      </div>
+    </div>
+  </div>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - pricing individual section end -->
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - pricing master end -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+{% endblock %}

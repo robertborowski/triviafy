@@ -22,10 +22,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Urbanist&display=swap" rel="stylesheet">
     <!-- ------------------------------------- connect to google fonts end ------------------------------------- -->
     <!-- ------------------------------------- favicon start ------------------------------------- -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/static/images/logo/favicon_io/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/static/images/logo/favicon_io/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/static/images/logo/favicon_io/favicon-16x16.png">
-    <link rel="manifest" href="/static/images/logo/favicon_io/site.webmanifest">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/images/candidates/logo/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/images/candidates/logo/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/images/candidates/logo/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="/static/images/candidates/logo/favicon_io/site.webmanifest">
     <!-- ------------------------------------- favicon end ------------------------------------- -->
     <!-- ------------------------------------- drift start ------------------------------------- -->
     <!-- <script>
@@ -111,12 +111,16 @@
     <!-- css candidates footer -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/not_logged_in_styles/footer/index_style.css') }}?v={{ css_cache_busting }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/not_logged_in_styles/footer/mobile_index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/footer/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/footer/mobile_index_style.css') }}?v={{ css_cache_busting }}">
     <!-- css candidates index main -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/not_logged_in_styles/index_page_styles/index_style.css') }}?v={{ css_cache_busting }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/not_logged_in_styles/index_page_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
     <!-- css candidates navbar -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/not_logged_in_styles/navbar/index_style.css') }}?v={{ css_cache_busting }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/not_logged_in_styles/navbar/mobile_index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/navbar/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/navbar/mobile_index_style.css') }}?v={{ css_cache_busting }}">
     <!-- css candidates pricing -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/not_logged_in_styles/pricing_page_styles/index_style.css') }}?v={{ css_cache_busting }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/not_logged_in_styles/pricing_page_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
@@ -132,6 +136,50 @@
     <!-- css candidates capacity select -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/capacity_select_styles/index_style.css') }}?v={{ css_cache_busting }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/capacity_select_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
+    <!-- css candidates dashboard -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/dashboard_select_styles/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/dashboard_select_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
+    <!-- css candidates upload email -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/candidates_styles/candidates_upload_styles/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/candidates_styles/candidates_upload_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
+    <!-- css candidate analytics -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/candidates_styles/candidates_analytics_styles/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/candidates_styles/candidates_analytics_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
+    <!-- css assessments analytics -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/assessments_styles/assessments_analytics_styles/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/assessments_styles/assessments_analytics_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
+    <!-- css assessments dashboard -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/assessments_styles/assessments_dashboard_styles/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/assessments_styles/assessments_dashboard_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
+    <!-- css assessments create new -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/assessments_styles/assessments_create_new_styles/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/assessments_styles/assessments_create_new_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
+    <!-- css assessments select questions -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/assessments_styles/assessments_create_new_styles/assessments_select_questions_styles/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/assessments_styles/assessments_create_new_styles/assessments_select_questions_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
+    <!-- css assessment view specific -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/assessments_styles/assessments_view_specific_styles/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/assessments_styles/assessments_view_specific_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
+    <!-- css schedule dashboard new -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/schedule_styles/schedule_dashboard_styles/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/schedule_styles/schedule_dashboard_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
+    <!-- css schedule create new -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/schedule_styles/schedule_create_new_styles/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/schedule_styles/schedule_create_new_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
+    <!-- css schedule create now -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/schedule_styles/schedule_create_now_styles/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/schedule_styles/schedule_create_now_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
+    <!-- css DataTables.net -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/datatables_styles/index_style.css') }}?v={{ css_cache_busting }}">
+    <!-- css multi page question category -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/multi_page_question_category_styles/index_style.css') }}?v={{ css_cache_busting }}">
+    <!-- css schedule create now -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/account_styles/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/account_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
+    <!-- css request categories -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/request_categories_styles/index_style.css') }}?v={{ css_cache_busting }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/candidates_page_styles/logged_in_styles/request_categories_styles/mobile_index_style.css') }}?v={{ css_cache_busting }}">
     <!-- ------------------------------------- css end ------------------------------------- -->
     <!-- ------------------------------------- javascript start ------------------------------------- -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous" defer></script>
@@ -139,11 +187,25 @@
     <!-- <script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script> -->
     <!-- js candidates footer -->
     <script type="text/javascript" src="{{ url_for('static', filename='javascript/candidates_js/components/footer/not_signed_in/footer_candidates_not_signed_in.js') }}" defer></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='javascript/candidates_js/components/footer/signed_in/footer_candidates_signed_in.js') }}" defer></script>
     <!-- js candidates navbar -->
     <script type="text/javascript" src="{{ url_for('static', filename='javascript/candidates_js/components/navbar/not_signed_in/nav_candidates_not_signed_in.js') }}" defer></script>
     <script type="text/javascript" src="{{ url_for('static', filename='javascript/candidates_js/components/navbar/not_signed_in/navbar_hamburger_toggle.js') }}" defer></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='javascript/candidates_js/components/navbar/signed_in/nav_candidates_signed_in.js') }}" defer></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='javascript/candidates_js/components/navbar/signed_in/navbar_hamburger_toggle.js') }}" defer></script>
     <!-- js click submit button only once navbar -->
     <script type="text/javascript" src="{{ url_for('static', filename='javascript/candidates_js/javascript_utils/submit_button_js/click_submit_button_once.js') }}" defer></script>
+    <!-- jQuery CDN nessessary to use DataTables -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" defer></script>
+    <!-- js DataTables.net -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js" defer></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='javascript/candidates_js/javascript_utils/datatables_js/datatables.js') }}" defer></script>
+    <!-- js forms -->
+    <script type="text/javascript" src="{{ url_for('static', filename='javascript/candidates_js/javascript_utils/form_js/multiple_select_dropdown.js') }}" defer></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='javascript/candidates_js/javascript_utils/form_js/multiple_select_dropdown_schedule_assessment.js') }}" defer></script>
+    <!-- js checkboxes -->
+    <script type="text/javascript" src="{{ url_for('static', filename='javascript/candidates_js/javascript_utils/checkboxes_js/auto_check_first_x.js') }}" defer></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='javascript/candidates_js/javascript_utils/checkboxes_js/count_checked_checkboxes.js') }}" defer></script>
     <!-- ------------------------------------- javascript end ------------------------------------- -->
     <!-- ------------------------------------- title start ------------------------------------- -->
     {% block title %}base.html{% endblock %}

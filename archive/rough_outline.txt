@@ -50,12 +50,19 @@ Test Library
 Resources > Hover: ['About', 'Blog', 'Pricing', 'Privacy', 'etc.']
 Get Started > Clicked: ['Create Account', 'Login']
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - navbar end - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
 For printing quick tests
 ----------------------------
 localhost_print_function('- - - - - - - 0 - - - - - - -')
 localhost_print_function('i')
 localhost_print_function(i)
 localhost_print_function(type(i))
+localhost_print_function('- - - - - - - 0 - - - - - - -')
+
+OR
+
+localhost_print_function('- - - - - - - 0 - - - - - - -')
+localhost_print_function(f'i | type: {type(i)} | {i}')
 localhost_print_function('- - - - - - - 0 - - - - - - -')
 ----------------------------------------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------------------------
@@ -81,13 +88,6 @@ Triviafy Candidates Start
 testing
 1. BEFORE MERGE incorporate code from the old index.py file into the main.py file then rename the main.py file to index.py file.
 -A lot of your Google ads traffic shows people are getting yo Triviafy by phone. Need to run through all the mobile pages and improve the css
-For printing quick tests
-----------------------------
-localhost_print_function('- - - - - - - 0 - - - - - - -')
-localhost_print_function('i')
-localhost_print_function(i)
-localhost_print_function(type(i))
-localhost_print_function('- - - - - - - 0 - - - - - - -')
 ----------------------------------------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------------------------

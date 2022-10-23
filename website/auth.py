@@ -19,6 +19,7 @@ from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function, sanitize_create_account_text_inputs_function
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
 from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
+import stripe
 # ------------------------ imports end ------------------------
 
 
@@ -127,7 +128,7 @@ def candidates_signup_function():
         email=ui_email,
         password=generate_password_hash(ui_password, method="sha256"),
         name = ui_name,
-        company_name = ui_company_name,
+        company_name = ui_company_name
       )
       db.session.add(new_user)
       db.session.commit()

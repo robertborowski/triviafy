@@ -1,6 +1,10 @@
 # ------------------------ imports start ------------------------
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 import re
+from website.models import CandidatesUploadedCandidatesObj
+from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
+from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
+from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 # ------------------------ imports end ------------------------
 
 
@@ -18,7 +22,6 @@ def sanitize_email_function(user_input_email):
   localhost_print_function('=========================================== sanitize_email_function END ===========================================')
   return False
 # ------------------------ individual function end ------------------------
-
 
 # ------------------------ individual function start ------------------------
 # ------------------------ block email list start ------------------------
@@ -82,7 +85,6 @@ def check_email_personal_tags_function(user_input_email):
   return user_input_email
 # ------------------------ individual function end ------------------------
 
-
 # ------------------------ individual function start ------------------------
 def sanitize_password_function(user_input_password):
   localhost_print_function('=========================================== sanitize_password_function START ===========================================')
@@ -94,15 +96,126 @@ def sanitize_password_function(user_input_password):
   return False
 # ------------------------ individual function end ------------------------
 
-
 # ------------------------ individual function start ------------------------
 def sanitize_create_account_text_inputs_function(user_input):
-  localhost_print_function('=========================================== sanitize_password_function START ===========================================')
+  localhost_print_function('=========================================== sanitize_create_account_text_inputs_function START ===========================================')
   desired_regex_pattern = "^[\w\s-]{0,20}$"
   if(re.fullmatch(desired_regex_pattern, user_input)):
-    localhost_print_function('=========================================== sanitize_password_function END ===========================================')
+    localhost_print_function('=========================================== sanitize_create_account_text_inputs_function END ===========================================')
     return user_input
-  localhost_print_function('=========================================== sanitize_password_function END ===========================================')
+  localhost_print_function('=========================================== sanitize_create_account_text_inputs_function END ===========================================')
   return False
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def sanitize_create_account_text_inputs_large_function(user_input):
+  localhost_print_function('=========================================== sanitize_create_account_text_inputs_large_function START ===========================================')
+  if len(user_input) == 0:
+    localhost_print_function('=========================================== sanitize_create_account_text_inputs_function END ===========================================')
+    return False
+  desired_regex_pattern = "^[\w\s-]{1,50}$"
+  if(re.fullmatch(desired_regex_pattern, user_input)):
+    localhost_print_function('=========================================== sanitize_create_account_text_inputs_large_function END ===========================================')
+    return user_input
+  localhost_print_function('=========================================== sanitize_create_account_text_inputs_large_function END ===========================================')
+  return False
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def sanitize_candidate_ui_answer_text_function(user_input):
+  localhost_print_function('=========================================== sanitize_candidate_ui_answer_text_function START ===========================================')
+  if len(user_input) == 0:
+    localhost_print_function('=========================================== sanitize_candidate_ui_answer_text_function END ===========================================')
+    return False
+  desired_regex_pattern = "^[\w\s,-]{1,100}$"
+  if(re.fullmatch(desired_regex_pattern, user_input)):
+    localhost_print_function('=========================================== sanitize_candidate_ui_answer_text_function END ===========================================')
+    return user_input
+  localhost_print_function('=========================================== sanitize_candidate_ui_answer_text_function END ===========================================')
+  return False
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def sanitize_loop_check_if_exists_within_arr_function(user_input_arr, correct_master_arr):
+  localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function START ===========================================')
+  if user_input_arr == None:
+    localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function END ===========================================')
+    return False
+  if len(user_input_arr) == 0:
+    localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function END ===========================================')
+    return False
+  for i_str in user_input_arr:
+    if i_str not in correct_master_arr:
+      localhost_print_function('user input provided is not an option')
+      localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function END ===========================================')
+      return False
+  localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function END ===========================================')
+  return user_input_arr
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def sanitize_check_if_str_exists_within_arr_function(user_input_str, correct_master_arr):
+  localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function START ===========================================')
+  if user_input_str == None:
+    localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function END ===========================================')
+    return False
+  if len(user_input_str) == 0:
+    localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function END ===========================================')
+    return False
+  if user_input_str not in correct_master_arr:
+    localhost_print_function('user input provided is not an option')
+    localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function END ===========================================')
+    return False
+  localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function END ===========================================')
+  return user_input_str
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def validate_upload_candidate_function(db, current_user, ui_email, user_input_type):
+  localhost_print_function('=========================================== validate_upload_candidate_function START ===========================================')
+  candidate_upload_error_statement = ''
+  candidate_upload_success_statement = ''
+  # ------------------------ ui_email start ------------------------
+  # ------------------------ sanitize/check user input email start ------------------------
+  if ui_email != None:
+    ui_email_cleaned = sanitize_email_function(ui_email)
+    if ui_email_cleaned == False and user_input_type == 'individual':
+      candidate_upload_error_statement = 'Please enter a valid email.'
+    # ------------------------ sanitize/check user input email end ------------------------
+    if ui_email_cleaned != False:
+      # ------------------------ check if exists in db start ------------------------
+      candidate_uploaded_email_exists = CandidatesUploadedCandidatesObj.query.filter_by(user_id_fk=current_user.id).filter_by(email=ui_email_cleaned).first()
+      # ------------------------ check if exists in db end ------------------------
+      if candidate_uploaded_email_exists != None and user_input_type == 'individual':
+        candidate_upload_error_statement = f'Candidate email: {ui_email_cleaned} already added.'
+      if candidate_uploaded_email_exists == None:
+        # ------------------------ create new user in db start ------------------------
+        new_user = CandidatesUploadedCandidatesObj(
+          id=create_uuid_function('candup_'),
+          created_timestamp=create_timestamp_function(),
+          user_id_fk=current_user.id,
+          candidate_id=create_uuid_function('cand_'),
+          email = ui_email_cleaned,
+          upload_type = user_input_type
+        )
+        db.session.add(new_user)
+        db.session.commit()
+        # ------------------------ create new user in db end ------------------------
+  # ------------------------ ui_email end ------------------------
+  if candidate_upload_success_statement == '' and candidate_upload_error_statement == '':
+    candidate_upload_success_statement = 'Uploaded successfully!'
+  localhost_print_function('=========================================== validate_upload_candidate_function END ===========================================')
+  return candidate_upload_error_statement, candidate_upload_success_statement
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def check_if_question_id_arr_exists_function(user_input_arr):
+  localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function START ===========================================')
+  for i in user_input_arr:
+    sql_result = select_general_function('select_question_id_actually_exists', i)
+    if sql_result == [] or len(sql_result) == 0:
+      return False
+  localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function END ===========================================')
+  return True
 # ------------------------ individual function end ------------------------
 localhost_print_function('=========================================== user_inputs __init__ END ===========================================')

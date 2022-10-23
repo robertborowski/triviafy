@@ -9,13 +9,28 @@ localhost_print_function('=========================================== sql_statem
 
 
 # ------------------------ individual function start ------------------------
-def select_general_function(tag_query_to_use):
+def select_general_function(tag_query_to_use, additional_input=None):
   localhost_print_function('=========================================== select_general_function START ===========================================')
+  try:
+    current_user_id_defined_var = current_user.id
+  except:
+    current_user_id_defined_var = None
   # ------------------------ select queries start ------------------------
   select_queries_dict = {
+    'select_specific_assessment_questions': {
+      'raw_query': f"SELECT \
+                      question_uuid, question_categories_list, question_actual_question, question_difficulty, question_hint, question_title, question_image_aws_url, question_answers_list \
+                    FROM \
+                      triviafy_all_questions_table \
+                    WHERE \
+                      question_uuid IN ({additional_input}) \
+                    ORDER BY \
+                      question_timestamp_created;",
+      'input_args': {}
+    },
     'select_if_capacity_chosen': {
       'raw_query': 'SELECT capacity_id_fk FROM candidates_user_obj WHERE id = :val',
-      'input_args': {'val': current_user.id}
+      'input_args': {'val': current_user_id_defined_var}
     },
     'select_all_capacity_options': {
       'raw_query': 'SELECT id FROM candidates_capacity_options_obj',
@@ -23,7 +38,24 @@ def select_general_function(tag_query_to_use):
     },
     'select_if_desired_languages_captured': {
       'raw_query': 'SELECT desired_languages FROM candidates_desired_languages_obj WHERE user_id_fk = :val ORDER BY created_timestamp DESC',
-      'input_args': {'val': current_user.id}
+      'input_args': {'val': current_user_id_defined_var}
+    },'select_all_candidate_categories_chosen': {
+      'raw_query': "SELECT DISTINCT q.question_categories_list FROM triviafy_all_questions_table AS q WHERE q.question_categories_list LIKE'%Candidates' ORDER BY q.question_categories_list;",
+      'input_args': {}
+    },'select_all_questions_for_x_categories': {
+      'raw_query': f"SELECT \
+                      question_uuid, question_categories_list, question_actual_question, question_difficulty, question_hint, question_title, question_image_aws_url, question_answers_list \
+                    FROM \
+                      triviafy_all_questions_table \
+                    WHERE \
+                      (question_approved_for_release = TRUE AND question_status_for_creator = 'Approved') \
+                      AND ({additional_input}) \
+                    ORDER BY \
+                      RANDOM();",
+      'input_args': {}
+    },'select_question_id_actually_exists': {
+      'raw_query': "SELECT question_uuid FROM triviafy_all_questions_table WHERE question_uuid=:val;",
+      'input_args': {'val': additional_input}
     }
   }
   # ------------------------ select queries end ------------------------

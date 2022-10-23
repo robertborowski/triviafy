@@ -46,7 +46,7 @@ class NavbarCandidatesNotSignedInClass extends HTMLElement {
           <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar - Links - Level 2 - END -->
         </li>
         <li><a href="${this.getAttribute("link_candidates_pricing_js")}">Pricing</a></li>
-        <li><a href="${this.getAttribute("link_candidates_login_js")}">Login</a>
+        <li><a href="${this.getAttribute("link_candidates_login_js")}">Dashboard</a>
         </li>
         <div class="navbar-not-signed-in-demo-button-section-3">
           <a href="${this.getAttribute("link_candidates_create_account_js")}"><button class="default-button-format default-button-format-primary-color navbar-not-signed-in-button-position-3">Try for free!</button></a>

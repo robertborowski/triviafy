@@ -114,6 +114,10 @@ input[type=checkbox] {
   color: white;
   background-color: rgb(140, 0, 222);
 }
+.default-button-format-grey-color {
+  color: black;
+  background-color: rgb(160, 160, 160);
+}
 .default-button-format-pricing-green-color {
   color: white;
   background-color: rgb(14, 142, 0);

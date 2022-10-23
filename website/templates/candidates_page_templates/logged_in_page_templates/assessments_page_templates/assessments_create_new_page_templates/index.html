@@ -1,0 +1,115 @@
+{% extends "candidates_page_templates/aaa_base_page_templates/base2_child1_logged_in_yes_navbar_and_footer.html" %}
+
+<!-- head tag block content -->
+{% block title %}
+  <title>Create New Assessments / Triviafy</title>
+{% endblock %}
+
+{% block contentBodyExceptNavbarAndFooter %}
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name start -->
+<div class="general-signed-in-company-name-section">
+  <p class="general-signed-in-company-name-title">{{ users_company_name_to_html }}</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name end -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title start -->
+<div class="general-page-title-section">
+  <p class="general-page-title">Create Assessment</p>
+  <p class="general-page-sub-title">Step 1/2: General</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - defaults start -->
+<!-- <div class="create-assessment-defaults candidates-default-box-shadow-grey-small">
+  <p>Total questions: 10</p>
+  <p>Assessment link: Default (link expires 1 hour from time sent to candidate).</p>
+</div> -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - defaults end -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message start -->
+<div class="error-message-section">
+  <p>{{ error_message_to_html }}</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
+<div class="create-assessment-form-container">
+  <form method="POST" class="create-assessment-form" enctype="multipart/form-data">
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - assessment name start -->
+    <div class="create-assessment-user-input-section">
+      <label for="create_assessment_page_ui_name"></label>
+      <input type="text" id="create_assessment_page_ui_name" name="create_assessment_page_ui_name" class="candidates-default-text-input" placeholder="Assessment name*" value="{{ trial_name_attempt_to_html }}" title="Assessment name needs to be 2-50 characters" pattern="^[\w\s-]{2,50}$" required />
+    </div>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - assessment name end -->
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - desired languages start -->
+    <div class="create-assessment-user-input-section">
+      <!-- link: https://stackoverflow.com/questions/19206919/how-to-create-checkbox-inside-dropdown -->
+      <div id="create-assessment-choose-lang-list1" class="create-assessment-dropdown-check-list" tabindex="100">
+        <span class="create-assessment-anchor-span">Select desired categories*</span>
+        <ul class="create-assessment-items">
+          <div class="create-assessment-items-col1">
+            {% for i in candidate_categories_arr_1_to_html %}
+            <li>
+              <input type="checkbox" id="testLabelAdded" name="testLabelAdded" value="{{ i }}"/>{{ i }}
+              <label for="testLabelAdded"></label>
+            </li>
+            {% endfor %}
+          </div>
+          <div class="create-assessment-items-col2">
+            {% for i in candidate_categories_arr_2_to_html %}
+            <li>
+              <input type="checkbox" id="testLabelAdded" name="testLabelAdded" value="{{ i }}"/>{{ i }}
+              <label for="testLabelAdded"></label>
+            </li>
+            {% endfor %}
+          </div>
+          <div class="create-assessment-items-col3">
+            {% for i in candidate_categories_arr_3_to_html %}
+            <li>
+              <input type="checkbox" id="testLabelAdded" name="testLabelAdded" value="{{ i }}"/>{{ i }}
+              <label for="testLabelAdded"></label>
+            </li>
+            {% endfor %}
+          </div>
+        </ul>
+      </div>
+    </div>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - desired languages end -->
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - total questions start -->
+    <!-- <div class="create-assessment-user-input-section">
+      <p class="create-assessment-title">Total questions: 10</p>
+    </div> -->
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - total questions end -->
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - link type start -->
+    <!-- <div class="create-assessment-user-input-section">
+      <p class="create-assessment-title">Assessment link: Default</p>
+      <div class="create-assessment-small-spacer"></div>
+      <p class="create-assessment-sub-title">Default: Assessment link expires 1 hour from time sent to candidate.</p>
+    </div> -->
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - link type end -->
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+    <div class="general-spacer-section-small"></div>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - submit button start -->
+    <div class="create-assessment-user-input-button-section">
+      <button type="submit" class="default-button-format default-button-format-primary-color">Next: Select Questions</button>
+      <a href="{{ url_for('views.candidates_categories_request_function') }}" class="general-a-primary"><p class="general-margin-top-small">Request more assessment categories</p></a>
+    </div>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - submit button end -->
+  </form>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section-large"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page end -->
+{% endblock %}
