@@ -1720,4 +1720,51 @@ def candidates_assessment_i_answers_function(url_email, url_assessment_name):
   localhost_print_function('=========================================== candidates_assessment_i_answers_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/candidates_page_templates/candidates_view_specific_page_templates/candidates_view_specific_answers_page_templates/index.html', error_message_to_html=ui_answers_error_statement, users_company_name_to_html = current_user.company_name, user_email_to_html=url_email, assessment_info_dict_to_html=assessment_info_dict,user_sub_active_to_html=user_sub_active)
 # ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@views.route('/candidates/request', methods=['GET', 'POST'])
+@login_required
+def candidates_categories_request_function():
+  localhost_print_function('=========================================== candidates_categories_request_function START ===========================================')
+  # ------------------------ individual redirect start ------------------------
+  query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
+  check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
+  if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
+    localhost_print_function('=========================================== candidates_categories_request_function END ===========================================')
+    return redirect(url_for('views.capacity_page_function'))
+  # ------------------------ individual redirect end ------------------------
+  # ------------------------ individual redirect start ------------------------
+  query_result_arr_of_dicts = select_general_function('select_if_desired_languages_captured')
+  try:
+    check_desired_languages_value = query_result_arr_of_dicts[0]['desired_languages']
+  except:
+    check_desired_languages_value = None
+  if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
+    localhost_print_function('=========================================== candidates_categories_request_function END ===========================================')
+    return redirect(url_for('views.capacity_page_function'))
+  # ------------------------ individual redirect end ------------------------
+  # ------------------------ if post method hit start ------------------------
+  ui_request_error_statement = ''
+  ui_request_success_statement = ''
+  ui_requested = ''
+  if request.method == 'POST':
+    ui_requested = request.form.get('ui_requested')
+    ui_requested = sanitize_candidate_ui_answer_text_function(ui_requested)
+    if ui_requested == False:
+      ui_request_error_statement = 'Please submit in correct format.'
+    # ------------------------ create new user in db start ------------------------
+    insert_new_row = CandidatesDesiredLanguagesObj(
+      id=create_uuid_function('langs_'),
+      created_timestamp=create_timestamp_function(),
+      user_id_fk=current_user.id,
+      desired_languages=ui_requested
+    )
+    db.session.add(insert_new_row)
+    db.session.commit()
+    # ------------------------ create new user in db end ------------------------
+    ui_request_success_statement = 'Thank you, we will email you once the questions are available.'
+  # ------------------------ if post method hit end ------------------------
+  localhost_print_function('=========================================== candidates_categories_request_function END ===========================================')
+  return render_template('candidates_page_templates/logged_in_page_templates/request_categories_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, ui_requested_to_html=ui_requested, error_message_to_html=ui_request_error_statement, success_message_to_html=ui_request_success_statement)
+# ------------------------ individual route end ------------------------
 # ------------------------ routes logged in end ------------------------

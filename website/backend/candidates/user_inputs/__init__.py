@@ -127,7 +127,7 @@ def sanitize_candidate_ui_answer_text_function(user_input):
   if len(user_input) == 0:
     localhost_print_function('=========================================== sanitize_candidate_ui_answer_text_function END ===========================================')
     return False
-  desired_regex_pattern = "^[\w\s-]{1,100}$"
+  desired_regex_pattern = "^[\w\s,-]{1,100}$"
   if(re.fullmatch(desired_regex_pattern, user_input)):
     localhost_print_function('=========================================== sanitize_candidate_ui_answer_text_function END ===========================================')
     return user_input
