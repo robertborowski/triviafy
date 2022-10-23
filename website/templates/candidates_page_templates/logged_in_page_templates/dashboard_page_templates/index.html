@@ -6,20 +6,71 @@
 {% endblock %}
 
 {% block contentBodyExceptNavbarAndFooter %}
-<div class="default-not-signed-in-simple-page-section">
-  <h1>Hi {{ users_company_name_to_html }},</h1>
-
-  <div class="default-not-signed-in-simple-page-desctiption-section">
-    <p class="default-not-signed-in-page-p-font default-not-signed-in-page-content-sub-section">"Triviafy Candidates" is set to launch November 2022.</p>
-    <p class="default-not-signed-in-page-p-font default-not-signed-in-page-content-sub-section">We will email you on product launch day!</p>
-  </div>
-
-  <div class="default-not-signed-in-simple-page-img-section">
-    <img src="/static/images/candidates/logo/Logo.png" alt="Triviafy logo" class="default-not-signed-in-simple-page-img">
-  </div>
-  
-  <!-- <p><a href="{{ url_for('views.capacity_page_function') }}">Capacity</a></p> -->
-  <br />
-  <p><a href="{{ url_for('views.landing_index_page_function') }}">Home</a></p>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name start -->
+<div class="general-signed-in-company-name-section">
+  <p class="general-signed-in-company-name-title">{{ users_company_name_to_html }}</p>
 </div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name end -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - split section start -->
+<div class="candidates-assessment-split-section">
+  <div class="split-side-dashboard-general split-side-candidates candidates-default-box-shadow-grey-small">
+    <div class="dashboard-split-inner-section">
+      <p class="dashboard-split-title">Candidates</p>
+    </div>
+    <div class="dashboard-split-inner-section">
+      <img src="/static/images/candidates/dashboard/purple_dashboard_upload.png" alt="upload candidates img" class="upload-candidates-img">
+    </div>
+    <div class="dashboard-split-inner-section">
+      <a href="{{ url_for('views.candidates_analytics_function') }}" class="general-a-black"><p class="dashboard-split-subtitle">Total candidates: {{ len_current_user_uploaded_emails_arr_to_html }}</p></a>
+    </div>
+    <div class="dashboard-split-inner-section">
+      <a href="{{ url_for('views.candidates_upload_emails_function') }}"><p class="default-button-format default-button-format-primary-color">Candidate Dashboard</p></a>
+    </div>
+  </div>
+
+  <div class="split-side-dashboard-general split-side-assessments candidates-default-box-shadow-grey-small">
+    <div class="dashboard-split-inner-section">
+      <p class="dashboard-split-title">Assessments</p>
+    </div>
+    <div class="dashboard-split-inner-section">
+      <img src="/static/images/candidates/dashboard/dashboard_page_assessment_example.png" alt="upload candidates img" class="upload-candidates-img">
+    </div>
+    <div class="dashboard-split-inner-section">
+      <a href="{{ url_for('views.candidates_assessments_analytics_function') }}" class="general-a-black"><p class="dashboard-split-subtitle">Total assessments created: {{ len_current_user_assessments_created_arr_to_html }}</p></a>
+    </div>
+    <div class="dashboard-split-inner-section">
+      <a href="{{ url_for('views.candidates_assessments_dashboard_function') }}"><p class="default-button-format default-button-format-primary-color">Assessment Dashboard</p></a>
+    </div>
+  </div>
+
+  <div class="split-side-dashboard-general split-side-sending candidates-default-box-shadow-grey-small">
+    <div class="dashboard-split-inner-section">
+      <p class="dashboard-split-title">Schedules</p>
+    </div>
+    <div class="dashboard-split-inner-section">
+      <img src="/static/images/candidates/dashboard/send_to_candidate.png" alt="upload candidates img" class="upload-candidates-img">
+    </div>
+    <div class="dashboard-split-inner-section">
+      <a href="{{ url_for('views.candidates_schedule_analytics_function') }}" class="general-a-black"><p class="dashboard-split-subtitle">Total schedules created: {{ len_current_user_schedules_created_arr_to_html }}</p></a>
+    </div>
+    <div class="dashboard-split-inner-section">
+      <a href="{{ url_for('views.candidates_schedule_dashboard_function') }}"><p class="default-button-format default-button-format-primary-color">Schedule Dashboard</p></a>
+    </div>
+  </div>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - split section end -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page end -->
 {% endblock %}
