@@ -20,6 +20,8 @@ from website.backend.candidates.user_inputs import sanitize_email_function, sani
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
 from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
 import stripe
+from website.backend.candidates.send_emails import send_email_template_function
+import os
 # ------------------------ imports end ------------------------
 
 
@@ -136,6 +138,12 @@ def candidates_signup_function():
       # ------------------------ keep user logged in start ------------------------
       login_user(new_user, remember=True)
       # ------------------------ keep user logged in end ------------------------
+      # ------------------------ email self start ------------------------
+      output_to_email = 'robert@triviafy.com'
+      output_subject = f'New User - Triviafy Candidates'
+      output_body = f"Hi there,\n\nNew user signed up: {ui_email} \n\nBest,\nTriviafy"
+      send_email_template_function(output_to_email, output_subject, output_body)
+      # ------------------------ email self end ------------------------
       localhost_print_function('=========================================== candidates_signup_function END ===========================================')
       return redirect(url_for('views.dashboard_test_login_page_function'))
     # ------------------------ post method hit #2 - full sign up end ------------------------
