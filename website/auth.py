@@ -139,10 +139,13 @@ def candidates_signup_function():
       login_user(new_user, remember=True)
       # ------------------------ keep user logged in end ------------------------
       # ------------------------ email self start ------------------------
-      output_to_email = 'robert@triviafy.com'
-      output_subject = f'New User - Triviafy Candidates'
-      output_body = f"Hi there,\n\nNew user signed up: {ui_email} \n\nBest,\nTriviafy"
-      send_email_template_function(output_to_email, output_subject, output_body)
+      try:
+        output_to_email = 'robert@triviafy.com'
+        output_subject = f'New User - Triviafy Candidates'
+        output_body = f"Hi there,\n\nNew user signed up: {ui_email} \n\nBest,\nTriviafy"
+        send_email_template_function(output_to_email, output_subject, output_body)
+      except:
+        pass
       # ------------------------ email self end ------------------------
       localhost_print_function('=========================================== candidates_signup_function END ===========================================')
       return redirect(url_for('views.dashboard_test_login_page_function'))

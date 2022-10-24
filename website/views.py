@@ -372,10 +372,13 @@ def candidates_subscription_success_function():
   db.session.commit()
   # ------------------------ update db end ------------------------
   # ------------------------ email self start ------------------------
-  output_to_email = 'robert@triviafy.com'
-  output_subject = f'New Subscription - Triviafy Candidates'
-  output_body = f"Hi there,\n\nNew user subscribed: {user_obj.email} \n\nBest,\nTriviafy"
-  send_email_template_function(output_to_email, output_subject, output_body)
+  try:
+    output_to_email = 'robert@triviafy.com'
+    output_subject = f'New Subscription - Triviafy Candidates'
+    output_body = f"Hi there,\n\nNew user subscribed: {user_obj.email} \n\nBest,\nTriviafy"
+    send_email_template_function(output_to_email, output_subject, output_body)
+  except:
+    pass
   # ------------------------ email self end ------------------------
   localhost_print_function('=========================================== candidates_subscription_success_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/subscription_page_templates/index.html')
