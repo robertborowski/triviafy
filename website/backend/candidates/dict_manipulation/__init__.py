@@ -25,11 +25,17 @@ def question_arr_of_dicts_manipulations_function(input_arr_of_dicts):
       # Loop and separate
       categories_arr_to_html = []
       for category in categories_arr:
-        if category == 'Candidates':
+        if category == 'Candidates' or category == 'MCQ':
           continue
         category_lower = category.lower()
         category_replace_space = category_lower.replace(' ','_')
         category_strip = category_replace_space.strip()
+        # ------------------------ special characters start ------------------------
+        if category_strip == 'c#':
+          category_strip = 'csharp'
+        if category_strip == 'c++':
+          category_strip = 'cpp'
+        # ------------------------ special characters end ------------------------
         categories_arr_to_html.append((category, category_strip))
       i_dict['question_categories_list'] = categories_arr_to_html
     except:
