@@ -123,6 +123,12 @@
   text-decoration: none;
   color: black;
 }
+.general-a-black-no-hover {
+  text-decoration: none;
+  color: black;
+  width: 100%;
+  height: 100%;
+}
 .general-a-primary {
   text-decoration: none;
   color: var(--company-primary-color);

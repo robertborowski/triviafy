@@ -21,6 +21,7 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - split section start -->
 <div class="candidates-assessment-split-section">
+  <a href="{{ url_for('views.candidates_upload_emails_function') }}" class="general-a-black-no-hover">
   <div class="split-side-dashboard-general split-side-candidates candidates-default-box-shadow-grey-small">
     <div class="dashboard-split-inner-section">
       <p class="dashboard-split-title">Candidates</p>
@@ -32,10 +33,12 @@
       <a href="{{ url_for('views.candidates_analytics_function') }}" class="general-a-black"><p class="dashboard-split-subtitle">Total candidates: {{ len_current_user_uploaded_emails_arr_to_html }}</p></a>
     </div>
     <div class="dashboard-split-inner-section">
-      <a href="{{ url_for('views.candidates_upload_emails_function') }}"><p class="default-button-format default-button-format-primary-color">Candidate Dashboard</p></a>
+      <a href="{{ url_for('views.candidates_upload_emails_function') }}" class="default-button-format default-button-format-primary-color"><p>Candidate Dashboard</p></a>
     </div>
   </div>
+  </a>
 
+  <a href="{{ url_for('views.candidates_assessments_dashboard_function') }}" class="general-a-black-no-hover">
   <div class="split-side-dashboard-general split-side-assessments candidates-default-box-shadow-grey-small">
     <div class="dashboard-split-inner-section">
       <p class="dashboard-split-title">Assessments</p>
@@ -47,10 +50,12 @@
       <a href="{{ url_for('views.candidates_assessments_analytics_function') }}" class="general-a-black"><p class="dashboard-split-subtitle">Total assessments created: {{ len_current_user_assessments_created_arr_to_html }}</p></a>
     </div>
     <div class="dashboard-split-inner-section">
-      <a href="{{ url_for('views.candidates_assessments_dashboard_function') }}"><p class="default-button-format default-button-format-primary-color">Assessment Dashboard</p></a>
+      <a href="{{ url_for('views.candidates_assessments_dashboard_function') }}" class="default-button-format default-button-format-primary-color"><p>Assessment Dashboard</p></a>
     </div>
   </div>
+  </a>
 
+  <a href="{{ url_for('views.candidates_schedule_dashboard_function') }}" class="general-a-black-no-hover">
   <div class="split-side-dashboard-general split-side-sending candidates-default-box-shadow-grey-small">
     <div class="dashboard-split-inner-section">
       <p class="dashboard-split-title">Schedules</p>
@@ -62,9 +67,10 @@
       <a href="{{ url_for('views.candidates_schedule_analytics_function') }}" class="general-a-black"><p class="dashboard-split-subtitle">Total schedules created: {{ len_current_user_schedules_created_arr_to_html }}</p></a>
     </div>
     <div class="dashboard-split-inner-section">
-      <a href="{{ url_for('views.candidates_schedule_dashboard_function') }}"><p class="default-button-format default-button-format-primary-color">Schedule Dashboard</p></a>
+      <a href="{{ url_for('views.candidates_schedule_dashboard_function') }}" class="default-button-format default-button-format-primary-color><p">Schedule Dashboard</p></a>
     </div>
   </div>
+  </a>
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - split section end -->
 
