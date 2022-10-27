@@ -41,6 +41,7 @@
 <div class="schedule-options-container">
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - option 1 schedule later start -->
   <div class="schedule-dash-left">
+    <a href="{{ url_for('views.candidates_schedule_create_new_function') }}" class="general-a-black-no-hover">
     <div class="schedule-dashboard-section candidates-default-box-shadow-grey-small">
       <div class="dashboard-split-inner-section">
         <p class="dashboard-split-title general-margin-top-small">Schedule Assessment</p>
@@ -52,6 +53,7 @@
         <a href="{{ url_for('views.candidates_schedule_create_new_function') }}"><p class="default-button-format default-button-format-primary-color">Create New</p></a>
       </div>
     </div>
+    <a>
   </div>
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - option 1 schedule later end -->
 
@@ -63,6 +65,7 @@
 
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - option 2 send now start -->
   <div class="schedule-dash-right">
+    <a href="{{ url_for('views.candidates_schedule_create_now_function') }}" class="general-a-black-no-hover">
     <div class="schedule-dashboard-section candidates-default-box-shadow-grey-small">
       <div class="dashboard-split-inner-section">
         <p class="dashboard-split-title general-margin-top-small">Send Assessment Now</p>
@@ -74,6 +77,7 @@
         <a href="{{ url_for('views.candidates_schedule_create_now_function') }}"><p class="default-button-format default-button-format-primary-color">Create New</p></a>
       </div>
     </div>
+    <a>
   </div>
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - option 2 send now end -->
 </div>
