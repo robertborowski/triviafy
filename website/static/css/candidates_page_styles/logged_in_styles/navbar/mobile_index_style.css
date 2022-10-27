@@ -49,6 +49,8 @@
   }
   .navbar-links-4-signed-in ul li {
     text-align: center;
+    padding: 20px 10px;
+    font-size: 20px;
   }
   .navbar-links-4-signed-in ul li a {
     padding: 20px;
@@ -65,4 +67,9 @@
     height: 0px;
   }
   /* - - - - - - - - - - Spacer - End */
+  .navbar-links-4-signed-in ul li ul li a {
+    font-size: 20px;
+    padding: 20px 10px;
+    margin: 0 0 0 10px;
+  }
 }

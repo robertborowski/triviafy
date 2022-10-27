@@ -40,6 +40,11 @@ img.stripe-img {
   margin: 15px 0 0 0;
   font-size: 17px;
 }
+.capacity-candidates-per-month {
+  /* display: inline; */
+  margin: 5px 0 0 0;
+  font-size: 12px;
+}
 /* - - - - - - - - - - radio section start */
 .capacity-form-body-section {
   /* border: 1px solid red; */
