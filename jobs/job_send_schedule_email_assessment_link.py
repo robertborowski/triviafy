@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 from backend.db.connection.postgres_connect_to_database import postgres_connect_to_database_function
 from backend.db.connection.postgres_close_connection_to_database import postgres_close_connection_to_database_function
 from website.backend.candidates.sql_statements.sql_statements_select_individual.select_todays_pending_schedules import select_todays_pending_schedules_function
+from website.backend.candidates.sql_statements.sql_statements_select_individual.select_if_email_already_sent_expiring_id import select_if_email_already_sent_expiring_id_function
 from website.backend.candidates.sql_statements.sql_statements_insert_individual.insert_email_sent_row import insert_email_sent_row_function
 from website.backend.candidates.send_emails import send_email_template_function
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
@@ -123,6 +124,11 @@ def job_send_schedule_email_assessment_link_function():
     current_datetime_str = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     current_datetime_datetime = datetime.strptime(current_datetime_str, '%Y-%m-%d %H:%M:%S')
     if current_datetime_datetime > db_schedule_obj_goal_timestamp:
+      # ------------------------ check if email already sent start ------------------------
+      result_emails_sent_arr = select_if_email_already_sent_expiring_id_function(postgres_connection, postgres_cursor, i_schedule_arr_expiring_url)
+      if result_emails_sent_arr != None and result_emails_sent_arr != []:
+        continue
+      # ------------------------ check if email already sent end ------------------------
       # ------------------------ send email start ------------------------
       output_to_email = i_schedule_arr_email
       output_subject = f'Triviafy Candidate Assessment: {i_schedule_arr_assessment_name}'
