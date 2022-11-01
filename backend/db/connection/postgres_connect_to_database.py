@@ -9,7 +9,7 @@ def postgres_connect_to_database_function():
   localhost_print_function('=========================================== postgres_connect_to_database_function START ===========================================')
 
   # Heroku Postgres connection
-  DATABASE_URL = os.environ.get('DATABASE_URL')
+  DATABASE_URL = os.environ.get('HEROKU_POSTGRESQL_PURPLE_URL')
   postgres_connection = psycopg2.connect(DATABASE_URL, sslmode='require')
   postgres_cursor = postgres_connection.cursor()
 
