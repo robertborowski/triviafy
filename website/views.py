@@ -15,7 +15,7 @@ from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_f
 from flask import Blueprint, render_template, request, redirect, url_for, session
 from flask_login import login_required, current_user, login_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
-from website.models import CandidatesUserObj, CandidatesDesiredLanguagesObj, CandidatesUploadedCandidatesObj, CandidatesAssessmentsCreatedObj, CandidatesRequestLanguageObj, CandidatesScheduleObj, CandidatesEmailSentObj, CandidatesAssessmentGradedObj, CandidatesCapacityOptionsObj, CandidatesStripeCheckoutSessionObj
+from website.models import CandidatesUserObj, CandidatesDesiredLanguagesObj, CandidatesUploadedCandidatesObj, CandidatesAssessmentsCreatedObj, CandidatesRequestLanguageObj, CandidatesScheduleObj, CandidatesEmailSentObj, CandidatesAssessmentGradedObj, CandidatesCapacityOptionsObj, CandidatesStripeCheckoutSessionObj, CandidatesCreatedQuestionsObj
 from website.backend.candidates.browser import browser_response_set_cookie_function
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
@@ -663,6 +663,39 @@ def candidates_analytics_function():
   # ------------------------ pull all candidates end ------------------------
   localhost_print_function('=========================================== candidates_analytics_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/candidates_page_templates/candidates_analytics_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name, all_candidates_arr_of_dicts_to_html=all_candidates_arr_of_dicts)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@views.route('/candidates/create/question', methods=['GET', 'POST'])
+@login_required
+def candidates_create_question_function():
+  localhost_print_function('=========================================== candidates_create_question_function START ===========================================')
+  # ------------------------ individual redirect start ------------------------
+  query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
+  check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
+  if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
+    localhost_print_function('=========================================== candidates_create_question_function END ===========================================')
+    return redirect(url_for('views.capacity_page_function'))
+  # ------------------------ individual redirect end ------------------------
+  # ------------------------ individual redirect start ------------------------
+  query_result_arr_of_dicts = select_general_function('select_if_desired_languages_captured')
+  try:
+    check_desired_languages_value = query_result_arr_of_dicts[0]['desired_languages']
+  except:
+    check_desired_languages_value = None
+  if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
+    localhost_print_function('=========================================== candidates_create_question_function END ===========================================')
+    return redirect(url_for('views.capacity_page_function'))
+  # ------------------------ individual redirect end ------------------------
+  # ------------------------ delete all assessments that have been started by this user so far but abandoned start ------------------------
+  CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr=None).delete()
+  CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr='').delete()
+  db.session.commit()
+  # ------------------------ delete all assessments that have been started by this user so far but abandoned end ------------------------
+  if request.method == 'POST':
+    pass
+  localhost_print_function('=========================================== candidates_create_question_function END ===========================================')
+  return render_template('candidates_page_templates/logged_in_page_templates/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------

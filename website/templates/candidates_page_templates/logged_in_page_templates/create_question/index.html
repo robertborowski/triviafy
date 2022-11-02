@@ -1,0 +1,46 @@
+{% extends "candidates_page_templates/aaa_base_page_templates/base2_child1_logged_in_yes_navbar_and_footer.html" %}
+
+<!-- head tag block content -->
+{% block title %}
+  <title>Create Question / Triviafy</title>
+{% endblock %}
+
+{% block contentBodyExceptNavbarAndFooter %}
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name start -->
+<div class="general-signed-in-company-name-section">
+  <p class="general-signed-in-company-name-title">{{ users_company_name_to_html }}</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title start -->
+<div class="general-page-title-section">
+  <p class="general-page-title">Create Question</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message start -->
+<div class="error-message-section">
+  <p>{{ error_message_to_html }}</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message end -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - success message start -->
+<div class="success-message-section">
+  <p class="general-margin-top-small">{{ success_message_to_html }}</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - success message end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section-large"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+{% endblock %}

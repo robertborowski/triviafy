@@ -137,6 +137,26 @@ class CandidatesStripeCheckoutSessionObj(db.Model):
   fk_checkout_session_id = db.Column(db.String(150))
   fk_user_id = db.Column(db.String(150))
 # ------------------------ individual model end ------------------------
+
+# ------------------------ individual model start ------------------------
+class CandidatesCreatedQuestionsObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  fk_user_id = db.Column(db.String(150))
+  status = db.Column(db.Boolean, default=False)
+  categories = db.Column(db.String(150))
+  title = db.Column(db.String(150))
+  difficulty = db.Column(db.String(20))
+  question = db.Column(db.String(1000))
+  option_a = db.Column(db.String(280))
+  option_b = db.Column(db.String(280))
+  option_c = db.Column(db.String(280))
+  option_d = db.Column(db.String(280))
+  option_e = db.Column(db.String(280))
+  answer = db.Column(db.String(10))
+  aws_image_uuid = db.Column(db.String(150))
+  aws_image_url = db.Column(db.String(150))
+# ------------------------ individual model end ------------------------
 # ------------------------ models end ------------------------
 
 
