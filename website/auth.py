@@ -141,7 +141,7 @@ def candidates_signup_function():
       # ------------------------ email self start ------------------------
       try:
         output_to_email = 'robert@triviafy.com'
-        output_subject = f'New User - Triviafy Candidates'
+        output_subject = f'Candidates - Triviafy New User '
         output_body = f"Hi there,\n\nNew user signed up: {ui_email} \n\nBest,\nTriviafy"
         send_email_template_function(output_to_email, output_subject, output_body)
       except:

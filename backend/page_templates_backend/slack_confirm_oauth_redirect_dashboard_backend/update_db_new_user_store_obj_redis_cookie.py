@@ -129,7 +129,7 @@ def update_db_new_user_store_obj_redis_cookie_function(client, authed_response_o
     personal_email = os.environ.get('PERSONAL_EMAIL')
     if user_email != personal_email:
       output_email = personal_email
-      output_subject_line = 'Someone Created A Triviafy Account'
+      output_subject_line = 'Employee Engagement - Triviafy New User'
       output_message_content = f"Hi,\n\n{user_email} CREATED AN ACCOUNT with Triviafy.\n\nTeam name: {user_slack_workspace_team_name}\nChannel name: {user_slack_channel_name}"
       output_message_content_str_for_db = output_message_content
 
