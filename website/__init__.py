@@ -356,7 +356,7 @@ def create_database_function(app):
   """
   localhost_print_function('=========================================== create_database_function START ===========================================')
   if not path.exists('website/' + DB_NAME):
-    db.create_all(app=app)
+    # db.create_all(app=app)
     print('Created database!')
   else:
     print('Database already exists!')
