@@ -1,5 +1,5 @@
 function countCharsCategory(obj){
-  var maxLength = 50;
+  var maxLength = 100;
   var strLength = obj.value.length;
   
   if(strLength > maxLength){
