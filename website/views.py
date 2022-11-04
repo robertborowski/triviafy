@@ -951,14 +951,14 @@ def candidates_assessment_select_questions_function(url_assessment_name):
       pass
     # ------------------------ update row in db end ------------------------
     # ------------------------ email self start ------------------------
-      try:
-        output_to_email = 'robert@triviafy.com'
-        output_subject = f'Candidates - Triviafy New Assessment Created'
-        output_body = f"Hi there,\n\nNew assessment created for \n\nBest,\nTriviafy"
-        send_email_template_function(output_to_email, output_subject, output_body)
-      except:
-        pass
-      # ------------------------ email self end ------------------------
+    try:
+      output_to_email = 'robert@triviafy.com'
+      output_subject = f'Candidates - Triviafy New Assessment Created'
+      output_body = f"Hi there,\n\nNew assessment created for \n\nBest,\nTriviafy"
+      send_email_template_function(output_to_email, output_subject, output_body)
+    except:
+      pass
+    # ------------------------ email self end ------------------------
     localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
     return redirect(url_for('views.candidates_assessment_sucessfully_created_function'))
   # ------------------------ post method hit end ------------------------
