@@ -19,7 +19,7 @@ def question_arr_of_dicts_manipulations_function(input_arr_of_dicts):
     # ------------------------ question categories str to arr tuple start ------------------------
     try:
       # Assign variables
-      categories_str = i_dict['question_categories_list']
+      categories_str = i_dict['categories']
       categories_str_fixed = categories_str.replace(', ',',')
       categories_arr = categories_str_fixed.split(',')
       # Loop and separate
@@ -37,7 +37,7 @@ def question_arr_of_dicts_manipulations_function(input_arr_of_dicts):
           category_strip = 'cpp'
         # ------------------------ special characters end ------------------------
         categories_arr_to_html.append((category, category_strip))
-      i_dict['question_categories_list'] = categories_arr_to_html
+      i_dict['categories'] = categories_arr_to_html
     except:
       print('Error here: question_arr_of_dicts_manipulations_function except statement...')
       return False
@@ -64,7 +64,7 @@ def create_assessment_info_dict_function(db_assessment_obj):
   question_ids_arr = question_ids_str.split(',')
   question_ids_str = "','".join(question_ids_arr)
   question_ids_str = "'" + question_ids_str + "'"
-  query_result_arr_of_dicts = select_general_function('select_specific_assessment_questions', additional_input=question_ids_str)
+  query_result_arr_of_dicts = select_general_function('select_specific_assessment_questions_v2', additional_input=question_ids_str)
   query_result_arr_of_dicts = question_arr_of_dicts_manipulations_function(query_result_arr_of_dicts)
   assessment_info_dict['questions_arr_of_dicts'] = query_result_arr_of_dicts
   # ------------------------ assign dict questions end ------------------------
@@ -106,7 +106,7 @@ def backend_store_question_answers_dict_function(assessment_info_dict):
   localhost_print_function('=========================================== backend_store_question_answers_dict_function START ===========================================')
   backend_store_question_answers_dict = {}
   for i_dict in assessment_info_dict['questions_arr_of_dicts']:
-    backend_store_question_answers_dict[i_dict['question_uuid']] = i_dict['question_answers_list']
+    backend_store_question_answers_dict[i_dict['id']] = i_dict['answer']
   localhost_print_function('=========================================== backend_store_question_answers_dict_function END ===========================================')
   return backend_store_question_answers_dict
 # ------------------------ individual function end ------------------------
@@ -142,9 +142,16 @@ def grade_assessment_answers_dict_function(assessment_info_dict):
   # ------------------------ loop through questions 1 by 1 start ------------------------
   for i_dict in assessment_info_dict['questions_arr_of_dicts']:
     # ------------------------ pull what is needed start ------------------------
-    question_answers_str_original = i_dict['question_answers_list']   # str
-    ui_answer_original = i_dict['ui_answer']                          # str
+    question_answers_str_original = i_dict['answer']   # str
+    ui_answer_original = i_dict['ui_answer']           # str
     # ------------------------ pull what is needed end ------------------------
+    # ------------------------ compare answers start ------------------------
+    i_dict['ui_answer_correct'] = False
+    if question_answers_str_original.lower() == ui_answer_original.lower():
+      i_dict['ui_answer_correct'] = True
+      ui_total_correct_answers += 1
+    # ------------------------ compare answers end ------------------------
+    """
     # ------------------------ clean question answers start ------------------------
     question_answers_arr_original = question_answers_str_original.split(',')
     question_answers_arr_corrected = []
@@ -171,6 +178,7 @@ def grade_assessment_answers_dict_function(assessment_info_dict):
         ui_total_correct_answers += 1
         break
     # ------------------------ compare answers end ------------------------
+    """
   # ------------------------ loop through questions 1 by 1 end ------------------------
   assessment_info_dict['ui_total_correct_answers'] = ui_total_correct_answers
   ui_final_score = (assessment_info_dict['ui_total_correct_answers'] / assessment_info_dict['total_questions'])

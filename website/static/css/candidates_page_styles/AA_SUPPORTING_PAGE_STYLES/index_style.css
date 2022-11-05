@@ -47,14 +47,14 @@
   cursor: text;
   /* Media screen */
   /* -webkit-box-direction: normal; */
-  }
-  .candidates-default-text-input:hover {
-    border: 2px solid #b7b7b7;
-    transition: 0.2s;
-  }
-  .candidates-default-text-input-full-width {
-    width: 100%;
-  }
+}
+.candidates-default-text-input:hover {
+  border: 2px solid #b7b7b7;
+  transition: 0.2s;
+}
+.candidates-default-text-input-full-width {
+  width: 100%;
+}
 .general-signed-in-company-name-section {
   /* border: 1px solid black; */
   text-align: center;

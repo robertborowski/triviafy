@@ -132,4 +132,28 @@ span.span-question-difficulty {
 .result-check-incorrect {
   color: red;
 }
+.mcq-select-answer-radio-section {
+  /* border: 1px solid black; */
+  text-align: left;
+  padding: 0 20px;
+}
+.mcq-select-answer-radio-section input[type="radio"] + label.mcq-radio-label {
+  border: 1px solid rgb(219, 219, 219);
+  color: rgb(103, 103, 103);
+  border-radius: 10px;
+  cursor: pointer;
+  display: block;
+  padding: 10px 15px;
+}
+.mcq-select-answer-radio-section input[type="radio"]:hover + label.mcq-radio-label {
+  border: 1px solid var(--company-primary-color);
+  background-color: var(--company-primary-color);
+  color: white;
+  transition: .33s;
+}
+.mcq-select-answer-radio-section input[type="radio"]:checked + label.mcq-radio-label {
+  border: 1px solid var(--company-primary-color);
+  background-color: var(--company-primary-color);
+  color: white;
+}
 /* - - - - - - - - - - assessment create end */

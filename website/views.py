@@ -20,7 +20,7 @@ from website.backend.candidates.browser import browser_response_set_cookie_funct
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
 from website import db
-from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function, sanitize_create_account_text_inputs_function, sanitize_create_account_text_inputs_large_function, validate_upload_candidate_function, sanitize_loop_check_if_exists_within_arr_function, sanitize_check_if_str_exists_within_arr_function, check_if_question_id_arr_exists_function, sanitize_candidate_ui_answer_text_function
+from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function, sanitize_create_account_text_inputs_function, sanitize_create_account_text_inputs_large_function, validate_upload_candidate_function, sanitize_loop_check_if_exists_within_arr_function, sanitize_check_if_str_exists_within_arr_function, check_if_question_id_arr_exists_function, sanitize_candidate_ui_answer_text_function, sanitize_candidate_ui_answer_radio_function
 from website.backend.candidates.send_emails import send_email_template_function
 from werkzeug.security import generate_password_hash
 import pandas as pd
@@ -625,7 +625,7 @@ def candidates_analytics_function():
     all_candidates_dict = {}
     all_candidates_dict['email'] = i.email
     # ------------------------ get candidate stats start ------------------------
-    db_assessment_graded_obj = CandidatesAssessmentGradedObj.query.filter_by(candidate_email=i.email).all()
+    db_assessment_graded_obj = CandidatesAssessmentGradedObj.query.filter_by(candidate_email=i.email,created_assessment_user_id_fk=current_user.id).all()
     if db_assessment_graded_obj == None:
       all_candidates_dict['total_assessments'] = 0
       all_candidates_dict['total_correct_answers'] = 0
@@ -946,19 +946,19 @@ def candidates_assessment_select_questions_function(url_assessment_name):
     try:
       db_assessment_obj.question_ids_arr = ui_select_question_checkbox_str
       db.session.commit()
+      # ------------------------ email self start ------------------------
+      try:
+        output_to_email = 'robert@triviafy.com'
+        output_subject = f'Candidates - Triviafy New Assessment Created'
+        output_body = f"Hi there,\n\nNew assessment created! \n\nBest,\nTriviafy"
+        send_email_template_function(output_to_email, output_subject, output_body)
+      except:
+        pass
+      # ------------------------ email self end ------------------------
     except:
       localhost_print_function('error cannot update row')
       pass
     # ------------------------ update row in db end ------------------------
-    # ------------------------ email self start ------------------------
-    try:
-      output_to_email = 'robert@triviafy.com'
-      output_subject = f'Candidates - Triviafy New Assessment Created'
-      output_body = f"Hi there,\n\nNew assessment created for \n\nBest,\nTriviafy"
-      send_email_template_function(output_to_email, output_subject, output_body)
-    except:
-      pass
-    # ------------------------ email self end ------------------------
     localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
     return redirect(url_for('views.candidates_assessment_sucessfully_created_function'))
   # ------------------------ post method hit end ------------------------
@@ -968,13 +968,13 @@ def candidates_assessment_select_questions_function(url_assessment_name):
   master_where_statement = ''
   for i in range(len(desired_langs_arr)):
     if i == (len(desired_langs_arr) - 1):
-      master_where_statement += f"(question_categories_list LIKE '%{desired_langs_arr[i]}%' AND question_categories_list LIKE '%Candidates%')"
+      master_where_statement += f"(categories LIKE '%{desired_langs_arr[i]}%' AND categories LIKE '%Candidates%')"
     else:
-      master_where_statement += f"(question_categories_list LIKE '%{desired_langs_arr[i]}%' AND question_categories_list LIKE '%Candidates%') OR "
+      master_where_statement += f"(categories LIKE '%{desired_langs_arr[i]}%' AND categories LIKE '%Candidates%') OR "
   where_clause_arr.append(master_where_statement)
   # ------------------------ prepare where statement end ------------------------
   # ------------------------ pull question obj from db start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_all_questions_for_x_categories', where_clause_arr[0])
+  query_result_arr_of_dicts = select_general_function('select_all_questions_for_x_categories_v2', where_clause_arr[0])
   query_result_arr_of_dicts = question_arr_of_dicts_manipulations_function(query_result_arr_of_dicts)
   # ------------------------ pull question obj from db end ------------------------
   # ------------------------ stripe subscription status check start ------------------------
@@ -994,7 +994,7 @@ def candidates_assessment_select_questions_function(url_assessment_name):
     user_sub_active = True
   if stripe_subscription_obj_status != 'active':
     for i_dict in query_result_arr_of_dicts:
-      i_dict['question_answers_list'] = ''
+      i_dict['answer'] = ''
   # ------------------------ if subscription not paid end ------------------------
   localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_create_new_page_templates/assessments_select_questions_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=select_questions_error_statement, query_result_arr_of_dicts_to_html=query_result_arr_of_dicts, user_sub_active_to_html=user_sub_active)
@@ -1629,7 +1629,7 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
   # ------------------------ store answers in backend for later reference end ------------------------
   # ------------------------ remove answers for candidate start ------------------------
   for i in assessment_info_dict['questions_arr_of_dicts']:
-    i['question_answers_list'] = None
+    i['answer'] = None
   # ------------------------ remove answers for candidate end ------------------------
   # ------------------------ pull user info for company name start ------------------------
   db_user_obj = CandidatesUserObj.query.filter_by(id=db_schedule_obj_user_id_fk).first()
@@ -1642,43 +1642,43 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
   ui_answers_error_statement = ''
   if request.method == 'POST':
     # ------------------------ ui candidate answers original start ------------------------
-    candidate_ui_question_answer_1 = request.form.get('candidate_ui_question_answer_1')
-    candidate_ui_question_answer_2 = request.form.get('candidate_ui_question_answer_2')
-    candidate_ui_question_answer_3 = request.form.get('candidate_ui_question_answer_3')
-    candidate_ui_question_answer_4 = request.form.get('candidate_ui_question_answer_4')
-    candidate_ui_question_answer_5 = request.form.get('candidate_ui_question_answer_5')
-    candidate_ui_question_answer_6 = request.form.get('candidate_ui_question_answer_6')
-    candidate_ui_question_answer_7 = request.form.get('candidate_ui_question_answer_7')
-    candidate_ui_question_answer_8 = request.form.get('candidate_ui_question_answer_8')
-    candidate_ui_question_answer_9 = request.form.get('candidate_ui_question_answer_9')
-    candidate_ui_question_answer_10 = request.form.get('candidate_ui_question_answer_10')
+    ui_answer_choice_selected_1 = request.form.get('ui_answer_choice_selected_1')
+    ui_answer_choice_selected_2 = request.form.get('ui_answer_choice_selected_2')
+    ui_answer_choice_selected_3 = request.form.get('ui_answer_choice_selected_3')
+    ui_answer_choice_selected_4 = request.form.get('ui_answer_choice_selected_4')
+    ui_answer_choice_selected_5 = request.form.get('ui_answer_choice_selected_5')
+    ui_answer_choice_selected_6 = request.form.get('ui_answer_choice_selected_6')
+    ui_answer_choice_selected_7 = request.form.get('ui_answer_choice_selected_7')
+    ui_answer_choice_selected_8 = request.form.get('ui_answer_choice_selected_8')
+    ui_answer_choice_selected_9 = request.form.get('ui_answer_choice_selected_9')
+    ui_answer_choice_selected_10 = request.form.get('ui_answer_choice_selected_10')
     # ------------------------ ui candidate answers original end ------------------------
     # ------------------------ sanitize ui answers start ------------------------
-    candidate_ui_question_answer_1_checked = sanitize_candidate_ui_answer_text_function(candidate_ui_question_answer_1)
-    candidate_ui_question_answer_2_checked = sanitize_candidate_ui_answer_text_function(candidate_ui_question_answer_2)
-    candidate_ui_question_answer_3_checked = sanitize_candidate_ui_answer_text_function(candidate_ui_question_answer_3)
-    candidate_ui_question_answer_4_checked = sanitize_candidate_ui_answer_text_function(candidate_ui_question_answer_4)
-    candidate_ui_question_answer_5_checked = sanitize_candidate_ui_answer_text_function(candidate_ui_question_answer_5)
-    candidate_ui_question_answer_6_checked = sanitize_candidate_ui_answer_text_function(candidate_ui_question_answer_6)
-    candidate_ui_question_answer_7_checked = sanitize_candidate_ui_answer_text_function(candidate_ui_question_answer_7)
-    candidate_ui_question_answer_8_checked = sanitize_candidate_ui_answer_text_function(candidate_ui_question_answer_8)
-    candidate_ui_question_answer_9_checked = sanitize_candidate_ui_answer_text_function(candidate_ui_question_answer_9)
-    candidate_ui_question_answer_10_checked = sanitize_candidate_ui_answer_text_function(candidate_ui_question_answer_10)
+    ui_answer_choice_selected_1_checked = sanitize_candidate_ui_answer_radio_function(ui_answer_choice_selected_1)
+    ui_answer_choice_selected_2_checked = sanitize_candidate_ui_answer_radio_function(ui_answer_choice_selected_2)
+    ui_answer_choice_selected_3_checked = sanitize_candidate_ui_answer_radio_function(ui_answer_choice_selected_3)
+    ui_answer_choice_selected_4_checked = sanitize_candidate_ui_answer_radio_function(ui_answer_choice_selected_4)
+    ui_answer_choice_selected_5_checked = sanitize_candidate_ui_answer_radio_function(ui_answer_choice_selected_5)
+    ui_answer_choice_selected_6_checked = sanitize_candidate_ui_answer_radio_function(ui_answer_choice_selected_6)
+    ui_answer_choice_selected_7_checked = sanitize_candidate_ui_answer_radio_function(ui_answer_choice_selected_7)
+    ui_answer_choice_selected_8_checked = sanitize_candidate_ui_answer_radio_function(ui_answer_choice_selected_8)
+    ui_answer_choice_selected_9_checked = sanitize_candidate_ui_answer_radio_function(ui_answer_choice_selected_9)
+    ui_answer_choice_selected_10_checked = sanitize_candidate_ui_answer_radio_function(ui_answer_choice_selected_10)
     # ------------------------ sanitize ui answers end ------------------------
     # ------------------------ check if invalid inputs start ------------------------
-    if candidate_ui_question_answer_1_checked == False or candidate_ui_question_answer_2_checked == False or candidate_ui_question_answer_3_checked == False or candidate_ui_question_answer_4_checked == False or candidate_ui_question_answer_5_checked == False or candidate_ui_question_answer_6_checked == False or candidate_ui_question_answer_7_checked == False or candidate_ui_question_answer_8_checked == False or candidate_ui_question_answer_9_checked == False or candidate_ui_question_answer_10_checked == False:
+    if ui_answer_choice_selected_1_checked == False or ui_answer_choice_selected_2_checked == False or ui_answer_choice_selected_3_checked == False or ui_answer_choice_selected_4_checked == False or ui_answer_choice_selected_5_checked == False or ui_answer_choice_selected_6_checked == False or ui_answer_choice_selected_7_checked == False or ui_answer_choice_selected_8_checked == False or ui_answer_choice_selected_9_checked == False or ui_answer_choice_selected_10_checked == False:
       ui_answers_error_statement = 'Please answer all questions.'
     # ------------------------ check if invalid inputs end ------------------------
     # ------------------------ add user answers to assessment arr of dict start ------------------------
-    assessment_info_dict = map_user_answers_to_questions_dict_function(assessment_info_dict, candidate_ui_question_answer_1, candidate_ui_question_answer_2, candidate_ui_question_answer_3, candidate_ui_question_answer_4, candidate_ui_question_answer_5, candidate_ui_question_answer_6, candidate_ui_question_answer_7, candidate_ui_question_answer_8, candidate_ui_question_answer_9, candidate_ui_question_answer_10)
+    assessment_info_dict = map_user_answers_to_questions_dict_function(assessment_info_dict, ui_answer_choice_selected_1, ui_answer_choice_selected_2, ui_answer_choice_selected_3, ui_answer_choice_selected_4, ui_answer_choice_selected_5, ui_answer_choice_selected_6, ui_answer_choice_selected_7, ui_answer_choice_selected_8, ui_answer_choice_selected_9, ui_answer_choice_selected_10)
     # ------------------------ add user answers to assessment arr of dict end ------------------------
     # ------------------------ only start grading if all valid answers provided start ------------------------
-    if candidate_ui_question_answer_1_checked != False and candidate_ui_question_answer_2_checked != False and candidate_ui_question_answer_3_checked != False and candidate_ui_question_answer_4_checked != False and candidate_ui_question_answer_5_checked != False and candidate_ui_question_answer_6_checked != False and candidate_ui_question_answer_7_checked != False and candidate_ui_question_answer_8_checked != False and candidate_ui_question_answer_9_checked != False and candidate_ui_question_answer_10_checked != False:
+    if ui_answer_choice_selected_1_checked != False and ui_answer_choice_selected_2_checked != False and ui_answer_choice_selected_3_checked != False and ui_answer_choice_selected_4_checked != False and ui_answer_choice_selected_5_checked != False and ui_answer_choice_selected_6_checked != False and ui_answer_choice_selected_7_checked != False and ui_answer_choice_selected_8_checked != False and ui_answer_choice_selected_9_checked != False and ui_answer_choice_selected_10_checked != False:
       # ------------------------ reassign correct answers back to dict start ------------------------
       for i_dict in assessment_info_dict['questions_arr_of_dicts']:
-        i_question_uuid = i_dict['question_uuid']
+        i_question_uuid = i_dict['id']
         answer_list_lookup = backend_store_question_answers_dict[i_question_uuid]
-        i_dict['question_answers_list'] = answer_list_lookup
+        i_dict['answer'] = answer_list_lookup
       # ------------------------ reassign correct answers back to dict end ------------------------
       # ------------------------ grading function start ------------------------
       assessment_info_dict = grade_assessment_answers_dict_function(assessment_info_dict)
@@ -1775,7 +1775,7 @@ def candidates_assessment_i_answers_function(url_email, url_assessment_name):
     user_sub_active = True
   if stripe_subscription_obj_status != 'active':
     for i_dict in assessment_info_dict['questions_arr_of_dicts']:
-      i_dict['question_answers_list'] = ''
+      i_dict['answer'] = ''
   # ------------------------ if subscription not paid end ------------------------
   localhost_print_function('=========================================== candidates_assessment_i_answers_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/candidates_page_templates/candidates_view_specific_page_templates/candidates_view_specific_answers_page_templates/index.html', error_message_to_html=ui_answers_error_statement, users_company_name_to_html = current_user.company_name, user_email_to_html=url_email, assessment_info_dict_to_html=assessment_info_dict,user_sub_active_to_html=user_sub_active)
