@@ -1048,7 +1048,7 @@ def candidates_assessment_view_specific_function(url_assessment_name):
   # ------------------------ remove answers for non paying users start ------------------------
   if user_paid_latest_month == False:
     for i in assessment_info_dict['questions_arr_of_dicts']:
-      i['question_answers_list'] = None
+      i['answer'] = None
   # ------------------------ remove answers for non paying users end ------------------------
   localhost_print_function('=========================================== candidates_assessment_view_specific_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_view_specific_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, assessment_info_dict_to_html=assessment_info_dict)
