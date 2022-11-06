@@ -1248,6 +1248,15 @@ def candidates_schedule_dashboard_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
+@views.route('/candidates/schedule/assessment/message', methods=['GET'])
+@login_required
+def candidates_no_assessments_yet_function():
+  localhost_print_function('=========================================== candidates_no_assessments_yet_function START ===========================================')
+  localhost_print_function('=========================================== candidates_no_assessments_yet_function END ===========================================')
+  return render_template('candidates_page_templates/logged_in_page_templates/schedule_page_templates/schedule_no_assessments_yet_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
 @views.route('/candidates/schedule/new', methods=['GET', 'POST'])
 @login_required
 def candidates_schedule_create_new_function():
@@ -1275,6 +1284,11 @@ def candidates_schedule_create_new_function():
   # ------------------------ messages end ------------------------
   # ------------------------ pull all user assessments start ------------------------
   current_user_assessments_created_arr = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id).order_by(CandidatesAssessmentsCreatedObj.assessment_name).all()
+  # ------------------------ no assessments made yet redirect start ------------------------
+  if len(current_user_assessments_created_arr) == 0:
+    localhost_print_function('=========================================== candidates_schedule_create_now_function END ===========================================')
+    return redirect(url_for('views.candidates_no_assessments_yet_function'))
+  # ------------------------ no assessments made yet redirect end ------------------------
   current_user_assessment_names_arr = []
   for i in current_user_assessments_created_arr:
     current_user_assessment_names_arr.append(i.assessment_name)
@@ -1391,6 +1405,11 @@ def candidates_schedule_create_now_function():
   # ------------------------ messages end ------------------------
   # ------------------------ pull all user assessments start ------------------------
   current_user_assessments_created_arr = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id).order_by(CandidatesAssessmentsCreatedObj.assessment_name).all()
+  # ------------------------ no assessments made yet redirect start ------------------------
+  if len(current_user_assessments_created_arr) == 0:
+    localhost_print_function('=========================================== candidates_schedule_create_now_function END ===========================================')
+    return redirect(url_for('views.candidates_no_assessments_yet_function'))
+  # ------------------------ no assessments made yet redirect end ------------------------
   current_user_assessment_names_arr = []
   for i in current_user_assessments_created_arr:
     current_user_assessment_names_arr.append(i.assessment_name)
