@@ -670,7 +670,7 @@ def candidates_analytics_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views.route('/candidates/create/question', methods=['GET', 'POST'])
+@views.route('/candidates/question/create', methods=['GET', 'POST'])
 @login_required
 def candidates_create_question_function():
   localhost_print_function('=========================================== candidates_create_question_function START ===========================================')
@@ -696,10 +696,12 @@ def candidates_create_question_function():
   CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr='').delete()
   db.session.commit()
   # ------------------------ delete all assessments that have been started by this user so far but abandoned end ------------------------
+  ui_question_error_statement = ''
+  ui_question_success_statement = ''
   if request.method == 'POST':
     pass
   localhost_print_function('=========================================== candidates_create_question_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name)
+  return render_template('candidates_page_templates/logged_in_page_templates/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------

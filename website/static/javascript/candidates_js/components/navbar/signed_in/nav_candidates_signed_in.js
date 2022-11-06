@@ -50,7 +50,6 @@ class NavbarCandidatesSignedInClass extends HTMLElement {
           <ul class="default-box-shadow-grey-reg">
             <li><a href="${this.getAttribute("link_candidates_assessments_new_js")}">Assessment dashboard</a></li>
             <li><a href="${this.getAttribute("link_candidates_assessments_analytics_js")}">Assessment analytics</a></li>
-            <li><a href="${this.getAttribute("link_request_categories_js")}">Request categories</a></li>
           </ul>
           <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar - Links - Level 2 - END -->
         </li>
@@ -69,6 +68,8 @@ class NavbarCandidatesSignedInClass extends HTMLElement {
           <ul class="default-box-shadow-grey-reg">
             <li><a href="${this.getAttribute("link_home_js")}">Dashboard</a></li>
             <li><a href="${this.getAttribute("link_candidates_account_settings_js")}">Account settings</a></li>
+            <li><a href="${this.getAttribute("link_request_categories_js")}">Request categories</a></li>
+            <li><a href="${this.getAttribute("link_question_create_js")}">Create question</a></li>
             <li><a href="${this.getAttribute("link_landing_js")}">Triviafy home</a></li>
           </ul>
           <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar - Links - Level 2 - END -->
