@@ -15,6 +15,10 @@
 .question-example-screenshot-img {
   max-width: 100%;
 }
+.question-example-screenshot-img-2 {
+  max-width: 100%;
+  border-radius: 50px;
+}
 .library-underline {
   text-decoration: underline;
   text-underline-offset: 3px;
