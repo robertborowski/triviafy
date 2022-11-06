@@ -639,28 +639,27 @@ def candidates_analytics_function():
       # ------------------------ set variables start ------------------------
       total_assessments = 0
       total_correct_answers = 0
-      total_correct_percent = 0
-      total_correct_percent_counter = 0
+      total_questions = 0
       # ------------------------ set variables end ------------------------
       # ------------------------ loop add start ------------------------
       for i_assessment_obj in db_assessment_graded_obj:
         total_assessments += 1
         total_correct_answers += i_assessment_obj.correct_count
-        total_correct_percent += i_assessment_obj.final_score
-        total_correct_percent_counter += 1
+        total_questions += i_assessment_obj.total_questions
       # ------------------------ loop add end ------------------------
       # ------------------------ assign result start ------------------------
       all_candidates_dict['total_assessments'] = total_assessments
       all_candidates_dict['total_correct_answers'] = total_correct_answers
+      all_candidates_dict['total_correct_percent'] = '0%'
       # ------------------------ divide by 0 error start ------------------------
       try:
-        total_correct_percent_float = (total_correct_percent / total_correct_percent_counter) * 100
-        total_correct_percent_str = str(total_correct_percent_float)[0:2] + '%'
+        total_correct_percent_float = (total_correct_answers / total_questions) * 100
+        total_correct_percent_str = str(total_correct_percent_float)[0:3] + '%'
+        if '.' in total_correct_percent_str:
+          total_correct_percent_str = total_correct_percent_str.replace('.','')
         all_candidates_dict['total_correct_percent'] = total_correct_percent_str
       except:
-        total_correct_percent_float = (total_correct_percent / 1) * 100
-        total_correct_percent_str = str(total_correct_percent_float)[0:2] + '%'
-        all_candidates_dict['total_correct_percent'] = total_correct_percent
+        pass
       # ------------------------ divide by 0 error end ------------------------
       # ------------------------ assign result end ------------------------
     # ------------------------ get candidate stats end ------------------------
@@ -1115,22 +1114,20 @@ def candidates_assessment_results_specific_function(url_assessment_name):
       # ------------------------ pull db info graded candidate specific start ------------------------
       db_assessments_email_specific_obj = CandidatesAssessmentGradedObj.query.filter_by(assessment_name=url_assessment_name,created_assessment_user_id_fk=current_user.id,candidate_email=i_email).all()
       total_correct_count = 0
-      total_final_score = 0
-      total_final_score_counter = 0
-      average_final_score = 0
+      total_questions = 0
       for i_assessment_email_specific_obj in db_assessments_email_specific_obj:
-        total_final_score_counter += 1
         total_correct_count += i_assessment_email_specific_obj.correct_count
-        total_final_score += i_assessment_email_specific_obj.final_score
+        total_questions += i_assessment_email_specific_obj.total_questions
       assessment_info_dict['total_correct_count'] = total_correct_count
+      assessment_info_dict['average_final_score'] = '0%'
       try:
-        average_final_score = (total_final_score / total_final_score_counter) * 100
-        average_final_score = str(average_final_score)[0:2] + '%'
+        average_final_score = (total_correct_count / total_questions) * 100
+        average_final_score = str(average_final_score)[0:3] + '%'
+        if '.' in average_final_score:
+          average_final_score = average_final_score.replace('.','')
         assessment_info_dict['average_final_score'] = average_final_score
       except:
-        average_final_score = (total_final_score / 1) * 100
-        average_final_score = str(average_final_score)[0:2] + '%'
-        assessment_info_dict['average_final_score'] = average_final_score
+        pass
       # ------------------------ pull db info graded candidate specific end ------------------------
       all_candidates_arr_of_dicts.append(assessment_info_dict)
   # ------------------------ pull db info schedule end ------------------------
@@ -1196,22 +1193,23 @@ def candidates_candidate_results_specific_function(url_candidate_email):
       # ------------------------ pull db info graded candidate specific start ------------------------
       db_assessments_email_specific_obj = CandidatesAssessmentGradedObj.query.filter_by(candidate_email=url_candidate_email,created_assessment_user_id_fk=current_user.id,assessment_id_fk=i_assessment_id_fk).all()
       total_correct_count = 0
-      total_final_score = 0
+      total_questions = 0
       total_final_score_counter = 0
       average_final_score = 0
       for i_assessment_email_specific_obj in db_assessments_email_specific_obj:
         total_final_score_counter += 1
         total_correct_count += i_assessment_email_specific_obj.correct_count
-        total_final_score += i_assessment_email_specific_obj.final_score
+        total_questions += i_assessment_email_specific_obj.total_questions
       assessment_info_dict['total_correct_count'] = total_correct_count
+      assessment_info_dict['average_final_score'] = '0%'
       try:
-        average_final_score = (total_final_score / total_final_score_counter) * 100
-        average_final_score = str(average_final_score)[0:2] + '%'
+        average_final_score = (total_correct_count / total_questions) * 100
+        average_final_score = str(average_final_score)[0:3] + '%'
+        if '.' in average_final_score:
+          average_final_score = average_final_score.replace('.','')
         assessment_info_dict['average_final_score'] = average_final_score
       except:
-        average_final_score = (total_final_score / 1) * 100
-        average_final_score = str(average_final_score)[0:2] + '%'
-        assessment_info_dict['average_final_score'] = average_final_score
+        pass
       # ------------------------ pull db info graded candidate specific end ------------------------
       all_candidate_assessments_arr_of_dicts.append(assessment_info_dict)
   assessment_tracked_set.remove('a')
@@ -1738,6 +1736,7 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
           assessment_id_fk = assessment_info_dict['id'],
           created_assessment_user_id_fk = db_schedule_obj_user_id_fk,
           assessment_expiring_url_fk = url_assessment_expiring,
+          total_questions = 10,
           correct_count = ui_total_correct_answers,
           final_score = ui_final_score,
           assessment_obj = json.dumps(assessment_info_dict)

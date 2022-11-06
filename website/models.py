@@ -125,6 +125,7 @@ class CandidatesAssessmentGradedObj(db.Model):
   assessment_id_fk = db.Column(db.String(150))
   created_assessment_user_id_fk = db.Column(db.String(150))
   assessment_expiring_url_fk = db.Column(db.String(150), unique=True)
+  total_questions = db.Column(db.Integer)
   correct_count = db.Column(db.Integer)
   final_score = db.Column(db.Float)
   assessment_obj = db.Column(db.String(15000))
