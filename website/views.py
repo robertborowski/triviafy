@@ -252,6 +252,11 @@ def dashboard_test_login_page_function():
   # ------------------------ get users total assessments created start ------------------------
   current_user_assessments_created_arr = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id).all()
   len_current_user_assessments_created_arr = len(current_user_assessments_created_arr)
+  # ------------------------ redirect new users to create assessment start ------------------------
+  if len_current_user_assessments_created_arr == 0:
+    localhost_print_function('=========================================== dashboard_test_login_page_function END ===========================================')
+    return redirect(url_for('views.candidates_assessment_create_new_function'))
+  # ------------------------ redirect new users to create assessment end ------------------------
   # ------------------------ get users total assessments created end ------------------------
   # ------------------------ get users total schedules created start ------------------------
   current_user_schedules_created_arr = CandidatesScheduleObj.query.filter_by(user_id_fk=current_user.id).all()
@@ -1257,6 +1262,15 @@ def candidates_no_assessments_yet_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
+@views.route('/candidates/schedule/candidate/message', methods=['GET'])
+@login_required
+def candidates_no_candidates_yet_function():
+  localhost_print_function('=========================================== candidates_no_candidates_yet_function START ===========================================')
+  localhost_print_function('=========================================== candidates_no_candidates_yet_function END ===========================================')
+  return render_template('candidates_page_templates/logged_in_page_templates/schedule_page_templates/schedule_no_candidates_yet_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
 @views.route('/candidates/schedule/new', methods=['GET', 'POST'])
 @login_required
 def candidates_schedule_create_new_function():
@@ -1286,7 +1300,7 @@ def candidates_schedule_create_new_function():
   current_user_assessments_created_arr = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id).order_by(CandidatesAssessmentsCreatedObj.assessment_name).all()
   # ------------------------ no assessments made yet redirect start ------------------------
   if len(current_user_assessments_created_arr) == 0:
-    localhost_print_function('=========================================== candidates_schedule_create_now_function END ===========================================')
+    localhost_print_function('=========================================== candidates_schedule_create_new_function END ===========================================')
     return redirect(url_for('views.candidates_no_assessments_yet_function'))
   # ------------------------ no assessments made yet redirect end ------------------------
   current_user_assessment_names_arr = []
@@ -1296,6 +1310,11 @@ def candidates_schedule_create_new_function():
   # ------------------------ pull all user assessments end ------------------------
   # ------------------------ pull all user candidates start ------------------------
   current_user_candidates_uploaded_arr = CandidatesUploadedCandidatesObj.query.filter_by(user_id_fk=current_user.id).order_by(CandidatesUploadedCandidatesObj.email).all()
+  # ------------------------ no candidates uploaded yet redirect start ------------------------
+  if len(current_user_candidates_uploaded_arr) == 0:
+    localhost_print_function('=========================================== candidates_schedule_create_new_function END ===========================================')
+    return redirect(url_for('views.candidates_no_candidates_yet_function'))
+  # ------------------------ no candidates uploaded yet redirect end ------------------------
   current_user_candidates_arr = []
   for i in current_user_candidates_uploaded_arr:
     current_user_candidates_arr.append(i.email)
@@ -1417,6 +1436,11 @@ def candidates_schedule_create_now_function():
   # ------------------------ pull all user assessments end ------------------------
   # ------------------------ pull all user candidates start ------------------------
   current_user_candidates_uploaded_arr = CandidatesUploadedCandidatesObj.query.filter_by(user_id_fk=current_user.id).order_by(CandidatesUploadedCandidatesObj.email).all()
+  # ------------------------ no candidates uploaded yet redirect start ------------------------
+  if len(current_user_candidates_uploaded_arr) == 0:
+    localhost_print_function('=========================================== candidates_schedule_create_now_function END ===========================================')
+    return redirect(url_for('views.candidates_no_candidates_yet_function'))
+  # ------------------------ no candidates uploaded yet redirect end ------------------------
   current_user_candidates_arr = []
   for i in current_user_candidates_uploaded_arr:
     current_user_candidates_arr.append(i.email)
