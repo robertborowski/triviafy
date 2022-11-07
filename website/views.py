@@ -1867,7 +1867,19 @@ def candidates_create_question_function():
   ui_question_error_statement = ''
   ui_question_success_statement = ''
   if request.method == 'POST':
-    pass
+    # ------------------------ get user inputs start ------------------------
+    ui_title = request.form.get('ui_create_question_title')             # str
+    ui_categories = request.form.get('ui_create_question_categories')   # str
+    ui_question = request.form.get('ui_create_question_question')       # str
+    ui_option_a = request.form.get('ui_create_question_option_a')       # str
+    ui_option_b = request.form.get('ui_create_question_option_b')       # str
+    ui_option_c = request.form.get('ui_create_question_option_c')       # str
+    ui_option_d = request.form.get('ui_create_question_option_d')       # str
+    ui_option_e = request.form.get('ui_create_question_option_e')       # str
+    answer = request.form.get('ui_create_question_answer')              # str
+    # ------------------------ get user inputs end ------------------------
+    # ------------------------ sanitize user inputs start ------------------------
+    # ------------------------ sanitize user inputs end ------------------------
   localhost_print_function('=========================================== candidates_create_question_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement)
 # ------------------------ individual route end ------------------------
