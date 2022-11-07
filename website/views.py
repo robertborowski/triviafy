@@ -20,7 +20,7 @@ from website.backend.candidates.browser import browser_response_set_cookie_funct
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
 from website import db
-from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function, sanitize_create_account_text_inputs_function, sanitize_create_account_text_inputs_large_function, validate_upload_candidate_function, sanitize_loop_check_if_exists_within_arr_function, sanitize_check_if_str_exists_within_arr_function, check_if_question_id_arr_exists_function, sanitize_candidate_ui_answer_text_function, sanitize_candidate_ui_answer_radio_function
+from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function, sanitize_create_account_text_inputs_function, sanitize_create_account_text_inputs_large_function, validate_upload_candidate_function, sanitize_loop_check_if_exists_within_arr_function, sanitize_check_if_str_exists_within_arr_function, check_if_question_id_arr_exists_function, sanitize_candidate_ui_answer_text_function, sanitize_candidate_ui_answer_radio_function, sanitize_create_question_categories_function, sanitize_create_question_question_function, sanitize_create_question_options_function, sanitize_create_question_answer_function, sanitize_create_question_difficulty_function
 from website.backend.candidates.send_emails import send_email_template_function
 from werkzeug.security import generate_password_hash
 import pandas as pd
@@ -1866,6 +1866,7 @@ def candidates_create_question_function():
   # ------------------------ delete all assessments that have been started by this user so far but abandoned end ------------------------
   ui_question_error_statement = ''
   ui_question_success_statement = ''
+  ui_dict = {}
   if request.method == 'POST':
     # ------------------------ get user inputs start ------------------------
     ui_title = request.form.get('ui_create_question_title')             # str
@@ -1876,12 +1877,42 @@ def candidates_create_question_function():
     ui_option_c = request.form.get('ui_create_question_option_c')       # str
     ui_option_d = request.form.get('ui_create_question_option_d')       # str
     ui_option_e = request.form.get('ui_create_question_option_e')       # str
-    answer = request.form.get('ui_create_question_answer')              # str
-    difficulty = request.form.get('ui_create_question_difficulty')      # str
+    ui_answer = request.form.get('ui_create_question_answer')           # str
+    ui_difficulty = request.form.get('ui_create_question_difficulty')   # str
     # ------------------------ get user inputs end ------------------------
+    # ------------------------ set ui dict start ------------------------
+    ui_dict = {
+      'ui_title' : ui_title,
+      'ui_categories' : ui_categories,
+      'ui_question' : ui_question,
+      'ui_option_a' : ui_option_a,
+      'ui_option_b' : ui_option_b,
+      'ui_option_c' : ui_option_c,
+      'ui_option_d' : ui_option_d,
+      'ui_option_e' : ui_option_e,
+      'ui_answer' : ui_answer,
+      'ui_difficulty' : ui_difficulty
+    }
+    # ------------------------ set ui dict end ------------------------
     # ------------------------ sanitize user inputs start ------------------------
+    ui_title_checked = sanitize_create_question_categories_function(ui_title)
+    ui_categories_checked = sanitize_create_question_categories_function(ui_categories)
+    ui_question_checked = sanitize_create_question_question_function(ui_question)
+    ui_option_a_checked = sanitize_create_question_options_function(ui_option_a)
+    ui_option_b_checked = sanitize_create_question_options_function(ui_option_b)
+    ui_option_c_checked = sanitize_create_question_options_function(ui_option_c)
+    ui_option_d_checked = sanitize_create_question_options_function(ui_option_d)
+    ui_option_e_checked = sanitize_create_question_options_function(ui_option_e)
+    ui_answer_checked = sanitize_create_question_answer_function(ui_answer)
+    ui_difficulty_checked = sanitize_create_question_difficulty_function(ui_difficulty)
     # ------------------------ sanitize user inputs end ------------------------
+    # ------------------------ if invalid inputs start ------------------------
+    if ui_title_checked == False or ui_categories_checked == False or ui_question_checked == False or ui_option_a_checked == False or ui_option_b_checked == False or ui_option_c_checked == False or ui_option_d_checked == False or ui_option_e_checked == False or ui_answer_checked == False or ui_difficulty_checked == False:
+      ui_question_error_statement = 'invalid input(s)'
+      localhost_print_function('=========================================== candidates_create_question_function END ===========================================')
+      return render_template('candidates_page_templates/logged_in_page_templates/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_dict_to_html=ui_dict)
+    # ------------------------ if invalid inputs end ------------------------
   localhost_print_function('=========================================== candidates_create_question_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement)
+  return render_template('candidates_page_templates/logged_in_page_templates/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_dict_to_html=ui_dict)
 # ------------------------ individual route end ------------------------
 # ------------------------ routes logged in end ------------------------

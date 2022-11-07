@@ -136,6 +136,64 @@ def sanitize_candidate_ui_answer_text_function(user_input):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
+def sanitize_create_question_categories_function(user_input):
+  localhost_print_function('=========================================== sanitize_create_question_categories_function START ===========================================')
+  if len(user_input) == 0 or len(user_input) > 150:
+    localhost_print_function('=========================================== sanitize_create_question_categories_function END ===========================================')
+    return False
+  localhost_print_function('=========================================== sanitize_create_question_categories_function END ===========================================')
+  return user_input
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def sanitize_create_question_question_function(user_input):
+  localhost_print_function('=========================================== sanitize_create_question_question_function START ===========================================')
+  if len(user_input) == 0 or len(user_input) > 1000:
+    localhost_print_function('=========================================== sanitize_create_question_question_function END ===========================================')
+    return False
+  localhost_print_function('=========================================== sanitize_create_question_question_function END ===========================================')
+  return user_input
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def sanitize_create_question_options_function(user_input):
+  localhost_print_function('=========================================== sanitize_create_question_options_function START ===========================================')
+  if len(user_input) == 0 or len(user_input) > 280:
+    localhost_print_function('=========================================== sanitize_create_question_options_function END ===========================================')
+    return False
+  localhost_print_function('=========================================== sanitize_create_question_options_function END ===========================================')
+  return user_input
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def sanitize_create_question_answer_function(user_input):
+  localhost_print_function('=========================================== sanitize_create_question_answer_function START ===========================================')
+  if len(user_input) == 0 or len(user_input) > 2:
+    localhost_print_function('=========================================== sanitize_create_question_answer_function END ===========================================')
+    return False
+  allowed_answers_arr = ['a','b','c','d','e']
+  if user_input.lower() in allowed_answers_arr:
+    localhost_print_function('=========================================== sanitize_create_question_answer_function END ===========================================')
+    return user_input
+  localhost_print_function('=========================================== sanitize_create_question_answer_function END ===========================================')
+  return False
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def sanitize_create_question_difficulty_function(user_input):
+  localhost_print_function('=========================================== sanitize_create_question_difficulty_function START ===========================================')
+  if len(user_input) == 0 or len(user_input) > 7:
+    localhost_print_function('=========================================== sanitize_create_question_difficulty_function END ===========================================')
+    return False
+  allowed_answers_arr = ['easy','medium','hard']
+  if user_input.lower() in allowed_answers_arr:
+    localhost_print_function('=========================================== sanitize_create_question_difficulty_function END ===========================================')
+    return user_input
+  localhost_print_function('=========================================== sanitize_create_question_difficulty_function END ===========================================')
+  return False
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
 def sanitize_candidate_ui_answer_radio_function(user_input):
   localhost_print_function('=========================================== sanitize_candidate_ui_answer_text_function START ===========================================')
   if len(user_input) == 0 or len(user_input) > 2:
