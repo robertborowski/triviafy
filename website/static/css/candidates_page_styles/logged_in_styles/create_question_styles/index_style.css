@@ -6,12 +6,12 @@
   margin: 0 auto;
 }
 .create-question-spacer-section {
-  height: 10px;
+  height: 50px;
 }
 .create-question-ui-section {
   /* border: 1px solid blue; */
   width: 600px;
-  margin: 0 auto 50px auto;
+  margin: 0 auto;
 }
 .create-question-ui-section label {
   /* border: 1px solid green; */
@@ -45,5 +45,18 @@ textarea.candidates-default-textarea {
 }
 .create_question_required_star {
   color: rgb(195, 68, 68);
+}
+.create-question-section-v2 {
+  /* border: black 1px solid; */
+  padding: 20px;
+  margin: 40px 0px;
+  text-align: center;
+}
+.create-question-image-upload-v2 input[type="file"] {
+  margin: 0 0 10px 0;
+}
+p.create-question-section-sub-description-v2 {
+  font-size: 15px;
+  color: var(--company-greyed-out-color);
 }
 /* - - - - - - - - - - abc end */
