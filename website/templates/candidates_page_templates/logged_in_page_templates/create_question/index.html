@@ -118,6 +118,70 @@
     </div>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - section end -->
 
+    <div class="create-question-spacer-section"></div>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - section start -->
+    <div class="create-question-ui-section">
+      <label for="ui_create_question_option_e">Answer</label>
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - multiple choice question radio start -->
+      <div class="mcq-select-answer-radio-section">
+        <input type="radio" id="ui_create_question_answer_a" name="ui_create_question_answer" value="a">
+        <label for="ui_create_question_answer_a" class="mcq-radio-label">A</label>
+
+        <input type="radio" id="ui_create_question_answer_b" name="ui_create_question_answer" value="b">
+        <label for="ui_create_question_answer_b" class="mcq-radio-label">B</label>
+
+        <input type="radio" id="ui_create_question_answer_c" name="ui_create_question_answer" value="c">
+        <label for="ui_create_question_answer_c" class="mcq-radio-label">C</label>
+
+        <input type="radio" id="ui_create_question_answer_d" name="ui_create_question_answer" value="d">
+        <label for="ui_create_question_answer_d" class="mcq-radio-label">D</label>
+
+        <input type="radio" id="ui_create_question_answer_e" name="ui_create_question_answer" value="e">
+        <label for="ui_create_question_answer_e" class="mcq-radio-label">E</label>
+      </div>
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - multiple choice question radio end -->
+    </div>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - section end -->
+
+    <div class="create-question-spacer-section"></div>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - section start -->
+    <div class="create-question-ui-section">
+      <label for="ui_create_question_option_e">Difficulty</label>
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - multiple choice question radio start -->
+      <div class="mcq-select-answer-radio-section">
+        <input type="radio" id="ui_create_question_easy" name="ui_create_question_difficulty" value="easy">
+        <label for="ui_create_question_easy" class="mcq-radio-label">Easy</label>
+
+        <input type="radio" id="ui_create_question_medium" name="ui_create_question_difficulty" value="medium">
+        <label for="ui_create_question_medium" class="mcq-radio-label">Medium</label>
+
+        <input type="radio" id="ui_create_question_hard" name="ui_create_question_difficulty" value="hard">
+        <label for="ui_create_question_hard" class="mcq-radio-label">Hard</label>
+      </div>
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - multiple choice question radio end -->
+    </div>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - section end -->
+
+    <div class="create-question-spacer-section"></div>
+    
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - section start -->
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Create Question - Image Upload Start -->
+
+
+    <div class="create-question-ui-section">
+      <div class="create-question-section create-question-image-upload">
+        <p class="create-question-section-sub-description">Accepted formats: [.jpeg/.jpg/.png/.gif].</p>
+        <input type="file" id="input_image_upload" name="input_image_upload" oninput="filesize(this);" required>
+      </div>
+    </div>
+
+
+    
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Create Question - Image Upload End -->
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - section end -->
+
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - submit button start -->
     <div class="candidate-create-question-submit-section">
       <button type="submit" class="default-button-format default-button-format-primary-color">Submit</button>

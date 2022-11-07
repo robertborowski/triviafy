@@ -1877,6 +1877,7 @@ def candidates_create_question_function():
     ui_option_d = request.form.get('ui_create_question_option_d')       # str
     ui_option_e = request.form.get('ui_create_question_option_e')       # str
     answer = request.form.get('ui_create_question_answer')              # str
+    difficulty = request.form.get('ui_create_question_difficulty')      # str
     # ------------------------ get user inputs end ------------------------
     # ------------------------ sanitize user inputs start ------------------------
     # ------------------------ sanitize user inputs end ------------------------
