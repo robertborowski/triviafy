@@ -1909,9 +1909,15 @@ def candidates_create_question_function():
     ui_answer_checked = sanitize_create_question_answer_function(ui_answer)
     ui_difficulty_checked = sanitize_create_question_difficulty_function(ui_difficulty)
     # ------------------------ sanitize user inputs end ------------------------
+    # ------------------------ double check e start ------------------------
+    if ui_option_e == None and ui_answer_checked.lower() == 'e':
+      ui_question_error_statement = 'Invalid answer choice'
+      localhost_print_function('=========================================== candidates_create_question_function END ===========================================')
+      return render_template('candidates_page_templates/logged_in_page_templates/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
+    # ------------------------ double check e end ------------------------
     # ------------------------ if invalid inputs start ------------------------
     if ui_title_checked == False or ui_categories_checked == False or ui_question_checked == False or ui_option_a_checked == False or ui_option_b_checked == False or ui_option_c_checked == False or ui_option_d_checked == False or ui_option_e_checked == False or ui_answer_checked == False or ui_difficulty_checked == False:
-      ui_question_error_statement = 'invalid input(s)'
+      ui_question_error_statement = 'Invalid input(s)'
       localhost_print_function('=========================================== candidates_create_question_function END ===========================================')
       return render_template('candidates_page_templates/logged_in_page_templates/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
     # ------------------------ if invalid inputs end ------------------------
