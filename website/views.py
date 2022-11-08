@@ -759,6 +759,7 @@ def candidates_assessments_analytics_function():
 @login_required
 def candidates_assessment_create_new_function():
   localhost_print_function('=========================================== candidates_assessment_create_new_function START ===========================================')
+  template_location_url = 'candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_create_new_page_templates/index.html'
   # ------------------------ individual redirect start ------------------------
   query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
   check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
@@ -851,8 +852,22 @@ def candidates_assessment_create_new_function():
       localhost_print_function('=========================================== candidates_assessment_create_new_function END ===========================================')
       return redirect(url_for('views.candidates_assessment_select_questions_function', url_assessment_name=ui_assessment_name))
   # ------------------------ post method hit end ------------------------
+  """
+  # ------------------------ normal page load start ------------------------
   localhost_print_function('=========================================== candidates_assessment_create_new_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_create_new_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name, error_message_to_html=create_assessment_error_statement, candidate_categories_arr_1_to_html=candidate_categories_arr_1, candidate_categories_arr_2_to_html=candidate_categories_arr_2, candidate_categories_arr_3_to_html=candidate_categories_arr_3, trial_name_attempt_to_html=trial_name_attempt)
+  # ------------------------ normal page load end ------------------------
+  """
+  # ------------------------ auto set cookie start ------------------------
+  get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
+  if get_cookie_value_from_browser != None:
+    redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
+    return render_template(template_location_url, user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=create_assessment_error_statement, candidate_categories_arr_1_to_html=candidate_categories_arr_1, candidate_categories_arr_2_to_html=candidate_categories_arr_2, candidate_categories_arr_3_to_html=candidate_categories_arr_3, trial_name_attempt_to_html=trial_name_attempt)
+  else:
+    browser_response = browser_response_set_cookie_function(current_user, template_location_url)
+    localhost_print_function('=========================================== dashboard_test_login_page_function END ===========================================')
+    return browser_response
+  # ------------------------ auto set cookie end ------------------------
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -903,7 +918,8 @@ def candidates_assessment_select_questions_function(url_assessment_name):
   if request.method == 'POST':
     ui_select_question_checkbox_arr = request.form.getlist('ui_select_question_checkbox')
     # ------------------------ postman incorrect submission start ------------------------
-    if len(ui_select_question_checkbox_arr) != 10:
+    if len(ui_select_question_checkbox_arr) == 0 or len(ui_select_question_checkbox_arr) > 50:
+      select_questions_error_statement = 'Assessment must contain 1-50 questions.'
       localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
       return redirect(url_for('views.dashboard_test_login_page_function'))
     # ------------------------ postman incorrect submission end ------------------------
