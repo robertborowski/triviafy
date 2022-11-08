@@ -20,7 +20,7 @@ from website.backend.candidates.browser import browser_response_set_cookie_funct
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
 from website import db
-from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function, sanitize_create_account_text_inputs_function, sanitize_create_account_text_inputs_large_function, validate_upload_candidate_function, sanitize_loop_check_if_exists_within_arr_function, sanitize_check_if_str_exists_within_arr_function, check_if_question_id_arr_exists_function, sanitize_candidate_ui_answer_text_function, sanitize_candidate_ui_answer_radio_function, sanitize_create_question_categories_function, sanitize_create_question_question_function, sanitize_create_question_options_function, sanitize_create_question_answer_function, sanitize_create_question_difficulty_function
+from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function, sanitize_create_account_text_inputs_function, sanitize_create_account_text_inputs_large_function, validate_upload_candidate_function, sanitize_loop_check_if_exists_within_arr_function, sanitize_check_if_str_exists_within_arr_function, check_if_question_id_arr_exists_function, sanitize_candidate_ui_answer_text_function, sanitize_candidate_ui_answer_radio_function, sanitize_create_question_categories_function, sanitize_create_question_question_function, sanitize_create_question_options_function, sanitize_create_question_answer_function, sanitize_create_question_difficulty_function, sanitize_create_question_option_e_function
 from website.backend.candidates.send_emails import send_email_template_function
 from werkzeug.security import generate_password_hash
 import pandas as pd
@@ -32,6 +32,7 @@ import datetime
 import json
 import stripe
 import os
+from website.backend.candidates.aws_manipulation import candidates_change_uploaded_image_filename_function, candidates_user_upload_image_checks_aws_s3_function
 # ------------------------ imports end ------------------------
 
 
@@ -1866,7 +1867,7 @@ def candidates_create_question_function():
   # ------------------------ delete all assessments that have been started by this user so far but abandoned end ------------------------
   ui_question_error_statement = ''
   ui_question_success_statement = ''
-  ui_dict = {}
+  ui_create_question_dict = {}
   if request.method == 'POST':
     # ------------------------ get user inputs start ------------------------
     ui_title = request.form.get('ui_create_question_title')             # str
@@ -1881,7 +1882,7 @@ def candidates_create_question_function():
     ui_difficulty = request.form.get('ui_create_question_difficulty')   # str
     # ------------------------ get user inputs end ------------------------
     # ------------------------ set ui dict start ------------------------
-    ui_dict = {
+    ui_create_question_dict = {
       'ui_title' : ui_title,
       'ui_categories' : ui_categories,
       'ui_question' : ui_question,
@@ -1895,6 +1896,8 @@ def candidates_create_question_function():
     }
     # ------------------------ set ui dict end ------------------------
     # ------------------------ sanitize user inputs start ------------------------
+    if ui_option_e == '' or ui_option_e == None:
+      ui_option_e = None
     ui_title_checked = sanitize_create_question_categories_function(ui_title)
     ui_categories_checked = sanitize_create_question_categories_function(ui_categories)
     ui_question_checked = sanitize_create_question_question_function(ui_question)
@@ -1902,7 +1905,7 @@ def candidates_create_question_function():
     ui_option_b_checked = sanitize_create_question_options_function(ui_option_b)
     ui_option_c_checked = sanitize_create_question_options_function(ui_option_c)
     ui_option_d_checked = sanitize_create_question_options_function(ui_option_d)
-    ui_option_e_checked = sanitize_create_question_options_function(ui_option_e)
+    ui_option_e_checked = sanitize_create_question_option_e_function(ui_option_e)
     ui_answer_checked = sanitize_create_question_answer_function(ui_answer)
     ui_difficulty_checked = sanitize_create_question_difficulty_function(ui_difficulty)
     # ------------------------ sanitize user inputs end ------------------------
@@ -1910,9 +1913,77 @@ def candidates_create_question_function():
     if ui_title_checked == False or ui_categories_checked == False or ui_question_checked == False or ui_option_a_checked == False or ui_option_b_checked == False or ui_option_c_checked == False or ui_option_d_checked == False or ui_option_e_checked == False or ui_answer_checked == False or ui_difficulty_checked == False:
       ui_question_error_statement = 'invalid input(s)'
       localhost_print_function('=========================================== candidates_create_question_function END ===========================================')
-      return render_template('candidates_page_templates/logged_in_page_templates/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_dict_to_html=ui_dict)
+      return render_template('candidates_page_templates/logged_in_page_templates/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
     # ------------------------ if invalid inputs end ------------------------
+    # ------------------------ define variable for insert start ------------------------
+    final_id = create_uuid_function('questionid_')
+    # ------------------------ define variable for insert end ------------------------
+    # ------------------------ ui uploaded image start ------------------------
+    create_question_uploaded_image_aws_url = ''
+    create_question_uploaded_image_uuid = ''
+    try:
+      if request.files:
+        if "filesize" in request.cookies:
+          # ------------------------ ui file start ------------------------
+          image = request.files["ui_image_upload"]
+          # ------------------------ ui file end ------------------------
+          # ------------------------ if no image attached start ------------------------
+          if image.filename == '' or image.filename == ' ' or image.filename == None:
+            ui_question_error_statement = 'Question must contain an image.'
+            localhost_print_function('=========================================== candidates_create_question_function END ===========================================')
+            return render_template('candidates_page_templates/logged_in_page_templates/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
+          # ------------------------ if no image attached end ------------------------
+          # ------------------------ if image attached start ------------------------
+          else:
+            # Keep track of the original filename that someone is uploading
+            create_question_upload_image_original_filename = image.filename
+            # Create image uuid to store in aws
+            create_question_uploaded_image_uuid = '_user_uploaded_image_' + final_id
+            # Change the name of the image from whatever the user uploaded to the question uuid as name
+            image = candidates_change_uploaded_image_filename_function(image, create_question_uploaded_image_uuid)
+            # Get image filesize
+            file_size = request.cookies["filesize"]
+            # Check and upload the user file image
+            user_image_upload_status = candidates_user_upload_image_checks_aws_s3_function(image, file_size)
+            # ------------------------ if image checks fail start ------------------------
+            if user_image_upload_status == False:
+              localhost_print_function('=========================================== candidates_create_question_function END ===========================================')
+              return render_template('candidates_page_templates/logged_in_page_templates/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
+            # ------------------------ if image checks fail end ------------------------
+            # Finalize image variables
+            create_question_uploaded_image_aws_url = 'https://' + os.environ.get('AWS_TRIVIAFY_BUCKET_NAME') + '.s3.' + os.environ.get('AWS_TRIVIAFY_REGION') + '.amazonaws.com/' + image.filename
+          # ------------------------ if image attached end ------------------------
+    except:
+      localhost_print_function('did not upload img')
+      pass
+    # ------------------------ ui uploaded image end ------------------------
+    # ------------------------ add to db start ------------------------
+    try:
+      insert_new_row = CandidatesCreatedQuestionsObj(
+        id=final_id,
+        created_timestamp=create_timestamp_function(),
+        fk_user_id = current_user.id,
+        status = False,
+        categories = ui_categories,
+        title = ui_title,
+        difficulty = ui_difficulty,
+        question = ui_question,
+        option_a = ui_option_a,
+        option_b = ui_option_b,
+        option_c = ui_option_c,
+        option_d = ui_option_d,
+        answer = ui_answer.upper(),
+        aws_image_uuid = create_question_uploaded_image_uuid,
+        aws_image_url = create_question_uploaded_image_aws_url
+      )
+      db.session.add(insert_new_row)
+      db.session.commit()
+      ui_question_success_statement = 'Successfully created question'
+    except:
+      localhost_print_function('did not create question in db')
+      pass
+    # ------------------------ add to db end ------------------------
   localhost_print_function('=========================================== candidates_create_question_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_dict_to_html=ui_dict)
+  return render_template('candidates_page_templates/logged_in_page_templates/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
 # ------------------------ individual route end ------------------------
 # ------------------------ routes logged in end ------------------------

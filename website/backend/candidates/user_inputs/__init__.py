@@ -166,6 +166,19 @@ def sanitize_create_question_options_function(user_input):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
+def sanitize_create_question_option_e_function(user_input):
+  localhost_print_function('=========================================== sanitize_create_question_options_function START ===========================================')
+  if user_input == None:
+    localhost_print_function('=========================================== sanitize_create_question_options_function END ===========================================')
+    return user_input
+  if len(user_input) > 280:
+    localhost_print_function('=========================================== sanitize_create_question_options_function END ===========================================')
+    return False
+  localhost_print_function('=========================================== sanitize_create_question_options_function END ===========================================')
+  return user_input
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
 def sanitize_create_question_answer_function(user_input):
   localhost_print_function('=========================================== sanitize_create_question_answer_function START ===========================================')
   if len(user_input) == 0 or len(user_input) > 2:
