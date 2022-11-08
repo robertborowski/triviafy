@@ -165,8 +165,8 @@ def candidates_forgot_password_page_function():
 @views.route('/candidates/reset/<token>', methods=['GET', 'POST'])
 def candidates_reset_forgot_password_page_function(token):
   localhost_print_function('=========================================== candidates_reset_forgot_password_page_function START ===========================================')
-  if current_user.is_authenticated:
-    return redirect(url_for('views.candidates_pricing_page_function'))
+  if current_user.is_authenticated == False:
+    return redirect(url_for('views.dashboard_test_login_page_function'))
   reset_password_error_statement = ''
   user_obj_from_token = CandidatesUserObj.verify_reset_token_function(token)
   if user_obj_from_token is None:
