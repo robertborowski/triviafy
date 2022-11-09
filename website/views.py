@@ -48,6 +48,14 @@ redis_connection = redis_connect_to_database_function()
 
 # ------------------------ routes not logged in start ------------------------
 # ------------------------ individual route start ------------------------
+@views.route('/')
+def landing_index_page_function():
+  localhost_print_function('=========================================== landing_index_page_function START ===========================================')
+  localhost_print_function('=========================================== landing_index_page_function END ===========================================')
+  return render_template('candidates_page_templates/not_logged_in_page_templates/index_page_templates/index.html', user=current_user)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
 @views.route('/candidates/about')
 def candidates_about_page_function():
   localhost_print_function('=========================================== candidates_about_page_function START ===========================================')  
@@ -65,9 +73,9 @@ def candidates_faq_page_function():
 
 # ------------------------ individual route start ------------------------
 @views.route('/candidates')
-def landing_index_page_function():
-  localhost_print_function('=========================================== landing_index_page_function START ===========================================')
-  localhost_print_function('=========================================== landing_index_page_function END ===========================================')
+def landing_index_page_function_archive_v01():
+  localhost_print_function('=========================================== landing_index_page_function_archive_v01 START ===========================================')
+  localhost_print_function('=========================================== landing_index_page_function_archive_v01 END ===========================================')
   return render_template('candidates_page_templates/not_logged_in_page_templates/index_page_templates/index.html', user=current_user)
 # ------------------------ individual route end ------------------------
 
