@@ -57,7 +57,6 @@ def create_assessment_info_dict_function(db_assessment_obj):
   assessment_info_dict['name'] = db_assessment_obj.assessment_name
   assessment_info_dict['desired_languages_arr'] = db_assessment_obj.desired_languages_arr
   assessment_info_dict['total_questions'] =  db_assessment_obj.total_questions
-  assessment_info_dict['delivery_type'] =  db_assessment_obj.delivery_type
   # ------------------------ assign dict end ------------------------
   # ------------------------ assign dict questions start ------------------------
   question_ids_str =  db_assessment_obj.question_ids_arr
@@ -73,30 +72,12 @@ def create_assessment_info_dict_function(db_assessment_obj):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
-def map_user_answers_to_questions_dict_function(assessment_info_dict, candidate_ui_question_answer_1, candidate_ui_question_answer_2, candidate_ui_question_answer_3, candidate_ui_question_answer_4, candidate_ui_question_answer_5, candidate_ui_question_answer_6, candidate_ui_question_answer_7, candidate_ui_question_answer_8, candidate_ui_question_answer_9, candidate_ui_question_answer_10):
+def map_user_answers_to_questions_dict_function(assessment_info_dict, ui_current_answer_choice_selected, current_question_number):
   localhost_print_function('=========================================== map_user_answers_to_questions_dict_function START ===========================================')
   for i_dict in assessment_info_dict['questions_arr_of_dicts']:
     question_counter = i_dict['question_counter']
-    if question_counter == 1:
-      i_dict['ui_answer'] = candidate_ui_question_answer_1
-    elif question_counter == 2:
-      i_dict['ui_answer'] = candidate_ui_question_answer_2
-    elif question_counter == 3:
-      i_dict['ui_answer'] = candidate_ui_question_answer_3
-    elif question_counter == 4:
-      i_dict['ui_answer'] = candidate_ui_question_answer_4
-    elif question_counter == 5:
-      i_dict['ui_answer'] = candidate_ui_question_answer_5
-    elif question_counter == 6:
-      i_dict['ui_answer'] = candidate_ui_question_answer_6
-    elif question_counter == 7:
-      i_dict['ui_answer'] = candidate_ui_question_answer_7
-    elif question_counter == 8:
-      i_dict['ui_answer'] = candidate_ui_question_answer_8
-    elif question_counter == 9:
-      i_dict['ui_answer'] = candidate_ui_question_answer_9
-    elif question_counter == 10:
-      i_dict['ui_answer'] = candidate_ui_question_answer_10
+    if question_counter == current_question_number:
+      i_dict['ui_answer'] = ui_current_answer_choice_selected
   localhost_print_function('=========================================== map_user_answers_to_questions_dict_function END ===========================================')
   return assessment_info_dict
 # ------------------------ individual function end ------------------------

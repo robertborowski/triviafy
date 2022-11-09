@@ -77,7 +77,6 @@ class CandidatesAssessmentsCreatedObj(db.Model):
   assessment_name = db.Column(db.String(150), unique=True)
   desired_languages_arr = db.Column(db.String(1000))
   total_questions = db.Column(db.Integer)
-  delivery_type = db.Column(db.String(150))
   question_ids_arr = db.Column(db.String(3000))
 # ------------------------ individual model end ------------------------
 
@@ -128,7 +127,7 @@ class CandidatesAssessmentGradedObj(db.Model):
   total_questions = db.Column(db.Integer)
   correct_count = db.Column(db.Integer)
   final_score = db.Column(db.Float)
-  assessment_obj = db.Column(db.String(15000))
+  assessment_obj = db.Column(db.String(180000))
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------

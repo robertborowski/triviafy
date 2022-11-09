@@ -68,7 +68,7 @@
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - multiple choice question radio start -->
         <div class="mcq-select-answer-radio-section">
           {% if i['option_a'] != None %}
-          <input type="radio" id="candidate_answer_choice_a{{ i['question_counter'] }}" name="ui_answer_choice_selected_{{ i['question_counter'] }}" value="a">
+          <input type="radio" id="candidate_answer_choice_a{{ i['question_counter'] }}" name="ui_answer_choice_selected_{{ i['question_counter'] }}" value="a" required>
           <label for="candidate_answer_choice_a{{ i['question_counter'] }}" class="mcq-radio-label">A: {{ i['option_a'] }}</label>
           {% endif %}
 

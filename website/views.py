@@ -832,6 +832,9 @@ def candidates_assessment_create_new_function():
     ui_desired_languages_checkboxes_str = ''
     if ui_desired_languages_checkboxes_arr != False:
       ui_desired_languages_checkboxes_str = ','.join(ui_desired_languages_checkboxes_arr)
+    if len(ui_desired_languages_checkboxes_str) > 1000:
+      create_assessment_error_statement = 'Please select fewer categories.'
+      ui_desired_languages_checkboxes_arr == False
     # ------------------------ sanitize/check desired languages end ------------------------
     # ------------------------ sanitize/check user inputs end ------------------------
     # ------------------------ create new assessment in db start ------------------------
@@ -842,8 +845,6 @@ def candidates_assessment_create_new_function():
         user_id_fk=current_user.id,
         assessment_name=ui_assessment_name,
         desired_languages_arr = ui_desired_languages_checkboxes_str,
-        total_questions = 10,
-        delivery_type = 'default',
         question_ids_arr = None
       )
       db.session.add(new_row)
@@ -933,12 +934,13 @@ def candidates_assessment_select_questions_function(url_assessment_name):
     ui_select_question_checkbox_str = ','.join(ui_select_question_checkbox_arr)
     try:
       db_assessment_obj.question_ids_arr = ui_select_question_checkbox_str
+      db_assessment_obj.total_questions = len(ui_select_question_checkbox_arr)
       db.session.commit()
       # ------------------------ email self start ------------------------
       try:
         output_to_email = 'robert@triviafy.com'
         output_subject = f'Candidates - Triviafy New Assessment Created'
-        output_body = f"Hi there,\n\nNew assessment created! \n\nBest,\nTriviafy"
+        output_body = f"Hi there,\n\nAssessment name: '{db_assessment_obj_name}'\ndesired langs: '{db_assessment_obj_desired_langs}'\ntotal questions: {len(ui_select_question_checkbox_arr)} \n\nBest,\nTriviafy"
         send_email_template_function(output_to_email, output_subject, output_body)
       except:
         pass
@@ -1665,40 +1667,33 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
   # ------------------------ pull user info for company name end ------------------------
   # ------------------------ post triggered start ------------------------
   ui_answers_error_statement = ''
+  ui_current_answer_choice_selected_checked_master = True
   if request.method == 'POST':
-    # ------------------------ ui candidate answers original start ------------------------
-    ui_answer_choice_selected_1 = request.form.get('ui_answer_choice_selected_1')
-    ui_answer_choice_selected_2 = request.form.get('ui_answer_choice_selected_2')
-    ui_answer_choice_selected_3 = request.form.get('ui_answer_choice_selected_3')
-    ui_answer_choice_selected_4 = request.form.get('ui_answer_choice_selected_4')
-    ui_answer_choice_selected_5 = request.form.get('ui_answer_choice_selected_5')
-    ui_answer_choice_selected_6 = request.form.get('ui_answer_choice_selected_6')
-    ui_answer_choice_selected_7 = request.form.get('ui_answer_choice_selected_7')
-    ui_answer_choice_selected_8 = request.form.get('ui_answer_choice_selected_8')
-    ui_answer_choice_selected_9 = request.form.get('ui_answer_choice_selected_9')
-    ui_answer_choice_selected_10 = request.form.get('ui_answer_choice_selected_10')
-    # ------------------------ ui candidate answers original end ------------------------
-    # ------------------------ sanitize ui answers start ------------------------
-    ui_answer_choice_selected_1_checked = sanitize_candidate_ui_answer_radio_function(ui_answer_choice_selected_1)
-    ui_answer_choice_selected_2_checked = sanitize_candidate_ui_answer_radio_function(ui_answer_choice_selected_2)
-    ui_answer_choice_selected_3_checked = sanitize_candidate_ui_answer_radio_function(ui_answer_choice_selected_3)
-    ui_answer_choice_selected_4_checked = sanitize_candidate_ui_answer_radio_function(ui_answer_choice_selected_4)
-    ui_answer_choice_selected_5_checked = sanitize_candidate_ui_answer_radio_function(ui_answer_choice_selected_5)
-    ui_answer_choice_selected_6_checked = sanitize_candidate_ui_answer_radio_function(ui_answer_choice_selected_6)
-    ui_answer_choice_selected_7_checked = sanitize_candidate_ui_answer_radio_function(ui_answer_choice_selected_7)
-    ui_answer_choice_selected_8_checked = sanitize_candidate_ui_answer_radio_function(ui_answer_choice_selected_8)
-    ui_answer_choice_selected_9_checked = sanitize_candidate_ui_answer_radio_function(ui_answer_choice_selected_9)
-    ui_answer_choice_selected_10_checked = sanitize_candidate_ui_answer_radio_function(ui_answer_choice_selected_10)
-    # ------------------------ sanitize ui answers end ------------------------
-    # ------------------------ check if invalid inputs start ------------------------
-    if ui_answer_choice_selected_1_checked == False or ui_answer_choice_selected_2_checked == False or ui_answer_choice_selected_3_checked == False or ui_answer_choice_selected_4_checked == False or ui_answer_choice_selected_5_checked == False or ui_answer_choice_selected_6_checked == False or ui_answer_choice_selected_7_checked == False or ui_answer_choice_selected_8_checked == False or ui_answer_choice_selected_9_checked == False or ui_answer_choice_selected_10_checked == False:
-      ui_answers_error_statement = 'Please answer all questions.'
-    # ------------------------ check if invalid inputs end ------------------------
-    # ------------------------ add user answers to assessment arr of dict start ------------------------
-    assessment_info_dict = map_user_answers_to_questions_dict_function(assessment_info_dict, ui_answer_choice_selected_1, ui_answer_choice_selected_2, ui_answer_choice_selected_3, ui_answer_choice_selected_4, ui_answer_choice_selected_5, ui_answer_choice_selected_6, ui_answer_choice_selected_7, ui_answer_choice_selected_8, ui_answer_choice_selected_9, ui_answer_choice_selected_10)
-    # ------------------------ add user answers to assessment arr of dict end ------------------------
+    # ------------------------ process to grade any number of questions start ------------------------
+    current_question_number = 0
+    while current_question_number < 51:
+      current_question_number += 1
+      # ------------------------ get user input start ------------------------
+      ui_current_answer_choice_selected = request.form.get('ui_answer_choice_selected_'+str(current_question_number))
+      # ------------------------ get user input end ------------------------
+      # ------------------------ if question/answer number doesnt exist start ------------------------
+      if ui_current_answer_choice_selected == None:
+        continue
+      # ------------------------ if question/answer number doesnt exist end ------------------------
+      # ------------------------ sanitize ui answer start ------------------------
+      ui_current_answer_choice_selected_checked = sanitize_candidate_ui_answer_radio_function(ui_current_answer_choice_selected)
+      # ------------------------ sanitize ui answer end ------------------------
+      # ------------------------ check if invalid inputs start ------------------------
+      if ui_current_answer_choice_selected_checked == False:
+        ui_current_answer_choice_selected_checked_master = False
+        ui_answers_error_statement = 'Please answer all questions.'
+      # ------------------------ check if invalid inputs end ------------------------
+      # ------------------------ add user answers to assessment arr of dict start ------------------------
+      assessment_info_dict = map_user_answers_to_questions_dict_function(assessment_info_dict, ui_current_answer_choice_selected, current_question_number)
+      # ------------------------ add user answers to assessment arr of dict end ------------------------
+    # ------------------------ process to grade any number of questions end ------------------------
     # ------------------------ only start grading if all valid answers provided start ------------------------
-    if ui_answer_choice_selected_1_checked != False and ui_answer_choice_selected_2_checked != False and ui_answer_choice_selected_3_checked != False and ui_answer_choice_selected_4_checked != False and ui_answer_choice_selected_5_checked != False and ui_answer_choice_selected_6_checked != False and ui_answer_choice_selected_7_checked != False and ui_answer_choice_selected_8_checked != False and ui_answer_choice_selected_9_checked != False and ui_answer_choice_selected_10_checked != False:
+    if ui_current_answer_choice_selected_checked_master != False:
       # ------------------------ reassign correct answers back to dict start ------------------------
       for i_dict in assessment_info_dict['questions_arr_of_dicts']:
         i_question_uuid = i_dict['id']
@@ -1720,7 +1715,7 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
           assessment_id_fk = assessment_info_dict['id'],
           created_assessment_user_id_fk = db_schedule_obj_user_id_fk,
           assessment_expiring_url_fk = url_assessment_expiring,
-          total_questions = 10,
+          total_questions = db_assessment_obj.total_questions,
           correct_count = ui_total_correct_answers,
           final_score = ui_final_score,
           assessment_obj = json.dumps(assessment_info_dict)
