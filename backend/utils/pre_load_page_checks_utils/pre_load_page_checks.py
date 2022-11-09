@@ -12,7 +12,7 @@ def pre_load_page_checks_function(page_location_name):
   try:
     # ------------------------ Page Pre Load Check - User Logged In Through Cookies START ------------------------
     # Check if user logged in through cookies
-    user_nested_dict = check_if_user_login_through_cookies_function()
+    # user_nested_dict = check_if_user_login_through_cookies_function()
     # ------------------------ Page Pre Load Check - User Logged In Through Cookies END ------------------------
 
 
