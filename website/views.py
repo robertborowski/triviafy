@@ -1328,6 +1328,24 @@ def candidates_schedule_create_new_function():
     db_schedule_obj = CandidatesScheduleObj.query.filter_by(user_id_fk=current_user.id).all()
     if len(db_schedule_obj) <= 3:
       current_user_candidates_arr = [user_obj.email]
+      # ------------------------ add user self email to candidate list start ------------------------
+      found_self_email = False
+      for i in current_user_candidates_uploaded_arr:
+        if i.email == user_obj.email:
+          found_self_email = True
+      if found_self_email == False:
+        if user_obj.email not in current_user_candidates_uploaded_arr:
+          new_user = CandidatesUploadedCandidatesObj(
+            id=create_uuid_function('candup_'),
+            created_timestamp=create_timestamp_function(),
+            user_id_fk=current_user.id,
+            candidate_id=create_uuid_function('cand_'),
+            email = user_obj.email,
+            upload_type = 'individual'
+          )
+          db.session.add(new_user)
+          db.session.commit()
+      # ------------------------ add user self email to candidate list end ------------------------
     else:
       current_user_candidates_arr = []
   # ------------------------ if subscription not paid end ------------------------
@@ -1450,6 +1468,24 @@ def candidates_schedule_create_now_function():
     db_schedule_obj = CandidatesScheduleObj.query.filter_by(user_id_fk=current_user.id).all()
     if len(db_schedule_obj) <= 3:
       current_user_candidates_arr = [user_obj.email]
+      # ------------------------ add user self email to candidate list start ------------------------
+      found_self_email = False
+      for i in current_user_candidates_uploaded_arr:
+        if i.email == user_obj.email:
+          found_self_email = True
+      if found_self_email == False:
+        if user_obj.email not in current_user_candidates_uploaded_arr:
+          new_user = CandidatesUploadedCandidatesObj(
+            id=create_uuid_function('candup_'),
+            created_timestamp=create_timestamp_function(),
+            user_id_fk=current_user.id,
+            candidate_id=create_uuid_function('cand_'),
+            email = user_obj.email,
+            upload_type = 'individual'
+          )
+          db.session.add(new_user)
+          db.session.commit()
+      # ------------------------ add user self email to candidate list end ------------------------
     else:
       current_user_candidates_arr = []
   # ------------------------ if subscription not paid end ------------------------
