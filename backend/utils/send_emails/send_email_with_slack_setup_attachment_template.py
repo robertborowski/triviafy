@@ -17,7 +17,7 @@ def send_email_with_slack_setup_attachment_template_function(output_email, outpu
   content = Content("text/plain", output_message_content)
   mail = Mail(from_email, to_email, subject, content)
 
-  file_path = 'static/images/pdfs/PDFTriviafySlackSetupGuide.pdf'
+  file_path = 'static/images/employee_engagement/pdfs/PDFTriviafySlackSetupGuide.pdf'
   with open(file_path, 'rb') as f:
       data = f.read()
       f.close()
