@@ -44,9 +44,9 @@ def job_candidates_email_all_users_function():
     try:
       # ------------------------ send email start ------------------------
       output_to_email = i_user_arr_email
-      add_link = 'https://triviafy.com/candidates'
+      add_link = 'https://triviafy.com/candidates/login'
       output_subject = f'Triviafy Official Release: Candidate Screening Tool'
-      output_body = f"Hi there,\n\nYou signed up for Triviafy on {i_user_arr_created_timestamp}, Triviafy's candidate screening tool is now LIVE!\n\nLogin to start screening candidates {add_link} \n\nBest,\nTriviafy"
+      output_body = f"Hi there,\n\nYou signed up for 'Triviafy Candidates' on {i_user_arr_created_timestamp}, Triviafy's candidate screening tool is now LIVE!\n\nLogin to start screening candidates {add_link}\n\n\nReply 'STOP' to opt out.\n\nBest,\nTriviafy"
       send_email_template_function(output_to_email, output_subject, output_body)
       # ------------------------ send email end ------------------------
       # ------------------------ insert row db start ------------------------
