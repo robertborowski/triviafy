@@ -10,7 +10,7 @@ def send_email_template_function(output_email, output_subject_line, output_messa
   localhost_print_function('=========================================== send_email_template_function START ===========================================')
 
   sg = sendgrid.SendGridAPIClient(api_key=os.environ.get('SENDGRID_API_KEY_TRIVIAFY'))
-  from_email = Email(email = os.environ.get('TRIVIAFY_MAIN_EMAIL'), name = "Triviafy")  # Change to your verified sender
+  from_email = Email(email = os.environ.get('TRIVIAFY_SUPPORT_EMAIL'), name = "Triviafy")  # Change to your verified sender
   to_email = To(output_email)  # Change to your recipient
   subject = output_subject_line
   content = Content("text/plain", output_message_content)

@@ -11,7 +11,7 @@ def send_test_email_function():
   
   # ------------------------ Test 1 START ------------------------
   # message = Mail(
-  #   from_email='robert@triviafy.com',
+  #   from_email='support@triviafy.com',
   #   name='Triviafy',
   #   to_emails='rborowski141@gmail.com',
   #   subject='Testing Send Grid2',
@@ -30,7 +30,7 @@ def send_test_email_function():
 
   # ------------------------ Test 2 START ------------------------
   sg = sendgrid.SendGridAPIClient(api_key=os.environ.get('SENDGRID_API_KEY_TRIVIAFY'))
-  from_email = Email(email = "robert@triviafy.com", name = "TRIVIAFY")  # Change to your verified sender
+  from_email = Email(email = "support@triviafy.com", name = "TRIVIAFY")  # Change to your verified sender
   to_email = To('rborowski141@gmail.com')  # Change to your recipient
   subject = "Test Email 2"
   content = Content("text/plain","Hi this is a test/n/nHow are you doing on this fine day?")

@@ -52,7 +52,7 @@ class FooterNotSignedInClassCandidates extends HTMLElement {
 
 
     <div class="footer-not-signed-in-3-sub-section-bottom">
-      <p class="footer-copyright-3">Contact: robert@triviafy.com</p>
+      <p class="footer-copyright-3">Contact: support@triviafy.com</p>
     </div>
     
     <div class="footer-not-signed-in-3-sub-section-bottom">

@@ -387,7 +387,7 @@ def candidates_subscription_success_function():
   # ------------------------ update db end ------------------------
   # ------------------------ email self start ------------------------
   try:
-    output_to_email = 'robert@triviafy.com'
+    output_to_email = 'support@triviafy.com'
     output_subject = f'New Subscription - Triviafy Candidates'
     output_body = f"Hi there,\n\nNew user subscribed: {user_obj.email} \n\nBest,\nTriviafy"
     send_email_template_function(output_to_email, output_subject, output_body)
@@ -946,7 +946,7 @@ def candidates_assessment_select_questions_function(url_assessment_name):
       db.session.commit()
       # ------------------------ email self start ------------------------
       try:
-        output_to_email = 'robert@triviafy.com'
+        output_to_email = 'support@triviafy.com'
         output_subject = f'Candidates - Triviafy New Assessment Created'
         output_body = f"Hi there,\n\nAssessment name: '{db_assessment_obj_name}'\ndesired langs: '{db_assessment_obj_desired_langs}'\ntotal questions: {len(ui_select_question_checkbox_arr)} \n\nBest,\nTriviafy"
         send_email_template_function(output_to_email, output_subject, output_body)
