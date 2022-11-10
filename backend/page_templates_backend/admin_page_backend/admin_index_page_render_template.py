@@ -25,9 +25,9 @@ def before_request():
     return redirect(new_url, code=302)
 
 # -------------------------------------------------------------- App
-@admin_index_page_render_template.route("/admin", methods=['GET','POST'])
+@admin_index_page_render_template.route("/employees/admin", methods=['GET','POST'])
 def admin_index_page_render_template_function():
-  localhost_print_function('=========================================== /admin Page START ===========================================')
+  localhost_print_function('=========================================== /employees/admin Page START ===========================================')
   # ------------------------ CSS support START ------------------------
   # Need to create a css unique key so that cache busting can be done
   cache_busting_output = create_uuid_function('css_')
@@ -36,17 +36,17 @@ def admin_index_page_render_template_function():
 
   try:
     # ------------------------ Pre Load Page Checks START ------------------------
-    user_nested_dict, free_trial_ends_info = pre_load_page_checks_function('/admin')
+    user_nested_dict, free_trial_ends_info = pre_load_page_checks_function('/employees/admin')
     # Redirects based on returned value - pre load checks
-    if user_nested_dict == '/subscription':
-      return redirect('/subscription', code=302)
+    if user_nested_dict == '/employees/subscription':
+      return redirect('/employees/subscription', code=302)
     elif user_nested_dict == '/notifications/email/permission':
       return redirect('/notifications/email/permission', code=302)
     elif user_nested_dict == '/new/user/questionnaire':
       return redirect('/new/user/questionnaire', code=302)
     elif user_nested_dict == '/categories/edit':
       return redirect('/categories/edit', code=302)
-    elif user_nested_dict == '/logout':
+    elif user_nested_dict == '/employees/logout':
       return redirect('/employees/logout', code=302)
     # ------------------------ Pre Load Page Checks END ------------------------
 
@@ -61,8 +61,8 @@ def admin_index_page_render_template_function():
     user_email = user_nested_dict['user_email']
 
   except:
-    localhost_print_function('page load except error hit - /admin Page')
-    localhost_print_function('=========================================== /admin Page END ===========================================')
+    localhost_print_function('page load except error hit - /employees/admin Page')
+    localhost_print_function('=========================================== /employees/admin Page END ===========================================')
     return redirect('/employees/logout', code=302)
     # return redirect('/', code=302)
   
@@ -74,7 +74,7 @@ def admin_index_page_render_template_function():
   # If user does not have access to create questions then redirect to waitlist page
   if user_email != personal_email:
     localhost_print_function('redirecting to the index page!')
-    localhost_print_function('=========================================== /admin Page END ===========================================')
+    localhost_print_function('=========================================== /employees/admin Page END ===========================================')
     return redirect('/', code=302)
   # ------------------------ Check create question accesss END ------------------------
 
@@ -123,7 +123,7 @@ def admin_index_page_render_template_function():
   # ------------------------ Close Postgres DB END ------------------------
 
   
-  localhost_print_function('=========================================== /admin Page END ===========================================')
+  localhost_print_function('=========================================== /employees/admin Page END ===========================================')
   return render_template('employee_engagement_page_templates/admin_page_templates/index.html',
                           css_cache_busting = cache_busting_output,
                           new_emails_for_dist_list_int_to_html = new_emails_for_dist_list_int,

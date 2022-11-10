@@ -15,14 +15,14 @@ def before_request():
     return redirect(new_url, code=302)
 
 # -------------------------------------------------------------- App
-@collect_email_confirm_page_render_template.route("/collect/email/confirm", methods=['GET','POST'])
+@collect_email_confirm_page_render_template.route("/employees/collect/email/confirm", methods=['GET','POST'])
 def collect_email_confirm_page_render_template_function():
-  localhost_print_function('=========================================== /collect/email/confirm Page START ===========================================')
+  localhost_print_function('=========================================== /employees/collect/email/confirm Page START ===========================================')
   
   # ------------------------ CSS support START ------------------------
   # Need to create a css unique key so that cache busting can be done
   cache_busting_output = create_uuid_function('css_')
   # ------------------------ CSS support END ------------------------
 
-  localhost_print_function('=========================================== /collect/email/confirm Page END ===========================================')
+  localhost_print_function('=========================================== /employees/collect/email/confirm Page END ===========================================')
   return render_template('employee_engagement_page_templates/collect_email_confirm_page_templates/index.html', css_cache_busting = cache_busting_output)

@@ -17,9 +17,9 @@ def before_request():
     return redirect(new_url, code=302)
 
 # -------------------------------------------------------------- App
-@claim_prize_index_page_render_template.route("/prize", methods=['GET','POST'])
+@claim_prize_index_page_render_template.route("/employees/prize", methods=['GET','POST'])
 def claim_prize_index_page_render_template_function():
-  localhost_print_function('=========================================== /prize Page START ===========================================')
+  localhost_print_function('=========================================== /employees/prize Page START ===========================================')
   
   # ------------------------ CSS support START ------------------------
   # Need to create a css unique key so that cache busting can be done
@@ -28,17 +28,17 @@ def claim_prize_index_page_render_template_function():
 
   try:
     # ------------------------ Pre Load Page Checks START ------------------------
-    user_nested_dict, free_trial_ends_info = pre_load_page_checks_function('/prize')
+    user_nested_dict, free_trial_ends_info = pre_load_page_checks_function('/employees/prize')
     # Redirects based on returned value - pre load checks
-    if user_nested_dict == '/subscription':
-      return redirect('/subscription', code=302)
+    if user_nested_dict == '/employees/subscription':
+      return redirect('/employees/subscription', code=302)
     elif user_nested_dict == '/notifications/email/permission':
       return redirect('/notifications/email/permission', code=302)
     elif user_nested_dict == '/new/user/questionnaire':
       return redirect('/new/user/questionnaire', code=302)
     elif user_nested_dict == '/categories/edit':
       return redirect('/categories/edit', code=302)
-    elif user_nested_dict == '/logout':
+    elif user_nested_dict == '/employees/logout':
       return redirect('/employees/logout', code=302)
     # ------------------------ Pre Load Page Checks END ------------------------
     
@@ -55,13 +55,13 @@ def claim_prize_index_page_render_template_function():
 
     
   except:
-    localhost_print_function('page load except error hit - /prize Page')
-    localhost_print_function('=========================================== /prize Page END ===========================================')
+    localhost_print_function('page load except error hit - /employees/prize Page')
+    localhost_print_function('=========================================== /employees/prize Page END ===========================================')
     return redirect('/employees/logout', code=302)
     # return redirect('/', code=302)
 
   
-  localhost_print_function('=========================================== /prize Page END ===========================================')
+  localhost_print_function('=========================================== /employees/prize Page END ===========================================')
   return render_template('employee_engagement_page_templates/claim_prize_page_templates/index.html',
                           css_cache_busting = cache_busting_output,
                           user_company_name_to_html = user_company_name,

@@ -17,11 +17,11 @@ def pre_load_page_checks_function(page_location_name):
 
 
     # ------------------------ Pages To Exclude From Checks START ------------------------
-    # page_check_skip_step_subscription_arr = ['/admin', '/subscription']
+    # page_check_skip_step_subscription_arr = ['/employees/admin', '/employees/subscription']
     page_check_skip_step_subscription_arr = [
-      '/admin',
-      '/admin/leaderboard',
-      '/subscription',
+      '/employees/admin',
+      '/employees/admin/leaderboard',
+      '/employees/subscription',
       '/notifications/email/permission',
       '/notifications/email/permission/processing',
       '/new/user/questionnaire',
@@ -61,7 +61,7 @@ def pre_load_page_checks_function(page_location_name):
         user_nested_dict = check_if_free_trial_period_is_expired_days_left_function(user_nested_dict)
         if user_nested_dict == None or user_nested_dict == True:
           localhost_print_function('Error: Free Trial Over and User Subscription Not Paid')
-          return '/subscription', None
+          return '/employees/subscription', None
 
         days_left = str(user_nested_dict['trial_period_days_left_int'])
         if user_nested_dict['trial_period_days_left_int'] == 1:

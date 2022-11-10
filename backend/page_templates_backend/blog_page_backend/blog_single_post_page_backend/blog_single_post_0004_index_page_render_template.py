@@ -15,14 +15,14 @@ def before_request():
     return redirect(new_url, code=302)
 
 # -------------------------------------------------------------- App
-@blog_single_post_0004_index_page_render_template.route("/blog/post/0004", methods=['GET','POST'])
+@blog_single_post_0004_index_page_render_template.route("/employees/blog/post/0004", methods=['GET','POST'])
 def blog_single_post_0004_index_page_render_template_function():
-  localhost_print_function('=========================================== /blog/post/0004 Page START ===========================================')
+  localhost_print_function('=========================================== /employees/blog/post/0004 Page START ===========================================')
   
   # ------------------------ CSS support START ------------------------
   # Need to create a css unique key so that cache busting can be done
   cache_busting_output = create_uuid_function('css_')
   # ------------------------ CSS support END ------------------------
 
-  localhost_print_function('=========================================== /blog/post/0004 Page END ===========================================')
+  localhost_print_function('=========================================== /employees/blog/post/0004 Page END ===========================================')
   return render_template('employee_engagement_page_templates/blog_page_templates/blog_single_post_page_templates/index_0004.html', css_cache_busting = cache_busting_output)

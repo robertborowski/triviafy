@@ -31,15 +31,15 @@ def new_user_questionnaire_index_page_render_template_function():
     # ------------------------ Pre Load Page Checks START ------------------------
     user_nested_dict, free_trial_ends_info = pre_load_page_checks_function('/new/user/questionnaire')
     # Redirects based on returned value - pre load checks
-    if user_nested_dict == '/subscription':
-      return redirect('/subscription', code=302)
+    if user_nested_dict == '/employees/subscription':
+      return redirect('/employees/subscription', code=302)
     elif user_nested_dict == '/notifications/email/permission':
       return redirect('/notifications/email/permission', code=302)
     elif user_nested_dict == '/new/user/questionnaire':
       return redirect('/new/user/questionnaire', code=302)
     elif user_nested_dict == '/categories/edit':
       return redirect('/categories/edit', code=302)
-    elif user_nested_dict == '/logout':
+    elif user_nested_dict == '/employees/logout':
       return redirect('/employees/logout', code=302)
     # ------------------------ Pre Load Page Checks END ------------------------
 

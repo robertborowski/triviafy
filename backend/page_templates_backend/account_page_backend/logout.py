@@ -16,7 +16,7 @@ def before_request():
 
 @logout.route("/employees/logout", methods=['GET','POST'])
 def logout_function():
-  print('=========================================== /logout Page START ===========================================')
+  print('=========================================== /employees/logout Page START ===========================================')
   # Need to create a css unique key so that cache busting can be done
   cache_busting_output = create_uuid_function('css_')
 
@@ -34,7 +34,7 @@ def logout_function():
       redis_connection.delete(redis_browser_cookie_key)
       redis_connection.delete(browser_cookie_value)
     except:
-      print('=========================================== /logout Page END ===========================================')
+      print('=========================================== /employees/logout Page END ===========================================')
       return redirect("/", code=302)
 
   # -------------------------------------------------------------- NOT running on localhost
@@ -43,8 +43,8 @@ def logout_function():
     try:
       redis_connection.delete(get_cookie_value_from_browser)
     except:
-      print('=========================================== /logout Page END ===========================================')
+      print('=========================================== /employees/logout Page END ===========================================')
       return redirect("/", code=302)
 
-  print('=========================================== /logout Page END ===========================================')
+  print('=========================================== /employees/logout Page END ===========================================')
   return redirect("/", code=302)
