@@ -115,7 +115,7 @@ def job_daily_quiz_open_send_email_function():
             # ------------------------ Send Account Created Email START ------------------------
             output_email = company_user_email
             output_subject_line = 'Triviafy ' + email_sent_search_category + ' - ' + quiz_start_date
-            output_message_content = f"Hi {company_user_full_name},\n\nYour team's weekly Triviafy quiz is now open!\n\nLogin and submit your answers at: https://triviafy.com/ \n\nBest,\nRob\n\nTriviafy your workspace."
+            output_message_content = f"Hi {company_user_full_name},\n\nYour team's weekly Triviafy quiz is now open!\n\nLogin and submit your answers at: https://triviafy.com/employees \n\nBest,\nRob\n\nTriviafy your workspace."
             output_message_content_str_for_db = output_message_content
 
             email_sent_successfully = send_email_template_function(output_email, output_subject_line, output_message_content)

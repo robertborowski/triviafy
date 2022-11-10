@@ -12,7 +12,7 @@ def send_team_channel_message_quiz_one_hour_left_reminder_function(quiz_channel_
   url = user_slack_authed_incoming_webhook_url
   webhook = WebhookClient(url)
 
-  output_text = f":hourglass_flowing_sand: Hi <!here>, your team's weekly Triviafy quiz closes TODAY at {quiz_end_time} (less than 1 hour)!\n:pencil2: Login and submit your answers at: https://triviafy.com/\n:woman-raising-hand: New to Triviafy? In order to participate in the weekly Triviafy quiz each team member go to https://triviafy.com/ > Create Account > Add To Slack > Select Channel: '{quiz_channel_name}'"
+  output_text = f":hourglass_flowing_sand: Hi <!here>, your team's weekly Triviafy quiz closes TODAY at {quiz_end_time} (less than 1 hour)!\n:pencil2: Login and submit your answers at: https://triviafy.com/employees\n:woman-raising-hand: New to Triviafy? In order to participate in the weekly Triviafy quiz each team member go to https://triviafy.com/employees > Create Account > Add To Slack > Select Channel: '{quiz_channel_name}'"
 
   response = webhook.send(text=output_text)
   #assert response.status_code == 200
