@@ -45,7 +45,7 @@ def quiz_feedback_index_page_render_template_function():
     elif user_nested_dict == '/categories/edit':
       return redirect('/categories/edit', code=302)
     elif user_nested_dict == '/logout':
-      return redirect('/logout', code=302)
+      return redirect('/employees/logout', code=302)
     # ------------------------ Pre Load Page Checks END ------------------------
 
 
@@ -83,7 +83,7 @@ def quiz_feedback_index_page_render_template_function():
   except:
     localhost_print_function('page load except error hit - /quiz/team/feedback Page')
     localhost_print_function('=========================================== /quiz/team/feedback Page END ===========================================')
-    return redirect('/logout', code=302)
+    return redirect('/employees/logout', code=302)
     # return redirect('/', code=302)
 
   

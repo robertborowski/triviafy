@@ -42,7 +42,7 @@ def waitlist_create_question_confirm_on_waitlist_page_render_template_function()
     elif user_nested_dict == '/categories/edit':
       return redirect('/categories/edit', code=302)
     elif user_nested_dict == '/logout':
-      return redirect('/logout', code=302)
+      return redirect('/employees/logout', code=302)
     # ------------------------ Pre Load Page Checks END ------------------------
 
     user_uuid = user_nested_dict['user_uuid']
@@ -50,7 +50,7 @@ def waitlist_create_question_confirm_on_waitlist_page_render_template_function()
   except:
     localhost_print_function('page load except error hit - /create/question/user/waitlist/confirm Page')
     localhost_print_function('=========================================== /create/question/user/waitlist/confirm Page END ===========================================')
-    return redirect('/logout', code=302)
+    return redirect('/employees/logout', code=302)
     # return redirect('/', code=302)
 
 

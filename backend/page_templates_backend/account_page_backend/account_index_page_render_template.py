@@ -20,7 +20,7 @@ def before_request():
     return redirect(new_url, code=302)
 
 # -------------------------------------------------------------- App
-@account_index_page_render_template.route("/account", methods=['GET','POST'])
+@account_index_page_render_template.route("/employees/account", methods=['GET','POST'])
 def account_index_page_render_template_function():
   localhost_print_function('=========================================== /account Page START ===========================================')
   
@@ -42,7 +42,7 @@ def account_index_page_render_template_function():
     elif user_nested_dict == '/categories/edit':
       return redirect('/categories/edit', code=302)
     elif user_nested_dict == '/logout':
-      return redirect('/logout', code=302)
+      return redirect('/employees/logout', code=302)
     # ------------------------ Pre Load Page Checks END ------------------------
 
 
@@ -76,7 +76,7 @@ def account_index_page_render_template_function():
   except:
     localhost_print_function('page load except error hit - /account Page')
     localhost_print_function('=========================================== /account Page END ===========================================')
-    return redirect('/logout', code=302)
+    return redirect('/employees/logout', code=302)
     # return redirect('/', code=302)
   
   localhost_print_function('=========================================== /account Page END ===========================================')

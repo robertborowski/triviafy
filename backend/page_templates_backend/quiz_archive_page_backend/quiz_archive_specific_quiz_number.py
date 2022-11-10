@@ -48,7 +48,7 @@ def quiz_archive_specific_quiz_number_function(html_variable_quiz_number):
     elif user_nested_dict == '/categories/edit':
       return redirect('/categories/edit', code=302)
     elif user_nested_dict == '/logout':
-      return redirect('/logout', code=302)
+      return redirect('/employees/logout', code=302)
     # ------------------------ Pre Load Page Checks END ------------------------
     
     
@@ -177,7 +177,7 @@ def quiz_archive_specific_quiz_number_function(html_variable_quiz_number):
   except:
     localhost_print_function('page load except error hit - /quiz/archive/<html_variable_quiz_number>')
     localhost_print_function('=========================================== /quiz/archive/<html_variable_quiz_number> Page END ===========================================')
-    return redirect('/logout', code=302)
+    return redirect('/employees/logout', code=302)
     # return redirect('/', code=302)
 
 

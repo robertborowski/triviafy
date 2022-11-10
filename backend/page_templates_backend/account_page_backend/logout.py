@@ -14,7 +14,7 @@ def before_request():
     new_url = remove_www_from_domain_function(request.url)
     return redirect(new_url, code=302)
 
-@logout.route("/logout", methods=['GET','POST'])
+@logout.route("/employees/logout", methods=['GET','POST'])
 def logout_function():
   print('=========================================== /logout Page START ===========================================')
   # Need to create a css unique key so that cache busting can be done

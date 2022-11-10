@@ -45,7 +45,7 @@ def new_user_questionnaire_submit_processing_function():
     elif user_nested_dict == '/categories/edit':
       return redirect('/categories/edit', code=302)
     elif user_nested_dict == '/logout':
-      return redirect('/logout', code=302)
+      return redirect('/employees/logout', code=302)
     # ------------------------ Pre Load Page Checks END ------------------------
 
     # ------------------------ Page Pre Load Check - Redirect Check - New User Questionnaire Answered START ------------------------
@@ -161,7 +161,7 @@ def new_user_questionnaire_submit_processing_function():
   except:
     localhost_print_function('page load except error hit - /new/user/questionnaire/processing Page')
     localhost_print_function('=========================================== /new/user/questionnaire/processing Page END ===========================================')
-    return redirect('/logout', code=302)
+    return redirect('/employees/logout', code=302)
 
   
   localhost_print_function('=========================================== /new/user/questionnaire/processing Page END ===========================================')

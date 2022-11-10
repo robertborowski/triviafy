@@ -48,7 +48,7 @@ def edit_quiz_settings_submit_new_quiz_settings_function():
     elif user_nested_dict == '/categories/edit':
       return redirect('/categories/edit', code=302)
     elif user_nested_dict == '/logout':
-      return redirect('/logout', code=302)
+      return redirect('/employees/logout', code=302)
     # ------------------------ Pre Load Page Checks END ------------------------
 
     # Get Company name and channel name (slack ID's)
@@ -177,7 +177,7 @@ def edit_quiz_settings_submit_new_quiz_settings_function():
   except:
     localhost_print_function('page load except error hit - /quiz/team/settings/payment/admin/edit/submit/processing Page')
     localhost_print_function('=========================================== /quiz/team/settings/payment/admin/edit/submit/processing Page END ===========================================')
-    return redirect('/logout', code=302)
+    return redirect('/employees/logout', code=302)
     # return redirect('/', code=302)
 
   

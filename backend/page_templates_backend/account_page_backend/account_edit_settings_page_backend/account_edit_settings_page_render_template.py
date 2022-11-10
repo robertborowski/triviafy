@@ -23,7 +23,7 @@ def before_request():
     return redirect(new_url, code=302)
 
 # -------------------------------------------------------------- App
-@account_edit_settings_page_render_template.route("/account/edit/settings", methods=['GET','POST'])
+@account_edit_settings_page_render_template.route("/employees/account/edit/settings", methods=['GET','POST'])
 def account_edit_settings_page_render_template_function():
   localhost_print_function('=========================================== /account/edit/settings Page START ===========================================')
   
@@ -45,7 +45,7 @@ def account_edit_settings_page_render_template_function():
     elif user_nested_dict == '/categories/edit':
       return redirect('/categories/edit', code=302)
     elif user_nested_dict == '/logout':
-      return redirect('/logout', code=302)
+      return redirect('/employees/logout', code=302)
     # ------------------------ Pre Load Page Checks END ------------------------
 
 
@@ -102,7 +102,7 @@ def account_edit_settings_page_render_template_function():
   except:
     localhost_print_function('page load except error hit - /account/edit/settings Page')
     localhost_print_function('=========================================== /account/edit/settings Page END ===========================================')
-    return redirect('/logout', code=302)
+    return redirect('/employees/logout', code=302)
     # return redirect('/', code=302)
   
   localhost_print_function('=========================================== /account/edit/settings Page END ===========================================')

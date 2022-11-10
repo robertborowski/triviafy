@@ -15,7 +15,7 @@ def before_request():
     return redirect(new_url, code=302)
 
 # -------------------------------------------------------------- App
-@about_index_page_render_template.route("/about", methods=['GET','POST'])
+@about_index_page_render_template.route("/employees/about", methods=['GET','POST'])
 def about_index_page_render_template_function():
   localhost_print_function('=========================================== /about Page START ===========================================')
   

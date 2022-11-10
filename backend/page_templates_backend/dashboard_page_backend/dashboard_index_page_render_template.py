@@ -51,7 +51,7 @@ def dashboard_index_page_render_template_function():
     elif user_nested_dict == '/categories/edit':
       return redirect('/categories/edit', code=302)
     elif user_nested_dict == '/logout':
-      return redirect('/logout', code=302)
+      return redirect('/employees/logout', code=302)
     # ------------------------ Pre Load Page Checks END ------------------------
 
 
@@ -198,7 +198,7 @@ def dashboard_index_page_render_template_function():
   except:
     localhost_print_function('page load except error hit - /dashboard page')
     localhost_print_function('=========================================== /dashboard Page END ===========================================')
-    return redirect('/logout', code=302)
+    return redirect('/employees/logout', code=302)
     # return redirect('/', code=302)
 
 
