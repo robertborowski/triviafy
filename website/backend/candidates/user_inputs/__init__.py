@@ -108,6 +108,17 @@ def sanitize_create_account_text_inputs_function(user_input):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
+def sanitize_desired_langs_text_inputs_function(user_input):
+  localhost_print_function('=========================================== sanitize_create_account_text_inputs_function START ===========================================')
+  desired_regex_pattern = "^[\w\s,-]{1,150}$"
+  if(re.fullmatch(desired_regex_pattern, user_input)):
+    localhost_print_function('=========================================== sanitize_create_account_text_inputs_function END ===========================================')
+    return user_input
+  localhost_print_function('=========================================== sanitize_create_account_text_inputs_function END ===========================================')
+  return False
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
 def sanitize_create_account_text_inputs_large_function(user_input):
   localhost_print_function('=========================================== sanitize_create_account_text_inputs_large_function START ===========================================')
   if len(user_input) == 0:
