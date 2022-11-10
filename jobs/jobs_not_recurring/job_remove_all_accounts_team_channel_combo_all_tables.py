@@ -10,6 +10,8 @@ from backend.db.queries.select_queries.select_queries_all_tables.select_count_al
 from backend.db.queries.delete_queries.delete_queries_all_tables.delete_query_all_team_channel_combo_special import delete_query_all_team_channel_combo_special_function
 import json
 from backend.utils.job_utils.job_pre_delete_table_checks import job_pre_delete_table_checks_function
+from jobs.jobs_not_recurring.job_check_db_status_overall.job_check_db_status_overall_part_1_calc_into_redis import job_check_db_status_overall_part_1_calc_into_redis_function
+from jobs.jobs_not_recurring.job_check_db_status_overall.job_check_db_status_overall_part_2_redis_to_pandas_df import job_check_db_status_overall_part_2_redis_to_pandas_df_function
 
 # -------------------------------------------------------------- Main Function
 def job_remove_all_accounts_team_channel_combo_all_tables_function(arr_to_remove, arr_table_names_with_user_uuid_names, arr_table_names_with_team_id_channel_id_names):
@@ -113,6 +115,12 @@ def job_remove_all_accounts_team_channel_combo_all_tables_function(arr_to_remove
   # Close postgres db connection
   postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)
   # ------------------------ DB Close Conection END ------------------------
+
+
+  # ------------------------ run job summary START ------------------------
+  job_check_db_status_overall_part_1_calc_into_redis_function()
+  job_check_db_status_overall_part_2_redis_to_pandas_df_function()
+  # ------------------------ run job summary END ------------------------
 
   localhost_print_function('=========================================== job_remove_all_accounts_team_channel_combo_all_tables_function END ===========================================')
   return True

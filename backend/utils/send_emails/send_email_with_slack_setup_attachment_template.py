@@ -9,7 +9,7 @@ from backend.utils.localhost_print_utils.localhost_print import localhost_print_
 # -------------------------------------------------------------- Main Function
 def send_email_with_slack_setup_attachment_template_function(output_email, output_subject_line, output_message_content):
   localhost_print_function('=========================================== send_email_with_slack_setup_attachment_template_function START ===========================================')
-
+ 
   sg = sendgrid.SendGridAPIClient(api_key=os.environ.get('SENDGRID_API_KEY_TRIVIAFY'))
   from_email = Email(email = os.environ.get('TRIVIAFY_MAIN_EMAIL'), name = "Triviafy")  # Change to your verified sender
   to_email = To(output_email)  # Change to your recipient
@@ -17,7 +17,7 @@ def send_email_with_slack_setup_attachment_template_function(output_email, outpu
   content = Content("text/plain", output_message_content)
   mail = Mail(from_email, to_email, subject, content)
 
-  file_path = 'static/images/employee_engagement/pdfs/PDFTriviafySlackSetupGuide.pdf'
+  file_path = 'website/static/images/employee_engagement/pdfs/PDFTriviafySlackSetupGuide.pdf'
   with open(file_path, 'rb') as f:
       data = f.read()
       f.close()
