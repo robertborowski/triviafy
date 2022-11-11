@@ -817,6 +817,18 @@ def candidates_assessment_create_new_function():
       check_off_marker_item = i_category
       check_off_marker = True
   # ------------------------ combine lists categories exist and requested end ------------------------
+  # ------------------------ check if user made first quiz already, if so remove the friction step start ------------------------
+  user_assessments_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id).all()
+  for i_obj in user_assessments_obj:
+    if check_off_marker == True:
+      i_desired_languages_str = i_obj.desired_languages_arr
+      i_desired_languages_arr = i_desired_languages_str.split(',')
+      for j_lang in i_desired_languages_arr:
+        if j_lang != check_off_marker_item and check_off_marker == True:
+          check_off_marker_item = None
+          check_off_marker = False
+          break
+  # ------------------------ check if user made first quiz already, if so remove the friction step end ------------------------
   # ------------------------ break down array for html columns start ------------------------
   len_candidate_categories_arr = len(candidate_categories_arr)
   rows_per_col = int((len_candidate_categories_arr / 3) + 1)
