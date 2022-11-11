@@ -991,9 +991,9 @@ def candidates_assessment_select_questions_function(url_assessment_name):
   master_where_statement = ''
   for i in range(len(desired_langs_arr)):
     if i == (len(desired_langs_arr) - 1):
-      master_where_statement += f"(categories LIKE '%{desired_langs_arr[i]}%' AND categories LIKE '%Candidates%')"
+      master_where_statement += f"(categories LIKE '%{desired_langs_arr[i]}%')"
     else:
-      master_where_statement += f"(categories LIKE '%{desired_langs_arr[i]}%' AND categories LIKE '%Candidates%') OR "
+      master_where_statement += f"(categories LIKE '%{desired_langs_arr[i]}%') OR "
   where_clause_arr.append(master_where_statement)
   # ------------------------ prepare where statement end ------------------------
   # ------------------------ pull question obj from db start ------------------------
