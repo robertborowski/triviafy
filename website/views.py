@@ -26,7 +26,7 @@ from werkzeug.security import generate_password_hash
 import pandas as pd
 from website.backend.candidates.string_manipulation import all_question_candidate_categories_sorted_function
 from website.backend.candidates.sqlalchemy_manipulation import pull_desired_languages_arr_function
-from website.backend.candidates.dict_manipulation import question_arr_of_dicts_manipulations_function, create_assessment_info_dict_function, map_user_answers_to_questions_dict_function, backend_store_question_answers_dict_function, grade_assessment_answers_dict_function
+from website.backend.candidates.dict_manipulation import question_arr_of_dicts_manipulations_function, create_assessment_info_dict_function, map_user_answers_to_questions_dict_function, backend_store_question_answers_dict_function, grade_assessment_answers_dict_function, check_two_phrase_similarity_score_function
 from website.backend.candidates.datetime_manipulation import next_x_days_function, times_arr_function, expired_assessment_check_function
 import datetime
 import json
@@ -804,6 +804,19 @@ def candidates_assessment_create_new_function():
       candidate_categories_arr.append(i)
   candidate_categories_arr = sorted(candidate_categories_arr)
   # ------------------------ combine lists categories exist and requested end ------------------------
+  # ------------------------ pull all categories requested start ------------------------
+  ui_most_assessed_topic_obj = CandidatesDesiredLanguagesObj.query.filter_by(user_id_fk=current_user.id).order_by(CandidatesDesiredLanguagesObj.created_timestamp.desc()).first()
+  ui_most_assessed_topic_str = ui_most_assessed_topic_obj.desired_languages
+  # ------------------------ pull all categories requested end ------------------------
+  # ------------------------ combine lists categories exist and requested start ------------------------
+  check_off_marker = False
+  check_off_marker_item = None
+  for i_category in candidate_categories_arr:
+    i_comparison = check_two_phrase_similarity_score_function(i_category.lower(), ui_most_assessed_topic_str.lower())
+    if i_comparison >= 70 and check_off_marker == False:
+      check_off_marker_item = i_category
+      check_off_marker = True
+  # ------------------------ combine lists categories exist and requested end ------------------------
   # ------------------------ break down array for html columns start ------------------------
   len_candidate_categories_arr = len(candidate_categories_arr)
   rows_per_col = int((len_candidate_categories_arr / 3) + 1)
@@ -871,7 +884,7 @@ def candidates_assessment_create_new_function():
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
   if get_cookie_value_from_browser != None:
     redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
-    return render_template(template_location_url, user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=create_assessment_error_statement, candidate_categories_arr_1_to_html=candidate_categories_arr_1, candidate_categories_arr_2_to_html=candidate_categories_arr_2, candidate_categories_arr_3_to_html=candidate_categories_arr_3, trial_name_attempt_to_html=trial_name_attempt)
+    return render_template(template_location_url, user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=create_assessment_error_statement, candidate_categories_arr_1_to_html=candidate_categories_arr_1, candidate_categories_arr_2_to_html=candidate_categories_arr_2, candidate_categories_arr_3_to_html=candidate_categories_arr_3, trial_name_attempt_to_html=trial_name_attempt, check_off_marker_item_to_html=check_off_marker_item)
   else:
     browser_response = browser_response_set_cookie_function(current_user, template_location_url)
     localhost_print_function('=========================================== dashboard_test_login_page_function END ===========================================')
