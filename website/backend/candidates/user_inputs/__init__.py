@@ -86,7 +86,7 @@ def check_email_personal_tags_function(user_input_email):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
-def sanitize_password_function(user_input_password):
+def sanitize_password_archive_v1_function(user_input_password):
   localhost_print_function('=========================================== sanitize_password_function START ===========================================')
   desired_regex_pattern = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"
   if(re.fullmatch(desired_regex_pattern, user_input_password)):
@@ -94,6 +94,16 @@ def sanitize_password_function(user_input_password):
     return user_input_password
   localhost_print_function('=========================================== sanitize_password_function END ===========================================')
   return False
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def sanitize_password_function(user_input_password):
+  localhost_print_function('=========================================== sanitize_password_function START ===========================================')
+  if len(user_input_password) > 150 or len(user_input_password) < 4:
+    localhost_print_function('=========================================== sanitize_password_function END ===========================================')
+    return False
+  localhost_print_function('=========================================== sanitize_password_function END ===========================================')
+  return user_input_password
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
