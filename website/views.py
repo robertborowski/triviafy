@@ -1435,6 +1435,16 @@ def candidates_schedule_create_new_function():
         db.session.add(new_row)
         db.session.commit()
       success_message_schedule = 'Schedule created!'
+      # ------------------------ email self start ------------------------
+      if success_message_schedule == 'Schedule created!':
+        try:
+          output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+          output_subject = f'Triviafy - New Schedule Created'
+          output_body = f"Hi there,\n\n{current_user.email} created schedule.\n\nBest,\nTriviafy"
+          send_email_template_function(output_to_email, output_subject, output_body)
+        except:
+          pass
+      # ------------------------ email self end ------------------------
     # ------------------------ insert to db end ------------------------
   # ------------------------ post triggered end ------------------------
   localhost_print_function('=========================================== candidates_schedule_create_new_function END ===========================================')
@@ -1590,6 +1600,16 @@ def candidates_schedule_create_now_function():
         db.session.commit()
         # ------------------------ insert email to db end ------------------------
       success_message_schedule = 'Assessment email sent!'
+      # ------------------------ email self start ------------------------
+      if success_message_schedule == 'Assessment email sent!':
+        try:
+          output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+          output_subject = f'Triviafy - Now Schedule Created'
+          output_body = f"Hi there,\n\n{current_user.email} created schedule.\n\nBest,\nTriviafy"
+          send_email_template_function(output_to_email, output_subject, output_body)
+        except:
+          pass
+      # ------------------------ email self end ------------------------
   # ------------------------ post triggered end ------------------------
   localhost_print_function('=========================================== candidates_schedule_create_now_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/schedule_page_templates/schedule_create_now_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, current_user_assessment_names_arr_to_html=current_user_assessment_names_arr, current_user_candidates_arr_to_html=current_user_candidates_arr, success_message_to_html=success_message_schedule, error_message_to_html=error_message_schedule,user_sub_active_to_html=user_sub_active)
