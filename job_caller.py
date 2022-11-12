@@ -2,7 +2,7 @@
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from backend.db.connection.postgres_connect_to_database import postgres_connect_to_database_function
 from backend.db.connection.postgres_close_connection_to_database import postgres_close_connection_to_database_function
-from jobs.candidates.db_cleanup_jobs import job_candidates_remove_unsub_user_all_tables_function
+from jobs.candidates.db_cleanup_jobs import job_candidates_remove_unsub_user_all_tables_function, job_candidates_clean_out_redis_function
 from jobs.candidates.email_jobs import job_candidates_email_all_collected_emails_function, job_candidates_email_all_users_function
 # ------------------------ imports end ------------------------
 
@@ -15,6 +15,7 @@ def job_caller_function():
 
   # ------------------------ function run start ------------------------
   job_candidates_remove_unsub_user_all_tables_function(postgres_connection, postgres_cursor)
+  job_candidates_clean_out_redis_function(postgres_connection, postgres_cursor)
   # ------------------------ function run end ------------------------
 
   # ------------------------ Close Postgres DB START ------------------------
