@@ -3,6 +3,7 @@ from backend.utils.localhost_print_utils.localhost_print import localhost_print_
 from website.backend.candidates.sql_statements.sql_statements_select_general_v2_jobs import select_general_v2_jobs_function
 from website.backend.candidates.sql_statements.sql_statements_select_general_v1_jobs import select_general_v1_jobs_function
 from website.backend.candidates.sql_statements.sql_statements_delete_general_v1_jobs import delete_general_v1_jobs_function
+from backend.db.connection.redis_connect_to_database import redis_connect_to_database_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ individual function start ------------------------
@@ -18,6 +19,17 @@ def job_candidates_clean_out_redis_function(postgres_connection, postgres_cursor
   user_ids_set.remove('a')
   # ------------------------ get all current user id's as set end ------------------------
   # ------------------------ loop through redis start ------------------------
+  # Connect to redis database pool (no need to close)
+  redis_connection = redis_connect_to_database_function()
+  redis_keys = redis_connection.keys()
+  redis_candidates_deleted_counter = 0
+  for key in redis_keys:
+    if 'bcooke' in str(key):
+      value = redis_connection.get(key).decode('utf-8')
+      if value not in user_ids_set:
+        redis_connection.delete(key)
+        redis_candidates_deleted_counter += 1
+  localhost_print_function(f'redis_candidates_deleted_counter: {redis_candidates_deleted_counter}')
   # ------------------------ loop through redis end ------------------------
   localhost_print_function('=========================================== job_candidates_clean_out_redis_function start ===========================================')
   return True
