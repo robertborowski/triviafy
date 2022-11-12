@@ -126,7 +126,7 @@ def update_db_new_user_store_obj_redis_cookie_function(client, authed_response_o
 
 
     # ------------------------ Email Self About New Account START ------------------------
-    personal_email = os.environ.get('PERSONAL_EMAIL')
+    personal_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
     if user_email != personal_email:
       output_email = personal_email
       output_subject_line = 'Employee Engagement - Triviafy New User'

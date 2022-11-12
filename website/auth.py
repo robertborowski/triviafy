@@ -140,7 +140,7 @@ def candidates_signup_function():
       # ------------------------ keep user logged in end ------------------------
       # ------------------------ email self start ------------------------
       try:
-        output_to_email = 'support@triviafy.com'
+        output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
         output_subject = f'Candidates - Triviafy New User '
         output_body = f"Hi there,\n\nNew user signed up: {ui_email} \n\nBest,\nTriviafy"
         send_email_template_function(output_to_email, output_subject, output_body)
