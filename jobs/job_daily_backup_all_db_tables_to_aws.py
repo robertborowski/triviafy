@@ -14,7 +14,6 @@ from io import StringIO
 import psycopg2
 import pandas as pd
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
-from backend.utils.send_emails.send_email_template import send_email_template_function
 from backend.db.queries.insert_queries.insert_queries_triviafy_emails_sent_table.insert_triviafy_emails_sent_table import insert_triviafy_emails_sent_table_function
 
 # -------------------------------------------------------------- Main Function
@@ -83,8 +82,6 @@ def job_daily_backup_all_db_tables_to_aws_function():
       output_subject_line = 'Error when uploading backup to AWS s3'
       output_message_content = f"Hi Rob,\n\nBackup tables did not upload to AWS s3 properly."
       output_message_content_str_for_db = output_message_content
-
-      email_sent_successfully = send_email_template_function(output_email, output_subject_line, output_message_content)
 
       # Insert this sent email into DB
       uuid_email_sent = create_uuid_function('email_sent_')
