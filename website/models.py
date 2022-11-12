@@ -74,7 +74,7 @@ class CandidatesAssessmentsCreatedObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
   created_timestamp = db.Column(db.DateTime(timezone=True))
   user_id_fk = db.Column(db.String(150))
-  assessment_name = db.Column(db.String(150), unique=True)
+  assessment_name = db.Column(db.String(150))
   desired_languages_arr = db.Column(db.String(1000))
   total_questions = db.Column(db.Integer)
   question_ids_arr = db.Column(db.String(3000))
