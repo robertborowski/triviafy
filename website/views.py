@@ -601,6 +601,16 @@ def candidates_upload_emails_function():
       except:
         candidate_upload_error_statement = 'uploaded file must be .csv format'
     # ------------------------ ui_email bulk end ------------------------
+    # ------------------------ email self start ------------------------
+    if candidate_upload_success_statement == 'Uploaded successfully!':
+      try:
+        output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+        output_subject = f'Triviafy - New Candidate Uploaded'
+        output_body = f"Hi there,\n\n{current_user.email} uploaded candidate(s).\n\nBest,\nTriviafy"
+        send_email_template_function(output_to_email, output_subject, output_body)
+      except:
+        pass
+    # ------------------------ email self end ------------------------
   localhost_print_function('=========================================== candidates_upload_emails_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/candidates_page_templates/candidates_upload_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name, len_current_user_uploaded_emails_arr_to_html = len_current_user_uploaded_emails_arr, error_message_to_html=candidate_upload_error_statement, success_message_to_html=candidate_upload_success_statement)
 # ------------------------ individual route end ------------------------
@@ -973,7 +983,7 @@ def candidates_assessment_select_questions_function(url_assessment_name):
       try:
         output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
         output_subject = f'Candidates - Triviafy New Assessment Created'
-        output_body = f"Hi there,\n\nAssessment name: '{db_assessment_obj_name}'\ndesired langs: '{db_assessment_obj_desired_langs}'\ntotal questions: {len(ui_select_question_checkbox_arr)} \n\nBest,\nTriviafy"
+        output_body = f"Hi there,\n\n{current_user.email} created an assessment.\n\nAssessment name: '{db_assessment_obj_name}'\nDesired langs: '{db_assessment_obj_desired_langs}'\nTotal questions: {len(ui_select_question_checkbox_arr)} \n\nBest,\nTriviafy"
         send_email_template_function(output_to_email, output_subject, output_body)
       except:
         pass
