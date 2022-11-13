@@ -560,7 +560,8 @@ def candidates_upload_emails_function():
       except:
         pass
     # ------------------------ email self end ------------------------
-    return redirect(url_for('views.candidates_schedule_create_now_function'))
+    if candidate_upload_success_statement == 'Uploaded successfully!':
+      return redirect(url_for('views.candidates_schedule_create_now_function', var1='c_success'))
   localhost_print_function('=========================================== candidates_upload_emails_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/candidates_page_templates/candidates_upload_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name, len_current_user_uploaded_emails_arr_to_html = len_current_user_uploaded_emails_arr, error_message_to_html=candidate_upload_error_statement, success_message_to_html=candidate_upload_success_statement)
 # ------------------------ individual route end ------------------------
@@ -858,7 +859,7 @@ def candidates_assessment_select_questions_function(url_assessment_name):
       pass
     # ------------------------ update row in db end ------------------------
     localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
-    return redirect(url_for('views.candidates_assessment_sucessfully_created_function'))
+    return redirect(url_for('views.candidates_schedule_create_now_function', var1='a_success'))
   # ------------------------ post method hit end ------------------------
   # ------------------------ prepare where statement start ------------------------
   where_clause_arr = []
@@ -1235,6 +1236,13 @@ def candidates_schedule_create_now_function():
   success_message_schedule = ''
   error_message_schedule = ''
   # ------------------------ messages end ------------------------
+  # ------------------------ redirect messages start ------------------------
+  var1 = request.args.get('var1')
+  if var1 == 'a_success':
+    success_message_schedule='Assessment successfully created!'
+  if var1 == 'c_success':
+    success_message_schedule='Candidate successfully uploaded!'
+  # ------------------------ redirect messages end ------------------------
   # ------------------------ pull all user assessments start ------------------------
   current_user_assessments_created_arr = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id).order_by(CandidatesAssessmentsCreatedObj.assessment_name).all()
   # ------------------------ no assessments made yet redirect start ------------------------
