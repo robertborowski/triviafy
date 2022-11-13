@@ -24,7 +24,7 @@ from website.backend.candidates.user_inputs import sanitize_email_function, sani
 from website.backend.candidates.send_emails import send_email_template_function
 from werkzeug.security import generate_password_hash
 import pandas as pd
-from website.backend.candidates.string_manipulation import all_question_candidate_categories_sorted_function
+from website.backend.candidates.string_manipulation import all_question_candidate_categories_sorted_function, create_assessment_name_function
 from website.backend.candidates.sqlalchemy_manipulation import pull_desired_languages_arr_function
 from website.backend.candidates.dict_manipulation import question_arr_of_dicts_manipulations_function, create_assessment_info_dict_function, map_user_answers_to_questions_dict_function, backend_store_question_answers_dict_function, grade_assessment_answers_dict_function, check_two_phrase_similarity_score_function
 from website.backend.candidates.datetime_manipulation import next_x_days_function, times_arr_function, expired_assessment_check_function
@@ -732,31 +732,17 @@ def candidates_assessment_create_new_function():
   candidate_categories_arr_3 = candidate_categories_arr[rows_per_col*2:]
   # ------------------------ break down array for html columns end ------------------------
   create_assessment_error_statement = ''
-  trial_name_attempt = ''
   # ------------------------ post method hit start ------------------------
   if request.method == 'POST':
     # ------------------------ get form user inputs start ------------------------
-    ui_assessment_name = request.form.get('create_assessment_page_ui_name')
     ui_desired_languages_checkboxes_arr = request.form.getlist('testLabelAdded')
     # ------------------------ get form user inputs end ------------------------
     # ------------------------ sanitize/check user inputs start ------------------------
-    # ------------------------ sanitize/check name start ------------------------
-    ui_assessment_name_cleaned = sanitize_create_account_text_inputs_large_function(ui_assessment_name)
-    if ui_assessment_name_cleaned == False:
-      create_assessment_error_statement = 'Please fill out all required fields.'
-    # ------------------------ sanitize/check name end ------------------------
-    # ------------------------ check if assessment name already exists for user start ------------------------
-    if ui_assessment_name_cleaned != False:
-      user_assessment_name_already_exists = CandidatesAssessmentsCreatedObj.query.filter_by(assessment_name=ui_assessment_name,user_id_fk=current_user.id).first()
-      if user_assessment_name_already_exists != None:
-        ui_assessment_name_cleaned = False
-        create_assessment_error_statement = f'Assessment name "{ui_assessment_name}" already exists.'
-    # ------------------------ check if assessment name already exists for user end ------------------------
     # ------------------------ sanitize/check desired languages start ------------------------
     ui_desired_languages_checkboxes_arr = sanitize_loop_check_if_exists_within_arr_function(ui_desired_languages_checkboxes_arr, candidate_categories_arr)
     if ui_desired_languages_checkboxes_arr == [] or ui_desired_languages_checkboxes_arr == False:
+      ui_desired_languages_checkboxes_arr = False
       create_assessment_error_statement = 'Please fill out all required fields.'
-      trial_name_attempt = ui_assessment_name
     ui_desired_languages_checkboxes_str = ''
     if ui_desired_languages_checkboxes_arr != False:
       ui_desired_languages_checkboxes_str = ','.join(ui_desired_languages_checkboxes_arr)
@@ -764,14 +750,25 @@ def candidates_assessment_create_new_function():
       create_assessment_error_statement = 'Please select fewer categories.'
       ui_desired_languages_checkboxes_arr == False
     # ------------------------ sanitize/check desired languages end ------------------------
+    # ------------------------ create name based on langs start ------------------------
+    auto_generated_assessment_name = ''
+    if ui_desired_languages_checkboxes_arr != False:
+      auto_generated_assessment_name = create_assessment_name_function(ui_desired_languages_checkboxes_str)
+    # ------------------------ create name based on langs end ------------------------
+    # ------------------------ check if assessment name already exists for user start ------------------------
+    user_assessment_name_already_exists = CandidatesAssessmentsCreatedObj.query.filter_by(assessment_name=auto_generated_assessment_name,user_id_fk=current_user.id).first()
+    if user_assessment_name_already_exists != None:
+      auto_generated_assessment_name = False
+      create_assessment_error_statement = f'Assessment name "{auto_generated_assessment_name}" already exists.'
+    # ------------------------ check if assessment name already exists for user end ------------------------
     # ------------------------ sanitize/check user inputs end ------------------------
     # ------------------------ create new assessment in db start ------------------------
-    if ui_assessment_name_cleaned != False and ui_desired_languages_checkboxes_arr != False and ui_desired_languages_checkboxes_arr != []:
+    if auto_generated_assessment_name != False and ui_desired_languages_checkboxes_arr != False and ui_desired_languages_checkboxes_arr != []:
       new_row = CandidatesAssessmentsCreatedObj(
         id=create_uuid_function('assessment_'),
         created_timestamp=create_timestamp_function(),
         user_id_fk=current_user.id,
-        assessment_name=ui_assessment_name,
+        assessment_name=auto_generated_assessment_name,
         desired_languages_arr = ui_desired_languages_checkboxes_str,
         question_ids_arr = None
       )
@@ -779,7 +776,7 @@ def candidates_assessment_create_new_function():
       db.session.commit()
       # ------------------------ create new assessment in db end ------------------------
       localhost_print_function('=========================================== candidates_assessment_create_new_function END ===========================================')
-      return redirect(url_for('views.candidates_assessment_select_questions_function', url_assessment_name=ui_assessment_name))
+      return redirect(url_for('views.candidates_assessment_select_questions_function', url_assessment_name=auto_generated_assessment_name))
   # ------------------------ post method hit end ------------------------
   """
   # ------------------------ normal page load start ------------------------
@@ -791,7 +788,7 @@ def candidates_assessment_create_new_function():
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
   if get_cookie_value_from_browser != None:
     redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
-    return render_template(template_location_url, user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=create_assessment_error_statement, candidate_categories_arr_1_to_html=candidate_categories_arr_1, candidate_categories_arr_2_to_html=candidate_categories_arr_2, candidate_categories_arr_3_to_html=candidate_categories_arr_3, trial_name_attempt_to_html=trial_name_attempt, check_off_marker_item_to_html=check_off_marker_item)
+    return render_template(template_location_url, user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=create_assessment_error_statement, candidate_categories_arr_1_to_html=candidate_categories_arr_1, candidate_categories_arr_2_to_html=candidate_categories_arr_2, candidate_categories_arr_3_to_html=candidate_categories_arr_3, check_off_marker_item_to_html=check_off_marker_item)
   else:
     browser_response = browser_response_set_cookie_function(current_user, template_location_url)
     localhost_print_function('=========================================== dashboard_test_login_page_function END ===========================================')

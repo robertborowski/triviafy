@@ -1,5 +1,4 @@
 {% extends "candidates_page_templates/aaa_base_page_templates/base2_child1_logged_in_yes_navbar_and_footer.html" %}
-
 <!-- head tag block content -->
 {% block title %}
   <title>Create New Assessments / Triviafy</title>
@@ -20,17 +19,9 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title start -->
 <div class="general-page-title-section">
   <p class="general-page-title">Create Assessment</p>
-  <p class="general-page-sub-title">Step 1: Assessment Details</p>
+  <p class="general-page-sub-title">Step 1: Assessment categories</p>
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - defaults start -->
-<!-- <div class="create-assessment-defaults candidates-default-box-shadow-grey-small">
-  <p>Total questions: 10</p>
-  <p>Assessment link: Default (link expires 1 hour from time sent to candidate).</p>
-</div> -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - defaults end -->
-
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message start -->
 <div class="error-message-section">
@@ -45,12 +36,6 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
 <div class="create-assessment-form-container">
   <form method="POST" class="create-assessment-form" enctype="multipart/form-data">
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - assessment name start -->
-    <div class="create-assessment-user-input-section">
-      <label for="create_assessment_page_ui_name"></label>
-      <input type="text" id="create_assessment_page_ui_name" name="create_assessment_page_ui_name" class="candidates-default-text-input" placeholder="Assessment name*" value="{{ trial_name_attempt_to_html }}" title="Assessment name needs to be 2-50 characters" pattern="^[\w\s-]{2,50}$" required />
-    </div>
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - assessment name end -->
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - desired languages start -->
     <div class="create-assessment-user-input-section">
       <!-- link: https://stackoverflow.com/questions/19206919/how-to-create-checkbox-inside-dropdown -->
@@ -102,18 +87,6 @@
       </div>
     </div>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - desired languages end -->
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - total questions start -->
-    <!-- <div class="create-assessment-user-input-section">
-      <p class="create-assessment-title">Total questions: 10</p>
-    </div> -->
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - total questions end -->
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - link type start -->
-    <!-- <div class="create-assessment-user-input-section">
-      <p class="create-assessment-title">Assessment link: Default</p>
-      <div class="create-assessment-small-spacer"></div>
-      <p class="create-assessment-sub-title">Default: Assessment link expires 1 hour from time sent to candidate.</p>
-    </div> -->
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - link type end -->
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
     <div class="general-spacer-section-small"></div>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->

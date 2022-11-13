@@ -1,5 +1,6 @@
 # ------------------------ imports start ------------------------
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
+from random import randint
 # ------------------------ imports end ------------------------
 
 
@@ -30,5 +31,16 @@ def all_question_candidate_categories_sorted_function(query_result_arr_of_dicts)
   output_arr = sorted(output_arr)
   localhost_print_function('=========================================== all_question_candidate_categories_sorted_function START ===========================================')
   return output_arr
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def create_assessment_name_function(ui_desired_languages_checkboxes_str):
+  localhost_print_function('=========================================== create_assessment_name_function START ===========================================')
+  name_prefix = ui_desired_languages_checkboxes_str
+  if len(ui_desired_languages_checkboxes_str) > 15:
+    name_prefix = ui_desired_languages_checkboxes_str[0:15]
+  name_suffix = randint(0, 1000)
+  localhost_print_function('=========================================== create_assessment_name_function START ===========================================')
+  return name_prefix + '-' + str(name_suffix)
 # ------------------------ individual function end ------------------------
 localhost_print_function('=========================================== string_manipulation __init__ END ===========================================')
