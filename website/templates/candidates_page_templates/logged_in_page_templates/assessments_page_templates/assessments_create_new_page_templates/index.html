@@ -41,8 +41,13 @@
       <div class="create-assessment-items-col1">
         {% for i in candidate_categories_arr_1_to_html %}
         <li class="create-assessment-li candidates-default-box-shadow-grey-small">
+          {% if check_off_marker_item_to_html == i %}
+          <input type="checkbox" id="testLabelAdded" name="testLabelAdded" value="{{ i }}" checked/>{{ i }}
+          <label for="testLabelAdded"></label>
+          {% else %}
           <input type="checkbox" id="testLabelAdded" name="testLabelAdded" value="{{ i }}"/>{{ i }}
           <label for="testLabelAdded"></label>
+          {% endif %}
         </li>
         {% endfor %}
       </div>
@@ -50,8 +55,13 @@
       <div class="create-assessment-items-col2">
         {% for i in candidate_categories_arr_2_to_html %}
         <li class="create-assessment-li candidates-default-box-shadow-grey-small">
+          {% if check_off_marker_item_to_html == i %}
+          <input type="checkbox" id="testLabelAdded" name="testLabelAdded" value="{{ i }}" checked/>{{ i }}
+          <label for="testLabelAdded"></label>
+          {% else %}
           <input type="checkbox" id="testLabelAdded" name="testLabelAdded" value="{{ i }}"/>{{ i }}
           <label for="testLabelAdded"></label>
+          {% endif %}
         </li>
         {% endfor %}
       </div>
@@ -59,8 +69,13 @@
       <div class="create-assessment-items-col3">
         {% for i in candidate_categories_arr_3_to_html %}
         <li class="create-assessment-li candidates-default-box-shadow-grey-small">
+          {% if check_off_marker_item_to_html == i %}
+          <input type="checkbox" id="testLabelAdded" name="testLabelAdded" value="{{ i }}" checked/>{{ i }}
+          <label for="testLabelAdded"></label>
+          {% else %}
           <input type="checkbox" id="testLabelAdded" name="testLabelAdded" value="{{ i }}"/>{{ i }}
           <label for="testLabelAdded"></label>
+          {% endif %}
         </li>
         {% endfor %}
       </div>

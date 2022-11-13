@@ -697,33 +697,11 @@ def candidates_assessment_create_new_function():
       candidate_categories_arr.append(i)
   candidate_categories_arr = sorted(candidate_categories_arr)
   # ------------------------ combine lists categories exist and requested end ------------------------
-  # ------------------------ pull all categories requested start ------------------------
-  ui_most_assessed_topic_obj = CandidatesDesiredLanguagesObj.query.filter_by(user_id_fk=current_user.id).order_by(CandidatesDesiredLanguagesObj.created_timestamp.desc()).first()
-  try:
-    ui_most_assessed_topic_str = ui_most_assessed_topic_obj.desired_languages
-  except:
-    ui_most_assessed_topic_str = '_'
-  # ------------------------ pull all categories requested end ------------------------
-  # ------------------------ combine lists categories exist and requested start ------------------------
-  check_off_marker = False
-  check_off_marker_item = None
-  for i_category in candidate_categories_arr:
-    i_comparison = check_two_phrase_similarity_score_function(i_category.lower(), ui_most_assessed_topic_str.lower())
-    if i_comparison >= 70 and check_off_marker == False:
-      check_off_marker_item = i_category
-      check_off_marker = True
-  # ------------------------ combine lists categories exist and requested end ------------------------
   # ------------------------ check if user made first quiz already, if so remove the friction step start ------------------------
+  check_off_marker_item = None
   user_assessments_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id).all()
-  for i_obj in user_assessments_obj:
-    if check_off_marker == True:
-      i_desired_languages_str = i_obj.desired_languages_arr
-      i_desired_languages_arr = i_desired_languages_str.split(',')
-      for j_lang in i_desired_languages_arr:
-        if j_lang != check_off_marker_item and check_off_marker == True:
-          check_off_marker_item = None
-          check_off_marker = False
-          break
+  if user_assessments_obj == None or user_assessments_obj == []:
+    check_off_marker_item = 'Excel'
   # ------------------------ check if user made first quiz already, if so remove the friction step end ------------------------
   # ------------------------ break down array for html columns start ------------------------
   len_candidate_categories_arr = len(candidate_categories_arr)
