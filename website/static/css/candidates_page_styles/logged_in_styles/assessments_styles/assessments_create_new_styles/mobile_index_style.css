@@ -4,10 +4,11 @@
     /* border: 1px solid black; */
     width: 90%;
   }
-  .create-assessment-dropdown-check-list ul.create-assessment-items {
-    width: 100%;
+  .create-assessment-langs-section {
+    /* border: 1px solid black; */
     grid-template-columns: 1fr;
     grid-template-rows: repeat(3, 1fr);
+    width: 100%;
   }
   .create-assessment-items-col1 {
     grid-area: 1 / 1 / 2 / 2;

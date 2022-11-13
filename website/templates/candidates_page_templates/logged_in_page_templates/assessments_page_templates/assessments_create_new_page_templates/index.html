@@ -19,7 +19,7 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title start -->
 <div class="general-page-title-section">
   <p class="general-page-title">Create Assessment</p>
-  <p class="general-page-sub-title">Step 1: Assessment categories</p>
+  <p class="general-page-sub-title">Select categories</p>
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title end -->
 
@@ -37,53 +37,32 @@
 <div class="create-assessment-form-container">
   <form method="POST" class="create-assessment-form" enctype="multipart/form-data">
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - desired languages start -->
-    <div class="create-assessment-user-input-section">
-      <!-- link: https://stackoverflow.com/questions/19206919/how-to-create-checkbox-inside-dropdown -->
-      <div id="create-assessment-choose-lang-list1" class="create-assessment-dropdown-check-list" tabindex="100">
-        <span class="create-assessment-anchor-span">Assessment categories*</span>
-        <ul class="create-assessment-items">
-          <div class="create-assessment-items-col1">
-            {% for i in candidate_categories_arr_1_to_html %}
-            <li>
-              {% if check_off_marker_item_to_html == i %}
-              <input type="checkbox" id="testLabelAdded" name="testLabelAdded" value="{{ i }}" checked/>{{ i }}
-              <label for="testLabelAdded"></label>
-              {% else %}
-              <input type="checkbox" id="testLabelAdded" name="testLabelAdded" value="{{ i }}"/>{{ i }}
-              <label for="testLabelAdded"></label>
-              {% endif %}
-            </li>
-            {% endfor %}
-          </div>
+    <div class="create-assessment-langs-section">
+      <div class="create-assessment-items-col1">
+        {% for i in candidate_categories_arr_1_to_html %}
+        <li class="create-assessment-li candidates-default-box-shadow-grey-small">
+          <input type="checkbox" id="testLabelAdded" name="testLabelAdded" value="{{ i }}"/>{{ i }}
+          <label for="testLabelAdded"></label>
+        </li>
+        {% endfor %}
+      </div>
 
-          <div class="create-assessment-items-col2">
-            {% for i in candidate_categories_arr_2_to_html %}
-            <li>
-              {% if check_off_marker_item_to_html == i %}
-              <input type="checkbox" id="testLabelAdded" name="testLabelAdded" value="{{ i }}" checked/>{{ i }}
-              <label for="testLabelAdded"></label>
-              {% else %}
-              <input type="checkbox" id="testLabelAdded" name="testLabelAdded" value="{{ i }}"/>{{ i }}
-              <label for="testLabelAdded"></label>
-              {% endif %}
-            </li>
-            {% endfor %}
-          </div>
-          
-          <div class="create-assessment-items-col3">
-            {% for i in candidate_categories_arr_3_to_html %}
-            <li>
-              {% if check_off_marker_item_to_html == i %}
-              <input type="checkbox" id="testLabelAdded" name="testLabelAdded" value="{{ i }}" checked/>{{ i }}
-              <label for="testLabelAdded"></label>
-              {% else %}
-              <input type="checkbox" id="testLabelAdded" name="testLabelAdded" value="{{ i }}"/>{{ i }}
-              <label for="testLabelAdded"></label>
-              {% endif %}
-            </li>
-            {% endfor %}
-          </div>
-        </ul>
+      <div class="create-assessment-items-col2">
+        {% for i in candidate_categories_arr_2_to_html %}
+        <li class="create-assessment-li candidates-default-box-shadow-grey-small">
+          <input type="checkbox" id="testLabelAdded" name="testLabelAdded" value="{{ i }}"/>{{ i }}
+          <label for="testLabelAdded"></label>
+        </li>
+        {% endfor %}
+      </div>
+      
+      <div class="create-assessment-items-col3">
+        {% for i in candidate_categories_arr_3_to_html %}
+        <li class="create-assessment-li candidates-default-box-shadow-grey-small">
+          <input type="checkbox" id="testLabelAdded" name="testLabelAdded" value="{{ i }}"/>{{ i }}
+          <label for="testLabelAdded"></label>
+        </li>
+        {% endfor %}
       </div>
     </div>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - desired languages end -->
