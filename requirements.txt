@@ -14,4 +14,3 @@ boto3
 sendgrid
 itsdangerous==2.0.1
 stripe
-random
