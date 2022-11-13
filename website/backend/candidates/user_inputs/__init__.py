@@ -318,7 +318,7 @@ def validate_upload_candidate_function(db, current_user, ui_email, user_input_ty
 def check_if_question_id_arr_exists_function(user_input_arr):
   localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function START ===========================================')
   for i in user_input_arr:
-    sql_result = select_general_function('select_question_id_actually_exists', i)
+    sql_result = select_general_function('select_question_id_actually_exists_v2', i)
     if sql_result == [] or len(sql_result) == 0:
       return False
   localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function END ===========================================')

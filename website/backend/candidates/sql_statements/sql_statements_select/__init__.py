@@ -86,6 +86,10 @@ def select_general_function(tag_query_to_use, additional_input=None):
     'select_question_id_actually_exists': {
       'raw_query': "SELECT question_uuid FROM triviafy_all_questions_table WHERE question_uuid=:val;",
       'input_args': {'val': additional_input}
+    },
+    'select_question_id_actually_exists_v2': {
+      'raw_query': "SELECT id FROM candidates_created_questions_obj WHERE id=:val;",
+      'input_args': {'val': additional_input}
     }
   }
   # ------------------------ select queries end ------------------------
