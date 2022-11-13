@@ -560,6 +560,7 @@ def candidates_upload_emails_function():
       except:
         pass
     # ------------------------ email self end ------------------------
+    return redirect(url_for('views.candidates_schedule_create_now_function'))
   localhost_print_function('=========================================== candidates_upload_emails_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/candidates_page_templates/candidates_upload_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name, len_current_user_uploaded_emails_arr_to_html = len_current_user_uploaded_emails_arr, error_message_to_html=candidate_upload_error_statement, success_message_to_html=candidate_upload_success_statement)
 # ------------------------ individual route end ------------------------
@@ -1119,11 +1120,6 @@ def candidates_schedule_create_new_function():
   # ------------------------ pull all user assessments end ------------------------
   # ------------------------ pull all user candidates start ------------------------
   current_user_candidates_uploaded_arr = CandidatesUploadedCandidatesObj.query.filter_by(user_id_fk=current_user.id).order_by(CandidatesUploadedCandidatesObj.email).all()
-  # ------------------------ no candidates uploaded yet redirect start ------------------------
-  if len(current_user_candidates_uploaded_arr) == 0:
-    localhost_print_function('=========================================== candidates_schedule_create_new_function END ===========================================')
-    return redirect(url_for('views.candidates_no_candidates_yet_function'))
-  # ------------------------ no candidates uploaded yet redirect end ------------------------
   current_user_candidates_arr = []
   for i in current_user_candidates_uploaded_arr:
     current_user_candidates_arr.append(i.email)
@@ -1256,11 +1252,6 @@ def candidates_schedule_create_now_function():
   # ------------------------ pull all user assessments end ------------------------
   # ------------------------ pull all user candidates start ------------------------
   current_user_candidates_uploaded_arr = CandidatesUploadedCandidatesObj.query.filter_by(user_id_fk=current_user.id).order_by(CandidatesUploadedCandidatesObj.email).all()
-  # ------------------------ no candidates uploaded yet redirect start ------------------------
-  if len(current_user_candidates_uploaded_arr) == 0:
-    localhost_print_function('=========================================== candidates_schedule_create_now_function END ===========================================')
-    return redirect(url_for('views.candidates_no_candidates_yet_function'))
-  # ------------------------ no candidates uploaded yet redirect end ------------------------
   current_user_candidates_arr = []
   for i in current_user_candidates_uploaded_arr:
     current_user_candidates_arr.append(i.email)

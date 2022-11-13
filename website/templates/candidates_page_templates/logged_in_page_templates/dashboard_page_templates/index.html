@@ -21,10 +21,10 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - split section start -->
 <div class="candidates-assessment-split-section">
-  <a href="{{ url_for('views.candidates_assessments_dashboard_function') }}" class="general-a-black-no-hover">
+  <a href="{{ url_for('views.candidates_assessment_create_new_function') }}" class="general-a-black-no-hover">
     <div class="split-side-dashboard-general split-side-assessments candidates-default-box-shadow-grey-small">
       <div class="dashboard-split-inner-section">
-        <p class="dashboard-split-title">Assessments</p>
+        <p class="dashboard-split-title">1. Create Assessments</p>
       </div>
       <div class="dashboard-split-inner-section">
         <img src="/static/images/candidates/dashboard/dashboard_page_assessment_example.png" alt="upload candidates img" class="upload-candidates-img">
@@ -33,24 +33,24 @@
         <a href="{{ url_for('views.candidates_assessments_analytics_function') }}" class="general-a-black"><p class="dashboard-split-subtitle">Total assessments created: {{ len_current_user_assessments_created_arr_to_html }}</p></a>
       </div>
       <div class="dashboard-split-inner-section">
-        <a href="{{ url_for('views.candidates_assessments_dashboard_function') }}" class="default-button-format default-button-format-primary-color"><p>Create assessment</p></a>
+        <a href="{{ url_for('views.candidates_assessment_create_new_function') }}" class="default-button-format default-button-format-primary-color"><p>Create assessment</p></a>
       </div>
     </div>
     </a>
 
-  <a href="{{ url_for('views.candidates_upload_emails_function') }}" class="general-a-black-no-hover">
+  <a href="{{ url_for('views.candidates_schedule_create_now_function') }}" class="general-a-black-no-hover">
   <div class="split-side-dashboard-general split-side-candidates candidates-default-box-shadow-grey-small">
     <div class="dashboard-split-inner-section">
-      <p class="dashboard-split-title">Candidates</p>
+      <p class="dashboard-split-title">2. Send to Candidates</p>
     </div>
     <div class="dashboard-split-inner-section">
-      <img src="/static/images/candidates/dashboard/purple_dashboard_upload.png" alt="upload candidates img" class="upload-candidates-img">
+      <img src="/static/images/candidates/dashboard/send_to_candidate_now.png" alt="upload candidates img" class="upload-candidates-img">
     </div>
     <div class="dashboard-split-inner-section">
       <a href="{{ url_for('views.candidates_analytics_function') }}" class="general-a-black"><p class="dashboard-split-subtitle">Total candidates: {{ len_current_user_uploaded_emails_arr_to_html }}</p></a>
     </div>
     <div class="dashboard-split-inner-section">
-      <a href="{{ url_for('views.candidates_upload_emails_function') }}" class="default-button-format default-button-format-primary-color"><p>Send to candidate</p></a>
+      <a href="{{ url_for('views.candidates_schedule_create_now_function') }}" class="default-button-format default-button-format-primary-color"><p>Send to candidate</p></a>
     </div>
   </div>
   </a>
