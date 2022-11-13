@@ -82,13 +82,13 @@ def job_candidates_remove_unsub_user_all_tables_function(postgres_connection, po
       sql_input_nested_arr.append(current_arr)
       # ------------------------ sql variables end ------------------------
       query_result_arr_of_dicts = select_general_v2_jobs_function(postgres_connection, postgres_cursor, 'select_table1_column1_value1', additional_input=sql_input_nested_arr)
-      localhost_print_function(f'i_user_to_delete: {i_user_to_delete} | j_table_column[0]: {j_table_column[0]}: {len(query_result_arr_of_dicts)}')
+      localhost_print_function(f'i_user_to_delete: {i_user_to_delete} | {len(query_result_arr_of_dicts)} rows in {j_table_column[0]} table')
       # ------------------------ delete query start ------------------------
       if query_result_arr_of_dicts != [] and len(query_result_arr_of_dicts) > 0:
         delete_general_v1_jobs_function(postgres_connection, postgres_cursor, 'delete_table1_column1_value1', additional_input=sql_input_nested_arr)
-        localhost_print_function(f'deleted: {len(query_result_arr_of_dicts)}')
+        localhost_print_function(f'{len(query_result_arr_of_dicts)}: deleted')
       else:
-        localhost_print_function('nothing to delete')
+        localhost_print_function('0: deleted')
         pass
       # ------------------------ delete query end ------------------------
     # ------------------------ select summary end ------------------------
