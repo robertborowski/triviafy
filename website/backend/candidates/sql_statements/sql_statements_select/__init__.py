@@ -50,10 +50,16 @@ def select_general_function(tag_query_to_use, additional_input=None):
     'select_if_desired_languages_captured': {
       'raw_query': 'SELECT desired_languages FROM candidates_desired_languages_obj WHERE user_id_fk = :val ORDER BY created_timestamp DESC',
       'input_args': {'val': current_user_id_defined_var}
-    },'select_all_candidate_categories_chosen': {
+    },
+    'select_all_candidate_categories_chosen': {
       'raw_query': "SELECT DISTINCT q.question_categories_list FROM triviafy_all_questions_table AS q WHERE q.question_categories_list LIKE'%Candidates%' ORDER BY q.question_categories_list;",
       'input_args': {}
-    },'select_all_questions_for_x_categories': {
+    },
+    'select_all_candidate_categories_chosen_v2': {
+      'raw_query': "SELECT DISTINCT q.categories FROM candidates_created_questions_obj AS q WHERE q.status=TRUE ORDER BY q.categories;",
+      'input_args': {}
+    },
+    'select_all_questions_for_x_categories': {
       'raw_query': f"SELECT \
                       question_uuid, question_categories_list, question_actual_question, question_difficulty, question_hint, question_title, question_image_aws_url, question_answers_list \
                     FROM \
@@ -64,7 +70,8 @@ def select_general_function(tag_query_to_use, additional_input=None):
                     ORDER BY \
                       RANDOM();",
       'input_args': {}
-    },'select_all_questions_for_x_categories_v2': {
+    },
+    'select_all_questions_for_x_categories_v2': {
       'raw_query': f"SELECT \
                       id, categories, question, difficulty, title, aws_image_url, answer, option_a, option_b, option_c, option_d, option_e \
                     FROM \
@@ -75,7 +82,8 @@ def select_general_function(tag_query_to_use, additional_input=None):
                     ORDER BY \
                       RANDOM();",
       'input_args': {}
-    },'select_question_id_actually_exists': {
+    },
+    'select_question_id_actually_exists': {
       'raw_query': "SELECT question_uuid FROM triviafy_all_questions_table WHERE question_uuid=:val;",
       'input_args': {'val': additional_input}
     }

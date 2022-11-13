@@ -684,7 +684,7 @@ def candidates_assessment_create_new_function():
   db.session.commit()
   # ------------------------ delete all assessments that have been started by this user so far but abandoned end ------------------------
   # ------------------------ pull all categories associated with candidates start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_all_candidate_categories_chosen')
+  query_result_arr_of_dicts = select_general_function('select_all_candidate_categories_chosen_v2')
   candidate_categories_arr = all_question_candidate_categories_sorted_function(query_result_arr_of_dicts)
   # ------------------------ pull all categories associated with candidates end ------------------------
   # ------------------------ pull all categories requested start ------------------------

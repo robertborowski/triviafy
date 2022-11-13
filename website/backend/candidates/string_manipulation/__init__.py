@@ -23,7 +23,7 @@ def all_question_candidate_categories_sorted_function(query_result_arr_of_dicts)
   localhost_print_function('=========================================== all_question_candidate_categories_sorted_function START ===========================================')
   output_arr = []
   for i_dict in query_result_arr_of_dicts:
-    categories_str = i_dict['question_categories_list']
+    categories_str = i_dict['categories']
     categories_arr = string_to_arr_function(categories_str)
     for i_category in categories_arr:
       if i_category not in output_arr:
