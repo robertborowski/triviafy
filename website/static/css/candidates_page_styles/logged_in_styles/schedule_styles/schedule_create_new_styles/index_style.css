@@ -189,4 +189,10 @@ ul.schedule-items-assessment-names li input {
   /* border: 1px solid blue; */
   grid-area: 1 / 3 / 2 / 4;
 }
+.schedule-more-options-section {
+  /* border: 1px solid black; */
+  text-align: center;
+  padding: 15px 0;
+  font-size: 20px;
+}
 /* - - - - - - - - - - assessment create end */

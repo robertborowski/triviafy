@@ -24,23 +24,8 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title end -->
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="general-spacer-section"></div>
+<div class="general-spacer-section-small"></div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - view all start -->
-<div class="general-center-container">
-  <a href="{{ url_for('views.candidates_schedule_analytics_function') }}" class="general-a-primary"><p class="general-page-font">View all schedules</p></a>
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - view all end -->
-
-{% if user_sub_active_to_html == false %}
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - paying customers start -->
-<div class="only-paying-customers candidates-default-box-shadow-grey-small">
-  <p>Note: Only paying users can send scheduled assessment links to candidates. Users can send themselves up to three test assessments.</p>
-  <a href="{{ url_for('views.candidates_account_settings_function') }}" class="general-a-primary"><p class="subscription-p">Select subscription</p></a>
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - paying customers end -->
-{% endif %}
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message start -->
 <div class="error-message-section">
@@ -53,15 +38,14 @@
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - success message end -->
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="general-spacer-section"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - view all start -->
-<div class="general-center-container">
-  <a href="{{ url_for('views.candidates_upload_emails_function') }}" class="general-a-primary"><p class="general-page-font">Add more candidates</p></a>
+{% if user_sub_active_to_html == false %}
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - paying customers start -->
+<div class="only-paying-customers candidates-default-box-shadow-grey-small">
+  <p>Note: Only paying users can send scheduled assessment links to candidates. Users can send themselves up to three test assessments.</p>
+  <a href="{{ url_for('views.candidates_account_settings_function') }}" class="general-a-primary"><p class="subscription-p">Select subscription</p></a>
 </div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - view all end -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - paying customers end -->
+{% endif %}
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
 <div class="general-spacer-section"></div>
@@ -79,8 +63,13 @@
           <ul class="schedule-items-assessment-names">
             {% for i in current_user_assessment_names_arr_to_html %}
             <li>
+              {% if current_user_assessment_names_arr_to_html|length == 1 %}
+              <input type="radio" id="ui_schedule_assessment_selected" name="ui_schedule_assessment_selected" value="{{ i }}" checked/>
+              <label for="ui_schedule_assessment_selected">{{ i }}</label>
+              {% elif current_user_assessment_names_arr_to_html|length != 1 %}
               <input type="radio" id="ui_schedule_assessment_selected" name="ui_schedule_assessment_selected" value="{{ i }}"/>
               <label for="ui_schedule_assessment_selected">{{ i }}</label>
+              {% endif %}
             </li>
             {% endfor %}
           </ul>
@@ -95,8 +84,13 @@
           <ul class="schedule-items-assessment-names">
             {% for i in current_user_candidates_arr_to_html %}
             <li>
+              {% if current_user_candidates_arr_to_html|length == 1 %}
+              <input type="checkbox" id="ui_schedule_candidates_selected" name="ui_schedule_candidates_selected" value="{{ i }}" checked/>{{ i }}
+              <label for="ui_schedule_candidates_selected"></label>
+              {% elif current_user_candidates_arr_to_html|length != 1 %}
               <input type="checkbox" id="ui_schedule_candidates_selected" name="ui_schedule_candidates_selected" value="{{ i }}"/>{{ i }}
               <label for="ui_schedule_candidates_selected"></label>
+              {% endif %}
             </li>
             {% endfor %}
           </ul>
@@ -112,12 +106,38 @@
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - submit button start -->
     <div class="schedule-now-button-container">
-      <button type="submit" class="default-button-format default-button-format-primary-color">Send Now</button>
+      <button type="submit" class="default-button-format default-button-format-primary-color">Send now</button>
     </div>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - submit button end -->
   </form>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="general-spacer-section-large"></div>
+<div class="general-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - more options start -->
+<div class="schedule-more-options-section">
+  <p>More options</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - more options end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - view all start -->
+<div class="general-center-container">
+  <a href="{{ url_for('views.candidates_schedule_create_new_function') }}" class="general-a-primary"><p class="general-page-font">Send later</p></a>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - view all end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section-small-2"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - view all start -->
+<div class="general-center-container">
+  <a href="{{ url_for('views.candidates_upload_emails_function') }}" class="general-a-primary"><p class="general-page-font">Add candidates</p></a>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - view all end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section"></div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page end -->

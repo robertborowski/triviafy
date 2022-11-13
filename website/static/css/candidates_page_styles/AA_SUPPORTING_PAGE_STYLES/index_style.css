@@ -105,6 +105,13 @@
   max-width: 1200px;
   margin: 0 
 }
+.general-spacer-section-small-2 {
+  /* background-color: var(--testing-blueprint-color); */
+  height: 15px;
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 
+}
 .candidates-default-box-shadow-grey-regular {
   box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.115)!important;
 }
