@@ -231,23 +231,6 @@ def dashboard_test_login_page_function():
   -These pages will require the template_location_url variable
   """
   template_location_url = 'candidates_page_templates/logged_in_page_templates/dashboard_page_templates/index.html'
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
-  check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
-  if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
-    localhost_print_function('=========================================== dashboard_test_login_page_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_desired_languages_captured')
-  try:
-    check_desired_languages_value = query_result_arr_of_dicts[0]['desired_languages']
-  except:
-    check_desired_languages_value = None
-  if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
-    localhost_print_function('=========================================== dashboard_test_login_page_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
   # ------------------------ auto redirect checks end ------------------------
   # ------------------------ delete all assessments that have been started by this user so far but abandoned start ------------------------
   CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr=None).delete()
@@ -403,23 +386,6 @@ def candidates_subscription_success_function():
 @login_required
 def candidates_account_settings_function():
   localhost_print_function('=========================================== candidates_account_settings_function START ===========================================')
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
-  check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
-  if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
-    localhost_print_function('=========================================== candidates_account_settings_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_desired_languages_captured')
-  try:
-    check_desired_languages_value = query_result_arr_of_dicts[0]['desired_languages']
-  except:
-    check_desired_languages_value = None
-  if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
-    localhost_print_function('=========================================== candidates_account_settings_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
   # ------------------------ delete all assessments that have been started by this user so far but abandoned start ------------------------
   CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr=None).delete()
   CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr='').delete()
@@ -551,23 +517,6 @@ def candidates_account_settings_function():
 @login_required
 def candidates_upload_emails_function():
   localhost_print_function('=========================================== candidates_upload_emails_function START ===========================================')
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
-  check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
-  if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
-    localhost_print_function('=========================================== candidates_upload_emails_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_desired_languages_captured')
-  try:
-    check_desired_languages_value = query_result_arr_of_dicts[0]['desired_languages']
-  except:
-    check_desired_languages_value = None
-  if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
-    localhost_print_function('=========================================== candidates_upload_emails_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
   # ------------------------ delete all assessments that have been started by this user so far but abandoned start ------------------------
   CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr=None).delete()
   CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr='').delete()
@@ -620,23 +569,6 @@ def candidates_upload_emails_function():
 @login_required
 def candidates_analytics_function():
   localhost_print_function('=========================================== candidates_analytics_function START ===========================================')
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
-  check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
-  if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
-    localhost_print_function('=========================================== candidates_analytics_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_desired_languages_captured')
-  try:
-    check_desired_languages_value = query_result_arr_of_dicts[0]['desired_languages']
-  except:
-    check_desired_languages_value = None
-  if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
-    localhost_print_function('=========================================== candidates_analytics_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
   # ------------------------ delete all assessments that have been started by this user so far but abandoned start ------------------------
   CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr=None).delete()
   CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr='').delete()
@@ -693,23 +625,6 @@ def candidates_analytics_function():
 @login_required
 def candidates_assessments_dashboard_function():
   localhost_print_function('=========================================== candidates_assessments_dashboard_function START ===========================================')
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
-  check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
-  if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
-    localhost_print_function('=========================================== candidates_assessments_dashboard_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_desired_languages_captured')
-  try:
-    check_desired_languages_value = query_result_arr_of_dicts[0]['desired_languages']
-  except:
-    check_desired_languages_value = None
-  if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
-    localhost_print_function('=========================================== candidates_assessments_dashboard_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
   # ------------------------ delete all assessments that have been started by this user so far but abandoned start ------------------------
   CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr=None).delete()
   CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr='').delete()
@@ -724,23 +639,6 @@ def candidates_assessments_dashboard_function():
 @login_required
 def candidates_assessments_analytics_function():
   localhost_print_function('=========================================== candidates_assessments_analytics_function START ===========================================')
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
-  check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
-  if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
-    localhost_print_function('=========================================== candidates_assessments_analytics_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_desired_languages_captured')
-  try:
-    check_desired_languages_value = query_result_arr_of_dicts[0]['desired_languages']
-  except:
-    check_desired_languages_value = None
-  if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
-    localhost_print_function('=========================================== candidates_assessments_analytics_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
   # ------------------------ delete all assessments that have been started by this user so far but abandoned start ------------------------
   CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr=None).delete()
   CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr='').delete()
@@ -778,23 +676,6 @@ def candidates_assessments_analytics_function():
 def candidates_assessment_create_new_function():
   localhost_print_function('=========================================== candidates_assessment_create_new_function START ===========================================')
   template_location_url = 'candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_create_new_page_templates/index.html'
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
-  check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
-  if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
-    localhost_print_function('=========================================== candidates_assessment_create_new_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_desired_languages_captured')
-  try:
-    check_desired_languages_value = query_result_arr_of_dicts[0]['desired_languages']
-  except:
-    check_desired_languages_value = None
-  if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
-    localhost_print_function('=========================================== candidates_assessment_create_new_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
   # ------------------------ delete all assessments that have been started by this user so far but abandoned start ------------------------
   CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr=None).delete()
   CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr='').delete()
@@ -816,7 +697,10 @@ def candidates_assessment_create_new_function():
   # ------------------------ combine lists categories exist and requested end ------------------------
   # ------------------------ pull all categories requested start ------------------------
   ui_most_assessed_topic_obj = CandidatesDesiredLanguagesObj.query.filter_by(user_id_fk=current_user.id).order_by(CandidatesDesiredLanguagesObj.created_timestamp.desc()).first()
-  ui_most_assessed_topic_str = ui_most_assessed_topic_obj.desired_languages
+  try:
+    ui_most_assessed_topic_str = ui_most_assessed_topic_obj.desired_languages
+  except:
+    ui_most_assessed_topic_str = '_'
   # ------------------------ pull all categories requested end ------------------------
   # ------------------------ combine lists categories exist and requested start ------------------------
   check_off_marker = False
@@ -919,23 +803,6 @@ def candidates_assessment_create_new_function():
 @login_required
 def candidates_assessment_select_questions_function(url_assessment_name):
   localhost_print_function('=========================================== candidates_assessment_select_questions_function START ===========================================')
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
-  check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
-  if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
-    localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_desired_languages_captured')
-  try:
-    check_desired_languages_value = query_result_arr_of_dicts[0]['desired_languages']
-  except:
-    check_desired_languages_value = None
-  if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
-    localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
   # ------------------------ invalid url_assessment_name start ------------------------
   if url_assessment_name == False or url_assessment_name == None or url_assessment_name == '':
     localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
@@ -1047,23 +914,6 @@ def candidates_assessment_sucessfully_created_function():
 @login_required
 def candidates_assessment_view_specific_function(url_assessment_name):
   localhost_print_function('=========================================== candidates_assessment_view_specific_function START ===========================================')
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
-  check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
-  if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
-    localhost_print_function('=========================================== candidates_assessment_view_specific_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_desired_languages_captured')
-  try:
-    check_desired_languages_value = query_result_arr_of_dicts[0]['desired_languages']
-  except:
-    check_desired_languages_value = None
-  if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
-    localhost_print_function('=========================================== candidates_assessment_view_specific_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
   # ------------------------ invalid url_assessment_name start ------------------------
   if url_assessment_name == False or url_assessment_name == None or url_assessment_name == '':
     localhost_print_function('=========================================== candidates_assessment_view_specific_function END ===========================================')
@@ -1092,23 +942,6 @@ def candidates_assessment_view_specific_function(url_assessment_name):
 @login_required
 def candidates_assessment_results_specific_function(url_assessment_name):
   localhost_print_function('=========================================== candidates_assessment_results_specific_function START ===========================================')
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
-  check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
-  if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
-    localhost_print_function('=========================================== candidates_assessment_results_specific_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_desired_languages_captured')
-  try:
-    check_desired_languages_value = query_result_arr_of_dicts[0]['desired_languages']
-  except:
-    check_desired_languages_value = None
-  if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
-    localhost_print_function('=========================================== candidates_assessment_results_specific_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
   # ------------------------ invalid url_assessment_name start ------------------------
   if url_assessment_name == False or url_assessment_name == None or url_assessment_name == '':
     localhost_print_function('=========================================== candidates_assessment_results_specific_function END ===========================================')
@@ -1171,23 +1004,6 @@ def candidates_assessment_results_specific_function(url_assessment_name):
 @login_required
 def candidates_candidate_results_specific_function(url_candidate_email):
   localhost_print_function('=========================================== candidates_candidate_results_specific_function START ===========================================')
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
-  check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
-  if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
-    localhost_print_function('=========================================== candidates_candidate_results_specific_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_desired_languages_captured')
-  try:
-    check_desired_languages_value = query_result_arr_of_dicts[0]['desired_languages']
-  except:
-    check_desired_languages_value = None
-  if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
-    localhost_print_function('=========================================== candidates_candidate_results_specific_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
   # ------------------------ invalid url_candidate_email start ------------------------
   if url_candidate_email == False or url_candidate_email == None or url_candidate_email == '':
     localhost_print_function('=========================================== candidates_candidate_results_specific_function END ===========================================')
@@ -1252,23 +1068,6 @@ def candidates_candidate_results_specific_function(url_candidate_email):
 @login_required
 def candidates_schedule_dashboard_function():
   localhost_print_function('=========================================== candidates_schedule_dashboard_function START ===========================================')
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
-  check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
-  if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
-    localhost_print_function('=========================================== candidates_schedule_dashboard_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_desired_languages_captured')
-  try:
-    check_desired_languages_value = query_result_arr_of_dicts[0]['desired_languages']
-  except:
-    check_desired_languages_value = None
-  if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
-    localhost_print_function('=========================================== candidates_schedule_dashboard_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
   # ------------------------ delete all assessments that have been started by this user so far but abandoned start ------------------------
   CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr=None).delete()
   CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr='').delete()
@@ -1302,23 +1101,6 @@ def candidates_no_candidates_yet_function():
 @login_required
 def candidates_schedule_create_new_function():
   localhost_print_function('=========================================== candidates_schedule_create_new_function START ===========================================')
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
-  check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
-  if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
-    localhost_print_function('=========================================== candidates_schedule_create_new_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_desired_languages_captured')
-  try:
-    check_desired_languages_value = query_result_arr_of_dicts[0]['desired_languages']
-  except:
-    check_desired_languages_value = None
-  if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
-    localhost_print_function('=========================================== candidates_schedule_create_new_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
   # ------------------------ messages start ------------------------
   success_message_schedule = ''
   error_message_schedule = ''
@@ -1456,23 +1238,6 @@ def candidates_schedule_create_new_function():
 @login_required
 def candidates_schedule_create_now_function():
   localhost_print_function('=========================================== candidates_schedule_create_now_function START ===========================================')
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
-  check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
-  if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
-    localhost_print_function('=========================================== candidates_schedule_create_now_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_desired_languages_captured')
-  try:
-    check_desired_languages_value = query_result_arr_of_dicts[0]['desired_languages']
-  except:
-    check_desired_languages_value = None
-  if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
-    localhost_print_function('=========================================== candidates_schedule_create_now_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
   # ------------------------ messages start ------------------------
   success_message_schedule = ''
   error_message_schedule = ''
@@ -1620,23 +1385,6 @@ def candidates_schedule_create_now_function():
 @login_required
 def candidates_schedule_analytics_function():
   localhost_print_function('=========================================== candidates_schedule_analytics_function START ===========================================')
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
-  check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
-  if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
-    localhost_print_function('=========================================== candidates_schedule_analytics_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_desired_languages_captured')
-  try:
-    check_desired_languages_value = query_result_arr_of_dicts[0]['desired_languages']
-  except:
-    check_desired_languages_value = None
-  if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
-    localhost_print_function('=========================================== candidates_schedule_analytics_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
   # ------------------------ delete all assessments that have been started by this user so far but abandoned start ------------------------
   CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr=None).delete()
   CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr='').delete()
@@ -1846,23 +1594,6 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
 @login_required
 def candidates_assessment_i_answers_function(url_email, url_assessment_name):
   localhost_print_function('=========================================== candidates_assessment_i_answers_function START ===========================================')
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
-  check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
-  if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
-    localhost_print_function('=========================================== candidates_assessment_i_answers_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_desired_languages_captured')
-  try:
-    check_desired_languages_value = query_result_arr_of_dicts[0]['desired_languages']
-  except:
-    check_desired_languages_value = None
-  if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
-    localhost_print_function('=========================================== candidates_assessment_i_answers_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
   # ------------------------ invalid url_candidate_email start ------------------------
   if url_email == False or url_email == None or url_email == '' or url_assessment_name == False or url_assessment_name == None or url_assessment_name == '':
     localhost_print_function('=========================================== candidates_assessment_i_answers_function END ===========================================')
@@ -1906,23 +1637,6 @@ def candidates_assessment_i_answers_function(url_email, url_assessment_name):
 @login_required
 def candidates_categories_request_function():
   localhost_print_function('=========================================== candidates_categories_request_function START ===========================================')
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
-  check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
-  if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
-    localhost_print_function('=========================================== candidates_categories_request_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_desired_languages_captured')
-  try:
-    check_desired_languages_value = query_result_arr_of_dicts[0]['desired_languages']
-  except:
-    check_desired_languages_value = None
-  if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
-    localhost_print_function('=========================================== candidates_categories_request_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
   # ------------------------ if post method hit start ------------------------
   ui_request_error_statement = ''
   ui_request_success_statement = ''
@@ -1953,23 +1667,6 @@ def candidates_categories_request_function():
 @login_required
 def candidates_create_question_function():
   localhost_print_function('=========================================== candidates_create_question_function START ===========================================')
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_capacity_chosen')
-  check_capacity_selected_value = query_result_arr_of_dicts[0]['capacity_id_fk']
-  if check_capacity_selected_value == None or len(check_capacity_selected_value) == 0:
-    localhost_print_function('=========================================== candidates_create_question_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
-  # ------------------------ individual redirect start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_if_desired_languages_captured')
-  try:
-    check_desired_languages_value = query_result_arr_of_dicts[0]['desired_languages']
-  except:
-    check_desired_languages_value = None
-  if check_desired_languages_value == None or len(check_desired_languages_value) == 0:
-    localhost_print_function('=========================================== candidates_create_question_function END ===========================================')
-    return redirect(url_for('views.capacity_page_function'))
-  # ------------------------ individual redirect end ------------------------
   # ------------------------ delete all assessments that have been started by this user so far but abandoned start ------------------------
   CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr=None).delete()
   CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr='').delete()
