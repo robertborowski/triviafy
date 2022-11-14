@@ -1630,6 +1630,15 @@ def candidates_categories_request_function():
     db.session.add(insert_new_row)
     db.session.commit()
     # ------------------------ create new user in db end ------------------------
+    # ------------------------ email self start ------------------------
+    try:
+      output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+      output_subject = f'New Requested Language - Triviafy Candidates'
+      output_body = f"Hi there,\n\nRequester: {current_user.email}\nRequested: '{ui_requested}'\n\nBest,\nTriviafy"
+      send_email_template_function(output_to_email, output_subject, output_body)
+    except:
+      pass
+    # ------------------------ email self end ------------------------
     ui_request_success_statement = 'Thank you, we will email you once the questions are available.'
   # ------------------------ if post method hit end ------------------------
   localhost_print_function('=========================================== candidates_categories_request_function END ===========================================')
