@@ -16,7 +16,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 from flask_login import login_required, current_user, login_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
 from website.models import CandidatesUserObj, CandidatesDesiredLanguagesObj, CandidatesUploadedCandidatesObj, CandidatesAssessmentsCreatedObj, CandidatesRequestLanguageObj, CandidatesScheduleObj, CandidatesEmailSentObj, CandidatesAssessmentGradedObj, CandidatesCapacityOptionsObj, CandidatesStripeCheckoutSessionObj, CandidatesCreatedQuestionsObj
-from website.backend.candidates.browser import browser_response_set_cookie_function
+from website.backend.candidates.browser import browser_response_set_cookie_function, browser_response_set_cookie_function_v2
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
 from website import db
@@ -769,7 +769,7 @@ def candidates_assessment_create_new_function():
     redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
     return render_template(template_location_url, user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=create_assessment_error_statement, candidate_categories_arr_1_to_html=candidate_categories_arr_1, candidate_categories_arr_2_to_html=candidate_categories_arr_2, candidate_categories_arr_3_to_html=candidate_categories_arr_3, check_off_marker_item_to_html=check_off_marker_item)
   else:
-    browser_response = browser_response_set_cookie_function(current_user, template_location_url)
+    browser_response = browser_response_set_cookie_function_v2(template_location_url, current_user, current_user.company_name, create_assessment_error_statement, candidate_categories_arr_1, candidate_categories_arr_2, candidate_categories_arr_3, check_off_marker_item)
     localhost_print_function('=========================================== dashboard_test_login_page_function END ===========================================')
     return browser_response
   # ------------------------ auto set cookie end ------------------------
