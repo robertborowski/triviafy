@@ -231,6 +231,15 @@ def dashboard_test_login_page_function():
   -These pages will require the template_location_url variable
   """
   template_location_url = 'candidates_page_templates/logged_in_page_templates/dashboard_page_templates/index.html'
+  # ------------------------ get values from url start ------------------------
+  success_message = ''
+  try:
+    var1 = request.args.get('var1')
+    if var1 == 's_success':
+      success_message = 'Schedule created!'
+  except:
+    pass
+  # ------------------------ get values from url end ------------------------
   # ------------------------ auto redirect checks end ------------------------
   # ------------------------ delete all assessments that have been started by this user so far but abandoned start ------------------------
   CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr=None).delete()
@@ -258,7 +267,7 @@ def dashboard_test_login_page_function():
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
   if get_cookie_value_from_browser != None:
     redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
-    return render_template(template_location_url, user = current_user, users_company_name_to_html = current_user.company_name, len_current_user_uploaded_emails_arr_to_html = len_current_user_uploaded_emails_arr, len_current_user_assessments_created_arr_to_html=len_current_user_assessments_created_arr, len_current_user_schedules_created_arr_to_html=len_current_user_schedules_created_arr)
+    return render_template(template_location_url, user = current_user, users_company_name_to_html = current_user.company_name, len_current_user_uploaded_emails_arr_to_html = len_current_user_uploaded_emails_arr, len_current_user_assessments_created_arr_to_html=len_current_user_assessments_created_arr, len_current_user_schedules_created_arr_to_html=len_current_user_schedules_created_arr,success_message_to_html=success_message)
   else:
     browser_response = browser_response_set_cookie_function(current_user, template_location_url)
     localhost_print_function('=========================================== dashboard_test_login_page_function END ===========================================')
@@ -1198,7 +1207,8 @@ def candidates_schedule_create_new_function():
           send_email_template_function(output_to_email, output_subject, output_body)
         except:
           pass
-      # ------------------------ email self end ------------------------
+        # ------------------------ email self end ------------------------
+        return redirect(url_for('views.dashboard_test_login_page_function', var1='s_success'))
     # ------------------------ insert to db end ------------------------
   # ------------------------ post triggered end ------------------------
   localhost_print_function('=========================================== candidates_schedule_create_new_function END ===========================================')
@@ -1348,7 +1358,8 @@ def candidates_schedule_create_now_function():
           send_email_template_function(output_to_email, output_subject, output_body)
         except:
           pass
-      # ------------------------ email self end ------------------------
+        # ------------------------ email self end ------------------------
+        return redirect(url_for('views.dashboard_test_login_page_function', var1='s_success'))
   # ------------------------ post triggered end ------------------------
   localhost_print_function('=========================================== candidates_schedule_create_now_function END ===========================================')
   return render_template('candidates_page_templates/logged_in_page_templates/schedule_page_templates/schedule_create_now_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, current_user_assessment_names_arr_to_html=current_user_assessment_names_arr, current_user_candidates_arr_to_html=current_user_candidates_arr, success_message_to_html=success_message_schedule, error_message_to_html=error_message_schedule,user_sub_active_to_html=user_sub_active)
