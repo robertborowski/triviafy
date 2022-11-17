@@ -710,7 +710,7 @@ def candidates_assessment_create_new_function():
   check_off_marker_item = None
   user_assessments_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id).all()
   if user_assessments_obj == None or user_assessments_obj == []:
-    check_off_marker_item = 'Excel'
+    check_off_marker_item = 'Power BI'
   # ------------------------ check if user made first quiz already, if so remove the friction step end ------------------------
   # ------------------------ break down array for html columns start ------------------------
   len_candidate_categories_arr = len(candidate_categories_arr)
