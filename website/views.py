@@ -380,7 +380,7 @@ def candidates_subscription_success_function():
   # ------------------------ email self start ------------------------
   try:
     output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
-    output_subject = f'New Subscription - Triviafy Candidates'
+    output_subject = f'Triviafy - Subscription - {user_obj.email}'
     output_body = f"Hi there,\n\nNew user subscribed: {user_obj.email} \n\nBest,\nTriviafy"
     send_email_template_function(output_to_email, output_subject, output_body)
   except:
@@ -563,7 +563,7 @@ def candidates_upload_emails_function():
     if candidate_upload_success_statement == 'Uploaded successfully!':
       try:
         output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
-        output_subject = f'Triviafy - New Candidate Uploaded'
+        output_subject = f'Triviafy - Candidate Uploaded - {current_user.email}'
         output_body = f"Hi there,\n\n{current_user.email} uploaded candidate(s).\n\nBest,\nTriviafy"
         send_email_template_function(output_to_email, output_subject, output_body)
       except:
@@ -835,7 +835,7 @@ def candidates_assessment_select_questions_function(url_assessment_name):
       # ------------------------ email self start ------------------------
       try:
         output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
-        output_subject = f'Candidates - Triviafy New Assessment Created'
+        output_subject = f'Triviafy - Assessment Created - {current_user.email}'
         output_body = f"Hi there,\n\n{current_user.email} created an assessment.\n\nAssessment name: '{db_assessment_obj_name}'\nDesired langs: '{db_assessment_obj_desired_langs}'\nTotal questions: {len(ui_select_question_checkbox_arr)} \n\nBest,\nTriviafy"
         send_email_template_function(output_to_email, output_subject, output_body)
       except:
@@ -1202,7 +1202,7 @@ def candidates_schedule_create_new_function():
       if success_message_schedule == 'Schedule created!':
         try:
           output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
-          output_subject = f'Triviafy - New Schedule Created'
+          output_subject = f'Triviafy - Future Schedule Created - {current_user.email}'
           output_body = f"Hi there,\n\n{current_user.email} created schedule.\n\nBest,\nTriviafy"
           send_email_template_function(output_to_email, output_subject, output_body)
         except:
@@ -1353,7 +1353,7 @@ def candidates_schedule_create_now_function():
       if success_message_schedule == 'Assessment email sent!':
         try:
           output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
-          output_subject = f'Triviafy - Now Schedule Created'
+          output_subject = f'Triviafy - Immediate Schedule Created - {current_user.email}'
           output_body = f"Hi there,\n\n{current_user.email} created schedule.\n\nBest,\nTriviafy"
           send_email_template_function(output_to_email, output_subject, output_body)
         except:
@@ -1566,6 +1566,15 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
         localhost_print_function('error cannot update row')
         pass
       # ------------------------ update row in db schedule end ------------------------
+      # ------------------------ email self start ------------------------
+      try:
+        output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+        output_subject = f'Triviafy - Graded Assessment - {db_schedule_obj_candidate_email}'
+        output_body = f"Hi there,\n\nNew user submitted assessment answers: {db_schedule_obj_candidate_email} \n\nBest,\nTriviafy"
+        send_email_template_function(output_to_email, output_subject, output_body)
+      except:
+        pass
+      # ------------------------ email self end ------------------------
       localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
       return redirect(url_for('views.candidates_assessment_completed_success_function'))
     # ------------------------ only start grading if all valid answers provided end ------------------------
@@ -1644,7 +1653,7 @@ def candidates_categories_request_function():
     # ------------------------ email self start ------------------------
     try:
       output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
-      output_subject = f'New Requested Language - Triviafy Candidates'
+      output_subject = f'Triviafy - Requested Language - {current_user.email}'
       output_body = f"Hi there,\n\nRequester: {current_user.email}\nRequested: '{ui_requested}'\n\nBest,\nTriviafy"
       send_email_template_function(output_to_email, output_subject, output_body)
     except:
