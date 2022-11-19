@@ -16,6 +16,8 @@ def job_caller_function():
   # ------------------------ function run start ------------------------
   job_candidates_remove_unsub_user_all_tables_function(postgres_connection, postgres_cursor)
   job_candidates_clean_out_redis_function(postgres_connection, postgres_cursor)
+  # job_candidates_email_all_collected_emails_function(postgres_connection, postgres_cursor)
+  # job_candidates_email_all_users_function(postgres_connection, postgres_cursor)
   # ------------------------ function run end ------------------------
 
   # ------------------------ Close Postgres DB START ------------------------

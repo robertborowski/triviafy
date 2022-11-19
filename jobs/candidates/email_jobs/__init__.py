@@ -42,8 +42,8 @@ def job_candidates_email_all_collected_emails_function(postgres_connection, post
       # ------------------------ send email start ------------------------
       output_to_email = i_user_arr_email
       add_link = 'https://triviafy.com/candidates/assessment/new'
-      output_subject = f'Triviafy Skill Assessment - Candidate Screening'
-      output_body = f"Hi there,\n\nYou signed up to learn more about Triviafy's candidate screening tool on {i_user_arr_created_timestamp}.\nYou can create your first skill assessment in less than 30 seconds at {add_link}\n\n\nReply 'STOP' to opt out.\n\nBest,\nTriviafy"
+      output_subject = f'Triviafy: Pre Employment Assessment For Early Stage Candidate Screening'
+      output_body = f"Hi there,\n\nYou signed up to learn more about Triviafy's candidate screening tool on {i_user_arr_created_timestamp}.\nYou can create your first skill pre employment skill assessment in less than 30 seconds at {add_link}\n\n\nReply 'STOP' to opt out.\n\nBest,\nTriviafy"
       send_email_template_function(output_to_email, output_subject, output_body)
       # ------------------------ send email end ------------------------
       # ------------------------ insert row db start ------------------------
@@ -97,8 +97,8 @@ def job_candidates_email_all_users_function(postgres_connection, postgres_cursor
       # ------------------------ send email start ------------------------
       output_to_email = i_user_arr_email
       add_link = 'https://triviafy.com/candidates/assessment/new'
-      output_subject = f'Triviafy Skill Assessment, Candidate Screening Tool'
-      output_body = f"Hi there,\n\nYou signed up for Triviafy's skill-assessment, candidate-screening tool on {i_user_arr_created_timestamp}.\nYou can create your first skill assessment in less than 30 seconds at: {add_link}\n\n\nReply 'STOP' to opt out.\n\nBest,\nTriviafy"
+      output_subject = f'Triviafy: Pre Employment Assessment For Early Stage Candidate Screening'
+      output_body = f"Hi there,\n\nYou signed up for Triviafy's skill-assessment, candidate-screening tool on {i_user_arr_created_timestamp}.\nYou can create your first pre employment skill assessment in less than 30 seconds at: {add_link}\n\n\nReply 'STOP' to opt out.\n\nBest,\nTriviafy"
       send_email_template_function(output_to_email, output_subject, output_body)
       # ------------------------ send email end ------------------------
       # ------------------------ insert row db start ------------------------
