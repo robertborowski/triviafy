@@ -6,6 +6,13 @@
   max-width: 1200px;
   margin: 0 auto;
 }
+.landing-spacer-section-small {
+  /* background-color: var(--testing-blueprint-color); */
+  height: 50px;
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
 /* - - - - - - - - - - spacer end */
 
 
@@ -29,7 +36,7 @@ img.landing-backdrop-img {
 /* - - - - - - - - - - Intro - Start */
 .landing-page-intro-3-section {
   /* border: 1px solid black; */
-  height: 400px;
+  height: 500px;
   width: 80%;
   max-width: 1200px;
   margin: 0 auto;
@@ -130,6 +137,13 @@ form.landing-page-email-form-3 {
 .landing-page-intro-3-media-img {
   width: 500px;
   height: 300px;
+  /* margin: 100px 0 0 0; */
+  margin: 0;
+}
+.landing-page-intro-4-media-img {
+  /* border: 1px solid red; */
+  width: 500px;
+  height: 500px;
   /* margin: 100px 0 0 0; */
   margin: 0;
 }

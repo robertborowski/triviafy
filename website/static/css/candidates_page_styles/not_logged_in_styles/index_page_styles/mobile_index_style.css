@@ -16,7 +16,7 @@
   /* - - - - - - - - - - Intro - Start */
   .landing-page-intro-3-section {
     /* border: 1px solid black; */
-    height: 800px;
+    height: 850px;
     width: 90%;
     grid-template-columns: 1fr;
     grid-template-rows: repeat(2, 1fr);
@@ -48,6 +48,11 @@
   .landing-page-intro-3-media-img {
     width: 250px;
     height: 150px;
+    margin: 0 0 0 0;
+  }
+  .landing-page-intro-4-media-img {
+    width: 250px;
+    height: 250px;
     margin: 0 0 0 0;
   }
   /* - - - - - - - - - - Intro Right Side - End */
