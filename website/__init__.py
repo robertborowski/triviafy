@@ -70,6 +70,7 @@ def create_app_function():
   # ------------------------ views/auths/routes imports start ------------------------
   from .views import views
   from .auth import auth
+  from .blog import blog
   # ------------------------ views/auths/routes imports end ------------------------
   # ------------------------ views/auths/routes register blueprints start ------------------------
   # ------------------------ TRIVIAFY EMPLOYEE ENGAGEMENT START ------------------------
@@ -319,6 +320,7 @@ def create_app_function():
   # ------------------------ TRIVIAFY EMPLOYEE ENGAGEMENT END ------------------------
   app.register_blueprint(views, url_prefix='/')
   app.register_blueprint(auth, url_prefix='/')
+  app.register_blueprint(blog, url_prefix='/')
   # ------------------------ views/auths/routes register blueprints end ------------------------
   # ------------------------ import models before creating db for first time start ------------------------
   from .models import CandidatesUserObj, CandidatesCapacityOptionsObj, CandidatesCollectEmailObj

@@ -40,12 +40,14 @@ class NavbarCandidatesNotSignedInClass extends HTMLElement {
           <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar - Links - Level 2 - START -->
           <ul class="links-level-2 default-box-shadow-grey-reg">
             <li><a href="${this.getAttribute("link_candidates_about_js")}">About</a></li>
+            <li><a href="${this.getAttribute("link_candidates_blog_js")}">Blog</a></li>
             <li><a href="${this.getAttribute("link_candidates_faq_js")}">FAQ</a></li>
             <li><a href="${this.getAttribute("link_candidates_library_js")}">Test library</a></li>
           </ul>
           <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Navbar - Links - Level 2 - END -->
         </li>
         <li><a href="${this.getAttribute("link_candidates_pricing_js")}">Pricing</a></li>
+
         <li><a href="${this.getAttribute("link_candidates_login_js")}">Dashboard</a>
         </li>
         <div class="navbar-not-signed-in-demo-button-section-3">
