@@ -1,0 +1,39 @@
+.blog-section-container {
+  /* border: 1px solid black; */
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto;
+  /* padding: 10px; */
+}
+.individual-blob-section {
+  /* border: 1px solid blue; */
+  border-radius: 25px;
+  margin: 0px 10px 50px 10px;
+}
+.blob-words {
+  /* border: 1px solid blue; */
+  padding: 25px 50px;
+}
+.blob-spacing {
+  margin: 12px 0;
+}
+.blob-title {
+  font-size: 25px;
+  color: var(--company-primary-color);
+}
+.blob-date {
+  font-size: 12px;
+  margin: 0 0 0 10px;
+  color: var(--company-greyed-out-color);
+}
+.blob-details {
+  font-size: 18px;
+}
+.individual-blob-a, .individual-blob-a:visited {
+  /* cursor: pointer; */
+  color: black;
+  text-decoration: none;
+}
+.individual-blob-a:hover {
+  text-decoration: underline;
+}
