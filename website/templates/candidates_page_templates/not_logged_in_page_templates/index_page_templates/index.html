@@ -1,7 +1,8 @@
 {% extends "candidates_page_templates/aaa_base_page_templates/base2_child1_not_logged_in_yes_navbar_and_footer.html" %}
 
 {% block title %}
-  <title>Pre Employment Testing - Triviafy</title>
+    <title>Pre Employment Testing - Triviafy</title>
+    <meta name="description" content="The friendliest pre employment testing platform. Pre employment screening made simple.">
 {% endblock %}
 
 {% block contentBodyExceptNavbarAndFooter %}
@@ -14,8 +15,8 @@
 <div class="landing-page-intro-3-section">
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - intro left side start -->
   <div class="landing-page-intro-3-words-section">
-    <p class="landing-page-intro-3-header">The friendliest pre employment skill assessment experience.</p>
-    <p class="landing-page-3-subheader landing-page-intro-3-sub-header">Early stage candidate screening made simple.</p>
+    <p class="landing-page-intro-3-header">The friendliest pre employment testing experience.</p>
+    <p class="landing-page-3-subheader landing-page-intro-3-sub-header">Early stage pre employment screening made simple.</p>
     <div class="landing-page-get-started-section">
       <div class="landing-page-intro-3-next-steps-section">
         <form action="{{ url_for('auth.candidates_signup_function') }}" method="post" class="landing-page-email-form-3" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
