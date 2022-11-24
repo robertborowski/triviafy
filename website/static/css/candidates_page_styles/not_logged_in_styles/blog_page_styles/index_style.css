@@ -1,3 +1,13 @@
+.blog-page-title-container {
+  /* border: 1px solid black; */
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+.blog-page-title-p {
+  font-size: 30px;
+}
 .blog-section-container {
   /* border: 1px solid black; */
   width: 80%;
