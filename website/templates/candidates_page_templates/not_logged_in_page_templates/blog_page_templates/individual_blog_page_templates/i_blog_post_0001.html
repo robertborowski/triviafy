@@ -1,0 +1,49 @@
+{% extends "candidates_page_templates/aaa_base_page_templates/base2_child1_not_logged_in_yes_navbar_and_footer.html" %}
+
+<!-- head tag block content -->
+{% block title %}
+  <title>Blog / Triviafy</title>
+{% endblock %}
+
+{% block contentBodyExceptNavbarAndFooter %}
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="landing-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - intro start -->
+<div class="i-blog-section-container">
+  <p>Hello</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - intro end -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="landing-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - sign up small start -->
+<div class="sign-up-small-section default-box-shadow-grey-reg">
+  <div class="landing-page-3-header">
+    <p class="section-title-p-margins">Start filtering your candidates today!</p>
+    <p class="landing-page-3-subheader">100% free. Send your first candidate assessment in less than 2 minutes.</p>
+  </div>
+  <div class="landing-page-get-started-section">
+    <div class="landing-page-intro-3-next-steps-section">
+      <form action="{{ url_for('auth.candidates_signup_function') }}" method="post" class="landing-page-email-form-3" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+        <label for="various_pages1_ui_email" class="landing-page-form-email-label"></label>
+        <input type="email" pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,10}$" id="various_pages1_ui_email" name="various_pages1_ui_email" placeholder="Your work email" class="default-not-signed-in-text-input" required><br><br>
+        <input type="submit" value="Get started!" class="default-button-format default-button-format-primary-color landing-page-button-position-3">
+      </form>
+      <p class="free-trial-no-card-required-3">(No credit card required.)</p>
+    </div>
+  </div>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - sign up small end -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="landing-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+{% endblock %}
