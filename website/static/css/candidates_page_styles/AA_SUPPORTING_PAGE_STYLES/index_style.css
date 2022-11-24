@@ -4,7 +4,7 @@
   margin: 0;
   padding: 0;
   font-family: 'Urbanist', sans-serif;
-  -webkit-appearance: none;
+  /* -webkit-appearance: none; */
 }
 @media (max-width: 1200px) {
   * {
@@ -12,7 +12,7 @@
     margin: 0;
     padding: 0;
     font-family: 'Urbanist', sans-serif;
-    -webkit-appearance: none;
+    /* -webkit-appearance: none; */
   }
 }
 /* ==================================== Default - Signed In and Not Signed In - Global Font and Borders - END ==================================== */
