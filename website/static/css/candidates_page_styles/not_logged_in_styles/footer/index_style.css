@@ -68,5 +68,10 @@ ul.footer-not-signed-in-3-ul li {
   color: white;
   font-size: 16px;
 }
+.footer-icon-img {
+  margin: 5px 0 0 0;
+  height: 45px;
+  width: 45px;
+}
 /* - - - - - - - - - - Footer Bottom - End */
 /* - - - - - - - - - - Footer All - End */
