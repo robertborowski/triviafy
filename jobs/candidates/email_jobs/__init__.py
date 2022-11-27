@@ -154,9 +154,9 @@ def job_candidates_send_article_to_all_users_function(postgres_connection, postg
     try:
       # ------------------------ send email start ------------------------
       output_to_email = i_email
-      add_link = 'https://triviafy.com/candidates/blog/0001'
-      output_subject = f'5 Tools for Pre-Employment Screening Tests and Assessments - Triviafy'
-      output_body = f"Hi there,\n\nNew blog post from the friendliest pre employment testing platform. Share with your team {add_link}\n\nReply 'STOP' to opt out.\n\nBest,\nTriviafy"
+      add_link = 'https://triviafy.com/candidates/blog/0002'
+      output_subject = f'3 Ways To Hire An Excel Expert - Triviafy'
+      output_body = f"Hi there,\n\nNew blog post from the friendliest pre employment testing platform, titled '3 Ways To Hire An Excel Expert' at {add_link}\n\nReply 'STOP' to opt out.\n\nBest,\nTriviafy"
       send_email_template_function(output_to_email, output_subject, output_body)
       # ------------------------ send email end ------------------------
       # ------------------------ insert row db start ------------------------
