@@ -3,5 +3,9 @@
   .i-blog-section-container {
     width: 90%;
   }
+  .i-blog-img-small {
+    /* border: 1px solid green; */
+    width: 80%;
+  }
   /* - - - - - - - - - - spacer end */
 }

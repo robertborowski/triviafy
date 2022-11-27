@@ -18,6 +18,12 @@
   height: auto;
   border-radius: 25px;
 }
+.i-blog-img-small {
+  /* border: 1px solid green; */
+  width: 40%;
+  height: auto;
+  border-radius: 25px;
+}
 .i-blog-paragraph-p {
   font-size: 18px;
 }
@@ -30,4 +36,8 @@
 }
 .post-article-section {
   text-align: center;
+}
+.i-blog-date {
+  margin: 10px 0 0 0;
+  font-size: 12px;
 }
