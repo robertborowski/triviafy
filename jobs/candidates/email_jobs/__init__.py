@@ -32,17 +32,18 @@ def job_candidates_email_all_collected_emails_function(postgres_connection, post
     i_user_arr_email = i_user_arr[2]
     # ------------------------ email only self start ------------------------
     # ------------------------ assign variables end -----------------------
-    # run_test_email = os.environ.get('RUN_TEST_EMAIL')
-    # if i_user_arr_email != run_test_email:
-    #   print(f'skip: {i_user_arr_email}')
-    #   continue
+    run_test_email = os.environ.get('RUN_TEST_EMAIL')
+    if i_user_arr_email != run_test_email:
+      print(f'skip: {i_user_arr_email}')
+      continue
     # ------------------------ email only self end -------------------------
     # ------------------------ convert to goal send time format start ------------------------
+    todays_date = datetime.today().strftime('%m-%d-%Y')
     try:
       # ------------------------ send email start ------------------------
       output_to_email = i_user_arr_email
       add_link = 'https://triviafy.com/candidates/signup'
-      output_subject = f'Send Pre Employment Tests In 30 Seconds - Triviafy'
+      output_subject = f'Send Pre Employment Tests In 30 Seconds - Triviafy {todays_date}'
       output_body = f"Hi there,\n\nYou signed up to learn more about Triviafy's pre employment testing tool. You can create your candidates first pre employment test in less than 30 seconds at {add_link}\n\nBest,\nTriviafy\n\nReply 'STOP' to opt out."
       send_email_template_function(output_to_email, output_subject, output_body)
       # ------------------------ send email end ------------------------
@@ -84,10 +85,10 @@ def job_candidates_email_all_users_function(postgres_connection, postgres_cursor
     i_user_arr_created_timestamp = i_user_arr[1].strftime('%m/%d/%Y')
     i_user_arr_email = i_user_arr[2]
     # ------------------------ email only self start ------------------------
-    # run_test_email = os.environ.get('RUN_TEST_EMAIL')
-    # if i_user_arr_email != run_test_email:
-    #   print(f'skip: {i_user_arr_email}')
-    #   continue
+    run_test_email = os.environ.get('RUN_TEST_EMAIL')
+    if i_user_arr_email != run_test_email:
+      print(f'skip: {i_user_arr_email}')
+      continue
     # ------------------------ email only self end ------------------------
     i_user_arr_name = i_user_arr[4]
     if i_user_arr_name == None or i_user_arr_name == '':
@@ -95,11 +96,12 @@ def job_candidates_email_all_users_function(postgres_connection, postgres_cursor
     i_user_arr_company_name = i_user_arr[5]
     # ------------------------ assign variables end ------------------------
     # ------------------------ convert to goal send time format start ------------------------
+    todays_date = datetime.today().strftime('%m-%d-%Y')
     try:
       # ------------------------ send email start ------------------------
       output_to_email = i_user_arr_email
       add_link = 'https://triviafy.com/candidates/assessment/new'
-      output_subject = f'Pre Employment Tests In 30 Seconds - Triviafy'
+      output_subject = f'Pre Employment Tests In 30 Seconds - Triviafy {todays_date}'
       output_body = f"Hi {i_user_arr_name},\n\nThank you for creating an account with Triviafy. We noticed that you have not yet sent out any assessments to candidates.\nAre the current assessment questions & categories not what you had in mind? Do you have any questions about our product or feedback about your experience?\n\nYou can create/send a pre employment test in less than 30 seconds at {add_link}\n\nBest,\nTriviafy\n\nReply 'STOP' to opt out."
       send_email_template_function(output_to_email, output_subject, output_body)
       # ------------------------ send email end ------------------------
@@ -153,11 +155,12 @@ def job_candidates_send_article_to_all_users_function(postgres_connection, postg
       print(f'skip: {i_email}')
       continue
     # ------------------------ email only self end ------------------------
+    todays_date = datetime.today().strftime('%m-%d-%Y')
     try:
       # ------------------------ send email start ------------------------
       output_to_email = i_email
       add_link = 'https://triviafy.com/candidates/blog/0002'
-      output_subject = f'3 Ways To Hire An Excel Expert - Triviafy'
+      output_subject = f'3 Ways To Hire An Excel Expert - Triviafy {todays_date}'
       output_body = f"Hi there,\n\nNew blog post from the friendliest pre employment testing platform, titled '3 Ways To Hire An Excel Expert' at {add_link}\n\nReply 'STOP' to opt out.\n\nBest,\nTriviafy"
       send_email_template_function(output_to_email, output_subject, output_body)
       # ------------------------ send email end ------------------------
