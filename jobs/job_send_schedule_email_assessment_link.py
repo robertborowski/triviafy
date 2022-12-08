@@ -132,7 +132,7 @@ def job_send_schedule_email_assessment_link_function():
       # ------------------------ send email start ------------------------
       output_to_email = i_schedule_arr_email
       output_subject = f'Triviafy Candidate Assessment: {i_schedule_arr_assessment_name}'
-      output_body = f"Hi there,\n\nYour Triviafy candidate assessment is ready!\nThe following link will expire 1 hour from the time you receive this email.\n\nPlease visit the following link to complete your assessment: https://triviafy.com/candidates/assessment/{i_schedule_arr_expiring_url} \n\nBest,\nTriviafy"
+      output_body = f"Hi there,\n\nYour Triviafy candidate assessment is ready! The following link will expire 1 hour from the time you receive this email.\nPlease visit the following link to complete your assessment: https://triviafy.com/candidates/assessment/{i_schedule_arr_expiring_url} \n\nBest,\nTriviafy"
       send_email_template_function(output_to_email, output_subject, output_body)
       # ------------------------ send email end ------------------------
       # ------------------------ insert row db start ------------------------
