@@ -19,7 +19,7 @@ def job_caller_function():
   # ------------------------ remove users end ------------------------
 
   # ------------------------ send emails start ------------------------
-  # job_candidates_email_all_collected_emails_function(postgres_connection, postgres_cursor)
+  job_candidates_email_all_collected_emails_function(postgres_connection, postgres_cursor)
   # job_candidates_email_all_users_function(postgres_connection, postgres_cursor)
   # job_candidates_send_article_to_all_users_function(postgres_connection, postgres_cursor)
   # ------------------------ send emails end ------------------------

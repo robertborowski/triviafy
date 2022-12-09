@@ -12,10 +12,10 @@ def select_all_collected_emails_function(postgres_connection, postgres_cursor):
     postgres_cursor.execute("SELECT  \
                                 c.* \
                               FROM  \
-                                candidates_collect_email_obj AS c LEFT JOIN \
-                                candidates_user_obj AS u ON c.email=u.email \
-                              WHERE \
-                                u.email IS NULL;")
+                                candidates_collect_email_obj AS c;")# LEFT JOIN \
+                                # candidates_user_obj AS u ON c.email=u.email \
+                              # WHERE \
+                                # u.email IS NULL;")
     # ------------------------ Query END ------------------------
 
 
