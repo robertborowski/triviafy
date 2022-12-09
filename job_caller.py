@@ -13,12 +13,16 @@ def job_caller_function():
   postgres_connection, postgres_cursor = postgres_connect_to_database_function()
   # ------------------------ Connect to Postgres DB END ------------------------
 
-  # ------------------------ function run start ------------------------
+  # ------------------------ remove users start ------------------------
   # job_candidates_remove_unsub_user_all_tables_function(postgres_connection, postgres_cursor)
   # job_candidates_clean_out_redis_function(postgres_connection, postgres_cursor)
+  # ------------------------ remove users end ------------------------
+
+  # ------------------------ send emails start ------------------------
   # job_candidates_email_all_collected_emails_function(postgres_connection, postgres_cursor)
   # job_candidates_email_all_users_function(postgres_connection, postgres_cursor)
-  # ------------------------ function run end ------------------------
+  # job_candidates_send_article_to_all_users_function(postgres_connection, postgres_cursor)
+  # ------------------------ send emails end ------------------------
 
   # ------------------------ Close Postgres DB START ------------------------
   postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)

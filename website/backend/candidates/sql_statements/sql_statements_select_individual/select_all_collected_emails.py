@@ -9,10 +9,13 @@ def select_all_collected_emails_function(postgres_connection, postgres_cursor):
   
   try:
     # ------------------------ Query START ------------------------
-    postgres_cursor.execute("SELECT \
-                              * \
-                            FROM \
-                              candidates_collect_email_obj;")
+    postgres_cursor.execute("SELECT  \
+                                c.* \
+                              FROM  \
+                                candidates_collect_email_obj AS c LEFT JOIN \
+                                candidates_user_obj AS u ON c.email=u.email \
+                              WHERE \
+                                u.email IS NULL;")
     # ------------------------ Query END ------------------------
 
 

@@ -1,4 +1,4 @@
-{% extends "candidates_page_templates/aaa_base_page_templates/base2_child1_not_logged_in_no_navbar_and_footer.html" %}
+{% extends "candidates_page_templates/aaa_base_page_templates/base2_child1_not_logged_in_yes_navbar_and_footer.html" %}
 
 <!-- head tag block content -->
 {% block title %}
@@ -45,7 +45,6 @@
 <div class="login-create-account-other-links-section">
   <p><a href="{{ url_for('auth.candidates_signup_function') }}" class="pricing-a">Create account</a></p>
   <p><a href="{{ url_for('views.candidates_forgot_password_page_function') }}" class="pricing-a">Forgot password</a></p>
-  <p><a href="{{ url_for('views.landing_index_page_function') }}" class="pricing-a">Home</a></p>
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - other links end -->
 
