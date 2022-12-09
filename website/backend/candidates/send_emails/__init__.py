@@ -26,7 +26,6 @@ def send_email_template_function(output_email, output_subject_line, output_messa
   # Send an HTTP POST request to /mail/send
   #response = sg.client.mail.send.post(request_body=mail_json)
   try:
-    print('01 ----> attempting to send email')
     sg.client.mail.send.post(request_body=mail_json)
     localhost_print_function('email sent successfully! ' + output_subject_line + " - To: " + output_email)
   except:

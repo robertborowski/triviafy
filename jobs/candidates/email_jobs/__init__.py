@@ -43,7 +43,8 @@ def job_candidates_email_all_collected_emails_function(postgres_connection, post
       # ------------------------ send email start ------------------------
       output_to_email = i_user_arr_email
       add_link = 'https://triviafy.com/candidates/signup'
-      output_subject = f'Send Pre Employment Tests In 30 Seconds - Triviafy {todays_date}'
+      # output_subject = f'Send Pre Employment Tests In 30 Seconds - Triviafy {todays_date}'
+      output_subject = f'Triviafy Inbox'
       output_body = f"Hi there,\n\nYou signed up to learn more about Triviafy's pre employment testing tool. You can create your candidates first pre employment test in less than 30 seconds at {add_link}\n\nBest,\nTriviafy\n\nReply 'STOP' to opt out."
       send_email_template_function(output_to_email, output_subject, output_body)
       # ------------------------ send email end ------------------------
@@ -102,6 +103,7 @@ def job_candidates_email_all_users_function(postgres_connection, postgres_cursor
       output_to_email = i_user_arr_email
       add_link = 'https://triviafy.com/candidates/assessment/new'
       output_subject = f'Pre Employment Tests In 30 Seconds - Triviafy {todays_date}'
+      output_subject = f'Triviafy Inbox'
       output_body = f"Hi {i_user_arr_name},\n\nThank you for creating an account with Triviafy. We noticed that you have not yet sent out any assessments to candidates.\nAre the current assessment questions & categories not what you had in mind? Do you have any questions about our product or feedback about your experience?\n\nYou can create/send a pre employment test in less than 30 seconds at {add_link}\n\nBest,\nTriviafy\n\nReply 'STOP' to opt out."
       send_email_template_function(output_to_email, output_subject, output_body)
       # ------------------------ send email end ------------------------
