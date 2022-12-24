@@ -1,0 +1,34 @@
+{% extends "candidates_page_templates/aaa_base_page_templates/base.html" %}
+
+<!-- head tag block content -->
+{% block title %}
+  <title>base2_external.html</title>
+{% endblock %}
+
+{% block contentBody %}
+<!-- ------------------------------------- navbar start ------------------------------------- -->
+<div class="container-fluid fixed-top shadow-sm custom-bg-white">
+  <nav class="container navbar navbar-expand-md navbar-light">
+    <a href="/" class="navbar-brand">
+      Triviafy
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#toggleMobileMenu" aria-controls="toggleMobileMenu" aria-expanded="false" aria-lable="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="toggleMobileMenu">
+      <ul class="navbar-nav ms-auto text-center">
+        <li onclick="autoScrollFooter()"><a href="#" class="nav-link mx-2">Resources</a></li>
+        <li><a href="/proof" class="nav-link mx-2">Pricing</a></li>
+        <li><a href="/login" class="nav-link mx-2">Dashboard</a></li>
+        <li><a class="nav-link btn btn-primary fw-bold mx-2" href="/signup" role="button">Get started</a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+<div class="custom-filler-1"></div>
+<!-- ------------------------------------- navbar end ------------------------------------- -->
+{% block contentBodyExceptNavbarAndFooter %}
+{% endblock %}
+<!-- ------------------------------------- footer start ------------------------------------- -->
+<!-- ------------------------------------- footer end ------------------------------------- -->
+{% endblock %}

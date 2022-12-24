@@ -1,0 +1,29 @@
+/* ------------------- a start ------------------- */
+/* ------------------- a end ------------------- */
+/* ------------------- background start ------------------- */
+.custom-bg-white {
+  background-color: white;
+}
+/* ------------------- background end ------------------- */
+/* ------------------- border start ------------------- */
+.custom-border-1 {border: 1px solid black;}
+.custom-border-2 {border: 1px solid red;}
+.custom-border-3 {border: 1px solid blue;}
+.custom-border-4 {border: 1px solid green;}
+/* ------------------- border end ------------------- */
+/* ------------------- filler start ------------------- */
+.custom-filler-1 {
+  height: 58px;
+}
+/* ------------------- filler end ------------------- */
+/* ------------------- header start ------------------- */
+.custom-header-1 {
+  font-size: 40px;
+}
+/* ------------------- header end ------------------- */
+/* ------------------- img start ------------------- */
+.custom-img-size-1 {
+  height: 30px;
+  width: 30px;
+}
+/* ------------------- img end ------------------- */
