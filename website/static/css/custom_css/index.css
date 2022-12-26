@@ -4,6 +4,10 @@
 .custom-bg-white {
   background-color: white;
 }
+.custom-bg-purple-1 {
+  /* background-color: rgb(111, 66, 193); */
+  background-color: rgb(240, 231, 255);
+}
 /* ------------------- background end ------------------- */
 /* ------------------- border start ------------------- */
 .custom-border-1 {border: 1px solid black;}
@@ -20,13 +24,31 @@
 .custom-header-1 {
   font-size: 40px;
 }
+.custom-header-2 {
+  font-size: 30px;
+}
 /* ------------------- header end ------------------- */
+/* ------------------- height start ------------------- */
+.custom-height-1 {
+  height: 700px;
+}
+/* ------------------- height end ------------------- */
 /* ------------------- img start ------------------- */
 .custom-img-size-1 {
   height: 50px;
 }
 /* ------------------- img end ------------------- */
 /* ------------------- margin start ------------------- */
+.custom-m-0 {
+  margin: 0 0 0 0;
+}
 /* ------------------- margin end ------------------- */
 /* ------------------- padding start ------------------- */
 /* ------------------- padding end ------------------- */
+/* ------------------- shape divider start ------------------- */
+/* ------------------- shape divider end ------------------- */
+/* ------------------- width start ------------------- */
+.custom-width-1 {
+  max-width: 500px;
+}
+/* ------------------- width end ------------------- */
