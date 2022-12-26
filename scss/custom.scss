@@ -3,6 +3,6 @@
 // When making a change to the bootstrap defaults, run below compiler in the terminal
 // sass scss/custom.scss:website/static/css/custom_bootstrap.css
 
-$primary: rgb(90, 0, 142);
+$primary: rgb(111, 66, 193); // .bd-purple-500 = #6f42c1
 
 @import "../node_modules/bootstrap/scss/bootstrap";
