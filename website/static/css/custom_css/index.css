@@ -1,4 +1,12 @@
 /* ------------------- a start ------------------- */
+.custom-a-1, .custom-a-1:visited {
+  color: var(--custom-color-1);
+  text-decoration: none;
+}
+.custom-a-1:hover {
+  color: white;
+  text-decoration: underline;
+}
 /* ------------------- a end ------------------- */
 /* ------------------- background start ------------------- */
 .custom-bg-white {
@@ -8,18 +16,39 @@
   /* background-color: rgb(111, 66, 193); */
   background-color: rgb(240, 231, 255);
 }
+.custom-bg-dark-1 {
+  background-color: rgb(10, 0, 28);
+}
 /* ------------------- background end ------------------- */
+/* ------------------- color start ------------------- */
+:root {
+  --custom-color-1: rgb(120 120 120);
+}
+.custom-color-light-1 {
+  color: var(--custom-color-1);
+}
+/* ------------------- color end ------------------- */
 /* ------------------- border start ------------------- */
 .custom-border-1 {border: 1px solid black;}
 .custom-border-2 {border: 1px solid red;}
 .custom-border-3 {border: 1px solid blue;}
 .custom-border-4 {border: 1px solid green;}
 /* ------------------- border end ------------------- */
+/* ------------------- display start ------------------- */
+.custom-display-flex {
+  display: flex;
+}
+/* ------------------- display end ------------------- */
 /* ------------------- filler start ------------------- */
 .custom-filler-1 {
   height: 86px;
 }
 /* ------------------- filler end ------------------- */
+/* ------------------- flex start ------------------- */
+.custom-fw-1 {
+  flex-wrap: wrap;
+}
+/* ------------------- flex end ------------------- */
 /* ------------------- header start ------------------- */
 .custom-header-1 {
   font-size: 40px;
@@ -37,7 +66,24 @@
 .custom-img-size-1 {
   height: 40px;
 }
+.custom-img-size-2 {
+  height: 25px;
+  max-width: 25px;
+}
 /* ------------------- img end ------------------- */
+/* ------------------- justify start ------------------- */
+.custom-jc-1 {
+  justify-content: space-evenly;
+}
+.custom-jc-2 {
+  justify-content: space-between;
+}
+/* ------------------- justify end ------------------- */
+/* ------------------- list style start ------------------- */
+.custom-ls-1 {
+  list-style: none;
+}
+/* ------------------- list style end ------------------- */
 /* ------------------- margin start ------------------- */
 .custom-m-0 {
   margin: 0 0 0 0;
@@ -50,8 +96,37 @@
 }
 /* ------------------- margin end ------------------- */
 /* ------------------- padding start ------------------- */
+.custom-ptb-1 {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.custom-ptb-2 {
+  padding-top: 175px;
+  padding-bottom: 50px;
+}
+.custom-pt-1 {
+  padding-top: 50px;
+}
 /* ------------------- padding end ------------------- */
 /* ------------------- shape divider start ------------------- */
+.custom-shape-divider-top-1672180555 {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+}
+.custom-shape-divider-top-1672180555 svg {
+  position: relative;
+  display: block;
+  width: calc(300% + 1.3px);
+  height: 150px;
+}
+.custom-shape-divider-top-1672180555 .shape-fill {
+  fill: #FFFFFF;
+}
 /* ------------------- shape divider end ------------------- */
 /* ------------------- width start ------------------- */
 .custom-width-1 {

@@ -1,4 +1,10 @@
 @media (max-width: 1200px) {
+    /* ------------------- flex start ------------------- */
+    .custom-footer-mobile-1 {
+      flex-direction: column;
+      text-align: center;
+    }
+    /* ------------------- flex end ------------------- */
     /* ------------------- margin start ------------------- */
     .custom-my-1-mobile {
       margin-top: 20px;
