@@ -35,12 +35,18 @@
 /* ------------------- height end ------------------- */
 /* ------------------- img start ------------------- */
 .custom-img-size-1 {
-  height: 50px;
+  height: 40px;
 }
 /* ------------------- img end ------------------- */
 /* ------------------- margin start ------------------- */
 .custom-m-0 {
   margin: 0 0 0 0;
+}
+.custom-mt-negative-1 {
+  margin-top: -20px;
+}
+.custom-mr-1 {
+  margin-right: 5px;
 }
 /* ------------------- margin end ------------------- */
 /* ------------------- padding start ------------------- */
