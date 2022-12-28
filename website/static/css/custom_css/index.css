@@ -69,6 +69,9 @@
 .custom-img-size-2 {
   max-width: 25px;
 }
+.custom-img-size-3 {
+  max-width: 90%;
+}
 /* ------------------- img end ------------------- */
 /* ------------------- justify start ------------------- */
 .custom-jc-1 {
@@ -109,6 +112,12 @@
 .custom-pt-1 {
   padding-top: 50px;
 }
+.custom-pt-2 {
+  padding-top: 150px;
+}
+.custom-pt-3 {
+  padding-top: 100px;
+}
 /* ------------------- padding end ------------------- */
 /* ------------------- shape divider start ------------------- */
 .custom-shape-divider-top-1672180555 {
@@ -132,6 +141,6 @@
 /* ------------------- shape divider end ------------------- */
 /* ------------------- width start ------------------- */
 .custom-width-1 {
-  max-width: 500px;
+  max-width: 600px;
 }
 /* ------------------- width end ------------------- */

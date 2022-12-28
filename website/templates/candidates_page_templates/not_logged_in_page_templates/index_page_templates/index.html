@@ -9,11 +9,16 @@
 {% block contentBodyExceptNavbarAndFooter %}
 <div class="container-fluid">
   <div class="container custom-height-1">
-    <div class="float-start">
-      <h1 class="custom-m-0 custom-width-1 custom-header-2">The friendliest pre employment testing experience.</h1>
+    <div class="float-start custom-pt-2">
+      <h1 class="custom-m-0 custom-width-1 custom-header-1">The friendliest pre employment testing experience.</h1>
+      <form action="{{ url_for('auth.candidates_signup_function') }}" method="post" enctype="multipart/form-data" class="custom-display-flex custom-pt-1">
+        <label for="various_pages1_ui_email" class="form-label"></label>
+        <input type="email" class="form-control custom-mr-2" id="various_pages1_ui_email" name="various_pages1_ui_email" aria-describedby="emailHelp" placeholder="Work email" required>
+        <button type="submit" class="btn btn-primary text-nowrap">Get Started</button>
+      </form>
     </div>
-    <div class="float-end">
-      <img src="/static/images/candidates/landing_page/landing_page_intro_media3.png" alt="candidate">
+    <div class="float-end custom-pt-3">
+      <img src="/static/images/candidates/landing_page/landing_page_intro_media3.png" alt="candidate overview" class="custom-img-size-3">
     </div>
   </div>
 </div>
