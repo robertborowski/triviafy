@@ -67,7 +67,6 @@
   height: 40px;
 }
 .custom-img-size-2 {
-  height: 25px;
   max-width: 25px;
 }
 /* ------------------- img end ------------------- */
@@ -93,6 +92,9 @@
 }
 .custom-mr-1 {
   margin-right: 5px;
+}
+.custom-mr-2 {
+  margin-right: 10px;
 }
 /* ------------------- margin end ------------------- */
 /* ------------------- padding start ------------------- */
