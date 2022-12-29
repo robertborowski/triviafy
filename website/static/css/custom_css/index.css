@@ -19,6 +19,9 @@
 .custom-bg-dark-1 {
   background-color: rgb(10, 0, 28);
 }
+.custom-bg-blue-1 {
+  background-color: rgb(231 241 255);
+}
 /* ------------------- background end ------------------- */
 /* ------------------- color start ------------------- */
 :root {
@@ -47,7 +50,7 @@
   height: 86px;
 }
 .custom-filler-2 {
-  height: 500px;
+  height: 50px;
 }
 /* ------------------- filler end ------------------- */
 /* ------------------- flex start ------------------- */
@@ -64,6 +67,12 @@
 }
 .custom-size-3 {
   font-size: 12px;
+}
+.custom-size-4 {
+  font-size: 10px;
+}
+.custom-header-4 {
+  font-size: 20px;
 }
 /* ------------------- header end ------------------- */
 /* ------------------- height start ------------------- */
@@ -102,6 +111,21 @@
 .custom-m-0 {
   margin: 0 0 0 0;
 }
+.custom-mb-1 {
+  margin-bottom: 50px;
+}
+.custom-mb-2 {
+  margin-bottom: 150px;
+}
+.custom-m-1-mobile {
+  margin: 15px;
+}
+.custom-mt-1 {
+  margin-top: 25px;
+}
+.custom-mt-2 {
+  margin-top: 10px;
+}
 .custom-mt-negative-1 {
   margin-top: -20px;
 }
@@ -118,6 +142,9 @@
 /* ------------------- padding start ------------------- */
 .custom-p-1 {
   padding: 10px;
+}
+.custom-pb-1 {
+  padding-bottom: 150px;
 }
 .custom-ptb-1 {
   padding-top: 10px;
@@ -157,40 +184,40 @@
   fill: #FFFFFF;
 }
 
-.custom-shape-divider-top-1672271521 {
+.custom-shape-divider-top-1672276628 {
   position: relative;
   top: 0;
   left: 0;
   width: 100%;
   overflow: hidden;
   line-height: 0;
-  transform: rotate(180deg);
 }
-.custom-shape-divider-top-1672271521 svg {
+.custom-shape-divider-top-1672276628 svg {
   position: relative;
   display: block;
-  width: calc(100% + 1.3px);
-  height: 150px;
+  width: calc(300% + 1.3px);
+  height: 299px;
 }
-.custom-shape-divider-top-1672271521 .shape-fill {
+.custom-shape-divider-top-1672276628 .shape-fill {
   fill: #FFFFFF;
 }
 
-.custom-shape-divider-bottom-1672271670 {
+.custom-shape-divider-bottom-1672276706 {
   position: relative;
   bottom: 0;
   left: 0;
   width: 100%;
   overflow: hidden;
   line-height: 0;
+  transform: rotate(180deg);
 }
-.custom-shape-divider-bottom-1672271670 svg {
+.custom-shape-divider-bottom-1672276706 svg {
   position: relative;
   display: block;
-  width: calc(100% + 1.3px);
-  height: 150px;
+  width: calc(300% + 1.3px);
+  height: 299px;
 }
-.custom-shape-divider-bottom-1672271670 .shape-fill {
+.custom-shape-divider-bottom-1672276706 .shape-fill {
   fill: #FFFFFF;
 }
 /* ------------------- shape divider end ------------------- */

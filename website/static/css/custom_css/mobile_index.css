@@ -6,6 +6,9 @@
     }
     /* ------------------- flex end ------------------- */
     /* ------------------- margin start ------------------- */
+    .custom-m-1-mobile {
+      margin: 3px;
+    }
     .custom-my-1-mobile {
       margin-top: 20px;
       margin-bottom: 20px;
