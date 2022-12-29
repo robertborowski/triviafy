@@ -204,7 +204,7 @@
 }
 /* ------------------- padding end ------------------- */
 /* ------------------- shape divider start ------------------- */
-.custom-shape-divider-top-1672180555 {
+.custom-shape-divider-top-1672341955 {
   position: relative;
   top: 0;
   left: 0;
@@ -213,13 +213,13 @@
   line-height: 0;
   transform: rotate(180deg);
 }
-.custom-shape-divider-top-1672180555 svg {
+.custom-shape-divider-top-1672341955 svg {
   position: relative;
   display: block;
   width: calc(300% + 1.3px);
-  height: 150px;
+  height: 199px;
 }
-.custom-shape-divider-top-1672180555 .shape-fill {
+.custom-shape-divider-top-1672341955 .shape-fill {
   fill: #FFFFFF;
 }
 
