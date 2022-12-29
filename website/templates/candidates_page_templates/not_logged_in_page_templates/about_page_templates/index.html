@@ -1,126 +1,73 @@
-{% extends "candidates_page_templates/aaa_base_page_templates/base2_child1_not_logged_in_yes_navbar_and_footer.html" %}
+{% extends "candidates_page_templates/aaa_base_page_templates/base2_external.html" %}
 
-<!-- head tag block content -->
 {% block title %}
-    <title>About Pre Employment Testing and Screening - Triviafy</title>
-    <meta name="description" content="About the friendliest pre employment testing platform, mobile supported. Pre employment screening made simple. Pre employment tests for 50+ frameworks.">
-    <meta name="og:description" content="About the friendliest pre employment testing platform, mobile supported. Pre employment screening made simple. Pre employment tests for 50+ frameworks.">
+    <title>Pre Employment Testing and Screening - Triviafy</title>
+    <meta name="description" content="The friendliest pre employment testing platform, mobile supported. Pre employment screening made simple. Pre employment tests for 50+ frameworks.">
+    <meta name="og:description" content="The friendliest pre employment testing platform, mobile supported. Pre employment screening made simple. Pre employment tests for 50+ frameworks.">
 {% endblock %}
 
 {% block contentBodyExceptNavbarAndFooter %}
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="landing-spacer-section"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
-
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - intro start -->
-<div class="landing-page-intro-3-section">
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - intro left side start -->
-  <div class="landing-page-intro-3-words-section">
-    <h1 class="landing-page-intro-3-header">About the friendliest pre employment testing platform.</h1>
-    <h2 class="landing-page-3-subheader landing-page-intro-3-sub-header">Early stage pre employment screening made simple.</h2>
-    <div class="landing-page-get-started-section">
-      <div class="landing-page-intro-3-next-steps-section">
-        <form action="{{ url_for('auth.candidates_signup_function') }}" method="post" class="landing-page-email-form-3" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
-          <label for="various_pages1_ui_email" class="landing-page-form-email-label"></label>
-          <input type="email" pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,10}$" id="various_pages1_ui_email" name="various_pages1_ui_email" placeholder="Your work email" class="default-not-signed-in-text-input" required><br><br>
-          <input type="submit" value="Get started!" class="default-button-format default-button-format-primary-color landing-page-button-position-3">
-        </form>
-        <p class="free-trial-no-card-required-3">(No credit card required.)</p>
+<!-- ----------------------------------- start ----------------------------------- -->
+<div class="container-fluid">
+  <div class="container custom-height-1">
+    <div class="float-start custom-pt-2">
+      <h1 class="custom-m-0 custom-width-1 custom-header-1">About the friendliest pre employment testing experience.</h1>
+      <h2 class="custom-header-4 custom-mt-1">Early stage pre employment screening made simple.</h2>
+      <form action="{{ url_for('auth.candidates_signup_function') }}" method="post" enctype="multipart/form-data" class="custom-display-flex custom-pt-1">
+        <label for="various_pages1_ui_email" class="form-label"></label>
+        <input type="email" class="form-control custom-mr-2 custom-p-3" id="various_pages1_ui_email" name="various_pages1_ui_email" aria-describedby="emailHelp" placeholder="Work email" required>
+        <button type="submit" class="btn btn-primary text-nowrap">Get Started</button>
+      </form>
+      <div class="text-center custom-mt-2">
+        <p class="custom-size-4 custom-color-light-1">(No credit card required.)</p>
       </div>
     </div>
-  </div>
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - intro left side end -->
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - intro right side start -->
-  <div class="landing-page-intro-3-media-section">
-    <img src="/static/images/candidates/landing_page/emily.png" alt="pre employment testing sofia-mQtcrK22CN8-unsplash" class="general-page-intro-4-media-img">
-  </div>
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - intro right side end -->
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - intro end -->
-
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="landing-spacer-section"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
-
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - about start -->
-<div class="about-section">
-  <div class="about-title-section">
-    <h3>Triviafy Candidate Screening</h3>
-  </div>
-  <div class="about-content-section">
-    <h4 class="about-individual-p">Entry and junior level roles often require foundational knowledge of a tool. Example Job Description: "0-3 years’ experience in [Excel, Python, JavaScript]."</h4>
-    <h4 class="about-individual-p">Creating skill assessment tests yourself requires team resources: time, money, maintenance, distribution, grading, tracking, and headaches.</h4>
-    <h4 class="about-individual-p">Save time and money while helping identify the most qualified candidates with Triviafy Candidate Screening!</h4>
-    <h4 class="about-individual-p">Triviafy is the simplest skill assessment platform that focuses on early stage hiring for foundational skills.</h4>
-    <h4 class="about-individual-p">Setup takes less than two minutes.</p>
-  </div>
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - about end -->
-
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="landing-spacer-section"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
-
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - other company logos start -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - supported frameworks start -->
-<div class="landing-page-other-companies-section">
-  <div class="landing-page-3-header">
-    <p class="section-title-p-margins">Companies that love skill assessments!</p>
-  </div>
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - framework logos start -->
-  <div class="landing-page-all-logos-section">
-    <div class="landing-page-company-container">
-      <img src="/static/images/candidates/logos_companies/glossier.png" alt="pre employment testing glossier" class="company-logo-img">
-    </div>
-    <div class="landing-page-company-container">
-      <img src="/static/images/candidates/logos_companies/lemonade.png" alt="pre employment testing lemonade" class="company-logo-img">
-    </div>
-    <div class="landing-page-company-container">
-      <img src="/static/images/candidates/logos_companies/starbucks.png" alt="pre employment testing starbucks" class="company-logo-img">
-    </div>
-    <div class="landing-page-company-container">
-      <img src="/static/images/candidates/logos_companies/ups.png" alt="pre employment testing ups" class="company-logo-img">
-    </div>
-    <div class="landing-page-company-container">
-      <img src="/static/images/candidates/logos_companies/zillow.png" alt="pre employment testing zillow" class="company-logo-img">
-    </div>
-  </div>
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - framework logos end -->
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - other company logos end -->
-
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="landing-spacer-section"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
-
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - sign up small start -->
-<div class="sign-up-small-section default-box-shadow-grey-reg">
-  <div class="landing-page-3-header">
-    <p class="section-title-p-margins">Start filtering your candidates today!</p>
-    <p class="landing-page-3-subheader">100% free. Send your first candidate assessment in less than 2 minutes.</p>
-  </div>
-  <div class="landing-page-get-started-section">
-    <div class="landing-page-intro-3-next-steps-section">
-      <form action="{{ url_for('auth.candidates_signup_function') }}" method="post" class="landing-page-email-form-3" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
-        <label for="various_pages1_ui_email" class="landing-page-form-email-label"></label>
-        <input type="email" pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,10}$" id="various_pages1_ui_email" name="various_pages1_ui_email" placeholder="Your work email" class="default-not-signed-in-text-input" required><br><br>
-        <input type="submit" value="Get started!" class="default-button-format default-button-format-primary-color landing-page-button-position-3">
-      </form>
-      <p class="free-trial-no-card-required-3">(No credit card required.)</p>
+    <div class="float-end custom-pt-3 custom-pb-1 text-center">
+      <img src="/static/images/candidates/landing_page/emily.png" alt="candidate overview" class="custom-img-size-3">
     </div>
   </div>
 </div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - sign up small end -->
+<!-- ----------------------------------- end ----------------------------------- -->
 
+<!-- ----------------------------------- start ----------------------------------- -->
+<div class="container custom-width-3 custom-line-1">
+  <p class="custom-header-4"><span class="custom-ml-2">Triviafy</span> is a pre-employment testing platform that helps employers identify candidates that have the skills and abilities to best fit the job requirements. Triviafy offers pre-employment assessments for 50+ languages, tools, and frameworks. Some of the most popular assessments focus on skills like Excel, Python, JavaScript, and SQL. Triviafy also offers assessments based on soft skills such as teamwork, problem solving, communication, adaptability, critical thinking, and time management.</p>
+  <p class="custom-header-4">Triviafy’s platform allows you to use pre-built assessments or create your own custom assessments from scratch. Customize your assessment’s questions, categories, frameworks, difficulty, timeframe, passing score, and more. You can create a custom triviafy assessment and send it to a candidate in less than 2 minutes.</p>
+  <p class="custom-header-4">Triviafy offers in depth candidate analytics to provide you with even more insight into the effectiveness of each candidate that completes a test through our platform. Triviafy helps you understand which candidate has the widest array of skills as well as a candidates ranking by skill.</p>
+</div>
+<!-- ----------------------------------- end ----------------------------------- -->
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="landing-spacer-section"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+<!-- ----------------------------------- start ----------------------------------- -->
+<div class="container-fluid">
+  <div class="container text-center custom-pt-3">
+    <h2 class="custom-mb-1 custom-header-1">Companies that love skill assessments!</h2>
+  </div>
+  <div class="container custom-display-flex custom-fw-1 custom-jc-1 custom-mb-3">
+    <img src="/static/images/candidates/logos_companies/glossier.png" alt="pre employment testing glossier" class="custom-img-size-6 custom-m-2">
+    <img src="/static/images/candidates/logos_companies/lemonade.png" alt="pre employment testing lemonade" class="custom-img-size-6 custom-m-2">
+    <img src="/static/images/candidates/logos_companies/starbucks.png" alt="pre employment testing starbucks" class="custom-img-size-6 custom-m-2">
+    <img src="/static/images/candidates/logos_companies/ups.png" alt="pre employment testing ups" class="custom-img-size-6 custom-m-2">
+    <img src="/static/images/candidates/logos_companies/zillow.png" alt="pre employment testing zillow" class="custom-img-size-6 custom-m-2">
+  </div>
+</div>
+<!-- ----------------------------------- end ----------------------------------- -->
+
+<!-- ----------------------------------- start ----------------------------------- -->
+<div class="container-fluid custom-pb-1">
+  <div class="container custom-bg-colorful-1 custom-br-1 shadow custom-width-3">
+    <div class="container text-center custom-pt-3">
+      <h2 class="custom-header-1">Start testing candidates <span class="fst-italic">today!</span></h2>
+      <h2 class="custom-header-4">Send your first pre employment test in less than 60 seconds.</h2>
+    </div>
+    <form action="{{ url_for('auth.candidates_signup_function') }}" method="post" enctype="multipart/form-data" class="custom-display-flex custom-width-1 mx-auto custom-pt-4">
+      <label for="various_pages1_ui_email" class="form-label"></label>
+      <input type="email" class="form-control custom-mr-2 custom-p-3" id="various_pages1_ui_email" name="various_pages1_ui_email" aria-describedby="emailHelp" placeholder="Work email" required>
+      <button type="submit" class="btn btn-primary text-nowrap">Get Started</button>
+    </form>
+    <div class="text-center custom-mt-2 custom-pb-3">
+      <p class="custom-size-4 custom-color-light-1">(No credit card required.)</p>
+    </div>
+  </div>
+</div>
+<!-- ----------------------------------- end ----------------------------------- -->
 {% endblock %}

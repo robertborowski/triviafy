@@ -1,0 +1,175 @@
+{% extends "candidates_page_templates/aaa_base_page_templates/base2_child1_not_logged_in_yes_navbar_and_footer.html" %}
+
+<!-- head tag block content -->
+{% block title %}
+    <title>Blog Pre Employment Testing and Screening - Triviafy</title>
+    <meta name="description" content="Blog for the friendliest pre employment testing platform, mobile supported. Pre employment screening made simple. Pre employment tests for 50+ frameworks.">
+    <meta name="og:description" content="Blog for the friendliest pre employment testing platform, mobile supported. Pre employment screening made simple. Pre employment tests for 50+ frameworks.">
+{% endblock %}
+
+{% block contentBodyExceptNavbarAndFooter %}
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="landing-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - intro start -->
+<div class="landing-page-intro-3-section">
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - intro left side start -->
+  <div class="landing-page-intro-3-words-section">
+    <h1 class="landing-page-intro-3-header">Blog for the friendliest pre employment testing platform.</h1>
+    <h2 class="landing-page-3-subheader landing-page-intro-3-sub-header">Early stage pre employment screening made simple.</h2>
+    <div class="landing-page-get-started-section">
+      <div class="landing-page-intro-3-next-steps-section">
+        <form action="{{ url_for('auth.candidates_signup_function') }}" method="post" class="landing-page-email-form-3" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+          <label for="various_pages1_ui_email" class="landing-page-form-email-label"></label>
+          <input type="email" pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,10}$" id="various_pages1_ui_email" name="various_pages1_ui_email" placeholder="Your work email" class="default-not-signed-in-text-input" required><br><br>
+          <input type="submit" value="Get started!" class="default-button-format default-button-format-primary-color landing-page-button-position-3">
+        </form>
+        <p class="free-trial-no-card-required-3">(No credit card required.)</p>
+      </div>
+    </div>
+  </div>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - intro left side end -->
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - intro right side start -->
+  <div class="landing-page-intro-3-media-section">
+    <img src="/static/images/candidates/landing_page/kelly.png" alt="pre employment testing sofia-mQtcrK22CN8-unsplash" class="general-page-intro-4-media-img">
+  </div>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - intro right side end -->
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - intro end -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="landing-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - about start -->
+<div class="blog-page-title-container">
+  <h3 class="blog-page-title-p">Recent Blog Posts</h3>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="landing-spacer-section-small"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+<div class="blog-section-container">
+  <a href="{{ url_for('blog.candidates_i_blog_page_function', i_blog_post_number='0006') }}" class="individual-blob-a">
+    <div class="individual-blob-section default-box-shadow-grey-reg">
+      <div class="blob-words">
+        <h4 class="blob-title blob-spacing">Tableau vs Power BI - Best Data Visualization Tool<span class="blob-date">Dec 16, 2022</span></h4>
+        <p class="blob-details blob-spacing">Microsoft’s Power BI is a unified, scalable platform for self-service and enterprise level business intelligence (BI). Power BI can connect to and visualize virtually any dataset while seamlessly infusing visualizations within other apps. Tableau is a visual analytics platform...</p>
+      </div>
+    </div>
+  </a>
+  
+  <a href="{{ url_for('blog.candidates_i_blog_page_function', i_blog_post_number='0005') }}" class="individual-blob-a">
+    <div class="individual-blob-section default-box-shadow-grey-reg">
+      <div class="blob-words">
+        <h4 class="blob-title blob-spacing">Top 5 Technical Skills<span class="blob-date">Dec 12, 2022</span></h4>
+        <p class="blob-details blob-spacing">Technical skills are essential for success in today’s competitive job market, as they provide the expertise needed to perform complex tasks. Having strong technical knowledge can open up a variety of career opportunities, as employers are increasingly looking for candidates with...</p>
+      </div>
+    </div>
+  </a>
+  
+  <a href="{{ url_for('blog.candidates_i_blog_page_function', i_blog_post_number='0004') }}" class="individual-blob-a">
+    <div class="individual-blob-section default-box-shadow-grey-reg">
+      <div class="blob-words">
+        <h4 class="blob-title blob-spacing">Top 10 Phone Interview Screening Questions<span class="blob-date">Dec 10, 2022</span></h4>
+        <p class="blob-details blob-spacing">Interview questions should be tailored to the job position and should focus on the skills and experience necessary to be successful in the role. Additionally, it is important to ask questions that will help you gain insight into the interviewees personality and work ethic. Below...</p>
+      </div>
+    </div>
+  </a>
+
+  <a href="{{ url_for('blog.candidates_i_blog_page_function', i_blog_post_number='0003') }}" class="individual-blob-a">
+    <div class="individual-blob-section default-box-shadow-grey-reg">
+      <div class="blob-words">
+        <h4 class="blob-title blob-spacing">Hire a BI Developer<span class="blob-date">Nov 30, 2022</span></h4>
+        <p class="blob-details blob-spacing">A BI developer is a software developer that specializes in business intelligence (BI) applications. BI developers work with analysts, senior management, and other stakeholders to understand the business needs and then design, develop, test, and deploy BI dashboards and solutions...</p>
+      </div>
+    </div>
+  </a>
+  
+  <a href="{{ url_for('blog.candidates_i_blog_page_function', i_blog_post_number='0002') }}" class="individual-blob-a">
+    <div class="individual-blob-section default-box-shadow-grey-reg">
+      <div class="blob-words">
+        <h4 class="blob-title blob-spacing">3 Ways To Hire An Excel Expert<span class="blob-date">Nov 26, 2022</span></h4>
+        <p class="blob-details blob-spacing">Excel is often a required skill for many entry-level and even senior-level positions. This is because Excel is such a versatile tool that can be used for a variety of purposes, from data entry to data analysis to creating financial models. Hiring an Excel expert can be a...</p>
+      </div>
+    </div>
+  </a>
+  
+  <a href="{{ url_for('blog.candidates_i_blog_page_function', i_blog_post_number='0001') }}" class="individual-blob-a">
+    <div class="individual-blob-section default-box-shadow-grey-reg">
+      <div class="blob-words">
+        <h4 class="blob-title blob-spacing">5 Tools for Pre-Employment Screening Tests and Assessments<span class="blob-date">Nov 19, 2022</span></h4>
+        <p class="blob-details blob-spacing">1. Test Gorilla: Provides multiple question types so that you can conduct one-way video interviews, allow candidates to upload portfolios, and more. 2. Triviafy: Early stage candidate screening platform. Offers multiple choice questions for popular tools and frameworks like Excel</p>
+      </div>
+    </div>
+  </a>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - about end -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="landing-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - other company logos start -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - supported frameworks start -->
+<div class="landing-page-other-companies-section">
+  <div class="landing-page-3-header">
+    <p class="section-title-p-margins">Companies that love skill assessments!</p>
+  </div>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - framework logos start -->
+  <div class="landing-page-all-logos-section">
+    <div class="landing-page-company-container">
+      <img src="/static/images/candidates/logos_companies/datadog.png" alt="pre employment testing datadog" class="company-logo-img">
+    </div>
+    <div class="landing-page-company-container">
+      <img src="/static/images/candidates/logos_companies/intuit.png" alt="pre employment testing intuit" class="company-logo-img">
+    </div>
+    <div class="landing-page-company-container">
+      <img src="/static/images/candidates/logos_companies/shopify.png" alt="pre employment testing shopify" class="company-logo-img">
+    </div>
+    <div class="landing-page-company-container">
+      <img src="/static/images/candidates/logos_companies/slack.png" alt="pre employment testing slack" class="company-logo-img">
+    </div>
+    <div class="landing-page-company-container">
+      <img src="/static/images/candidates/logos_companies/surveymonkey.png" alt="pre employment testing survey monkey" class="company-logo-img">
+    </div>
+  </div>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - framework logos end -->
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - other company logos end -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="landing-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - sign up small start -->
+<div class="sign-up-small-section default-box-shadow-grey-reg">
+  <div class="landing-page-3-header">
+    <p class="section-title-p-margins">Start filtering your candidates today!</p>
+    <p class="landing-page-3-subheader">100% free. Send your first candidate assessment in less than 2 minutes.</p>
+  </div>
+  <div class="landing-page-get-started-section">
+    <div class="landing-page-intro-3-next-steps-section">
+      <form action="{{ url_for('auth.candidates_signup_function') }}" method="post" class="landing-page-email-form-3" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+        <label for="various_pages1_ui_email" class="landing-page-form-email-label"></label>
+        <input type="email" pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,10}$" id="various_pages1_ui_email" name="various_pages1_ui_email" placeholder="Your work email" class="default-not-signed-in-text-input" required><br><br>
+        <input type="submit" value="Get started!" class="default-button-format default-button-format-primary-color landing-page-button-position-3">
+      </form>
+      <p class="free-trial-no-card-required-3">(No credit card required.)</p>
+    </div>
+  </div>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - sign up small end -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="landing-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+{% endblock %}
