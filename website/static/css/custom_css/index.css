@@ -119,6 +119,9 @@
 .custom-img-size-6 {
   max-height: 100px;
 }
+.custom-img-size-7 {
+  max-height: 300px;
+}
 /* ------------------- img end ------------------- */
 /* ------------------- justify start ------------------- */
 .custom-jc-1 {
@@ -165,6 +168,9 @@
 }
 .custom-mt-2 {
   margin-top: 10px;
+}
+.custom-mt-3 {
+  margin-top: 50px;
 }
 .custom-mt-negative-1 {
   margin-top: -20px;
