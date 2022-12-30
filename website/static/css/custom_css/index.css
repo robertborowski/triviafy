@@ -35,6 +35,9 @@
 .custom-bg-blue-1 {
   background-color: rgb(231 241 255);
 }
+.custom-bg-grey-1 {
+  background-color: rgb(244, 244, 244);
+}
 /* ------------------- background end ------------------- */
 /* ------------------- color start ------------------- */
 :root {
@@ -89,7 +92,7 @@
 }
 /* ------------------- header end ------------------- */
 /* ------------------- height start ------------------- */
-.custom-height-1 {
+.custom-height-1-mobile {
   height: 700px;
 }
 .custom-height-2-mobile {

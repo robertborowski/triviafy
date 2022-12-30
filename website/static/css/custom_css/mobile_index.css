@@ -6,6 +6,9 @@
     }
     /* ------------------- flex end ------------------- */
     /* ------------------- height start ------------------- */
+    .custom-height-1-mobile {
+      height: 1100px;
+    }
     .custom-height-2-mobile {
       height: 625px;
     }
