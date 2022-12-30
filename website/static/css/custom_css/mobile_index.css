@@ -1,4 +1,9 @@
 @media (max-width: 1200px) {
+    /* ------------------- border start ------------------- */
+    .custom-br-2-mobile {
+      border-radius: 15px;
+    }
+    /* ------------------- border end ------------------- */
     /* ------------------- flex start ------------------- */
     .custom-footer-mobile-1 {
       flex-direction: column;
@@ -11,6 +16,12 @@
     }
     .custom-height-2-mobile {
       height: 625px;
+    }
+    .custom-height-3-mobile {
+      height: 1100px;
+    }
+    .custom-img-size-7-mobile {
+      max-height: 200px;
     }
     /* ------------------- height end ------------------- */
     /* ------------------- margin start ------------------- */
