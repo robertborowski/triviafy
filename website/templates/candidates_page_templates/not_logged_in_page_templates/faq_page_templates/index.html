@@ -1,157 +1,71 @@
-{% extends "candidates_page_templates/aaa_base_page_templates/base2_child1_not_logged_in_yes_navbar_and_footer.html" %}
+{% extends "candidates_page_templates/aaa_base_page_templates/base2_external.html" %}
 
-<!-- head tag block content -->
 {% block title %}
-    <title>FAQ Pre Employment Testing and Screening - Triviafy</title>
-    <meta name="description" content="FAQ for the friendliest pre employment testing platform, mobile supported. Pre employment screening made simple. Pre employment tests for 50+ frameworks.">
-    <meta name="og:description" content="FAQ for the friendliest pre employment testing platform, mobile supported. Pre employment screening made simple. Pre employment tests for 50+ frameworks.">
+    <title>Pre Employment Testing and Screening - Triviafy</title>
+    <meta name="description" content="The friendliest pre employment testing platform, mobile supported. Pre employment screening made simple. Pre employment tests for 50+ frameworks.">
+    <meta name="og:description" content="The friendliest pre employment testing platform, mobile supported. Pre employment screening made simple. Pre employment tests for 50+ frameworks.">
 {% endblock %}
 
 {% block contentBodyExceptNavbarAndFooter %}
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="landing-spacer-section"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
-
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - intro start -->
-<div class="landing-page-intro-3-section">
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - intro left side start -->
-  <div class="landing-page-intro-3-words-section">
-    <h1 class="landing-page-intro-3-header">FAQ for the friendliest pre employment testing platform.</h1>
-    <h2 class="landing-page-3-subheader landing-page-intro-3-sub-header">Early stage pre employment screening made simple.</h2>
-    <div class="landing-page-get-started-section">
-      <div class="landing-page-intro-3-next-steps-section">
-        <form action="{{ url_for('auth.candidates_signup_function') }}" method="post" class="landing-page-email-form-3" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
-          <label for="various_pages1_ui_email" class="landing-page-form-email-label"></label>
-          <input type="email" pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,10}$" id="various_pages1_ui_email" name="various_pages1_ui_email" placeholder="Your work email" class="default-not-signed-in-text-input" required><br><br>
-          <input type="submit" value="Get started!" class="default-button-format default-button-format-primary-color landing-page-button-position-3">
-        </form>
-        <p class="free-trial-no-card-required-3">(No credit card required.)</p>
+<!-- ----------------------------------- start ----------------------------------- -->
+<div class="container-fluid">
+  <div class="container custom-height-1">
+    <div class="float-start custom-pt-2">
+      <h1 class="custom-m-0 custom-width-1 custom-header-1">FAQ for the friendliest pre employment testing experience.</h1>
+      <h2 class="custom-header-4 custom-mt-1">Early stage pre employment screening made simple.</h2>
+      <form action="{{ url_for('auth.candidates_signup_function') }}" method="post" enctype="multipart/form-data" class="custom-display-flex custom-pt-1">
+        <label for="various_pages1_ui_email" class="form-label"></label>
+        <input type="email" class="form-control custom-mr-2 custom-p-3" id="various_pages1_ui_email" name="various_pages1_ui_email" aria-describedby="emailHelp" placeholder="Work email" required>
+        <button type="submit" class="btn btn-primary text-nowrap">Get Started</button>
+      </form>
+      <div class="text-center custom-mt-2">
+        <p class="custom-size-4 custom-color-light-1">(No credit card required.)</p>
       </div>
     </div>
-  </div>
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - intro left side end -->
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - intro right side start -->
-  <div class="landing-page-intro-3-media-section">
-    <img src="/static/images/candidates/landing_page/michael.png" alt="pre employment testing askas-jeremy-7TI-3jUObYg-unsplash" class="general-page-intro-4-media-img">
-  </div>
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - intro right side end -->
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - intro end -->
-
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="landing-spacer-section"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
-
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - about start -->
-<div class="about-section">
-  <div class="faq-title-section">
-    <h3>Frequently Asked Questions</h3>
-  </div>
-  <div class="about-content-section">
-
-    <div class="about-individual-section default-box-shadow-grey-reg">
-      <h3 class="about-individual-p">Q: Does Triviafy offer a free trial?</h3>
-      <h4 class="about-individual-p">A: <a href="{{ url_for('auth.candidates_signup_function') }}" class="pricing-a">Sign up</a> for Triviafy 100% free, no credit card required.</h4>
-    </div>
-    <div class="faq-spacing-section"></div>
-
-    <div class="about-individual-section default-box-shadow-grey-reg">
-      <h3 class="about-individual-p">Q: How long will it take me to send out my first quiz using Triviafy?</h3>
-      <h4 class="about-individual-p">A: Less than 60 seconds.</h4>
-    </div>
-    <div class="faq-spacing-section"></div>
-    
-
-    <div class="about-individual-section default-box-shadow-grey-reg">
-      <h3 class="about-individual-p">Q: Monthly subscription cost?</h3>
-      <h4 class="about-individual-p">A: Please see our <a href="{{ url_for('views.candidates_pricing_page_function') }}" class="pricing-a">pricing</a> page.</h4>
-    </div>
-    <div class="faq-spacing-section"></div>
-
-    <div class="about-individual-section default-box-shadow-grey-reg">
-      <h3 class="about-individual-p">Q: Can I send unlimited tests?</h3>
-      <h4 class="about-individual-p">A: Please see our <a href="{{ url_for('views.candidates_pricing_page_function') }}" class="pricing-a">pricing</a> page.</h4>
-    </div>
-    <div class="faq-spacing-section"></div>
-
-    <div class="about-individual-section default-box-shadow-grey-reg">
-      <h3 class="about-individual-p">Q: Does Triviafy offer auto expiring test links?</h3>
-      <h4 class="about-individual-p">A: Yes. Links that expire within 24 hours as well as links that expire 1 hour after opening.</h4>
-    </div>
-    <div class="faq-spacing-section"></div>
-
-    <div class="about-individual-section default-box-shadow-grey-reg">
-      <h3 class="about-individual-p">Q: Can I test answer and customize Triviafy tests before sending them out?</h3>
-      <h4 class="about-individual-p">A: Yes tests are 100% customizable and testable before sending to candidates.</h4>
+    <div class="float-end custom-pt-3 custom-pb-1 text-center">
+      <img src="/static/images/candidates/landing_page/michael.png" alt="candidate overview" class="custom-img-size-3">
     </div>
   </div>
 </div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - about end -->
+<!-- ----------------------------------- end ----------------------------------- -->
 
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="landing-spacer-section"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
-
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - other company logos start -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - supported frameworks start -->
-<div class="landing-page-other-companies-section">
-  <div class="landing-page-3-header">
-    <p class="section-title-p-margins">Companies that love skill assessments!</p>
-  </div>
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - framework logos start -->
-  <div class="landing-page-all-logos-section">
-    <div class="landing-page-company-container">
-      <img src="/static/images/candidates/logos_companies/adobe.png" alt="pre employment testing adobe" class="company-logo-img">
-    </div>
-    <div class="landing-page-company-container">
-      <img src="/static/images/candidates/logos_companies/cocacola.png" alt="pre employment testing coca cola" class="company-logo-img">
-    </div>
-    <div class="landing-page-company-container">
-      <img src="/static/images/candidates/logos_companies/ey.png" alt="pre employment testing ey" class="company-logo-img">
-    </div>
-    <div class="landing-page-company-container">
-      <img src="/static/images/candidates/logos_companies/lyft.png" alt="pre employment testing lyft" class="company-logo-img">
-    </div>
-    <div class="landing-page-company-container">
-      <img src="/static/images/candidates/logos_companies/zendesk.png" alt="pre employment testing zendesk" class="company-logo-img">
-    </div>
-  </div>
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - framework logos end -->
+<!-- ----------------------------------- start ----------------------------------- -->
+<div class="container custom-width-3 custom-border-1">
+  <p>hello</p>
 </div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - other company logos end -->
+<!-- ----------------------------------- end ----------------------------------- -->
 
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="landing-spacer-section"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
-
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - sign up small start -->
-<div class="sign-up-small-section default-box-shadow-grey-reg">
-  <div class="landing-page-3-header">
-    <p class="section-title-p-margins">Start filtering your candidates today!</p>
-    <p class="landing-page-3-subheader">100% free. Send your first candidate assessment in less than 2 minutes.</p>
+<!-- ----------------------------------- start ----------------------------------- -->
+<div class="container-fluid">
+  <div class="container text-center custom-pt-3">
+    <h2 class="custom-mb-1 custom-header-1">Companies that love skill assessments!</h2>
   </div>
-  <div class="landing-page-get-started-section">
-    <div class="landing-page-intro-3-next-steps-section">
-      <form action="{{ url_for('auth.candidates_signup_function') }}" method="post" class="landing-page-email-form-3" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
-        <label for="various_pages1_ui_email" class="landing-page-form-email-label"></label>
-        <input type="email" pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,10}$" id="various_pages1_ui_email" name="various_pages1_ui_email" placeholder="Your work email" class="default-not-signed-in-text-input" required><br><br>
-        <input type="submit" value="Get started!" class="default-button-format default-button-format-primary-color landing-page-button-position-3">
-      </form>
-      <p class="free-trial-no-card-required-3">(No credit card required.)</p>
+  <div class="container custom-display-flex custom-fw-1 custom-jc-1 custom-mb-3">
+    <img src="/static/images/candidates/logos_companies/datadog.png" alt="pre employment testing datadog" class="custom-img-size-6 custom-m-2">
+    <img src="/static/images/candidates/logos_companies/intuit.png" alt="pre employment testing intuit" class="custom-img-size-6 custom-m-2">
+    <img src="/static/images/candidates/logos_companies/shopify.png" alt="pre employment testing shopify" class="custom-img-size-6 custom-m-2">
+    <img src="/static/images/candidates/logos_companies/slack.png" alt="pre employment testing slack" class="custom-img-size-6 custom-m-2">
+    <img src="/static/images/candidates/logos_companies/surveymonkey.png" alt="pre employment testing surveymonkey" class="custom-img-size-6 custom-m-2">
+  </div>
+</div>
+<!-- ----------------------------------- end ----------------------------------- -->
+
+<!-- ----------------------------------- start ----------------------------------- -->
+<div class="container-fluid custom-pb-1">
+  <div class="container custom-bg-colorful-1 custom-br-1 shadow custom-width-3">
+    <div class="container text-center custom-pt-3">
+      <h2 class="custom-header-1">Start testing candidates <span class="fst-italic">today!</span></h2>
+      <h2 class="custom-header-4">Send your first pre employment test in less than 60 seconds.</h2>
+    </div>
+    <form action="{{ url_for('auth.candidates_signup_function') }}" method="post" enctype="multipart/form-data" class="custom-display-flex custom-width-1 mx-auto custom-pt-4">
+      <label for="various_pages1_ui_email" class="form-label"></label>
+      <input type="email" class="form-control custom-mr-2 custom-p-3" id="various_pages1_ui_email" name="various_pages1_ui_email" aria-describedby="emailHelp" placeholder="Work email" required>
+      <button type="submit" class="btn btn-primary text-nowrap">Get Started</button>
+    </form>
+    <div class="text-center custom-mt-2 custom-pb-3">
+      <p class="custom-size-4 custom-color-light-1">(No credit card required.)</p>
     </div>
   </div>
 </div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - sign up small end -->
-
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="landing-spacer-section"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+<!-- ----------------------------------- end ----------------------------------- -->
 {% endblock %}
