@@ -424,4 +424,13 @@
 .custom-width-4 {
   max-width: 500px;
 }
+.custom-width-5 {
+  min-width: 300px;
+}
+.custom-width-6 {
+  width: 100%;
+}
+.custom-width-7 {
+  max-width: 1200px;
+}
 /* ------------------- width end ------------------- */
