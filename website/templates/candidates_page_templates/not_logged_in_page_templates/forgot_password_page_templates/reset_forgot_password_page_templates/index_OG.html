@@ -1,0 +1,47 @@
+{% extends "candidates_page_templates/aaa_base_page_templates/base2_child1_not_logged_in_no_navbar_and_footer.html" %}
+
+<!-- head tag block content -->
+{% block title %}
+  <title>Reset Password / Triviafy</title>
+{% endblock %}
+
+{% block contentBodyExceptNavbarAndFooter %}
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="landing-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message start -->
+<div class="error-message-section">
+  <p>{{ error_message_to_html }}</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message end -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - backdrop cover start -->
+<div class="login-and-create-account-background-whole-screen">
+  <form method="POST" class="login-create-account-form default-box-shadow-grey-reg" enctype="multipart/form-data">
+    <h1 class="login-create-account-title">Reset Password</h1>
+    
+    <div class="create-account-user-input-section">
+      <label for="reset_forgot_password_page_ui_password"></label>
+      <input type="password" id="reset_forgot_password_page_ui_password" name="reset_forgot_password_page_ui_password" class="default-not-signed-in-text-input" placeholder="Password*" title="Minimum 4 characters" required />
+    </div>
+
+    <div class="create-account-user-input-section">
+      <label for="reset_forgot_password_page_ui_password_confirmed"></label>
+      <input type="password" id="reset_forgot_password_page_ui_password_confirmed" name="reset_forgot_password_page_ui_password_confirmed" class="default-not-signed-in-text-input" placeholder="Confirm Password*" title="Minimum 4 characters" required />
+    </div>
+
+    <div class="create-account-user-input-button-section">
+      <button type="submit" class="default-button-format default-button-format-primary-color">Reset</button>
+    </div>
+  </form>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - backdrop cover end -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="landing-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+{% endblock %}

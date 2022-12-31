@@ -1,50 +1,36 @@
-{% extends "candidates_page_templates/aaa_base_page_templates/base2_child1_not_logged_in_no_navbar_and_footer.html" %}
+{% extends "candidates_page_templates/aaa_base_page_templates/base2_external.html" %}
 
-<!-- head tag block content -->
 {% block title %}
-  <title>Forgot Password / Triviafy</title>
+    <title>Login - Triviafy</title>
+    <meta name="description" content="The friendliest pre employment testing platform, mobile supported. Pre employment screening made simple. Pre employment tests for 50+ frameworks.">
+    <meta name="og:description" content="The friendliest pre employment testing platform, mobile supported. Pre employment screening made simple. Pre employment tests for 50+ frameworks.">
 {% endblock %}
 
 {% block contentBodyExceptNavbarAndFooter %}
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="landing-spacer-section"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
 
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message start -->
-<div class="error-message-section">
-  <p>{{ error_message_to_html }}</p>
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message end -->
-
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - backdrop cover start -->
-<div class="login-and-create-account-background-whole-screen">
-  <form method="POST" class="login-create-account-form default-box-shadow-grey-reg" enctype="multipart/form-data">
-    <h1 class="login-create-account-title">Forgot Password</h1>
-    
-    <div class="create-account-user-input-section">
-      <label for="forgot_password_page_ui_email"></label>
-      <input type="email" id="forgot_password_page_ui_email" name="forgot_password_page_ui_email" class="default-not-signed-in-text-input" placeholder="Work email*" pattern="\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b" required />
+<!-- ----------------------------------- start ----------------------------------- -->
+<div class="container mx-auto custom-pt-3 custom-width-4 custom-pb-1 custom-index-2">
+  <form method="POST" enctype="multipart/form-data" class="custom-ptb-3 shadow border custom-br-1 custom-bg-grey-2">
+    <!-- ----------------------------------- start ----------------------------------- -->
+    {% if error_message_to_html != '' %}
+    <div class="alert alert-success mx-auto" role="alert">
+      {{ error_message_to_html }}
     </div>
-
-    <div class="create-account-user-input-button-section">
-      <button type="submit" class="default-button-format default-button-format-primary-color">Send link</button>
+    {% endif %}
+    <!-- ----------------------------------- end ----------------------------------- -->
+    <div class="text-center custom-pb-4">
+      <h1 class="custom-header-2">Reset password</h1>
+    </div>
+    <div class="custom-pb-6">
+      <div class="mb-3">
+        <label for="forgot_password_page_ui_email" class="form-label"></label>
+        <input type="email" class="form-control" id="forgot_password_page_ui_email" name="forgot_password_page_ui_email" aria-describedby="emailHelp" placeholder="Work email*" pattern="\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b" required>
+      </div>
+    </div>
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary">Reset</button>
     </div>
   </form>
 </div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - backdrop cover end -->
-
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - other links start -->
-<div class="login-create-account-other-links-section">
-  <p><a href="{{ url_for('auth.candidates_signup_function') }}" class="pricing-a">Create account</a></p>
-  <p><a href="{{ url_for('views.landing_index_page_function') }}" class="pricing-a">Home</a></p>
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - other links end -->
-
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="landing-spacer-section"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+<!-- ----------------------------------- end ----------------------------------- -->
 {% endblock %}
