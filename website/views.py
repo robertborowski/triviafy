@@ -52,7 +52,7 @@ redis_connection = redis_connect_to_database_function()
 def landing_index_page_function():
   localhost_print_function('=========================================== landing_index_page_function START ===========================================')
   localhost_print_function('=========================================== landing_index_page_function END ===========================================')
-  return render_template('candidates_page_templates/exterior/landing/index.html', user=current_user)
+  return render_template('candidates/exterior/landing/index.html', user=current_user)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -60,7 +60,7 @@ def landing_index_page_function():
 def candidates_about_page_function():
   localhost_print_function('=========================================== candidates_about_page_function START ===========================================')  
   localhost_print_function('=========================================== candidates_about_page_function END ===========================================')
-  return render_template('candidates_page_templates/exterior/about/index.html', user=current_user)
+  return render_template('candidates/exterior/about/index.html', user=current_user)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -68,7 +68,7 @@ def candidates_about_page_function():
 def candidates_faq_page_function():
   localhost_print_function('=========================================== candidates_faq_page_function START ===========================================')
   localhost_print_function('=========================================== candidates_faq_page_function END ===========================================')
-  return render_template('candidates_page_templates/exterior/faq/index.html', user=current_user)
+  return render_template('candidates/exterior/faq/index.html', user=current_user)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -76,7 +76,7 @@ def candidates_faq_page_function():
 def landing_index_page_function_archive_v01():
   localhost_print_function('=========================================== landing_index_page_function_archive_v01 START ===========================================')
   localhost_print_function('=========================================== landing_index_page_function_archive_v01 END ===========================================')
-  return render_template('candidates_page_templates/exterior/landing/index.html', user=current_user)
+  return render_template('candidates/exterior/landing/index.html', user=current_user)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -84,7 +84,7 @@ def landing_index_page_function_archive_v01():
 def candidates_test_library_page_function():
   localhost_print_function('=========================================== candidates_test_library_page_function START ===========================================')
   localhost_print_function('=========================================== candidates_test_library_page_function END ===========================================')
-  return render_template('candidates_page_templates/exterior/test_library/index.html', user=current_user)
+  return render_template('candidates/exterior/test_library/index.html', user=current_user)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -92,7 +92,7 @@ def candidates_test_library_page_function():
 def candidates_pricing_page_function():
   localhost_print_function('=========================================== candidates_pricing_page_function START ===========================================')
   localhost_print_function('=========================================== candidates_pricing_page_function END ===========================================')
-  return render_template('candidates_page_templates/exterior/pricing/index.html', user=current_user)
+  return render_template('candidates/exterior/pricing/index.html', user=current_user)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -100,7 +100,7 @@ def candidates_pricing_page_function():
 def candidates_stand_in_page_function():
   localhost_print_function('=========================================== candidates_stand_in_page_function START ===========================================')
   localhost_print_function('=========================================== candidates_stand_in_page_function END ===========================================')
-  return render_template('candidates_page_templates/exterior/stand_in_page_templates/index.html', user=current_user)
+  return render_template('candidates/exterior/stand_in_page_templates/index.html', user=current_user)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -108,7 +108,7 @@ def candidates_stand_in_page_function():
 def candidates_email_page_function():
   localhost_print_function('=========================================== candidates_email_page_function START ===========================================')
   localhost_print_function('=========================================== candidates_email_page_function END ===========================================')
-  return render_template('candidates_page_templates/exterior/collect_email_page_templates/index.html', user=current_user)
+  return render_template('candidates/exterior/collect_email_page_templates/index.html', user=current_user)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -116,7 +116,7 @@ def candidates_email_page_function():
 def error_page_function():
   localhost_print_function('=========================================== error_page_function START ===========================================')
   localhost_print_function('=========================================== error_page_function END ===========================================')
-  return render_template('candidates_page_templates/exterior/error_404/index.html', user=current_user)
+  return render_template('candidates/exterior/error_404/index.html', user=current_user)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -124,7 +124,7 @@ def error_page_function():
 def privacy_page_function():
   localhost_print_function('=========================================== privacy_page_function START ===========================================')
   localhost_print_function('=========================================== privacy_page_function END ===========================================')
-  return render_template('candidates_page_templates/exterior/privacy_policy_page_templates/index.html', user=current_user)
+  return render_template('candidates/exterior/privacy_policy_page_templates/index.html', user=current_user)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -132,7 +132,7 @@ def privacy_page_function():
 def terms_of_service_page_function():
   localhost_print_function('=========================================== terms_of_service_page_function START ===========================================')
   localhost_print_function('=========================================== terms_of_service_page_function END ===========================================')
-  return render_template('candidates_page_templates/exterior/terms_of_service_page_templates/index.html', user=current_user)
+  return render_template('candidates/exterior/terms_of_service_page_templates/index.html', user=current_user)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -165,7 +165,7 @@ def candidates_forgot_password_page_function():
       pass
     # ------------------------ check if user email exists in db end ------------------------
   localhost_print_function('=========================================== candidates_forgot_password_page_function END ===========================================')
-  return render_template('candidates_page_templates/exterior/forgot_password/index.html', user=current_user, error_message_to_html = forgot_password_error_statement)
+  return render_template('candidates/exterior/forgot_password/index.html', user=current_user, error_message_to_html = forgot_password_error_statement)
 # ------------------------ individual route end ------------------------
 
 
@@ -180,7 +180,7 @@ def candidates_reset_forgot_password_page_function(token):
   if user_obj_from_token is None:
     reset_password_error_statement = 'That is an invalid or expired token'
     localhost_print_function('=========================================== candidates_reset_forgot_password_page_function END ===========================================')
-    return render_template('candidates_page_templates/exterior/forgot_password/index.html', user=current_user, error_message_to_html = reset_password_error_statement)
+    return render_template('candidates/exterior/forgot_password/index.html', user=current_user, error_message_to_html = reset_password_error_statement)
   if request.method == 'POST':
     reset_password_error_statement = ''
     # ------------------------ get inputs from form start ------------------------
@@ -208,7 +208,7 @@ def candidates_reset_forgot_password_page_function(token):
       return redirect(url_for('views.dashboard_test_login_page_function'))
     # ------------------------ update db end ------------------------
   localhost_print_function('=========================================== candidates_reset_forgot_password_page_function END ===========================================')
-  return render_template('candidates_page_templates/exterior/forgot_password/reset_forgot_password/index.html', user=current_user, error_message_to_html = reset_password_error_statement)
+  return render_template('candidates/exterior/forgot_password/reset_forgot_password/index.html', user=current_user, error_message_to_html = reset_password_error_statement)
 # ------------------------ individual route end ------------------------
 # ------------------------ routes not logged in end ------------------------
 
@@ -230,7 +230,7 @@ def dashboard_test_login_page_function():
   Downside is repeating code but it is not for all pages, only for the pages that auto redirect on new account creation.
   -These pages will require the template_location_url variable
   """
-  template_location_url = 'candidates_page_templates/logged_in_page_templates/dashboard_page_templates/index.html'
+  template_location_url = 'candidates/logged_in_page_templates/dashboard_page_templates/index.html'
   # ------------------------ get values from url start ------------------------
   success_message = ''
   try:
@@ -323,7 +323,7 @@ def capacity_page_function():
     # ------------------------ update db end ------------------------
   # ------------------------ capacity selection end ------------------------
   # ------------------------ auto redirect checks start ------------------------
-  template_location_url = 'candidates_page_templates/logged_in_page_templates/capacity_select_page_templates/index.html'
+  template_location_url = 'candidates/logged_in_page_templates/capacity_select_page_templates/index.html'
   # ------------------------ auto redirect checks end ------------------------
   # ------------------------ latest_language_selection start ------------------------
   curr_user_id = current_user.id
@@ -387,7 +387,7 @@ def candidates_subscription_success_function():
     pass
   # ------------------------ email self end ------------------------
   localhost_print_function('=========================================== candidates_subscription_success_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/subscription_page_templates/index.html')
+  return render_template('candidates/logged_in_page_templates/subscription_page_templates/index.html')
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -518,7 +518,7 @@ def candidates_account_settings_function():
       # ------------------------ stripe checkout end ------------------------
   # ------------------------ if post data end ------------------------
   localhost_print_function('=========================================== candidates_account_settings_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/account_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, user_email_to_html=current_user.email, user_account_created_str_to_html=user_account_created_str,stripe_subscription_obj_status_to_html=stripe_subscription_obj_status,user_sub_active_to_html=user_sub_active,stripe_current_period_end_datetime_str_to_html=stripe_current_period_end_datetime_str,user_obj_capacity_id_to_html=user_obj_capacity_id)
+  return render_template('candidates/logged_in_page_templates/account_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, user_email_to_html=current_user.email, user_account_created_str_to_html=user_account_created_str,stripe_subscription_obj_status_to_html=stripe_subscription_obj_status,user_sub_active_to_html=user_sub_active,stripe_current_period_end_datetime_str_to_html=stripe_current_period_end_datetime_str,user_obj_capacity_id_to_html=user_obj_capacity_id)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -572,7 +572,7 @@ def candidates_upload_emails_function():
     if candidate_upload_success_statement == 'Uploaded successfully!':
       return redirect(url_for('views.candidates_schedule_create_now_function', var1='c_success'))
   localhost_print_function('=========================================== candidates_upload_emails_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/candidates_page_templates/candidates_upload_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name, len_current_user_uploaded_emails_arr_to_html = len_current_user_uploaded_emails_arr, error_message_to_html=candidate_upload_error_statement, success_message_to_html=candidate_upload_success_statement)
+  return render_template('candidates/logged_in_page_templates/candidates_page_templates/candidates_upload_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name, len_current_user_uploaded_emails_arr_to_html = len_current_user_uploaded_emails_arr, error_message_to_html=candidate_upload_error_statement, success_message_to_html=candidate_upload_success_statement)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -628,7 +628,7 @@ def candidates_analytics_function():
     all_candidates_arr_of_dicts.append(all_candidates_dict)
   # ------------------------ pull all candidates end ------------------------
   localhost_print_function('=========================================== candidates_analytics_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/candidates_page_templates/candidates_analytics_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name, all_candidates_arr_of_dicts_to_html=all_candidates_arr_of_dicts)
+  return render_template('candidates/logged_in_page_templates/candidates_page_templates/candidates_analytics_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name, all_candidates_arr_of_dicts_to_html=all_candidates_arr_of_dicts)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -642,7 +642,7 @@ def candidates_assessments_dashboard_function():
   db.session.commit()
   # ------------------------ delete all assessments that have been started by this user so far but abandoned end ------------------------
   localhost_print_function('=========================================== candidates_assessments_dashboard_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/assessments/assessments_dashboard_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name)
+  return render_template('candidates/logged_in_page_templates/assessments/assessments_dashboard_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -678,7 +678,7 @@ def candidates_assessments_analytics_function():
     all_assessments_arr_of_dicts.append(all_assessments_dict)
   # ------------------------ pull all assessments end ------------------------
   localhost_print_function('=========================================== candidates_assessments_analytics_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/assessments/assessments_analytics_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name, all_assessments_arr_of_dicts_to_html=all_assessments_arr_of_dicts)
+  return render_template('candidates/logged_in_page_templates/assessments/assessments_analytics_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name, all_assessments_arr_of_dicts_to_html=all_assessments_arr_of_dicts)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -686,7 +686,7 @@ def candidates_assessments_analytics_function():
 @login_required
 def candidates_assessment_create_new_function():
   localhost_print_function('=========================================== candidates_assessment_create_new_function START ===========================================')
-  template_location_url = 'candidates_page_templates/logged_in_page_templates/assessments/assessments_create_new_page_templates/index.html'
+  template_location_url = 'candidates/logged_in_page_templates/assessments/assessments_create_new_page_templates/index.html'
   # ------------------------ delete all assessments that have been started by this user so far but abandoned start ------------------------
   CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr=None).delete()
   CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr='').delete()
@@ -769,7 +769,7 @@ def candidates_assessment_create_new_function():
   """
   # ------------------------ normal page load start ------------------------
   localhost_print_function('=========================================== candidates_assessment_create_new_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/assessments/assessments_create_new_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name, error_message_to_html=create_assessment_error_statement, candidate_categories_arr_1_to_html=candidate_categories_arr_1, candidate_categories_arr_2_to_html=candidate_categories_arr_2, candidate_categories_arr_3_to_html=candidate_categories_arr_3, trial_name_attempt_to_html=trial_name_attempt)
+  return render_template('candidates/logged_in_page_templates/assessments/assessments_create_new_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name, error_message_to_html=create_assessment_error_statement, candidate_categories_arr_1_to_html=candidate_categories_arr_1, candidate_categories_arr_2_to_html=candidate_categories_arr_2, candidate_categories_arr_3_to_html=candidate_categories_arr_3, trial_name_attempt_to_html=trial_name_attempt)
   # ------------------------ normal page load end ------------------------
   """
   # ------------------------ auto set cookie start ------------------------
@@ -883,7 +883,7 @@ def candidates_assessment_select_questions_function(url_assessment_name):
       i_dict['answer'] = ''
   # ------------------------ if subscription not paid end ------------------------
   localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/assessments/assessments_create_new_page_templates/assessments_select_questions_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=select_questions_error_statement, query_result_arr_of_dicts_to_html=query_result_arr_of_dicts, user_sub_active_to_html=user_sub_active)
+  return render_template('candidates/logged_in_page_templates/assessments/assessments_create_new_page_templates/assessments_select_questions_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=select_questions_error_statement, query_result_arr_of_dicts_to_html=query_result_arr_of_dicts, user_sub_active_to_html=user_sub_active)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -892,7 +892,7 @@ def candidates_assessment_select_questions_function(url_assessment_name):
 def candidates_assessment_sucessfully_created_function():
   localhost_print_function('=========================================== candidates_assessment_sucessfully_created_function START ===========================================')
   localhost_print_function('=========================================== candidates_assessment_sucessfully_created_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/assessments/assessments_create_new_page_templates/assessments_successfully_created_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name)
+  return render_template('candidates/logged_in_page_templates/assessments/assessments_create_new_page_templates/assessments_successfully_created_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -920,7 +920,7 @@ def candidates_assessment_view_specific_function(url_assessment_name):
       i['answer'] = None
   # ------------------------ remove answers for non paying users end ------------------------
   localhost_print_function('=========================================== candidates_assessment_view_specific_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/assessments/assessments_view_specific_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, assessment_info_dict_to_html=assessment_info_dict)
+  return render_template('candidates/logged_in_page_templates/assessments/assessments_view_specific_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, assessment_info_dict_to_html=assessment_info_dict)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -982,7 +982,7 @@ def candidates_assessment_results_specific_function(url_assessment_name):
   emails_tracked_set.remove('a')
   # ------------------------ remove answers for non paying users end ------------------------
   localhost_print_function('=========================================== candidates_assessment_results_specific_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/assessments/assessments_analytics_page_templates/assessments_results_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, all_candidates_arr_of_dicts_to_html=all_candidates_arr_of_dicts, assessment_name_title_to_html=assessment_name_title)
+  return render_template('candidates/logged_in_page_templates/assessments/assessments_analytics_page_templates/assessments_results_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, all_candidates_arr_of_dicts_to_html=all_candidates_arr_of_dicts, assessment_name_title_to_html=assessment_name_title)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -1046,7 +1046,7 @@ def candidates_candidate_results_specific_function(url_candidate_email):
   assessment_tracked_set.remove('a')
   # ------------------------ pull db info schedule end ------------------------
   localhost_print_function('=========================================== candidates_candidate_results_specific_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/candidates_page_templates/candidates_view_specific_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, all_candidate_assessments_arr_of_dicts_to_html=all_candidate_assessments_arr_of_dicts, email_title_to_html=url_candidate_email)
+  return render_template('candidates/logged_in_page_templates/candidates_page_templates/candidates_view_specific_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, all_candidate_assessments_arr_of_dicts_to_html=all_candidate_assessments_arr_of_dicts, email_title_to_html=url_candidate_email)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -1061,7 +1061,7 @@ def candidates_schedule_dashboard_function():
   # ------------------------ delete all assessments that have been started by this user so far but abandoned end ------------------------
   # ------------------------ remove answers for non paying users end ------------------------
   localhost_print_function('=========================================== candidates_schedule_dashboard_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/schedule_page_templates/schedule_dashboard_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name)
+  return render_template('candidates/logged_in_page_templates/schedule_page_templates/schedule_dashboard_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -1070,7 +1070,7 @@ def candidates_schedule_dashboard_function():
 def candidates_no_assessments_yet_function():
   localhost_print_function('=========================================== candidates_no_assessments_yet_function START ===========================================')
   localhost_print_function('=========================================== candidates_no_assessments_yet_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/schedule_page_templates/schedule_no_assessments_yet_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name)
+  return render_template('candidates/logged_in_page_templates/schedule_page_templates/schedule_no_assessments_yet_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -1079,7 +1079,7 @@ def candidates_no_assessments_yet_function():
 def candidates_no_candidates_yet_function():
   localhost_print_function('=========================================== candidates_no_candidates_yet_function START ===========================================')
   localhost_print_function('=========================================== candidates_no_candidates_yet_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/schedule_page_templates/schedule_no_candidates_yet_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name)
+  return render_template('candidates/logged_in_page_templates/schedule_page_templates/schedule_no_candidates_yet_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -1212,7 +1212,7 @@ def candidates_schedule_create_new_function():
     # ------------------------ insert to db end ------------------------
   # ------------------------ post triggered end ------------------------
   localhost_print_function('=========================================== candidates_schedule_create_new_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/schedule_page_templates/schedule_create_new_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, current_user_assessment_names_arr_to_html=current_user_assessment_names_arr, current_user_candidates_arr_to_html=current_user_candidates_arr, next_x_days_arr_to_html=next_x_days_arr, times_arr_to_html=times_arr, timezone_arr_to_html=timezone_arr, success_message_to_html=success_message_schedule, error_message_to_html=error_message_schedule,user_sub_active_to_html=user_sub_active)
+  return render_template('candidates/logged_in_page_templates/schedule_page_templates/schedule_create_new_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, current_user_assessment_names_arr_to_html=current_user_assessment_names_arr, current_user_candidates_arr_to_html=current_user_candidates_arr, next_x_days_arr_to_html=next_x_days_arr, times_arr_to_html=times_arr, timezone_arr_to_html=timezone_arr, success_message_to_html=success_message_schedule, error_message_to_html=error_message_schedule,user_sub_active_to_html=user_sub_active)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -1362,7 +1362,7 @@ def candidates_schedule_create_now_function():
         return redirect(url_for('views.dashboard_test_login_page_function', var1='s_success'))
   # ------------------------ post triggered end ------------------------
   localhost_print_function('=========================================== candidates_schedule_create_now_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/schedule_page_templates/schedule_create_now_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, current_user_assessment_names_arr_to_html=current_user_assessment_names_arr, current_user_candidates_arr_to_html=current_user_candidates_arr, success_message_to_html=success_message_schedule, error_message_to_html=error_message_schedule,user_sub_active_to_html=user_sub_active)
+  return render_template('candidates/logged_in_page_templates/schedule_page_templates/schedule_create_now_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, current_user_assessment_names_arr_to_html=current_user_assessment_names_arr, current_user_candidates_arr_to_html=current_user_candidates_arr, success_message_to_html=success_message_schedule, error_message_to_html=error_message_schedule,user_sub_active_to_html=user_sub_active)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -1390,7 +1390,7 @@ def candidates_schedule_analytics_function():
     all_schedules_arr_of_dicts.append(all_assessments_dict)
   # ------------------------ pull schedules end ------------------------
   localhost_print_function('=========================================== candidates_schedule_analytics_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/schedule_page_templates/schedule_analytics_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, all_schedules_arr_of_dicts_to_html=all_schedules_arr_of_dicts)
+  return render_template('candidates/logged_in_page_templates/schedule_page_templates/schedule_analytics_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, all_schedules_arr_of_dicts_to_html=all_schedules_arr_of_dicts)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -1398,7 +1398,7 @@ def candidates_schedule_analytics_function():
 def candidates_assessment_invalid_function():
   localhost_print_function('=========================================== candidates_assessment_invalid_function START ===========================================')
   localhost_print_function('=========================================== candidates_assessment_invalid_function END ===========================================')
-  return render_template('candidates_page_templates/exterior/assessments/assessment_not_found/index.html')
+  return render_template('candidates/exterior/assessments/assessment_not_found/index.html')
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -1406,7 +1406,7 @@ def candidates_assessment_invalid_function():
 def candidates_assessment_early_function():
   localhost_print_function('=========================================== candidates_assessment_early_function START ===========================================')
   localhost_print_function('=========================================== candidates_assessment_early_function END ===========================================')
-  return render_template('candidates_page_templates/exterior/assessments/assessment_early/index.html')
+  return render_template('candidates/exterior/assessments/assessment_early/index.html')
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -1414,7 +1414,7 @@ def candidates_assessment_early_function():
 def candidates_assessment_completed_success_function():
   localhost_print_function('=========================================== candidates_assessment_completed_success_function START ===========================================')
   localhost_print_function('=========================================== candidates_assessment_completed_success_function END ===========================================')
-  return render_template('candidates_page_templates/exterior/assessments/assessment_completed_success/index.html')
+  return render_template('candidates/exterior/assessments/assessment_completed_success/index.html')
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -1422,7 +1422,7 @@ def candidates_assessment_completed_success_function():
 def candidates_assessment_closed_function():
   localhost_print_function('=========================================== candidates_assessment_closed_function START ===========================================')
   localhost_print_function('=========================================== candidates_assessment_closed_function END ===========================================')
-  return render_template('candidates_page_templates/exterior/assessments/assessment_closed/index.html')
+  return render_template('candidates/exterior/assessments/assessment_closed/index.html')
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -1580,7 +1580,7 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
     # ------------------------ only start grading if all valid answers provided end ------------------------
   # ------------------------ post triggered end ------------------------
   localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
-  return render_template('candidates_page_templates/exterior/assessments/assessment_candidate_test/index.html', users_company_name_to_html=db_user_obj_company_name, error_message_to_html=ui_answers_error_statement, assessment_info_dict_to_html=assessment_info_dict)
+  return render_template('candidates/exterior/assessments/assessment_candidate_test/index.html', users_company_name_to_html=db_user_obj_company_name, error_message_to_html=ui_answers_error_statement, assessment_info_dict_to_html=assessment_info_dict)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -1623,7 +1623,7 @@ def candidates_assessment_i_answers_function(url_email, url_assessment_name):
       i_dict['answer'] = ''
   # ------------------------ if subscription not paid end ------------------------
   localhost_print_function('=========================================== candidates_assessment_i_answers_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/candidates_page_templates/candidates_view_specific_page_templates/candidates_view_specific_answers_page_templates/index.html', error_message_to_html=ui_answers_error_statement, users_company_name_to_html = current_user.company_name, user_email_to_html=url_email, assessment_info_dict_to_html=assessment_info_dict,user_sub_active_to_html=user_sub_active)
+  return render_template('candidates/logged_in_page_templates/candidates_page_templates/candidates_view_specific_page_templates/candidates_view_specific_answers_page_templates/index.html', error_message_to_html=ui_answers_error_statement, users_company_name_to_html = current_user.company_name, user_email_to_html=url_email, assessment_info_dict_to_html=assessment_info_dict,user_sub_active_to_html=user_sub_active)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -1662,7 +1662,7 @@ def candidates_categories_request_function():
     ui_request_success_statement = 'Thank you, we will email you once the questions are available.'
   # ------------------------ if post method hit end ------------------------
   localhost_print_function('=========================================== candidates_categories_request_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/request_categories_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, ui_requested_to_html=ui_requested, error_message_to_html=ui_request_error_statement, success_message_to_html=ui_request_success_statement)
+  return render_template('candidates/logged_in_page_templates/request_categories_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, ui_requested_to_html=ui_requested, error_message_to_html=ui_request_error_statement, success_message_to_html=ui_request_success_statement)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -1723,13 +1723,13 @@ def candidates_create_question_function():
     if ui_option_e == None and ui_answer_checked.lower() == 'e':
       ui_question_error_statement = 'Invalid answer choice'
       localhost_print_function('=========================================== candidates_create_question_function END ===========================================')
-      return render_template('candidates_page_templates/logged_in_page_templates/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
+      return render_template('candidates/logged_in_page_templates/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
     # ------------------------ double check e end ------------------------
     # ------------------------ if invalid inputs start ------------------------
     if ui_title_checked == False or ui_categories_checked == False or ui_question_checked == False or ui_option_a_checked == False or ui_option_b_checked == False or ui_option_c_checked == False or ui_option_d_checked == False or ui_option_e_checked == False or ui_answer_checked == False or ui_difficulty_checked == False:
       ui_question_error_statement = 'Invalid input(s)'
       localhost_print_function('=========================================== candidates_create_question_function END ===========================================')
-      return render_template('candidates_page_templates/logged_in_page_templates/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
+      return render_template('candidates/logged_in_page_templates/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
     # ------------------------ if invalid inputs end ------------------------
     # ------------------------ define variable for insert start ------------------------
     final_id = create_uuid_function('questionid_')
@@ -1747,7 +1747,7 @@ def candidates_create_question_function():
           if image.filename == '' or image.filename == ' ' or image.filename == None:
             ui_question_error_statement = 'Question must contain an image.'
             localhost_print_function('=========================================== candidates_create_question_function END ===========================================')
-            return render_template('candidates_page_templates/logged_in_page_templates/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
+            return render_template('candidates/logged_in_page_templates/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
           # ------------------------ if no image attached end ------------------------
           # ------------------------ if image attached start ------------------------
           else:
@@ -1764,7 +1764,7 @@ def candidates_create_question_function():
             # ------------------------ if image checks fail start ------------------------
             if user_image_upload_status == False:
               localhost_print_function('=========================================== candidates_create_question_function END ===========================================')
-              return render_template('candidates_page_templates/logged_in_page_templates/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
+              return render_template('candidates/logged_in_page_templates/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
             # ------------------------ if image checks fail end ------------------------
             # Finalize image variables
             create_question_uploaded_image_aws_url = 'https://' + os.environ.get('AWS_TRIVIAFY_BUCKET_NAME') + '.s3.' + os.environ.get('AWS_TRIVIAFY_REGION') + '.amazonaws.com/' + image.filename
@@ -1800,7 +1800,7 @@ def candidates_create_question_function():
       pass
     # ------------------------ add to db end ------------------------
   localhost_print_function('=========================================== candidates_create_question_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
+  return render_template('candidates/logged_in_page_templates/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
 # ------------------------ individual route end ------------------------
 # ------------------------ routes logged in end ------------------------
 
@@ -1809,7 +1809,7 @@ def candidates_create_question_function():
 def candidates_blog_page_function():
   localhost_print_function('=========================================== candidates_blog_page_function START ===========================================')
   localhost_print_function('=========================================== candidates_blog_page_function END ===========================================')
-  return render_template('candidates_page_templates/exterior/blog/index.html')
+  return render_template('candidates/exterior/blog/index.html')
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -1817,7 +1817,7 @@ def candidates_blog_page_function():
 def candidates_i_blog_page_function(i_blog_post_number):
   localhost_print_function('=========================================== candidates_i_blog_page_function START ===========================================')
   current_blog_post_num = i_blog_post_number
-  current_blog_post_num_full_string = f'candidates_page_templates/exterior/blog/i_blog/i_{current_blog_post_num}.html'
+  current_blog_post_num_full_string = f'candidates/exterior/blog/i_blog/i_{current_blog_post_num}.html'
   localhost_print_function('=========================================== candidates_i_blog_page_function END ===========================================')
   return render_template(current_blog_post_num_full_string)
 # ------------------------ individual route end ------------------------

@@ -1,0 +1,144 @@
+{% extends "candidates/aaa_base/base2_child1_logged_in_yes_navbar_and_footer.html" %}
+
+<!-- head tag block content -->
+{% block title %}
+  <title>Send Now / Triviafy</title>
+{% endblock %}
+
+{% block contentBodyExceptNavbarAndFooter %}
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name start -->
+<div class="general-signed-in-company-name-section">
+  <p class="general-signed-in-company-name-title">{{ users_company_name_to_html }}</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name end -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title start -->
+<div class="general-page-title-section">
+  <p class="general-page-title">Send Assessment Now</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section-small"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message start -->
+<div class="error-message-section">
+  <p>{{ error_message_to_html }}</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message end -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - success message start -->
+<div class="success-message-section">
+  <p>{{ success_message_to_html }}</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - success message end -->
+
+{% if user_sub_active_to_html == false %}
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - paying customers start -->
+<div class="only-paying-customers candidates-default-box-shadow-grey-small">
+  <p>Free trial users can send themselves up to three tests.</p>
+  <a href="{{ url_for('views.candidates_account_settings_function') }}" class="general-a-primary"><p class="subscription-p">Select subscription</p></a>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - paying customers end -->
+{% endif %}
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
+<div class="schedule-new-form-container">
+  <form method="POST" class="schedule-new-form" enctype="multipart/form-data">
+    <div class="schedule-now-options-grid">
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select assessment start -->
+      <div class="schedule-user-input-section-1">
+        <!-- link: https://stackoverflow.com/questions/19206919/how-to-create-checkbox-inside-dropdown -->
+        <div id="js-schedule-list-assessment-names" class="dropdown-list-assessment-names" tabindex="100">
+          <span class="schedule-anchor-span-assessment-names schedule-now-anchor-adj">Assessment*</span>
+          <ul class="schedule-items-assessment-names">
+            {% for i in current_user_assessment_names_arr_to_html %}
+            <li>
+              {% if current_user_assessment_names_arr_to_html|length == 1 %}
+              <input type="radio" id="ui_schedule_assessment_selected" name="ui_schedule_assessment_selected" value="{{ i }}" checked/>
+              <label for="ui_schedule_assessment_selected">{{ i }}</label>
+              {% elif current_user_assessment_names_arr_to_html|length != 1 %}
+              <input type="radio" id="ui_schedule_assessment_selected" name="ui_schedule_assessment_selected" value="{{ i }}"/>
+              <label for="ui_schedule_assessment_selected">{{ i }}</label>
+              {% endif %}
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select assessment end -->
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select candidates start -->
+      <div class="schedule-user-input-section-2">
+        <!-- link: https://stackoverflow.com/questions/19206919/how-to-create-checkbox-inside-dropdown -->
+        <div id="js-schedule-list-candidate-names" class="dropdown-list-assessment-names" tabindex="100">
+          <span class="schedule-anchor-span-candidate-names schedule-now-anchor-adj">Candidates*</span>
+          <ul class="schedule-items-assessment-names">
+            {% for i in current_user_candidates_arr_to_html %}
+            <li>
+              {% if current_user_candidates_arr_to_html|length == 1 %}
+              <input type="checkbox" id="ui_schedule_candidates_selected" name="ui_schedule_candidates_selected" value="{{ i }}" checked/>{{ i }}
+              <label for="ui_schedule_candidates_selected"></label>
+              {% elif current_user_candidates_arr_to_html|length != 1 %}
+              <input type="checkbox" id="ui_schedule_candidates_selected" name="ui_schedule_candidates_selected" value="{{ i }}"/>{{ i }}
+              <label for="ui_schedule_candidates_selected"></label>
+              {% endif %}
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select candidates end -->
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select send datetime start -->
+      </div>
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select send datetime end -->
+    </div>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+    <div class="general-spacer-section"></div>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - submit button start -->
+    <div class="schedule-now-button-container">
+      <button type="submit" class="default-button-format default-button-format-primary-color">Send now</button>
+    </div>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - submit button end -->
+  </form>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - more options start -->
+<div class="schedule-more-options-section">
+  <p>More options</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - more options end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - view all start -->
+<div class="general-center-container">
+  <a href="{{ url_for('views.candidates_schedule_create_new_function') }}" class="general-a-primary"><p class="general-page-font">Send later</p></a>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - view all end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section-small-2"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - view all start -->
+<div class="general-center-container">
+  <a href="{{ url_for('views.candidates_upload_emails_function') }}" class="general-a-primary"><p class="general-page-font">Add candidates</p></a>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - view all end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page end -->
+{% endblock %}
