@@ -61,7 +61,7 @@ def create_app_function():
   def not_found(e):
     # localhost_print_function('exception hit create_app_function')
     # localhost_print_function('=========================================== create_app_function END ===========================================')
-    return render_template("candidates_page_templates/exterior/error_404_page_templates/index.html")
+    return render_template("candidates_page_templates/exterior/error_404/index.html")
   # ------------------------ Handleing Error Messages END ------------------------
   # ------------------------ stripe api environment start ------------------------
   stripe.api_key = os.environ.get('STRIPE_API_KEY')  # PRODUCTION
@@ -70,7 +70,6 @@ def create_app_function():
   # ------------------------ views/auths/routes imports start ------------------------
   from .views import views
   from .auth import auth
-  from .blog import blog
   # ------------------------ views/auths/routes imports end ------------------------
   # ------------------------ views/auths/routes register blueprints start ------------------------
   # ------------------------ TRIVIAFY EMPLOYEE ENGAGEMENT START ------------------------
@@ -320,7 +319,6 @@ def create_app_function():
   # ------------------------ TRIVIAFY EMPLOYEE ENGAGEMENT END ------------------------
   app.register_blueprint(views, url_prefix='/')
   app.register_blueprint(auth, url_prefix='/')
-  app.register_blueprint(blog, url_prefix='/')
   # ------------------------ views/auths/routes register blueprints end ------------------------
   # ------------------------ import models before creating db for first time start ------------------------
   from .models import CandidatesUserObj, CandidatesCapacityOptionsObj, CandidatesCollectEmailObj

@@ -65,7 +65,7 @@ def candidates_signup_function():
       # ------------------------ create new signup in db end ------------------------
       localhost_print_function('user is being redirected to full sign up page')
       localhost_print_function('=========================================== candidates_signup_function END ===========================================')
-      return render_template('candidates_page_templates/exterior/create_account_templates/index.html', user=current_user, redirect_var_email = ui_email, error_message_to_html = create_account_error_statement)
+      return render_template('candidates_page_templates/exterior/signup/index.html', user=current_user, redirect_var_email = ui_email, error_message_to_html = create_account_error_statement)
     # ------------------------ post method hit #1 - quick sign up end ------------------------
     # ------------------------ post method hit #2 - full sign up start ------------------------
     ui_email = request.form.get('create_account_page_ui_email')
@@ -101,7 +101,7 @@ def candidates_signup_function():
     # ------------------------ if user input error start ------------------------
     if create_account_error_statement != '':
       localhost_print_function('=========================================== candidates_signup_function END ===========================================')
-      return render_template('candidates_page_templates/exterior/create_account_templates/index.html',
+      return render_template('candidates_page_templates/exterior/signup/index.html',
                               user = current_user,
                               error_message_to_html = create_account_error_statement,
                               redirect_var_email = ui_email,
@@ -114,7 +114,7 @@ def candidates_signup_function():
     if user:
       create_account_error_statement = 'Account already created for email.'
       localhost_print_function('=========================================== candidates_signup_function END ===========================================')
-      return render_template('candidates_page_templates/exterior/create_account_templates/index.html',
+      return render_template('candidates_page_templates/exterior/signup/index.html',
                               user = current_user,
                               error_message_to_html = create_account_error_statement,
                               redirect_var_email = ui_email,
@@ -152,7 +152,7 @@ def candidates_signup_function():
     # ------------------------ post method hit #2 - full sign up end ------------------------
 
   localhost_print_function('=========================================== candidates_signup_function END ===========================================')
-  return render_template('candidates_page_templates/exterior/create_account_templates/index.html', user=current_user, error_message_to_html = create_account_error_statement)
+  return render_template('candidates_page_templates/exterior/signup/index.html', user=current_user, error_message_to_html = create_account_error_statement)
 # ------------------------ individual route end ------------------------
 
 
@@ -207,7 +207,7 @@ def candidates_login_page_function():
     # ------------------------ post method hit #1 - regular login end ------------------------
 
   localhost_print_function('=========================================== candidates_login_page_function END ===========================================')
-  return render_template('candidates_page_templates/exterior/login_page_templates/index.html', user=current_user, error_message_to_html = login_error_statement)
+  return render_template('candidates_page_templates/exterior/login/index.html', user=current_user, error_message_to_html = login_error_statement)
 # ------------------------ individual route end ------------------------
 
 

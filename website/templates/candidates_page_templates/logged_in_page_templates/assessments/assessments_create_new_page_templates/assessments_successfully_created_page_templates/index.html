@@ -1,7 +1,7 @@
-{% extends "candidates_page_templates/aaa_base_page_templates/base2_child1_not_logged_in_no_navbar_and_footer.html" %}
+{% extends "candidates_page_templates/aaa_base_page_templates/single_message.html" %}
 
 {% block title %}
-<title>Expired / Triviafy</title>
+<title>Success / Triviafy</title>
 {% endblock %}
 
 {% block contentBodyExceptNavbarAndFooter %}
@@ -9,9 +9,9 @@
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Img, message, button Start -->
   <div style="text-align:center;">
     <img src="/static/images/candidates/logo/Logo.png" alt="Triviafy Logo" style="height:20rem;width:20rem;margin-top:50px;">
-    <p style="color:var(--company-primary-color);font-size:40px;padding-bottom: 50px;">Assessment link expired/invalid.</p>
+    <p style="color:var(--company-primary-color);font-size:40px;padding-bottom: 50px;">Assessment successfully created!</p>
 
-    <a href="/candidates"><button class="default-button-format default-button-format-primary-color" type="submit" value="submit">Home</button></a>
+    <a href="{{ url_for('views.dashboard_test_login_page_function') }}"><button class="default-button-format default-button-format-primary-color" type="submit" value="submit">Dashboard</button></a>
   </div>
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Img, message, button End -->
   
