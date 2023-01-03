@@ -38,7 +38,7 @@ redis_connection = redis_connect_to_database_function()
 def candidates_blog_page_function():
   localhost_print_function('=========================================== candidates_blog_page_function START ===========================================')
   localhost_print_function('=========================================== candidates_blog_page_function END ===========================================')
-  return render_template('candidates_page_templates/not_logged_in_page_templates/blog_page_templates/index.html')
+  return render_template('candidates_page_templates/exterior/blog_page_templates/index.html')
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -46,7 +46,7 @@ def candidates_blog_page_function():
 def candidates_i_blog_page_function(i_blog_post_number):
   localhost_print_function('=========================================== candidates_i_blog_page_function START ===========================================')
   current_blog_post_num = i_blog_post_number
-  current_blog_post_num_full_string = f'candidates_page_templates/not_logged_in_page_templates/blog_page_templates/individual_blog_page_templates/i_blog_post_{current_blog_post_num}.html'
+  current_blog_post_num_full_string = f'candidates_page_templates/exterior/blog_page_templates/individual_blog_page_templates/i_blog_post_{current_blog_post_num}.html'
   localhost_print_function('=========================================== candidates_i_blog_page_function END ===========================================')
   return render_template(current_blog_post_num_full_string)
 # ------------------------ individual route end ------------------------
