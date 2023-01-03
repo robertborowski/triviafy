@@ -107,6 +107,9 @@
 .custom-header-4 {
   font-size: 20px;
 }
+.custom-header-5 {
+  font-size: 15px;
+}
 /* ------------------- header end ------------------- */
 /* ------------------- height start ------------------- */
 .custom-height-1-mobile {
@@ -117,6 +120,9 @@
 }
 .custom-height-3-mobile {
   height: 450px;
+}
+.custom-height-4 {
+  height: 300px;
 }
 /* ------------------- height end ------------------- */
 /* ------------------- img start ------------------- */
@@ -148,6 +154,9 @@
 .custom-img-size-8 {
   width: 125px;
 }
+.custom-img-size-9 {
+  width: 15px;
+}
 /* ------------------- img end ------------------- */
 /* ------------------- index start ------------------- */
 .custom-index-1 {
@@ -163,6 +172,9 @@
 }
 .custom-jc-2 {
   justify-content: space-between;
+}
+.custom-jc-3 {
+  justify-content: center;
 }
 /* ------------------- justify end ------------------- */
 /* ------------------- list style start ------------------- */
@@ -220,6 +232,9 @@
 }
 .custom-mr-2 {
   margin-right: 10px;
+}
+.custom-mr-3 {
+  margin-right: 25px;
 }
 .custom-ml-1 {
   margin-left: 10px;
@@ -281,6 +296,9 @@
 }
 .custom-pt-4 {
   padding-top: 25px;
+}
+.custom-pt-5 {
+  padding-top: 5px;
 }
 /* ------------------- padding end ------------------- */
 /* ------------------- shape divider start ------------------- */
@@ -438,5 +456,9 @@
 }
 .custom-width-7 {
   max-width: 1200px;
+}
+.custom-width-8 {
+  width: 350px;
+  max-width: 90%;
 }
 /* ------------------- width end ------------------- */
