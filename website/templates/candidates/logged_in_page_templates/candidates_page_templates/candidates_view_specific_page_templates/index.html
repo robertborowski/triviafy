@@ -30,7 +30,7 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - redirect link start -->
 <div class="general-center-container">
-  <a href="{{ url_for('views.candidates_analytics_function') }}" class="general-a-primary"><p class="general-page-font">Back</p></a>
+  <a href="{{ url_for('views_interior.candidates_analytics_function') }}" class="general-a-primary"><p class="general-page-font">Back</p></a>
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - redirect link end -->
 
@@ -57,7 +57,7 @@
         <td>{{ i['total_schedules_completed'] }}</td>
         <td>{{ i['total_correct_count'] }}</td>
         <td>{{ i['average_final_score'] }}</td>
-        <td><a href="{{ url_for('views.candidates_assessment_i_answers_function', url_email=email_title_to_html, url_assessment_name=i['assessment_name']) }}" class="general-a-primary">View latest</a></td>
+        <td><a href="{{ url_for('views_interior.candidates_assessment_i_answers_function', url_email=email_title_to_html, url_assessment_name=i['assessment_name']) }}" class="general-a-primary">View latest</a></td>
       </tr>
       {% endfor %}
     </tbody>

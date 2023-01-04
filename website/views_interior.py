@@ -7,7 +7,6 @@
 # -use code: <methods=['GET', 'POST']> when you want the user to interact with the page through forms/checkbox/textbox/radio/etc.
 # ------------------------ info about this file end ------------------------
 
-
 # ------------------------ imports start ------------------------
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
@@ -35,9 +34,8 @@ import os
 from website.backend.candidates.aws_manipulation import candidates_change_uploaded_image_filename_function, candidates_user_upload_image_checks_aws_s3_function
 # ------------------------ imports end ------------------------
 
-
 # ------------------------ function start ------------------------
-views = Blueprint('views', __name__)
+views_interior = Blueprint('views_interior', __name__)
 # ------------------------ function end ------------------------
 # ------------------------ before page variables start ------------------------
 cache_busting_output = create_uuid_function('css_')
@@ -46,179 +44,8 @@ cache_busting_output = create_uuid_function('css_')
 redis_connection = redis_connect_to_database_function()
 # ------------------------ connect to redis end ------------------------
 
-# ------------------------ routes not logged in start ------------------------
 # ------------------------ individual route start ------------------------
-@views.route('/')
-def landing_index_page_function():
-  localhost_print_function('=========================================== landing_index_page_function START ===========================================')
-  localhost_print_function('=========================================== landing_index_page_function END ===========================================')
-  return render_template('candidates/exterior/landing/index.html', user=current_user)
-# ------------------------ individual route end ------------------------
-
-# ------------------------ individual route start ------------------------
-@views.route('/candidates/about')
-def candidates_about_page_function():
-  localhost_print_function('=========================================== candidates_about_page_function START ===========================================')  
-  localhost_print_function('=========================================== candidates_about_page_function END ===========================================')
-  return render_template('candidates/exterior/about/index.html', user=current_user)
-# ------------------------ individual route end ------------------------
-
-# ------------------------ individual route start ------------------------
-@views.route('/candidates/faq')
-def candidates_faq_page_function():
-  localhost_print_function('=========================================== candidates_faq_page_function START ===========================================')
-  localhost_print_function('=========================================== candidates_faq_page_function END ===========================================')
-  return render_template('candidates/exterior/faq/index.html', user=current_user)
-# ------------------------ individual route end ------------------------
-
-# ------------------------ individual route start ------------------------
-@views.route('/candidates')
-def landing_index_page_function_archive_v01():
-  localhost_print_function('=========================================== landing_index_page_function_archive_v01 START ===========================================')
-  localhost_print_function('=========================================== landing_index_page_function_archive_v01 END ===========================================')
-  return render_template('candidates/exterior/landing/index.html', user=current_user)
-# ------------------------ individual route end ------------------------
-
-# ------------------------ individual route start ------------------------
-@views.route('/candidates/library')
-def candidates_test_library_page_function():
-  localhost_print_function('=========================================== candidates_test_library_page_function START ===========================================')
-  localhost_print_function('=========================================== candidates_test_library_page_function END ===========================================')
-  return render_template('candidates/exterior/test_library/index.html', user=current_user)
-# ------------------------ individual route end ------------------------
-
-# ------------------------ individual route start ------------------------
-@views.route('/candidates/pricing')
-def candidates_pricing_page_function():
-  localhost_print_function('=========================================== candidates_pricing_page_function START ===========================================')
-  localhost_print_function('=========================================== candidates_pricing_page_function END ===========================================')
-  return render_template('candidates/exterior/pricing/index.html', user=current_user)
-# ------------------------ individual route end ------------------------
-
-# ------------------------ individual route start ------------------------
-@views.route('/candidates/launch')
-def candidates_stand_in_page_function():
-  localhost_print_function('=========================================== candidates_stand_in_page_function START ===========================================')
-  localhost_print_function('=========================================== candidates_stand_in_page_function END ===========================================')
-  return render_template('candidates/exterior/stand_in_page_templates/index.html', user=current_user)
-# ------------------------ individual route end ------------------------
-
-# ------------------------ individual route start ------------------------
-@views.route('/candidates/email')
-def candidates_email_page_function():
-  localhost_print_function('=========================================== candidates_email_page_function START ===========================================')
-  localhost_print_function('=========================================== candidates_email_page_function END ===========================================')
-  return render_template('candidates/exterior/collect_email_page_templates/index.html', user=current_user)
-# ------------------------ individual route end ------------------------
-
-# ------------------------ individual route start ------------------------
-@views.route('/404')
-def error_page_function():
-  localhost_print_function('=========================================== error_page_function START ===========================================')
-  localhost_print_function('=========================================== error_page_function END ===========================================')
-  return render_template('candidates/exterior/error_404/index.html', user=current_user)
-# ------------------------ individual route end ------------------------
-
-# ------------------------ individual route start ------------------------
-@views.route('/privacy')
-def privacy_page_function():
-  localhost_print_function('=========================================== privacy_page_function START ===========================================')
-  localhost_print_function('=========================================== privacy_page_function END ===========================================')
-  return render_template('candidates/exterior/privacy_policy_page_templates/index.html', user=current_user)
-# ------------------------ individual route end ------------------------
-
-# ------------------------ individual route start ------------------------
-@views.route('/tos')
-def terms_of_service_page_function():
-  localhost_print_function('=========================================== terms_of_service_page_function START ===========================================')
-  localhost_print_function('=========================================== terms_of_service_page_function END ===========================================')
-  return render_template('candidates/exterior/terms_of_service_page_templates/index.html', user=current_user)
-# ------------------------ individual route end ------------------------
-
-# ------------------------ individual route start ------------------------
-@views.route('/candidates/reset', methods=['GET', 'POST'])
-def candidates_forgot_password_page_function():
-  localhost_print_function('=========================================== candidates_forgot_password_page_function START ===========================================')  
-  forgot_password_error_statement = ''
-  if request.method == 'POST':
-    # ------------------------ post request sent start ------------------------
-    ui_email = request.form.get('forgot_password_page_ui_email')
-    # ------------------------ post request sent end ------------------------
-    # ------------------------ sanitize/check user input email start ------------------------
-    ui_email_cleaned = sanitize_email_function(ui_email)
-    if ui_email_cleaned == False:
-      forgot_password_error_statement = 'Please enter a valid work email.'
-    # ------------------------ sanitize/check user input email end ------------------------
-    # ------------------------ check if user email exists in db start ------------------------
-    user_exists = CandidatesUserObj.query.filter_by(email=ui_email).first()
-    if user_exists:
-      forgot_password_error_statement = 'Password reset link sent to email.'
-      # ------------------------ send email with token url start ------------------------
-      serializer_token_obj = CandidatesUserObj.get_reset_token_function(self=user_exists)
-      output_email = ui_email
-      output_subject_line = 'Password Reset - Triviafy'
-      output_message_content = f"To reset your password, visit the following link: https://triviafy.com/candidates/reset/{serializer_token_obj} \n\nThis link will expire after 30 minutes.\nIf you did not make this request then simply ignore this email and no changes will be made."
-      send_email_template_function(output_email, output_subject_line, output_message_content)
-      # ------------------------ send email with token url end ------------------------
-    else:
-      forgot_password_error_statement = 'Password reset link sent to email.'
-      pass
-    # ------------------------ check if user email exists in db end ------------------------
-  localhost_print_function('=========================================== candidates_forgot_password_page_function END ===========================================')
-  return render_template('candidates/exterior/forgot_password/index.html', user=current_user, error_message_to_html = forgot_password_error_statement)
-# ------------------------ individual route end ------------------------
-
-
-# ------------------------ individual route start ------------------------
-@views.route('/candidates/reset/<token>', methods=['GET', 'POST'])
-def candidates_reset_forgot_password_page_function(token):
-  localhost_print_function('=========================================== candidates_reset_forgot_password_page_function START ===========================================')
-  # if current_user.is_authenticated == False:
-  #   return redirect(url_for('views.dashboard_test_login_page_function'))
-  reset_password_error_statement = ''
-  user_obj_from_token = CandidatesUserObj.verify_reset_token_function(token)
-  if user_obj_from_token is None:
-    reset_password_error_statement = 'That is an invalid or expired token'
-    localhost_print_function('=========================================== candidates_reset_forgot_password_page_function END ===========================================')
-    return render_template('candidates/exterior/forgot_password/index.html', user=current_user, error_message_to_html = reset_password_error_statement)
-  if request.method == 'POST':
-    reset_password_error_statement = ''
-    # ------------------------ get inputs from form start ------------------------
-    ui_password = request.form.get('reset_forgot_password_page_ui_password')
-    ui_password_confirmed = request.form.get('reset_forgot_password_page_ui_password_confirmed')
-    # ------------------------ get inputs from form end ------------------------
-    # ------------------------ check match start ------------------------
-    if ui_password != ui_password_confirmed:
-      reset_password_error_statement = 'Passwords do not match.'
-    # ------------------------ check match end ------------------------
-    # ------------------------ sanitize/check user input password start ------------------------
-    ui_password_cleaned = sanitize_password_function(ui_password)
-    if ui_password_cleaned == False:
-      reset_password_error_statement = 'Password is not valid.'
-    # ------------------------ sanitize/check user input password end ------------------------
-    # ------------------------ sanitize/check user input password start ------------------------
-    ui_password_confirmed_cleaned = sanitize_password_function(ui_password_confirmed)
-    if ui_password_confirmed_cleaned == False:
-      reset_password_error_statement = 'Password is not valid.'
-    # ------------------------ sanitize/check user input password end ------------------------
-    # ------------------------ update db start ------------------------
-    if reset_password_error_statement == '':
-      user_obj_from_token.password = generate_password_hash(ui_password, method="sha256")
-      db.session.commit()
-      return redirect(url_for('views.dashboard_test_login_page_function'))
-    # ------------------------ update db end ------------------------
-  localhost_print_function('=========================================== candidates_reset_forgot_password_page_function END ===========================================')
-  return render_template('candidates/exterior/forgot_password/reset_forgot_password/index.html', user=current_user, error_message_to_html = reset_password_error_statement)
-# ------------------------ individual route end ------------------------
-# ------------------------ routes not logged in end ------------------------
-
-
-
-# ------------------------ routes logged in start ------------------------
-# @login_required should be a decorator on all of the pages in this section
-# ------------------------ individual route start ------------------------
-# ------------------------ individual route start ------------------------
-@views.route('/candidates/dashboard')
+@views_interior.route('/candidates/dashboard')
 @login_required
 def dashboard_test_login_page_function():
   localhost_print_function('=========================================== dashboard_test_login_page_function START ===========================================')
@@ -256,7 +83,7 @@ def dashboard_test_login_page_function():
   # ------------------------ redirect new users to create assessment start ------------------------
   if len_current_user_assessments_created_arr == 0:
     localhost_print_function('=========================================== dashboard_test_login_page_function END ===========================================')
-    return redirect(url_for('views.candidates_assessment_create_new_function'))
+    return redirect(url_for('views_interior.candidates_assessment_create_new_function'))
   # ------------------------ redirect new users to create assessment end ------------------------
   # ------------------------ get users total assessments created end ------------------------
   # ------------------------ get users total schedules created start ------------------------
@@ -277,7 +104,7 @@ def dashboard_test_login_page_function():
 
 
 # ------------------------ individual route start ------------------------
-@views.route('/candidates/capacity', methods=['GET', 'POST'])
+@views_interior.route('/candidates/capacity', methods=['GET', 'POST'])
 @login_required
 def capacity_page_function():
   localhost_print_function('=========================================== capacity_page_function START ===========================================')
@@ -319,7 +146,7 @@ def capacity_page_function():
       db.session.add(insert_new_row)
       db.session.commit()
       # ------------------------ create new user in db end ------------------------
-      return redirect(url_for('views.dashboard_test_login_page_function'))
+      return redirect(url_for('views_interior.dashboard_test_login_page_function'))
     # ------------------------ update db end ------------------------
   # ------------------------ capacity selection end ------------------------
   # ------------------------ auto redirect checks start ------------------------
@@ -346,7 +173,7 @@ def capacity_page_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views.route('/candidates/subscription/success')
+@views_interior.route('/candidates/subscription/success')
 @login_required
 def candidates_subscription_success_function():
   localhost_print_function('=========================================== candidates_subscription_success_function START ===========================================')
@@ -356,7 +183,7 @@ def candidates_subscription_success_function():
   # ------------------------ if not found start ------------------------
   if db_checkout_session_obj == None or db_checkout_session_obj == '' or db_checkout_session_obj == False:
     localhost_print_function('=========================================== candidates_subscription_success_function END ===========================================')
-    return redirect(url_for('views.dashboard_test_login_page_function'))
+    return redirect(url_for('views_interior.dashboard_test_login_page_function'))
   # ------------------------ if not found end ------------------------
   # ------------------------ get desired start ------------------------
   fk_checkout_session_id = db_checkout_session_obj.fk_checkout_session_id
@@ -366,7 +193,7 @@ def candidates_subscription_success_function():
   # ------------------------ if not found start ------------------------
   if stripe_checkout_session_obj == None:
     localhost_print_function('=========================================== candidates_subscription_success_function END ===========================================')
-    return redirect(url_for('views.dashboard_test_login_page_function'))
+    return redirect(url_for('views_interior.dashboard_test_login_page_function'))
   # ------------------------ if not found end ------------------------
   stripe_customer_id = stripe_checkout_session_obj.customer
   stripe_subscription_id = stripe_checkout_session_obj.subscription
@@ -391,7 +218,7 @@ def candidates_subscription_success_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views.route('/candidates/account', methods=['GET', 'POST'])
+@views_interior.route('/candidates/account', methods=['GET', 'POST'])
 @login_required
 def candidates_account_settings_function():
   localhost_print_function('=========================================== candidates_account_settings_function START ===========================================')
@@ -465,7 +292,7 @@ def candidates_account_settings_function():
     # ------------------------ redirect if invalid start ------------------------
     if ui_capacity_selected == None:
       localhost_print_function('=========================================== candidates_account_settings_function END ===========================================')
-      return redirect(url_for('views.dashboard_test_login_page_function'))
+      return redirect(url_for('views_interior.dashboard_test_login_page_function'))
     # ------------------------ redirect if invalid end ------------------------
     if ui_capacity_selected != None:
       # ------------------------ db get price id start ------------------------
@@ -522,7 +349,7 @@ def candidates_account_settings_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views.route('/candidates/upload', methods=['GET', 'POST'])
+@views_interior.route('/candidates/upload', methods=['GET', 'POST'])
 @login_required
 def candidates_upload_emails_function():
   localhost_print_function('=========================================== candidates_upload_emails_function START ===========================================')
@@ -570,13 +397,13 @@ def candidates_upload_emails_function():
         pass
     # ------------------------ email self end ------------------------
     if candidate_upload_success_statement == 'Uploaded successfully!':
-      return redirect(url_for('views.candidates_schedule_create_now_function', var1='c_success'))
+      return redirect(url_for('views_interior.candidates_schedule_create_now_function', var1='c_success'))
   localhost_print_function('=========================================== candidates_upload_emails_function END ===========================================')
   return render_template('candidates/logged_in_page_templates/candidates_page_templates/candidates_upload_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name, len_current_user_uploaded_emails_arr_to_html = len_current_user_uploaded_emails_arr, error_message_to_html=candidate_upload_error_statement, success_message_to_html=candidate_upload_success_statement)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views.route('/candidates/analytics', methods=['GET', 'POST'])
+@views_interior.route('/candidates/analytics', methods=['GET', 'POST'])
 @login_required
 def candidates_analytics_function():
   localhost_print_function('=========================================== candidates_analytics_function START ===========================================')
@@ -632,7 +459,7 @@ def candidates_analytics_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views.route('/candidates/assessments/dashboard', methods=['GET', 'POST'])
+@views_interior.route('/candidates/assessments/dashboard', methods=['GET', 'POST'])
 @login_required
 def candidates_assessments_dashboard_function():
   localhost_print_function('=========================================== candidates_assessments_dashboard_function START ===========================================')
@@ -646,7 +473,7 @@ def candidates_assessments_dashboard_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views.route('/candidates/assessments/analytics', methods=['GET', 'POST'])
+@views_interior.route('/candidates/assessments/analytics', methods=['GET', 'POST'])
 @login_required
 def candidates_assessments_analytics_function():
   localhost_print_function('=========================================== candidates_assessments_analytics_function START ===========================================')
@@ -682,7 +509,7 @@ def candidates_assessments_analytics_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views.route('/candidates/assessment/new', methods=['GET', 'POST'])
+@views_interior.route('/candidates/assessment/new', methods=['GET', 'POST'])
 @login_required
 def candidates_assessment_create_new_function():
   localhost_print_function('=========================================== candidates_assessment_create_new_function START ===========================================')
@@ -764,7 +591,7 @@ def candidates_assessment_create_new_function():
       db.session.commit()
       # ------------------------ create new assessment in db end ------------------------
       localhost_print_function('=========================================== candidates_assessment_create_new_function END ===========================================')
-      return redirect(url_for('views.candidates_assessment_select_questions_function', url_assessment_name=auto_generated_assessment_name))
+      return redirect(url_for('views_interior.candidates_assessment_select_questions_function', url_assessment_name=auto_generated_assessment_name))
   # ------------------------ post method hit end ------------------------
   """
   # ------------------------ normal page load start ------------------------
@@ -785,21 +612,21 @@ def candidates_assessment_create_new_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views.route('/candidates/assessment/new/questions/<url_assessment_name>', methods=['GET', 'POST'])
+@views_interior.route('/candidates/assessment/new/questions/<url_assessment_name>', methods=['GET', 'POST'])
 @login_required
 def candidates_assessment_select_questions_function(url_assessment_name):
   localhost_print_function('=========================================== candidates_assessment_select_questions_function START ===========================================')
   # ------------------------ invalid url_assessment_name start ------------------------
   if url_assessment_name == False or url_assessment_name == None or url_assessment_name == '':
     localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
-    return redirect(url_for('views.dashboard_test_login_page_function'))
+    return redirect(url_for('views_interior.dashboard_test_login_page_function'))
   # ------------------------ invalid url_assessment_name end ------------------------
   select_questions_error_statement = ''
   # ------------------------ get assessment obj details start ------------------------
   db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(assessment_name=url_assessment_name,user_id_fk=current_user.id).first()
   if db_assessment_obj == None:
     localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
-    return redirect(url_for('views.dashboard_test_login_page_function'))
+    return redirect(url_for('views_interior.dashboard_test_login_page_function'))
   db_assessment_obj_id = db_assessment_obj.id
   db_assessment_obj_name = db_assessment_obj.assessment_name
   db_assessment_obj_desired_langs = db_assessment_obj.desired_languages_arr
@@ -809,7 +636,7 @@ def candidates_assessment_select_questions_function(url_assessment_name):
   # if questions were already selected for quiz
   if db_assessment_question_ids_arr != None and db_assessment_question_ids_arr != '' and (len(db_assessment_question_ids_arr) != 0 and len(db_assessment_question_ids_arr) != 1):
     localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
-    return redirect(url_for('views.dashboard_test_login_page_function'))
+    return redirect(url_for('views_interior.dashboard_test_login_page_function'))
   # ------------------------ individual redirect end ------------------------
   # ------------------------ post method hit start ------------------------
   if request.method == 'POST':
@@ -818,13 +645,13 @@ def candidates_assessment_select_questions_function(url_assessment_name):
     if len(ui_select_question_checkbox_arr) == 0 or len(ui_select_question_checkbox_arr) > 50:
       select_questions_error_statement = 'Assessment must contain 1-50 questions.'
       localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
-      return redirect(url_for('views.dashboard_test_login_page_function'))
+      return redirect(url_for('views_interior.dashboard_test_login_page_function'))
     # ------------------------ postman incorrect submission end ------------------------
     # ------------------------ make sure that all ids provided actually exist in db start ------------------------
     question_ids_actually_exist_check = check_if_question_id_arr_exists_function(ui_select_question_checkbox_arr)
     if question_ids_actually_exist_check == False:
       localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
-      return redirect(url_for('views.dashboard_test_login_page_function'))
+      return redirect(url_for('views_interior.dashboard_test_login_page_function'))
     # ------------------------ make sure that all ids provided actually exist in db end ------------------------
     # ------------------------ update row in db start ------------------------
     ui_select_question_checkbox_str = ','.join(ui_select_question_checkbox_arr)
@@ -846,7 +673,7 @@ def candidates_assessment_select_questions_function(url_assessment_name):
       pass
     # ------------------------ update row in db end ------------------------
     localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
-    return redirect(url_for('views.candidates_schedule_create_now_function', var1='a_success'))
+    return redirect(url_for('views_interior.candidates_schedule_create_now_function', var1='a_success'))
   # ------------------------ post method hit end ------------------------
   # ------------------------ prepare where statement start ------------------------
   where_clause_arr = []
@@ -887,7 +714,7 @@ def candidates_assessment_select_questions_function(url_assessment_name):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views.route('/candidates/assessment/new/success', methods=['GET'])
+@views_interior.route('/candidates/assessment/new/success', methods=['GET'])
 @login_required
 def candidates_assessment_sucessfully_created_function():
   localhost_print_function('=========================================== candidates_assessment_sucessfully_created_function START ===========================================')
@@ -896,14 +723,14 @@ def candidates_assessment_sucessfully_created_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views.route('/candidates/assessment/view/<url_assessment_name>', methods=['GET', 'POST'])
+@views_interior.route('/candidates/assessment/view/<url_assessment_name>', methods=['GET', 'POST'])
 @login_required
 def candidates_assessment_view_specific_function(url_assessment_name):
   localhost_print_function('=========================================== candidates_assessment_view_specific_function START ===========================================')
   # ------------------------ invalid url_assessment_name start ------------------------
   if url_assessment_name == False or url_assessment_name == None or url_assessment_name == '':
     localhost_print_function('=========================================== candidates_assessment_view_specific_function END ===========================================')
-    return redirect(url_for('views.dashboard_test_login_page_function'))
+    return redirect(url_for('views_interior.dashboard_test_login_page_function'))
   # ------------------------ invalid url_assessment_name end ------------------------
   # ------------------------ pull assessment info start ------------------------
   db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(assessment_name=url_assessment_name,user_id_fk=current_user.id).first()
@@ -924,14 +751,14 @@ def candidates_assessment_view_specific_function(url_assessment_name):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views.route('/candidates/assessment/results/<url_assessment_name>', methods=['GET', 'POST'])
+@views_interior.route('/candidates/assessment/results/<url_assessment_name>', methods=['GET', 'POST'])
 @login_required
 def candidates_assessment_results_specific_function(url_assessment_name):
   localhost_print_function('=========================================== candidates_assessment_results_specific_function START ===========================================')
   # ------------------------ invalid url_assessment_name start ------------------------
   if url_assessment_name == False or url_assessment_name == None or url_assessment_name == '':
     localhost_print_function('=========================================== candidates_assessment_results_specific_function END ===========================================')
-    return redirect(url_for('views.dashboard_test_login_page_function'))
+    return redirect(url_for('views_interior.dashboard_test_login_page_function'))
   # ------------------------ invalid url_assessment_name end ------------------------
   # ------------------------ set variables start ------------------------
   assessment_name_title = url_assessment_name
@@ -986,14 +813,14 @@ def candidates_assessment_results_specific_function(url_assessment_name):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views.route('/candidates/candidate/results/<url_candidate_email>', methods=['GET', 'POST'])
+@views_interior.route('/candidates/candidate/results/<url_candidate_email>', methods=['GET', 'POST'])
 @login_required
 def candidates_candidate_results_specific_function(url_candidate_email):
   localhost_print_function('=========================================== candidates_candidate_results_specific_function START ===========================================')
   # ------------------------ invalid url_candidate_email start ------------------------
   if url_candidate_email == False or url_candidate_email == None or url_candidate_email == '':
     localhost_print_function('=========================================== candidates_candidate_results_specific_function END ===========================================')
-    return redirect(url_for('views.dashboard_test_login_page_function'))
+    return redirect(url_for('views_interior.dashboard_test_login_page_function'))
   # ------------------------ invalid url_assessment_name end ------------------------
   # ------------------------ set variables start ------------------------
   all_candidate_assessments_arr_of_dicts = []
@@ -1050,7 +877,7 @@ def candidates_candidate_results_specific_function(url_candidate_email):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views.route('/candidates/schedule', methods=['GET', 'POST'])
+@views_interior.route('/candidates/schedule', methods=['GET', 'POST'])
 @login_required
 def candidates_schedule_dashboard_function():
   localhost_print_function('=========================================== candidates_schedule_dashboard_function START ===========================================')
@@ -1065,7 +892,7 @@ def candidates_schedule_dashboard_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views.route('/candidates/schedule/assessment/message', methods=['GET'])
+@views_interior.route('/candidates/schedule/assessment/message', methods=['GET'])
 @login_required
 def candidates_no_assessments_yet_function():
   localhost_print_function('=========================================== candidates_no_assessments_yet_function START ===========================================')
@@ -1074,7 +901,7 @@ def candidates_no_assessments_yet_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views.route('/candidates/schedule/candidate/message', methods=['GET'])
+@views_interior.route('/candidates/schedule/candidate/message', methods=['GET'])
 @login_required
 def candidates_no_candidates_yet_function():
   localhost_print_function('=========================================== candidates_no_candidates_yet_function START ===========================================')
@@ -1083,7 +910,7 @@ def candidates_no_candidates_yet_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views.route('/candidates/schedule/new', methods=['GET', 'POST'])
+@views_interior.route('/candidates/schedule/new', methods=['GET', 'POST'])
 @login_required
 def candidates_schedule_create_new_function():
   localhost_print_function('=========================================== candidates_schedule_create_new_function START ===========================================')
@@ -1096,7 +923,7 @@ def candidates_schedule_create_new_function():
   # ------------------------ no assessments made yet redirect start ------------------------
   if len(current_user_assessments_created_arr) == 0:
     localhost_print_function('=========================================== candidates_schedule_create_new_function END ===========================================')
-    return redirect(url_for('views.candidates_no_assessments_yet_function'))
+    return redirect(url_for('views_interior.candidates_no_assessments_yet_function'))
   # ------------------------ no assessments made yet redirect end ------------------------
   current_user_assessment_names_arr = []
   for i in current_user_assessments_created_arr:
@@ -1208,7 +1035,7 @@ def candidates_schedule_create_new_function():
         except:
           pass
         # ------------------------ email self end ------------------------
-        return redirect(url_for('views.dashboard_test_login_page_function', var1='s_success'))
+        return redirect(url_for('views_interior.dashboard_test_login_page_function', var1='s_success'))
     # ------------------------ insert to db end ------------------------
   # ------------------------ post triggered end ------------------------
   localhost_print_function('=========================================== candidates_schedule_create_new_function END ===========================================')
@@ -1216,7 +1043,7 @@ def candidates_schedule_create_new_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views.route('/candidates/schedule/now', methods=['GET', 'POST'])
+@views_interior.route('/candidates/schedule/now', methods=['GET', 'POST'])
 @login_required
 def candidates_schedule_create_now_function():
   localhost_print_function('=========================================== candidates_schedule_create_now_function START ===========================================')
@@ -1236,7 +1063,7 @@ def candidates_schedule_create_now_function():
   # ------------------------ no assessments made yet redirect start ------------------------
   if len(current_user_assessments_created_arr) == 0:
     localhost_print_function('=========================================== candidates_schedule_create_now_function END ===========================================')
-    return redirect(url_for('views.candidates_no_assessments_yet_function'))
+    return redirect(url_for('views_interior.candidates_no_assessments_yet_function'))
   # ------------------------ no assessments made yet redirect end ------------------------
   current_user_assessment_names_arr = []
   for i in current_user_assessments_created_arr:
@@ -1359,14 +1186,14 @@ def candidates_schedule_create_now_function():
         except:
           pass
         # ------------------------ email self end ------------------------
-        return redirect(url_for('views.dashboard_test_login_page_function', var1='s_success'))
+        return redirect(url_for('views_interior.dashboard_test_login_page_function', var1='s_success'))
   # ------------------------ post triggered end ------------------------
   localhost_print_function('=========================================== candidates_schedule_create_now_function END ===========================================')
   return render_template('candidates/logged_in_page_templates/schedule_page_templates/schedule_create_now_page_templates/index.html', user=current_user, users_company_name_to_html=current_user.company_name, current_user_assessment_names_arr_to_html=current_user_assessment_names_arr, current_user_candidates_arr_to_html=current_user_candidates_arr, success_message_to_html=success_message_schedule, error_message_to_html=error_message_schedule,user_sub_active_to_html=user_sub_active)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views.route('/candidates/schedule/analytics', methods=['GET', 'POST'])
+@views_interior.route('/candidates/schedule/analytics', methods=['GET', 'POST'])
 @login_required
 def candidates_schedule_analytics_function():
   localhost_print_function('=========================================== candidates_schedule_analytics_function START ===========================================')
@@ -1394,7 +1221,7 @@ def candidates_schedule_analytics_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views.route('/candidates/assessment/invalid')
+@views_interior.route('/candidates/assessment/invalid')
 def candidates_assessment_invalid_function():
   localhost_print_function('=========================================== candidates_assessment_invalid_function START ===========================================')
   localhost_print_function('=========================================== candidates_assessment_invalid_function END ===========================================')
@@ -1402,7 +1229,7 @@ def candidates_assessment_invalid_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views.route('/candidates/assessment/early')
+@views_interior.route('/candidates/assessment/early')
 def candidates_assessment_early_function():
   localhost_print_function('=========================================== candidates_assessment_early_function START ===========================================')
   localhost_print_function('=========================================== candidates_assessment_early_function END ===========================================')
@@ -1410,7 +1237,7 @@ def candidates_assessment_early_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views.route('/candidates/assessment/completed/success')
+@views_interior.route('/candidates/assessment/completed/success')
 def candidates_assessment_completed_success_function():
   localhost_print_function('=========================================== candidates_assessment_completed_success_function START ===========================================')
   localhost_print_function('=========================================== candidates_assessment_completed_success_function END ===========================================')
@@ -1418,7 +1245,7 @@ def candidates_assessment_completed_success_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views.route('/candidates/assessment/closed')
+@views_interior.route('/candidates/assessment/closed')
 def candidates_assessment_closed_function():
   localhost_print_function('=========================================== candidates_assessment_closed_function START ===========================================')
   localhost_print_function('=========================================== candidates_assessment_closed_function END ===========================================')
@@ -1426,26 +1253,26 @@ def candidates_assessment_closed_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views.route('/candidates/assessment/<url_assessment_expiring>', methods=['GET', 'POST'])
+@views_interior.route('/candidates/assessment/<url_assessment_expiring>', methods=['GET', 'POST'])
 def candidates_assessment_expiring_function(url_assessment_expiring):
   localhost_print_function('=========================================== candidates_assessment_expiring_function START ===========================================')
   # ------------------------ invalid url_assessment_name start ------------------------
   if url_assessment_expiring == False or url_assessment_expiring == None or url_assessment_expiring == '':
     localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
-    return redirect(url_for('views.candidates_assessment_invalid_function'))
+    return redirect(url_for('views_interior.candidates_assessment_invalid_function'))
   # ------------------------ invalid url_assessment_name end ------------------------
   # ------------------------ check if answers already submitted start ------------------------
   db_already_graded_obj = CandidatesAssessmentGradedObj.query.filter_by(assessment_expiring_url_fk=url_assessment_expiring).first()
   if db_already_graded_obj != None:
     localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
-    return redirect(url_for('views.candidates_assessment_closed_function'))
+    return redirect(url_for('views_interior.candidates_assessment_closed_function'))
   # ------------------------ check if answers already submitted end ------------------------
   # ------------------------ expire check based on email send datetime start ------------------------
   db_email_obj = CandidatesEmailSentObj.query.filter_by(assessment_expiring_url_fk=url_assessment_expiring).order_by(CandidatesEmailSentObj.created_timestamp.desc()).first()
   # ------------------------ check if url exists start ------------------------
   if db_email_obj == None:
     localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
-    return redirect(url_for('views.candidates_assessment_invalid_function'))
+    return redirect(url_for('views_interior.candidates_assessment_invalid_function'))
   # ------------------------ check if url exists end ------------------------
   email_sent_timestamp = db_email_obj.created_timestamp      # type: datetime.datetime
   # ------------------------ expire check based on email send datetime end ------------------------
@@ -1453,10 +1280,10 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
   expired_assessment_check, assessment_not_open_yet_check = expired_assessment_check_function(email_sent_timestamp)
   if assessment_not_open_yet_check == True:
     localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
-    return redirect(url_for('views.candidates_assessment_early_function'))
+    return redirect(url_for('views_interior.candidates_assessment_early_function'))
   if expired_assessment_check == True:
     localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
-    return redirect(url_for('views.candidates_assessment_invalid_function'))
+    return redirect(url_for('views_interior.candidates_assessment_invalid_function'))
   # ------------------------ check if schedule id expired end ------------------------
   # ------------------------ pull schedule info start ------------------------
   db_schedule_obj = CandidatesScheduleObj.query.filter_by(expiring_url=url_assessment_expiring).first()
@@ -1464,7 +1291,7 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
   # ------------------------ check if url exists start ------------------------
   if db_schedule_obj == None:
     localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
-    return redirect(url_for('views.candidates_assessment_invalid_function'))
+    return redirect(url_for('views_interior.candidates_assessment_invalid_function'))
   # ------------------------ check if url exists end ------------------------
   # ------------------------ pull desired schedule info start ------------------------
   db_schedule_obj_user_id_fk = db_schedule_obj.user_id_fk
@@ -1478,7 +1305,7 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
   # ------------------------ check if url exists start ------------------------
   if db_assessment_obj == None:
     localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
-    return redirect(url_for('views.candidates_assessment_invalid_function'))
+    return redirect(url_for('views_interior.candidates_assessment_invalid_function'))
   # ------------------------ check if url exists end ------------------------
   # ------------------------ assign assessment info to dict start ------------------------
   assessment_info_dict = create_assessment_info_dict_function(db_assessment_obj)
@@ -1494,7 +1321,7 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
   db_user_obj = CandidatesUserObj.query.filter_by(id=db_schedule_obj_user_id_fk).first()
   if db_user_obj == None:
     localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
-    return redirect(url_for('views.candidates_assessment_invalid_function'))
+    return redirect(url_for('views_interior.candidates_assessment_invalid_function'))
   db_user_obj_company_name = db_user_obj.company_name
   # ------------------------ pull user info for company name end ------------------------
   # ------------------------ post triggered start ------------------------
@@ -1576,7 +1403,7 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
         pass
       # ------------------------ email self end ------------------------
       localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
-      return redirect(url_for('views.candidates_assessment_completed_success_function'))
+      return redirect(url_for('views_interior.candidates_assessment_completed_success_function'))
     # ------------------------ only start grading if all valid answers provided end ------------------------
   # ------------------------ post triggered end ------------------------
   localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
@@ -1584,14 +1411,14 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views.route('/candidates/assessment/<url_email>/<url_assessment_name>', methods=['GET', 'POST'])
+@views_interior.route('/candidates/assessment/<url_email>/<url_assessment_name>', methods=['GET', 'POST'])
 @login_required
 def candidates_assessment_i_answers_function(url_email, url_assessment_name):
   localhost_print_function('=========================================== candidates_assessment_i_answers_function START ===========================================')
   # ------------------------ invalid url_candidate_email start ------------------------
   if url_email == False or url_email == None or url_email == '' or url_assessment_name == False or url_assessment_name == None or url_assessment_name == '':
     localhost_print_function('=========================================== candidates_assessment_i_answers_function END ===========================================')
-    return redirect(url_for('views.dashboard_test_login_page_function'))
+    return redirect(url_for('views_interior.dashboard_test_login_page_function'))
   # ------------------------ invalid url_assessment_name end ------------------------
   # ------------------------ pull assessment graded obj start ------------------------
   db_assessment_graded_obj = CandidatesAssessmentGradedObj.query.filter_by(created_assessment_user_id_fk=current_user.id,candidate_email=url_email,assessment_name=url_assessment_name).order_by(CandidatesAssessmentGradedObj.created_timestamp.desc()).first()
@@ -1599,7 +1426,7 @@ def candidates_assessment_i_answers_function(url_email, url_assessment_name):
   # ------------------------ redirect if no obj found start ------------------------
   if db_assessment_graded_obj == None:
     localhost_print_function('=========================================== candidates_assessment_i_answers_function END ===========================================')
-    return redirect(url_for('views.dashboard_test_login_page_function'))
+    return redirect(url_for('views_interior.dashboard_test_login_page_function'))
   # ------------------------ redirect if no obj found end ------------------------
   ui_answers_error_statement = ''
   assessment_info_dict = json.loads(db_assessment_graded_obj.assessment_obj)
@@ -1627,7 +1454,7 @@ def candidates_assessment_i_answers_function(url_email, url_assessment_name):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views.route('/candidates/request', methods=['GET', 'POST'])
+@views_interior.route('/candidates/request', methods=['GET', 'POST'])
 @login_required
 def candidates_categories_request_function():
   localhost_print_function('=========================================== candidates_categories_request_function START ===========================================')
@@ -1666,7 +1493,7 @@ def candidates_categories_request_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views.route('/candidates/question/create', methods=['GET', 'POST'])
+@views_interior.route('/candidates/question/create', methods=['GET', 'POST'])
 @login_required
 def candidates_create_question_function():
   localhost_print_function('=========================================== candidates_create_question_function START ===========================================')
@@ -1801,23 +1628,4 @@ def candidates_create_question_function():
     # ------------------------ add to db end ------------------------
   localhost_print_function('=========================================== candidates_create_question_function END ===========================================')
   return render_template('candidates/logged_in_page_templates/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
-# ------------------------ individual route end ------------------------
-# ------------------------ routes logged in end ------------------------
-
-# ------------------------ individual route start ------------------------
-@views.route('/candidates/blog', methods=['GET', 'POST'])
-def candidates_blog_page_function():
-  localhost_print_function('=========================================== candidates_blog_page_function START ===========================================')
-  localhost_print_function('=========================================== candidates_blog_page_function END ===========================================')
-  return render_template('candidates/exterior/blog/index.html')
-# ------------------------ individual route end ------------------------
-
-# ------------------------ individual route start ------------------------
-@views.route('/candidates/blog/<i_blog_post_number>', methods=['GET', 'POST'])
-def candidates_i_blog_page_function(i_blog_post_number):
-  localhost_print_function('=========================================== candidates_i_blog_page_function START ===========================================')
-  current_blog_post_num = i_blog_post_number
-  current_blog_post_num_full_string = f'candidates/exterior/blog/i_blog/i_{current_blog_post_num}.html'
-  localhost_print_function('=========================================== candidates_i_blog_page_function END ===========================================')
-  return render_template(current_blog_post_num_full_string)
 # ------------------------ individual route end ------------------------

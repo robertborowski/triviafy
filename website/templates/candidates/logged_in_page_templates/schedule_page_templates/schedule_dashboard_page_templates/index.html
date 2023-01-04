@@ -29,7 +29,7 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - view all start -->
 <div class="general-center-container">
-  <a href="{{ url_for('views.candidates_schedule_analytics_function') }}" class="general-a-primary"><p class="general-page-font">View all schedules</p></a>
+  <a href="{{ url_for('views_interior.candidates_schedule_analytics_function') }}" class="general-a-primary"><p class="general-page-font">View all schedules</p></a>
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - view all end -->
 
@@ -41,7 +41,7 @@
 <div class="schedule-options-container">
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - option 1 schedule later start -->
   <div class="schedule-dash-left">
-    <a href="{{ url_for('views.candidates_schedule_create_new_function') }}" class="general-a-black-no-hover">
+    <a href="{{ url_for('views_interior.candidates_schedule_create_new_function') }}" class="general-a-black-no-hover">
     <div class="schedule-dashboard-section candidates-default-box-shadow-grey-small">
       <div class="dashboard-split-inner-section">
         <p class="dashboard-split-title general-margin-top-small">Schedule Assessment</p>
@@ -50,7 +50,7 @@
         <img src="/static/images/candidates/dashboard/send_to_candidate_time.png" alt="upload candidates img" class="upload-candidates-img">
       </div>
       <div class="dashboard-split-inner-section">
-        <a href="{{ url_for('views.candidates_schedule_create_new_function') }}"><p class="default-button-format default-button-format-primary-color">Create New</p></a>
+        <a href="{{ url_for('views_interior.candidates_schedule_create_new_function') }}"><p class="default-button-format default-button-format-primary-color">Create New</p></a>
       </div>
     </div>
     <a>
@@ -65,7 +65,7 @@
 
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - option 2 send now start -->
   <div class="schedule-dash-right">
-    <a href="{{ url_for('views.candidates_schedule_create_now_function') }}" class="general-a-black-no-hover">
+    <a href="{{ url_for('views_interior.candidates_schedule_create_now_function') }}" class="general-a-black-no-hover">
     <div class="schedule-dashboard-section candidates-default-box-shadow-grey-small">
       <div class="dashboard-split-inner-section">
         <p class="dashboard-split-title general-margin-top-small">Send Assessment Now</p>
@@ -74,7 +74,7 @@
         <img src="/static/images/candidates/dashboard/send_to_candidate_now.png" alt="upload candidates img" class="upload-candidates-img">
       </div>
       <div class="dashboard-split-inner-section">
-        <a href="{{ url_for('views.candidates_schedule_create_now_function') }}"><p class="default-button-format default-button-format-primary-color">Create New</p></a>
+        <a href="{{ url_for('views_interior.candidates_schedule_create_now_function') }}"><p class="default-button-format default-button-format-primary-color">Create New</p></a>
       </div>
     </div>
     <a>

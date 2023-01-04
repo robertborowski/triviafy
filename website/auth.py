@@ -7,7 +7,6 @@
 # -use code: <methods=['GET', 'POST']> when you want the user to interact with the page through forms/checkbox/textbox/radio/etc.
 # ------------------------ info about this file end ------------------------
 
-
 # ------------------------ imports start ------------------------
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from flask import Blueprint, render_template, request, flash, redirect, url_for
@@ -24,7 +23,6 @@ from website.backend.candidates.send_emails import send_email_template_function
 import os
 # ------------------------ imports end ------------------------
 
-
 # ------------------------ function start ------------------------
 auth = Blueprint('auth', __name__)
 # ------------------------ function end ------------------------
@@ -34,7 +32,6 @@ cache_busting_output = create_uuid_function('css_')
 # ------------------------ connect to redis start ------------------------
 redis_connection = redis_connect_to_database_function()
 # ------------------------ connect to redis end ------------------------
-
 
 # ------------------------ individual route start ------------------------
 @auth.route('/candidates/signup', methods=['GET', 'POST'])
@@ -148,14 +145,11 @@ def candidates_signup_function():
         pass
       # ------------------------ email self end ------------------------
       localhost_print_function('=========================================== candidates_signup_function END ===========================================')
-      return redirect(url_for('views.dashboard_test_login_page_function'))
+      return redirect(url_for('views_interior.dashboard_test_login_page_function'))
     # ------------------------ post method hit #2 - full sign up end ------------------------
-
   localhost_print_function('=========================================== candidates_signup_function END ===========================================')
   return render_template('candidates/exterior/signup/index.html', user=current_user, error_message_to_html = create_account_error_statement)
 # ------------------------ individual route end ------------------------
-
-
 
 # ------------------------ individual route start ------------------------
 @auth.route('/candidates/login', methods=['GET', 'POST'])
@@ -172,7 +166,7 @@ def candidates_login_page_function():
         login_user(user, remember=True)
         # ------------------------ keep user logged in end ------------------------
         localhost_print_function('redirecting to logged in page')
-        return redirect(url_for('views.dashboard_test_login_page_function'))
+        return redirect(url_for('views_interior.dashboard_test_login_page_function'))
     except:
       pass
   # ------------------------ auto sign in with cookie end ------------------------
@@ -199,18 +193,15 @@ def candidates_login_page_function():
         # ------------------------ keep user logged in start ------------------------
         login_user(user, remember=True)
         # ------------------------ keep user logged in end ------------------------
-        return redirect(url_for('views.dashboard_test_login_page_function'))
+        return redirect(url_for('views_interior.dashboard_test_login_page_function'))
       else:
         login_error_statement = 'Incorrect email/password, try again.'
     else:
       login_error_statement = 'Incorrect email/password, try again.'
     # ------------------------ post method hit #1 - regular login end ------------------------
-
   localhost_print_function('=========================================== candidates_login_page_function END ===========================================')
   return render_template('candidates/exterior/login/index.html', user=current_user, error_message_to_html = login_error_statement)
 # ------------------------ individual route end ------------------------
-
-
 
 # ------------------------ individual route start ------------------------
 @auth.route('/candidates/logout')

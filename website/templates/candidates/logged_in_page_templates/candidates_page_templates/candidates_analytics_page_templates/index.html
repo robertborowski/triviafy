@@ -29,7 +29,7 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - redirect link start -->
 <div class="general-center-container">
-  <a href="{{ url_for('views.candidates_upload_emails_function') }}" class="general-a-primary"><p class="general-page-font">Upload candidates</p></a>
+  <a href="{{ url_for('views_interior.candidates_upload_emails_function') }}" class="general-a-primary"><p class="general-page-font">Upload candidates</p></a>
 </div>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - redirect link end -->
 
@@ -54,7 +54,7 @@
         <td>{{ i['total_assessments'] }}</td>
         <td>{{ i['total_correct_answers'] }}</td>
         <td>{{ i['total_correct_percent'] }}</td>
-        <td><a href="{{ url_for('views.candidates_candidate_results_specific_function', url_candidate_email=i['email']) }}" class="general-a-primary">View</a></td>
+        <td><a href="{{ url_for('views_interior.candidates_candidate_results_specific_function', url_candidate_email=i['email']) }}" class="general-a-primary">View</a></td>
       </tr>
       {% endfor %}
     </tbody>

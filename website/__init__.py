@@ -68,8 +68,9 @@ def create_app_function():
   # stripe.api_key = os.environ.get('STRIPE_TEST_API_KEY')  # TESTING
   # ------------------------ stripe api environment end ------------------------
   # ------------------------ views/auths/routes imports start ------------------------
-  from .views import views
   from .auth import auth
+  from .views_exterior import views_exterior
+  from .views_interior import views_interior
   # ------------------------ views/auths/routes imports end ------------------------
   # ------------------------ views/auths/routes register blueprints start ------------------------
   # ------------------------ TRIVIAFY EMPLOYEE ENGAGEMENT START ------------------------
@@ -317,8 +318,9 @@ def create_app_function():
   # Candidates launch  page
   app.register_blueprint(launch_page_render_template, url_prefix="")
   # ------------------------ TRIVIAFY EMPLOYEE ENGAGEMENT END ------------------------
-  app.register_blueprint(views, url_prefix='/')
   app.register_blueprint(auth, url_prefix='/')
+  app.register_blueprint(views_exterior, url_prefix='/')
+  app.register_blueprint(views_interior, url_prefix='/')
   # ------------------------ views/auths/routes register blueprints end ------------------------
   # ------------------------ import models before creating db for first time start ------------------------
   from .models import CandidatesUserObj, CandidatesCapacityOptionsObj, CandidatesCollectEmailObj

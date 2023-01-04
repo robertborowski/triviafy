@@ -8,17 +8,17 @@
 {% block contentBody %}
 <!-- ------------------------------------- navbar start ------------------------------------- -->
 <nav-candidates-signed-in-component
-  link_home_js="{{ url_for('views.dashboard_test_login_page_function') }}",
-  link_candidates_upload_emails_js="{{ url_for('views.candidates_upload_emails_function') }}",
-  link_candidates_analytics_js="{{ url_for('views.candidates_analytics_function') }}",
-  link_candidates_assessments_new_js="{{ url_for('views.candidates_assessments_dashboard_function') }}",
-  link_candidates_assessments_analytics_js="{{ url_for('views.candidates_assessments_analytics_function') }}",
-  link_candidates_account_settings_js="{{ url_for('views.candidates_account_settings_function') }}",
-  link_landing_js="{{ url_for('views.landing_index_page_function') }}",
-  link_schedule_dashboard_js="{{ url_for('views.candidates_schedule_dashboard_function') }}",
-  link_schedule_analytics_js="{{ url_for('views.candidates_schedule_analytics_function') }}",
-  link_request_categories_js="{{ url_for('views.candidates_categories_request_function') }}",
-  link_question_create_js="{{ url_for('views.candidates_create_question_function') }}">
+  link_home_js="{{ url_for('views_interior.dashboard_test_login_page_function') }}",
+  link_candidates_upload_emails_js="{{ url_for('views_interior.candidates_upload_emails_function') }}",
+  link_candidates_analytics_js="{{ url_for('views_interior.candidates_analytics_function') }}",
+  link_candidates_assessments_new_js="{{ url_for('views_interior.candidates_assessments_dashboard_function') }}",
+  link_candidates_assessments_analytics_js="{{ url_for('views_interior.candidates_assessments_analytics_function') }}",
+  link_candidates_account_settings_js="{{ url_for('views_interior.candidates_account_settings_function') }}",
+  link_landing_js="{{ url_for('views_exterior.landing_index_page_function') }}",
+  link_schedule_dashboard_js="{{ url_for('views_interior.candidates_schedule_dashboard_function') }}",
+  link_schedule_analytics_js="{{ url_for('views_interior.candidates_schedule_analytics_function') }}",
+  link_request_categories_js="{{ url_for('views_interior.candidates_categories_request_function') }}",
+  link_question_create_js="{{ url_for('views_interior.candidates_create_question_function') }}">
 </nav-candidates-signed-in-component>
 <!-- ------------------------------------- navbar end ------------------------------------- -->
 {% block contentBodyExceptNavbarAndFooter %}
