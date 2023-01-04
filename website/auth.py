@@ -145,7 +145,7 @@ def candidates_signup_function():
         pass
       # ------------------------ email self end ------------------------
       localhost_print_function('=========================================== candidates_signup_function END ===========================================')
-      return redirect(url_for('views_interior.dashboard_test_login_page_function'))
+      return redirect(url_for('views_interior.login_dashboard_page_function'))
     # ------------------------ post method hit #2 - full sign up end ------------------------
   localhost_print_function('=========================================== candidates_signup_function END ===========================================')
   return render_template('candidates/exterior/signup/index.html', user=current_user, error_message_to_html = create_account_error_statement)
@@ -166,7 +166,7 @@ def candidates_login_page_function():
         login_user(user, remember=True)
         # ------------------------ keep user logged in end ------------------------
         localhost_print_function('redirecting to logged in page')
-        return redirect(url_for('views_interior.dashboard_test_login_page_function'))
+        return redirect(url_for('views_interior.login_dashboard_page_function'))
     except:
       pass
   # ------------------------ auto sign in with cookie end ------------------------
@@ -193,7 +193,7 @@ def candidates_login_page_function():
         # ------------------------ keep user logged in start ------------------------
         login_user(user, remember=True)
         # ------------------------ keep user logged in end ------------------------
-        return redirect(url_for('views_interior.dashboard_test_login_page_function'))
+        return redirect(url_for('views_interior.login_dashboard_page_function'))
       else:
         login_error_statement = 'Incorrect email/password, try again.'
     else:

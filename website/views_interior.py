@@ -47,8 +47,8 @@ redis_connection = redis_connect_to_database_function()
 # ------------------------ individual route start ------------------------
 @views_interior.route('/candidates/dashboard')
 @login_required
-def dashboard_test_login_page_function():
-  localhost_print_function('=========================================== dashboard_test_login_page_function START ===========================================')
+def login_dashboard_page_function():
+  localhost_print_function('=========================================== login_dashboard_page_function START ===========================================')
   # ------------------------ auto redirect checks start ------------------------
   """
   -The code will always hit this dashboard on login or create account. BUT BEFORE setting the cookie on the browser, we are going to auto redirect
@@ -82,7 +82,7 @@ def dashboard_test_login_page_function():
   len_current_user_assessments_created_arr = len(current_user_assessments_created_arr)
   # ------------------------ redirect new users to create assessment start ------------------------
   if len_current_user_assessments_created_arr == 0:
-    localhost_print_function('=========================================== dashboard_test_login_page_function END ===========================================')
+    localhost_print_function('=========================================== login_dashboard_page_function END ===========================================')
     return redirect(url_for('views_interior.candidates_assessment_create_new_function'))
   # ------------------------ redirect new users to create assessment end ------------------------
   # ------------------------ get users total assessments created end ------------------------
@@ -97,7 +97,7 @@ def dashboard_test_login_page_function():
     return render_template(template_location_url, user = current_user, users_company_name_to_html = current_user.company_name, len_current_user_uploaded_emails_arr_to_html = len_current_user_uploaded_emails_arr, len_current_user_assessments_created_arr_to_html=len_current_user_assessments_created_arr, len_current_user_schedules_created_arr_to_html=len_current_user_schedules_created_arr,success_message_to_html=success_message)
   else:
     browser_response = browser_response_set_cookie_function(current_user, template_location_url)
-    localhost_print_function('=========================================== dashboard_test_login_page_function END ===========================================')
+    localhost_print_function('=========================================== login_dashboard_page_function END ===========================================')
     return browser_response
   # ------------------------ auto set cookie end ------------------------
 # ------------------------ individual route end ------------------------
@@ -146,7 +146,7 @@ def capacity_page_function():
       db.session.add(insert_new_row)
       db.session.commit()
       # ------------------------ create new user in db end ------------------------
-      return redirect(url_for('views_interior.dashboard_test_login_page_function'))
+      return redirect(url_for('views_interior.login_dashboard_page_function'))
     # ------------------------ update db end ------------------------
   # ------------------------ capacity selection end ------------------------
   # ------------------------ auto redirect checks start ------------------------
@@ -183,7 +183,7 @@ def candidates_subscription_success_function():
   # ------------------------ if not found start ------------------------
   if db_checkout_session_obj == None or db_checkout_session_obj == '' or db_checkout_session_obj == False:
     localhost_print_function('=========================================== candidates_subscription_success_function END ===========================================')
-    return redirect(url_for('views_interior.dashboard_test_login_page_function'))
+    return redirect(url_for('views_interior.login_dashboard_page_function'))
   # ------------------------ if not found end ------------------------
   # ------------------------ get desired start ------------------------
   fk_checkout_session_id = db_checkout_session_obj.fk_checkout_session_id
@@ -193,7 +193,7 @@ def candidates_subscription_success_function():
   # ------------------------ if not found start ------------------------
   if stripe_checkout_session_obj == None:
     localhost_print_function('=========================================== candidates_subscription_success_function END ===========================================')
-    return redirect(url_for('views_interior.dashboard_test_login_page_function'))
+    return redirect(url_for('views_interior.login_dashboard_page_function'))
   # ------------------------ if not found end ------------------------
   stripe_customer_id = stripe_checkout_session_obj.customer
   stripe_subscription_id = stripe_checkout_session_obj.subscription
@@ -292,7 +292,7 @@ def candidates_account_settings_function():
     # ------------------------ redirect if invalid start ------------------------
     if ui_capacity_selected == None:
       localhost_print_function('=========================================== candidates_account_settings_function END ===========================================')
-      return redirect(url_for('views_interior.dashboard_test_login_page_function'))
+      return redirect(url_for('views_interior.login_dashboard_page_function'))
     # ------------------------ redirect if invalid end ------------------------
     if ui_capacity_selected != None:
       # ------------------------ db get price id start ------------------------
@@ -606,7 +606,7 @@ def candidates_assessment_create_new_function():
     return render_template(template_location_url, user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=create_assessment_error_statement, candidate_categories_arr_1_to_html=candidate_categories_arr_1, candidate_categories_arr_2_to_html=candidate_categories_arr_2, candidate_categories_arr_3_to_html=candidate_categories_arr_3, check_off_marker_item_to_html=check_off_marker_item)
   else:
     browser_response = browser_response_set_cookie_function_v2(template_location_url, current_user, current_user.company_name, create_assessment_error_statement, candidate_categories_arr_1, candidate_categories_arr_2, candidate_categories_arr_3, check_off_marker_item)
-    localhost_print_function('=========================================== dashboard_test_login_page_function END ===========================================')
+    localhost_print_function('=========================================== candidates_assessment_create_new_function END ===========================================')
     return browser_response
   # ------------------------ auto set cookie end ------------------------
 # ------------------------ individual route end ------------------------
@@ -619,14 +619,14 @@ def candidates_assessment_select_questions_function(url_assessment_name):
   # ------------------------ invalid url_assessment_name start ------------------------
   if url_assessment_name == False or url_assessment_name == None or url_assessment_name == '':
     localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
-    return redirect(url_for('views_interior.dashboard_test_login_page_function'))
+    return redirect(url_for('views_interior.login_dashboard_page_function'))
   # ------------------------ invalid url_assessment_name end ------------------------
   select_questions_error_statement = ''
   # ------------------------ get assessment obj details start ------------------------
   db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(assessment_name=url_assessment_name,user_id_fk=current_user.id).first()
   if db_assessment_obj == None:
     localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
-    return redirect(url_for('views_interior.dashboard_test_login_page_function'))
+    return redirect(url_for('views_interior.login_dashboard_page_function'))
   db_assessment_obj_id = db_assessment_obj.id
   db_assessment_obj_name = db_assessment_obj.assessment_name
   db_assessment_obj_desired_langs = db_assessment_obj.desired_languages_arr
@@ -636,7 +636,7 @@ def candidates_assessment_select_questions_function(url_assessment_name):
   # if questions were already selected for quiz
   if db_assessment_question_ids_arr != None and db_assessment_question_ids_arr != '' and (len(db_assessment_question_ids_arr) != 0 and len(db_assessment_question_ids_arr) != 1):
     localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
-    return redirect(url_for('views_interior.dashboard_test_login_page_function'))
+    return redirect(url_for('views_interior.login_dashboard_page_function'))
   # ------------------------ individual redirect end ------------------------
   # ------------------------ post method hit start ------------------------
   if request.method == 'POST':
@@ -645,13 +645,13 @@ def candidates_assessment_select_questions_function(url_assessment_name):
     if len(ui_select_question_checkbox_arr) == 0 or len(ui_select_question_checkbox_arr) > 50:
       select_questions_error_statement = 'Assessment must contain 1-50 questions.'
       localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
-      return redirect(url_for('views_interior.dashboard_test_login_page_function'))
+      return redirect(url_for('views_interior.login_dashboard_page_function'))
     # ------------------------ postman incorrect submission end ------------------------
     # ------------------------ make sure that all ids provided actually exist in db start ------------------------
     question_ids_actually_exist_check = check_if_question_id_arr_exists_function(ui_select_question_checkbox_arr)
     if question_ids_actually_exist_check == False:
       localhost_print_function('=========================================== candidates_assessment_select_questions_function END ===========================================')
-      return redirect(url_for('views_interior.dashboard_test_login_page_function'))
+      return redirect(url_for('views_interior.login_dashboard_page_function'))
     # ------------------------ make sure that all ids provided actually exist in db end ------------------------
     # ------------------------ update row in db start ------------------------
     ui_select_question_checkbox_str = ','.join(ui_select_question_checkbox_arr)
@@ -730,7 +730,7 @@ def candidates_assessment_view_specific_function(url_assessment_name):
   # ------------------------ invalid url_assessment_name start ------------------------
   if url_assessment_name == False or url_assessment_name == None or url_assessment_name == '':
     localhost_print_function('=========================================== candidates_assessment_view_specific_function END ===========================================')
-    return redirect(url_for('views_interior.dashboard_test_login_page_function'))
+    return redirect(url_for('views_interior.login_dashboard_page_function'))
   # ------------------------ invalid url_assessment_name end ------------------------
   # ------------------------ pull assessment info start ------------------------
   db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(assessment_name=url_assessment_name,user_id_fk=current_user.id).first()
@@ -758,7 +758,7 @@ def candidates_assessment_results_specific_function(url_assessment_name):
   # ------------------------ invalid url_assessment_name start ------------------------
   if url_assessment_name == False or url_assessment_name == None or url_assessment_name == '':
     localhost_print_function('=========================================== candidates_assessment_results_specific_function END ===========================================')
-    return redirect(url_for('views_interior.dashboard_test_login_page_function'))
+    return redirect(url_for('views_interior.login_dashboard_page_function'))
   # ------------------------ invalid url_assessment_name end ------------------------
   # ------------------------ set variables start ------------------------
   assessment_name_title = url_assessment_name
@@ -820,7 +820,7 @@ def candidates_candidate_results_specific_function(url_candidate_email):
   # ------------------------ invalid url_candidate_email start ------------------------
   if url_candidate_email == False or url_candidate_email == None or url_candidate_email == '':
     localhost_print_function('=========================================== candidates_candidate_results_specific_function END ===========================================')
-    return redirect(url_for('views_interior.dashboard_test_login_page_function'))
+    return redirect(url_for('views_interior.login_dashboard_page_function'))
   # ------------------------ invalid url_assessment_name end ------------------------
   # ------------------------ set variables start ------------------------
   all_candidate_assessments_arr_of_dicts = []
@@ -1035,7 +1035,7 @@ def candidates_schedule_create_new_function():
         except:
           pass
         # ------------------------ email self end ------------------------
-        return redirect(url_for('views_interior.dashboard_test_login_page_function', var1='s_success'))
+        return redirect(url_for('views_interior.login_dashboard_page_function', var1='s_success'))
     # ------------------------ insert to db end ------------------------
   # ------------------------ post triggered end ------------------------
   localhost_print_function('=========================================== candidates_schedule_create_new_function END ===========================================')
@@ -1186,7 +1186,7 @@ def candidates_schedule_create_now_function():
         except:
           pass
         # ------------------------ email self end ------------------------
-        return redirect(url_for('views_interior.dashboard_test_login_page_function', var1='s_success'))
+        return redirect(url_for('views_interior.login_dashboard_page_function', var1='s_success'))
   # ------------------------ post triggered end ------------------------
   localhost_print_function('=========================================== candidates_schedule_create_now_function END ===========================================')
   return render_template('candidates/interior/schedule/schedule_create_now/index.html', user=current_user, users_company_name_to_html=current_user.company_name, current_user_assessment_names_arr_to_html=current_user_assessment_names_arr, current_user_candidates_arr_to_html=current_user_candidates_arr, success_message_to_html=success_message_schedule, error_message_to_html=error_message_schedule,user_sub_active_to_html=user_sub_active)
@@ -1418,7 +1418,7 @@ def candidates_assessment_i_answers_function(url_email, url_assessment_name):
   # ------------------------ invalid url_candidate_email start ------------------------
   if url_email == False or url_email == None or url_email == '' or url_assessment_name == False or url_assessment_name == None or url_assessment_name == '':
     localhost_print_function('=========================================== candidates_assessment_i_answers_function END ===========================================')
-    return redirect(url_for('views_interior.dashboard_test_login_page_function'))
+    return redirect(url_for('views_interior.login_dashboard_page_function'))
   # ------------------------ invalid url_assessment_name end ------------------------
   # ------------------------ pull assessment graded obj start ------------------------
   db_assessment_graded_obj = CandidatesAssessmentGradedObj.query.filter_by(created_assessment_user_id_fk=current_user.id,candidate_email=url_email,assessment_name=url_assessment_name).order_by(CandidatesAssessmentGradedObj.created_timestamp.desc()).first()
@@ -1426,7 +1426,7 @@ def candidates_assessment_i_answers_function(url_email, url_assessment_name):
   # ------------------------ redirect if no obj found start ------------------------
   if db_assessment_graded_obj == None:
     localhost_print_function('=========================================== candidates_assessment_i_answers_function END ===========================================')
-    return redirect(url_for('views_interior.dashboard_test_login_page_function'))
+    return redirect(url_for('views_interior.login_dashboard_page_function'))
   # ------------------------ redirect if no obj found end ------------------------
   ui_answers_error_statement = ''
   assessment_info_dict = json.loads(db_assessment_graded_obj.assessment_obj)
