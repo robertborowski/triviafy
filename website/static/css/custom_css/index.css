@@ -72,6 +72,9 @@
 .custom-br-2-mobile {
   border-radius: 35px;
 }
+.custom-br-3 {
+  border-radius: 25px;
+}
 /* ------------------- border end ------------------- */
 /* ------------------- display start ------------------- */
 .custom-display-flex {
@@ -184,6 +187,9 @@
 }
 .custom-jc-3 {
   justify-content: center;
+}
+.custom-jc-4 {
+  justify-content: space-around;
 }
 /* ------------------- justify end ------------------- */
 /* ------------------- list style start ------------------- */
@@ -311,6 +317,9 @@
 }
 .custom-pt-5 {
   padding-top: 5px;
+}
+.custom-pt-6 {
+  padding-top: 75px;
 }
 /* ------------------- padding end ------------------- */
 /* ------------------- shape divider start ------------------- */

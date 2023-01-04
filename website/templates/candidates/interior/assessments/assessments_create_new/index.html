@@ -5,95 +5,33 @@
 {% endblock %}
 
 {% block contentBodyExceptNavbarAndFooter %}
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name start -->
-<div class="general-signed-in-company-name-section">
-  <p class="general-signed-in-company-name-title">{{ users_company_name_to_html }}</p>
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name end -->
 
+<form method="POST" enctype="multipart/form-data">
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="general-spacer-section"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+  <div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
+    <h2 class="custom-header-2">Create assessment</h2>
+    <button type="submit" class="btn btn-primary btn-lg">Continue</button>
+  </div>
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title start -->
-<div class="general-page-title-section">
-  <p class="general-page-title">Create Assessment</p>
-  <p class="general-page-sub-title">Select categories</p>
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title end -->
+  <div class="container border shadow-sm custom-br-3 custom-bg-white">
+    <div>
+      {% for i in candidate_categories_arr_to_html %}
+      <!-- ----------------------------- example start ----------------------------- -->
+      <input type="checkbox" class="btn-check" id="testLabelAdded" name="testLabelAdded" value="{{ i }}">
+      <label class="btn btn-outline-primary" for="testLabelAdded">{{ i }}</label>
+      <!-- ----------------------------- example end ----------------------------- -->
+      {% endfor %}
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message start -->
-<div class="error-message-section">
-  <p>{{ error_message_to_html }}</p>
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="general-spacer-section"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
-<div class="create-assessment-form-container">
-  <form method="POST" class="create-assessment-form" enctype="multipart/form-data">
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - desired languages start -->
-    <div class="create-assessment-langs-section">
-      <div class="create-assessment-items-col1">
-        {% for i in candidate_categories_arr_1_to_html %}
-        <li class="create-assessment-li candidates-default-box-shadow-grey-small">
-          {% if check_off_marker_item_to_html == i %}
-          <input type="checkbox" id="testLabelAdded" name="testLabelAdded" value="{{ i }}" checked/>{{ i }}
-          <label for="testLabelAdded"></label>
-          {% else %}
-          <input type="checkbox" id="testLabelAdded" name="testLabelAdded" value="{{ i }}"/>{{ i }}
-          <label for="testLabelAdded"></label>
-          {% endif %}
-        </li>
-        {% endfor %}
-      </div>
-
-      <div class="create-assessment-items-col2">
-        {% for i in candidate_categories_arr_2_to_html %}
-        <li class="create-assessment-li candidates-default-box-shadow-grey-small">
-          {% if check_off_marker_item_to_html == i %}
-          <input type="checkbox" id="testLabelAdded" name="testLabelAdded" value="{{ i }}" checked/>{{ i }}
-          <label for="testLabelAdded"></label>
-          {% else %}
-          <input type="checkbox" id="testLabelAdded" name="testLabelAdded" value="{{ i }}"/>{{ i }}
-          <label for="testLabelAdded"></label>
-          {% endif %}
-        </li>
-        {% endfor %}
-      </div>
-      
-      <div class="create-assessment-items-col3">
-        {% for i in candidate_categories_arr_3_to_html %}
-        <li class="create-assessment-li candidates-default-box-shadow-grey-small">
-          {% if check_off_marker_item_to_html == i %}
-          <input type="checkbox" id="testLabelAdded" name="testLabelAdded" value="{{ i }}" checked/>{{ i }}
-          <label for="testLabelAdded"></label>
-          {% else %}
-          <input type="checkbox" id="testLabelAdded" name="testLabelAdded" value="{{ i }}"/>{{ i }}
-          <label for="testLabelAdded"></label>
-          {% endif %}
-        </li>
-        {% endfor %}
-      </div>
+      <!-- {% for i in candidate_categories_arr_to_html %}
+      <input type="checkbox" id="testLabelAdded" name="testLabelAdded" value="{{ i }}"/>{{ i }}
+      <label for="testLabelAdded"></label>
+      {% endfor %} -->
     </div>
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - desired languages end -->
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-    <div class="general-spacer-section-small"></div>
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - submit button start -->
-    <div class="create-assessment-user-input-button-section">
-      <button type="submit" class="default-button-format default-button-format-primary-color">Next: Select Questions</button>
-      <a href="{{ url_for('views_interior.candidates_categories_request_function') }}" class="general-a-primary"><p class="general-margin-top-small">Request more assessment categories</p></a>
+
+    <div>
+      <a href="{{ url_for('views_interior.candidates_categories_request_function') }}"><p>Request more assessment categories</p></a>
     </div>
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - submit button end -->
-  </form>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="general-spacer-section-large"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page end -->
+  </div>
+
+</form>
 {% endblock %}
