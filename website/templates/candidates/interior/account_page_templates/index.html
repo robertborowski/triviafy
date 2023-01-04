@@ -1,0 +1,70 @@
+{% extends "candidates/aaa_base/base2_interior.html" %}
+
+<!-- head tag block content -->
+{% block title %}
+  <title>Account / Triviafy</title>
+{% endblock %}
+
+{% block contentBodyExceptNavbarAndFooter %}
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name start -->
+<div class="general-signed-in-company-name-section">
+  <p class="general-signed-in-company-name-title">{{ users_company_name_to_html }}</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name end -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title start -->
+<div class="general-page-title-section">
+  <p class="general-page-title">Account Settings</p>
+  <p class="general-page-sub-title">{{ user_email_to_html }} joined {{ user_account_created_str_to_html }}</p>
+  <p class="general-page-sub-title">Subscription status: {{ stripe_subscription_obj_status_to_html }} | Plan: {{ user_obj_capacity_id_to_html }}</p>
+  <!-- <a href="#" class="general-a-grey"><p class="general-page-fine-print general-top-margin">Cancel subscription</p></a> -->
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - form start -->
+<form method="POST" class="capacity-entire-form-section-colorful default-box-shadow-grey-reg" enctype="multipart/form-data">
+  <div class="capacity-form-header-section">
+    <p class="capacity-title">Select subscription</p>
+    <p class="capacity-subtitle">Average candidates screened / month</p>
+  </div>
+
+  <div class="capacity-form-body-section">
+    <input type="radio" id="capacity_choice_1" name="capacity_page_ui_capacity_selected" value="1m" checked>
+    <label for="capacity_choice_1" class="capacity-radio-label">Basic<p class="capacity-candidates-per-month">1-50</p></label>
+
+    <input type="radio" id="capacity_choice_2" name="capacity_page_ui_capacity_selected" value="2m">
+    <label for="capacity_choice_2" class="capacity-radio-label">Professional<p class="capacity-candidates-per-month">51-100</p></label>
+
+    <input type="radio" id="capacity_choice_3" name="capacity_page_ui_capacity_selected" value="3m">
+    <label for="capacity_choice_3" class="capacity-radio-label">Premium<p class="capacity-candidates-per-month">Unlimited</p></label>
+
+  </div>
+
+  <div class="capacity-form-footer-section">
+    <button type="submit" class="default-button-format default-button-format-primary-color">Checkout</button>
+    <div class="stripe-powered-section">
+      <img src="/static/images/candidates/stripe/stripe_t.png" alt="powered by stripe" class="stripe-img">
+    </div>
+  </div>
+</form>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - form end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section-large"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+{% endblock %}
