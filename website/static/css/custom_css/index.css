@@ -49,6 +49,9 @@
 .custom-bg-grey-2 {
   background-color: rgb(248, 248, 248);
 }
+.custom-bg-grey-3 {
+  background-color: rgb(240, 240, 240);
+}
 /* ------------------- background end ------------------- */
 /* ------------------- color start ------------------- */
 :root {
@@ -85,6 +88,9 @@
 .custom-filler-3 {
   height: 250px;
 }
+.custom-filler-4 {
+  height: 63.5px;
+}
 /* ------------------- filler end ------------------- */
 /* ------------------- flex start ------------------- */
 .custom-fw-1 {
@@ -109,6 +115,9 @@
 }
 .custom-header-5 {
   font-size: 15px;
+}
+.custom-header-6 {
+  font-size: 25px;
 }
 /* ------------------- header end ------------------- */
 /* ------------------- height start ------------------- */
@@ -226,6 +235,9 @@
 }
 .custom-mt-negative-1 {
   margin-top: -20px;
+}
+.custom-mt-negative-2 {
+  margin-top: -7px;
 }
 .custom-mr-1 {
   margin-right: 5px;
