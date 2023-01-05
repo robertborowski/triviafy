@@ -24,6 +24,14 @@
       max-height: 200px;
     }
     /* ------------------- height end ------------------- */
+    /* ------------------- header start ------------------- */
+    .custom-header-2-mobile {
+      font-size: 25px;
+    }
+    .custom-header-5-mobile {
+      font-size: 10px;
+    }
+    /* ------------------- header end ------------------- */
     /* ------------------- margin start ------------------- */
     .custom-m-1-mobile {
       margin: 5px;

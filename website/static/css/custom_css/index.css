@@ -80,6 +80,9 @@
 .custom-border-5-light {
   border: 3px solid var(--custom-color-2-light);
 }
+.custom-border-6-light {
+  border: 1px solid var(--custom-color-2-light);
+}
 .custom-br-1 {
   border-radius: 15px;
 }
@@ -121,6 +124,9 @@
 .custom-header-2 {
   font-size: 30px;
 }
+.custom-header-2-mobile {
+  font-size: 30px;
+}
 .custom-size-3 {
   font-size: 12px;
 }
@@ -131,6 +137,9 @@
   font-size: 20px;
 }
 .custom-header-5 {
+  font-size: 15px;
+}
+.custom-header-5-mobile {
   font-size: 15px;
 }
 .custom-header-6 {
@@ -262,6 +271,9 @@
 .custom-mt-3 {
   margin-top: 50px;
 }
+.custom-mt-4 {
+  margin-top: 5px;
+}
 .custom-mt-negative-1 {
   margin-top: -20px;
 }
@@ -277,9 +289,6 @@
 .custom-mr-3 {
   margin-right: 25px;
 }
-.custom-ml-1 {
-  margin-left: 10px;
-}
 .custom-ml-1-negative {
   margin-left: -35px;
 }
@@ -290,8 +299,8 @@
   margin-left: 25px;
 }
 .custom-mlt-1 {
-  margin-top: 7px;
   margin-left: 7px;
+  margin-top: 7px;
 }
 /* ------------------- margin end ------------------- */
 /* ------------------- padding start ------------------- */
@@ -507,7 +516,8 @@
   max-width: 500px;
 }
 .custom-width-5 {
-  min-width: 300px;
+  width: 30%;
+  min-width: 250px;
 }
 .custom-width-6 {
   width: 100%;
@@ -529,5 +539,9 @@
 .custom-wh-2 {
   width: 30px;
   height: 30px;
+}
+.custom-wh-3 {
+  width: 20%;
+  height: 0px;
 }
 /* ------------------- width end ------------------- */
