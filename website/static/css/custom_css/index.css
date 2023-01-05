@@ -52,10 +52,18 @@
 .custom-bg-grey-3 {
   background-color: rgb(240, 240, 240);
 }
+.custom-bg-1-dark {
+  background-color: var(--custom-color-2-dark);
+}
+.custom-bg-1-light {
+  background-color: var(--custom-color-2-light);
+}
 /* ------------------- background end ------------------- */
 /* ------------------- color start ------------------- */
 :root {
   --custom-color-1: rgb(120 120 120);
+  --custom-color-2-dark: rgb(90, 90, 90);
+  --custom-color-2-light: rgb(180, 180, 180);
 }
 .custom-color-light-1 {
   color: var(--custom-color-1);
@@ -66,6 +74,12 @@
 .custom-border-2 {border: 1px solid red;}
 .custom-border-3 {border: 1px solid blue;}
 .custom-border-4 {border: 1px solid green;}
+.custom-border-5-dark {
+  border: 3px solid var(--custom-color-2-dark);
+}
+.custom-border-5-light {
+  border: 3px solid var(--custom-color-2-light);
+}
 .custom-br-1 {
   border-radius: 15px;
 }
@@ -121,6 +135,15 @@
 }
 .custom-header-6 {
   font-size: 25px;
+}
+.custom-header-white {
+  color: white;
+}
+.custom-color-2-dark {
+  color: var(--custom-color-2-dark);
+}
+.custom-color-2-light {
+  color: var(--custom-color-2-light);
 }
 /* ------------------- header end ------------------- */
 /* ------------------- height start ------------------- */
@@ -257,8 +280,18 @@
 .custom-ml-1 {
   margin-left: 10px;
 }
+.custom-ml-1-negative {
+  margin-left: -35px;
+}
+.custom-ml-2-negative {
+  margin-left: -40px;
+}
 .custom-ml-2 {
   margin-left: 25px;
+}
+.custom-mlt-1 {
+  margin-top: 7px;
+  margin-left: 7px;
 }
 /* ------------------- margin end ------------------- */
 /* ------------------- padding start ------------------- */
@@ -302,6 +335,10 @@
 }
 .custom-ptb-3 {
   padding: 50px 50px;
+}
+.custom-ptb-4 {
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 .custom-pt-1 {
   padding-top: 50px;
@@ -481,5 +518,16 @@
 .custom-width-8 {
   width: 350px;
   max-width: 90%;
+}
+.custom-width-9 {
+  width: 100px;
+}
+.custom-wh-1 {
+  width: 50px;
+  height: 50px;
+}
+.custom-wh-2 {
+  width: 30px;
+  height: 30px;
 }
 /* ------------------- width end ------------------- */
