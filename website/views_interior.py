@@ -58,6 +58,10 @@ def login_dashboard_page_function():
   -These pages will require the template_location_url variable
   """
   template_location_url = 'candidates/interior/dashboard/index.html'
+  # ------------------------ delete test drafts start ------------------------
+  CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,status='draft').delete()
+  db.session.commit()
+  # ------------------------ delete test drafts end ------------------------
   # ------------------------ get values from url start ------------------------
   success_message = ''
   try:
