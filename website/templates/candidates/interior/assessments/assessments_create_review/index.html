@@ -27,8 +27,26 @@
         <p class="text-nowrap custom-color-2-dark custom-header-5-mobile custom-mt-4">Review & confirm</p>
       </div>
     </div>
-    <div class="custom-p-4 text-center">
-      <p>hello</p>
+    <div class="custom-width-10 mx-auto custom-ptb-3">
+      <div class="custom-mb-6">
+        <label for="uiName" class="form-label">Name</label>
+        <input type="text" class="form-control" id="uiName" name="uiName" value="{{ assessment_name_to_html }}">
+      </div>
+      <div class="custom-mb-6">
+        <label for="uiPreview" class="form-label">View</label><br>
+        <button class="btn btn-outline-primary custom-width-6">Preview test</button>
+      </div>
+      {% if stripe_subscription_obj_status_to_html == 'not active' %}
+      <div class="custom-mb-6">
+        <label for="uiPreview" class="form-label">Add custom questions</label><br>
+        <button class="btn btn-outline-secondary custom-width-6" disabled>Customize</button>
+      </div>
+      {% elif stripe_subscription_obj_status_to_html == 'active' %}
+      <div class="custom-mb-6">
+        <label for="uiPreview" class="form-label">Add custom questions</label><br>
+        <button class="btn btn-outline-primary custom-width-6">Customize</button>
+      </div>
+      {% endif %}
     </div>
   </div>
 </form>

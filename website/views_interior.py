@@ -597,8 +597,22 @@ def candidates_assessment_create_new_function(step_status):
 def candidates_assessment_create_review_function(url_assessment_name):
   localhost_print_function('=========================================== candidates_assessment_create_review_function START ===========================================')
   review_assessment_error_statement = ''
+  # ------------------------ pull assessment obj start ------------------------
+  db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(assessment_name=url_assessment_name,user_id_fk=current_user.id).first()
+  assessment_name = db_assessment_obj.assessment_name
+  # ------------------------ pull assessment obj end ------------------------
+  # ------------------------ stripe subscription status check start ------------------------
+  fk_stripe_subscription_id = current_user.fk_stripe_subscription_id
+  stripe_subscription_obj = ''
+  stripe_subscription_obj_status = 'not active'
+  try:
+    stripe_subscription_obj = stripe.Subscription.retrieve(fk_stripe_subscription_id)
+    stripe_subscription_obj_status = stripe_subscription_obj.status
+  except:
+    pass
+  # ------------------------ stripe subscription status check end ------------------------
   localhost_print_function('=========================================== candidates_assessment_create_review_function END ===========================================')
-  return render_template('candidates/interior/assessments/assessments_create_review/index.html', user=current_user, users_company_name_to_html = current_user.company_name, error_message_to_html=review_assessment_error_statement)
+  return render_template('candidates/interior/assessments/assessments_create_review/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=review_assessment_error_statement, assessment_name_to_html=assessment_name, stripe_subscription_obj_status_to_html=stripe_subscription_obj_status)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
