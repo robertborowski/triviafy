@@ -78,7 +78,7 @@ def login_dashboard_page_function():
   # ------------------------ redirect new users to create assessment start ------------------------
   if len_current_user_assessments_created_arr == 0:
     localhost_print_function('=========================================== login_dashboard_page_function END ===========================================')
-    return redirect(url_for('views_interior.candidates_assessment_create_new_function'))
+    return redirect(url_for('views_interior.candidates_assessment_create_new_function', step_status='1'))
   # ------------------------ redirect new users to create assessment end ------------------------
   # ------------------------ get users total assessments created end ------------------------
   # ------------------------ get users total schedules created start ------------------------
@@ -479,11 +479,16 @@ def candidates_assessments_analytics_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/assessment/new', methods=['GET', 'POST'])
+@views_interior.route('/candidates/assessment/new/<step_status>', methods=['GET', 'POST'])
 @login_required
-def candidates_assessment_create_new_function():
+def candidates_assessment_create_new_function(step_status):
   localhost_print_function('=========================================== candidates_assessment_create_new_function START ===========================================')
   template_location_url = 'candidates/interior/assessments/assessments_create_new/index.html'
+  # ------------------------ delete test drafts start ------------------------
+  if step_status == '1b':
+    CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,status='draft').delete()
+    db.session.commit()
+  # ------------------------ delete test drafts end ------------------------
   # ------------------------ pull all categories associated with candidates start ------------------------
   query_result_arr_of_dicts = select_general_function('select_all_candidate_categories_chosen_v2')
   candidate_categories_arr = all_question_candidate_categories_sorted_function(query_result_arr_of_dicts)
@@ -559,7 +564,8 @@ def candidates_assessment_create_new_function():
         assessment_name=auto_generated_assessment_name,
         desired_languages_arr = ui_desired_languages_checkboxes_str,
         total_questions = len(auto_generated_question_ids_arr),
-        question_ids_arr=auto_generated_question_ids_str
+        question_ids_arr=auto_generated_question_ids_str,
+        status='draft'
       )
       db.session.add(new_row)
       db.session.commit()

@@ -78,6 +78,7 @@ class CandidatesAssessmentsCreatedObj(db.Model):
   desired_languages_arr = db.Column(db.String(1000))
   total_questions = db.Column(db.Integer)
   question_ids_arr = db.Column(db.String(3000))
+  status = db.Column(db.String(15))
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------

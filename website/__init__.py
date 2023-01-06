@@ -358,7 +358,14 @@ def create_database_function(app):
   """
   localhost_print_function('=========================================== create_database_function START ===========================================')
   if not path.exists('website/' + DB_NAME):
+    # ------------------------ old - editing model tables start ------------------------
     # db.create_all(app=app)
+    # ------------------------ old - editing model tables end ------------------------
+    # ------------------------ new - editing model tables start ------------------------
+    # https://stackoverflow.com/questions/34122949/working-outside-of-application-context-flask
+    with app.app_context():
+      db.create_all()
+    # ------------------------ new - editing model tables end ------------------------
     print('Created database!')
   else:
     print('Database already exists!')
