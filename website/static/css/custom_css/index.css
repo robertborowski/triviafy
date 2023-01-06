@@ -298,6 +298,9 @@
 .custom-ml-2 {
   margin-left: 25px;
 }
+.custom-ml-3 {
+  margin-left: 15px;
+}
 .custom-mlt-1 {
   margin-left: 7px;
   margin-top: 7px;
@@ -541,7 +544,7 @@
   height: 30px;
 }
 .custom-wh-3 {
-  width: 20%;
+  width: 30%;
   height: 0px;
 }
 /* ------------------- width end ------------------- */

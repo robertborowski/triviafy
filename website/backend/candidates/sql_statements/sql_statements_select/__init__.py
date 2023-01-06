@@ -83,6 +83,19 @@ def select_general_function(tag_query_to_use, additional_input=None):
                       RANDOM();",
       'input_args': {}
     },
+    'select_all_questions_for_x_categories_v3': {
+      'raw_query': f"SELECT \
+                      id \
+                    FROM \
+                      candidates_created_questions_obj \
+                    WHERE \
+                      status = TRUE \
+                      AND ({additional_input}) \
+                    ORDER BY \
+                      RANDOM() \
+                    LIMIT 10;",
+      'input_args': {}
+    },
     'select_question_id_actually_exists': {
       'raw_query': "SELECT question_uuid FROM triviafy_all_questions_table WHERE question_uuid=:val;",
       'input_args': {'val': additional_input}

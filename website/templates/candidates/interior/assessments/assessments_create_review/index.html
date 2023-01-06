@@ -1,0 +1,35 @@
+{% extends "candidates/aaa_base/base2_interior.html" %}
+<!-- head tag block content -->
+{% block title %}
+  <title>Create Assessment / Triviafy</title>
+{% endblock %}
+{% block contentBodyExceptNavbarAndFooter %}
+<form method="POST" enctype="multipart/form-data">
+  <div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
+    <h2 class="custom-header-2-mobile">Create assessment</h2>
+    <div>
+      <a href="/candidates/assessment/new" class="btn btn-outline-secondary">Back</a>
+      <button type="submit" class="btn btn-primary btn-lg custom-ml-3">Create test</button>
+    </div>
+  </div>
+  <div class="container border shadow custom-br-3 custom-bg-white">
+    <div class="container custom-display-flex custom-jc-1 custom-pt-1">
+      <div class="text-center">
+        <div class="custom-border-5-light custom-wh-1 rounded-circle mx-auto">
+          <p class="custom-header-4 rounded-circle custom-bg-1-light custom-wh-2 custom-mlt-1"><span class="custom-ml-1 custom-header-white">✓</span></p>
+        </div>
+        <p class="text-nowrap custom-color-2-light custom-header-5-mobile custom-mt-4">Select categories</p>
+      </div>
+      <div class="text-center">
+        <div class="custom-border-5-dark custom-wh-1 rounded-circle mx-auto">
+          <p class="custom-header-4 rounded-circle custom-bg-1-dark custom-wh-2 custom-mlt-1"><span class="custom-ml-1 custom-header-white">2</span></p>
+        </div>
+        <p class="text-nowrap custom-color-2-dark custom-header-5-mobile custom-mt-4">Review & confirm</p>
+      </div>
+    </div>
+    <div class="custom-p-4 text-center">
+      <p>hello</p>
+    </div>
+  </div>
+</form>
+{% endblock %}

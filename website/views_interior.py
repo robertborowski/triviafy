@@ -68,11 +68,6 @@ def login_dashboard_page_function():
     pass
   # ------------------------ get values from url end ------------------------
   # ------------------------ auto redirect checks end ------------------------
-  # ------------------------ delete all assessments that have been started by this user so far but abandoned start ------------------------
-  CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr=None).delete()
-  CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr='').delete()
-  db.session.commit()
-  # ------------------------ delete all assessments that have been started by this user so far but abandoned end ------------------------
   # ------------------------ get users total uploaded candidates start ------------------------
   current_user_uploaded_emails_arr = CandidatesUploadedCandidatesObj.query.filter_by(user_id_fk=current_user.id).all()
   len_current_user_uploaded_emails_arr = len(current_user_uploaded_emails_arr)
@@ -222,11 +217,6 @@ def candidates_subscription_success_function():
 @login_required
 def candidates_account_settings_function():
   localhost_print_function('=========================================== candidates_account_settings_function START ===========================================')
-  # ------------------------ delete all assessments that have been started by this user so far but abandoned start ------------------------
-  CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr=None).delete()
-  CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr='').delete()
-  db.session.commit()
-  # ------------------------ delete all assessments that have been started by this user so far but abandoned end ------------------------
   # ------------------------ pull user info start ------------------------
   user_account_created_timestamp = current_user.created_timestamp
   user_account_created_str = user_account_created_timestamp.strftime('%m/%Y')
@@ -353,11 +343,6 @@ def candidates_account_settings_function():
 @login_required
 def candidates_upload_emails_function():
   localhost_print_function('=========================================== candidates_upload_emails_function START ===========================================')
-  # ------------------------ delete all assessments that have been started by this user so far but abandoned start ------------------------
-  CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr=None).delete()
-  CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr='').delete()
-  db.session.commit()
-  # ------------------------ delete all assessments that have been started by this user so far but abandoned end ------------------------
   candidate_upload_error_statement = ''
   candidate_upload_success_statement = ''
   # ------------------------ get users total uploaded candidates start ------------------------
@@ -407,11 +392,6 @@ def candidates_upload_emails_function():
 @login_required
 def candidates_analytics_function():
   localhost_print_function('=========================================== candidates_analytics_function START ===========================================')
-  # ------------------------ delete all assessments that have been started by this user so far but abandoned start ------------------------
-  CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr=None).delete()
-  CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr='').delete()
-  db.session.commit()
-  # ------------------------ delete all assessments that have been started by this user so far but abandoned end ------------------------
   # ------------------------ pull all candidates start ------------------------
   current_user_uploaded_emails_arr = CandidatesUploadedCandidatesObj.query.filter_by(user_id_fk=current_user.id).all()
   all_candidates_arr_of_dicts = []
@@ -463,11 +443,6 @@ def candidates_analytics_function():
 @login_required
 def candidates_assessments_dashboard_function():
   localhost_print_function('=========================================== candidates_assessments_dashboard_function START ===========================================')
-  # ------------------------ delete all assessments that have been started by this user so far but abandoned start ------------------------
-  CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr=None).delete()
-  CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr='').delete()
-  db.session.commit()
-  # ------------------------ delete all assessments that have been started by this user so far but abandoned end ------------------------
   localhost_print_function('=========================================== candidates_assessments_dashboard_function END ===========================================')
   return render_template('candidates/interior/assessments/assessments_dashboard/index.html', user=current_user, users_company_name_to_html = current_user.company_name)
 # ------------------------ individual route end ------------------------
@@ -477,11 +452,6 @@ def candidates_assessments_dashboard_function():
 @login_required
 def candidates_assessments_analytics_function():
   localhost_print_function('=========================================== candidates_assessments_analytics_function START ===========================================')
-  # ------------------------ delete all assessments that have been started by this user so far but abandoned start ------------------------
-  CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr=None).delete()
-  CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr='').delete()
-  db.session.commit()
-  # ------------------------ delete all assessments that have been started by this user so far but abandoned end ------------------------
   # ------------------------ pull all assessments start ------------------------
   current_user_assessments_created_arr = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id).all()
   all_assessments_arr_of_dicts = []
@@ -514,11 +484,6 @@ def candidates_assessments_analytics_function():
 def candidates_assessment_create_new_function():
   localhost_print_function('=========================================== candidates_assessment_create_new_function START ===========================================')
   template_location_url = 'candidates/interior/assessments/assessments_create_new/index.html'
-  # ------------------------ delete all assessments that have been started by this user so far but abandoned start ------------------------
-  CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr=None).delete()
-  CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr='').delete()
-  db.session.commit()
-  # ------------------------ delete all assessments that have been started by this user so far but abandoned end ------------------------
   # ------------------------ pull all categories associated with candidates start ------------------------
   query_result_arr_of_dicts = select_general_function('select_all_candidate_categories_chosen_v2')
   candidate_categories_arr = all_question_candidate_categories_sorted_function(query_result_arr_of_dicts)
@@ -564,6 +529,27 @@ def candidates_assessment_create_new_function():
       create_assessment_error_statement = f'Assessment name "{auto_generated_assessment_name}" already exists.'
     # ------------------------ check if assessment name already exists for user end ------------------------
     # ------------------------ sanitize/check user inputs end ------------------------
+    # ------------------------ pull random assessment questions start ------------------------
+    # ------------------------ prepare where statement start ------------------------
+    where_clause_arr = []
+    desired_langs_arr = ui_desired_languages_checkboxes_str.split(',')
+    master_where_statement = ''
+    for i in range(len(desired_langs_arr)):
+      if i == (len(desired_langs_arr) - 1):
+        master_where_statement += f"(categories LIKE '%{desired_langs_arr[i]}%')"
+      else:
+        master_where_statement += f"(categories LIKE '%{desired_langs_arr[i]}%') OR "
+    where_clause_arr.append(master_where_statement)
+    # ------------------------ prepare where statement end ------------------------
+    # ------------------------ pull question obj from db start ------------------------
+    query_result_arr_of_dicts = select_general_function('select_all_questions_for_x_categories_v3', where_clause_arr[0])
+    auto_generated_question_ids_arr = []
+    for i_dict in query_result_arr_of_dicts:
+      i_id = i_dict['id']
+      auto_generated_question_ids_arr.append(i_id)
+    # ------------------------ pull question obj from db end ------------------------
+    auto_generated_question_ids_str = ','.join(auto_generated_question_ids_arr)
+    # ------------------------ pull random assessment questions end ------------------------
     # ------------------------ create new assessment in db start ------------------------
     if auto_generated_assessment_name != False and ui_desired_languages_checkboxes_arr != False and ui_desired_languages_checkboxes_arr != []:
       new_row = CandidatesAssessmentsCreatedObj(
@@ -572,13 +558,14 @@ def candidates_assessment_create_new_function():
         user_id_fk=current_user.id,
         assessment_name=auto_generated_assessment_name,
         desired_languages_arr = ui_desired_languages_checkboxes_str,
-        question_ids_arr = None
+        total_questions = len(auto_generated_question_ids_arr),
+        question_ids_arr=auto_generated_question_ids_str
       )
       db.session.add(new_row)
       db.session.commit()
       # ------------------------ create new assessment in db end ------------------------
       localhost_print_function('=========================================== candidates_assessment_create_new_function END ===========================================')
-      return redirect(url_for('views_interior.candidates_assessment_select_questions_function', url_assessment_name=auto_generated_assessment_name))
+      return redirect(url_for('views_interior.candidates_assessment_create_review_function', url_assessment_name=auto_generated_assessment_name))
   # ------------------------ post method hit end ------------------------
   """
   # ------------------------ normal page load start ------------------------
@@ -596,6 +583,16 @@ def candidates_assessment_create_new_function():
     localhost_print_function('=========================================== candidates_assessment_create_new_function END ===========================================')
     return browser_response
   # ------------------------ auto set cookie end ------------------------
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@views_interior.route('/candidates/assessment/review/<url_assessment_name>', methods=['GET', 'POST'])
+@login_required
+def candidates_assessment_create_review_function(url_assessment_name):
+  localhost_print_function('=========================================== candidates_assessment_create_review_function START ===========================================')
+  review_assessment_error_statement = ''
+  localhost_print_function('=========================================== candidates_assessment_create_review_function END ===========================================')
+  return render_template('candidates/interior/assessments/assessments_create_review/index.html', user=current_user, users_company_name_to_html = current_user.company_name, error_message_to_html=review_assessment_error_statement)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -868,11 +865,6 @@ def candidates_candidate_results_specific_function(url_candidate_email):
 @login_required
 def candidates_schedule_dashboard_function():
   localhost_print_function('=========================================== candidates_schedule_dashboard_function START ===========================================')
-  # ------------------------ delete all assessments that have been started by this user so far but abandoned start ------------------------
-  CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr=None).delete()
-  CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr='').delete()
-  db.session.commit()
-  # ------------------------ delete all assessments that have been started by this user so far but abandoned end ------------------------
   # ------------------------ remove answers for non paying users end ------------------------
   localhost_print_function('=========================================== candidates_schedule_dashboard_function END ===========================================')
   return render_template('candidates/interior/schedule/schedule_dashboard/index.html', user=current_user, users_company_name_to_html=current_user.company_name)
@@ -1184,11 +1176,6 @@ def candidates_schedule_create_now_function():
 @login_required
 def candidates_schedule_analytics_function():
   localhost_print_function('=========================================== candidates_schedule_analytics_function START ===========================================')
-  # ------------------------ delete all assessments that have been started by this user so far but abandoned start ------------------------
-  CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr=None).delete()
-  CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr='').delete()
-  db.session.commit()
-  # ------------------------ delete all assessments that have been started by this user so far but abandoned end ------------------------
   # ------------------------ pull schedules start ------------------------
   current_user_schedules_obj = CandidatesScheduleObj.query.filter_by(user_id_fk=current_user.id).order_by(CandidatesScheduleObj.created_timestamp).all()
   all_schedules_arr_of_dicts = []
@@ -1484,11 +1471,6 @@ def candidates_categories_request_function():
 @login_required
 def candidates_create_question_function():
   localhost_print_function('=========================================== candidates_create_question_function START ===========================================')
-  # ------------------------ delete all assessments that have been started by this user so far but abandoned start ------------------------
-  CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr=None).delete()
-  CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr='').delete()
-  db.session.commit()
-  # ------------------------ delete all assessments that have been started by this user so far but abandoned end ------------------------
   ui_question_error_statement = ''
   ui_question_success_statement = ''
   ui_create_question_dict = {}
