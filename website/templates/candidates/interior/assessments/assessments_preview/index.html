@@ -17,7 +17,11 @@
       {% else %}
       <a href="/candidates/assessment/preview/{{ url_assessment_name_to_html }}/{{ previous_question_number_to_html }}" class="btn btn-outline-secondary">< Back</a>
       {% endif %}
+      {% if next_question_number_to_html == 'submit' %}
+      <a href="/candidates/assessment/preview/{{ url_assessment_name_to_html }}/submit" class="btn btn-primary custom-ml-3">Submit</a>
+      {% else %}
       <a href="/candidates/assessment/preview/{{ url_assessment_name_to_html }}/{{ next_question_number_to_html }}" class="btn btn-primary custom-ml-3">Next ></a>
+      {% endif %}
     </div>
   </nav>
 </div>
