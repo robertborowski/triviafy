@@ -29,11 +29,11 @@
     </div>
     <div class="custom-width-10 mx-auto custom-ptb-3">
       <div class="custom-mb-6">
-        <label for="uiName" class="form-label">Name</label>
+        <label for="uiName" class="form-label">Test name</label>
         <input type="text" class="form-control" id="uiName" name="uiName" value="{{ assessment_name_to_html }}">
       </div>
       <div class="custom-mb-6">
-        <label for="uiPreview" class="form-label">View</label><br>
+        <label for="uiPreview" class="form-label">Length: <img src="/static/images/candidates/icons/clock-regular.svg" alt="clock icon" class="custom-img-size-9 custom-mr-1 custom-mb-7">{{ assessment_total_questions_to_html }} mins</label><br>
         <a href="#" class="btn btn-outline-primary custom-width-6">Preview test</a>
       </div>
       {% if stripe_subscription_obj_status_to_html == 'not active' %}
