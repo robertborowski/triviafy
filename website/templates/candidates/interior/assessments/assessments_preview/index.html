@@ -30,12 +30,29 @@
 <div class="container-fluid custom-bg-grey-3 custom-pb-3">
   <form method="POST" enctype="multipart/form-data" class="custom-pt-1">
     <div class="container border shadow custom-br-3 custom-bg-white custom-display-flex custom-fw-1">
-      <div class="custom-width-11-mobile custom-border-1">
+      <div class="custom-width-11-mobile custom-p-5">
+        <div class="custom-display-flex custom-mb-6">
+          <h2 class="custom-header-4">Q{{ assessment_info_dict_to_html['question_details_dict']['question_counter'] }}: {{ assessment_info_dict_to_html['question_details_dict']['title'] }}</h2>
+          <div>
+              {% for category_tuple in assessment_info_dict_to_html['question_details_dict']['categories'] %}
+                <span class="custom-tag-1 custom-tag-category-{{ category_tuple[1] }} custom-br-4 custom-ml-3 custom-header-5">{{ category_tuple[0] }}</span>
+              {% endfor %}
+            </p>
+          </div>
+        </div>
         <div>
-          <h2>Q{{ assessment_info_dict_to_html['question_details_dict']['question_counter'] }}: {{ assessment_info_dict_to_html['question_details_dict']['title'] }}</h2>
+          <div class="custom-mb-6">
+            <p>{{ assessment_info_dict_to_html['question_details_dict']['question'] }}</p>
+          </div>
+          {% if contains_img_to_html == true %}
+          <div class="text-center">
+            <img src="{{ assessment_info_dict_to_html['question_details_dict']['aws_image_url'] }}" alt="" class="custom-img-size-11 custom-br-1 shadow">
+          </div>
+          {% else %}
+          {% endif %}
         </div>
       </div>
-      <div class="custom-width-11-mobile custom-border-2">
+      <div class="custom-width-11-mobile custom-border-1 custom-p-5">
         <p>world</p>
       </div>
     </div>

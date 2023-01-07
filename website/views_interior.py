@@ -649,6 +649,11 @@ def candidates_assessment_preview_function(url_assessment_name, url_question_num
     assessment_info_dict = create_assessment_info_dict_function_v2(db_assessment_obj, url_question_number)
     next_question_number = 'submit'
     # ------------------------ once all questions answered end ------------------------
+  localhost_print_function('- - - - - - - 0 - - - - - - -')
+  localhost_print_function('assessment_info_dict')
+  localhost_print_function(assessment_info_dict)
+  localhost_print_function(type(assessment_info_dict))
+  localhost_print_function('- - - - - - - 0 - - - - - - -')
   # ------------------------ assign assessment info to dict end ------------------------
   # ------------------------ stripe subscription status check start ------------------------
   fk_stripe_subscription_id = current_user.fk_stripe_subscription_id
@@ -660,8 +665,17 @@ def candidates_assessment_preview_function(url_assessment_name, url_question_num
   except:
     pass
   # ------------------------ stripe subscription status check end ------------------------
+  # ------------------------ if subscription not paid start ------------------------
+  if stripe_subscription_obj_status != 'active':
+    assessment_info_dict['question_details_dict']['answer'] = ''
+  # ------------------------ if subscription not paid end ------------------------
+  # ------------------------ check if contains img start ------------------------
+  contains_img = False
+  if 'amazonaws.com' in assessment_info_dict['question_details_dict']['aws_image_url']:
+    contains_img = True
+  # ------------------------ check if contains img end ------------------------
   localhost_print_function('=========================================== candidates_assessment_preview_function END ===========================================')
-  return render_template('candidates/interior/assessments/assessments_preview/index.html', user=current_user, users_company_name_to_html=user_company_name, error_message_to_html=preview_assessment_error_statement, stripe_subscription_obj_status_to_html=stripe_subscription_obj_status, current_question_number_to_html=url_question_number, next_question_number_to_html=next_question_number, previous_question_number_to_html=previous_question_number, url_assessment_name_to_html=url_assessment_name, assessment_info_dict_to_html=assessment_info_dict)
+  return render_template('candidates/interior/assessments/assessments_preview/index.html', user=current_user, users_company_name_to_html=user_company_name, error_message_to_html=preview_assessment_error_statement, stripe_subscription_obj_status_to_html=stripe_subscription_obj_status, current_question_number_to_html=url_question_number, next_question_number_to_html=next_question_number, previous_question_number_to_html=previous_question_number, url_assessment_name_to_html=url_assessment_name, assessment_info_dict_to_html=assessment_info_dict, contains_img_to_html=contains_img)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
