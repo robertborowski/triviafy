@@ -111,10 +111,16 @@
 .custom-filler-4 {
   height: 63.5px;
 }
+.custom-filler-5 {
+  height: 56px;
+}
 /* ------------------- filler end ------------------- */
 /* ------------------- flex start ------------------- */
 .custom-fw-1 {
   flex-wrap: wrap;
+}
+.custom-fw-2 {
+  flex-wrap: nowrap;
 }
 /* ------------------- flex end ------------------- */
 /* ------------------- header start ------------------- */

@@ -73,7 +73,7 @@ def create_assessment_info_dict_function(db_assessment_obj):
 
 # ------------------------ individual function start ------------------------
 def create_assessment_info_dict_function_v2(db_assessment_obj, url_question_number):
-  localhost_print_function('=========================================== create_assessment_info_dict_function START ===========================================')
+  localhost_print_function('=========================================== create_assessment_info_dict_function_v2 START ===========================================')
   # ------------------------ init dict start ------------------------
   assessment_info_dict = {}
   # ------------------------ init dict end ------------------------
@@ -94,7 +94,7 @@ def create_assessment_info_dict_function_v2(db_assessment_obj, url_question_numb
   query_result_arr_of_dicts[0]['question_counter'] = url_question_number
   assessment_info_dict['question_details_dict'] = query_result_arr_of_dicts[0]
   # ------------------------ assign dict questions end ------------------------
-  localhost_print_function('=========================================== create_assessment_info_dict_function END ===========================================')
+  localhost_print_function('=========================================== create_assessment_info_dict_function_v2 END ===========================================')
   return assessment_info_dict
 # ------------------------ individual function end ------------------------
 
