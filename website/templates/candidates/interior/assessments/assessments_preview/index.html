@@ -34,7 +34,7 @@
       </div>
       <div class="custom-mb-6">
         <label for="uiPreview" class="form-label">Length: <img src="/static/images/candidates/icons/clock-regular.svg" alt="clock icon" class="custom-img-size-9 custom-mr-1 custom-mb-7">{{ assessment_total_questions_to_html }} mins</label><br>
-        <a href="/candidates/assessment/preview/{{ assessment_name_to_html }}/1" class="btn btn-outline-primary custom-width-6">Preview test</a>
+        <a href="/candidates/assessment/preview/{{ assessment_name_to_html }}" class="btn btn-outline-primary custom-width-6">Preview test</a>
       </div>
       {% if stripe_subscription_obj_status_to_html == 'not active' %}
       <div class="custom-mb-6">

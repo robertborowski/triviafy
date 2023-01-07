@@ -72,6 +72,33 @@ def create_assessment_info_dict_function(db_assessment_obj):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
+def create_assessment_info_dict_function_v2(db_assessment_obj, url_question_number):
+  localhost_print_function('=========================================== create_assessment_info_dict_function START ===========================================')
+  # ------------------------ init dict start ------------------------
+  assessment_info_dict = {}
+  # ------------------------ init dict end ------------------------
+  # ------------------------ assign dict start ------------------------
+  assessment_info_dict['id'] =  db_assessment_obj.id
+  assessment_info_dict['name'] = db_assessment_obj.assessment_name
+  assessment_info_dict['desired_languages_arr'] = db_assessment_obj.desired_languages_arr
+  assessment_info_dict['total_questions'] =  db_assessment_obj.total_questions
+  # ------------------------ assign dict end ------------------------
+  # ------------------------ assign dict questions start ------------------------
+  question_ids_str =  db_assessment_obj.question_ids_arr
+  question_ids_arr = question_ids_str.split(',')
+  search_for_question_index = int(url_question_number) - 1
+  desired_question_id = question_ids_arr[search_for_question_index]
+  desired_question_id_str = "'" + desired_question_id + "'"
+  query_result_arr_of_dicts = select_general_function('select_specific_assessment_questions_v3', additional_input=desired_question_id_str)
+  query_result_arr_of_dicts = question_arr_of_dicts_manipulations_function(query_result_arr_of_dicts)
+  query_result_arr_of_dicts[0]['question_counter'] = url_question_number
+  assessment_info_dict['question_details_dict'] = query_result_arr_of_dicts[0]
+  # ------------------------ assign dict questions end ------------------------
+  localhost_print_function('=========================================== create_assessment_info_dict_function END ===========================================')
+  return assessment_info_dict
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
 def map_user_answers_to_questions_dict_function(assessment_info_dict, ui_current_answer_choice_selected, current_question_number):
   localhost_print_function('=========================================== map_user_answers_to_questions_dict_function START ===========================================')
   for i_dict in assessment_info_dict['questions_arr_of_dicts']:

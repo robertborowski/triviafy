@@ -25,7 +25,7 @@ from werkzeug.security import generate_password_hash
 import pandas as pd
 from website.backend.candidates.string_manipulation import all_question_candidate_categories_sorted_function, create_assessment_name_function
 from website.backend.candidates.sqlalchemy_manipulation import pull_desired_languages_arr_function
-from website.backend.candidates.dict_manipulation import question_arr_of_dicts_manipulations_function, create_assessment_info_dict_function, map_user_answers_to_questions_dict_function, backend_store_question_answers_dict_function, grade_assessment_answers_dict_function, check_two_phrase_similarity_score_function
+from website.backend.candidates.dict_manipulation import question_arr_of_dicts_manipulations_function, create_assessment_info_dict_function, map_user_answers_to_questions_dict_function, backend_store_question_answers_dict_function, grade_assessment_answers_dict_function, check_two_phrase_similarity_score_function, create_assessment_info_dict_function_v2
 from website.backend.candidates.datetime_manipulation import next_x_days_function, times_arr_function, expired_assessment_check_function
 import datetime
 import json
@@ -618,6 +618,32 @@ def candidates_assessment_create_review_function(url_assessment_name):
   # ------------------------ stripe subscription status check end ------------------------
   localhost_print_function('=========================================== candidates_assessment_create_review_function END ===========================================')
   return render_template('candidates/interior/assessments/assessments_create_review/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=review_assessment_error_statement, assessment_name_to_html=assessment_name, stripe_subscription_obj_status_to_html=stripe_subscription_obj_status, assessment_total_questions_to_html=assessment_total_questions)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@views_interior.route('/candidates/assessment/preview/<url_assessment_name>/<url_question_number>', methods=['GET', 'POST'])
+@login_required
+def candidates_assessment_preview_function(url_assessment_name, url_question_number):
+  localhost_print_function('=========================================== candidates_assessment_preview_function START ===========================================')
+  preview_assessment_error_statement = ''
+  # ------------------------ pull assessment obj start ------------------------
+  db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(assessment_name=url_assessment_name,user_id_fk=current_user.id).first()
+  # ------------------------ pull assessment obj end ------------------------
+  # ------------------------ assign assessment info to dict start ------------------------
+  assessment_info_dict = create_assessment_info_dict_function_v2(db_assessment_obj, url_question_number)
+  # ------------------------ assign assessment info to dict end ------------------------
+  # ------------------------ stripe subscription status check start ------------------------
+  fk_stripe_subscription_id = current_user.fk_stripe_subscription_id
+  stripe_subscription_obj = ''
+  stripe_subscription_obj_status = 'not active'
+  try:
+    stripe_subscription_obj = stripe.Subscription.retrieve(fk_stripe_subscription_id)
+    stripe_subscription_obj_status = stripe_subscription_obj.status
+  except:
+    pass
+  # ------------------------ stripe subscription status check end ------------------------
+  localhost_print_function('=========================================== candidates_assessment_preview_function END ===========================================')
+  return render_template('candidates/interior/assessments/assessments_preview/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=preview_assessment_error_statement, stripe_subscription_obj_status_to_html=stripe_subscription_obj_status)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------

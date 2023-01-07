@@ -4,9 +4,7 @@ from website import db
 from flask_login import current_user
 # ------------------------ imports end ------------------------
 
-
 localhost_print_function('=========================================== sql_statements_select __init__ START ===========================================')
-
 
 # ------------------------ individual function start ------------------------
 def select_general_function(tag_query_to_use, additional_input=None):
@@ -37,6 +35,15 @@ def select_general_function(tag_query_to_use, additional_input=None):
                       id IN ({additional_input}) \
                     ORDER BY \
                       created_timestamp;",
+      'input_args': {}
+    },
+    'select_specific_assessment_questions_v3': {
+      'raw_query': f"SELECT \
+                      id, categories, question, difficulty, title, aws_image_url, answer, option_a, option_b, option_c, option_d, option_e \
+                    FROM \
+                      candidates_created_questions_obj \
+                    WHERE \
+                      id = {additional_input};",
       'input_args': {}
     },
     'select_if_capacity_chosen': {
