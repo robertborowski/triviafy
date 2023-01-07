@@ -47,5 +47,9 @@
     .custom-width-2-mobile {
       width: 100%;
     }
+    .custom-width-11-mobile {
+      width: 100%;
+      max-width: 100%;
+    }
     /* ------------------- width end ------------------- */
   }

@@ -28,37 +28,20 @@
 <div class="custom-filler-5"></div>
 <!-- ------------------------------------- navbar end ------------------------------------- -->
 <div class="container-fluid custom-bg-grey-3 custom-pb-3">
-  <form method="POST" enctype="multipart/form-data">
-    <p>{{ current_question_number_to_html }}</p>
-    <div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
-      <h2 class="custom-header-2-mobile">Create test</h2>
-      <div>
-        <a href="/candidates/assessment/new/1b" class="btn btn-outline-secondary">Back</a>
-        <button type="submit" class="btn btn-primary custom-ml-3">Create test</button>
-      </div>
-    </div>
-    <div class="container border shadow custom-br-3 custom-bg-white custom-mb-2">
-      <div class="container custom-display-flex custom-jc-1 custom-pt-1">
-        <div class="text-center">
-          <div class="custom-border-5-light custom-wh-1 rounded-circle mx-auto">
-            <p class="custom-header-4 rounded-circle custom-bg-1-light custom-wh-2 custom-mlt-1"><span class="custom-header-white">✓</span></p>
-          </div>
-          <p class="text-nowrap custom-color-2-light custom-header-5-mobile custom-mt-4">Select categories</p>
-        </div>
-        <div class="text-center">
-          <div class="custom-border-5-dark custom-wh-1 rounded-circle mx-auto">
-            <p class="custom-header-4 rounded-circle custom-bg-1-dark custom-wh-2 custom-mlt-1"><span class="custom-header-white">2</span></p>
-          </div>
-          <p class="text-nowrap custom-color-2-dark custom-header-5-mobile custom-mt-4">Review & confirm</p>
+  <form method="POST" enctype="multipart/form-data" class="custom-pt-1">
+    <div class="container border shadow custom-br-3 custom-bg-white custom-display-flex custom-fw-1">
+      <div class="custom-width-11-mobile custom-border-1">
+        <div>
+          <h2>Q{{ assessment_info_dict_to_html['question_details_dict']['question_counter'] }}: {{ assessment_info_dict_to_html['question_details_dict']['title'] }}</h2>
         </div>
       </div>
-      <div class="custom-width-10 mx-auto custom-ptb-3">
-        <div class="custom-mb-6">
-          <label for="uiName" class="form-label">Test name</label>
-          <input type="text" class="form-control" id="uiName" name="uiName" value="Nunya">
-        </div>
+      <div class="custom-width-11-mobile custom-border-2">
+        <p>world</p>
       </div>
     </div>
   </form>
+  <div class="text-center custom-mt-3">
+    <img src="/static/images/candidates/logo/logo_wide_v3.png" alt="powered by triviafy logo" class="custom-img-size-10 custom-img-opacity-1">
+  </div>
 </div>
 {% endblock %}

@@ -661,7 +661,7 @@ def candidates_assessment_preview_function(url_assessment_name, url_question_num
     pass
   # ------------------------ stripe subscription status check end ------------------------
   localhost_print_function('=========================================== candidates_assessment_preview_function END ===========================================')
-  return render_template('candidates/interior/assessments/assessments_preview/index.html', user=current_user, users_company_name_to_html=user_company_name, error_message_to_html=preview_assessment_error_statement, stripe_subscription_obj_status_to_html=stripe_subscription_obj_status, current_question_number_to_html=url_question_number, next_question_number_to_html=next_question_number, previous_question_number_to_html=previous_question_number, url_assessment_name_to_html=url_assessment_name)
+  return render_template('candidates/interior/assessments/assessments_preview/index.html', user=current_user, users_company_name_to_html=user_company_name, error_message_to_html=preview_assessment_error_statement, stripe_subscription_obj_status_to_html=stripe_subscription_obj_status, current_question_number_to_html=url_question_number, next_question_number_to_html=next_question_number, previous_question_number_to_html=previous_question_number, url_assessment_name_to_html=url_assessment_name, assessment_info_dict_to_html=assessment_info_dict)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
