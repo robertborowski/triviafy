@@ -1,53 +1,76 @@
-{% extends "candidates/aaa_base/base2_interior.html" %}
+{% extends "candidates/aaa_base/base.html" %}
+
 <!-- head tag block content -->
 {% block title %}
-  <title>Create Assessment / Triviafy</title>
+  <title>Preview</title>
 {% endblock %}
-{% block contentBodyExceptNavbarAndFooter %}
-<form method="POST" enctype="multipart/form-data">
-  <div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
-    <h2 class="custom-header-2-mobile">Create test</h2>
-    <div>
-      <a href="/candidates/assessment/new/1b" class="btn btn-outline-secondary">Back</a>
-      <button type="submit" class="btn btn-primary custom-ml-3">Create test</button>
+
+{% block contentBody %}
+<!-- ------------------------------------- navbar start ------------------------------------- -->
+<div class="container-fluid fixed-top shadow-sm custom-bg-white">
+  <nav class="container navbar navbar-expand-md navbar-light">
+    <a href="#" class="navbar-brand">
+      <span class="custom-header-6">{{ users_company_name_to_html }}</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#toggleMobileMenu" aria-controls="toggleMobileMenu" aria-expanded="false" aria-lable="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="toggleMobileMenu">
+      <ul class="navbar-nav ms-auto text-center">
+        <li><a href="#" class="btn btn-outline-secondary">Previous</a></li>
+        <li><a href="#" class="btn btn-primary">Continue</a></li>
+      </ul>
     </div>
-  </div>
-  <div class="container border shadow custom-br-3 custom-bg-white custom-mb-2">
-    <div class="container custom-display-flex custom-jc-1 custom-pt-1">
-      <div class="text-center">
-        <div class="custom-border-5-light custom-wh-1 rounded-circle mx-auto">
-          <p class="custom-header-4 rounded-circle custom-bg-1-light custom-wh-2 custom-mlt-1"><span class="custom-ml-1 custom-header-white">✓</span></p>
+  </nav>
+</div>
+<div class="custom-filler-4"></div>
+<!-- ------------------------------------- navbar end ------------------------------------- -->
+<div class="container-fluid custom-bg-grey-3 custom-pb-3">
+  <form method="POST" enctype="multipart/form-data">
+    <div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
+      <h2 class="custom-header-2-mobile">Create test</h2>
+      <div>
+        <a href="/candidates/assessment/new/1b" class="btn btn-outline-secondary">Back</a>
+        <button type="submit" class="btn btn-primary custom-ml-3">Create test</button>
+      </div>
+    </div>
+    <div class="container border shadow custom-br-3 custom-bg-white custom-mb-2">
+      <div class="container custom-display-flex custom-jc-1 custom-pt-1">
+        <div class="text-center">
+          <div class="custom-border-5-light custom-wh-1 rounded-circle mx-auto">
+            <p class="custom-header-4 rounded-circle custom-bg-1-light custom-wh-2 custom-mlt-1"><span class="custom-header-white">✓</span></p>
+          </div>
+          <p class="text-nowrap custom-color-2-light custom-header-5-mobile custom-mt-4">Select categories</p>
         </div>
-        <p class="text-nowrap custom-color-2-light custom-header-5-mobile custom-mt-4">Select categories</p>
-      </div>
-      <div class="text-center">
-        <div class="custom-border-5-dark custom-wh-1 rounded-circle mx-auto">
-          <p class="custom-header-4 rounded-circle custom-bg-1-dark custom-wh-2 custom-mlt-1"><span class="custom-ml-1 custom-header-white">2</span></p>
+        <div class="text-center">
+          <div class="custom-border-5-dark custom-wh-1 rounded-circle mx-auto">
+            <p class="custom-header-4 rounded-circle custom-bg-1-dark custom-wh-2 custom-mlt-1"><span class="custom-header-white">2</span></p>
+          </div>
+          <p class="text-nowrap custom-color-2-dark custom-header-5-mobile custom-mt-4">Review & confirm</p>
         </div>
-        <p class="text-nowrap custom-color-2-dark custom-header-5-mobile custom-mt-4">Review & confirm</p>
+      </div>
+      <div class="custom-width-10 mx-auto custom-ptb-3">
+        <div class="custom-mb-6">
+          <label for="uiName" class="form-label">Test name</label>
+          <input type="text" class="form-control" id="uiName" name="uiName" value="{{ assessment_name_to_html }}">
+        </div>
+        <div class="custom-mb-6">
+          <label for="uiPreview" class="form-label">Length: <img src="/static/images/candidates/icons/clock-regular.svg" alt="clock icon" class="custom-img-size-9 custom-mr-1 custom-mb-7">{{ assessment_total_questions_to_html }} mins</label><br>
+          <a href="/candidates/assessment/preview/{{ assessment_name_to_html }}" class="btn btn-outline-primary custom-width-6">Preview test</a>
+        </div>
+        {% if stripe_subscription_obj_status_to_html == 'not active' %}
+        <div class="custom-mb-6">
+          <label for="uiPreview" class="form-label">Add custom questions</label><br>
+          <a href="#" class="btn btn-outline-secondary custom-width-6" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Only subscribed users can add custom questions">Customize</a>
+        </div>
+        {% elif stripe_subscription_obj_status_to_html == 'active' %}
+        <div class="custom-mb-6">
+          <label for="uiPreview" class="form-label">Add custom questions</label><br>
+          <a href="#" class="btn btn-outline-primary custom-width-6">Customize</a>
+        </div>
+        {% endif %}
       </div>
     </div>
-    <div class="custom-width-10 mx-auto custom-ptb-3">
-      <div class="custom-mb-6">
-        <label for="uiName" class="form-label">Test name</label>
-        <input type="text" class="form-control" id="uiName" name="uiName" value="{{ assessment_name_to_html }}">
-      </div>
-      <div class="custom-mb-6">
-        <label for="uiPreview" class="form-label">Length: <img src="/static/images/candidates/icons/clock-regular.svg" alt="clock icon" class="custom-img-size-9 custom-mr-1 custom-mb-7">{{ assessment_total_questions_to_html }} mins</label><br>
-        <a href="/candidates/assessment/preview/{{ assessment_name_to_html }}" class="btn btn-outline-primary custom-width-6">Preview test</a>
-      </div>
-      {% if stripe_subscription_obj_status_to_html == 'not active' %}
-      <div class="custom-mb-6">
-        <label for="uiPreview" class="form-label">Add custom questions</label><br>
-        <a href="#" class="btn btn-outline-secondary custom-width-6" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Only subscribed users can add custom questions">Customize</a>
-      </div>
-      {% elif stripe_subscription_obj_status_to_html == 'active' %}
-      <div class="custom-mb-6">
-        <label for="uiPreview" class="form-label">Add custom questions</label><br>
-        <a href="#" class="btn btn-outline-primary custom-width-6">Customize</a>
-      </div>
-      {% endif %}
-    </div>
-  </div>
-</form>
+  </form>
+</div>
 {% endblock %}

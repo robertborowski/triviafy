@@ -626,6 +626,11 @@ def candidates_assessment_create_review_function(url_assessment_name):
 def candidates_assessment_preview_function(url_assessment_name, url_question_number):
   localhost_print_function('=========================================== candidates_assessment_preview_function START ===========================================')
   preview_assessment_error_statement = ''
+  # ------------------------ variables start ------------------------
+  user_company_name = current_user.company_name
+  if len(user_company_name) > 15:
+    user_company_name = user_company_name[:14] + '...'
+  # ------------------------ variables end ------------------------
   # ------------------------ pull assessment obj start ------------------------
   db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(assessment_name=url_assessment_name,user_id_fk=current_user.id).first()
   # ------------------------ pull assessment obj end ------------------------
@@ -643,7 +648,7 @@ def candidates_assessment_preview_function(url_assessment_name, url_question_num
     pass
   # ------------------------ stripe subscription status check end ------------------------
   localhost_print_function('=========================================== candidates_assessment_preview_function END ===========================================')
-  return render_template('candidates/interior/assessments/assessments_preview/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=preview_assessment_error_statement, stripe_subscription_obj_status_to_html=stripe_subscription_obj_status)
+  return render_template('candidates/interior/assessments/assessments_preview/index.html', user=current_user, users_company_name_to_html=user_company_name, error_message_to_html=preview_assessment_error_statement, stripe_subscription_obj_status_to_html=stripe_subscription_obj_status)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
