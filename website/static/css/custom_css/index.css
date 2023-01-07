@@ -604,6 +604,11 @@
 .custom-tag-category-travel {background: #4f99d3;}
 .custom-tag-category-uk {background: #d25454;}
 /* ------------------- tag end ------------------- */
+/* ------------------- text start ------------------- */
+.custom-tal {
+  text-align: left;
+}
+/* ------------------- text end ------------------- */
 /* ------------------- width start ------------------- */
 .custom-width-1 {
   max-width: 600px;

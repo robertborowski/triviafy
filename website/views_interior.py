@@ -649,11 +649,6 @@ def candidates_assessment_preview_function(url_assessment_name, url_question_num
     assessment_info_dict = create_assessment_info_dict_function_v2(db_assessment_obj, url_question_number)
     next_question_number = 'submit'
     # ------------------------ once all questions answered end ------------------------
-  localhost_print_function('- - - - - - - 0 - - - - - - -')
-  localhost_print_function('assessment_info_dict')
-  localhost_print_function(assessment_info_dict)
-  localhost_print_function(type(assessment_info_dict))
-  localhost_print_function('- - - - - - - 0 - - - - - - -')
   # ------------------------ assign assessment info to dict end ------------------------
   # ------------------------ stripe subscription status check start ------------------------
   fk_stripe_subscription_id = current_user.fk_stripe_subscription_id
