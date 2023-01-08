@@ -7,7 +7,7 @@ from flask_login import current_user
 localhost_print_function('=========================================== sql_statements_select __init__ START ===========================================')
 
 # ------------------------ individual function start ------------------------
-def select_general_function(tag_query_to_use, additional_input=None):
+def select_general_function(tag_query_to_use, additional_input=None, additional_input2=None):
   localhost_print_function('=========================================== select_general_function START ===========================================')
   try:
     current_user_id_defined_var = current_user.id
@@ -101,6 +101,20 @@ def select_general_function(tag_query_to_use, additional_input=None):
                     ORDER BY \
                       RANDOM() \
                     LIMIT 10;",
+      'input_args': {}
+    },
+    'select_one_question_for_x_categories_v1': {
+      'raw_query': f"SELECT \
+                      id \
+                    FROM \
+                      candidates_created_questions_obj \
+                    WHERE \
+                      status = TRUE \
+                      AND ({additional_input}) \
+                      AND id NOT IN ({additional_input2})\
+                    ORDER BY \
+                      RANDOM() \
+                    LIMIT 1;",
       'input_args': {}
     },
     'select_question_id_actually_exists': {

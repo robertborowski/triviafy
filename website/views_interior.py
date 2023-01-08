@@ -32,7 +32,7 @@ import json
 import stripe
 import os
 from website.backend.candidates.aws_manipulation import candidates_change_uploaded_image_filename_function, candidates_user_upload_image_checks_aws_s3_function
-from website.backend.candidates.sql_statements.sql_prep import prepare_where_clause_function
+from website.backend.candidates.sql_statements.sql_prep import prepare_where_clause_function, prepare_question_ids_where_clause_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -632,6 +632,10 @@ def candidates_assessment_preview_function(url_assessment_name, url_question_num
   if str(url_question_number) == str(assessment_total_questions):
     next_question_number = 'submit'
   # ------------------------ pull assessment obj end ------------------------
+  # ------------------------ redirect to latest if url number is not found start ------------------------
+  if str(url_question_number) > str(assessment_total_questions):
+    return redirect(url_for('views_interior.candidates_assessment_preview_function',url_assessment_name=url_assessment_name, url_question_number=assessment_total_questions))
+  # ------------------------ redirect to latest if url number is not found end ------------------------
   # ------------------------ assign assessment info to dict start ------------------------
   try:
     assessment_info_dict = create_assessment_info_dict_function_v2(db_assessment_obj, url_question_number)
@@ -698,6 +702,34 @@ def candidates_assessment_preview_function(url_assessment_name, url_question_num
     # ------------------------ add new question id start ------------------------
     if 'add' in ui_desired_actions_checkboxes_arr:
       desired_languages_str = db_assessment_obj.desired_languages_arr
+      # ------------------------ prepare where statement start ------------------------
+      current_question_ids_str = prepare_question_ids_where_clause_function(db_assessment_obj)
+      where_clause_arr = prepare_where_clause_function(desired_languages_str)
+      # ------------------------ prepare where statement end ------------------------
+      # ------------------------ sql query start ------------------------
+      query_result_arr_of_dicts = select_general_function('select_one_question_for_x_categories_v1', where_clause_arr[0], current_question_ids_str)
+      try:
+        add_question_id = query_result_arr_of_dicts[0]['id']
+      except:
+        add_question_id = None
+      # ------------------------ sql query end ------------------------
+      # ------------------------ action based on sql query result start ------------------------
+      if add_question_id == None:
+        preview_assessment_error_statement = 'All available questions for this category are already selected. Triviafy team will be making more questions for this category, thank you.'
+      else:
+        # str of question ids
+        current_question_ids_str = db_assessment_obj.question_ids_arr
+        new_question_ids_str = current_question_ids_str + f',{add_question_id}'
+        # total questions
+        current_total_questions_count = int(db_assessment_obj.total_questions)
+        new_total_question_count = str(current_total_questions_count + 1)
+        # update db
+        db_assessment_obj.question_ids_arr = new_question_ids_str
+        db_assessment_obj.total_questions = new_total_question_count
+        db.session.commit()
+        # redirect back to same page post changes
+        return redirect(url_for('views_interior.candidates_assessment_preview_function',url_assessment_name=url_assessment_name, url_question_number=url_question_number))
+      # ------------------------ action based on sql query result end ------------------------
     # ------------------------ add new question id end ------------------------
     # ------------------------ get user inputs end ------------------------
   # ------------------------ post hit admin control end ------------------------

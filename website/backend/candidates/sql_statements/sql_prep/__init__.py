@@ -17,4 +17,17 @@ def prepare_where_clause_function(desired_langs_str):
   where_clause_arr.append(master_where_statement)
   return where_clause_arr
 # ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def prepare_question_ids_where_clause_function(db_assessment_obj):
+  localhost_print_function('=========================================== create_assessment_info_dict_function START ===========================================')
+  # ------------------------ where clause start ------------------------
+  question_ids_str =  db_assessment_obj.question_ids_arr
+  question_ids_arr = question_ids_str.split(',')
+  question_ids_str = "','".join(question_ids_arr)
+  question_ids_str = "'" + question_ids_str + "'"
+  # ------------------------ where clause end ------------------------
+  localhost_print_function('=========================================== create_assessment_info_dict_function END ===========================================')
+  return question_ids_str
+# ------------------------ individual function end ------------------------
 localhost_print_function('=========================================== sql_prep __init__ END ===========================================')
