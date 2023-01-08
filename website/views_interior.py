@@ -669,6 +669,41 @@ def candidates_assessment_preview_function(url_assessment_name, url_question_num
   if 'amazonaws.com' in assessment_info_dict['question_details_dict']['aws_image_url']:
     contains_img = True
   # ------------------------ check if contains img end ------------------------
+  # ------------------------ post hit admin control start ------------------------
+  if request.method == 'POST':
+    # ------------------------ get user inputs start ------------------------
+    ui_desired_actions_checkboxes_arr = request.form.getlist('uiAdminEditSelection')
+    # ------------------------ remove question id start ------------------------
+    if 'remove' in ui_desired_actions_checkboxes_arr:
+      if assessment_info_dict['total_questions'] == 1:
+        preview_assessment_error_statement = 'Test must contain at least 1 question.'
+      if assessment_info_dict['total_questions'] != 1:
+        current_question_id = assessment_info_dict['question_details_dict']['id']
+        all_current_question_ids_from_obj_str = db_assessment_obj.question_ids_arr
+        # remove the question id from str
+        all_current_question_ids_from_obj_str = all_current_question_ids_from_obj_str.replace(current_question_id, '')
+        # remove any leading, in between double, and trailing commas
+        if all_current_question_ids_from_obj_str[0] == ',':
+          all_current_question_ids_from_obj_str = all_current_question_ids_from_obj_str[1:]
+        if all_current_question_ids_from_obj_str[-1] == ',':
+          all_current_question_ids_from_obj_str = all_current_question_ids_from_obj_str[:-1]
+        all_current_question_ids_from_obj_str = all_current_question_ids_from_obj_str.replace(',,', ',')
+        # update total questions
+        current_question_count = int(assessment_info_dict['total_questions'])
+        corrected_current_question_count = str(current_question_count - 1)
+        # commit changes
+        db_assessment_obj.question_ids_arr = all_current_question_ids_from_obj_str
+        db_assessment_obj.total_questions = corrected_current_question_count
+        db.session.commit()
+        # redirect back to same page post changes
+        return redirect(url_for('views_interior.candidates_assessment_preview_function',url_assessment_name=url_assessment_name, url_question_number=url_question_number))
+    # ------------------------ remove question id end ------------------------
+    # ------------------------ add new question id start ------------------------
+    if 'add' in ui_desired_actions_checkboxes_arr:
+      print('add')
+    # ------------------------ add new question id end ------------------------
+    # ------------------------ get user inputs end ------------------------
+  # ------------------------ post hit admin control end ------------------------
   localhost_print_function('=========================================== candidates_assessment_preview_function END ===========================================')
   return render_template('candidates/interior/assessments/assessments_preview/index.html', user=current_user, users_company_name_to_html=user_company_name, error_message_to_html=preview_assessment_error_statement, stripe_subscription_obj_status_to_html=stripe_subscription_obj_status, current_question_number_to_html=url_question_number, next_question_number_to_html=next_question_number, previous_question_number_to_html=previous_question_number, url_assessment_name_to_html=url_assessment_name, assessment_info_dict_to_html=assessment_info_dict, contains_img_to_html=contains_img, assessment_total_questions_to_html=assessment_total_questions)
 # ------------------------ individual route end ------------------------
