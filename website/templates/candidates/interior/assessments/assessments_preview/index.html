@@ -19,7 +19,7 @@
         <a href="/candidates/assessment/preview/{{ url_assessment_name_to_html }}/{{ previous_question_number_to_html }}" class="btn btn-outline-secondary">< Back</a>
         {% endif %}
         {% if next_question_number_to_html == 'submit' %}
-        <a href="/candidates/assessment/preview/{{ url_assessment_name_to_html }}/submit" class="btn btn-primary custom-ml-3">Submit</a>
+        <a href="/candidates/assessment/review/{{ url_assessment_name_to_html }}" class="btn btn-primary custom-ml-3">Exit</a>
         {% else %}
         <a href="/candidates/assessment/preview/{{ url_assessment_name_to_html }}/{{ next_question_number_to_html }}" class="btn btn-primary custom-ml-3">Next ></a>
         {% endif %}
@@ -122,7 +122,7 @@
         </div>
         <div class="text-center custom-pb-4">
           <a href="/candidates/assessment/review/{{ url_assessment_name_to_html }}" class="btn btn-outline-secondary custom-m-1">Exit preview</a>
-          <button type="submit" class="btn btn-outline-primary custom-m-1">Submit</button>
+          <button type="submit" class="btn btn-outline-primary custom-m-1">Save</button>
         </div>
       </div>
     </form>

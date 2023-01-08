@@ -696,6 +696,10 @@ def candidates_assessment_preview_function(url_assessment_name, url_question_num
         db_assessment_obj.total_questions = corrected_current_question_count
         db.session.commit()
         # redirect back to same page post changes
+        if url_question_number == '1':
+          pass
+        else:
+          url_question_number = str(int(url_question_number) - 1)
         return redirect(url_for('views_interior.candidates_assessment_preview_function',url_assessment_name=url_assessment_name, url_question_number=url_question_number))
     # ------------------------ remove question id end ------------------------
     # ------------------------ add new question id start ------------------------
