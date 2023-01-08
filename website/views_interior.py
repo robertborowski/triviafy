@@ -735,6 +735,26 @@ def candidates_assessment_preview_function(url_assessment_name, url_question_num
       # ------------------------ action based on sql query result start ------------------------
       if add_question_id == None:
         preview_assessment_error_statement = 'All available questions for this category are already selected. Triviafy team will be making more questions for this category, thank you.'
+        # ------------------------ add row to requested categories start ------------------------
+        current_user_desired_langs_arr = CandidatesDesiredLanguagesObj.query.filter_by(user_id_fk=current_user.id).all()
+        # ------------------------ check if already requested start ------------------------
+        already_requested_flag = False
+        for i_obj in current_user_desired_langs_arr:
+          if i_obj.desired_languages == desired_languages_str:
+            already_requested_flag = True
+        # ------------------------ check if already requested end ------------------------
+        if already_requested_flag == False:
+          # ------------------------ new row db start ------------------------
+          new_row = CandidatesDesiredLanguagesObj(
+            id=create_uuid_function('langs_'),
+            created_timestamp=create_timestamp_function(),
+            user_id_fk=current_user.id,
+            desired_languages=desired_languages_str
+          )
+          db.session.add(new_row)
+          db.session.commit()
+          # ------------------------ new row db end ------------------------
+        # ------------------------ add row to requested categories end ------------------------
       else:
         # str of question ids
         new_question_ids_str = db_assessment_obj.question_ids_arr + f',{add_question_id}'
