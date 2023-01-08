@@ -32,6 +32,7 @@ import json
 import stripe
 import os
 from website.backend.candidates.aws_manipulation import candidates_change_uploaded_image_filename_function, candidates_user_upload_image_checks_aws_s3_function
+from website.backend.candidates.sql_statements.sql_prep import prepare_where_clause_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -540,15 +541,7 @@ def candidates_assessment_create_new_function(step_status):
     # ------------------------ sanitize/check user inputs end ------------------------
     # ------------------------ pull random assessment questions start ------------------------
     # ------------------------ prepare where statement start ------------------------
-    where_clause_arr = []
-    desired_langs_arr = ui_desired_languages_checkboxes_str.split(',')
-    master_where_statement = ''
-    for i in range(len(desired_langs_arr)):
-      if i == (len(desired_langs_arr) - 1):
-        master_where_statement += f"(categories LIKE '%{desired_langs_arr[i]}%')"
-      else:
-        master_where_statement += f"(categories LIKE '%{desired_langs_arr[i]}%') OR "
-    where_clause_arr.append(master_where_statement)
+    where_clause_arr = prepare_where_clause_function(ui_desired_languages_checkboxes_str)
     # ------------------------ prepare where statement end ------------------------
     # ------------------------ pull question obj from db start ------------------------
     query_result_arr_of_dicts = select_general_function('select_all_questions_for_x_categories_v3', where_clause_arr[0])
@@ -704,7 +697,7 @@ def candidates_assessment_preview_function(url_assessment_name, url_question_num
     # ------------------------ remove question id end ------------------------
     # ------------------------ add new question id start ------------------------
     if 'add' in ui_desired_actions_checkboxes_arr:
-      print('add')
+      desired_languages_str = db_assessment_obj.desired_languages_arr
     # ------------------------ add new question id end ------------------------
     # ------------------------ get user inputs end ------------------------
   # ------------------------ post hit admin control end ------------------------
