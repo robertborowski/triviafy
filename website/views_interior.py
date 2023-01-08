@@ -19,7 +19,7 @@ from website.backend.candidates.browser import browser_response_set_cookie_funct
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
 from website import db
-from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function, sanitize_create_account_text_inputs_function, sanitize_create_account_text_inputs_large_function, validate_upload_candidate_function, sanitize_loop_check_if_exists_within_arr_function, sanitize_check_if_str_exists_within_arr_function, check_if_question_id_arr_exists_function, sanitize_candidate_ui_answer_text_function, sanitize_candidate_ui_answer_radio_function, sanitize_create_question_categories_function, sanitize_create_question_question_function, sanitize_create_question_options_function, sanitize_create_question_answer_function, sanitize_create_question_difficulty_function, sanitize_create_question_option_e_function, sanitize_desired_langs_text_inputs_function
+from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function, sanitize_create_account_text_inputs_function, sanitize_create_account_text_inputs_large_function, validate_upload_candidate_function, sanitize_loop_check_if_exists_within_arr_function, sanitize_check_if_str_exists_within_arr_function, check_if_question_id_arr_exists_function, sanitize_candidate_ui_answer_text_function, sanitize_candidate_ui_answer_radio_function, sanitize_create_question_categories_function, sanitize_create_question_question_function, sanitize_create_question_options_function, sanitize_create_question_answer_function, sanitize_create_question_difficulty_function, sanitize_create_question_option_e_function, sanitize_desired_langs_text_inputs_function, sanitize_letters_numbers_spaces_only_function
 from website.backend.candidates.send_emails import send_email_template_function
 from werkzeug.security import generate_password_hash
 import pandas as pd
@@ -609,6 +609,25 @@ def candidates_assessment_create_review_function(url_assessment_name):
   except:
     pass
   # ------------------------ stripe subscription status check end ------------------------
+  # ------------------------ post submit start ------------------------
+  if request.method == 'POST':
+    # ------------------------ get user inputs start ------------------------
+    ui_name = request.form.get('uiName')
+    # ------------------------ get user inputs end ------------------------
+    # ------------------------ sanitize user inputs start ------------------------
+    if ui_name != db_assessment_obj.assessment_name:
+      ui_name = sanitize_letters_numbers_spaces_only_function(ui_name)
+      if ui_name == False:
+        review_assessment_error_statement = 'Test name should be 1-100 characters in length and contain only: letters/numbers/spaces.'
+      if ui_name != False:
+        ui_name = ui_name.strip()
+        db_assessment_obj.assessment_name = ui_name
+    # ------------------------ sanitize user inputs end ------------------------
+    if review_assessment_error_statement == '':
+      db_assessment_obj.status = 'final'
+      db.session.commit()
+      return redirect(url_for('views_interior.candidates_schedule_create_now_function'))
+  # ------------------------ post submit end ------------------------
   localhost_print_function('=========================================== candidates_assessment_create_review_function END ===========================================')
   return render_template('candidates/interior/assessments/assessments_create_review/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=review_assessment_error_statement, assessment_name_to_html=assessment_name, stripe_subscription_obj_status_to_html=stripe_subscription_obj_status, assessment_total_questions_to_html=assessment_total_questions)
 # ------------------------ individual route end ------------------------

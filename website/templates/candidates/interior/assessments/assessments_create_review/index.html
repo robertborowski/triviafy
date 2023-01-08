@@ -27,6 +27,13 @@
         <p class="text-nowrap custom-color-2-dark custom-header-5-mobile custom-mt-4">Review & confirm</p>
       </div>
     </div>
+    <!-- ----------------------------------- start ----------------------------------- -->
+    {% if error_message_to_html != '' %}
+    <div class="alert alert-danger mx-auto" role="alert">
+      {{ error_message_to_html }}
+    </div>
+    {% endif %}
+    <!-- ----------------------------------- end ----------------------------------- -->
     <div class="custom-width-10 mx-auto custom-ptb-3">
       <div class="custom-mb-6">
         <label for="uiName" class="form-label">Test name</label>

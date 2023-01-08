@@ -321,4 +321,18 @@ def check_if_question_id_arr_exists_function(user_input_arr):
   localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function END ===========================================')
   return True
 # ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def sanitize_letters_numbers_spaces_only_function(user_input):
+  localhost_print_function('=========================================== sanitize_letters_numbers_spaces_only_function START ===========================================')
+  if len(user_input) == 0 or len(user_input) > 100:
+    localhost_print_function('=========================================== sanitize_letters_numbers_spaces_only_function END ===========================================')
+    return False
+  desired_regex_pattern = "^[a-zA-Z0-9 ]{1,100}$"
+  if(re.fullmatch(desired_regex_pattern, user_input)):
+    localhost_print_function('=========================================== sanitize_letters_numbers_spaces_only_function END ===========================================')
+    return user_input
+  localhost_print_function('=========================================== sanitize_letters_numbers_spaces_only_function END ===========================================')
+  return False
+# ------------------------ individual function end ------------------------
 localhost_print_function('=========================================== user_inputs __init__ END ===========================================')
