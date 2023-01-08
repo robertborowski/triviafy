@@ -633,7 +633,7 @@ def candidates_assessment_preview_function(url_assessment_name, url_question_num
     next_question_number = 'submit'
   # ------------------------ pull assessment obj end ------------------------
   # ------------------------ redirect to latest if url number is not found start ------------------------
-  if str(url_question_number) > str(assessment_total_questions):
+  if int(url_question_number) > int(assessment_total_questions):
     return redirect(url_for('views_interior.candidates_assessment_preview_function',url_assessment_name=url_assessment_name, url_question_number=assessment_total_questions))
   # ------------------------ redirect to latest if url number is not found end ------------------------
   # ------------------------ assign assessment info to dict start ------------------------
@@ -718,11 +718,9 @@ def candidates_assessment_preview_function(url_assessment_name, url_question_num
         preview_assessment_error_statement = 'All available questions for this category are already selected. Triviafy team will be making more questions for this category, thank you.'
       else:
         # str of question ids
-        current_question_ids_str = db_assessment_obj.question_ids_arr
-        new_question_ids_str = current_question_ids_str + f',{add_question_id}'
+        new_question_ids_str = db_assessment_obj.question_ids_arr + f',{add_question_id}'
         # total questions
-        current_total_questions_count = int(db_assessment_obj.total_questions)
-        new_total_question_count = str(current_total_questions_count + 1)
+        new_total_question_count = str(int(db_assessment_obj.total_questions) + 1)
         # update db
         db_assessment_obj.question_ids_arr = new_question_ids_str
         db_assessment_obj.total_questions = new_total_question_count
