@@ -1,0 +1,31 @@
+{% extends "candidates/aaa_base/base2_interior.html" %}
+<!-- head tag block content -->
+{% block title %}
+  <title>Create Assessment / Triviafy</title>
+{% endblock %}
+{% block contentBodyExceptNavbarAndFooter %}
+<form method="POST" enctype="multipart/form-data">
+  <div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
+    <h2 class="custom-header-2-mobile">Custom questions</h2>
+    {% if total_questions_created_to_html == 0 %}
+    <button class="btn btn-secondary" disabled>Add to test</button>
+    {% else %}
+    <button type="submit" class="btn btn-primary">Add to test</button>
+    {% endif %}
+  </div>
+  <div class="container border shadow custom-br-1 custom-bg-white">
+    {% if stripe_subscription_obj_status_to_html == 'active' %}
+    {% if total_questions_created_to_html == 0 %}
+    <div class="text-center custom-ptb-5">
+      <p class="fst-italic custom-color-light-1 custom-header-5">You have not created any questions yet.</p>
+      <a href="#" class="btn btn-primary btn-lg">Create +</a>
+    </div>
+    {% endif %}
+    {% else %}
+    <div class="custom-border-1 text-center">
+      <p>redirect to subscription page</p>
+    </div>
+    {% endif %}
+  </div>
+</form>
+{% endblock %}

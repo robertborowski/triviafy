@@ -608,6 +608,9 @@ def candidates_assessment_create_review_function(url_assessment_name):
     stripe_subscription_obj_status = stripe_subscription_obj.status
   except:
     pass
+  # ------------------------ delete this, only for testing start ------------------------
+  stripe_subscription_obj_status = 'active'
+  # ------------------------ delete this, only for testing end ------------------------
   # ------------------------ stripe subscription status check end ------------------------
   # ------------------------ post submit start ------------------------
   if request.method == 'POST':
@@ -1796,4 +1799,35 @@ def candidates_create_question_function():
     # ------------------------ add to db end ------------------------
   localhost_print_function('=========================================== candidates_create_question_function END ===========================================')
   return render_template('candidates/interior/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@views_interior.route('/candidates/question/create/dashboard', methods=['GET', 'POST'])
+@login_required
+def candidates_create_question_dashboard_function():
+  localhost_print_function('=========================================== candidates_create_question_dashboard_function START ===========================================')
+  page_error_statement = ''
+  # ------------------------ pull from db start ------------------------
+  db_obj_arr = CandidatesCreatedQuestionsObj.query.filter_by(fk_user_id=current_user.id).all()
+  total_questions_created = len(db_obj_arr)
+  # ------------------------ pull from db end ------------------------
+  # ------------------------ stripe subscription status check start ------------------------
+  fk_stripe_subscription_id = current_user.fk_stripe_subscription_id
+  stripe_subscription_obj = ''
+  stripe_subscription_obj_status = 'not active'
+  try:
+    stripe_subscription_obj = stripe.Subscription.retrieve(fk_stripe_subscription_id)
+    stripe_subscription_obj_status = stripe_subscription_obj.status
+  except:
+    pass
+  # ------------------------ delete this, only for testing start ------------------------
+  stripe_subscription_obj_status = 'active'
+  # ------------------------ delete this, only for testing end ------------------------
+  # ------------------------ stripe subscription status check end ------------------------
+  # ------------------------ post submit start ------------------------
+  if request.method == 'POST':
+    pass
+  # ------------------------ post submit end ------------------------
+  localhost_print_function('=========================================== candidates_create_question_dashboard_function END ===========================================')
+  return render_template('candidates/interior/create_question_dashboard/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=page_error_statement, stripe_subscription_obj_status_to_html=stripe_subscription_obj_status, total_questions_created_to_html=total_questions_created)
 # ------------------------ individual route end ------------------------
