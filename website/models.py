@@ -147,7 +147,6 @@ class CandidatesCreatedQuestionsObj(db.Model):
   status = db.Column(db.Boolean, default=False)
   categories = db.Column(db.String(150))
   title = db.Column(db.String(150))
-  difficulty = db.Column(db.String(20))
   question = db.Column(db.String(1000))
   option_a = db.Column(db.String(280))
   option_b = db.Column(db.String(280))
@@ -157,6 +156,7 @@ class CandidatesCreatedQuestionsObj(db.Model):
   answer = db.Column(db.String(10))
   aws_image_uuid = db.Column(db.String(150))
   aws_image_url = db.Column(db.String(150))
+  submission = db.Column(db.String(20))
 # ------------------------ individual model end ------------------------
 # ------------------------ models end ------------------------
 
