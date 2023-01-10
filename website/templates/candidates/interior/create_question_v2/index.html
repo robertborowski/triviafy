@@ -48,30 +48,35 @@
       </div>
       <div class="custom-width-11-mobile custom-p-5">
         <div>
-          <div class="custom-mb-6">
-            <input type="radio" class="btn-check" id="candidate_answer_choice_a" name="ui_answer_choice_selected" value="a" autocomplete="off" required>
-            <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_a">A: Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, adipisci.</label>
+          <!-- ------------------------------------- options start ------------------------------------- -->
+          <div class="form-floating">
+            <textarea class="form-control" id="ui_create_question_option_a" name="ui_create_question_option_a" placeholder="Option A*" onkeyup="createQuestionCountCharsOptionA(this);" pattern="{1,280}" required></textarea>
+            <label for="ui_create_question_option_a">Option A*</label>
+            <p id="createQuestionCountCharsOptionA" class="custom-size-3 custom-color-light-1 fst-italic custom-mt-2 custom-ml-2"></p>
           </div>
-
-          <div class="custom-mb-6">
-            <input type="radio" class="btn-check" id="candidate_answer_choice_b" name="ui_answer_choice_selected" value="b" autocomplete="off" required>
-            <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_b">B: Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cupiditate, animi!</label>
+          <div class="form-floating">
+            <textarea class="form-control" id="ui_create_question_option_b" name="ui_create_question_option_b" placeholder="Option B*" onkeyup="createQuestionCountCharsOptionB(this);" pattern="{1,280}" required></textarea>
+            <label for="ui_create_question_option_b">Option B*</label>
+            <p id="createQuestionCountCharsOptionB" class="custom-size-3 custom-color-light-1 fst-italic custom-mt-2 custom-ml-2"></p>
           </div>
-
-          <div class="custom-mb-6">
-            <input type="radio" class="btn-check" id="candidate_answer_choice_c" name="ui_answer_choice_selected" value="d" autocomplete="off" required>
-            <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_c">C: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet, omnis.</label>
+          <div class="form-floating">
+            <textarea class="form-control" id="ui_create_question_option_c" name="ui_create_question_option_c" placeholder="Option C*" onkeyup="createQuestionCountCharsOptionC(this);" pattern="{1,280}" required></textarea>
+            <label for="ui_create_question_option_c">Option C*</label>
+            <p id="createQuestionCountCharsOptionC" class="custom-size-3 custom-color-light-1 fst-italic custom-mt-2 custom-ml-2"></p>
           </div>
-
-          <div class="custom-mb-6">
-            <input type="radio" class="btn-check" id="candidate_answer_choice_d" name="ui_answer_choice_selected" value="d" autocomplete="off" required>
-            <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_d">D: Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum, provident.</label>
+          <div class="form-floating">
+            <textarea class="form-control" id="ui_create_question_option_d" name="ui_create_question_option_d" placeholder="Option D*" onkeyup="createQuestionCountCharsOptionD(this);" pattern="{1,280}" required></textarea>
+            <label for="ui_create_question_option_d">Option D*</label>
+            <p id="createQuestionCountCharsOptionD" class="custom-size-3 custom-color-light-1 fst-italic custom-mt-2 custom-ml-2"></p>
           </div>
-
-          <div class="custom-mb-6">
-            <input type="radio" class="btn-check" id="candidate_answer_choice_e" name="ui_answer_choice_selected" value="e" autocomplete="off" required>
-            <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_e">E: Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, ab.</label>
+          <div class="form-floating">
+            <textarea class="form-control" id="ui_create_question_option_e" name="ui_create_question_option_e" placeholder="Option E*" onkeyup="createQuestionCountCharsOptionE(this);" pattern="{1,280}"></textarea>
+            <label for="ui_create_question_option_e">Option E (Optional)</label>
+            <p id="createQuestionCountCharsOptionE" class="custom-size-3 custom-color-light-1 fst-italic custom-mt-2 custom-ml-2"></p>
           </div>
+          <!-- ------------------------------------- options end ------------------------------------- -->
+          <!-- ------------------------------------- correct radio start ------------------------------------- -->
+          <!-- ------------------------------------- correct radio end ------------------------------------- -->
         </div>
       </div>
     </div>
