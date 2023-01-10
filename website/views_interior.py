@@ -33,6 +33,7 @@ import stripe
 import os
 from website.backend.candidates.aws_manipulation import candidates_change_uploaded_image_filename_function, candidates_user_upload_image_checks_aws_s3_function
 from website.backend.candidates.sql_statements.sql_prep import prepare_where_clause_function, prepare_question_ids_where_clause_function
+from website.backend.candidates.stripe import check_stripe_subscription_status_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -600,17 +601,7 @@ def candidates_assessment_create_review_function(url_assessment_name):
   assessment_total_questions = db_assessment_obj.total_questions
   # ------------------------ pull assessment obj end ------------------------
   # ------------------------ stripe subscription status check start ------------------------
-  fk_stripe_subscription_id = current_user.fk_stripe_subscription_id
-  stripe_subscription_obj = ''
-  stripe_subscription_obj_status = 'not active'
-  try:
-    stripe_subscription_obj = stripe.Subscription.retrieve(fk_stripe_subscription_id)
-    stripe_subscription_obj_status = stripe_subscription_obj.status
-  except:
-    pass
-  # ------------------------ delete this, only for testing start ------------------------
-  stripe_subscription_obj_status = 'active'
-  # ------------------------ delete this, only for testing end ------------------------
+  stripe_subscription_obj_status = check_stripe_subscription_status_function(current_user)
   # ------------------------ stripe subscription status check end ------------------------
   # ------------------------ post submit start ------------------------
   if request.method == 'POST':
@@ -670,14 +661,7 @@ def candidates_assessment_preview_function(url_assessment_name, url_question_num
     # ------------------------ once all questions answered end ------------------------
   # ------------------------ assign assessment info to dict end ------------------------
   # ------------------------ stripe subscription status check start ------------------------
-  fk_stripe_subscription_id = current_user.fk_stripe_subscription_id
-  stripe_subscription_obj = ''
-  stripe_subscription_obj_status = 'not active'
-  try:
-    stripe_subscription_obj = stripe.Subscription.retrieve(fk_stripe_subscription_id)
-    stripe_subscription_obj_status = stripe_subscription_obj.status
-  except:
-    pass
+  stripe_subscription_obj_status = check_stripe_subscription_status_function(current_user)
   # ------------------------ stripe subscription status check end ------------------------
   # ------------------------ if subscription not paid start ------------------------
   if stripe_subscription_obj_status != 'active':
@@ -1812,17 +1796,7 @@ def candidates_create_question_dashboard_function():
   total_questions_created = len(db_obj_arr)
   # ------------------------ pull from db end ------------------------
   # ------------------------ stripe subscription status check start ------------------------
-  fk_stripe_subscription_id = current_user.fk_stripe_subscription_id
-  stripe_subscription_obj = ''
-  stripe_subscription_obj_status = 'not active'
-  try:
-    stripe_subscription_obj = stripe.Subscription.retrieve(fk_stripe_subscription_id)
-    stripe_subscription_obj_status = stripe_subscription_obj.status
-  except:
-    pass
-  # ------------------------ delete this, only for testing start ------------------------
-  stripe_subscription_obj_status = 'active'
-  # ------------------------ delete this, only for testing end ------------------------
+  stripe_subscription_obj_status = check_stripe_subscription_status_function(current_user)
   # ------------------------ stripe subscription status check end ------------------------
   # ------------------------ post submit start ------------------------
   if request.method == 'POST':
@@ -1830,4 +1804,145 @@ def candidates_create_question_dashboard_function():
   # ------------------------ post submit end ------------------------
   localhost_print_function('=========================================== candidates_create_question_dashboard_function END ===========================================')
   return render_template('candidates/interior/create_question_dashboard/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=page_error_statement, stripe_subscription_obj_status_to_html=stripe_subscription_obj_status, total_questions_created_to_html=total_questions_created)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@views_interior.route('/candidates/question/create/v2', methods=['GET', 'POST'])
+@login_required
+def candidates_create_question_function_v2():
+  localhost_print_function('=========================================== candidates_create_question_function_v2 START ===========================================')
+  # ------------------------ stripe subscription status check start ------------------------
+  stripe_subscription_obj_status = check_stripe_subscription_status_function(current_user)
+  # ------------------------ stripe subscription status check end ------------------------
+  # ------------------------ redirect if not subscribed start ------------------------
+  if stripe_subscription_obj_status != 'active':
+    localhost_print_function('=========================================== candidates_create_question_function_v2 END ===========================================')
+    return redirect(url_for('views_interior.login_dashboard_page_function'))
+  # ------------------------ redirect if not subscribed end ------------------------
+  ui_question_error_statement = ''
+  ui_question_success_statement = ''
+  ui_create_question_dict = {}
+  if request.method == 'POST':
+    # ------------------------ get user inputs start ------------------------
+    ui_title = request.form.get('ui_create_question_title')             # str
+    ui_categories = request.form.get('ui_create_question_categories')   # str
+    ui_question = request.form.get('ui_create_question_question')       # str
+    ui_option_a = request.form.get('ui_create_question_option_a')       # str
+    ui_option_b = request.form.get('ui_create_question_option_b')       # str
+    ui_option_c = request.form.get('ui_create_question_option_c')       # str
+    ui_option_d = request.form.get('ui_create_question_option_d')       # str
+    ui_option_e = request.form.get('ui_create_question_option_e')       # str
+    ui_answer = request.form.get('ui_create_question_answer')           # str
+    ui_difficulty = request.form.get('ui_create_question_difficulty')   # str
+    # ------------------------ get user inputs end ------------------------
+    # ------------------------ set ui dict start ------------------------
+    ui_create_question_dict = {
+      'ui_title' : ui_title,
+      'ui_categories' : ui_categories,
+      'ui_question' : ui_question,
+      'ui_option_a' : ui_option_a,
+      'ui_option_b' : ui_option_b,
+      'ui_option_c' : ui_option_c,
+      'ui_option_d' : ui_option_d,
+      'ui_option_e' : ui_option_e,
+      'ui_answer' : ui_answer,
+      'ui_difficulty' : ui_difficulty
+    }
+    # ------------------------ set ui dict end ------------------------
+    # ------------------------ sanitize user inputs start ------------------------
+    if ui_option_e == '' or ui_option_e == None:
+      ui_option_e = None
+    ui_title_checked = sanitize_create_question_categories_function(ui_title)
+    ui_categories_checked = sanitize_create_question_categories_function(ui_categories)
+    ui_question_checked = sanitize_create_question_question_function(ui_question)
+    ui_option_a_checked = sanitize_create_question_options_function(ui_option_a)
+    ui_option_b_checked = sanitize_create_question_options_function(ui_option_b)
+    ui_option_c_checked = sanitize_create_question_options_function(ui_option_c)
+    ui_option_d_checked = sanitize_create_question_options_function(ui_option_d)
+    ui_option_e_checked = sanitize_create_question_option_e_function(ui_option_e)
+    ui_answer_checked = sanitize_create_question_answer_function(ui_answer)
+    ui_difficulty_checked = sanitize_create_question_difficulty_function(ui_difficulty)
+    # ------------------------ sanitize user inputs end ------------------------
+    # ------------------------ double check e start ------------------------
+    if ui_option_e == None and ui_answer_checked.lower() == 'e':
+      ui_question_error_statement = 'Invalid answer choice'
+      localhost_print_function('=========================================== candidates_create_question_function_v2 END ===========================================')
+      return render_template('candidates/interior/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
+    # ------------------------ double check e end ------------------------
+    # ------------------------ if invalid inputs start ------------------------
+    if ui_title_checked == False or ui_categories_checked == False or ui_question_checked == False or ui_option_a_checked == False or ui_option_b_checked == False or ui_option_c_checked == False or ui_option_d_checked == False or ui_option_e_checked == False or ui_answer_checked == False or ui_difficulty_checked == False:
+      ui_question_error_statement = 'Invalid input(s)'
+      localhost_print_function('=========================================== candidates_create_question_function_v2 END ===========================================')
+      return render_template('candidates/interior/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
+    # ------------------------ if invalid inputs end ------------------------
+    # ------------------------ define variable for insert start ------------------------
+    final_id = create_uuid_function('questionid_')
+    # ------------------------ define variable for insert end ------------------------
+    # ------------------------ ui uploaded image start ------------------------
+    create_question_uploaded_image_aws_url = ''
+    create_question_uploaded_image_uuid = ''
+    try:
+      if request.files:
+        if "filesize" in request.cookies:
+          # ------------------------ ui file start ------------------------
+          image = request.files["ui_image_upload"]
+          # ------------------------ ui file end ------------------------
+          # ------------------------ if no image attached start ------------------------
+          if image.filename == '' or image.filename == ' ' or image.filename == None:
+            ui_question_error_statement = 'Question must contain an image.'
+            localhost_print_function('=========================================== candidates_create_question_function_v2 END ===========================================')
+            return render_template('candidates/interior/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
+          # ------------------------ if no image attached end ------------------------
+          # ------------------------ if image attached start ------------------------
+          else:
+            # Keep track of the original filename that someone is uploading
+            create_question_upload_image_original_filename = image.filename
+            # Create image uuid to store in aws
+            create_question_uploaded_image_uuid = '_user_uploaded_image_' + final_id
+            # Change the name of the image from whatever the user uploaded to the question uuid as name
+            image = candidates_change_uploaded_image_filename_function(image, create_question_uploaded_image_uuid)
+            # Get image filesize
+            file_size = request.cookies["filesize"]
+            # Check and upload the user file image
+            user_image_upload_status = candidates_user_upload_image_checks_aws_s3_function(image, file_size)
+            # ------------------------ if image checks fail start ------------------------
+            if user_image_upload_status == False:
+              localhost_print_function('=========================================== candidates_create_question_function_v2 END ===========================================')
+              return render_template('candidates/interior/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
+            # ------------------------ if image checks fail end ------------------------
+            # Finalize image variables
+            create_question_uploaded_image_aws_url = 'https://' + os.environ.get('AWS_TRIVIAFY_BUCKET_NAME') + '.s3.' + os.environ.get('AWS_TRIVIAFY_REGION') + '.amazonaws.com/' + image.filename
+          # ------------------------ if image attached end ------------------------
+    except:
+      localhost_print_function('did not upload img')
+      pass
+    # ------------------------ ui uploaded image end ------------------------
+    # ------------------------ add to db start ------------------------
+    try:
+      insert_new_row = CandidatesCreatedQuestionsObj(
+        id=final_id,
+        created_timestamp=create_timestamp_function(),
+        fk_user_id = current_user.id,
+        status = False,
+        categories = ui_categories,
+        title = ui_title,
+        difficulty = ui_difficulty,
+        question = ui_question,
+        option_a = ui_option_a,
+        option_b = ui_option_b,
+        option_c = ui_option_c,
+        option_d = ui_option_d,
+        answer = ui_answer.upper(),
+        aws_image_uuid = create_question_uploaded_image_uuid,
+        aws_image_url = create_question_uploaded_image_aws_url
+      )
+      db.session.add(insert_new_row)
+      db.session.commit()
+      ui_question_success_statement = 'Successfully created question'
+    except:
+      localhost_print_function('did not create question in db')
+      pass
+    # ------------------------ add to db end ------------------------
+  localhost_print_function('=========================================== candidates_create_question_function_v2 END ===========================================')
+  return render_template('candidates/interior/create_question_v2/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
 # ------------------------ individual route end ------------------------
