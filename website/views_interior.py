@@ -1819,6 +1819,11 @@ def candidates_create_question_function_v2():
     localhost_print_function('=========================================== candidates_create_question_function_v2 END ===========================================')
     return redirect(url_for('views_interior.login_dashboard_page_function'))
   # ------------------------ redirect if not subscribed end ------------------------
+  # ------------------------ variables start ------------------------
+  user_company_name = current_user.company_name
+  if len(user_company_name) > 15:
+    user_company_name = user_company_name[:14] + '...'
+  # ------------------------ variables end ------------------------
   ui_question_error_statement = ''
   ui_question_success_statement = ''
   ui_create_question_dict = {}
@@ -1944,5 +1949,5 @@ def candidates_create_question_function_v2():
       pass
     # ------------------------ add to db end ------------------------
   localhost_print_function('=========================================== candidates_create_question_function_v2 END ===========================================')
-  return render_template('candidates/interior/create_question_v2/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
+  return render_template('candidates/interior/create_question_v2/index.html', user=current_user, users_company_name_to_html=user_company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
 # ------------------------ individual route end ------------------------
