@@ -1670,6 +1670,7 @@ def candidates_categories_request_function():
 @login_required
 def candidates_create_question_function():
   localhost_print_function('=========================================== candidates_create_question_function START ===========================================')
+  return redirect(url_for('views.dashboard_test_login_page_function'))
   # ------------------------ delete all assessments that have been started by this user so far but abandoned start ------------------------
   CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr=None).delete()
   CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,question_ids_arr='').delete()
