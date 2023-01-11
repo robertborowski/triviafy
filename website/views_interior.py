@@ -1800,13 +1800,25 @@ def candidates_create_question_dashboard_function():
   localhost_print_function('=========================================== candidates_create_question_dashboard_function START ===========================================')
   page_error_statement = ''
   # ------------------------ delete questions still draft start ------------------------
-  db_obj_arr = CandidatesCreatedQuestionsObj.query.filter_by(fk_user_id=current_user.id,submission='draft').delete()
+  db_questions_obj_arr = CandidatesCreatedQuestionsObj.query.filter_by(fk_user_id=current_user.id,submission='draft').delete()
   db.session.commit()
   # ------------------------ delete questions still draft end ------------------------
   # ------------------------ pull from db start ------------------------
-  db_obj_arr = CandidatesCreatedQuestionsObj.query.filter_by(fk_user_id=current_user.id).all()
-  total_questions_created = len(db_obj_arr)
+  db_questions_obj_arr = CandidatesCreatedQuestionsObj.query.filter_by(fk_user_id=current_user.id).order_by(CandidatesCreatedQuestionsObj.created_timestamp.desc()).all()
+  total_questions_created = len(db_questions_obj_arr)
   # ------------------------ pull from db end ------------------------
+  # ------------------------ loop through each obj and remove info start ------------------------
+  for i_obj in db_questions_obj_arr:
+    i_obj.fk_user_id = None
+  # ------------------------ loop through each obj and remove info end ------------------------
+  # ------------------------ pull from db start ------------------------
+  db_test_drafts_obj_arr = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,status='draft').all()
+  # ------------------------ pull from db end ------------------------
+  # ------------------------ loop through each obj and remove info start ------------------------
+  for i_obj in db_test_drafts_obj_arr:
+    i_obj.id = None
+    i_obj.user_id_fk = None
+  # ------------------------ loop through each obj and remove info end ------------------------
   # ------------------------ stripe subscription status check start ------------------------
   stripe_subscription_obj_status = check_stripe_subscription_status_function(current_user)
   # ------------------------ stripe subscription status check end ------------------------
@@ -1815,7 +1827,7 @@ def candidates_create_question_dashboard_function():
     pass
   # ------------------------ post submit end ------------------------
   localhost_print_function('=========================================== candidates_create_question_dashboard_function END ===========================================')
-  return render_template('candidates/interior/create_question_dashboard/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=page_error_statement, stripe_subscription_obj_status_to_html=stripe_subscription_obj_status, total_questions_created_to_html=total_questions_created)
+  return render_template('candidates/interior/create_question_dashboard/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=page_error_statement, stripe_subscription_obj_status_to_html=stripe_subscription_obj_status, total_questions_created_to_html=total_questions_created, db_questions_obj_arr_to_html=db_questions_obj_arr, db_test_drafts_obj_arr_to_html=db_test_drafts_obj_arr)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
