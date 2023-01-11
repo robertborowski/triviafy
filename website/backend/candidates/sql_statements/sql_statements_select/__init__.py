@@ -30,7 +30,7 @@ def select_general_function(tag_query_to_use, additional_input=None):
     },
     'select_specific_assessment_questions_v2': {
       'raw_query': f"SELECT \
-                      id, categories, question, difficulty, title, aws_image_url, answer, option_a, option_b, option_c, option_d, option_e \
+                      id, categories, question, title, aws_image_url, answer, option_a, option_b, option_c, option_d \
                     FROM \
                       candidates_created_questions_obj \
                     WHERE \
@@ -73,7 +73,7 @@ def select_general_function(tag_query_to_use, additional_input=None):
     },
     'select_all_questions_for_x_categories_v2': {
       'raw_query': f"SELECT \
-                      id, categories, question, difficulty, title, aws_image_url, answer, option_a, option_b, option_c, option_d, option_e \
+                      id, categories, question, title, aws_image_url, answer, option_a, option_b, option_c, option_d, option_e \
                     FROM \
                       candidates_created_questions_obj \
                     WHERE \
