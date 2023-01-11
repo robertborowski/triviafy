@@ -90,11 +90,6 @@
             <input type="radio" id="candidate_answer_choice_d{{ i['question_counter'] }}" name="ui_answer_choice_selected_{{ i['question_counter'] }}" value="d">
             <label for="candidate_answer_choice_d{{ i['question_counter'] }}" class="mcq-radio-label">D: {{ i['option_d'] }}</label>
             {% endif %}
-
-            {% if i['option_e'] != None %}
-            <input type="radio" id="candidate_answer_choice_e{{ i['question_counter'] }}" name="ui_answer_choice_selected_{{ i['question_counter'] }}" value="e">
-            <label for="candidate_answer_choice_e{{ i['question_counter'] }}" class="mcq-radio-label">E: {{ i['option_e'] }}</label>
-            {% endif %}
           </div>
           <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - multiple choice question radio end -->
           {% if user_sub_active_to_html == true %}
