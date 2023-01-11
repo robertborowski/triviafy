@@ -672,6 +672,11 @@ def candidates_assessment_preview_function(url_assessment_name, url_question_num
   if 'amazonaws.com' in assessment_info_dict['question_details_dict']['aws_image_url']:
     contains_img = True
   # ------------------------ check if contains img end ------------------------
+  # ------------------------ option e fix start ------------------------
+  current_option_e = assessment_info_dict['question_details_dict']['option_e']
+  if len(current_option_e) == 0:
+    assessment_info_dict['question_details_dict']['option_e'] = None
+  # ------------------------ option e fix end ------------------------
   # ------------------------ post hit admin control start ------------------------
   if request.method == 'POST':
     # ------------------------ get user inputs start ------------------------
