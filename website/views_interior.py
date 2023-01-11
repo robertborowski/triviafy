@@ -1824,7 +1824,18 @@ def candidates_create_question_dashboard_function():
   # ------------------------ stripe subscription status check end ------------------------
   # ------------------------ post submit start ------------------------
   if request.method == 'POST':
-    pass
+    # ------------------------ get form user inputs start ------------------------
+    ui_questions_to_add_arr = request.form.getlist('uiQuestionSelected')
+    ui_test_add_to = request.form.get('uiTestSelected')
+    localhost_print_function('- - - - - - - 0 - - - - - - -')
+    localhost_print_function(f'ui_questions_to_add_arr | type: {type(ui_questions_to_add_arr)} | {ui_questions_to_add_arr}')
+    localhost_print_function(f'ui_test_add_to | type: {type(ui_test_add_to)} | {ui_test_add_to}')
+    localhost_print_function('- - - - - - - 0 - - - - - - -')
+    if len(ui_questions_to_add_arr) == 0 or ui_questions_to_add_arr == []:
+      page_error_statement = 'Please select at least one custom question.'
+    else:
+      pass
+    # ------------------------ get form user inputs end ------------------------
   # ------------------------ post submit end ------------------------
   localhost_print_function('=========================================== candidates_create_question_dashboard_function END ===========================================')
   return render_template('candidates/interior/create_question_dashboard/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=page_error_statement, stripe_subscription_obj_status_to_html=stripe_subscription_obj_status, total_questions_created_to_html=total_questions_created, db_questions_obj_arr_to_html=db_questions_obj_arr, db_test_drafts_obj_arr_to_html=db_test_drafts_obj_arr)

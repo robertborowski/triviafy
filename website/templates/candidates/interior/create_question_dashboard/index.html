@@ -5,6 +5,13 @@
 {% endblock %}
 {% block contentBodyExceptNavbarAndFooter %}
 <form method="POST" enctype="multipart/form-data">
+  <!-- ----------------------------------- start ----------------------------------- -->
+  {% if error_message_to_html != '' %}
+  <div class="container alert alert-danger mx-auto text-center custom-mt-1" role="alert">
+    {{ error_message_to_html }}
+  </div>
+  {% endif %}
+  <!-- ----------------------------------- end ----------------------------------- -->
   <div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
     <h2 class="custom-header-2-mobile">Custom questions</h2>
     {% if total_questions_created_to_html == 0 %}
