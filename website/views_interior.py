@@ -1809,15 +1809,17 @@ def candidates_create_question_dashboard_function():
   # ------------------------ pull from db end ------------------------
   # ------------------------ loop through each obj and remove info start ------------------------
   for i_obj in db_questions_obj_arr:
-    i_obj.fk_user_id = None
+    pass
+    # i_obj.fk_user_id = None
   # ------------------------ loop through each obj and remove info end ------------------------
   # ------------------------ pull from db start ------------------------
   db_test_drafts_obj_arr = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,status='draft').all()
   # ------------------------ pull from db end ------------------------
   # ------------------------ loop through each obj and remove info start ------------------------
   for i_obj in db_test_drafts_obj_arr:
-    i_obj.id = None
-    i_obj.user_id_fk = None
+    pass
+    # i_obj.id = None
+    # i_obj.user_id_fk = None
   # ------------------------ loop through each obj and remove info end ------------------------
   # ------------------------ stripe subscription status check start ------------------------
   stripe_subscription_obj_status = check_stripe_subscription_status_function(current_user)
@@ -1827,15 +1829,32 @@ def candidates_create_question_dashboard_function():
     # ------------------------ get form user inputs start ------------------------
     ui_questions_to_add_arr = request.form.getlist('uiQuestionSelected')
     ui_test_add_to = request.form.get('uiTestSelected')
+    # ------------------------ get form user inputs end ------------------------
     localhost_print_function('- - - - - - - 0 - - - - - - -')
     localhost_print_function(f'ui_questions_to_add_arr | type: {type(ui_questions_to_add_arr)} | {ui_questions_to_add_arr}')
     localhost_print_function(f'ui_test_add_to | type: {type(ui_test_add_to)} | {ui_test_add_to}')
     localhost_print_function('- - - - - - - 0 - - - - - - -')
+    # ------------------------ check valid inputs start ------------------------
     if len(ui_questions_to_add_arr) == 0 or ui_questions_to_add_arr == []:
       page_error_statement = 'Please select at least one custom question.'
     else:
-      pass
-    # ------------------------ get form user inputs end ------------------------
+      # ------------------------ check valid inputs question start ------------------------
+      for i in ui_questions_to_add_arr:
+        db_question_obj_exists_check = CandidatesCreatedQuestionsObj.query.get(i)
+        if db_question_obj_exists_check == None:
+          break
+      if db_question_obj_exists_check == None:
+        page_error_statement = 'Invalid question ID submitted.'
+      # ------------------------ check valid inputs question end ------------------------
+      else:
+        # ------------------------ check valid inputs test start ------------------------
+        db_test_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,assessment_name=ui_test_add_to).first()
+        if db_test_obj == None:
+          page_error_statement = 'Invalid test name submitted.'
+        # ------------------------ check valid inputs test end ------------------------
+        else:
+          localhost_print_function(db_test_obj)
+    # ------------------------ check valid inputs end ------------------------
   # ------------------------ post submit end ------------------------
   localhost_print_function('=========================================== candidates_create_question_dashboard_function END ===========================================')
   return render_template('candidates/interior/create_question_dashboard/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=page_error_statement, stripe_subscription_obj_status_to_html=stripe_subscription_obj_status, total_questions_created_to_html=total_questions_created, db_questions_obj_arr_to_html=db_questions_obj_arr, db_test_drafts_obj_arr_to_html=db_test_drafts_obj_arr)
