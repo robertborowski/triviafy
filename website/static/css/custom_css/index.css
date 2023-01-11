@@ -181,6 +181,12 @@
 .custom-height-4 {
   height: 300px;
 }
+.custom-height-4-mobile {
+  height: 600px;
+}
+.custom-height-5-mobile {
+  height: 450px;
+}
 /* ------------------- height end ------------------- */
 /* ------------------- img start ------------------- */
 .custom-img-size-1 {
@@ -340,6 +346,11 @@
   margin-top: 7px;
 }
 /* ------------------- margin end ------------------- */
+/* ------------------- overflow start ------------------- */
+.custom-overflow-1 {
+  overflow: scroll;
+}
+/* ------------------- overflow end ------------------- */
 /* ------------------- padding start ------------------- */
 .custom-p-1 {
   padding: 10px;

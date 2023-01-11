@@ -20,6 +20,12 @@
     .custom-height-3-mobile {
       height: 1100px;
     }
+    .custom-height-4-mobile {
+      height: 1000px;
+    }
+    .custom-height-5-mobile {
+      height: 350px;
+    }
     .custom-img-size-7-mobile {
       max-height: 200px;
     }
