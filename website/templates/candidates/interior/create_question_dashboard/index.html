@@ -10,7 +10,10 @@
     {% if total_questions_created_to_html == 0 %}
     <button class="btn btn-secondary" disabled>Add to test</button>
     {% else %}
-    <button type="submit" class="btn btn-primary">Add to test</button>
+    <div>
+      <a href="/candidates/question/create/v2" class="btn btn-outline-primary">Create +</a>
+      <button type="submit" class="btn btn-primary custom-ml-3">Add to test</button>
+    </div>
     {% endif %}
   </div>
   <div class="container border shadow custom-br-1 custom-bg-white">
