@@ -159,7 +159,7 @@ def sanitize_candidate_ui_answer_text_function(user_input):
 # ------------------------ individual function start ------------------------
 def sanitize_create_question_categories_function(user_input):
   localhost_print_function('=========================================== sanitize_create_question_categories_function START ===========================================')
-  if len(user_input) == 0 or len(user_input) > 150:
+  if len(user_input) == 0 or len(user_input) > 50:
     localhost_print_function('=========================================== sanitize_create_question_categories_function END ===========================================')
     return False
   localhost_print_function('=========================================== sanitize_create_question_categories_function END ===========================================')
@@ -169,7 +169,7 @@ def sanitize_create_question_categories_function(user_input):
 # ------------------------ individual function start ------------------------
 def sanitize_create_question_question_function(user_input):
   localhost_print_function('=========================================== sanitize_create_question_question_function START ===========================================')
-  if len(user_input) == 0 or len(user_input) > 1000:
+  if len(user_input) == 0 or len(user_input) > 750:
     localhost_print_function('=========================================== sanitize_create_question_question_function END ===========================================')
     return False
   localhost_print_function('=========================================== sanitize_create_question_question_function END ===========================================')
@@ -189,7 +189,7 @@ def sanitize_create_question_options_function(user_input):
 # ------------------------ individual function start ------------------------
 def sanitize_create_question_option_e_function(user_input):
   localhost_print_function('=========================================== sanitize_create_question_options_function START ===========================================')
-  if user_input == None:
+  if user_input == None or user_input == '':
     localhost_print_function('=========================================== sanitize_create_question_options_function END ===========================================')
     return user_input
   if len(user_input) > 280:

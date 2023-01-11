@@ -1791,6 +1791,10 @@ def candidates_create_question_function():
 def candidates_create_question_dashboard_function():
   localhost_print_function('=========================================== candidates_create_question_dashboard_function START ===========================================')
   page_error_statement = ''
+  # ------------------------ delete questions still draft start ------------------------
+  db_obj_arr = CandidatesCreatedQuestionsObj.query.filter_by(fk_user_id=current_user.id,submission='draft').delete()
+  db.session.commit()
+  # ------------------------ delete questions still draft end ------------------------
   # ------------------------ pull from db start ------------------------
   db_obj_arr = CandidatesCreatedQuestionsObj.query.filter_by(fk_user_id=current_user.id).all()
   total_questions_created = len(db_obj_arr)
@@ -1824,9 +1828,7 @@ def candidates_create_question_function_v2():
   if len(user_company_name) > 15:
     user_company_name = user_company_name[:14] + '...'
   # ------------------------ variables end ------------------------
-  ui_question_error_statement = ''
-  ui_question_success_statement = ''
-  ui_create_question_dict = {}
+  page_error_statement = ''
   if request.method == 'POST':
     # ------------------------ get user inputs start ------------------------
     ui_title = request.form.get('ui_create_question_title')             # str
@@ -1839,21 +1841,8 @@ def candidates_create_question_function_v2():
     ui_option_e = request.form.get('ui_create_question_option_e')       # str
     ui_answer = request.form.get('ui_create_question_answer')           # str
     # ------------------------ get user inputs end ------------------------
-    # ------------------------ set ui dict start ------------------------
-    ui_create_question_dict = {
-      'ui_title' : ui_title,
-      'ui_categories' : ui_categories,
-      'ui_question' : ui_question,
-      'ui_option_a' : ui_option_a,
-      'ui_option_b' : ui_option_b,
-      'ui_option_c' : ui_option_c,
-      'ui_option_d' : ui_option_d,
-      'ui_option_e' : ui_option_e,
-      'ui_answer' : ui_answer
-    }
-    # ------------------------ set ui dict end ------------------------
     # ------------------------ sanitize user inputs start ------------------------
-    if ui_option_e == '' or ui_option_e == None:
+    if ui_option_e == None or ui_option_e.strip() == '':
       ui_option_e = None
     ui_title_checked = sanitize_create_question_categories_function(ui_title)
     ui_categories_checked = sanitize_create_question_categories_function(ui_categories)
@@ -1865,85 +1854,113 @@ def candidates_create_question_function_v2():
     ui_option_e_checked = sanitize_create_question_option_e_function(ui_option_e)
     ui_answer_checked = sanitize_create_question_answer_function(ui_answer)
     # ------------------------ sanitize user inputs end ------------------------
-    # ------------------------ double check e start ------------------------
+    # ------------------------ error catch check start ------------------------
     if ui_option_e == None and ui_answer_checked.lower() == 'e':
-      ui_question_error_statement = 'Invalid answer choice'
-      localhost_print_function('=========================================== candidates_create_question_function_v2 END ===========================================')
-      return render_template('candidates/interior/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
-    # ------------------------ double check e end ------------------------
-    # ------------------------ if invalid inputs start ------------------------
-    if ui_title_checked == False or ui_categories_checked == False or ui_question_checked == False or ui_option_a_checked == False or ui_option_b_checked == False or ui_option_c_checked == False or ui_option_d_checked == False or ui_option_e_checked == False or ui_answer_checked == False:
-      ui_question_error_statement = 'Invalid input(s)'
-      localhost_print_function('=========================================== candidates_create_question_function_v2 END ===========================================')
-      return render_template('candidates/interior/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
-    # ------------------------ if invalid inputs end ------------------------
-    # ------------------------ define variable for insert start ------------------------
-    final_id = create_uuid_function('questionid_')
-    # ------------------------ define variable for insert end ------------------------
-    # ------------------------ ui uploaded image start ------------------------
-    create_question_uploaded_image_aws_url = ''
-    create_question_uploaded_image_uuid = ''
-    try:
-      if request.files:
-        if "filesize" in request.cookies:
-          # ------------------------ ui file start ------------------------
-          image = request.files["ui_image_upload"]
-          # ------------------------ ui file end ------------------------
-          # ------------------------ if no image attached start ------------------------
-          if image.filename == '' or image.filename == ' ' or image.filename == None:
-            ui_question_error_statement = 'Question must contain an image.'
-            localhost_print_function('=========================================== candidates_create_question_function_v2 END ===========================================')
-            return render_template('candidates/interior/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
-          # ------------------------ if no image attached end ------------------------
-          # ------------------------ if image attached start ------------------------
-          else:
-            # Keep track of the original filename that someone is uploading
-            create_question_upload_image_original_filename = image.filename
-            # Create image uuid to store in aws
-            create_question_uploaded_image_uuid = '_user_uploaded_image_' + final_id
-            # Change the name of the image from whatever the user uploaded to the question uuid as name
-            image = candidates_change_uploaded_image_filename_function(image, create_question_uploaded_image_uuid)
-            # Get image filesize
-            file_size = request.cookies["filesize"]
-            # Check and upload the user file image
-            user_image_upload_status = candidates_user_upload_image_checks_aws_s3_function(image, file_size)
-            # ------------------------ if image checks fail start ------------------------
-            if user_image_upload_status == False:
-              localhost_print_function('=========================================== candidates_create_question_function_v2 END ===========================================')
-              return render_template('candidates/interior/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
-            # ------------------------ if image checks fail end ------------------------
-            # Finalize image variables
-            create_question_uploaded_image_aws_url = 'https://' + os.environ.get('AWS_TRIVIAFY_BUCKET_NAME') + '.s3.' + os.environ.get('AWS_TRIVIAFY_REGION') + '.amazonaws.com/' + image.filename
-          # ------------------------ if image attached end ------------------------
-    except:
-      localhost_print_function('did not upload img')
-      pass
-    # ------------------------ ui uploaded image end ------------------------
-    # ------------------------ add to db start ------------------------
-    try:
-      insert_new_row = CandidatesCreatedQuestionsObj(
-        id=final_id,
-        created_timestamp=create_timestamp_function(),
-        fk_user_id = current_user.id,
-        status = False,
-        categories = ui_categories,
-        title = ui_title,
-        question = ui_question,
-        option_a = ui_option_a,
-        option_b = ui_option_b,
-        option_c = ui_option_c,
-        option_d = ui_option_d,
-        answer = ui_answer.upper(),
-        aws_image_uuid = create_question_uploaded_image_uuid,
-        aws_image_url = create_question_uploaded_image_aws_url
-      )
-      db.session.add(insert_new_row)
-      db.session.commit()
-      ui_question_success_statement = 'Successfully created question'
-    except:
-      localhost_print_function('did not create question in db')
-      pass
-    # ------------------------ add to db end ------------------------
+      page_error_statement = 'Invalid answer choice'
+    # ------------------------ error catch check end ------------------------
+    else:
+      # ------------------------ error catch check start ------------------------
+      if ui_title_checked == False or ui_categories_checked == False or ui_question_checked == False or ui_option_a_checked == False or ui_option_b_checked == False or ui_option_c_checked == False or ui_option_d_checked == False or ui_option_e_checked == False or ui_answer_checked == False:
+        page_error_statement = 'Invalid input(s)'
+        localhost_print_function('Invalid input(s)!!!')
+        localhost_print_function('=========================================== candidates_create_question_function_v2 END ===========================================')
+      # ------------------------ error catch check end ------------------------
+      else:
+        # ------------------------ define variable for insert start ------------------------
+        final_id = create_uuid_function('questionid_')
+        # ------------------------ define variable for insert end ------------------------
+        # ------------------------ ui uploaded image start ------------------------
+        create_question_uploaded_image_aws_url = ''
+        create_question_uploaded_image_uuid = ''
+        try:
+          if request.files:
+            if "filesize" in request.cookies:
+              # ------------------------ ui file start ------------------------
+              image = request.files["ui_image_upload"]
+              # ------------------------ ui file end ------------------------
+              # ------------------------ if no image attached start ------------------------
+              if image.filename == '' or image.filename == ' ' or image.filename == None:
+                pass
+              # ------------------------ if no image attached end ------------------------
+              # ------------------------ if image attached start ------------------------
+              else:
+                # Keep track of the original filename that someone is uploading
+                create_question_upload_image_original_filename = image.filename
+                # Create image uuid to store in aws
+                create_question_uploaded_image_uuid = '_user_uploaded_image_' + final_id
+                # Change the name of the image from whatever the user uploaded to the question uuid as name
+                image = candidates_change_uploaded_image_filename_function(image, create_question_uploaded_image_uuid)
+                # Get image filesize
+                file_size = request.cookies["filesize"]
+                # Check and upload the user file image
+                user_image_upload_status = candidates_user_upload_image_checks_aws_s3_function(image, file_size)
+                if user_image_upload_status != False:
+                  # Finalize image variables
+                  create_question_uploaded_image_aws_url = 'https://' + os.environ.get('AWS_TRIVIAFY_BUCKET_NAME') + '.s3.' + os.environ.get('AWS_TRIVIAFY_REGION') + '.amazonaws.com/' + image.filename
+              # ------------------------ if image attached end ------------------------
+        except:
+          localhost_print_function('did not upload img')
+          pass
+        # ------------------------ ui uploaded image end ------------------------
+        # ------------------------ add to db start ------------------------
+        try:
+          insert_new_row = CandidatesCreatedQuestionsObj(
+            id=final_id,
+            created_timestamp=create_timestamp_function(),
+            fk_user_id = current_user.id,
+            status = False,
+            categories = ui_categories,
+            title = ui_title,
+            question = ui_question,
+            option_a = ui_option_a,
+            option_b = ui_option_b,
+            option_c = ui_option_c,
+            option_d = ui_option_d,
+            answer = ui_answer.upper(),
+            aws_image_uuid = create_question_uploaded_image_uuid,
+            aws_image_url = create_question_uploaded_image_aws_url,
+            submission='draft'
+          )
+          db.session.add(insert_new_row)
+          db.session.commit()
+        except:
+          localhost_print_function('did not create question in db')
+          pass
+        # ------------------------ add to db end ------------------------
+        # ------------------------ redirect start ------------------------
+        return redirect(url_for('views_interior.candidates_preview_created_question_function'))
+        # ------------------------ redirect end ------------------------
   localhost_print_function('=========================================== candidates_create_question_function_v2 END ===========================================')
-  return render_template('candidates/interior/create_question_v2/index.html', user=current_user, users_company_name_to_html=user_company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
+  return render_template('candidates/interior/create_question_v2/index.html', user=current_user, users_company_name_to_html=user_company_name, error_message_to_html=page_error_statement)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@views_interior.route('/candidates/question/create/v2/preview', methods=['GET', 'POST'])
+@login_required
+def candidates_preview_created_question_function():
+  localhost_print_function('=========================================== candidates_preview_created_question_function START ===========================================')
+  # ------------------------ stripe subscription status check start ------------------------
+  stripe_subscription_obj_status = check_stripe_subscription_status_function(current_user)
+  # ------------------------ stripe subscription status check end ------------------------
+  # ------------------------ redirect if not subscribed start ------------------------
+  if stripe_subscription_obj_status != 'active':
+    localhost_print_function('=========================================== candidates_preview_created_question_function END ===========================================')
+    return redirect(url_for('views_interior.login_dashboard_page_function'))
+  # ------------------------ redirect if not subscribed end ------------------------
+  # ------------------------ variables start ------------------------
+  user_company_name = current_user.company_name
+  if len(user_company_name) > 15:
+    user_company_name = user_company_name[:14] + '...'
+  # ------------------------ variables end ------------------------
+  # ------------------------ get latest custom question start ------------------------
+  db_obj_arr = CandidatesCreatedQuestionsObj.query.filter_by(fk_user_id=current_user.id,submission='draft').order_by(CandidatesCreatedQuestionsObj.created_timestamp.desc()).first()
+  localhost_print_function('- - - - - - - 0 - - - - - - -')
+  localhost_print_function(f'db_obj_arr | type: {type(db_obj_arr)} | {db_obj_arr}')
+  localhost_print_function('- - - - - - - 0 - - - - - - -')
+  # ------------------------ get latest custom question end ------------------------
+  page_error_statement = ''
+  if request.method == 'POST':
+    pass
+  localhost_print_function('=========================================== candidates_preview_created_question_function END ===========================================')
+  return render_template('candidates/interior/create_question_v2/submission/index.html', user=current_user, users_company_name_to_html=user_company_name, error_message_to_html=page_error_statement)
 # ------------------------ individual route end ------------------------
