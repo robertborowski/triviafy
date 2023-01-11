@@ -25,7 +25,7 @@ from werkzeug.security import generate_password_hash
 import pandas as pd
 from website.backend.candidates.string_manipulation import all_question_candidate_categories_sorted_function, create_assessment_name_function
 from website.backend.candidates.sqlalchemy_manipulation import pull_desired_languages_arr_function
-from website.backend.candidates.dict_manipulation import question_arr_of_dicts_manipulations_function, create_assessment_info_dict_function, map_user_answers_to_questions_dict_function, backend_store_question_answers_dict_function, grade_assessment_answers_dict_function, check_two_phrase_similarity_score_function, create_assessment_info_dict_function_v2
+from website.backend.candidates.dict_manipulation import question_arr_of_dicts_manipulations_function, create_assessment_info_dict_function, map_user_answers_to_questions_dict_function, backend_store_question_answers_dict_function, grade_assessment_answers_dict_function, check_two_phrase_similarity_score_function, create_assessment_info_dict_function_v2, create_question_info_dict_function
 from website.backend.candidates.datetime_manipulation import next_x_days_function, times_arr_function, expired_assessment_check_function
 import datetime
 import json
@@ -1921,6 +1921,7 @@ def candidates_create_question_function_v2():
             option_b = ui_option_b,
             option_c = ui_option_c,
             option_d = ui_option_d,
+            option_e = ui_option_e,
             answer = ui_answer.upper(),
             aws_image_uuid = create_question_uploaded_image_uuid,
             aws_image_url = create_question_uploaded_image_aws_url,
@@ -1958,14 +1959,19 @@ def candidates_preview_created_question_function():
     user_company_name = user_company_name[:14] + '...'
   # ------------------------ variables end ------------------------
   # ------------------------ get latest custom question start ------------------------
-  db_obj_arr = CandidatesCreatedQuestionsObj.query.filter_by(fk_user_id=current_user.id,submission='draft').order_by(CandidatesCreatedQuestionsObj.created_timestamp.desc()).first()
-  localhost_print_function('- - - - - - - 0 - - - - - - -')
-  localhost_print_function(f'db_obj_arr | type: {type(db_obj_arr)} | {db_obj_arr}')
-  localhost_print_function('- - - - - - - 0 - - - - - - -')
+  db_question_obj = CandidatesCreatedQuestionsObj.query.filter_by(fk_user_id=current_user.id,submission='draft').order_by(CandidatesCreatedQuestionsObj.created_timestamp.desc()).first()
+  if db_question_obj == None:
+    localhost_print_function('=========================================== candidates_preview_created_question_function END ===========================================')
+    return redirect(url_for('views_interior.login_dashboard_page_function'))
   # ------------------------ get latest custom question end ------------------------
+  # ------------------------ build latest dict start ------------------------
+  question_info_dict = create_question_info_dict_function(db_question_obj)
+  # ------------------------ build latest dict end ------------------------
   page_error_statement = ''
   if request.method == 'POST':
-    pass
+    db_question_obj.submission = 'submitted'
+    db.session.commit()
+    return redirect(url_for('views_interior.candidates_create_question_dashboard_function'))
   localhost_print_function('=========================================== candidates_preview_created_question_function END ===========================================')
-  return render_template('candidates/interior/create_question_v2/submission/index.html', user=current_user, users_company_name_to_html=user_company_name, error_message_to_html=page_error_statement)
+  return render_template('candidates/interior/create_question_v2/submission/index.html', user=current_user, users_company_name_to_html=user_company_name, error_message_to_html=page_error_statement, question_info_dict_to_html=question_info_dict)
 # ------------------------ individual route end ------------------------

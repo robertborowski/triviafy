@@ -99,6 +99,22 @@ def create_assessment_info_dict_function_v2(db_assessment_obj, url_question_numb
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
+def create_question_info_dict_function(db_question_obj):
+  localhost_print_function('=========================================== create_assessment_info_dict_function_v2 START ===========================================')
+  # ------------------------ init dict start ------------------------
+  question_info_dict = {}
+  # ------------------------ init dict end ------------------------
+  # ------------------------ assign dict questions start ------------------------
+  desired_question_id_str = "'" + db_question_obj.id + "'"
+  query_result_arr_of_dicts = select_general_function('select_specific_assessment_questions_v3', additional_input=desired_question_id_str)
+  query_result_arr_of_dicts = question_arr_of_dicts_manipulations_function(query_result_arr_of_dicts)
+  question_info_dict = query_result_arr_of_dicts[0]
+  # ------------------------ assign dict questions end ------------------------
+  localhost_print_function('=========================================== create_assessment_info_dict_function_v2 END ===========================================')
+  return question_info_dict
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
 def map_user_answers_to_questions_dict_function(assessment_info_dict, ui_current_answer_choice_selected, current_question_number):
   localhost_print_function('=========================================== map_user_answers_to_questions_dict_function START ===========================================')
   for i_dict in assessment_info_dict['questions_arr_of_dicts']:
