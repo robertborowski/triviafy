@@ -25,7 +25,7 @@ from werkzeug.security import generate_password_hash
 import pandas as pd
 from website.backend.candidates.string_manipulation import all_question_candidate_categories_sorted_function, create_assessment_name_function
 from website.backend.candidates.sqlalchemy_manipulation import pull_desired_languages_arr_function
-from website.backend.candidates.dict_manipulation import question_arr_of_dicts_manipulations_function, create_assessment_info_dict_function, map_user_answers_to_questions_dict_function, backend_store_question_answers_dict_function, grade_assessment_answers_dict_function, check_two_phrase_similarity_score_function, create_assessment_info_dict_function_v2, create_question_info_dict_function
+from website.backend.candidates.dict_manipulation import question_arr_of_dicts_manipulations_function, create_assessment_info_dict_function, map_user_answers_to_questions_dict_function, backend_store_question_answers_dict_function, grade_assessment_answers_dict_function, check_two_phrase_similarity_score_function, create_assessment_info_dict_function_v2, create_question_info_dict_function, arr_of_dict_necessary_columns_function
 from website.backend.candidates.datetime_manipulation import next_x_days_function, times_arr_function, expired_assessment_check_function
 import datetime
 import json
@@ -1382,21 +1382,11 @@ def candidates_schedule_create_now_function_v2():
   page_error_message = ''
   # ------------------------ pull tests arr of dict start ------------------------
   db_tests_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id).all()
-  tests_arr_of_dict = []
-  for i_dict in db_tests_obj:
-    current_dict = {}
-    current_dict['assessment_name'] = i_dict.assessment_name
-    current_dict['desired_languages_arr'] = i_dict.desired_languages_arr
-    current_dict['total_questions'] = i_dict.total_questions
-    tests_arr_of_dict.append(current_dict)
+  db_tests_obj = arr_of_dict_necessary_columns_function(db_tests_obj, ['assessment_name', 'desired_languages_arr', 'total_questions'])
   # ------------------------ pull tests arr of dict end ------------------------
   # ------------------------ pull candidates arr of dict start ------------------------
   db_candidates_obj = CandidatesUploadedCandidatesObj.query.filter_by(user_id_fk=current_user.id).all()
-  candidates_arr_of_dict = []
-  for i_dict in db_candidates_obj:
-    current_dict = {}
-    current_dict['email'] = i_dict.email
-    candidates_arr_of_dict.append(current_dict)
+  db_candidates_obj = arr_of_dict_necessary_columns_function(db_candidates_obj, ['email'])
   # ------------------------ pull candidates arr of dict end ------------------------
   localhost_print_function('=========================================== candidates_schedule_create_now_function_v2 END ===========================================')
   return render_template('candidates/interior/schedule/schedule_create_new_v2/index.html', user=current_user, error_message_to_html=page_error_message)
@@ -1843,30 +1833,12 @@ def candidates_create_question_dashboard_function():
   # ------------------------ pull from db start ------------------------
   db_questions_obj_arr = CandidatesCreatedQuestionsObj.query.filter_by(fk_user_id=current_user.id).order_by(CandidatesCreatedQuestionsObj.created_timestamp.desc()).all()
   total_questions_created = len(db_questions_obj_arr)
+  db_questions_obj_arr = arr_of_dict_necessary_columns_function(db_questions_obj_arr, ['id', 'title', 'categories', 'question'])
   # ------------------------ pull from db end ------------------------
-  # ------------------------ only pull necessary columns start ------------------------
-  db_questions_obj_arr_of_dict = []
-  for i_dict in db_questions_obj_arr:
-    current_dict = {}
-    current_dict['id'] = i_dict.id
-    current_dict['title'] = i_dict.title
-    current_dict['categories'] = i_dict.categories
-    current_dict['question'] = i_dict.question
-    db_questions_obj_arr_of_dict.append(current_dict)
-  db_questions_obj_arr = db_questions_obj_arr_of_dict
-  # ------------------------ only pull necessary columns end ------------------------
   # ------------------------ pull from db start ------------------------
   db_test_drafts_obj_arr = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,status='draft').all()
+  db_test_drafts_obj_arr = arr_of_dict_necessary_columns_function(db_test_drafts_obj_arr, ['assessment_name', 'desired_languages_arr'])
   # ------------------------ pull from db end ------------------------
-  # ------------------------ only pull necessary columns start ------------------------
-  db_test_drafts_obj_arr_of_dict = []
-  for i_dict in db_test_drafts_obj_arr:
-    current_dict = {}
-    current_dict['assessment_name'] = i_dict.assessment_name
-    current_dict['desired_languages_arr'] = i_dict.desired_languages_arr
-    db_test_drafts_obj_arr_of_dict.append(current_dict)
-  db_test_drafts_obj_arr = db_test_drafts_obj_arr_of_dict
-  # ------------------------ only pull necessary columns end ------------------------
   # ------------------------ stripe subscription status check start ------------------------
   stripe_subscription_obj_status = check_stripe_subscription_status_function(current_user)
   # ------------------------ stripe subscription status check end ------------------------

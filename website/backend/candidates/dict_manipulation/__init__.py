@@ -210,4 +210,18 @@ def grade_assessment_answers_dict_function(assessment_info_dict):
   localhost_print_function('=========================================== grade_assessment_answers_dict_function END ===========================================')
   return assessment_info_dict
 # ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def arr_of_dict_necessary_columns_function(sql_obj, desired_columns_arr):
+  localhost_print_function('=========================================== arr_of_dict_necessary_columns_function START ===========================================')
+  db_obj_arr_of_dict = []
+  for i_dict in sql_obj:
+    current_dict = {}
+    for i_col in desired_columns_arr:
+      current_dict[i_col] = getattr(i_dict, i_col)
+    db_obj_arr_of_dict.append(current_dict)
+  sql_obj = db_obj_arr_of_dict
+  localhost_print_function('=========================================== arr_of_dict_necessary_columns_function END ===========================================')
+  return sql_obj
+# ------------------------ individual function end ------------------------
 localhost_print_function('=========================================== dict_manipulation __init__ END ===========================================')
