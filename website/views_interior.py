@@ -620,6 +620,15 @@ def candidates_assessment_create_review_function(url_assessment_name):
     if review_assessment_error_statement == '':
       db_assessment_obj.status = 'final'
       db.session.commit()
+      # ------------------------ email self start ------------------------
+      try:
+        output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+        output_subject = f'Triviafy - Test Created - {current_user.email}'
+        output_body = f"Hi there,\n\nNew test created: {current_user.email} \n\nBest,\nTriviafy"
+        send_email_template_function(output_to_email, output_subject, output_body)
+      except:
+        pass
+      # ------------------------ email self end ------------------------
       return redirect(url_for('views_interior.candidates_schedule_create_now_function'))
   # ------------------------ post submit end ------------------------
   localhost_print_function('=========================================== candidates_assessment_create_review_function END ===========================================')
@@ -674,7 +683,7 @@ def candidates_assessment_preview_function(url_assessment_name, url_question_num
   # ------------------------ check if contains img end ------------------------
   # ------------------------ option e fix start ------------------------
   current_option_e = assessment_info_dict['question_details_dict']['option_e']
-  if len(current_option_e) == 0:
+  if current_option_e == None or len(current_option_e) == 0:
     assessment_info_dict['question_details_dict']['option_e'] = None
   # ------------------------ option e fix end ------------------------
   # ------------------------ post hit admin control start ------------------------
@@ -1830,10 +1839,6 @@ def candidates_create_question_dashboard_function():
     ui_questions_to_add_arr = request.form.getlist('uiQuestionSelected')
     ui_test_add_to = request.form.get('uiTestSelected')
     # ------------------------ get form user inputs end ------------------------
-    localhost_print_function('- - - - - - - 0 - - - - - - -')
-    localhost_print_function(f'ui_questions_to_add_arr | type: {type(ui_questions_to_add_arr)} | {ui_questions_to_add_arr}')
-    localhost_print_function(f'ui_test_add_to | type: {type(ui_test_add_to)} | {ui_test_add_to}')
-    localhost_print_function('- - - - - - - 0 - - - - - - -')
     # ------------------------ check valid inputs start ------------------------
     if len(ui_questions_to_add_arr) == 0 or ui_questions_to_add_arr == []:
       page_error_statement = 'Please select at least one custom question.'
@@ -1853,7 +1858,24 @@ def candidates_create_question_dashboard_function():
           page_error_statement = 'Invalid test name submitted.'
         # ------------------------ check valid inputs test end ------------------------
         else:
-          localhost_print_function(db_test_obj)
+          # ------------------------ update latest draft test start ------------------------
+          question_ids_str = db_test_obj.question_ids_arr
+          current_total_questions = int(db_test_obj.total_questions)
+          change_check = False
+          for i in ui_questions_to_add_arr:
+            if i not in question_ids_str:
+              change_check = True
+              question_ids_str += f',{i}'
+              current_total_questions += 1
+          if change_check == True:
+            db_test_obj.question_ids_arr = question_ids_str
+            db_test_obj.total_questions = current_total_questions
+            db.session.commit()
+          # ------------------------ update latest draft test end ------------------------
+          # ------------------------ redirect start ------------------------
+          localhost_print_function('=========================================== candidates_create_question_dashboard_function END ===========================================')
+          return redirect(url_for('views_interior.candidates_assessment_create_review_function', url_assessment_name=ui_test_add_to))
+          # ------------------------ redirect end ------------------------
     # ------------------------ check valid inputs end ------------------------
   # ------------------------ post submit end ------------------------
   localhost_print_function('=========================================== candidates_create_question_dashboard_function END ===========================================')
@@ -2016,6 +2038,15 @@ def candidates_preview_created_question_function():
   if request.method == 'POST':
     db_question_obj.submission = 'submitted'
     db.session.commit()
+    # ------------------------ email self start ------------------------
+    try:
+      output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+      output_subject = f'Triviafy - Custom Question - {current_user.email}'
+      output_body = f"Hi there,\n\nNew custom question created: {current_user.email} \n\nBest,\nTriviafy"
+      send_email_template_function(output_to_email, output_subject, output_body)
+    except:
+      pass
+    # ------------------------ email self end ------------------------
     return redirect(url_for('views_interior.candidates_create_question_dashboard_function'))
   localhost_print_function('=========================================== candidates_preview_created_question_function END ===========================================')
   return render_template('candidates/interior/create_question_v2/submission/index.html', user=current_user, users_company_name_to_html=user_company_name, error_message_to_html=page_error_statement, question_info_dict_to_html=question_info_dict)
