@@ -629,7 +629,7 @@ def candidates_assessment_create_review_function(url_assessment_name):
       except:
         pass
       # ------------------------ email self end ------------------------
-      return redirect(url_for('views_interior.candidates_schedule_create_now_function'))
+      return redirect(url_for('views_interior.candidates_schedule_create_now_function_v2'))
   # ------------------------ post submit end ------------------------
   localhost_print_function('=========================================== candidates_assessment_create_review_function END ===========================================')
   return render_template('candidates/interior/assessments/assessments_create_review/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=review_assessment_error_statement, assessment_name_to_html=assessment_name, stripe_subscription_obj_status_to_html=stripe_subscription_obj_status, assessment_total_questions_to_html=assessment_total_questions)
@@ -1375,6 +1375,34 @@ def candidates_schedule_create_now_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
+@views_interior.route('/candidates/schedule/now/v2', methods=['GET', 'POST'])
+@login_required
+def candidates_schedule_create_now_function_v2():
+  localhost_print_function('=========================================== candidates_schedule_create_now_function_v2 START ===========================================')
+  page_error_message = ''
+  # ------------------------ pull tests arr of dict start ------------------------
+  db_tests_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id).all()
+  tests_arr_of_dict = []
+  for i_dict in db_tests_obj:
+    current_dict = {}
+    current_dict['assessment_name'] = i_dict.assessment_name
+    current_dict['desired_languages_arr'] = i_dict.desired_languages_arr
+    current_dict['total_questions'] = i_dict.total_questions
+    tests_arr_of_dict.append(current_dict)
+  # ------------------------ pull tests arr of dict end ------------------------
+  # ------------------------ pull candidates arr of dict start ------------------------
+  db_candidates_obj = CandidatesUploadedCandidatesObj.query.filter_by(user_id_fk=current_user.id).all()
+  candidates_arr_of_dict = []
+  for i_dict in db_candidates_obj:
+    current_dict = {}
+    current_dict['email'] = i_dict.email
+    candidates_arr_of_dict.append(current_dict)
+  # ------------------------ pull candidates arr of dict end ------------------------
+  localhost_print_function('=========================================== candidates_schedule_create_now_function_v2 END ===========================================')
+  return render_template('candidates/interior/schedule/schedule_create_new_v2/index.html', user=current_user, error_message_to_html=page_error_message)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
 @views_interior.route('/candidates/schedule/analytics', methods=['GET', 'POST'])
 @login_required
 def candidates_schedule_analytics_function():
@@ -1816,20 +1844,29 @@ def candidates_create_question_dashboard_function():
   db_questions_obj_arr = CandidatesCreatedQuestionsObj.query.filter_by(fk_user_id=current_user.id).order_by(CandidatesCreatedQuestionsObj.created_timestamp.desc()).all()
   total_questions_created = len(db_questions_obj_arr)
   # ------------------------ pull from db end ------------------------
-  # ------------------------ loop through each obj and remove info start ------------------------
-  for i_obj in db_questions_obj_arr:
-    pass
-    # i_obj.fk_user_id = None
-  # ------------------------ loop through each obj and remove info end ------------------------
+  # ------------------------ only pull necessary columns start ------------------------
+  db_questions_obj_arr_of_dict = []
+  for i_dict in db_questions_obj_arr:
+    current_dict = {}
+    current_dict['id'] = i_dict.id
+    current_dict['title'] = i_dict.title
+    current_dict['categories'] = i_dict.categories
+    current_dict['question'] = i_dict.question
+    db_questions_obj_arr_of_dict.append(current_dict)
+  db_questions_obj_arr = db_questions_obj_arr_of_dict
+  # ------------------------ only pull necessary columns end ------------------------
   # ------------------------ pull from db start ------------------------
   db_test_drafts_obj_arr = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,status='draft').all()
   # ------------------------ pull from db end ------------------------
-  # ------------------------ loop through each obj and remove info start ------------------------
-  for i_obj in db_test_drafts_obj_arr:
-    pass
-    # i_obj.id = None
-    # i_obj.user_id_fk = None
-  # ------------------------ loop through each obj and remove info end ------------------------
+  # ------------------------ only pull necessary columns start ------------------------
+  db_test_drafts_obj_arr_of_dict = []
+  for i_dict in db_test_drafts_obj_arr:
+    current_dict = {}
+    current_dict['assessment_name'] = i_dict.assessment_name
+    current_dict['desired_languages_arr'] = i_dict.desired_languages_arr
+    db_test_drafts_obj_arr_of_dict.append(current_dict)
+  db_test_drafts_obj_arr = db_test_drafts_obj_arr_of_dict
+  # ------------------------ only pull necessary columns end ------------------------
   # ------------------------ stripe subscription status check start ------------------------
   stripe_subscription_obj_status = check_stripe_subscription_status_function(current_user)
   # ------------------------ stripe subscription status check end ------------------------
