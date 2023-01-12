@@ -13,54 +13,39 @@
   {% endif %}
   <!-- ----------------------------------- end ----------------------------------- -->
   <div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
-    <h2 class="custom-header-2-mobile">Custom questions</h2>
-    {% if total_questions_created_to_html == 0 %}
-    <button class="btn btn-secondary" disabled>Add to test</button>
-    {% else %}
+    <h2 class="custom-header-2-mobile">Send test now</h2>
     <div>
-      <a href="/candidates/question/create/v2" class="btn btn-outline-primary">Create +</a>
-      <button type="submit" class="btn btn-primary custom-ml-3">Add to test</button>
+      <a href="#" class="btn btn-outline-primary">Candidate +</a>
+      <button type="submit" class="btn btn-primary custom-ml-3">Send</button>
     </div>
-    {% endif %}
   </div>
   <div class="container border shadow custom-br-1 custom-bg-white">
-    {% if stripe_subscription_obj_status_to_html == 'active' %}
-    {% if total_questions_created_to_html == 0 %}
-    <div class="text-center custom-ptb-5">
-      <p class="fst-italic custom-color-light-1 custom-header-5">You have not created any questions yet.</p>
-      <a href="/candidates/question/create/v2" class="btn btn-primary btn-lg">Create +</a>
-    </div>
-    {% else %}
     <div class="custom-display-flex custom-fw-1 custom-height-4-mobile">
       <div class="custom-width-11-mobile custom-p-5">
         <div class="text-center">
-          <p class="custom-header-4">Select questions</p>
+          <p class="custom-header-4">Select Test</p>
         </div>
         <div class="custom-overflow-1 custom-height-5-mobile">
-          {% for i_obj in db_questions_obj_arr_to_html %}
-          <input type="checkbox" class="btn-check" id="uiQuestionSelected_{{ i_obj.id }}" name="uiQuestionSelected" value="{{ i_obj.id }}">
-          <label class="btn btn-outline-secondary custom-m-1 custom-width-13 custom-ptb-1" for="uiQuestionSelected_{{ i_obj.id }}">{{ i_obj.title }} | {{ i_obj.categories }} | {{ i_obj.question }}</label>
-          {% endfor %}
-        </div>
-      </div>
-      <div class="custom-width-11-mobile custom-p-5">
-        <div class="text-center">
-          <p class="custom-header-4">Select assessment</p>
-        </div>
-        <div class="custom-overflow-1 custom-height-5-mobile">
-          {% for i_obj in db_test_drafts_obj_arr_to_html %}
+          {% for i_obj in db_tests_obj_to_html %}
           <input type="radio" class="btn-check" name="uiTestSelected" id="uiTestSelected_{{ i_obj.assessment_name }}" autocomplete="off" value="{{ i_obj.assessment_name }}" required>
           <label class="btn btn-outline-secondary custom-m-1 custom-width-13 custom-ptb-1" for="uiTestSelected_{{ i_obj.assessment_name }}">{{ i_obj.assessment_name }} | {{ i_obj.desired_languages_arr }}</label>
           {% endfor %}
         </div>
       </div>
+      <div class="custom-width-11-mobile custom-p-5">
+        <div class="text-center">
+          <p class="custom-header-4">Select Candidates</p>
+        </div>
+        <div class="custom-overflow-1 custom-height-5-mobile">
+          <input type="checkbox" class="btn-check" id="uiCandidateSelected_{{ current_user_email_to_html }}" name="uiCandidateSelected" value="{{ current_user_email_to_html }}">
+          <label class="btn btn-outline-secondary custom-m-1 custom-width-13 custom-ptb-1" for="uiCandidateSelected_{{ current_user_email_to_html }}">{{ current_user_email_to_html }} (self test)</label>
+          {% for i_obj in db_candidates_obj_to_html %}
+          <input type="checkbox" class="btn-check" id="uiCandidateSelected_{{ i_obj.email }}" name="uiCandidateSelected" value="{{ i_obj.email }}">
+          <label class="btn btn-outline-secondary custom-m-1 custom-width-13 custom-ptb-1" for="uiCandidateSelected_{{ i_obj.email }}">{{ i_obj.email }}</label>
+          {% endfor %}
+        </div>
+      </div>
     </div>
-    {% endif %}
-    {% else %}
-    <div class="text-center">
-      <p>redirect to subscription page</p>
-    </div>
-    {% endif %}
   </div>
 </form>
 {% endblock %}

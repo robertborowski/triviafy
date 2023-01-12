@@ -1380,6 +1380,7 @@ def candidates_schedule_create_now_function():
 def candidates_schedule_create_now_function_v2():
   localhost_print_function('=========================================== candidates_schedule_create_now_function_v2 START ===========================================')
   page_error_message = ''
+  current_user_email = current_user.email
   # ------------------------ pull tests arr of dict start ------------------------
   db_tests_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id).all()
   db_tests_obj = arr_of_dict_necessary_columns_function(db_tests_obj, ['assessment_name', 'desired_languages_arr', 'total_questions'])
@@ -1389,7 +1390,7 @@ def candidates_schedule_create_now_function_v2():
   db_candidates_obj = arr_of_dict_necessary_columns_function(db_candidates_obj, ['email'])
   # ------------------------ pull candidates arr of dict end ------------------------
   localhost_print_function('=========================================== candidates_schedule_create_now_function_v2 END ===========================================')
-  return render_template('candidates/interior/schedule/schedule_create_new_v2/index.html', user=current_user, error_message_to_html=page_error_message)
+  return render_template('candidates/interior/schedule/schedule_create_new_v2/index.html', user=current_user, error_message_to_html=page_error_message, current_user_email_to_html=current_user_email, db_tests_obj_to_html=db_tests_obj, db_candidates_obj_to_html=db_candidates_obj)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
