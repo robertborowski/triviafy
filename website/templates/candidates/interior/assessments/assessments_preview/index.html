@@ -10,9 +10,10 @@
   <!-- ------------------------------------- navbar start ------------------------------------- -->
   <div class="container-fluid fixed-top shadow-sm custom-bg-white">
     <nav class="container navbar navbar-expand-md navbar-light custom-display-flex custom-jc-2">
-      <a href="#" class="navbar-brand">
-        <span class="custom-header-4">{{ users_company_name_to_html }}</span>
-      </a>
+      <div>
+        <a href="#" class="navbar-brand"><span class="custom-header-4-mobile">{{ users_company_name_to_html }}</span></a>
+        <a href="/candidates/assessment/review/{{ url_assessment_name_to_html }}" class="btn btn-outline-danger btn-sm">Exit preview</a>
+      </div>
       <div>
         {% if current_question_number_to_html == '1' %}
         {% else %}
@@ -65,7 +66,7 @@
         <div class="custom-width-11-mobile custom-p-5">
           <div>
             <div class="text-center">
-              <p class="custom-size-3 custom-color-light-1 fst-italic">Preview mode: selection not saved{% if assessment_info_dict_to_html['question_details_dict']['answer'] != '' %} | Answer: {{ assessment_info_dict_to_html['question_details_dict']['answer'] }}{% endif %}</p>
+              <p class="custom-size-3 custom-color-light-1 fst-italic">Preview mode: selection not saved.{% if assessment_info_dict_to_html['question_details_dict']['answer'] != '' %} | Answer: {{ assessment_info_dict_to_html['question_details_dict']['answer'] }}{% else %} Upgrade <a href="/candidates/account">subscription</a> to see correct answer.{% endif %}</p>
             </div>
             {% if assessment_info_dict_to_html['question_details_dict']['option_a'] != None %}
             <div class="custom-mb-6">
