@@ -1,61 +1,37 @@
 {% extends "candidates/aaa_base/base2_interior.html" %}
-
 <!-- head tag block content -->
 {% block title %}
-  <title>View Assessment / Triviafy</title>
+  <title>Create Assessment / Triviafy</title>
 {% endblock %}
-
 {% block contentBodyExceptNavbarAndFooter %}
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name start -->
-<div class="general-signed-in-company-name-section">
-  <p class="general-signed-in-company-name-title">{{ users_company_name_to_html }}</p>
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="general-spacer-section"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title start -->
-<div class="general-page-title-section">
-  <p class="general-page-title">Request Categories</p>
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message start -->
-<div class="error-message-section">
-  <p>{{ error_message_to_html }}</p>
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message end -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - success message start -->
-<div class="success-message-section">
-  <p class="general-margin-top-small">{{ success_message_to_html }}</p>
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - success message end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="general-spacer-section"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select questions arr start -->
-<div class="select-questions-form-container">
-  <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
-    <div class="requested-container">
-      <label for="ui_requested"></label>
-      <input type="text" id="ui_requested" name="ui_requested" class="candidates-default-text-input candidates-default-text-input-full-width" placeholder="Requested frameworks"  maxlength="100" pattern="[a-zA-z0-9, ]{0,100}" title="Only letters numbers and spaces accepted" required />
+<form method="POST" enctype="multipart/form-data">
+  <div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6" onsubmit="return clickSubmitButtonOnce()">
+    <h2 class="custom-header-2-mobile">Request categories</h2>
+    <!-- <button type="submit" class="btn btn-primary">Request</button> -->
+  </div>
+  <div class="container border shadow custom-br-1 custom-bg-white">
+    <div class="mx-auto custom-width-14 custom-ptb-5">
+      <!-- ----------------------------------- start ----------------------------------- -->
+      {% if alert_message_page_to_html != '' %}
+      <div class="alert alert-{{ alert_message_type_to_html }} mx-auto text-center custom-mb-1" role="alert">
+        {{ alert_message_page_to_html }}
+      </div>
+      {% endif %}
+      <!-- ----------------------------------- end ----------------------------------- -->
+      <div class="">
+        <h2 class="custom-header-5 custom-color-light-1 custom-mb-6">Example: "SQL, Python, Data Engineer, Salesforce, etc."</h2>
+      </div>
+      <!-- ------------------------------------- question title start ------------------------------------- -->
+      <div class="form-floating">
+        <textarea class="form-control" id="ui_requested" name="ui_requested" placeholder="Question title*" onkeyup="createQuestionCountCharsCustom1(this);" pattern="{1,100}" required></textarea>
+        <label for="ui_requested">Categories*</label>
+        <p id="createQuestionCountCharsCustom1" class="custom-size-3 custom-color-light-1 fst-italic custom-mt-2 custom-ml-2"></p>
+      </div>
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary">Request</button>
+      </div>
+      <!-- ------------------------------------- question title end ------------------------------------- -->
     </div>
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - submit button start -->
-    <div class="view-specific-assessment-submit-section">
-      <button type="submit" class="default-button-format default-button-format-primary-color">Submit</button>
-    </div>
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - submit button end -->
-  </form>
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select questions arr end -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="general-spacer-section-large"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+  </div>
+</form>
 {% endblock %}

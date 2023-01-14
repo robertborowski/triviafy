@@ -19,7 +19,7 @@ from website.backend.candidates.browser import browser_response_set_cookie_funct
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
 from website import db
-from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function, sanitize_create_account_text_inputs_function, sanitize_create_account_text_inputs_large_function, validate_upload_candidate_function, sanitize_loop_check_if_exists_within_arr_function, sanitize_check_if_str_exists_within_arr_function, check_if_question_id_arr_exists_function, sanitize_candidate_ui_answer_text_function, sanitize_candidate_ui_answer_radio_function, sanitize_create_question_categories_function, sanitize_create_question_question_function, sanitize_create_question_options_function, sanitize_create_question_answer_function, sanitize_create_question_difficulty_function, sanitize_create_question_option_e_function, sanitize_desired_langs_text_inputs_function, sanitize_letters_numbers_spaces_only_function, alert_message_default_function
+from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function, sanitize_create_account_text_inputs_function, sanitize_create_account_text_inputs_large_function, validate_upload_candidate_function, sanitize_loop_check_if_exists_within_arr_function, sanitize_check_if_str_exists_within_arr_function, check_if_question_id_arr_exists_function, sanitize_candidate_ui_answer_text_function, sanitize_candidate_ui_answer_radio_function, sanitize_create_question_categories_function, sanitize_create_question_question_function, sanitize_create_question_options_function, sanitize_create_question_answer_function, sanitize_create_question_difficulty_function, sanitize_create_question_option_e_function, sanitize_desired_langs_text_inputs_function, sanitize_letters_numbers_spaces_only_function, alert_message_default_function, sanitize_char_count_1_function
 from website.backend.candidates.send_emails import send_email_template_function
 from werkzeug.security import generate_password_hash
 import pandas as pd
@@ -1665,40 +1665,48 @@ def candidates_assessment_i_answers_function(url_email, url_assessment_name):
 # ------------------------ individual route start ------------------------
 @views_interior.route('/candidates/request', methods=['GET', 'POST'])
 @login_required
-def candidates_categories_request_function():
+def candidates_categories_request_function(url_redirect_code=None):
   localhost_print_function('=========================================== candidates_categories_request_function START ===========================================')
+  alert_message_page, alert_message_type = alert_message_default_function()
+  # ------------------------ redirect codes start ------------------------
+  redirect_var = request.args.get('url_redirect_code')
+  if redirect_var != None:
+    if redirect_var == 's':
+      alert_message_page = 'Request sent.'
+      alert_message_type = 'success'
+  # ------------------------ redirect codes end ------------------------
   # ------------------------ if post method hit start ------------------------
-  ui_request_error_statement = ''
-  ui_request_success_statement = ''
   ui_requested = ''
   if request.method == 'POST':
     ui_requested = request.form.get('ui_requested')
-    ui_requested = sanitize_candidate_ui_answer_text_function(ui_requested)
+    ui_requested = sanitize_char_count_1_function(ui_requested)
     if ui_requested == False:
-      ui_request_error_statement = 'Please submit in correct format.'
-    # ------------------------ create new user in db start ------------------------
-    insert_new_row = CandidatesDesiredLanguagesObj(
-      id=create_uuid_function('langs_'),
-      created_timestamp=create_timestamp_function(),
-      user_id_fk=current_user.id,
-      desired_languages=ui_requested
-    )
-    db.session.add(insert_new_row)
-    db.session.commit()
-    # ------------------------ create new user in db end ------------------------
-    # ------------------------ email self start ------------------------
-    try:
-      output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
-      output_subject = f'Triviafy - Requested Language - {current_user.email}'
-      output_body = f"Hi there,\n\nRequester: {current_user.email}\nRequested: '{ui_requested}'\n\nBest,\nTriviafy"
-      send_email_template_function(output_to_email, output_subject, output_body)
-    except:
-      pass
-    # ------------------------ email self end ------------------------
-    ui_request_success_statement = 'Thank you, we will email you once the questions are available.'
+      alert_message_page = 'Requested categories should be 1-100 characters long.'
+      alert_message_type = 'danger'
+    else:
+      # ------------------------ create new user in db start ------------------------
+      insert_new_row = CandidatesDesiredLanguagesObj(
+        id=create_uuid_function('langs_'),
+        created_timestamp=create_timestamp_function(),
+        user_id_fk=current_user.id,
+        desired_languages=ui_requested
+      )
+      db.session.add(insert_new_row)
+      db.session.commit()
+      # ------------------------ create new user in db end ------------------------
+      # ------------------------ email self start ------------------------
+      try:
+        output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+        output_subject = f'Triviafy - Requested Language - {current_user.email}'
+        output_body = f"Hi there,\n\nRequester: {current_user.email}\nRequested: '{ui_requested}'\n\nBest,\nTriviafy"
+        send_email_template_function(output_to_email, output_subject, output_body)
+      except:
+        pass
+      # ------------------------ email self end ------------------------
+      return redirect(url_for('views_interior.candidates_categories_request_function', url_redirect_code='s'))
   # ------------------------ if post method hit end ------------------------
   localhost_print_function('=========================================== candidates_categories_request_function END ===========================================')
-  return render_template('candidates/interior/request_categories/index.html', user=current_user, users_company_name_to_html=current_user.company_name, ui_requested_to_html=ui_requested, error_message_to_html=ui_request_error_statement, success_message_to_html=ui_request_success_statement)
+  return render_template('candidates/interior/request_categories/index.html', user=current_user, users_company_name_to_html=current_user.company_name, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------

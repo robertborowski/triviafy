@@ -148,7 +148,7 @@ def sanitize_candidate_ui_answer_text_function(user_input):
   if len(user_input) == 0:
     localhost_print_function('=========================================== sanitize_candidate_ui_answer_text_function END ===========================================')
     return False
-  desired_regex_pattern = "^[\w\s,-]{1,100}$"
+  desired_regex_pattern = "^[*]{1,100}$"
   if(re.fullmatch(desired_regex_pattern, user_input)):
     localhost_print_function('=========================================== sanitize_candidate_ui_answer_text_function END ===========================================')
     return user_input
@@ -163,6 +163,16 @@ def sanitize_create_question_categories_function(user_input):
     localhost_print_function('=========================================== sanitize_create_question_categories_function END ===========================================')
     return False
   localhost_print_function('=========================================== sanitize_create_question_categories_function END ===========================================')
+  return user_input
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def sanitize_char_count_1_function(user_input):
+  localhost_print_function('=========================================== sanitize_char_count_1_function START ===========================================')
+  if len(user_input) == 0 or len(user_input) > 100:
+    localhost_print_function('=========================================== sanitize_char_count_1_function END ===========================================')
+    return False
+  localhost_print_function('=========================================== sanitize_char_count_1_function END ===========================================')
   return user_input
 # ------------------------ individual function end ------------------------
 
