@@ -4,7 +4,7 @@
   <title>Create Assessment / Triviafy</title>
 {% endblock %}
 {% block contentBodyExceptNavbarAndFooter %}
-<form method="POST" enctype="multipart/form-data">
+<form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
   <!-- ----------------------------------- start ----------------------------------- -->
   {% if error_message_to_html != '' %}
   <div class="container alert alert-danger mx-auto text-center custom-mt-1" role="alert">

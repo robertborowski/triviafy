@@ -43,7 +43,7 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select questions arr start -->
 <div class="select-questions-form-container">
-  <form method="POST" enctype="multipart/form-data">
+  <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
     {% for i in assessment_info_dict_to_html['questions_arr_of_dicts'] %}
     <div class="select-question-container">
       <div class="select-question-left-side">

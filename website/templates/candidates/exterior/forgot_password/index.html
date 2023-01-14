@@ -10,7 +10,7 @@
 
 <!-- ----------------------------------- start ----------------------------------- -->
 <div class="container mx-auto custom-pt-3 custom-width-4 custom-pb-1 custom-index-2">
-  <form method="POST" enctype="multipart/form-data" class="custom-p-4 shadow border custom-br-1 custom-bg-grey-2">
+  <form method="POST" enctype="multipart/form-data" class="custom-p-4 shadow border custom-br-1 custom-bg-grey-2" onsubmit="return clickSubmitButtonOnce()">
     <!-- ----------------------------------- start ----------------------------------- -->
     {% if error_message_to_html != '' %}
     <div class="alert alert-success mx-auto" role="alert">

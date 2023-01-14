@@ -56,7 +56,7 @@
     <div class="candidate-upload-form-title">
       <p class="general-page-font">Option 1: Upload <span class="general-highlight-primary">individual</span> candidate.</p>
     </div>
-    <form method="POST" class="upload-email-form" enctype="multipart/form-data">
+    <form method="POST" class="upload-email-form" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
       <label for="candidate_upload_page_ui_email"></label>
       <input type="email" id="candidate_upload_page_ui_email" name="candidate_upload_page_ui_email" class="candidates-default-text-input" placeholder="Candidate email" pattern="\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b" required />
       <button type="submit" class="default-button-format default-button-format-primary-color">Send assessment</button>
@@ -87,7 +87,7 @@
     <div class="candidate-upload-form-title">
       <p class="general-page-font">Option 2: Upload <span class="general-highlight-primary">bulk</span> candidates .csv</p>
     </div>
-    <form method="POST" class="upload-email-form-bulk" enctype="multipart/form-data">
+    <form method="POST" class="upload-email-form-bulk" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
       <input type="file" name="file" />
       <button type="submit" class="default-button-format default-button-format-primary-color candidate-upload-bulk-button">Add candidates</button>
     </form>

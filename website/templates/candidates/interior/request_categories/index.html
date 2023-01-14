@@ -40,7 +40,7 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select questions arr start -->
 <div class="select-questions-form-container">
-  <form method="POST" enctype="multipart/form-data">
+  <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
     <div class="requested-container">
       <label for="ui_requested"></label>
       <input type="text" id="ui_requested" name="ui_requested" class="candidates-default-text-input candidates-default-text-input-full-width" placeholder="Requested frameworks"  maxlength="100" pattern="[a-zA-z0-9, ]{0,100}" title="Only letters numbers and spaces accepted" required />
