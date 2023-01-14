@@ -19,7 +19,7 @@ from website.backend.candidates.browser import browser_response_set_cookie_funct
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
 from website import db
-from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function, sanitize_create_account_text_inputs_function, sanitize_create_account_text_inputs_large_function, validate_upload_candidate_function, sanitize_loop_check_if_exists_within_arr_function, sanitize_check_if_str_exists_within_arr_function, check_if_question_id_arr_exists_function, sanitize_candidate_ui_answer_text_function, sanitize_candidate_ui_answer_radio_function, sanitize_create_question_categories_function, sanitize_create_question_question_function, sanitize_create_question_options_function, sanitize_create_question_answer_function, sanitize_create_question_difficulty_function, sanitize_create_question_option_e_function, sanitize_desired_langs_text_inputs_function, sanitize_letters_numbers_spaces_only_function
+from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function, sanitize_create_account_text_inputs_function, sanitize_create_account_text_inputs_large_function, validate_upload_candidate_function, sanitize_loop_check_if_exists_within_arr_function, sanitize_check_if_str_exists_within_arr_function, check_if_question_id_arr_exists_function, sanitize_candidate_ui_answer_text_function, sanitize_candidate_ui_answer_radio_function, sanitize_create_question_categories_function, sanitize_create_question_question_function, sanitize_create_question_options_function, sanitize_create_question_answer_function, sanitize_create_question_difficulty_function, sanitize_create_question_option_e_function, sanitize_desired_langs_text_inputs_function, sanitize_letters_numbers_spaces_only_function, alert_message_default_function
 from website.backend.candidates.send_emails import send_email_template_function
 from werkzeug.security import generate_password_hash
 import pandas as pd
@@ -638,9 +638,19 @@ def candidates_assessment_create_review_function(url_assessment_name):
 # ------------------------ individual route start ------------------------
 @views_interior.route('/candidates/assessment/preview/<url_assessment_name>/<url_question_number>', methods=['GET', 'POST'])
 @login_required
-def candidates_assessment_preview_function(url_assessment_name, url_question_number):
+def candidates_assessment_preview_function(url_assessment_name, url_question_number, url_redirect_code=None):
   localhost_print_function('=========================================== candidates_assessment_preview_function START ===========================================')
-  preview_assessment_error_statement = ''
+  alert_message_page, alert_message_type = alert_message_default_function()
+  # ------------------------ redirect codes start ------------------------
+  redirect_var = request.args.get('url_redirect_code')
+  if redirect_var != None:
+    if redirect_var == 'r':
+      alert_message_page = 'Previous question successfully removed.'
+      alert_message_type = 'success'
+    if redirect_var == 'a':
+      alert_message_page = 'Successfully added question to test.'
+      alert_message_type = 'success'
+  # ------------------------ redirect codes end ------------------------
   next_question_number = int(url_question_number) + 1
   previous_question_number = int(url_question_number) - 1
   # ------------------------ variables start ------------------------
@@ -693,7 +703,8 @@ def candidates_assessment_preview_function(url_assessment_name, url_question_num
     # ------------------------ remove question id start ------------------------
     if 'remove' in ui_desired_actions_checkboxes_arr:
       if assessment_info_dict['total_questions'] == 1:
-        preview_assessment_error_statement = 'Test must contain at least 1 question.'
+        alert_message_page = 'Test must contain at least 1 question.'
+        alert_message_type = 'danger'
       if assessment_info_dict['total_questions'] != 1:
         current_question_id = assessment_info_dict['question_details_dict']['id']
         all_current_question_ids_from_obj_str = db_assessment_obj.question_ids_arr
@@ -717,12 +728,13 @@ def candidates_assessment_preview_function(url_assessment_name, url_question_num
           pass
         else:
           url_question_number = str(int(url_question_number) - 1)
-        return redirect(url_for('views_interior.candidates_assessment_preview_function',url_assessment_name=url_assessment_name, url_question_number=url_question_number))
+        return redirect(url_for('views_interior.candidates_assessment_preview_function',url_assessment_name=url_assessment_name, url_question_number=url_question_number, url_redirect_code='r'))
     # ------------------------ remove question id end ------------------------
     # ------------------------ add new question id start ------------------------
     if 'add' in ui_desired_actions_checkboxes_arr:
       if assessment_info_dict['total_questions'] == 50:
-        preview_assessment_error_statement = 'Test cannot be more than 50 questions.'
+        alert_message_page = 'Test cannot be more than 50 questions.'
+        alert_message_type = 'danger'
       if assessment_info_dict['total_questions'] != 50:
         desired_languages_str = db_assessment_obj.desired_languages_arr
         # ------------------------ prepare where statement start ------------------------
@@ -738,7 +750,8 @@ def candidates_assessment_preview_function(url_assessment_name, url_question_num
         # ------------------------ sql query end ------------------------
         # ------------------------ action based on sql query result start ------------------------
         if add_question_id == None:
-          preview_assessment_error_statement = 'All available questions for this category are already selected. Triviafy team will be making more questions for this category, thank you.'
+          alert_message_page = 'All available questions for this category are already selected. Triviafy team will be making more questions for this category, thank you.'
+          alert_message_type = 'danger'
           # ------------------------ add row to requested categories start ------------------------
           current_user_desired_langs_arr = CandidatesDesiredLanguagesObj.query.filter_by(user_id_fk=current_user.id).all()
           # ------------------------ check if already requested start ------------------------
@@ -769,13 +782,13 @@ def candidates_assessment_preview_function(url_assessment_name, url_question_num
           db_assessment_obj.total_questions = new_total_question_count
           db.session.commit()
           # redirect back to same page post changes
-          return redirect(url_for('views_interior.candidates_assessment_preview_function',url_assessment_name=url_assessment_name, url_question_number=url_question_number))
+          return redirect(url_for('views_interior.candidates_assessment_preview_function',url_assessment_name=url_assessment_name, url_question_number=new_total_question_count, url_redirect_code='a'))
         # ------------------------ action based on sql query result end ------------------------
     # ------------------------ add new question id end ------------------------
     # ------------------------ get user inputs end ------------------------
   # ------------------------ post hit admin control end ------------------------
   localhost_print_function('=========================================== candidates_assessment_preview_function END ===========================================')
-  return render_template('candidates/interior/assessments/assessments_preview/index.html', user=current_user, users_company_name_to_html=user_company_name, error_message_to_html=preview_assessment_error_statement, stripe_subscription_obj_status_to_html=stripe_subscription_obj_status, current_question_number_to_html=url_question_number, next_question_number_to_html=next_question_number, previous_question_number_to_html=previous_question_number, url_assessment_name_to_html=url_assessment_name, assessment_info_dict_to_html=assessment_info_dict, contains_img_to_html=contains_img, assessment_total_questions_to_html=assessment_total_questions)
+  return render_template('candidates/interior/assessments/assessments_preview/index.html', user=current_user, users_company_name_to_html=user_company_name, alert_message_page_to_html=alert_message_page, alert_message_type_to_html = alert_message_type, stripe_subscription_obj_status_to_html=stripe_subscription_obj_status, current_question_number_to_html=url_question_number, next_question_number_to_html=next_question_number, previous_question_number_to_html=previous_question_number, url_assessment_name_to_html=url_assessment_name, assessment_info_dict_to_html=assessment_info_dict, contains_img_to_html=contains_img, assessment_total_questions_to_html=assessment_total_questions)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------

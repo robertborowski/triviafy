@@ -335,4 +335,13 @@ def sanitize_letters_numbers_spaces_only_function(user_input):
   localhost_print_function('=========================================== sanitize_letters_numbers_spaces_only_function END ===========================================')
   return False
 # ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def alert_message_default_function():
+  # localhost_print_function('=========================================== alert_message_default_function START ===========================================')
+  alert_message_page = ''
+  alert_message_type = 'danger'
+  # localhost_print_function('=========================================== alert_message_default_function END ===========================================')
+  return alert_message_page, alert_message_type
+# ------------------------ individual function end ------------------------
 localhost_print_function('=========================================== user_inputs __init__ END ===========================================')
