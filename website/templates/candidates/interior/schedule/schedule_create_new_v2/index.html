@@ -15,21 +15,26 @@
   <div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
     <div>
       <h2 class="custom-header-2-mobile">Send test</h2>
-      <div>
-        <a href="/candidates/schedule/now/v2" class="custom-a-2-none custom-header-5">Immediate |</a>
-        <a href="#" class="custom-header-5">Scheduled</a>
-      </div>
     </div>
     <div>
       <a href="#" class="btn btn-outline-primary">Candidates +</a>
       <button type="submit" class="btn btn-primary custom-ml-3">Send now</button>
     </div>
   </div>
-  <div class="container border shadow custom-br-1 custom-bg-white">
+  <div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
+    <div class="custom-display-flex custom-jc-3">
+      <div class="text-center custom-p-2 border shadow-sm custom-br-1">
+        <h2 class="custom-header-4">Send test</h2>
+        <div>
+          <a href="#" class="custom-a-2-none">Immediate |</a>
+          <a href="#">Scheduled</a>
+        </div>
+      </div>
+    </div>
     <div class="custom-display-flex custom-fw-1 custom-height-4-mobile">
       <div class="custom-width-11-mobile custom-p-5">
         <div class="text-center">
-          <p class="custom-header-4">Select Test</p>
+          <h2 class="custom-header-4">Select Test</h2>
         </div>
         <div class="custom-overflow-1 custom-height-5-mobile">
           {% for i_obj in db_tests_obj_to_html %}
@@ -40,7 +45,7 @@
       </div>
       <div class="custom-width-11-mobile custom-p-5">
         <div class="text-center">
-          <p class="custom-header-4">Select Candidates</p>
+          <h2 class="custom-header-4">Select Candidates</h2>
         </div>
         <div class="custom-overflow-1 custom-height-5-mobile">
           <input type="checkbox" class="btn-check" id="uiCandidateSelected_{{ current_user_email_to_html }}" name="uiCandidateSelected" value="{{ current_user_email_to_html }}">
