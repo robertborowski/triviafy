@@ -381,6 +381,13 @@ def candidates_account_settings_function_v2(url_redirect_code=None):
     except:
       current_plan_type = 'Pro'
   # ------------------------ get current plan from stripe end ------------------------
+  # ------------------------ get current user info start ------------------------
+  user_obj = {
+    'email': current_user.email,
+    'name': current_user.name,
+    'company_name': current_user.company_name
+  }
+  # ------------------------ get current user info end ------------------------
   # ------------------------ if post data start ------------------------
   if request.method == 'POST':
     # ------------------------ delete all previous checkout drafts start ------------------------
@@ -442,7 +449,7 @@ def candidates_account_settings_function_v2(url_redirect_code=None):
       # ------------------------ stripe checkout end ------------------------
   # ------------------------ if post data end ------------------------
   localhost_print_function('=========================================== candidates_account_settings_function_v2 END ===========================================')
-  return render_template('candidates/interior/account/index.html', user=current_user, users_company_name_to_html=current_user.company_name, user_email_to_html=current_user.email, current_plan_type_to_html=current_plan_type, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type, stripe_current_period_end_to_html=stripe_current_period_end)
+  return render_template('candidates/interior/account/index.html', user=current_user, users_company_name_to_html=current_user.company_name, user_email_to_html=current_user.email, current_plan_type_to_html=current_plan_type, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type, stripe_current_period_end_to_html=stripe_current_period_end, user_obj_to_html=user_obj)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
