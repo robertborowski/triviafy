@@ -19,18 +19,71 @@
         </h2>
         <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
           <div class="accordion-body">
-            <p>Current subscription: INSERT</p>
-            <div>
-              <input type="radio" class="btn-check" name="capacity_page_ui_capacity_selected" id="capacity_choice_1" autocomplete="off" value="1m" required>
-              <label class="btn btn-outline-secondary custom-width-9 custom-m-1" for="capacity_choice_1">Free</label>
-
-              <input type="radio" class="btn-check" name="capacity_page_ui_capacity_selected" id="capacity_choice_2" autocomplete="off" value="2m" required>
-              <label class="btn btn-outline-secondary custom-width-9 custom-m-1" for="capacity_choice_2">Pro</label>
-
-              <input type="radio" class="btn-check" name="capacity_page_ui_capacity_selected" id="capacity_choice_3" autocomplete="off" value="3m" required>
-              <label class="btn btn-outline-secondary custom-width-9 custom-m-1" for="capacity_choice_3">Premium</label>
-
-              <button type="submit" class="btn btn-primary custom-width-9 custom-m-1">Submit</button>
+            <p>Current plan: {{ current_plan_type_to_html }}</p>
+            <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+              <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm">
+                  <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">Free</h4>
+                  </div>
+                  <div class="card-body">
+                    <h1 class="card-title pricing-card-title">$0<small class="text-muted fw-light">/mo</small></h1>
+                    <ul class="list-unstyled mt-3 mb-4 custom-height-6">
+                      <li>Test library</li>
+                      <li>Test customization</li>
+                      <li>Candidate analytics</li>
+                      <li>Send up to 5 tests</li>
+                    </ul>
+                    <input type="radio" class="btn-check" name="uiSubscriptionSelected" id="capacity_choice_1" autocomplete="off" value="1m" required>
+                    <label class="w-100 btn btn-lg btn-outline-primary" for="capacity_choice_1">Select</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm">
+                  <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">Pro</h4>
+                  </div>
+                  <div class="card-body">
+                    <h1 class="card-title pricing-card-title">$9<small class="text-muted fw-light">/mo</small></h1>
+                    <ul class="list-unstyled mt-3 mb-4 custom-height-6">
+                      <li>Test library</li>
+                      <li>Test customization</li>
+                      <li>Candidate analytics</li>
+                      <li>Question customization</li>
+                      <li>Bulk upload candidates</li>
+                      <li>Bulk upload tests</li>
+                      <li>Send up to 20 tests</li>
+                    </ul>
+                    <input type="radio" class="btn-check" name="uiSubscriptionSelected" id="capacity_choice_2" autocomplete="off" value="2m">
+                    <label class="w-100 btn btn-lg btn-outline-primary" for="capacity_choice_2">Select</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm border-primary">
+                  <div class="card-header py-3 text-bg-primary border-primary">
+                    <h4 class="my-0 fw-normal">Premium</h4>
+                  </div>
+                  <div class="card-body">
+                    <h1 class="card-title pricing-card-title">$99<small class="text-muted fw-light">/mo</small></h1>
+                    <ul class="list-unstyled mt-3 mb-4 custom-height-6">
+                      <li>Test library</li>
+                      <li>Test customization</li>
+                      <li>Candidate analytics</li>
+                      <li>Question customization</li>
+                      <li>Bulk upload candidates</li>
+                      <li>Bulk upload tests</li>
+                      <li>Send unlimited tests</li>
+                    </ul>
+                    <input type="radio" class="btn-check" name="uiSubscriptionSelected" id="capacity_choice_3" autocomplete="off" value="3m">
+                    <label class="w-100 btn btn-lg btn-outline-primary" for="capacity_choice_3">Select</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary btn-lg">Continue</button>
             </div>
           </div>
         </div>

@@ -42,6 +42,7 @@ class CandidatesCapacityOptionsObj(db.Model):
   candence = db.Column(db.String(10))
   price = db.Column(db.Float)
   fk_stripe_price_id = db.Column(db.String(150))
+  name = db.Column(db.String(20))
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
@@ -137,6 +138,7 @@ class CandidatesStripeCheckoutSessionObj(db.Model):
   created_timestamp = db.Column(db.DateTime(timezone=True))
   fk_checkout_session_id = db.Column(db.String(150))
   fk_user_id = db.Column(db.String(150))
+  status = db.Column(db.String(20))
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
