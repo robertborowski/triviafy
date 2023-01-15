@@ -345,6 +345,138 @@ def candidates_account_settings_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
+@views_interior.route('/candidates/account/v2', methods=['GET', 'POST'])
+@login_required
+def candidates_account_settings_function_v2():
+  localhost_print_function('=========================================== candidates_account_settings_function_v2 START ===========================================')
+  # ------------------------ stripe subscription status check start ------------------------
+  stripe_subscription_obj_status = check_stripe_subscription_status_function(current_user)
+  # ------------------------ stripe subscription status check end ------------------------
+  localhost_print_function('- - - - - - - 0 - - - - - - -')
+  localhost_print_function(f'stripe_subscription_obj_status | type: {type(stripe_subscription_obj_status)} | {stripe_subscription_obj_status}')
+  localhost_print_function('- - - - - - - 0 - - - - - - -')
+  # ------------------------ pull user info start ------------------------
+  user_account_created_timestamp = current_user.created_timestamp
+  user_account_created_str = user_account_created_timestamp.strftime('%m/%Y')
+  # ------------------------ pull user info end ------------------------
+  # ------------------------ stripe subscription status check start ------------------------
+  user_obj = CandidatesUserObj.query.filter_by(id=current_user.id).first()
+  fk_stripe_subscription_id = user_obj.fk_stripe_subscription_id
+  stripe_subscription_obj = ''
+  stripe_subscription_obj_status = 'not active'
+  stripe_current_period_end_datetime_str = ''
+  try:
+    # ------------------------ stripe subscription object start ------------------------
+    stripe_subscription_obj = stripe.Subscription.retrieve(fk_stripe_subscription_id)
+    # ------------------------ stripe subscription object end ------------------------
+    stripe_subscription_obj_status = stripe_subscription_obj.status
+    stripe_current_period_end_timestamp = stripe_subscription_obj.current_period_end
+    stripe_current_period_end_datetime_str = datetime.datetime.utcfromtimestamp(stripe_current_period_end_timestamp).strftime('%m/%d/%Y')
+    # ------------------------ get plan name start ------------------------
+    stripe_user_subscription_price_id_fk = stripe_subscription_obj.plan.id
+    db_capacity_obj = CandidatesCapacityOptionsObj.query.filter_by(fk_stripe_price_id=stripe_user_subscription_price_id_fk).first()
+    current_stripe_capacity = db_capacity_obj.id
+    user_obj = CandidatesUserObj.query.filter_by(id=current_user.id).first()
+    current_users_capacity = user_obj.capacity_id_fk
+    if current_users_capacity != current_stripe_capacity:
+      # ------------------------ update row in db user start ------------------------
+      user_obj.capacity_id_fk = current_stripe_capacity
+      db.session.commit()
+      # ------------------------ update row in db user end ------------------------
+  except:
+    pass
+  # ------------------------ stripe subscription status check end ------------------------
+  # ------------------------ if subscription not paid start ------------------------
+  user_sub_active = False
+  if stripe_subscription_obj_status == 'active':
+    user_sub_active = True
+  # ------------------------ if subscription not paid end ------------------------
+  # ------------------------ get plan name start ------------------------
+  user_obj = CandidatesUserObj.query.filter_by(id=current_user.id).first()
+  user_obj_capacity_id = user_obj.capacity_id_fk
+  if user_obj_capacity_id == '1m':
+    user_obj_capacity_id = 'Basic'
+  if user_obj_capacity_id == '2m':
+    user_obj_capacity_id = 'Professional'
+  if user_obj_capacity_id == '3m':
+    user_obj_capacity_id = 'Premium'
+  # ------------------------ get plan name end ------------------------
+  # ------------------------ if post data start ------------------------
+  if request.method == 'POST':
+    ui_capacity_selected = request.form.get('capacity_page_ui_capacity_selected')
+    # ------------------------ postman checks start ------------------------
+    try:
+      if len(ui_capacity_selected) != 2:
+        ui_capacity_selected = None
+    except:
+      ui_capacity_selected = None
+    # ------------------------ postman checks end ------------------------
+    # ------------------------ valid input check start ------------------------
+    query_result_arr_of_dicts = select_general_function('select_all_capacity_options')
+    capacity_options_arr = one_col_dict_to_arr_function(query_result_arr_of_dicts)
+    if ui_capacity_selected not in capacity_options_arr:
+      ui_capacity_selected = None
+    # ------------------------ valid input check end ------------------------
+    # ------------------------ redirect if invalid start ------------------------
+    if ui_capacity_selected == None:
+      localhost_print_function('=========================================== candidates_account_settings_function_v2 END ===========================================')
+      return redirect(url_for('views_interior.login_dashboard_page_function'))
+    # ------------------------ redirect if invalid end ------------------------
+    if ui_capacity_selected != None:
+      # ------------------------ db get price id start ------------------------
+      db_capacity_obj = CandidatesCapacityOptionsObj.query.filter_by(id=ui_capacity_selected).first()
+      fk_stripe_price_id = db_capacity_obj.fk_stripe_price_id
+      # ------------------------ db get price id end ------------------------
+      # ------------------------ stripe checkout start ------------------------
+      try:
+        checkout_session = stripe.checkout.Session.create(
+          line_items=[
+            {
+            'price': fk_stripe_price_id,
+            'quantity': 1,
+            },
+          ],
+          mode='subscription',
+          success_url='https://triviafy.com/candidates/subscription/success',
+          cancel_url='https://triviafy.com/candidates/account/v2',
+          metadata={
+            'fk_user_id': current_user.id
+          }
+        )
+        # ------------------------ create db row start ------------------------
+        # This is so I can easily get the customer id and subscription id in a future lookup
+        checkout_session_id = checkout_session.id
+        current_user_id = current_user.id
+        new_checkout_session_obj = CandidatesStripeCheckoutSessionObj(
+          id = create_uuid_function('checkout_'),
+          created_timestamp = create_timestamp_function(),
+          fk_checkout_session_id = checkout_session_id,
+          fk_user_id = current_user_id
+        )
+        db.session.add(new_checkout_session_obj)
+        db.session.commit()
+        # ------------------------ create db row end ------------------------
+        # ------------------------ for presentation start ------------------------
+        user_obj = CandidatesUserObj.query.filter_by(id=current_user.id).first()
+        user_obj_capacity_id = user_obj.capacity_id_fk
+        if user_obj_capacity_id == '1m':
+          user_obj_capacity_id = 'Basic'
+        if user_obj_capacity_id == '2m':
+          user_obj_capacity_id = 'Professional'
+        if user_obj_capacity_id == '3m':
+          user_obj_capacity_id = 'Premium'
+        # ------------------------ for presentation end ------------------------
+      except Exception as e:
+        return str(e)
+      localhost_print_function('=========================================== candidates_account_settings_function_v2 END ===========================================')
+      return redirect(checkout_session.url, code=303)
+      # ------------------------ stripe checkout end ------------------------
+  # ------------------------ if post data end ------------------------
+  localhost_print_function('=========================================== candidates_account_settings_function_v2 END ===========================================')
+  return render_template('candidates/interior/account/index.html', user=current_user, users_company_name_to_html=current_user.company_name, user_email_to_html=current_user.email, user_account_created_str_to_html=user_account_created_str,stripe_subscription_obj_status_to_html=stripe_subscription_obj_status,user_sub_active_to_html=user_sub_active,stripe_current_period_end_datetime_str_to_html=stripe_current_period_end_datetime_str,user_obj_capacity_id_to_html=user_obj_capacity_id)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
 @views_interior.route('/candidates/upload', methods=['GET', 'POST'])
 @login_required
 def candidates_upload_emails_function():

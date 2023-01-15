@@ -1,70 +1,72 @@
 {% extends "candidates/aaa_base/base2_interior.html" %}
-
 <!-- head tag block content -->
 {% block title %}
-  <title>Account / Triviafy</title>
+  <title>Create Assessment / Triviafy</title>
 {% endblock %}
-
 {% block contentBodyExceptNavbarAndFooter %}
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name start -->
-<div class="general-signed-in-company-name-section">
-  <p class="general-signed-in-company-name-title">{{ users_company_name_to_html }}</p>
+<div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
+  <h2 class="custom-header-2-mobile">Account settings</h2>
 </div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name end -->
+<div class="container custom-br-1"> 
+  <div class="accordion" id="accordionExample">
+    
+    <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            Subscription <img src="/static/images/candidates/stripe/stripe_t.png" alt="powered by stripe" class="custom-img-size-4 custom-ml-3">
+          </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <p>Current subscription: INSERT</p>
+            <div>
+              <input type="radio" class="btn-check" name="capacity_page_ui_capacity_selected" id="capacity_choice_1" autocomplete="off" value="1m" required>
+              <label class="btn btn-outline-secondary custom-width-9 custom-m-1" for="capacity_choice_1">Free</label>
 
+              <input type="radio" class="btn-check" name="capacity_page_ui_capacity_selected" id="capacity_choice_2" autocomplete="off" value="2m" required>
+              <label class="btn btn-outline-secondary custom-width-9 custom-m-1" for="capacity_choice_2">Pro</label>
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="general-spacer-section"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+              <input type="radio" class="btn-check" name="capacity_page_ui_capacity_selected" id="capacity_choice_3" autocomplete="off" value="3m" required>
+              <label class="btn btn-outline-secondary custom-width-9 custom-m-1" for="capacity_choice_3">Premium</label>
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title start -->
-<div class="general-page-title-section">
-  <p class="general-page-title">Account Settings</p>
-  <p class="general-page-sub-title">{{ user_email_to_html }} joined {{ user_account_created_str_to_html }}</p>
-  <p class="general-page-sub-title">Subscription status: {{ stripe_subscription_obj_status_to_html }} | Plan: {{ user_obj_capacity_id_to_html }}</p>
-  <!-- <a href="#" class="general-a-grey"><p class="general-page-fine-print general-top-margin">Cancel subscription</p></a> -->
+              <button type="submit" class="btn btn-primary custom-width-9 custom-m-1">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingTwo">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+            Details
+          </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingThree">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+            Contact
+          </button>
+        </h2>
+        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+          </div>
+        </div>
+      </div>
+    </form>
+
+  </div>
 </div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="general-spacer-section"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - form start -->
-<form method="POST" class="capacity-entire-form-section-colorful default-box-shadow-grey-reg" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
-  <div class="capacity-form-header-section">
-    <p class="capacity-title">Select subscription</p>
-    <p class="capacity-subtitle">Average candidates screened / month</p>
-  </div>
-
-  <div class="capacity-form-body-section">
-    <input type="radio" id="capacity_choice_1" name="capacity_page_ui_capacity_selected" value="1m" checked>
-    <label for="capacity_choice_1" class="capacity-radio-label">Basic<p class="capacity-candidates-per-month">1-50</p></label>
-
-    <input type="radio" id="capacity_choice_2" name="capacity_page_ui_capacity_selected" value="2m">
-    <label for="capacity_choice_2" class="capacity-radio-label">Professional<p class="capacity-candidates-per-month">51-100</p></label>
-
-    <input type="radio" id="capacity_choice_3" name="capacity_page_ui_capacity_selected" value="3m">
-    <label for="capacity_choice_3" class="capacity-radio-label">Premium<p class="capacity-candidates-per-month">Unlimited</p></label>
-
-  </div>
-
-  <div class="capacity-form-footer-section">
-    <button type="submit" class="default-button-format default-button-format-primary-color">Checkout</button>
-    <div class="stripe-powered-section">
-      <img src="/static/images/candidates/stripe/stripe_t.png" alt="powered by stripe" class="stripe-img">
-    </div>
-  </div>
-</form>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - form end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="general-spacer-section-large"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="general-spacer-section"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
 {% endblock %}
