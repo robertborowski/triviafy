@@ -108,11 +108,11 @@
       <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
         <div class="accordion-body">
           <div class="custom-ptb-4">
-            <p>Email: {{ user_obj_to_html.email }}</p>
+            <p class="custom-header-5">Email: {{ user_obj_to_html.email }}</p>
             {% if user_obj_to_html.name != '' %}
-            <p>Name: {{ user_obj_to_html.name }}</p>
+            <p class="custom-header-5">Name: {{ user_obj_to_html.name }}</p>
             {% endif %}
-            <p>Company: {{ user_obj_to_html.company_name }}</p>
+            <p class="custom-header-5">Company: {{ user_obj_to_html.company_name }}</p>
           </div>
         </div>
       </div>
@@ -127,7 +127,21 @@
         </h2>
         <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
           <div class="accordion-body">
-            <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+            <div class="custom-ptb-4">
+              <div>
+                <p class="custom-header-5">Email: support@triviafy.com</p>
+              </div>
+              <!-- ------------------------------------- input start ------------------------------------- -->
+              <div class="form-floating">
+                <textarea class="form-control" id="uiMessage" name="uiMessage" placeholder="Message*" onkeyup="createQuestionCountCharsOptionA(this);" pattern="{1,280}" required></textarea>
+                <label for="uiMessage">Message*</label>
+                <p id="createQuestionCountCharsOptionA" class="custom-size-3 custom-color-light-1 fst-italic custom-mt-2 custom-ml-2"></p>
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+              <!-- ------------------------------------- input end ------------------------------------- -->
+            </div>
           </div>
         </div>
       </div>

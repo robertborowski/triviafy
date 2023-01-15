@@ -363,6 +363,12 @@ def candidates_account_settings_function_v2(url_redirect_code=None):
     if redirect_var == 's':
       alert_message_page = 'Successfully updated subscription.'
       alert_message_type = 'success'
+    if redirect_var == 's2':
+      alert_message_page = 'Successfully submitted message.'
+      alert_message_type = 'success'
+    if redirect_var == 'e':
+      alert_message_page = 'Contact message must be only 1-280 characters long.'
+      alert_message_type = 'danger'
   # ------------------------ redirect codes end ------------------------
   # ------------------------ stripe subscription status check start ------------------------
   stripe_subscription_obj_status = check_stripe_subscription_status_function(current_user)
@@ -390,6 +396,26 @@ def candidates_account_settings_function_v2(url_redirect_code=None):
   # ------------------------ get current user info end ------------------------
   # ------------------------ if post data start ------------------------
   if request.method == 'POST':
+    # ------------------------ post uiMessage start ------------------------
+    ui_message = request.form.get('uiMessage')
+    if ui_message != None and ui_message != '' and ui_message != []:
+      ui_message = sanitize_create_question_options_function(ui_message)
+      if ui_message == False:
+        localhost_print_function('=========================================== candidates_account_settings_function_v2 END ===========================================')
+        return redirect(url_for('views_interior.candidates_account_settings_function_v2', url_redirect_code='e'))
+      else:
+        # ------------------------ email self start ------------------------
+        try:
+          output_to_email = os.environ.get('TRIVIAFY_SUPPORT_EMAIL')
+          output_subject = f'Triviafy - Contact Message From: {current_user.email}'
+          output_body = f"Hi there,\n\nContact message:\n{ui_message}\n\nBest,\nTriviafy"
+          send_email_template_function(output_to_email, output_subject, output_body)
+        except:
+          pass
+        # ------------------------ email self end ------------------------
+        localhost_print_function('=========================================== candidates_account_settings_function_v2 END ===========================================')
+        return redirect(url_for('views_interior.candidates_account_settings_function_v2', url_redirect_code='s2'))
+    # ------------------------ post uiMessage end ------------------------
     # ------------------------ delete all previous checkout drafts start ------------------------
     CandidatesStripeCheckoutSessionObj.query.filter_by(fk_user_id=current_user.id,status='draft').delete()
     # ------------------------ delete all previous checkout drafts end ------------------------
