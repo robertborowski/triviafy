@@ -6,9 +6,9 @@
 {% block contentBodyExceptNavbarAndFooter %}
 <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
   <!-- ----------------------------------- start ----------------------------------- -->
-  {% if error_message_to_html != '' %}
-  <div class="container alert alert-danger mx-auto text-center custom-mt-1" role="alert">
-    {{ error_message_to_html }}
+  {% if alert_message_page_to_html != '' %}
+  <div class="alert alert-{{ alert_message_type_to_html }} mx-auto text-center custom-mt-3 container" role="alert">
+    {{ alert_message_page_to_html }}
   </div>
   {% endif %}
   <!-- ----------------------------------- end ----------------------------------- -->

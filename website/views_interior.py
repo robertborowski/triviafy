@@ -1427,22 +1427,22 @@ def candidates_schedule_create_now_function():
     if len(db_schedule_obj) <= 3:
       current_user_candidates_arr = [user_obj.email]
       # ------------------------ add user self email to candidate list start ------------------------
-      found_self_email = False
-      for i in current_user_candidates_uploaded_arr:
-        if i.email == user_obj.email:
-          found_self_email = True
-      if found_self_email == False:
-        if user_obj.email not in current_user_candidates_uploaded_arr:
-          new_user = CandidatesUploadedCandidatesObj(
-            id=create_uuid_function('candup_'),
-            created_timestamp=create_timestamp_function(),
-            user_id_fk=current_user.id,
-            candidate_id=create_uuid_function('cand_'),
-            email = user_obj.email,
-            upload_type = 'individual'
-          )
-          db.session.add(new_user)
-          db.session.commit()
+      # found_self_email = False
+      # for i in current_user_candidates_uploaded_arr:
+      #   if i.email == user_obj.email:
+      #     found_self_email = True
+      # if found_self_email == False:
+      #   if user_obj.email not in current_user_candidates_uploaded_arr:
+      #     new_user = CandidatesUploadedCandidatesObj(
+      #       id=create_uuid_function('candup_'),
+      #       created_timestamp=create_timestamp_function(),
+      #       user_id_fk=current_user.id,
+      #       candidate_id=create_uuid_function('cand_'),
+      #       email = user_obj.email,
+      #       upload_type = 'individual'
+      #     )
+      #     db.session.add(new_user)
+      #     db.session.commit()
       # ------------------------ add user self email to candidate list end ------------------------
     else:
       current_user_candidates_arr = []
@@ -1524,9 +1524,16 @@ def candidates_schedule_create_now_function():
 # ------------------------ individual route start ------------------------
 @views_interior.route('/candidates/schedule/now/v2', methods=['GET', 'POST'])
 @login_required
-def candidates_schedule_create_now_function_v2():
+def candidates_schedule_create_now_function_v2(url_redirect_code=None):
   localhost_print_function('=========================================== candidates_schedule_create_now_function_v2 START ===========================================')
-  page_error_message = ''
+  alert_message_page, alert_message_type = alert_message_default_function()
+  # ------------------------ redirect codes start ------------------------
+  redirect_var = request.args.get('url_redirect_code')
+  if redirect_var != None:
+    if redirect_var == 's':
+      alert_message_page = 'Test sent successfully.'
+      alert_message_type = 'success'
+  # ------------------------ redirect codes end ------------------------
   current_user_email = current_user.email
   # ------------------------ pull tests arr of dict start ------------------------
   db_tests_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id).all()
@@ -1537,7 +1544,7 @@ def candidates_schedule_create_now_function_v2():
   db_candidates_obj = arr_of_dict_necessary_columns_function(db_candidates_obj, ['email'])
   # ------------------------ pull candidates arr of dict end ------------------------
   localhost_print_function('=========================================== candidates_schedule_create_now_function_v2 END ===========================================')
-  return render_template('candidates/interior/schedule/schedule_create_new_v2/index.html', user=current_user, error_message_to_html=page_error_message, current_user_email_to_html=current_user_email, db_tests_obj_to_html=db_tests_obj, db_candidates_obj_to_html=db_candidates_obj)
+  return render_template('candidates/interior/schedule/schedule_create_new_v2/index.html', user=current_user, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type, current_user_email_to_html=current_user_email, db_tests_obj_to_html=db_tests_obj, db_candidates_obj_to_html=db_candidates_obj)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
