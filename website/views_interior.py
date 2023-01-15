@@ -33,7 +33,7 @@ import stripe
 import os
 from website.backend.candidates.aws_manipulation import candidates_change_uploaded_image_filename_function, candidates_user_upload_image_checks_aws_s3_function
 from website.backend.candidates.sql_statements.sql_prep import prepare_where_clause_function, prepare_question_ids_where_clause_function
-from website.backend.candidates.stripe import check_stripe_subscription_status_function
+from website.backend.candidates.stripe import check_stripe_subscription_status_function, convert_current_period_end_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -179,7 +179,7 @@ def capacity_page_function():
 def candidates_subscription_success_function():
   localhost_print_function('=========================================== candidates_subscription_success_function START ===========================================')
   # ------------------------ get from db start ------------------------
-  db_checkout_session_obj = CandidatesStripeCheckoutSessionObj.query.filter_by(fk_user_id=current_user.id).order_by(CandidatesStripeCheckoutSessionObj.created_timestamp.desc()).first()
+  db_checkout_session_obj = CandidatesStripeCheckoutSessionObj.query.filter_by(fk_user_id=current_user.id,status='draft').order_by(CandidatesStripeCheckoutSessionObj.created_timestamp.desc()).first()
   # ------------------------ get from db end ------------------------
   # ------------------------ if not found start ------------------------
   if db_checkout_session_obj == None or db_checkout_session_obj == '' or db_checkout_session_obj == False:
@@ -196,6 +196,12 @@ def candidates_subscription_success_function():
     localhost_print_function('=========================================== candidates_subscription_success_function END ===========================================')
     return redirect(url_for('views_interior.login_dashboard_page_function'))
   # ------------------------ if not found end ------------------------
+  # ------------------------ if not finalized start ------------------------
+  stripe_checkout_session_payment_status = stripe_checkout_session_obj.payment_status
+  if stripe_checkout_session_payment_status != 'paid':
+    localhost_print_function('=========================================== candidates_subscription_success_function END ===========================================')
+    return redirect(url_for('views_interior.login_dashboard_page_function'))
+  # ------------------------ if not finalized end ------------------------
   stripe_customer_id = stripe_checkout_session_obj.customer
   stripe_subscription_id = stripe_checkout_session_obj.subscription
   # ------------------------ stripe lookup end ------------------------
@@ -203,6 +209,7 @@ def candidates_subscription_success_function():
   user_obj = CandidatesUserObj.query.filter_by(id=current_user.id).first()
   user_obj.fk_stripe_customer_id = stripe_customer_id
   user_obj.fk_stripe_subscription_id = stripe_subscription_id
+  db_checkout_session_obj.status = 'final'
   db.session.commit()
   # ------------------------ update db end ------------------------
   # ------------------------ email self start ------------------------
@@ -215,7 +222,7 @@ def candidates_subscription_success_function():
     pass
   # ------------------------ email self end ------------------------
   localhost_print_function('=========================================== candidates_subscription_success_function END ===========================================')
-  return render_template('candidates/interior/subscription/index.html')
+  return redirect(url_for('views_interior.candidates_account_settings_function_v2', url_redirect_code='s'))
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -347,17 +354,32 @@ def candidates_account_settings_function():
 # ------------------------ individual route start ------------------------
 @views_interior.route('/candidates/account/v2', methods=['GET', 'POST'])
 @login_required
-def candidates_account_settings_function_v2():
+def candidates_account_settings_function_v2(url_redirect_code=None):
   localhost_print_function('=========================================== candidates_account_settings_function_v2 START ===========================================')
+  alert_message_page, alert_message_type = alert_message_default_function()
+  # ------------------------ redirect codes start ------------------------
+  redirect_var = request.args.get('url_redirect_code')
+  if redirect_var != None:
+    if redirect_var == 's':
+      alert_message_page = 'Successfully updated subscription.'
+      alert_message_type = 'success'
+  # ------------------------ redirect codes end ------------------------
   # ------------------------ stripe subscription status check start ------------------------
   stripe_subscription_obj_status = check_stripe_subscription_status_function(current_user)
   # ------------------------ stripe subscription status check end ------------------------
   # ------------------------ get current plan from stripe start ------------------------
   if stripe_subscription_obj_status == 'not active':
     current_plan_type = 'Free'
+    stripe_current_period_end = ''
   if stripe_subscription_obj_status == 'active':
-    # current_plan_type <-- stripe check query here
-    pass
+    try:
+      stripe_subscription_obj = stripe.Subscription.retrieve(current_user.fk_stripe_subscription_id)
+      stripe_current_period_end = convert_current_period_end_function(stripe_subscription_obj)
+      stripe_subscription_current_price_id = stripe_subscription_obj.plan.id
+      db_capacity_obj = CandidatesCapacityOptionsObj.query.filter_by(fk_stripe_price_id=stripe_subscription_current_price_id).first()
+      current_plan_type = db_capacity_obj.name
+    except:
+      current_plan_type = 'Pro'
   # ------------------------ get current plan from stripe end ------------------------
   # ------------------------ if post data start ------------------------
   if request.method == 'POST':
@@ -420,7 +442,7 @@ def candidates_account_settings_function_v2():
       # ------------------------ stripe checkout end ------------------------
   # ------------------------ if post data end ------------------------
   localhost_print_function('=========================================== candidates_account_settings_function_v2 END ===========================================')
-  return render_template('candidates/interior/account/index.html', user=current_user, users_company_name_to_html=current_user.company_name, user_email_to_html=current_user.email, current_plan_type_to_html=current_plan_type)
+  return render_template('candidates/interior/account/index.html', user=current_user, users_company_name_to_html=current_user.company_name, user_email_to_html=current_user.email, current_plan_type_to_html=current_plan_type, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type, stripe_current_period_end_to_html=stripe_current_period_end)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------

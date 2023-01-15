@@ -67,7 +67,7 @@ def job_candidates_remove_unsub_user_all_tables_function(postgres_connection, po
     if query_result_obj == []:
       localhost_print_function('user id does not exist')
       return False
-    if query_result_obj[0]['fk_stripe_customer_id'] != None:
+    if query_result_obj[0]['fk_stripe_customer_id'] != None and query_result_obj[0]['fk_stripe_customer_id'] != '':
       localhost_print_function(' --------------------- ')
       localhost_print_function(f'skip customer: {i_user_to_delete}')
       localhost_print_function(' --------------------- ')
