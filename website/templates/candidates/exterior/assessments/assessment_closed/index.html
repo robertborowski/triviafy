@@ -1,22 +1,17 @@
 {% extends "candidates/aaa_base/single_message.html" %}
 
 {% block title %}
-<title>Closed / Triviafy</title>
+<title>Expired / Triviafy</title>
 {% endblock %}
 
 {% block contentBodyExceptNavbarAndFooter %}
-<main class="logged-in error-main">
+<main>
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Img, message, button Start -->
-  <div style="text-align:center;">
-    <img src="/static/images/candidates/logo/Logo.png" alt="Triviafy Logo" style="height:20rem;width:20rem;margin-top:50px;">
-    <p style="color:var(--company-primary-color);font-size:20px;padding-bottom: 50px;">This Triviafy assessment has already been submitted.</p>
-
-    <a href="/candidates"><button class="default-button-format default-button-format-primary-color" type="submit" value="submit">Home</button></a>
+  <div class="text-center custom-mt-5">
+    <img src="/static/images/candidates/logo/logo_v3.png" alt="Triviafy Logo" class="custom-img-size-7-mobile">
+    <p class="custom-ptb-4 custom-header-4">This Triviafy test has already been submitted.</p>
+    <a href="/candidates" class="btn btn-primary btn-lg">Home</a>
   </div>
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Img, message, button End -->
-  
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-  <div class="landing-spacer-section"></div>
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
 </main>
 {% endblock %}
