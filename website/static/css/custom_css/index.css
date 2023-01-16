@@ -142,6 +142,11 @@
   flex-wrap: nowrap;
 }
 /* ------------------- flex end ------------------- */
+/* ------------------- google start ------------------- */
+.custom-google-font-1 {
+  font-family: 'Open Sans', arial;
+}
+/* ------------------- google end ------------------- */
 /* ------------------- header start ------------------- */
 .custom-header-1 {
   font-size: 40px;
