@@ -27,6 +27,14 @@
   color: black;
   text-decoration: underline;
 }
+.custom-a-4, .custom-a-4:visited {
+  color: var(--custom-color-1);
+  text-decoration: none;
+}
+.custom-a-4:hover {
+  color: var(--bs-primary);
+  text-decoration: underline;
+}
 /* ------------------- a end ------------------- */
 /* ------------------- background start ------------------- */
 .custom-bg-white {

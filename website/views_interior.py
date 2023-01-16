@@ -230,6 +230,8 @@ def candidates_subscription_success_function():
 @login_required
 def candidates_account_settings_function():
   localhost_print_function('=========================================== candidates_account_settings_function START ===========================================')
+  localhost_print_function('=========================================== candidates_account_settings_function END ===========================================')
+  return redirect(url_for('views_interior.candidates_account_settings_function_v2'))
   # ------------------------ pull user info start ------------------------
   user_account_created_timestamp = current_user.created_timestamp
   user_account_created_str = user_account_created_timestamp.strftime('%m/%Y')
