@@ -408,11 +408,27 @@ def candidates_account_settings_function_v2(url_redirect_code=None):
         try:
           output_to_email = os.environ.get('TRIVIAFY_SUPPORT_EMAIL')
           output_subject = f'Triviafy - Contact Message From: {current_user.email}'
-          output_body = f"Hi there,\n\nContact message:\n{ui_message}\n\nBest,\nTriviafy"
+          output_body = f"Hi there,\n\nFrom: {current_user.email}\nMessage: {ui_message}\n\nBest,\nTriviafy"
           send_email_template_function(output_to_email, output_subject, output_body)
         except:
           pass
         # ------------------------ email self end ------------------------
+        # ------------------------ insert email to db start ------------------------
+        try:
+          new_row_email = CandidatesEmailSentObj(
+            id = create_uuid_function('email_test_'),
+            created_timestamp = create_timestamp_function(),
+            from_user_id_fk = current_user.id,
+            to_email = output_to_email,
+            assessment_expiring_url_fk = 'confirrm_email_sent',
+            subject = output_subject,
+            body = output_body
+          )
+          db.session.add(new_row_email)
+          db.session.commit()
+        except:
+          pass
+        # ------------------------ insert email to db end ------------------------
         localhost_print_function('=========================================== candidates_account_settings_function_v2 END ===========================================')
         return redirect(url_for('views_interior.candidates_account_settings_function_v2', url_redirect_code='s2'))
     # ------------------------ post uiMessage end ------------------------
