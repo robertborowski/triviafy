@@ -763,7 +763,7 @@ def candidates_assessment_create_review_function(url_assessment_name):
       except:
         pass
       # ------------------------ email self end ------------------------
-      return redirect(url_for('views_interior.candidates_schedule_create_now_function_v2'))
+      return redirect(url_for('views_interior.candidates_schedule_dashboard_function'))
   # ------------------------ post submit end ------------------------
   localhost_print_function('=========================================== candidates_assessment_create_review_function END ===========================================')
   return render_template('candidates/interior/assessments/assessments_create_review/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=review_assessment_error_statement, assessment_name_to_html=assessment_name, stripe_subscription_obj_status_to_html=stripe_subscription_obj_status, assessment_total_questions_to_html=assessment_total_questions)
@@ -1215,9 +1215,17 @@ def candidates_candidate_results_specific_function(url_candidate_email):
 @login_required
 def candidates_schedule_dashboard_function():
   localhost_print_function('=========================================== candidates_schedule_dashboard_function START ===========================================')
-  # ------------------------ remove answers for non paying users end ------------------------
+  # ------------------------ total assessments made start ------------------------  
+  total_test_made = 0
+  test_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id, status='final').order_by(CandidatesAssessmentsCreatedObj.created_timestamp).all()
+  if test_obj == [] or test_obj == None:
+    total_test_made = 0
+  else:
+    for i in test_obj:
+      total_test_made += 1
+  # ------------------------ total assessments made end ------------------------  
   localhost_print_function('=========================================== candidates_schedule_dashboard_function END ===========================================')
-  return render_template('candidates/interior/schedule/schedule_dashboard/index.html', user=current_user, users_company_name_to_html=current_user.company_name)
+  return render_template('candidates/interior/schedule/schedule_dashboard/index.html', user=current_user, total_test_made_to_html=total_test_made)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -1544,7 +1552,7 @@ def candidates_schedule_create_now_function_v2(url_redirect_code=None):
   db_candidates_obj = arr_of_dict_necessary_columns_function(db_candidates_obj, ['email'])
   # ------------------------ pull candidates arr of dict end ------------------------
   localhost_print_function('=========================================== candidates_schedule_create_now_function_v2 END ===========================================')
-  return render_template('candidates/interior/schedule/schedule_create_new_v2/index.html', user=current_user, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type, current_user_email_to_html=current_user_email, db_tests_obj_to_html=db_tests_obj, db_candidates_obj_to_html=db_candidates_obj)
+  return render_template('candidates/interior/schedule/schedule_create_now_v2/index.html', user=current_user, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type, current_user_email_to_html=current_user_email, db_tests_obj_to_html=db_tests_obj, db_candidates_obj_to_html=db_candidates_obj)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------

@@ -22,15 +22,6 @@
     </div>
   </div>
   <div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
-    <div class="custom-display-flex custom-jc-3">
-      <div class="text-center custom-p-2 border shadow-sm custom-br-1">
-        <h2 class="custom-header-4">Send test</h2>
-        <div>
-          <a href="#" class="custom-a-2-none">Immediate |</a>
-          <a href="#">Scheduled</a>
-        </div>
-      </div>
-    </div>
     <div class="custom-display-flex custom-fw-1 custom-height-4-mobile">
       <div class="custom-width-11-mobile custom-p-5">
         <div class="text-center">
@@ -49,7 +40,7 @@
         </div>
         <div class="custom-overflow-1 custom-height-5-mobile">
           <input type="checkbox" class="btn-check" id="uiCandidateSelected_{{ current_user_email_to_html }}" name="uiCandidateSelected" value="{{ current_user_email_to_html }}">
-          <label class="btn btn-outline-secondary custom-m-1 custom-width-13 custom-ptb-1" for="uiCandidateSelected_{{ current_user_email_to_html }}">{{ current_user_email_to_html }} (self test)</label>
+          <label class="btn btn-outline-secondary custom-m-1 custom-width-13 custom-ptb-1" for="uiCandidateSelected_{{ current_user_email_to_html }}">{{ current_user_email_to_html }} (self)</label>
           {% for i_obj in db_candidates_obj_to_html %}
           <input type="checkbox" class="btn-check" id="uiCandidateSelected_{{ i_obj.email }}" name="uiCandidateSelected" value="{{ i_obj.email }}">
           <label class="btn btn-outline-secondary custom-m-1 custom-width-13 custom-ptb-1" for="uiCandidateSelected_{{ i_obj.email }}">{{ i_obj.email }}</label>
