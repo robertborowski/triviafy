@@ -36,7 +36,7 @@
       </form>
     </div>
     <div class="custom-width-11-mobile custom-p-5">
-      {% if stripe_subscription_obj_status_to_html != active %}
+      {% if stripe_subscription_obj_status_to_html != 'active' %}
       <div class="custom-mb-6">
         <label for="ui_image_upload" class="form-label">Add bulk candidates - <a href="/candidates/account/v2">Subscription</a> required</label>
         <input class="form-control" type="file" name="file" oninput="filesize(this);" disabled>
