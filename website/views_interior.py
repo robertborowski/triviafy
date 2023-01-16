@@ -511,10 +511,14 @@ def candidates_upload_emails_function(url_redirect_code=None):
     if redirect_var == 'e2':
       alert_message_page = 'Email already exists'
       alert_message_type = 'danger'
+    if redirect_var == 'e3':
+      alert_message_page = 'Upload was invalid file type (.csv only)'
+      alert_message_type = 'danger'
   # ------------------------ redirect codes end ------------------------
   # ------------------------ stripe subscription status check start ------------------------
   stripe_subscription_obj_status = check_stripe_subscription_status_function(current_user)
   # ------------------------ stripe subscription status check end ------------------------
+  post_result = ''
   if request.method == 'POST':
     # ------------------------ user inputs start ------------------------
     ui_email = request.form.get('uiCandidateEmail')
@@ -525,21 +529,25 @@ def candidates_upload_emails_function(url_redirect_code=None):
     # ------------------------ ui_email individual end ------------------------
     if stripe_subscription_obj_status == 'active':
       # ------------------------ form results start ------------------------
+      ui_csv_file_uploaded = None
       try:
         ui_csv_file_uploaded = request.files['file']
       except:
-        ui_csv_file_uploaded = None
-      ui_email = request.form.get('candidate_upload_page_ui_email')
+        pass
       # ------------------------ form results end ------------------------
       # ------------------------ ui_email bulk start ------------------------
       if ui_csv_file_uploaded != None:
         try:
-          df_csv_data = pd.read_csv(ui_csv_file_uploaded)
-          for i, r in df_csv_data.iterrows():
-            ui_email = r[0]
-            post_result = validate_upload_candidate_function(db, current_user, ui_email, 'bulk')
+          filename = ui_csv_file_uploaded.filename
+          if filename[-4:] != '.csv':
+            post_result = 'e3'
+          else:
+            df_csv_data = pd.read_csv(ui_csv_file_uploaded)
+            for i, r in df_csv_data.iterrows():
+              ui_email = r[0]
+              post_result = validate_upload_candidate_function(db, current_user, ui_email, 'bulk')
         except:
-          pass
+          post_result = 'e3'
       # ------------------------ ui_email bulk end ------------------------
     if post_result == 'success':
       # ------------------------ email self start ------------------------
@@ -1592,7 +1600,7 @@ def candidates_schedule_create_now_function_v2(url_redirect_code=None):
   db_tests_obj = arr_of_dict_necessary_columns_function(db_tests_obj, ['assessment_name', 'desired_languages_arr', 'total_questions'])
   # ------------------------ pull tests arr of dict end ------------------------
   # ------------------------ pull candidates arr of dict start ------------------------
-  db_candidates_obj = CandidatesUploadedCandidatesObj.query.filter_by(user_id_fk=current_user.id).all()
+  db_candidates_obj = CandidatesUploadedCandidatesObj.query.filter_by(user_id_fk=current_user.id).order_by(CandidatesUploadedCandidatesObj.email).all()
   all_candidate_emails_arr = []
   all_candidate_emails_arr.append(current_user.email)
   for i in db_candidates_obj:
