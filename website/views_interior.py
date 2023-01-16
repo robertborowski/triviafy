@@ -1545,12 +1545,82 @@ def candidates_schedule_create_now_function_v2(url_redirect_code=None):
   current_user_email = current_user.email
   # ------------------------ pull tests arr of dict start ------------------------
   db_tests_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id).all()
+  all_test_names_arr = []
+  for i in db_tests_obj:
+    all_test_names_arr.append(i.assessment_name)
   db_tests_obj = arr_of_dict_necessary_columns_function(db_tests_obj, ['assessment_name', 'desired_languages_arr', 'total_questions'])
   # ------------------------ pull tests arr of dict end ------------------------
   # ------------------------ pull candidates arr of dict start ------------------------
   db_candidates_obj = CandidatesUploadedCandidatesObj.query.filter_by(user_id_fk=current_user.id).all()
+  all_candidate_emails_arr = []
+  all_candidate_emails_arr.append(current_user.email)
+  for i in db_candidates_obj:
+    all_candidate_emails_arr.append(i.email)
   db_candidates_obj = arr_of_dict_necessary_columns_function(db_candidates_obj, ['email'])
   # ------------------------ pull candidates arr of dict end ------------------------
+  if request.method == 'POST':
+    # ------------------------ get user inputs start ------------------------
+    ui_test_selected = request.form.get('uiTestSelected')                  # str
+    ui_candidates_selected = request.form.getlist('uiCandidateSelected')   # list of str
+    # ------------------------ get user inputs end ------------------------
+    # ------------------------ validate ui start ------------------------
+    ui_test_selected_check = sanitize_check_if_str_exists_within_arr_function(ui_test_selected, all_test_names_arr)
+    ui_candidates_selected_check = sanitize_loop_check_if_exists_within_arr_function(ui_candidates_selected, all_candidate_emails_arr)
+    # ------------------------ validate ui end ------------------------
+    if ui_test_selected_check != False and ui_candidates_selected_check != False:
+      # ------------------------ get assessment id based on name and user id fk start ------------------------
+      db_test_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id, assessment_name=ui_test_selected).first()
+      db_test_obj_assessment_id = db_test_obj.id
+      # ------------------------ get assessment id based on name and user id fk end ------------------------
+      # ------------------------ for each email selected start ------------------------
+      for i_email in ui_candidates_selected:
+        expiring_url_i_created = create_uuid_function('expire_')
+        new_row = CandidatesScheduleObj(
+          id = create_uuid_function('schedule_'),
+          created_timestamp = create_timestamp_function(),
+          user_id_fk = current_user.id,
+          assessment_id_fk = db_test_obj_assessment_id,
+          assessment_name = ui_test_selected,
+          candidates = i_email,
+          send_date = 'Immediate',
+          send_time = 'Immediate',
+          send_timezone = 'Immediate',
+          candidate_status = 'Pending',
+          expiring_url = expiring_url_i_created
+        )
+        db.session.add(new_row)
+        db.session.commit()
+        # ------------------------ insert to db end ------------------------
+        # ------------------------ send email start ------------------------
+        output_to_email = i_email
+        output_subject = f'Triviafy Test: {ui_test_selected}'
+        output_body = f"Hi there,\n\nYour Triviafy test is ready! The following link will expire 1 hour from the time you receive this email.\nPlease visit the following link to complete your assessment: https://triviafy.com/candidates/assessment/{expiring_url_i_created} \n\nBest,\nTriviafy"
+        send_email_template_function(output_to_email, output_subject, output_body)
+        # ------------------------ send email end ------------------------
+        # ------------------------ insert email to db start ------------------------
+        new_row_email = CandidatesEmailSentObj(
+          id = create_uuid_function('email_test_'),
+          created_timestamp = create_timestamp_function(),
+          from_user_id_fk = current_user.id,
+          to_email = output_to_email,
+          assessment_expiring_url_fk = expiring_url_i_created,
+          subject = output_subject,
+          body = output_body
+        )
+        db.session.add(new_row_email)
+        db.session.commit()
+        # ------------------------ insert email to db end ------------------------
+      # ------------------------ for each email selected end ------------------------
+      # ------------------------ email self start ------------------------
+      try:
+        output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+        output_subject = f'Triviafy - Immediate Schedule Created - {current_user.email}'
+        output_body = f"Hi there,\n\n{current_user.email} created schedule.\n\nBest,\nTriviafy"
+        send_email_template_function(output_to_email, output_subject, output_body)
+      except:
+        pass
+      # ------------------------ email self end ------------------------
+      return redirect(url_for('views_interior.candidates_schedule_create_now_function_v2', url_redirect_code='s'))
   localhost_print_function('=========================================== candidates_schedule_create_now_function_v2 END ===========================================')
   return render_template('candidates/interior/schedule/schedule_create_now_v2/index.html', user=current_user, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type, current_user_email_to_html=current_user_email, db_tests_obj_to_html=db_tests_obj, db_candidates_obj_to_html=db_candidates_obj)
 # ------------------------ individual route end ------------------------
