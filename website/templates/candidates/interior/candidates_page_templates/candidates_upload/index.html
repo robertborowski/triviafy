@@ -38,11 +38,11 @@
     <div class="custom-width-11-mobile custom-p-5">
       {% if stripe_subscription_obj_status_to_html != 'active' %}
       <div class="custom-mb-6">
-        <label for="ui_image_upload" class="form-label">Add bulk candidates - <a href="/candidates/account/v2">Subscription</a> required</label>
+        <label for="ui_image_upload" class="form-label">Add bulk candidates - <a href="/candidates/account">Subscription</a> required</label>
         <input class="form-control" type="file" name="file" oninput="filesize(this);" disabled>
       </div>
       <div class="text-center">
-        <a href="/candidates/account/v2" class="btn btn-outline-primary btn-lg">Account</a>
+        <a href="/candidates/account" class="btn btn-outline-primary btn-lg">Account</a>
       </div>
       {% else %}
       <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
