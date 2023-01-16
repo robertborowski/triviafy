@@ -499,38 +499,50 @@ def candidates_account_settings_function_v2(url_redirect_code=None):
 # ------------------------ individual route start ------------------------
 @views_interior.route('/candidates/upload', methods=['GET', 'POST'])
 @login_required
-def candidates_upload_emails_function():
+def candidates_upload_emails_function(url_redirect_code=None):
   localhost_print_function('=========================================== candidates_upload_emails_function START ===========================================')
-  candidate_upload_error_statement = ''
-  candidate_upload_success_statement = ''
-  # ------------------------ get users total uploaded candidates start ------------------------
-  current_user_uploaded_emails_arr = CandidatesUploadedCandidatesObj.query.filter_by(user_id_fk=current_user.id).all()
-  len_current_user_uploaded_emails_arr = len(current_user_uploaded_emails_arr)
-  # ------------------------ get users total uploaded candidates end ------------------------
+  alert_message_page, alert_message_type = alert_message_default_function()
+  # ------------------------ redirect codes start ------------------------
+  redirect_var = request.args.get('url_redirect_code')
+  if redirect_var != None:
+    if redirect_var == 'e1':
+      alert_message_page = 'Invalid email'
+      alert_message_type = 'danger'
+    if redirect_var == 'e2':
+      alert_message_page = 'Email already exists'
+      alert_message_type = 'danger'
+  # ------------------------ redirect codes end ------------------------
+  # ------------------------ stripe subscription status check start ------------------------
+  stripe_subscription_obj_status = check_stripe_subscription_status_function(current_user)
+  # ------------------------ stripe subscription status check end ------------------------
   if request.method == 'POST':
-    # ------------------------ form results start ------------------------
-    try:
-      ui_csv_file_uploaded = request.files['file']
-    except:
-      ui_csv_file_uploaded = None
-    ui_email = request.form.get('candidate_upload_page_ui_email')
-    # ------------------------ form results end ------------------------
+    # ------------------------ user inputs start ------------------------
+    ui_email = request.form.get('uiCandidateEmail')
+    # ------------------------ user inputs end ------------------------
     # ------------------------ ui_email individual start ------------------------
-    if ui_email != None:
-      candidate_upload_error_statement, candidate_upload_success_statement = validate_upload_candidate_function(db, current_user, ui_email, 'individual')
+    if ui_email != None and ui_email != '':
+      post_result = validate_upload_candidate_function(db, current_user, ui_email, 'individual')
     # ------------------------ ui_email individual end ------------------------
-    # ------------------------ ui_email bulk start ------------------------
-    if ui_csv_file_uploaded != None:
+    if stripe_subscription_obj_status == 'active':
+      # ------------------------ form results start ------------------------
       try:
-        df_csv_data = pd.read_csv(ui_csv_file_uploaded)
-        for i, r in df_csv_data.iterrows():
-          ui_email = r[0]
-          candidate_upload_error_statement, candidate_upload_success_statement = validate_upload_candidate_function(db, current_user, ui_email, 'bulk')
+        ui_csv_file_uploaded = request.files['file']
       except:
-        candidate_upload_error_statement = 'uploaded file must be .csv format'
-    # ------------------------ ui_email bulk end ------------------------
-    # ------------------------ email self start ------------------------
-    if candidate_upload_success_statement == 'Uploaded successfully!':
+        ui_csv_file_uploaded = None
+      ui_email = request.form.get('candidate_upload_page_ui_email')
+      # ------------------------ form results end ------------------------
+      # ------------------------ ui_email bulk start ------------------------
+      if ui_csv_file_uploaded != None:
+        try:
+          df_csv_data = pd.read_csv(ui_csv_file_uploaded)
+          for i, r in df_csv_data.iterrows():
+            ui_email = r[0]
+            post_result = validate_upload_candidate_function(db, current_user, ui_email, 'bulk')
+        except:
+          pass
+      # ------------------------ ui_email bulk end ------------------------
+    if post_result == 'success':
+      # ------------------------ email self start ------------------------
       try:
         output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
         output_subject = f'Triviafy - Candidate Uploaded - {current_user.email}'
@@ -538,11 +550,14 @@ def candidates_upload_emails_function():
         send_email_template_function(output_to_email, output_subject, output_body)
       except:
         pass
-    # ------------------------ email self end ------------------------
-    if candidate_upload_success_statement == 'Uploaded successfully!':
-      return redirect(url_for('views_interior.candidates_schedule_create_now_function', var1='c_success'))
+      # ------------------------ email self end ------------------------
+      return redirect(url_for('views_interior.candidates_schedule_dashboard_function', url_redirect_code='s'))
+    # ------------------------ if post error start ------------------------
+    if post_result != 'success' and post_result != None and post_result != '':
+      return redirect(url_for('views_interior.candidates_upload_emails_function', url_redirect_code=post_result))
+    # ------------------------ if post error end ------------------------
   localhost_print_function('=========================================== candidates_upload_emails_function END ===========================================')
-  return render_template('candidates/interior/candidates_page_templates/candidates_upload/index.html', user=current_user, users_company_name_to_html = current_user.company_name, len_current_user_uploaded_emails_arr_to_html = len_current_user_uploaded_emails_arr, error_message_to_html=candidate_upload_error_statement, success_message_to_html=candidate_upload_success_statement)
+  return render_template('candidates/interior/candidates_page_templates/candidates_upload/index.html', user=current_user, stripe_subscription_obj_status_to_html=stripe_subscription_obj_status, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -1231,8 +1246,16 @@ def candidates_candidate_results_specific_function(url_candidate_email):
 # ------------------------ individual route start ------------------------
 @views_interior.route('/candidates/schedule', methods=['GET', 'POST'])
 @login_required
-def candidates_schedule_dashboard_function():
+def candidates_schedule_dashboard_function(url_redirect_code=None):
   localhost_print_function('=========================================== candidates_schedule_dashboard_function START ===========================================')
+  alert_message_page, alert_message_type = alert_message_default_function()
+  # ------------------------ redirect codes start ------------------------
+  redirect_var = request.args.get('url_redirect_code')
+  if redirect_var != None:
+    if redirect_var == 's':
+      alert_message_page = 'Candidate successfully added.'
+      alert_message_type = 'success'
+  # ------------------------ redirect codes end ------------------------
   # ------------------------ total assessments made start ------------------------  
   total_test_made = 0
   test_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id, status='final').order_by(CandidatesAssessmentsCreatedObj.created_timestamp).all()
@@ -1243,7 +1266,7 @@ def candidates_schedule_dashboard_function():
       total_test_made += 1
   # ------------------------ total assessments made end ------------------------  
   localhost_print_function('=========================================== candidates_schedule_dashboard_function END ===========================================')
-  return render_template('candidates/interior/schedule/schedule_dashboard/index.html', user=current_user, total_test_made_to_html=total_test_made)
+  return render_template('candidates/interior/schedule/schedule_dashboard/index.html', user=current_user, total_test_made_to_html=total_test_made, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------

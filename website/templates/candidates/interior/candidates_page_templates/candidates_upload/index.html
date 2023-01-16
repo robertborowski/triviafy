@@ -1,103 +1,62 @@
 {% extends "candidates/aaa_base/base2_interior.html" %}
-
 <!-- head tag block content -->
 {% block title %}
-  <title>Candidate Upload / Triviafy</title>
+  <title>Create Assessment / Triviafy</title>
 {% endblock %}
-
 {% block contentBodyExceptNavbarAndFooter %}
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name start -->
-<div class="general-signed-in-company-name-section">
-  <p class="general-signed-in-company-name-title">{{ users_company_name_to_html }}</p>
+<!-- ----------------------------------- start ----------------------------------- -->
+{% if alert_message_page_to_html != '' %}
+<div class="alert alert-{{ alert_message_type_to_html }} mx-auto text-center custom-mt-3 container" role="alert">
+  {{ alert_message_page_to_html }}
 </div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name end -->
-
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="general-spacer-section"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title start -->
-<div class="general-page-title-section">
-  <p class="general-page-title">Candidate Dashboard</p>
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="general-spacer-section"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - page highlight start -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - redirect link start -->
-<div class="general-center-container">
-  <a href="{{ url_for('views_interior.candidates_analytics_function') }}" class="general-a-primary"><p class="general-page-font">View all candidates</p></a>
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - redirect link end -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message start -->
-<div class="error-message-section">
-  <p>{{ error_message_to_html }}</p>
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message end -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - success message start -->
-<div class="success-message-section">
-  <p>{{ success_message_to_html }}</p>
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - success message end -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - page highlight end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="general-spacer-section"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - split section start -->
-<div class="candidate-upload-content">
-  <div class="candidate-upload-split-section candidate-upload-split-left">
-    <div class="candidate-upload-form-title">
-      <p class="general-page-font">Option 1: Upload <span class="general-highlight-primary">individual</span> candidate.</p>
-    </div>
-    <form method="POST" class="upload-email-form" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
-      <label for="candidate_upload_page_ui_email"></label>
-      <input type="email" id="candidate_upload_page_ui_email" name="candidate_upload_page_ui_email" class="candidates-default-text-input" placeholder="Candidate email" pattern="\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b" required />
-      <button type="submit" class="default-button-format default-button-format-primary-color">Send assessment</button>
-    </form>
-  </div>
-  <div class="candidate-upload-split-section candidate-upload-split-right">
-    <div class="candidate-upload-img-section">
-      <img src="/static/images/candidates/upload_email/green_character.png" alt="logo character" class="candidate-upload-img">
-    </div>
+{% endif %}
+<!-- ----------------------------------- end ----------------------------------- -->
+<div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
+  <div>
+    <h2 class="custom-header-2-mobile">Add candidates</h2>
   </div>
 </div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - split section end -->
-
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="general-spacer-section-large"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
-
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - split section start -->
-<div class="candidate-upload-content">
-  <div class="candidate-upload-split-section candidate-upload-split-left">
-    <div class="candidate-upload-img-section">
-      <img src="/static/images/candidates/upload_email/bulk_upload.png" alt="logo character" class="candidate-upload-img">
+<div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
+  {% if total_test_made_to_html == 0 %}
+  <div class="text-center">
+    <p class="fst-italic custom-color-light-1 custom-header-5">You have not yet created any tests.</p>
+    <a href="/candidates/assessment/new/1b" class="btn btn-primary btn-lg">Create test +</a>
+  </div>
+  {% else %}
+  <div class="custom-display-flex custom-fw-1">
+    <div class="custom-width-11-mobile custom-p-5">
+      <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+        <div class="custom-mb-6">
+          <label for="uiCandidateEmail" class="form-label">Add individual candidate</label>
+          <input type="email" class="form-control" id="uiCandidateEmail" name="uiCandidateEmail" aria-describedby="emailHelp" placeholder="Candidate email*" pattern="\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b" value="{{ redirect_var_email }}" required>
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-outline-primary btn-lg">Submit</button>
+        </div>
+      </form>
+    </div>
+    <div class="custom-width-11-mobile custom-p-5">
+      {% if stripe_subscription_obj_status_to_html != active %}
+      <div class="custom-mb-6">
+        <label for="ui_image_upload" class="form-label">Add bulk candidates - <a href="/candidates/account/v2">Subscription</a> required</label>
+        <input class="form-control" type="file" name="file" oninput="filesize(this);" disabled>
+      </div>
+      <div class="text-center">
+        <a href="/candidates/account/v2" class="btn btn-outline-primary btn-lg">Account</a>
+      </div>
+      {% else %}
+      <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+        <div class="custom-mb-6">
+          <label for="ui_image_upload" class="form-label">Add bulk candidates <span class="custom-size-3 custom-color-light-1 fst-italic custom-mt-2">Accepted formats: [.csv/.xlsx].</span></label>
+          <input class="form-control" type="file" name="file" oninput="filesize(this);" required>
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-outline-primary btn-lg">Submit</button>
+        </div>
+      </form>
+      {% endif %}
     </div>
   </div>
-  <div class="candidate-upload-split-section candidate-upload-split-right">
-    <div class="candidate-upload-form-title">
-      <p class="general-page-font">Option 2: Upload <span class="general-highlight-primary">bulk</span> candidates .csv</p>
-    </div>
-    <form method="POST" class="upload-email-form-bulk" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
-      <input type="file" name="file" />
-      <button type="submit" class="default-button-format default-button-format-primary-color candidate-upload-bulk-button">Add candidates</button>
-    </form>
-  </div>
+  {% endif %}
 </div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - split section end -->
-
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="general-spacer-section"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page end -->
 {% endblock %}

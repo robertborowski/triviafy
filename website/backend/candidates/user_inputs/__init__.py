@@ -286,21 +286,20 @@ def sanitize_check_if_str_exists_within_arr_function(user_input_str, correct_mas
 # ------------------------ individual function start ------------------------
 def validate_upload_candidate_function(db, current_user, ui_email, user_input_type):
   localhost_print_function('=========================================== validate_upload_candidate_function START ===========================================')
-  candidate_upload_error_statement = ''
-  candidate_upload_success_statement = ''
+  post_result = ''
   # ------------------------ ui_email start ------------------------
   # ------------------------ sanitize/check user input email start ------------------------
   if ui_email != None:
     ui_email_cleaned = sanitize_email_function(ui_email)
     if ui_email_cleaned == False and user_input_type == 'individual':
-      candidate_upload_error_statement = 'Please enter a valid email.'
+      post_result = 'e1'
     # ------------------------ sanitize/check user input email end ------------------------
     if ui_email_cleaned != False:
       # ------------------------ check if exists in db start ------------------------
       candidate_uploaded_email_exists = CandidatesUploadedCandidatesObj.query.filter_by(user_id_fk=current_user.id).filter_by(email=ui_email_cleaned).first()
       # ------------------------ check if exists in db end ------------------------
       if candidate_uploaded_email_exists != None and user_input_type == 'individual':
-        candidate_upload_error_statement = f'Candidate email: {ui_email_cleaned} already added.'
+        post_result = f'e2'
       if candidate_uploaded_email_exists == None:
         # ------------------------ create new user in db start ------------------------
         new_user = CandidatesUploadedCandidatesObj(
@@ -315,10 +314,10 @@ def validate_upload_candidate_function(db, current_user, ui_email, user_input_ty
         db.session.commit()
         # ------------------------ create new user in db end ------------------------
   # ------------------------ ui_email end ------------------------
-  if candidate_upload_success_statement == '' and candidate_upload_error_statement == '':
-    candidate_upload_success_statement = 'Uploaded successfully!'
+  if post_result == '':
+    post_result = 'success'
   localhost_print_function('=========================================== validate_upload_candidate_function END ===========================================')
-  return candidate_upload_error_statement, candidate_upload_success_statement
+  return post_result
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------

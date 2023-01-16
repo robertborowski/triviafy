@@ -4,6 +4,13 @@
   <title>Create Assessment / Triviafy</title>
 {% endblock %}
 {% block contentBodyExceptNavbarAndFooter %}
+<!-- ----------------------------------- start ----------------------------------- -->
+{% if alert_message_page_to_html != '' %}
+<div class="alert alert-{{ alert_message_type_to_html }} mx-auto text-center custom-mt-3 container" role="alert">
+  {{ alert_message_page_to_html }}
+</div>
+{% endif %}
+<!-- ----------------------------------- end ----------------------------------- -->
 <div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
   <div>
     <h2 class="custom-header-2-mobile">Schedule</h2>
