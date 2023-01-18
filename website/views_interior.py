@@ -25,7 +25,7 @@ from werkzeug.security import generate_password_hash
 import pandas as pd
 from website.backend.candidates.string_manipulation import all_question_candidate_categories_sorted_function, create_assessment_name_function
 from website.backend.candidates.sqlalchemy_manipulation import pull_desired_languages_arr_function
-from website.backend.candidates.dict_manipulation import question_arr_of_dicts_manipulations_function, create_assessment_info_dict_function, map_user_answers_to_questions_dict_function, backend_store_question_answers_dict_function, grade_assessment_answers_dict_function, check_two_phrase_similarity_score_function, create_assessment_info_dict_function_v2, create_question_info_dict_function, arr_of_dict_necessary_columns_function
+from website.backend.candidates.dict_manipulation import question_arr_of_dicts_manipulations_function, create_assessment_info_dict_function, map_user_answers_to_questions_dict_function, backend_store_question_answers_dict_function, grade_assessment_answers_dict_function, check_two_phrase_similarity_score_function, create_assessment_info_dict_function_v2, create_question_info_dict_function, arr_of_dict_necessary_columns_function, categories_tuple_function
 from website.backend.candidates.datetime_manipulation import next_x_days_function, times_arr_function, expired_assessment_check_function
 import datetime
 import json
@@ -1365,7 +1365,8 @@ def candidates_schedule_create_now_function_v2(url_redirect_code=None):
         # ------------------------ send email start ------------------------
         output_to_email = i_email
         output_subject = f'Triviafy Test: {ui_test_selected}'
-        output_body = f"Hi there,\n\nYour Triviafy test is ready! The following link will expire 1 hour from the time you receive this email.\nPlease visit the following link to complete your assessment: https://triviafy.com/candidates/assessment/{expiring_url_i_created} \n\nBest,\nTriviafy"
+        output_body = f"Hi there,\n\nYour Triviafy test is ready! The following link will expire 1 hour from the time you receive this email.\nPlease visit the following link to complete your assessment: https://triviafy.com/candidates/assessment/{expiring_url_i_created}/1 \n\nBest,\nTriviafy"
+        # output_body = f"Hi there,\n\nYour Triviafy test is ready! The following link will expire 1 hour from the time you receive this email.\nPlease visit the following link to complete your assessment: http://127.0.0.1/candidates/assessment/{expiring_url_i_created}/1 \n\nBest,\nTriviafy"
         send_email_template_function(output_to_email, output_subject, output_body)
         # ------------------------ send email end ------------------------
         # ------------------------ insert email to db start ------------------------
@@ -1452,30 +1453,37 @@ def candidates_assessment_closed_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/assessment/<url_assessment_expiring>', methods=['GET', 'POST'])
-def candidates_assessment_expiring_function(url_assessment_expiring):
+@views_interior.route('/candidates/assessment/<url_assessment_expiring>/<url_question_number>', methods=['GET', 'POST'])
+def candidates_assessment_expiring_function(url_assessment_expiring, url_question_number='1', url_redirect_code=None):
   localhost_print_function('=========================================== candidates_assessment_expiring_function START ===========================================')
+  alert_message_page, alert_message_type = alert_message_default_function()
+  # ------------------------ redirect codes start ------------------------
+  redirect_var = request.args.get('url_redirect_code')
+  if redirect_var != None:
+    if redirect_var == 'e1':
+      alert_message_page = 'Invalid answer choice'
+      alert_message_type = 'danger'
+  # ------------------------ redirect codes end ------------------------
+  # ------------------------ next question start ------------------------
+  next_question_number = int(url_question_number) + 1
+  # ------------------------ next question end ------------------------
   # ------------------------ invalid url_assessment_name start ------------------------
   if url_assessment_expiring == False or url_assessment_expiring == None or url_assessment_expiring == '':
     localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
     return redirect(url_for('views_interior.candidates_assessment_invalid_function'))
   # ------------------------ invalid url_assessment_name end ------------------------
   # ------------------------ check if answers already submitted start ------------------------
-  db_already_graded_obj = CandidatesAssessmentGradedObj.query.filter_by(assessment_expiring_url_fk=url_assessment_expiring).first()
+  db_already_graded_obj = CandidatesAssessmentGradedObj.query.filter_by(assessment_expiring_url_fk=url_assessment_expiring, status='submitted').first()
   if db_already_graded_obj != None:
     localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
     return redirect(url_for('views_interior.candidates_assessment_closed_function'))
   # ------------------------ check if answers already submitted end ------------------------
   # ------------------------ expire check based on email send datetime start ------------------------
   db_email_obj = CandidatesEmailSentObj.query.filter_by(assessment_expiring_url_fk=url_assessment_expiring).order_by(CandidatesEmailSentObj.created_timestamp.desc()).first()
-  # ------------------------ check if url exists start ------------------------
   if db_email_obj == None:
     localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
     return redirect(url_for('views_interior.candidates_assessment_invalid_function'))
-  # ------------------------ check if url exists end ------------------------
   email_sent_timestamp = db_email_obj.created_timestamp      # type: datetime.datetime
-  # ------------------------ expire check based on email send datetime end ------------------------
-  # ------------------------ check if schedule id expired start ------------------------
   expired_assessment_check, assessment_not_open_yet_check = expired_assessment_check_function(email_sent_timestamp)
   if assessment_not_open_yet_check == True:
     localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
@@ -1483,46 +1491,58 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
   if expired_assessment_check == True:
     localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
     return redirect(url_for('views_interior.candidates_assessment_invalid_function'))
-  # ------------------------ check if schedule id expired end ------------------------
+  # ------------------------ expire check based on email send datetime end ------------------------
   # ------------------------ pull schedule info start ------------------------
   db_schedule_obj = CandidatesScheduleObj.query.filter_by(expiring_url=url_assessment_expiring).first()
-  # ------------------------ pull schedule info end ------------------------
-  # ------------------------ check if url exists start ------------------------
   if db_schedule_obj == None:
     localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
     return redirect(url_for('views_interior.candidates_assessment_invalid_function'))
-  # ------------------------ check if url exists end ------------------------
-  # ------------------------ pull desired schedule info start ------------------------
+  # ------------------------ pull schedule info end ------------------------
+  # ------------------------ pull schedule vars start ------------------------
   db_schedule_obj_user_id_fk = db_schedule_obj.user_id_fk
   db_schedule_obj_assessment_id_fk = db_schedule_obj.assessment_id_fk
   db_schedule_obj_candidate_email = db_schedule_obj.candidates
   db_schedule_obj_assessment_name = db_schedule_obj.assessment_name
-  # ------------------------ pull desired schedule info end ------------------------
+  # ------------------------ pull schedule vars end ------------------------
   # ------------------------ pull assessment info start ------------------------
   db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(id=db_schedule_obj_assessment_id_fk).first()
-  # ------------------------ pull assessment info end ------------------------
-  # ------------------------ check if url exists start ------------------------
   if db_assessment_obj == None:
     localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
     return redirect(url_for('views_interior.candidates_assessment_invalid_function'))
-  # ------------------------ check if url exists end ------------------------
-  # ------------------------ assign assessment info to dict start ------------------------
-  assessment_info_dict = create_assessment_info_dict_function(db_assessment_obj)
-  # ------------------------ assign assessment info to dict end ------------------------
-  # ------------------------ store answers in backend for later reference start ------------------------
-  backend_store_question_answers_dict = backend_store_question_answers_dict_function(assessment_info_dict)
-  # ------------------------ store answers in backend for later reference end ------------------------
-  # ------------------------ remove answers for candidate start ------------------------
-  for i in assessment_info_dict['questions_arr_of_dicts']:
-    i['answer'] = None
-  # ------------------------ remove answers for candidate end ------------------------
-  # ------------------------ pull user info for company name start ------------------------
+  # ------------------------ pull assessment info end ------------------------
+  # ------------------------ get desired question id start ------------------------
+  question_ids_str = db_assessment_obj.question_ids_arr
+  question_ids_arr = question_ids_str.split(',')
+  if int(url_question_number) >= int(len(question_ids_arr)):
+    url_question_number = str(len(question_ids_arr))
+    if int(url_question_number) == int(len(question_ids_arr)):
+      next_question_number = 'submit'
+  current_page_question_id = question_ids_arr[int(url_question_number)-1]
+  # ------------------------ get desired question id end ------------------------
+  # ------------------------ pull question info start ------------------------
+  db_question_obj = CandidatesCreatedQuestionsObj.query.filter_by(id=current_page_question_id).first()
+  if db_question_obj == None:
+    localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
+    return redirect(url_for('views_interior.candidates_assessment_invalid_function'))
+  # ------------------------ pull question info start ------------------------
+  # ------------------------ contains img start ------------------------
+  contains_img = False
+  if 'amazonaws.com' in db_question_obj.aws_image_url:
+    contains_img = True
+  # ------------------------ contains img end ------------------------
+  # ------------------------ create categories tuple start ------------------------
+  categories_tuple = categories_tuple_function(db_question_obj.categories)
+  # ------------------------ create categories tuple end ------------------------
+  # ------------------------ company name start ------------------------
   db_user_obj = CandidatesUserObj.query.filter_by(id=db_schedule_obj_user_id_fk).first()
   if db_user_obj == None:
     localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
     return redirect(url_for('views_interior.candidates_assessment_invalid_function'))
-  db_user_obj_company_name = db_user_obj.company_name
-  # ------------------------ pull user info for company name end ------------------------
+  user_company_name = db_user_obj.company_name
+  if len(user_company_name) > 15:
+    user_company_name = user_company_name[:14] + '...'
+  # ------------------------ company name start ------------------------
+  """
   # ------------------------ post triggered start ------------------------
   ui_answers_error_statement = ''
   ui_current_answer_choice_selected_checked_master = True
@@ -1604,9 +1624,10 @@ def candidates_assessment_expiring_function(url_assessment_expiring):
       localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
       return redirect(url_for('views_interior.candidates_assessment_completed_success_function'))
     # ------------------------ only start grading if all valid answers provided end ------------------------
+    """
   # ------------------------ post triggered end ------------------------
   localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
-  return render_template('candidates/exterior/assessments/assessment_candidate_test/index.html', users_company_name_to_html=db_user_obj_company_name, error_message_to_html=ui_answers_error_statement, assessment_info_dict_to_html=assessment_info_dict)
+  return render_template('candidates/exterior/assessments/assessment_candidate_test/index.html', users_company_name_to_html=user_company_name, db_question_obj_to_html=db_question_obj, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type, next_question_number_to_html=next_question_number, current_question_number_to_html=url_question_number, url_assessment_expiring_to_html=url_assessment_expiring, contains_img_to_html=contains_img, categories_tuple_to_html=categories_tuple)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------

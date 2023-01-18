@@ -1,117 +1,107 @@
-{% extends "candidates/aaa_base/base2_interior.html" %}
+{% extends "candidates/aaa_base/base.html" %}
 
 <!-- head tag block content -->
 {% block title %}
-  <title>View Assessment / Triviafy</title>
+  <title>Triviafy Test</title>
 {% endblock %}
 
-{% block contentBodyExceptNavbarAndFooter %}
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name start -->
-<div class="general-signed-in-company-name-section">
-  <p class="general-signed-in-company-name-title">{{ users_company_name_to_html }}</p>
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name end -->
-
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="general-spacer-section"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title start -->
-<div class="general-page-title-section">
-  <p class="general-page-title">Assessment</p>
-  <p class="general-page-sub-title">{{ assessment_info_dict_to_html['name'] }}</p>
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - paying customers start -->
-<!-- <div class="only-paying-customers candidates-default-box-shadow-grey-small">
-  <p>Note: Candidates will not see this message box</p>
-</div> -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - paying customers end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message start -->
-<div class="error-message-section">
-  <p>{{ error_message_to_html }}</p>
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - error message end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="general-spacer-section"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select questions arr start -->
-<div class="select-questions-form-container">
-  <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
-    {% for i in assessment_info_dict_to_html['questions_arr_of_dicts'] %}
-    <div class="select-question-container">
-      <div class="select-question-left-side">
-        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - question header start -->
-        <div class="select-question-header">
-          <p class="candidate-question-title">Q{{ i['question_counter'] }}: {{ i['title'] }}
-            <span class="span-question-difficulty">({{ i['difficulty'] }})</span>
-          </p>
-          <p class="candidate-question-categories">Categories:
-            {% for category_tuple in i['categories'] %}
-              <span class="span-candidates-question-category-general span-candidates-question-category-{{ category_tuple[1] }}">{{ category_tuple[0] }}</span>
-            {% endfor %}
-          </p>
+{% block contentBody %}
+<body class="custom-bg-grey-3">
+  <form method="POST" enctype="multipart/form-data" class="custom-pt-1" onsubmit="return clickSubmitButtonOnce()">
+    <!-- ------------------------------------- navbar start ------------------------------------- -->
+    <div class="container-fluid fixed-top shadow-sm custom-bg-white">
+      <nav class="container navbar navbar-expand-md navbar-light custom-display-flex custom-jc-2">
+        <div>
+          <a href="#" class="navbar-brand"><span class="custom-header-4-mobile">{{ users_company_name_to_html }}</span></a>
         </div>
-        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - question header end -->
-        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - question body start -->
-        <div class="select-question-body">
-          <p class="candidate-question-actual-question">{{ i['question'] }}</p>
-        </div>
-        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - question body end -->
-        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - question footer start -->
-        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - multiple choice question radio start -->
-        <div class="mcq-select-answer-radio-section">
-          {% if i['option_a'] != None %}
-          <input type="radio" id="candidate_answer_choice_a{{ i['question_counter'] }}" name="ui_answer_choice_selected_{{ i['question_counter'] }}" value="a" required>
-          <label for="candidate_answer_choice_a{{ i['question_counter'] }}" class="mcq-radio-label">A: {{ i['option_a'] }}</label>
-          {% endif %}
-
-          {% if i['option_b'] != None %}
-          <input type="radio" id="candidate_answer_choice_b{{ i['question_counter'] }}" name="ui_answer_choice_selected_{{ i['question_counter'] }}" value="b">
-          <label for="candidate_answer_choice_b{{ i['question_counter'] }}" class="mcq-radio-label">B: {{ i['option_b'] }}</label>
-          {% endif %}
-
-          {% if i['option_c'] != None %}
-          <input type="radio" id="candidate_answer_choice_c{{ i['question_counter'] }}" name="ui_answer_choice_selected_{{ i['question_counter'] }}" value="c">
-          <label for="candidate_answer_choice_c{{ i['question_counter'] }}" class="mcq-radio-label">C: {{ i['option_c'] }}</label>
-          {% endif %}
-
-          {% if i['option_d'] != None %}
-          <input type="radio" id="candidate_answer_choice_d{{ i['question_counter'] }}" name="ui_answer_choice_selected_{{ i['question_counter'] }}" value="d">
-          <label for="candidate_answer_choice_d{{ i['question_counter'] }}" class="mcq-radio-label">D: {{ i['option_d'] }}</label>
-          {% endif %}
-
-          {% if i['option_e'] != None %}
-          <input type="radio" id="candidate_answer_choice_e{{ i['question_counter'] }}" name="ui_answer_choice_selected_{{ i['question_counter'] }}" value="e">
-          <label for="candidate_answer_choice_e{{ i['question_counter'] }}" class="mcq-radio-label">E: {{ i['option_e'] }}</label>
+        <div>
+          {% if next_question_number_to_html == 'submit' %}
+          <button type="submit" class="btn btn-primary custom-ml-3">Submit</button>
+          {% else %}
+          <button type="submit" class="btn btn-primary custom-ml-3">Next ></button>
           {% endif %}
         </div>
-        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - multiple choice question radio end -->
-        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - question footer end -->
+      </nav>
+    </div>
+    <div class="custom-filler-5"></div>
+    <!-- ------------------------------------- navbar end ------------------------------------- -->
+    <div class="container-fluid custom-bg-grey-3 custom-pb-3">
+      <!-- ------------------------------------- question start ------------------------------------- -->
+      <div class="container border shadow custom-br-1 custom-bg-white custom-display-flex custom-fw-1">
+        <div class="custom-width-6">
+          <!-- ----------------------------------- start ----------------------------------- -->
+          {% if alert_message_page_to_html != '' %}
+          <div class="alert alert-{{ alert_message_type_to_html }} mx-auto text-center custom-mt-3" role="alert">
+            {{ alert_message_page_to_html }}
+          </div>
+          {% endif %}
+          <!-- ----------------------------------- end ----------------------------------- -->
+        </div>
+        <div class="custom-width-11-mobile custom-p-5">
+          <div class="custom-display-flex custom-mb-6">
+            <h2 class="custom-header-4">Q{{ current_question_number_to_html }}: {{ db_question_obj_to_html.title }}</h2>
+            <div>
+                {% for category_tuple in categories_tuple_to_html %}
+                  <span class="custom-tag-1 custom-tag-category-{{ category_tuple[1] }} custom-br-4 custom-ml-3 custom-header-5">{{ category_tuple[0] }}</span>
+                {% endfor %}
+            </div>
+          </div>
+          <div>
+            <div class="custom-mb-6">
+              <p>{{ db_question_obj_to_html.question }}</p>
+            </div>
+            {% if contains_img_to_html == true %}
+            <div class="text-center">
+              <img src="{{ db_question_obj_to_html.aws_image_url }}" alt="" class="custom-img-size-11 custom-br-1 shadow">
+            </div>
+            {% else %}
+            {% endif %}
+          </div>
+        </div>
+        <div class="custom-width-11-mobile custom-p-5">
+          <div>
+            {% if db_question_obj_to_html.option_a != None %}
+            <div class="custom-mb-6">
+              <input type="radio" class="btn-check" id="candidate_answer_choice_a{{ current_question_number_to_html }}" name="ui_answer_choice_selected_{{ current_question_number_to_html }}" value="a" autocomplete="off" required>
+              <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_a{{ current_question_number_to_html }}">A: {{ db_question_obj_to_html.option_a }}</label>
+            </div>
+            {% endif %}
+
+            {% if db_question_obj_to_html.option_b != None %}
+            <div class="custom-mb-6">
+              <input type="radio" class="btn-check" id="candidate_answer_choice_b{{ current_question_number_to_html }}" name="ui_answer_choice_selected_{{ current_question_number_to_html }}" value="b" autocomplete="off" required>
+              <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_b{{ current_question_number_to_html }}">B: {{ db_question_obj_to_html.option_b }}</label>
+            </div>
+            {% endif %}
+
+            {% if db_question_obj_to_html.option_c != None %}
+            <div class="custom-mb-6">
+              <input type="radio" class="btn-check" id="candidate_answer_choice_c{{ current_question_number_to_html }}" name="ui_answer_choice_selected_{{ current_question_number_to_html }}" value="d" autocomplete="off" required>
+              <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_c{{ current_question_number_to_html }}">C: {{ db_question_obj_to_html.option_c }}</label>
+            </div>
+            {% endif %}
+
+            {% if db_question_obj_to_html.option_d != None %}
+            <div class="custom-mb-6">
+              <input type="radio" class="btn-check" id="candidate_answer_choice_d{{ current_question_number_to_html }}" name="ui_answer_choice_selected_{{ current_question_number_to_html }}" value="d" autocomplete="off" required>
+              <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_d{{ current_question_number_to_html }}">D: {{ db_question_obj_to_html.option_d }}</label>
+            </div>
+            {% endif %}
+
+            {% if db_question_obj_to_html.option_e != None and db_question_obj_to_html.option_e != '' %}
+            <div class="custom-mb-6">
+              <input type="radio" class="btn-check" id="candidate_answer_choice_e{{ current_question_number_to_html }}" name="ui_answer_choice_selected_{{ current_question_number_to_html }}" value="e" autocomplete="off" required>
+              <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_e{{ current_question_number_to_html }}">E: {{ db_question_obj_to_html.option_e }}</label>
+            </div>
+            {% endif %}
+          </div>
+        </div>
       </div>
-      <div class="select-question-right-side">
-        <img src="{{ i['aws_image_url'] }}" alt="" class="select-question-img candidates-default-box-shadow-grey-regular">
+      <!-- ------------------------------------- question end ------------------------------------- -->
+      <div class="text-center custom-mt-5">
+        <img src="/static/images/candidates/logo/logo_wide_v3.png" alt="powered by triviafy logo" class="custom-img-size-10 custom-img-opacity-1">
       </div>
     </div>
-    {% endfor %}
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - submit button start -->
-    <div class="view-specific-assessment-submit-section">
-      <button type="submit" class="default-button-format default-button-format-primary-color">Submit</button>
-      <p class="candidate-submission-note">Note: You will not be able to view or change your answers once submitted.</p>
-    </div>
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - submit button end -->
   </form>
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - select questions arr end -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="general-spacer-section-large"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+</body>
 {% endblock %}

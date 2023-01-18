@@ -47,6 +47,36 @@ def question_arr_of_dicts_manipulations_function(input_arr_of_dicts):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
+def categories_tuple_function(input_categories):
+  localhost_print_function('=========================================== dict_arr_of_dicts_question_manipulations_function START ===========================================')
+  categories_arr_to_html = []
+  try:
+    # Assign variables
+    categories_str = input_categories.replace(', ',',')
+    categories_arr = categories_str.split(',')
+    # Loop and separate
+    for category in categories_arr:
+      if category == 'Candidates' or category == 'MCQ':
+        continue
+      category_lower = category.lower()
+      category_replace_space = category_lower.replace(' ','_')
+      category_strip = category_replace_space.strip()
+      # ------------------------ special characters start ------------------------
+      if category_strip == 'c#':
+        category_strip = 'csharp'
+      if category_strip == 'c++':
+        category_strip = 'cpp'
+      # ------------------------ special characters end ------------------------
+      categories_arr_to_html.append((category, category_strip))
+  except:
+    print('Error here: question_arr_of_dicts_manipulations_function except statement...')
+    return False
+  # ------------------------ question categories str to arr tuple end ------------------------
+  localhost_print_function('=========================================== dict_arr_of_dicts_question_manipulations_function END ===========================================')
+  return categories_arr_to_html
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
 def create_assessment_info_dict_function(db_assessment_obj):
   localhost_print_function('=========================================== create_assessment_info_dict_function START ===========================================')
   # ------------------------ init dict start ------------------------
