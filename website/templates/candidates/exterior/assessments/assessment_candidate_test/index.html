@@ -62,36 +62,36 @@
           <div>
             {% if db_question_obj_to_html.option_a != None %}
             <div class="custom-mb-6">
-              <input type="radio" class="btn-check" id="candidate_answer_choice_a{{ current_question_number_to_html }}" name="ui_answer_choice_selected_{{ current_question_number_to_html }}" value="a" autocomplete="off" required>
-              <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_a{{ current_question_number_to_html }}">A: {{ db_question_obj_to_html.option_a }}</label>
+              <input type="radio" class="btn-check" id="candidate_answer_choice_a" name="ui_answer_choice_selected" value="a" autocomplete="off" required>
+              <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_a">A: {{ db_question_obj_to_html.option_a }}</label>
             </div>
             {% endif %}
 
             {% if db_question_obj_to_html.option_b != None %}
             <div class="custom-mb-6">
-              <input type="radio" class="btn-check" id="candidate_answer_choice_b{{ current_question_number_to_html }}" name="ui_answer_choice_selected_{{ current_question_number_to_html }}" value="b" autocomplete="off" required>
-              <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_b{{ current_question_number_to_html }}">B: {{ db_question_obj_to_html.option_b }}</label>
+              <input type="radio" class="btn-check" id="candidate_answer_choice_b" name="ui_answer_choice_selected" value="b" autocomplete="off" required>
+              <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_b">B: {{ db_question_obj_to_html.option_b }}</label>
             </div>
             {% endif %}
 
             {% if db_question_obj_to_html.option_c != None %}
             <div class="custom-mb-6">
-              <input type="radio" class="btn-check" id="candidate_answer_choice_c{{ current_question_number_to_html }}" name="ui_answer_choice_selected_{{ current_question_number_to_html }}" value="c" autocomplete="off" required>
-              <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_c{{ current_question_number_to_html }}">C: {{ db_question_obj_to_html.option_c }}</label>
+              <input type="radio" class="btn-check" id="candidate_answer_choice_c" name="ui_answer_choice_selected" value="c" autocomplete="off" required>
+              <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_c">C: {{ db_question_obj_to_html.option_c }}</label>
             </div>
             {% endif %}
 
             {% if db_question_obj_to_html.option_d != None %}
             <div class="custom-mb-6">
-              <input type="radio" class="btn-check" id="candidate_answer_choice_d{{ current_question_number_to_html }}" name="ui_answer_choice_selected_{{ current_question_number_to_html }}" value="d" autocomplete="off" required>
-              <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_d{{ current_question_number_to_html }}">D: {{ db_question_obj_to_html.option_d }}</label>
+              <input type="radio" class="btn-check" id="candidate_answer_choice_d" name="ui_answer_choice_selected" value="d" autocomplete="off" required>
+              <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_d">D: {{ db_question_obj_to_html.option_d }}</label>
             </div>
             {% endif %}
 
             {% if db_question_obj_to_html.option_e != None and db_question_obj_to_html.option_e != '' %}
             <div class="custom-mb-6">
-              <input type="radio" class="btn-check" id="candidate_answer_choice_e{{ current_question_number_to_html }}" name="ui_answer_choice_selected_{{ current_question_number_to_html }}" value="e" autocomplete="off" required>
-              <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_e{{ current_question_number_to_html }}">E: {{ db_question_obj_to_html.option_e }}</label>
+              <input type="radio" class="btn-check" id="candidate_answer_choice_e" name="ui_answer_choice_selected" value="e" autocomplete="off" required>
+              <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_e">E: {{ db_question_obj_to_html.option_e }}</label>
             </div>
             {% endif %}
           </div>

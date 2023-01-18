@@ -1542,6 +1542,11 @@ def candidates_assessment_expiring_function(url_assessment_expiring, url_questio
   if len(user_company_name) > 15:
     user_company_name = user_company_name[:14] + '...'
   # ------------------------ company name start ------------------------
+  # ------------------------ post triggered start ------------------------
+  if request.method == 'POST':
+    
+    pass
+  # ------------------------ post triggered end ------------------------
   """
   # ------------------------ post triggered start ------------------------
   ui_answers_error_statement = ''
