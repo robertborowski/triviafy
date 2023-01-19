@@ -25,7 +25,7 @@ from werkzeug.security import generate_password_hash
 import pandas as pd
 from website.backend.candidates.string_manipulation import all_question_candidate_categories_sorted_function, create_assessment_name_function
 from website.backend.candidates.sqlalchemy_manipulation import pull_desired_languages_arr_function
-from website.backend.candidates.dict_manipulation import question_arr_of_dicts_manipulations_function, create_assessment_info_dict_function, map_user_answers_to_questions_dict_function, backend_store_question_answers_dict_function, grade_assessment_answers_dict_function, check_two_phrase_similarity_score_function, create_assessment_info_dict_function_v2, create_question_info_dict_function, arr_of_dict_necessary_columns_function, categories_tuple_function
+from website.backend.candidates.dict_manipulation import question_arr_of_dicts_manipulations_function, create_assessment_info_dict_function, map_user_answers_to_questions_dict_function, backend_store_question_answers_dict_function, grade_assessment_answers_dict_function, check_two_phrase_similarity_score_function, create_assessment_info_dict_function_v2, create_question_info_dict_function, arr_of_dict_necessary_columns_function, categories_tuple_function, arr_of_dict_all_columns_single_item_function
 from website.backend.candidates.datetime_manipulation import next_x_days_function, times_arr_function, expired_assessment_check_function
 import datetime
 import json
@@ -1464,6 +1464,35 @@ def candidates_assessment_expiring_function(url_assessment_expiring, url_questio
       alert_message_page = 'Invalid answer choice'
       alert_message_type = 'danger'
   # ------------------------ redirect codes end ------------------------
+  # ------------------------ submit after submit start ------------------------
+  if url_question_number == 'submit':
+    db_grading_in_progress_obj = CandidatesAssessmentGradedObj.query.filter_by(assessment_expiring_url_fk=url_assessment_expiring, status='wip').first()
+    if db_grading_in_progress_obj == None:
+      localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
+      return redirect(url_for('views_interior.candidates_assessment_closed_function'))
+    else:
+      if int(db_grading_in_progress_obj.graded_count) == int(db_grading_in_progress_obj.total_questions):
+        db_grading_in_progress_obj.status = 'submitted'
+        db_schedule_obj = CandidatesScheduleObj.query.filter_by(expiring_url=url_assessment_expiring).first()
+        db_schedule_obj.candidate_status = 'Completed'
+        db.session.commit()
+        # ------------------------ email self start ------------------------
+        try:
+          output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+          output_subject = f'Triviafy - Graded Assessment - {db_grading_in_progress_obj.assessment_name}'
+          output_body = f"Hi there,\n\nCandidate submitted assessment answers for {db_grading_in_progress_obj.assessment_name} \n\nBest,\nTriviafy"
+          send_email_template_function(output_to_email, output_subject, output_body)
+        except:
+          pass
+        # ------------------------ email self end ------------------------
+        localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
+        return redirect(url_for('views_interior.candidates_assessment_completed_success_function'))
+  # ------------------------ submit after submit end ------------------------
+  # ------------------------ if less than 1 start ------------------------
+  if int(url_question_number) < 1:
+    localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
+    return redirect(url_for('views_interior.candidates_assessment_expiring_function', url_assessment_expiring=url_assessment_expiring, url_question_number='1'))
+  # ------------------------ if less than 1 end ------------------------
   # ------------------------ next question start ------------------------
   next_question_number = int(url_question_number) + 1
   # ------------------------ next question end ------------------------
@@ -1478,6 +1507,17 @@ def candidates_assessment_expiring_function(url_assessment_expiring, url_questio
     localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
     return redirect(url_for('views_interior.candidates_assessment_closed_function'))
   # ------------------------ check if answers already submitted end ------------------------
+  # ------------------------ check if question number already submitted start ------------------------
+  db_grading_in_progress_obj = CandidatesAssessmentGradedObj.query.filter_by(assessment_expiring_url_fk=url_assessment_expiring, status='wip').first()
+  if db_grading_in_progress_obj == None:
+    if int(url_question_number) > 1:
+      localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
+      return redirect(url_for('views_interior.candidates_assessment_expiring_function', url_assessment_expiring=url_assessment_expiring, url_question_number='1'))
+  if db_grading_in_progress_obj != None:
+    if int(url_question_number) <= int(db_grading_in_progress_obj.graded_count) or int(url_question_number) > (int(db_grading_in_progress_obj.graded_count) + 1):
+      localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
+      return redirect(url_for('views_interior.candidates_assessment_expiring_function', url_assessment_expiring=url_assessment_expiring, url_question_number=str(int(db_grading_in_progress_obj.graded_count) + 1)))
+  # ------------------------ check if question number already submitted start ------------------------
   # ------------------------ expire check based on email send datetime start ------------------------
   db_email_obj = CandidatesEmailSentObj.query.filter_by(assessment_expiring_url_fk=url_assessment_expiring).order_by(CandidatesEmailSentObj.created_timestamp.desc()).first()
   if db_email_obj == None:
@@ -1501,8 +1541,6 @@ def candidates_assessment_expiring_function(url_assessment_expiring, url_questio
   # ------------------------ pull schedule vars start ------------------------
   db_schedule_obj_user_id_fk = db_schedule_obj.user_id_fk
   db_schedule_obj_assessment_id_fk = db_schedule_obj.assessment_id_fk
-  db_schedule_obj_candidate_email = db_schedule_obj.candidates
-  db_schedule_obj_assessment_name = db_schedule_obj.assessment_name
   # ------------------------ pull schedule vars end ------------------------
   # ------------------------ pull assessment info start ------------------------
   db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(id=db_schedule_obj_assessment_id_fk).first()
@@ -1544,92 +1582,90 @@ def candidates_assessment_expiring_function(url_assessment_expiring, url_questio
   # ------------------------ company name start ------------------------
   # ------------------------ post triggered start ------------------------
   if request.method == 'POST':
-    
-    pass
-  # ------------------------ post triggered end ------------------------
-  """
-  # ------------------------ post triggered start ------------------------
-  ui_answers_error_statement = ''
-  ui_current_answer_choice_selected_checked_master = True
-  if request.method == 'POST':
-    # ------------------------ process to grade any number of questions start ------------------------
-    current_question_number = 0
-    while current_question_number < 51:
-      current_question_number += 1
-      # ------------------------ get user input start ------------------------
-      ui_current_answer_choice_selected = request.form.get('ui_answer_choice_selected_'+str(current_question_number))
-      # ------------------------ get user input end ------------------------
-      # ------------------------ if question/answer number doesnt exist start ------------------------
-      if ui_current_answer_choice_selected == None:
-        continue
-      # ------------------------ if question/answer number doesnt exist end ------------------------
-      # ------------------------ sanitize ui answer start ------------------------
-      ui_current_answer_choice_selected_checked = sanitize_candidate_ui_answer_radio_function(ui_current_answer_choice_selected)
-      # ------------------------ sanitize ui answer end ------------------------
-      # ------------------------ check if invalid inputs start ------------------------
-      if ui_current_answer_choice_selected_checked == False:
-        ui_current_answer_choice_selected_checked_master = False
-        ui_answers_error_statement = 'Please answer all questions.'
-      # ------------------------ check if invalid inputs end ------------------------
-      # ------------------------ add user answers to assessment arr of dict start ------------------------
-      assessment_info_dict = map_user_answers_to_questions_dict_function(assessment_info_dict, ui_current_answer_choice_selected, current_question_number)
-      # ------------------------ add user answers to assessment arr of dict end ------------------------
-    # ------------------------ process to grade any number of questions end ------------------------
-    # ------------------------ only start grading if all valid answers provided start ------------------------
-    if ui_current_answer_choice_selected_checked_master != False:
-      # ------------------------ reassign correct answers back to dict start ------------------------
-      for i_dict in assessment_info_dict['questions_arr_of_dicts']:
-        i_question_uuid = i_dict['id']
-        answer_list_lookup = backend_store_question_answers_dict[i_question_uuid]
-        i_dict['answer'] = answer_list_lookup
-      # ------------------------ reassign correct answers back to dict end ------------------------
-      # ------------------------ grading function start ------------------------
-      assessment_info_dict = grade_assessment_answers_dict_function(assessment_info_dict)
-      # ------------------------ grading function end ------------------------
+    # ------------------------ grading wip obj start ------------------------
+    db_grading_in_progress_obj = CandidatesAssessmentGradedObj.query.filter_by(assessment_expiring_url_fk=url_assessment_expiring, status='wip').first()
+    # ------------------------ grading wip obj end ------------------------
+    # ------------------------ user input start ------------------------
+    ui_answer_choice = request.form.get('ui_answer_choice_selected')
+    # ------------------------ user input end ------------------------
+    # ------------------------ validate ui start ------------------------
+    allowed_answers_arr = ['a', 'b', 'c', 'd', 'e']
+    if ui_answer_choice.lower() not in allowed_answers_arr:
+      localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
+      return redirect(url_for('views_interior.candidates_assessment_expiring_function', url_assessment_expiring=url_assessment_expiring, url_question_number=url_question_number, url_redirect_code='e1'))
+    # ------------------------ validate ui start ------------------------
+    # ------------------------ answer graded start ------------------------
+    answer_result = False
+    if ui_answer_choice.lower() == db_question_obj.answer.lower():
+      answer_result = True
+    current_db_question_obj = arr_of_dict_all_columns_single_item_function(db_question_obj, for_json_dumps=True)
+    current_db_question_obj['user_answer'] = ui_answer_choice.lower()
+    current_db_question_obj['user_answer_result'] = answer_result
+    # ------------------------ answer graded end ------------------------
+    # ------------------------ first answer start ------------------------
+    if db_grading_in_progress_obj == None:
+      # ------------------------ initialize variables start ------------------------
+      current_correct_count = 0
+      current_final_score = 0
+      # ------------------------ initialize variables end ------------------------
+      # ------------------------ updates before input start ------------------------
+      if answer_result == True:
+        current_correct_count += 1
+        current_final_score = float(current_correct_count) / float(db_assessment_obj.total_questions)
+      # ------------------------ updates before input end ------------------------
       # ------------------------ insert db start ------------------------
-      ui_total_correct_answers = assessment_info_dict['ui_total_correct_answers']
-      ui_final_score = assessment_info_dict['ui_final_score']
       try:
-        new_row_graded = CandidatesAssessmentGradedObj(
+        new_row = CandidatesAssessmentGradedObj(
           id = create_uuid_function('graded_'),
           created_timestamp = create_timestamp_function(),
-          candidate_email = db_schedule_obj_candidate_email,
-          assessment_name = db_schedule_obj_assessment_name,
-          assessment_id_fk = assessment_info_dict['id'],
-          created_assessment_user_id_fk = db_schedule_obj_user_id_fk,
-          assessment_expiring_url_fk = url_assessment_expiring,
-          total_questions = db_assessment_obj.total_questions,
-          correct_count = ui_total_correct_answers,
-          final_score = ui_final_score,
-          assessment_obj = json.dumps(assessment_info_dict)
+          candidate_email = db_schedule_obj.candidates, # str
+          assessment_name = db_schedule_obj.assessment_name,  # str
+          assessment_id_fk = db_schedule_obj.assessment_id_fk,  # str
+          created_assessment_user_id_fk = db_schedule_obj.user_id_fk, # str
+          assessment_expiring_url_fk = url_assessment_expiring, # str
+          total_questions = db_assessment_obj.total_questions,  # int
+          correct_count = int(current_correct_count), # int
+          final_score = float(current_final_score), # float
+          status = 'wip', # str
+          graded_count = int('1'),
+          assessment_obj = json.dumps(current_db_question_obj)
         )
-        db.session.add(new_row_graded)
+        db.session.add(new_row)
         db.session.commit()
       except:
         pass
       # ------------------------ insert db end ------------------------
-      # ------------------------ update row in db schedule start ------------------------
-      try:
-        db_schedule_obj = CandidatesScheduleObj.query.filter_by(expiring_url=url_assessment_expiring).first()
-        db_schedule_obj.candidate_status = 'Completed'
-        db.session.commit()
-      except:
-        localhost_print_function('error cannot update row')
-        pass
-      # ------------------------ update row in db schedule end ------------------------
-      # ------------------------ email self start ------------------------
-      try:
-        output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
-        output_subject = f'Triviafy - Graded Assessment - {db_schedule_obj_candidate_email}'
-        output_body = f"Hi there,\n\nNew user submitted assessment answers: {db_schedule_obj_candidate_email} \n\nBest,\nTriviafy"
-        send_email_template_function(output_to_email, output_subject, output_body)
-      except:
-        pass
-      # ------------------------ email self end ------------------------
+      # ------------------------ redirect next question start ------------------------
       localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
-      return redirect(url_for('views_interior.candidates_assessment_completed_success_function'))
-    # ------------------------ only start grading if all valid answers provided end ------------------------
-    """
+      return redirect(url_for('views_interior.candidates_assessment_expiring_function', url_assessment_expiring=url_assessment_expiring, url_question_number=next_question_number))
+      # ------------------------ redirect next question end ------------------------
+    # ------------------------ first answer end ------------------------
+    # ------------------------ subsequent answers start ------------------------
+    else:
+      # ------------------------ build on existing variables start ------------------------
+      current_correct_count = int(db_grading_in_progress_obj.correct_count)
+      current_final_score = float(db_grading_in_progress_obj.final_score)
+      if answer_result == True:
+        current_correct_count += 1
+        current_final_score = float(current_correct_count) / float(db_assessment_obj.total_questions)
+      current_graded_count = int(db_grading_in_progress_obj.graded_count) + 1
+      current_master_arr_of_dict = []
+      current_master_arr_of_dict.append(json.loads(db_grading_in_progress_obj.assessment_obj))  
+      current_master_arr_of_dict.append(current_db_question_obj)
+      # ------------------------ update db obj start ------------------------
+      try:
+        db_grading_in_progress_obj.correct_count = int(current_correct_count), # int
+        db_grading_in_progress_obj.final_score = float(current_final_score), # float
+        db_grading_in_progress_obj.graded_count = int(current_graded_count),  # int
+        db_grading_in_progress_obj.assessment_obj = json.dumps(current_master_arr_of_dict)
+        db.session.commit()
+        localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
+        return redirect(url_for('views_interior.candidates_assessment_expiring_function', url_assessment_expiring=url_assessment_expiring, url_question_number=next_question_number))
+      except:
+        pass
+      # ------------------------ update db obj end ------------------------
+      pass
+    # ------------------------ subsequent answers end ------------------------
   # ------------------------ post triggered end ------------------------
   localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
   return render_template('candidates/exterior/assessments/assessment_candidate_test/index.html', users_company_name_to_html=user_company_name, db_question_obj_to_html=db_question_obj, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type, next_question_number_to_html=next_question_number, current_question_number_to_html=url_question_number, url_assessment_expiring_to_html=url_assessment_expiring, contains_img_to_html=contains_img, categories_tuple_to_html=categories_tuple)

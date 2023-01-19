@@ -130,6 +130,7 @@ class CandidatesAssessmentGradedObj(db.Model):
   correct_count = db.Column(db.Integer)
   final_score = db.Column(db.Float)
   status = db.Column(db.String(20))
+  graded_count = db.Column(db.Integer)
   assessment_obj = db.Column(db.String(180000))
 # ------------------------ individual model end ------------------------
 
