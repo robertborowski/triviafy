@@ -1922,6 +1922,12 @@ def candidates_create_question_dashboard_function():
   db_questions_obj_arr = CandidatesCreatedQuestionsObj.query.filter_by(fk_user_id=current_user.id).order_by(CandidatesCreatedQuestionsObj.created_timestamp.desc()).all()
   total_questions_created = len(db_questions_obj_arr)
   db_questions_obj_arr = arr_of_dict_necessary_columns_function(db_questions_obj_arr, ['id', 'title', 'categories', 'question'])
+  if len(db_questions_obj_arr[0]['categories']) > 15:
+    shortened = db_questions_obj_arr[0]['categories'][0:19]
+    db_questions_obj_arr[0]['categories'] = shortened
+  if len(db_questions_obj_arr[0]['question']) > 15:
+    shortened = db_questions_obj_arr[0]['question'][0:19]
+    db_questions_obj_arr[0]['question'] = shortened
   # ------------------------ pull from db end ------------------------
   # ------------------------ pull from db start ------------------------
   db_test_drafts_obj_arr = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,status='draft').all()
