@@ -1453,6 +1453,14 @@ def candidates_assessment_closed_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
+@views_interior.route('/candidates/assessment/<url_assessment_expiring>/', methods=['GET', 'POST'])
+def candidates_assessment_expiring_redirect_function(url_assessment_expiring, url_question_number='1', url_redirect_code=None):
+  localhost_print_function('=========================================== candidates_assessment_expiring_redirect_function START ===========================================')
+  localhost_print_function('=========================================== candidates_assessment_expiring_redirect_function END ===========================================')
+  return redirect(url_for('views_interior.candidates_assessment_expiring_function', url_assessment_expiring=url_assessment_expiring, url_question_number='1'))
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
 @views_interior.route('/candidates/assessment/<url_assessment_expiring>/<url_question_number>', methods=['GET', 'POST'])
 def candidates_assessment_expiring_function(url_assessment_expiring, url_question_number='1', url_redirect_code=None):
   localhost_print_function('=========================================== candidates_assessment_expiring_function START ===========================================')
@@ -1488,14 +1496,16 @@ def candidates_assessment_expiring_function(url_assessment_expiring, url_questio
         localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
         return redirect(url_for('views_interior.candidates_assessment_completed_success_function'))
   # ------------------------ submit after submit end ------------------------
-  # ------------------------ if less than 1 start ------------------------
-  if int(url_question_number) < 1:
+  # ------------------------ confirm int start ------------------------
+  is_int = False
+  try:
+    is_int = isinstance(int(url_question_number), int)
+  except:
+    pass
+  if is_int == False:
     localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
     return redirect(url_for('views_interior.candidates_assessment_expiring_function', url_assessment_expiring=url_assessment_expiring, url_question_number='1'))
-  # ------------------------ if less than 1 end ------------------------
-  # ------------------------ next question start ------------------------
-  next_question_number = int(url_question_number) + 1
-  # ------------------------ next question end ------------------------
+  # ------------------------ confirm int end ------------------------
   # ------------------------ invalid url_assessment_name start ------------------------
   if url_assessment_expiring == False or url_assessment_expiring == None or url_assessment_expiring == '':
     localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
@@ -1510,11 +1520,11 @@ def candidates_assessment_expiring_function(url_assessment_expiring, url_questio
   # ------------------------ check if question number already submitted start ------------------------
   db_grading_in_progress_obj = CandidatesAssessmentGradedObj.query.filter_by(assessment_expiring_url_fk=url_assessment_expiring, status='wip').first()
   if db_grading_in_progress_obj == None:
-    if int(url_question_number) > 1:
+    if int(url_question_number) > 1 or int(url_question_number) < 1:
       localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
       return redirect(url_for('views_interior.candidates_assessment_expiring_function', url_assessment_expiring=url_assessment_expiring, url_question_number='1'))
   if db_grading_in_progress_obj != None:
-    if int(url_question_number) <= int(db_grading_in_progress_obj.graded_count) or int(url_question_number) > (int(db_grading_in_progress_obj.graded_count) + 1):
+    if int(url_question_number) != (int(db_grading_in_progress_obj.graded_count) + 1):
       localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
       return redirect(url_for('views_interior.candidates_assessment_expiring_function', url_assessment_expiring=url_assessment_expiring, url_question_number=str(int(db_grading_in_progress_obj.graded_count) + 1)))
   # ------------------------ check if question number already submitted start ------------------------
@@ -1548,13 +1558,14 @@ def candidates_assessment_expiring_function(url_assessment_expiring, url_questio
     localhost_print_function('=========================================== candidates_assessment_expiring_function END ===========================================')
     return redirect(url_for('views_interior.candidates_assessment_invalid_function'))
   # ------------------------ pull assessment info end ------------------------
+  # ------------------------ next question start ------------------------
+  next_question_number = int(url_question_number) + 1
+  # ------------------------ next question end ------------------------
   # ------------------------ get desired question id start ------------------------
   question_ids_str = db_assessment_obj.question_ids_arr
   question_ids_arr = question_ids_str.split(',')
-  if int(url_question_number) >= int(len(question_ids_arr)):
-    url_question_number = str(len(question_ids_arr))
-    if int(url_question_number) == int(len(question_ids_arr)):
-      next_question_number = 'submit'
+  if int(url_question_number) == int(len(question_ids_arr)):
+    next_question_number = 'submit'
   current_page_question_id = question_ids_arr[int(url_question_number)-1]
   # ------------------------ get desired question id end ------------------------
   # ------------------------ pull question info start ------------------------
