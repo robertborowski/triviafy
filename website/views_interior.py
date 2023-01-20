@@ -1596,9 +1596,6 @@ def candidates_assessment_expiring_function(url_assessment_expiring, url_questio
   # ------------------------ company name start ------------------------
   # ------------------------ post triggered start ------------------------
   if request.method == 'POST':
-    # ------------------------ grading wip obj start ------------------------
-    db_grading_in_progress_obj = CandidatesAssessmentGradedObj.query.filter_by(assessment_expiring_url_fk=url_assessment_expiring, status='wip').first()
-    # ------------------------ grading wip obj end ------------------------
     # ------------------------ user input start ------------------------
     ui_answer_choice = request.form.get('ui_answer_choice_selected')
     # ------------------------ user input end ------------------------
@@ -1616,6 +1613,9 @@ def candidates_assessment_expiring_function(url_assessment_expiring, url_questio
     current_db_question_obj['user_answer'] = ui_answer_choice.lower()
     current_db_question_obj['user_answer_result'] = answer_result
     # ------------------------ answer graded end ------------------------
+    # ------------------------ grading wip obj start ------------------------
+    db_grading_in_progress_obj = CandidatesAssessmentGradedObj.query.filter_by(assessment_expiring_url_fk=url_assessment_expiring, status='wip').first()
+    # ------------------------ grading wip obj end ------------------------
     # ------------------------ first answer start ------------------------
     if db_grading_in_progress_obj == None:
       # ------------------------ initialize variables start ------------------------
@@ -1664,7 +1664,12 @@ def candidates_assessment_expiring_function(url_assessment_expiring, url_questio
         current_final_score = float(current_correct_count) / float(db_assessment_obj.total_questions)
       current_graded_count = int(db_grading_in_progress_obj.graded_count) + 1
       current_master_arr_of_dict = []
-      current_master_arr_of_dict.append(json.loads(db_grading_in_progress_obj.assessment_obj))  
+      previous_answers = json.loads(db_grading_in_progress_obj.assessment_obj)
+      if isinstance(previous_answers, dict):
+        current_master_arr_of_dict.append(previous_answers)
+      if isinstance(previous_answers, list):
+        for i in previous_answers:
+          current_master_arr_of_dict.append(i)
       current_master_arr_of_dict.append(current_db_question_obj)
       # ------------------------ update db obj start ------------------------
       try:
