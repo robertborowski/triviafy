@@ -1320,6 +1320,9 @@ def candidates_schedule_create_now_function_v2(url_redirect_code=None):
   for i in db_tests_obj:
     all_test_names_arr.append(i.assessment_name)
   db_tests_obj = arr_of_dict_necessary_columns_function(db_tests_obj, ['assessment_name', 'desired_languages_arr', 'total_questions'])
+  if len(db_tests_obj[0]['desired_languages_arr']) > 15:
+    categories_short = db_tests_obj[0]['desired_languages_arr'][0:19]
+    db_tests_obj[0]['desired_languages_arr'] = categories_short
   # ------------------------ pull tests arr of dict end ------------------------
   # ------------------------ pull candidates arr of dict start ------------------------
   db_candidates_obj = CandidatesUploadedCandidatesObj.query.filter_by(user_id_fk=current_user.id).order_by(CandidatesUploadedCandidatesObj.email).all()
