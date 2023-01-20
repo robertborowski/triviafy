@@ -1170,76 +1170,42 @@ def candidates_no_candidates_yet_function():
 # ------------------------ individual route start ------------------------
 @views_interior.route('/candidates/schedule/new', methods=['GET', 'POST'])
 @login_required
-def candidates_schedule_create_new_function():
+def candidates_schedule_create_new_function(url_redirect_code=None):
   localhost_print_function('=========================================== candidates_schedule_create_new_function START ===========================================')
-  # ------------------------ messages start ------------------------
-  success_message_schedule = ''
-  error_message_schedule = ''
-  # ------------------------ messages end ------------------------
-  # ------------------------ pull all user assessments start ------------------------
-  current_user_assessments_created_arr = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id).order_by(CandidatesAssessmentsCreatedObj.assessment_name).all()
-  # ------------------------ no assessments made yet redirect start ------------------------
-  if len(current_user_assessments_created_arr) == 0:
-    localhost_print_function('=========================================== candidates_schedule_create_new_function END ===========================================')
-    return redirect(url_for('views_interior.candidates_no_assessments_yet_function'))
-  # ------------------------ no assessments made yet redirect end ------------------------
-  current_user_assessment_names_arr = []
-  for i in current_user_assessments_created_arr:
-    current_user_assessment_names_arr.append(i.assessment_name)
-  current_user_assessment_names_arr = sorted(current_user_assessment_names_arr)
-  # ------------------------ pull all user assessments end ------------------------
-  # ------------------------ pull all user candidates start ------------------------
-  current_user_candidates_uploaded_arr = CandidatesUploadedCandidatesObj.query.filter_by(user_id_fk=current_user.id).order_by(CandidatesUploadedCandidatesObj.email).all()
-  current_user_candidates_arr = []
-  for i in current_user_candidates_uploaded_arr:
-    current_user_candidates_arr.append(i.email)
-  current_user_candidates_arr = sorted(current_user_candidates_arr)
-  # ------------------------ pull all user candidates end ------------------------
+  alert_message_page, alert_message_type = alert_message_default_function()
+  # ------------------------ redirect codes start ------------------------
+  redirect_var = request.args.get('url_redirect_code')
+  if redirect_var != None:
+    if redirect_var == 'e':
+      alert_message_page = 'Invalid.'
+      alert_message_type = 'danger'
+  # ------------------------ redirect codes end ------------------------
   # ------------------------ pull all available dates, times, timezones start ------------------------
   next_x_days_arr = next_x_days_function()
   times_arr, timezone_arr = times_arr_function()
   # ------------------------ pull all available dates, times, timezones end ------------------------
-  # ------------------------ stripe subscription status check start ------------------------
-  user_obj = CandidatesUserObj.query.filter_by(id=current_user.id).first()
-  fk_stripe_subscription_id = user_obj.fk_stripe_subscription_id
-  stripe_subscription_obj = ''
-  stripe_subscription_obj_status = 'not active'
-  try:
-    stripe_subscription_obj = stripe.Subscription.retrieve(fk_stripe_subscription_id)
-    stripe_subscription_obj_status = stripe_subscription_obj.status
-  except:
-    pass
-  # ------------------------ stripe subscription status check end ------------------------
-  # ------------------------ if subscription not paid start ------------------------
-  user_sub_active = False
-  if stripe_subscription_obj_status == 'active':
-    user_sub_active = True
-    pass
-  if stripe_subscription_obj_status != 'active':
-    db_schedule_obj = CandidatesScheduleObj.query.filter_by(user_id_fk=current_user.id).all()
-    if len(db_schedule_obj) <= 3:
-      current_user_candidates_arr = [user_obj.email]
-      # ------------------------ add user self email to candidate list start ------------------------
-      found_self_email = False
-      for i in current_user_candidates_uploaded_arr:
-        if i.email == user_obj.email:
-          found_self_email = True
-      if found_self_email == False:
-        if user_obj.email not in current_user_candidates_uploaded_arr:
-          new_user = CandidatesUploadedCandidatesObj(
-            id=create_uuid_function('candup_'),
-            created_timestamp=create_timestamp_function(),
-            user_id_fk=current_user.id,
-            candidate_id=create_uuid_function('cand_'),
-            email = user_obj.email,
-            upload_type = 'individual'
-          )
-          db.session.add(new_user)
-          db.session.commit()
-      # ------------------------ add user self email to candidate list end ------------------------
-    else:
-      current_user_candidates_arr = []
-  # ------------------------ if subscription not paid end ------------------------
+  # ------------------------ pull tests arr of dict start ------------------------
+  db_tests_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id).all()
+  all_test_names_arr = []
+  for i in db_tests_obj:
+    all_test_names_arr.append(i.assessment_name)
+  db_tests_obj = arr_of_dict_necessary_columns_function(db_tests_obj, ['assessment_name', 'desired_languages_arr', 'total_questions'])
+  if len(db_tests_obj[0]['desired_languages_arr']) > 15:
+    categories_short = db_tests_obj[0]['desired_languages_arr'][0:19]
+    db_tests_obj[0]['desired_languages_arr'] = categories_short
+  # ------------------------ pull tests arr of dict end ------------------------
+  # ------------------------ pull candidates arr of dict start ------------------------
+  db_candidates_obj = CandidatesUploadedCandidatesObj.query.filter_by(user_id_fk=current_user.id).order_by(CandidatesUploadedCandidatesObj.email).all()
+  all_candidate_emails_arr = []
+  all_candidate_emails_arr.append(current_user.email)
+  for i in db_candidates_obj:
+    all_candidate_emails_arr.append(i.email)
+  db_candidates_obj = arr_of_dict_necessary_columns_function(db_candidates_obj, ['email'])
+  # ------------------------ pull candidates arr of dict end ------------------------
+  # ------------------------ self email start ------------------------
+  current_user_email = current_user.email
+  # ------------------------ self email end ------------------------
+  """
   # ------------------------ post triggered start ------------------------
   if request.method == 'POST':
     # ------------------------ get user inputs start ------------------------
@@ -1296,8 +1262,9 @@ def candidates_schedule_create_new_function():
         return redirect(url_for('views_interior.login_dashboard_page_function', var1='s_success'))
     # ------------------------ insert to db end ------------------------
   # ------------------------ post triggered end ------------------------
+  """
   localhost_print_function('=========================================== candidates_schedule_create_new_function END ===========================================')
-  return render_template('candidates/interior/schedule/schedule_create_new/index.html', user=current_user, users_company_name_to_html=current_user.company_name, current_user_assessment_names_arr_to_html=current_user_assessment_names_arr, current_user_candidates_arr_to_html=current_user_candidates_arr, next_x_days_arr_to_html=next_x_days_arr, times_arr_to_html=times_arr, timezone_arr_to_html=timezone_arr, success_message_to_html=success_message_schedule, error_message_to_html=error_message_schedule,user_sub_active_to_html=user_sub_active)
+  return render_template('candidates/interior/schedule/schedule_create_new/index.html', user=current_user, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type, db_tests_obj_to_html=db_tests_obj, db_candidates_obj_to_html=db_candidates_obj, current_user_email_to_html=current_user_email, next_x_days_arr_to_html=next_x_days_arr, times_arr_to_html=times_arr, timezone_arr_to_html=timezone_arr)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -1397,7 +1364,7 @@ def candidates_schedule_create_now_function_v2(url_redirect_code=None):
       # ------------------------ email self end ------------------------
       return redirect(url_for('views_interior.candidates_schedule_create_now_function_v2', url_redirect_code='s'))
   localhost_print_function('=========================================== candidates_schedule_create_now_function_v2 END ===========================================')
-  return render_template('candidates/interior/schedule/schedule_create_now_v2/index.html', user=current_user, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type, current_user_email_to_html=current_user_email, db_tests_obj_to_html=db_tests_obj, db_candidates_obj_to_html=db_candidates_obj)
+  return render_template('candidates/interior/schedule/schedule_create_now/index.html', user=current_user, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type, current_user_email_to_html=current_user_email, db_tests_obj_to_html=db_tests_obj, db_candidates_obj_to_html=db_candidates_obj)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
