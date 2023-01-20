@@ -48,6 +48,46 @@
         </div>
       </div>
     </div>
+    <div>
+      <div class="text-center">
+        <p class="custom-header-4"><span class="fw-bold">Step 3:</span> Select schedule</p>
+      </div>
+      <div class="custom-display-flex custom-jc-4 custom-fw-1">
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle btn-lg custom-width-15 custom-m-1" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Date
+          </button>
+          <ul class="dropdown-menu">
+            {% for i in next_x_days_arr_to_html %}
+            <li><input type="radio" class="btn-check" name="uiDateSelected" id="uiDateSelected" autocomplete="off" value="{{ i }}" required>
+            <label class="dropdown-item" for="uiDateSelected">{{ i }}</label></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle btn-lg custom-width-15 custom-m-1" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Time
+          </button>
+          <ul class="dropdown-menu">
+            {% for i in times_arr_to_html %}
+            <li><input type="radio" class="btn-check" name="uiTimeSelected" id="uiTimeSelected" autocomplete="off" value="{{ i }}" required>
+            <label class="dropdown-item" for="uiTimeSelected">{{ i }}</label></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle btn-lg custom-width-15 custom-m-1" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Time zone
+          </button>
+          <ul class="dropdown-menu">
+            {% for i in timezone_arr_to_html %}
+            <li><input type="radio" class="btn-check" name="uiTimeZoneSelected" id="uiTimeZoneSelected" autocomplete="off" value="{{ i }}" required>
+            <label class="dropdown-item" for="uiTimeZoneSelected">{{ i }}</label></li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
   </div>
 </form>
 {% endblock %}
