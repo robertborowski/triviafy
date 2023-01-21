@@ -67,8 +67,6 @@ def candidates_signup_function():
     # ------------------------ post method hit #2 - full sign up start ------------------------
     ui_email = request.form.get('create_account_page_ui_email')
     ui_password = request.form.get('create_account_page_ui_password')
-    ui_name = request.form.get('create_account_page_ui_name')
-    ui_company_name = request.form.get('create_account_page_ui_company_name')
     # ------------------------ sanitize/check user inputs start ------------------------
     # ------------------------ sanitize/check user input email start ------------------------
     ui_email_cleaned = sanitize_email_function(ui_email)
@@ -80,20 +78,6 @@ def candidates_signup_function():
     if ui_password_cleaned == False:
       create_account_error_statement = 'Password is not valid.'
     # ------------------------ sanitize/check user input password end ------------------------
-    # ------------------------ sanitize/check user input name start ------------------------
-    if len(ui_name) > 20:
-      create_account_error_statement = 'Name can only be 2-20 characters.'
-    ui_name_cleaned = sanitize_create_account_text_inputs_function(ui_name)
-    if ui_name_cleaned == False:
-      create_account_error_statement = 'Name needs to be 2-20 characters. No special characters.'
-    # ------------------------ sanitize/check user input name end ------------------------
-    # ------------------------ sanitize/check user input company name start ------------------------
-    if len(ui_company_name) < 2 or len(ui_company_name) > 50:
-      create_account_error_statement = 'Company name needs to be 2-20 characters.'
-    ui_company_name_cleaned = sanitize_create_account_text_inputs_function(ui_company_name)
-    if ui_company_name_cleaned == False:
-      create_account_error_statement = 'Company name needs to be 2-20 characters. No special characters.'
-    # ------------------------ sanitize/check user input company name end ------------------------
     # ------------------------ sanitize/check user inputs end ------------------------
     # ------------------------ if user input error start ------------------------
     if create_account_error_statement != '':
@@ -102,9 +86,7 @@ def candidates_signup_function():
                               user = current_user,
                               error_message_to_html = create_account_error_statement,
                               redirect_var_email = ui_email,
-                              redirect_var_password = ui_password,
-                              redirect_var_first_name = ui_name,
-                              redirect_var_company_name = ui_company_name)
+                              redirect_var_password = ui_password)
     # ------------------------ if user input error end ------------------------
     # ------------------------ check if user email already exists in db start ------------------------
     user = CandidatesUserObj.query.filter_by(email=ui_email).first()
@@ -115,19 +97,22 @@ def candidates_signup_function():
                               user = current_user,
                               error_message_to_html = create_account_error_statement,
                               redirect_var_email = ui_email,
-                              redirect_var_password = ui_password,
-                              redirect_var_first_name = ui_name,
-                              redirect_var_company_name = ui_company_name)
+                              redirect_var_password = ui_password)
     # ------------------------ check if user email already exists in db start ------------------------
     else:
+      # ------------------------ infer company name start ------------------------
+      email_arr1 = ui_email.split('@')
+      email_desired1 = email_arr1[1]
+      email_arr2 = email_desired1.split('.')
+      company_name_from_email = email_arr2[0]
+      # ------------------------ infer company name end ------------------------
       # ------------------------ create new user in db start ------------------------
       new_user = CandidatesUserObj(
         id=create_uuid_function('user_'),
         created_timestamp=create_timestamp_function(),
         email=ui_email,
         password=generate_password_hash(ui_password, method="sha256"),
-        name = ui_name,
-        company_name = ui_company_name
+        company_name = company_name_from_email
       )
       db.session.add(new_user)
       db.session.commit()
