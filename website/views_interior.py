@@ -1161,6 +1161,9 @@ def candidates_schedule_dashboard_function(url_redirect_code=None):
     if redirect_var == 's':
       alert_message_page = 'Candidate successfully added.'
       alert_message_type = 'success'
+    if redirect_var == 'e':
+      alert_message_page = 'Invalid selection.'
+      alert_message_type = 'danger'
   # ------------------------ redirect codes end ------------------------
   # ------------------------ total assessments made start ------------------------  
   total_test_made = 0
@@ -1170,7 +1173,21 @@ def candidates_schedule_dashboard_function(url_redirect_code=None):
   else:
     for i in test_obj:
       total_test_made += 1
-  # ------------------------ total assessments made end ------------------------  
+  # ------------------------ total assessments made end ------------------------
+  if request.method == 'POST':
+    # ------------------------ user input start ------------------------
+    ui_choice = request.form.get('listGroupRadios')
+    allowed_arr = ['immediate', 'scheduled']
+    if ui_choice not in allowed_arr:
+      return redirect(url_for('views_interior.candidates_schedule_dashboard_function', url_redirect_code='e'))
+    else:
+      if ui_choice == 'immediate':
+        localhost_print_function('=========================================== candidates_schedule_dashboard_function END ===========================================')
+        return redirect(url_for('views_interior.candidates_schedule_create_now_function_v2'))
+      if ui_choice == 'scheduled':
+        localhost_print_function('=========================================== candidates_schedule_dashboard_function END ===========================================')
+        return redirect(url_for('views_interior.candidates_schedule_create_new_function'))
+    # ------------------------ user input end ------------------------
   localhost_print_function('=========================================== candidates_schedule_dashboard_function END ===========================================')
   return render_template('candidates/interior/schedule/schedule_dashboard/index.html', user=current_user, total_test_made_to_html=total_test_made, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type)
 # ------------------------ individual route end ------------------------

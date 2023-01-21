@@ -11,26 +11,40 @@
 </div>
 {% endif %}
 <!-- ----------------------------------- end ----------------------------------- -->
-<div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
+<div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6 custom-width-1">
   <div>
     <h2 class="custom-header-2-mobile">Schedule</h2>
   </div>
 </div>
-<div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
+<div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6 custom-width-1">
   {% if total_test_made_to_html == 0 %}
   <div class="text-center">
     <p class="fst-italic custom-color-light-1 custom-header-5">You have not yet created any tests.</p>
     <a href="/candidates/assessment/new/1b" class="btn btn-primary btn-lg">Create test +</a>
   </div>
   {% else %}
-  <div class="custom-display-flex custom-fw-1">
-    <div class="custom-width-11-mobile custom-p-5">
-      <a href="/candidates/schedule/now" class="btn btn-outline-primary btn-lg custom-width-6">Send test now</a>
+  <!-- ----------------------------------- start ----------------------------------- -->
+  <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+    <div class="d-flex gap-5 justify-content-center">
+      <div class="list-group mx-0 w-auto">
+        
+        <label class="list-group-item d-flex gap-2">
+          <input class="form-check-input flex-shrink-0" type="radio" name="listGroupRadios" id="listGroupRadios1" value="immediate" checked="">
+          <span>Send test now<small class="d-block text-muted">Send a test to candidates immediately.</small></span>
+        </label>
+
+        <label class="list-group-item d-flex gap-2">
+          <input class="form-check-input flex-shrink-0" type="radio" name="listGroupRadios" id="listGroupRadios2" value="scheduled">
+          <span>Send test later<small class="d-block text-muted">Schedule when candidates receive a test.</small></span>
+        </label>
+
+      </div>
     </div>
-    <div class="custom-width-11-mobile custom-p-5">
-      <a href="/candidates/schedule/new" class="btn btn-outline-primary btn-lg custom-width-6">Send test later</a>
+    <div class="text-center custom-mt-1">
+      <button type="submit" class="btn btn-primary">Continue</a>
     </div>
-  </div>
+  </form>
+  <!-- ----------------------------------- end ----------------------------------- -->
   {% endif %}
 </div>
 {% endblock %}
