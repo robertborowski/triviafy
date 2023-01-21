@@ -1205,6 +1205,18 @@ def candidates_schedule_create_new_function(url_redirect_code=None):
   # ------------------------ self email start ------------------------
   current_user_email = current_user.email
   # ------------------------ self email end ------------------------
+  if request.method == 'POST':
+    # ------------------------ get user inputs start ------------------------
+    ui_test_selected = request.form.get('uiTestSelected')                  # str
+    ui_candidates_selected = request.form.getlist('uiCandidateSelected')   # list of str
+    ui_date_selected = request.form.get('uiDateSelected')
+    ui_time_selected = request.form.get('uiTimeSelected')
+    ui_timezone_selected = request.form.get('uiTimeZoneSelected')
+    # ------------------------ get user inputs end ------------------------
+    # ------------------------ validate ui start ------------------------
+    ui_test_selected_check = sanitize_check_if_str_exists_within_arr_function(ui_test_selected, all_test_names_arr)
+    ui_candidates_selected_check = sanitize_loop_check_if_exists_within_arr_function(ui_candidates_selected, all_candidate_emails_arr)
+    # ------------------------ validate ui end ------------------------
   """
   # ------------------------ post triggered start ------------------------
   if request.method == 'POST':

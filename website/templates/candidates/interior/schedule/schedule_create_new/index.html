@@ -54,40 +54,43 @@
       </div>
       <div class="custom-display-flex custom-jc-4 custom-fw-1">
         <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle btn-lg custom-width-15 custom-m-1" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <button class="btn btn-secondary dropdown-toggle btn-lg custom-width-15 custom-m-1" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="placeholder-date">
             Date
           </button>
           <ul class="dropdown-menu">
             {% for i in next_x_days_arr_to_html %}
-            <li><input type="radio" class="btn-check" name="uiDateSelected" id="uiDateSelected" autocomplete="off" value="{{ i }}" required>
-            <label class="dropdown-item" for="uiDateSelected">{{ i }}</label></li>
+            <li><input type="radio" class="btn-check" id="uiDateSelected_{{ i }}" name="uiDateSelected" autocomplete="off" value="{{ i }}" onclick="previewSelectionDate(this)" required>
+            <label class="dropdown-item" for="uiDateSelected_{{ i }}">{{ i }}</label></li>
             {% endfor %}
           </ul>
         </div>
         <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle btn-lg custom-width-15 custom-m-1" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <button class="btn btn-secondary dropdown-toggle btn-lg custom-width-15 custom-m-1" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="placeholder-time">
             Time
           </button>
           <ul class="dropdown-menu">
             {% for i in times_arr_to_html %}
-            <li><input type="radio" class="btn-check" name="uiTimeSelected" id="uiTimeSelected" autocomplete="off" value="{{ i }}" required>
-            <label class="dropdown-item" for="uiTimeSelected">{{ i }}</label></li>
+            <li><input type="radio" class="btn-check" id="uiTimeSelected_{{ i }}" name="uiTimeSelected" autocomplete="off" value="{{ i }}" onclick="previewSelectionTime(this)" required>
+            <label class="dropdown-item" for="uiTimeSelected_{{ i }}">{{ i }}</label></li>
             {% endfor %}
           </ul>
         </div>
         <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle btn-lg custom-width-15 custom-m-1" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <button class="btn btn-secondary dropdown-toggle btn-lg custom-width-15 custom-m-1" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="placeholder-timezone">
             Time zone
           </button>
           <ul class="dropdown-menu">
             {% for i in timezone_arr_to_html %}
-            <li><input type="radio" class="btn-check" name="uiTimeZoneSelected" id="uiTimeZoneSelected" autocomplete="off" value="{{ i }}" required>
-            <label class="dropdown-item" for="uiTimeZoneSelected">{{ i }}</label></li>
+            <li><input type="radio" class="btn-check" id="uiTimeZoneSelected_{{ i }}" name="uiTimeZoneSelected" autocomplete="off" value="{{ i }}" onclick="previewSelectionTimeZone(this)" required>
+            <label class="dropdown-item" for="uiTimeZoneSelected_{{ i }}">{{ i }}</label></li>
             {% endfor %}
           </ul>
         </div>
       </div>
     </div>
+  </div>
+  <div class="container custom-pt-4">
+    <button type="submit" class="btn btn-primary custom-ml-3 float-end">Send later</button>
   </div>
 </form>
 {% endblock %}
