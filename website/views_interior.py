@@ -683,6 +683,19 @@ def candidates_assessment_create_review_function(url_assessment_name):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
+@views_interior.route('/candidates/assessment/preview/<url_assessment_name>/', methods=['GET', 'POST'])
+@login_required
+def candidates_assessment_preview_redirect_function(url_assessment_name, url_question_number='1', url_redirect_code=None):
+  localhost_print_function('=========================================== candidates_assessment_preview_redirect_function START ===========================================')
+  db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(assessment_name=url_assessment_name,user_id_fk=current_user.id).first()
+  if db_assessment_obj == None:
+    localhost_print_function('=========================================== candidates_assessment_preview_redirect_function END ===========================================')
+    return redirect(url_for('views_interior.candidates_assessment_invalid_function'))
+  localhost_print_function('=========================================== candidates_assessment_preview_redirect_function END ===========================================')
+  return redirect(url_for('views_interior.candidates_assessment_preview_function',url_assessment_name=url_assessment_name, url_question_number=url_question_number))
+  # ------------------------ redirect codes start ------------------------
+
+# ------------------------ individual route start ------------------------
 @views_interior.route('/candidates/assessment/preview/<url_assessment_name>/<url_question_number>', methods=['GET', 'POST'])
 @login_required
 def candidates_assessment_preview_function(url_assessment_name, url_question_number, url_redirect_code=None):
@@ -697,6 +710,16 @@ def candidates_assessment_preview_function(url_assessment_name, url_question_num
     if redirect_var == 'a':
       alert_message_page = 'Successfully added question to test.'
       alert_message_type = 'success'
+  # ------------------------ valid redirect start ------------------------
+  valid_url_question_number = False
+  try:
+    valid_url_question_number = int(url_question_number)
+  except:
+    pass
+  if valid_url_question_number == False:
+    localhost_print_function('=========================================== candidates_assessment_preview_function END ===========================================')
+    return redirect(url_for('views_interior.candidates_assessment_preview_function',url_assessment_name=url_assessment_name, url_question_number='1'))
+  # ------------------------ valid redirect end ------------------------
   # ------------------------ redirect codes end ------------------------
   next_question_number = int(url_question_number) + 1
   previous_question_number = int(url_question_number) - 1
@@ -707,6 +730,9 @@ def candidates_assessment_preview_function(url_assessment_name, url_question_num
   # ------------------------ variables end ------------------------
   # ------------------------ pull assessment obj start ------------------------
   db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(assessment_name=url_assessment_name,user_id_fk=current_user.id).first()
+  if db_assessment_obj == None:
+    localhost_print_function('=========================================== candidates_assessment_preview_function END ===========================================')
+    return redirect(url_for('views_interior.candidates_assessment_invalid_function'))
   assessment_total_questions = db_assessment_obj.total_questions
   if str(url_question_number) == str(assessment_total_questions):
     next_question_number = 'submit'
