@@ -1177,8 +1177,14 @@ def candidates_schedule_create_new_function(url_redirect_code=None):
   redirect_var = request.args.get('url_redirect_code')
   if redirect_var != None:
     if redirect_var == 'e':
-      alert_message_page = 'Invalid.'
+      alert_message_page = 'Please fill out all fields.'
       alert_message_type = 'danger'
+    if redirect_var == 'e2':
+      alert_message_page = 'Invalid test name.'
+      alert_message_type = 'danger'
+    if redirect_var == 's':
+      alert_message_page = 'Test scheduled successfully.'
+      alert_message_type = 'success'
   # ------------------------ redirect codes end ------------------------
   # ------------------------ pull all available dates, times, timezones start ------------------------
   next_x_days_arr = next_x_days_function()
@@ -1216,65 +1222,49 @@ def candidates_schedule_create_new_function(url_redirect_code=None):
     # ------------------------ validate ui start ------------------------
     ui_test_selected_check = sanitize_check_if_str_exists_within_arr_function(ui_test_selected, all_test_names_arr)
     ui_candidates_selected_check = sanitize_loop_check_if_exists_within_arr_function(ui_candidates_selected, all_candidate_emails_arr)
+    ui_date_selected_check = sanitize_check_if_str_exists_within_arr_function(ui_date_selected, next_x_days_arr)
+    ui_time_selected_check = sanitize_check_if_str_exists_within_arr_function(ui_time_selected, times_arr)
+    ui_timezone_selected_check = sanitize_check_if_str_exists_within_arr_function(ui_timezone_selected, timezone_arr)
+    if ui_test_selected_check == False or ui_candidates_selected_check == False or ui_date_selected_check == False or ui_time_selected_check == False or ui_timezone_selected_check == False:
+      localhost_print_function('=========================================== candidates_schedule_create_new_function END ===========================================')
+      return redirect(url_for('views_interior.candidates_schedule_create_new_function', url_redirect_code='e'))
     # ------------------------ validate ui end ------------------------
-  """
-  # ------------------------ post triggered start ------------------------
-  if request.method == 'POST':
-    # ------------------------ get user inputs start ------------------------
-    ui_schedule_assessment_selected = request.form.get('ui_schedule_assessment_selected')       # str
-    ui_schedule_candidates_selected = request.form.getlist('ui_schedule_candidates_selected')   # list of str
-    ui_schedule_date_selected = request.form.get('ui_schedule_date_selected')                   # str
-    ui_schedule_time_selected = request.form.get('ui_schedule_time_selected')                   # str
-    ui_schedule_timezone_selected = request.form.get('ui_schedule_timezone_selected')           # str
-    # ------------------------ get user inputs end ------------------------
-    # ------------------------ verify user inputs start ------------------------
-    all_ui_verified_correct = True
-    ui_schedule_assessment_selected_check = sanitize_check_if_str_exists_within_arr_function(ui_schedule_assessment_selected, current_user_assessment_names_arr)
-    ui_schedule_candidates_selected_check = sanitize_loop_check_if_exists_within_arr_function(ui_schedule_candidates_selected, current_user_candidates_arr)
-    ui_schedule_date_selected_check = sanitize_check_if_str_exists_within_arr_function(ui_schedule_date_selected, next_x_days_arr)
-    ui_schedule_time_selected_check = sanitize_check_if_str_exists_within_arr_function(ui_schedule_time_selected, times_arr)
-    ui_schedule_timezone_selected_check = sanitize_check_if_str_exists_within_arr_function(ui_schedule_timezone_selected, timezone_arr)
-    if ui_schedule_assessment_selected_check == False or ui_schedule_candidates_selected_check == False or ui_schedule_date_selected_check == False or ui_schedule_time_selected_check == False or ui_schedule_timezone_selected_check == False:
-      error_message_schedule = 'Please fill out all fields.'
-      all_ui_verified_correct = False
-    # ------------------------ verify user inputs end ------------------------
-    # ------------------------ insert to db start ------------------------
-    if all_ui_verified_correct == True:
+    else:
       # ------------------------ get assessment id based on name and user id fk start ------------------------
-      db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id, assessment_name=ui_schedule_assessment_selected).first()
-      db_assessment_obj_assessment_id = db_assessment_obj.id
+      db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id, assessment_name=ui_test_selected).first()
+      if db_assessment_obj == None:
+        localhost_print_function('=========================================== candidates_schedule_create_new_function END ===========================================')
+        return redirect(url_for('views_interior.candidates_schedule_create_new_function', url_redirect_code='e2'))
       # ------------------------ get assessment id based on name and user id fk end ------------------------
-      for i in ui_schedule_candidates_selected:
+      for i in ui_candidates_selected:
         new_row = CandidatesScheduleObj(
           id = create_uuid_function('schedule_'),
           created_timestamp = create_timestamp_function(),
           user_id_fk = current_user.id,
-          assessment_id_fk = db_assessment_obj_assessment_id,
-          assessment_name = ui_schedule_assessment_selected,
+          assessment_id_fk = db_assessment_obj.id,
+          assessment_name = ui_test_selected,
           candidates = i,
-          send_date = ui_schedule_date_selected,
-          send_time = ui_schedule_time_selected,
-          send_timezone = ui_schedule_timezone_selected,
+          send_date = ui_date_selected,
+          send_time = ui_time_selected,
+          send_timezone = ui_timezone_selected,
           candidate_status = 'Pending',
           expiring_url = create_uuid_function('expire_')
         )
         db.session.add(new_row)
         db.session.commit()
-      success_message_schedule = 'Schedule created!'
       # ------------------------ email self start ------------------------
-      if success_message_schedule == 'Schedule created!':
-        try:
-          output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
-          output_subject = f'Triviafy - Future Schedule Created - {current_user.email}'
-          output_body = f"Hi there,\n\n{current_user.email} created schedule.\n\nBest,\nTriviafy"
-          send_email_template_function(output_to_email, output_subject, output_body)
-        except:
-          pass
-        # ------------------------ email self end ------------------------
-        return redirect(url_for('views_interior.login_dashboard_page_function', var1='s_success'))
-    # ------------------------ insert to db end ------------------------
+      try:
+        output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+        output_subject = f'Triviafy - Future Schedule Created - {current_user.email}'
+        output_body = f"Hi there,\n\n{current_user.email} created schedule.\n\nBest,\nTriviafy"
+        send_email_template_function(output_to_email, output_subject, output_body)
+      except:
+        pass
+      # ------------------------ email self end ------------------------
+      localhost_print_function('=========================================== candidates_schedule_create_new_function END ===========================================')
+      return redirect(url_for('views_interior.candidates_schedule_create_new_function', url_redirect_code='s'))
+      # ------------------------ insert to db end ------------------------
   # ------------------------ post triggered end ------------------------
-  """
   localhost_print_function('=========================================== candidates_schedule_create_new_function END ===========================================')
   return render_template('candidates/interior/schedule/schedule_create_new/index.html', user=current_user, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type, db_tests_obj_to_html=db_tests_obj, db_candidates_obj_to_html=db_candidates_obj, current_user_email_to_html=current_user_email, next_x_days_arr_to_html=next_x_days_arr, times_arr_to_html=times_arr, timezone_arr_to_html=timezone_arr)
 # ------------------------ individual route end ------------------------
