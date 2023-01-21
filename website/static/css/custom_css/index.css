@@ -432,6 +432,10 @@
   padding-top: 50px;
   padding-bottom: 50px;
 }
+.custom-ptb-7 {
+  padding-top: 200px;
+  padding-bottom: 200px;
+}
 .custom-pt-1 {
   padding-top: 50px;
 }
@@ -707,6 +711,9 @@
 }
 .custom-width-15 {
   width: 200px;
+}
+.custom-width-16 {
+  width: 50%;
 }
 .custom-wh-1 {
   width: 50px;
