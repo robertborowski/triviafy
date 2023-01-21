@@ -42,7 +42,7 @@
         <input class="form-control" type="file" name="file" oninput="filesize(this);" disabled>
       </div>
       <div class="text-center">
-        <a href="/candidates/account" class="btn btn-outline-primary btn-lg">Account</a>
+        <button type="submit" class="btn btn-outline-secondary btn-lg" disabled>Submit</button>
       </div>
       {% else %}
       <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
