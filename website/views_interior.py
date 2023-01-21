@@ -1337,8 +1337,8 @@ def candidates_schedule_create_now_function_v2(url_redirect_code=None):
         # ------------------------ send email start ------------------------
         output_to_email = i_email
         output_subject = f'Triviafy Test: {ui_test_selected}'
-        output_body = f"Hi there,\n\nYour Triviafy test is ready! The following link will expire 1 hour from the time you receive this email.\nPlease visit the following link to complete your assessment: https://triviafy.com/candidates/assessment/{expiring_url_i_created}/1 \n\nBest,\nTriviafy"
-        # output_body = f"Hi there,\n\nYour Triviafy test is ready! The following link will expire 1 hour from the time you receive this email.\nPlease visit the following link to complete your assessment: http://127.0.0.1/candidates/assessment/{expiring_url_i_created}/1 \n\nBest,\nTriviafy"
+        output_body = f"Hi there,\n\nYour Triviafy test is ready! The following link will expire 1 hour from the time you receive this email.\nPlease visit the following link to complete your test: https://triviafy.com/candidates/assessment/{expiring_url_i_created}/1 \n\nBest,\nTriviafy"
+        # output_body = f"Hi there,\n\nYour Triviafy test is ready! The following link will expire 1 hour from the time you receive this email.\nPlease visit the following link to complete your test: http://127.0.0.1/candidates/assessment/{expiring_url_i_created}/1 \n\nBest,\nTriviafy"
         send_email_template_function(output_to_email, output_subject, output_body)
         # ------------------------ send email end ------------------------
         # ------------------------ insert email to db start ------------------------
