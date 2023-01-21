@@ -1324,6 +1324,9 @@ def candidates_schedule_create_now_function_v2(url_redirect_code=None):
     if redirect_var == 's':
       alert_message_page = 'Test sent successfully.'
       alert_message_type = 'success'
+    if redirect_var == 'e':
+      alert_message_page = 'Please select at least 1 test and 1 candidate.'
+      alert_message_type = 'danger'
   # ------------------------ redirect codes end ------------------------
   current_user_email = current_user.email
   # ------------------------ pull tests arr of dict start ------------------------
@@ -1408,6 +1411,8 @@ def candidates_schedule_create_now_function_v2(url_redirect_code=None):
         pass
       # ------------------------ email self end ------------------------
       return redirect(url_for('views_interior.candidates_schedule_create_now_function_v2', url_redirect_code='s'))
+    else:
+      return redirect(url_for('views_interior.candidates_schedule_create_now_function_v2', url_redirect_code='e'))
   localhost_print_function('=========================================== candidates_schedule_create_now_function_v2 END ===========================================')
   return render_template('candidates/interior/schedule/schedule_create_now/index.html', user=current_user, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type, current_user_email_to_html=current_user_email, db_tests_obj_to_html=db_tests_obj, db_candidates_obj_to_html=db_candidates_obj)
 # ------------------------ individual route end ------------------------

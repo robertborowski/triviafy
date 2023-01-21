@@ -255,7 +255,7 @@ def sanitize_candidate_ui_answer_radio_function(user_input):
 # ------------------------ individual function start ------------------------
 def sanitize_loop_check_if_exists_within_arr_function(user_input_arr, correct_master_arr):
   localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function START ===========================================')
-  if user_input_arr == None or len(user_input_arr) == 0:
+  if user_input_arr == None or len(user_input_arr) == 0 or user_input_arr == []:
     localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function END ===========================================')
     return False
   for i_str in user_input_arr:
