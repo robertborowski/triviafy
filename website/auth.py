@@ -43,7 +43,7 @@ def candidates_signup_function():
     ui_email = request.form.get('various_pages1_ui_email')
     if ui_email != None:
       # ------------------------ sanitize/check user input email start ------------------------
-      ui_email_cleaned = sanitize_email_function(ui_email)
+      ui_email_cleaned = sanitize_email_function(ui_email, 'true')
       if ui_email_cleaned == False:
         create_account_error_statement = 'Please enter a valid work email.'
       # ------------------------ sanitize/check user input email end ------------------------
@@ -69,7 +69,7 @@ def candidates_signup_function():
     ui_password = request.form.get('create_account_page_ui_password')
     # ------------------------ sanitize/check user inputs start ------------------------
     # ------------------------ sanitize/check user input email start ------------------------
-    ui_email_cleaned = sanitize_email_function(ui_email)
+    ui_email_cleaned = sanitize_email_function(ui_email, 'true')
     if ui_email_cleaned == False:
       create_account_error_statement = 'Please enter a valid work email.'
     # ------------------------ sanitize/check user input email end ------------------------
