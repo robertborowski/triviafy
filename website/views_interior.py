@@ -49,7 +49,7 @@ redis_connection = redis_connect_to_database_function()
 # ------------------------ individual route start ------------------------
 @views_interior.route('/candidates/dashboard')
 @login_required
-def login_dashboard_page_function():
+def login_dashboard_page_function(url_redirect_code=None):
   localhost_print_function('=========================================== login_dashboard_page_function START ===========================================')
   # ------------------------ auto redirect checks start ------------------------
   """
@@ -59,43 +59,34 @@ def login_dashboard_page_function():
   Downside is repeating code but it is not for all pages, only for the pages that auto redirect on new account creation.
   -These pages will require the template_location_url variable
   """
+  # ------------------------ for setting cookie start ------------------------
   template_location_url = 'candidates/interior/dashboard/index.html'
+  # ------------------------ for setting cookie end ------------------------
+  alert_message_page, alert_message_type = alert_message_default_function()
+  # ------------------------ redirect codes start ------------------------
+  redirect_var = request.args.get('url_redirect_code')
+  if redirect_var != None:
+    if redirect_var == 'e':
+      alert_message_page = 'Error.'
+      alert_message_type = 'danger'
+  # ------------------------ redirect codes end ------------------------
   # ------------------------ delete test drafts start ------------------------
   CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,status='draft').delete()
   db.session.commit()
   # ------------------------ delete test drafts end ------------------------
-  # ------------------------ get values from url start ------------------------
-  success_message = ''
-  try:
-    var1 = request.args.get('var1')
-    if var1 == 's_success':
-      success_message = 'Schedule created!'
-  except:
-    pass
-  # ------------------------ get values from url end ------------------------
-  # ------------------------ auto redirect checks end ------------------------
-  # ------------------------ get users total uploaded candidates start ------------------------
-  current_user_uploaded_emails_arr = CandidatesUploadedCandidatesObj.query.filter_by(user_id_fk=current_user.id).all()
-  len_current_user_uploaded_emails_arr = len(current_user_uploaded_emails_arr)
-  # ------------------------ get users total uploaded candidates end ------------------------
   # ------------------------ get users total assessments created start ------------------------
-  current_user_assessments_created_arr = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id).all()
-  len_current_user_assessments_created_arr = len(current_user_assessments_created_arr)
+  test_created_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id).all()
+  len_test_created_obj = len(test_created_obj)
   # ------------------------ redirect new users to create assessment start ------------------------
-  if len_current_user_assessments_created_arr == 0:
+  if len_test_created_obj == 0:
     localhost_print_function('=========================================== login_dashboard_page_function END ===========================================')
     return redirect(url_for('views_interior.candidates_assessment_create_new_function', step_status='1'))
   # ------------------------ redirect new users to create assessment end ------------------------
-  # ------------------------ get users total assessments created end ------------------------
-  # ------------------------ get users total schedules created start ------------------------
-  current_user_schedules_created_arr = CandidatesScheduleObj.query.filter_by(user_id_fk=current_user.id).all()
-  len_current_user_schedules_created_arr = len(current_user_schedules_created_arr)
-  # ------------------------ get users total schedules created end ------------------------
   # ------------------------ auto set cookie start ------------------------
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
   if get_cookie_value_from_browser != None:
     redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
-    return render_template(template_location_url, user = current_user, users_company_name_to_html = current_user.company_name, len_current_user_uploaded_emails_arr_to_html = len_current_user_uploaded_emails_arr, len_current_user_assessments_created_arr_to_html=len_current_user_assessments_created_arr, len_current_user_schedules_created_arr_to_html=len_current_user_schedules_created_arr,success_message_to_html=success_message)
+    return render_template(template_location_url, user=current_user, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type)
   else:
     browser_response = browser_response_set_cookie_function(current_user, template_location_url)
     localhost_print_function('=========================================== login_dashboard_page_function END ===========================================')

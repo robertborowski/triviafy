@@ -1,73 +1,22 @@
 {% extends "candidates/aaa_base/base2_interior.html" %}
-
 <!-- head tag block content -->
 {% block title %}
-  <title>Dashboard / Triviafy</title>
+  <title>Create Assessment / Triviafy</title>
 {% endblock %}
-
 {% block contentBodyExceptNavbarAndFooter %}
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name start -->
-<div class="general-signed-in-company-name-section">
-  <p class="general-signed-in-company-name-title">{{ users_company_name_to_html }}</p>
+<!-- ----------------------------------- start ----------------------------------- -->
+{% if alert_message_page_to_html != '' %}
+<div class="alert alert-{{ alert_message_type_to_html }} mx-auto text-center custom-mt-3 container" role="alert">
+  {{ alert_message_page_to_html }}
 </div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="general-spacer-section-small"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - success message start -->
-<div class="success-message-section">
-  <p>{{ success_message_to_html }}</p>
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - success message end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="general-spacer-section-small"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - split section start -->
-<div class="candidates-assessment-split-section">
-  <a href="/candidates/assessment/new/1" class="general-a-black-no-hover">
-    <div class="split-side-dashboard-general split-side-assessments candidates-default-box-shadow-grey-small">
-      <div class="dashboard-split-inner-section">
-        <p class="dashboard-split-title">1. Create Assessments</p>
-      </div>
-      <div class="dashboard-split-inner-section">
-        <img src="/static/images/candidates/dashboard/dashboard_page_assessment_example.png" alt="upload candidates img" class="upload-candidates-img">
-      </div>
-      <div class="dashboard-split-inner-section">
-        <a href="/candidates/assessments/analytics" class="general-a-black"><p class="dashboard-split-subtitle">Total assessments: {{ len_current_user_assessments_created_arr_to_html }}</p></a>
-      </div>
-      <div class="dashboard-split-inner-section">
-        <a href="/candidates/assessment/new/1" class="default-button-format default-button-format-primary-color"><p>Create assessment</p></a>
-      </div>
-    </div>
-    </a>
-
-  <a href="{{ url_for('views_interior.candidates_schedule_create_now_function_v2') }}" class="general-a-black-no-hover">
-  <div class="split-side-dashboard-general split-side-candidates candidates-default-box-shadow-grey-small">
-    <div class="dashboard-split-inner-section">
-      <p class="dashboard-split-title">2. Send to Candidates</p>
-    </div>
-    <div class="dashboard-split-inner-section">
-      <img src="/static/images/candidates/dashboard/send_to_candidate_now.png" alt="upload candidates img" class="upload-candidates-img">
-    </div>
-    <div class="dashboard-split-inner-section">
-      <a href="{{ url_for('views_interior.candidates_analytics_function') }}" class="general-a-black"><p class="dashboard-split-subtitle">Total candidates: {{ len_current_user_uploaded_emails_arr_to_html }}</p></a>
-    </div>
-    <div class="dashboard-split-inner-section">
-      <a href="{{ url_for('views_interior.candidates_schedule_create_now_function_v2') }}" class="default-button-format default-button-format-primary-color"><p>Send to candidate</p></a>
-    </div>
+{% endif %}
+<!-- ----------------------------------- end ----------------------------------- -->
+<div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
+  <div>
+    <h2 class="custom-header-2-mobile">Dashboard</h2>
   </div>
-  </a>
 </div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - split section end -->
-
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="general-spacer-section"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page end -->
+<div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
+  <p>Hello</p>
+</div>
 {% endblock %}
