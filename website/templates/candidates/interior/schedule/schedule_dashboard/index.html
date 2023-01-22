@@ -47,4 +47,40 @@
   <!-- ----------------------------------- end ----------------------------------- -->
   {% endif %}
 </div>
+{% if db_schedule_obj_exists_to_html == false  %}
+{% else %}
+<!-- ----------------------------------- start ----------------------------------- -->
+<div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
+  <div>
+    <h2 class="custom-header-2-mobile">All schedules</h2>
+  </div>
+</div>
+<div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
+  <!-- ----------------------------------- start ----------------------------------- -->
+  <table id="candidates-datatable-id" class="table table-striped" style="width:100%">
+    <thead>
+      <tr>
+        <th>Created</th>
+        <th>Test</th>
+        <th>Candidate</th>
+        <th>Send</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in db_schedule_obj_to_html %}
+      <tr>
+        <td>{{ i['created_timestamp'] }}</td>
+        <td>{{ i['assessment_name'] }}</td>
+        <td>{{ i['candidates'] }}</td>
+        <td>{{ i['send_date'] }}</td>
+        <td>{{ i['candidate_status'] }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <!-- ----------------------------------- end ----------------------------------- -->
+</div>
+<!-- ----------------------------------- end ----------------------------------- -->
+{% endif %}
 {% endblock %}

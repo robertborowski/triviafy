@@ -1370,6 +1370,19 @@ def candidates_schedule_dashboard_function(url_redirect_code=None):
     for i in test_obj:
       total_test_made += 1
   # ------------------------ total assessments made end ------------------------
+  # ------------------------ schedule analytics start ------------------------
+  db_schedule_obj = CandidatesScheduleObj.query.filter_by(user_id_fk=current_user.id).order_by(CandidatesScheduleObj.created_timestamp.desc()).all()
+  db_schedule_obj_exists = False
+  if db_schedule_obj == None:
+    pass
+  else:
+    db_schedule_obj_exists = True
+    db_schedule_obj = arr_of_dict_necessary_columns_function(db_schedule_obj, ['assessment_name', 'created_timestamp', 'candidates', 'send_date', 'send_time', 'send_timezone', 'candidate_status', 'expiring_url'])
+    for i in db_schedule_obj:
+      if i['send_date'] != 'Immediate':
+        i['send_date'] = f"{i['send_date']} {i['send_time']} {i['send_timezone']}"
+      i['created_timestamp'] = i['created_timestamp'].strftime('%Y-%m-%d %H:%M')
+  # ------------------------ schedule analytics end ------------------------
   if request.method == 'POST':
     # ------------------------ user input start ------------------------
     ui_choice = request.form.get('listGroupRadios')
@@ -1385,7 +1398,7 @@ def candidates_schedule_dashboard_function(url_redirect_code=None):
         return redirect(url_for('views_interior.candidates_schedule_create_new_function'))
     # ------------------------ user input end ------------------------
   localhost_print_function('=========================================== candidates_schedule_dashboard_function END ===========================================')
-  return render_template('candidates/interior/schedule/schedule_dashboard/index.html', user=current_user, total_test_made_to_html=total_test_made, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type)
+  return render_template('candidates/interior/schedule/schedule_dashboard/index.html', user=current_user, total_test_made_to_html=total_test_made, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type, db_schedule_obj_exists_to_html=db_schedule_obj_exists, db_schedule_obj_to_html=db_schedule_obj)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
