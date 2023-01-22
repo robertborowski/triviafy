@@ -47,6 +47,7 @@ redis_connection = redis_connect_to_database_function()
 # ------------------------ connect to redis end ------------------------
 
 # ------------------------ individual route start ------------------------
+@views_interior.route('/candidates/')
 @views_interior.route('/candidates/dashboard')
 @login_required
 def login_dashboard_page_function(url_redirect_code=None):
@@ -494,6 +495,9 @@ def candidates_email_specific_function(url_email=None, url_redirect_code=None):
   # ------------------------ redirect codes end ------------------------
   # ------------------------ assessments analytics start ------------------------
   db_schedule_obj = CandidatesScheduleObj.query.filter_by(user_id_fk=current_user.id, candidates=url_email).order_by(CandidatesScheduleObj.assessment_name, CandidatesScheduleObj.created_timestamp).all()
+  if db_schedule_obj == None or db_schedule_obj == []:
+    localhost_print_function('=========================================== candidates_email_specific_function END ===========================================')
+    return redirect(url_for('views_interior.login_dashboard_page_function'))
   db_schedule_obj = arr_of_dict_necessary_columns_function(db_schedule_obj, ['assessment_name', 'assessment_id_fk', 'send_date', 'send_time', 'send_timezone', 'expiring_url'])
   previous_test_name = ''
   for i in db_schedule_obj:
@@ -585,6 +589,7 @@ def candidates_analytics_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
+@views_interior.route('/candidates/tests/', methods=['GET', 'POST'])
 @views_interior.route('/candidates/tests/dashboard', methods=['GET', 'POST'])
 @login_required
 def candidates_assessments_dashboard_function(url_redirect_code=None):
@@ -650,6 +655,9 @@ def candidates_test_summary_function(url_test_id=None, url_redirect_code=None):
   # ------------------------ valid redirect start ------------------------
   # ------------------------ assessment start ------------------------
   db_test_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id, id=url_test_id).first()
+  if db_test_obj == None or db_test_obj == []:
+    localhost_print_function('=========================================== candidates_test_summary_function END ===========================================')
+    return redirect(url_for('views_interior.candidates_test_summary_function', url_test_id='dashboard'))
   test_name = db_test_obj.assessment_name
   # ------------------------ assessment end ------------------------
   # ------------------------ schedule start ------------------------
