@@ -474,6 +474,66 @@ def candidates_upload_emails_function(url_redirect_code=None):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
+@views_interior.route('/candidates/<url_email>', methods=['GET', 'POST'])
+@login_required
+def candidates_email_specific_function(url_email=None, url_redirect_code=None):
+  localhost_print_function('=========================================== candidates_email_specific_function START ===========================================')
+  alert_message_page, alert_message_type = alert_message_default_function()
+  # ------------------------ redirect codes start ------------------------
+  redirect_var = request.args.get('url_redirect_code')
+  if redirect_var != None:
+    if redirect_var == 'e1':
+      alert_message_page = 'Invalid email'
+      alert_message_type = 'danger'
+    if redirect_var == 'e2':
+      alert_message_page = 'Email already exists'
+      alert_message_type = 'danger'
+    if redirect_var == 'e3':
+      alert_message_page = 'Upload was invalid file type (.csv only)'
+      alert_message_type = 'danger'
+  # ------------------------ redirect codes end ------------------------
+  # ------------------------ assessments analytics start ------------------------
+  db_schedule_obj = CandidatesScheduleObj.query.filter_by(user_id_fk=current_user.id, candidates=url_email).order_by(CandidatesScheduleObj.assessment_name, CandidatesScheduleObj.created_timestamp).all()
+  db_schedule_obj = arr_of_dict_necessary_columns_function(db_schedule_obj, ['assessment_name', 'assessment_id_fk', 'send_date', 'send_time', 'send_timezone', 'expiring_url'])
+  previous_test_name = ''
+  for i in db_schedule_obj:
+    # ------------------------ attempt tracking start ------------------------
+    if i['assessment_name'] == previous_test_name:
+      current_attempt += 1
+    if i['assessment_name'] != previous_test_name:
+      previous_test_name = i['assessment_name']
+      current_attempt = 1
+    i['current_attempt'] = current_attempt
+    # ------------------------ attempt tracking end ------------------------
+    # ------------------------ email sent start ------------------------
+    if i['send_date'] == 'Immediate':
+      i['send_date'] = 'Sent'
+    else:
+      db_email_obj = CandidatesEmailSentObj.query.filter_by(assessment_expiring_url_fk=i['expiring_url']).order_by(CandidatesEmailSentObj.created_timestamp.desc()).first()
+      if db_email_obj == None:
+        i['send_date'] = f"{i['send_date']} {i['send_time']} {i['send_timezone']}"
+      else:
+        i['send_date'] = 'Sent'
+    # ------------------------ email sent end ------------------------
+    # ------------------------ test status grade start ------------------------
+    try:
+      db_graded_obj = CandidatesAssessmentGradedObj.query.filter_by(assessment_expiring_url_fk=i['expiring_url']).first()
+      i['candidate_test_status'] = db_graded_obj.status.capitalize()
+      if db_graded_obj.status != 'wip':
+        i['final_score'] = str(int(float(db_graded_obj.final_score) * float(100))) + '%'
+      else:
+        i['candidate_test_status'] = 'Work in progress'
+        i['final_score'] = '-'
+    except:
+      i['candidate_test_status'] = 'Not started'
+      i['final_score'] = '-'
+    # ------------------------ test status grade end ------------------------
+  # ------------------------ assessments analytics end ------------------------
+  localhost_print_function('=========================================== candidates_email_specific_function END ===========================================')
+  return render_template('candidates/interior/candidates_page_templates/specific/index.html', user=current_user, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type, db_schedule_obj_to_html=db_schedule_obj, url_email_to_html = url_email)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
 @views_interior.route('/candidates/analytics', methods=['GET', 'POST'])
 @login_required
 def candidates_analytics_function():
