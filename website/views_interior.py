@@ -381,6 +381,48 @@ def candidates_upload_emails_function(url_redirect_code=None):
   # ------------------------ stripe subscription status check start ------------------------
   stripe_subscription_obj_status = check_stripe_subscription_status_function(current_user)
   # ------------------------ stripe subscription status check end ------------------------
+  # ------------------------ candidate analytics start ------------------------
+  db_candidates_obj = CandidatesUploadedCandidatesObj.query.filter_by(user_id_fk=current_user.id).order_by(CandidatesUploadedCandidatesObj.email).all()
+  db_candidates_obj_exists = False
+  if db_candidates_obj == None:
+    pass
+  else:
+    db_candidates_obj_exists = True
+    # ------------------------ pull necessary columns start ------------------------
+    db_candidates_obj = arr_of_dict_necessary_columns_function(db_candidates_obj, ['email'])
+    # ------------------------ pull necessary columns end ------------------------
+    for i_dict in db_candidates_obj:
+      # ------------------------ get schedule start ------------------------
+      i_total_pending = 0
+      db_schedule_pending_obj = CandidatesScheduleObj.query.filter_by(user_id_fk=current_user.id, candidates=i_dict['email'], candidate_status='Pending').all()
+      try:
+        i_total_pending = len(db_schedule_pending_obj)
+      except:
+        pass
+      i_total_completed = 0
+      db_schedule_completed_obj = CandidatesScheduleObj.query.filter_by(user_id_fk=current_user.id, candidates=i_dict['email'], candidate_status='Completed').all()
+      try:
+        i_total_completed = len(db_schedule_completed_obj)
+      except:
+        pass
+      # ------------------------ get schedule end ------------------------
+      i_dict['total_pending'] = i_total_pending
+      i_dict['total_completed'] = i_total_completed
+      # ------------------------ get grade start ------------------------
+      i_dict['average_grade'] = '-'
+      try:
+        db_grade_obj = CandidatesAssessmentGradedObj.query.filter_by(created_assessment_user_id_fk=current_user.id, candidate_email=i_dict['email'], status='submitted').all()
+        db_grade_obj = arr_of_dict_necessary_columns_function(db_grade_obj, ['total_questions', 'correct_count'])
+        current_total_questions = 0
+        current_total_correct_count = 0
+        for j in db_grade_obj:
+          current_total_questions += j['total_questions']
+          current_total_correct_count += j['correct_count']
+        i_dict['average_grade'] = str(int(float(float(current_total_correct_count) / float(current_total_questions)) * float(100))) + '%'
+      except:
+        pass
+      # ------------------------ get grade end ------------------------
+  # ------------------------ candidate analytics end ------------------------
   post_result = ''
   if request.method == 'POST':
     # ------------------------ user inputs start ------------------------
@@ -428,7 +470,7 @@ def candidates_upload_emails_function(url_redirect_code=None):
       return redirect(url_for('views_interior.candidates_upload_emails_function', url_redirect_code=post_result))
     # ------------------------ if post error end ------------------------
   localhost_print_function('=========================================== candidates_upload_emails_function END ===========================================')
-  return render_template('candidates/interior/candidates_page_templates/candidates_upload/index.html', user=current_user, stripe_subscription_obj_status_to_html=stripe_subscription_obj_status, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type)
+  return render_template('candidates/interior/candidates_page_templates/candidates_upload/index.html', user=current_user, stripe_subscription_obj_status_to_html=stripe_subscription_obj_status, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type, db_candidates_obj_exists_to_html=db_candidates_obj_exists, db_candidates_obj_to_html=db_candidates_obj)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------

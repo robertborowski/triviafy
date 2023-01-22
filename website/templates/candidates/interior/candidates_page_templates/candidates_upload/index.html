@@ -11,6 +11,7 @@
 </div>
 {% endif %}
 <!-- ----------------------------------- end ----------------------------------- -->
+<!-- ----------------------------------- start ----------------------------------- -->
 <div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
   <div>
     <h2 class="custom-header-2-mobile">Add candidates</h2>
@@ -59,4 +60,41 @@
   </div>
   {% endif %}
 </div>
+<!-- ----------------------------------- end ----------------------------------- -->
+{% if db_candidates_obj_exists_to_html == false  %}
+{% else %}
+<!-- ----------------------------------- start ----------------------------------- -->
+<div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
+  <div>
+    <h2 class="custom-header-2-mobile">All candidates</h2>
+  </div>
+</div>
+<div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
+  <!-- ----------------------------------- start ----------------------------------- -->
+  <table id="candidates-datatable-id" class="table table-striped" style="width:100%">
+    <thead>
+      <tr>
+        <th>Email</th>
+        <th>Tests pending</th>
+        <th>Tests completed</th>
+        <th>Overall grade</th>
+        <th>Summary</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in db_candidates_obj_to_html %}
+      <tr>
+        <td>{{ i['email'] }}</td>
+        <td>{{ i['total_pending'] }}</td>
+        <td>{{ i['total_completed'] }}</td>
+        <td>{{ i['average_grade'] }}</td>
+        <td><a href="/candidates/{{ i['email'] }}" class="custom-a-2">View report</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <!-- ----------------------------------- end ----------------------------------- -->
+</div>
+<!-- ----------------------------------- end ----------------------------------- -->
+{% endif %}
 {% endblock %}
