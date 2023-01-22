@@ -485,10 +485,21 @@ def candidates_analytics_function():
 # ------------------------ individual route start ------------------------
 @views_interior.route('/candidates/assessments/dashboard', methods=['GET', 'POST'])
 @login_required
-def candidates_assessments_dashboard_function():
+def candidates_assessments_dashboard_function(url_redirect_code=None):
   localhost_print_function('=========================================== candidates_assessments_dashboard_function START ===========================================')
+  alert_message_page, alert_message_type = alert_message_default_function()
+  # ------------------------ redirect codes start ------------------------
+  redirect_var = request.args.get('url_redirect_code')
+  if redirect_var != None:
+    if redirect_var == 'r':
+      alert_message_page = 'Previous question successfully removed.'
+      alert_message_type = 'success'
+    if redirect_var == 'a':
+      alert_message_page = 'Successfully added question to test.'
+      alert_message_type = 'success'
+  # ------------------------ valid redirect start ------------------------
   localhost_print_function('=========================================== candidates_assessments_dashboard_function END ===========================================')
-  return render_template('candidates/interior/assessments/assessments_dashboard/index.html', user=current_user, users_company_name_to_html = current_user.company_name)
+  return render_template('candidates/interior/assessments/assessments_dashboard/index.html', user=current_user, users_company_name_to_html = current_user.company_name, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------

@@ -1,58 +1,34 @@
 {% extends "candidates/aaa_base/base2_interior.html" %}
-
 <!-- head tag block content -->
 {% block title %}
-  <title>Assessments Dashboard / Triviafy</title>
+  <title>Create Assessment / Triviafy</title>
 {% endblock %}
-
 {% block contentBodyExceptNavbarAndFooter %}
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name start -->
-<div class="general-signed-in-company-name-section">
-  <p class="general-signed-in-company-name-title">{{ users_company_name_to_html }}</p>
+<!-- ----------------------------------- start ----------------------------------- -->
+{% if alert_message_page_to_html != '' %}
+<div class="alert alert-{{ alert_message_type_to_html }} mx-auto text-center custom-mt-3 container" role="alert">
+  {{ alert_message_page_to_html }}
 </div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name end -->
-
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="general-spacer-section"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title start -->
-<div class="general-page-title-section">
-  <p class="general-page-title">Assessment Dashboard</p>
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="general-spacer-section"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - view all start -->
-<div class="general-center-container">
-  <a href="{{ url_for('views_interior.candidates_assessments_analytics_function') }}" class="general-a-primary"><p class="general-page-font">View all assessments</p></a>
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - view all end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="general-spacer-section"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
-<a href="/candidates/assessment/new/1" class="general-a-black-no-hover">
-<div class="assessment-dashboard-create-new-section candidates-default-box-shadow-grey-small">
-  <div class="dashboard-split-inner-section">
-    <p class="dashboard-split-title general-margin-top-small">Create Assessment</p>
+{% endif %}
+<!-- ----------------------------------- end ----------------------------------- -->
+<div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
+  <div>
+    <h2 class="custom-header-2-mobile">Tests dashboard</h2>
   </div>
-  <div class="dashboard-split-inner-section">
-    <img src="/static/images/candidates/dashboard/dashboard_page_assessment_example.png" alt="upload candidates img" class="upload-candidates-img">
-  </div>
-  <div class="dashboard-split-inner-section">
-    <a href="{{ url_for('views_interior.candidates_assessment_create_new_function') }}"><p class="default-button-format default-button-format-primary-color">Create Assessment</p></a>
+  <div>
+    <a href="/candidates/assessment/new/1b" class="btn btn-primary">Create test +</a>
   </div>
 </div>
-</a>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
-<div class="general-spacer-section"></div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page end -->
+<div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
+  <!-- ----------------------------------- start ----------------------------------- -->
+  <p>hello</p>
+  <!-- ----------------------------------- end ----------------------------------- -->
+</div>
+<!-- ----------------------------------- start ----------------------------------- -->
+<!-- <div class="container custom-mt-1">
+  <div class="float-end">
+    <a href="/candidates/assessment/new/1b" class="btn btn-primary">Create test +</a>
+  </div>
+</div> -->
+<!-- ----------------------------------- end ----------------------------------- -->
 {% endblock %}
