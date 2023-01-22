@@ -483,7 +483,7 @@ def candidates_analytics_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/assessments/dashboard', methods=['GET', 'POST'])
+@views_interior.route('/candidates/tests/dashboard', methods=['GET', 'POST'])
 @login_required
 def candidates_assessments_dashboard_function(url_redirect_code=None):
   localhost_print_function('=========================================== candidates_assessments_dashboard_function START ===========================================')
