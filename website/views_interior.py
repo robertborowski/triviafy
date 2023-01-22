@@ -499,13 +499,13 @@ def candidates_assessments_dashboard_function(url_redirect_code=None):
       alert_message_type = 'success'
   # ------------------------ valid redirect start ------------------------
   # ------------------------ get assessments start ------------------------
-  db_tests_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id).all()
+  db_tests_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id).order_by(CandidatesAssessmentsCreatedObj.assessment_name).all()
   if db_tests_obj == None:
     localhost_print_function('=========================================== candidates_assessments_dashboard_function END ===========================================')
     return redirect(url_for('views_interior.candidates_assessment_create_new_function', step_status='1'))
   # ------------------------ get assessments end ------------------------
   # ------------------------ pull necessary columns start ------------------------
-  db_tests_obj = arr_of_dict_necessary_columns_function(db_tests_obj, ['assessment_name'])
+  db_tests_obj = arr_of_dict_necessary_columns_function(db_tests_obj, ['id', 'assessment_name'])
   # ------------------------ pull necessary columns end ------------------------
   # ------------------------ loop through each test add scheduled details start ------------------------
   for i_dict in db_tests_obj:
@@ -528,6 +528,70 @@ def candidates_assessments_dashboard_function(url_redirect_code=None):
   # ------------------------ loop through each test add scheduled details end ------------------------
   localhost_print_function('=========================================== candidates_assessments_dashboard_function END ===========================================')
   return render_template('candidates/interior/assessments/assessments_dashboard/index.html', user=current_user, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type, db_tests_obj_to_html=db_tests_obj)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@views_interior.route('/candidates/tests/<url_test_id>', methods=['GET', 'POST'])
+@login_required
+def candidates_test_summary_function(url_test_id=None, url_redirect_code=None):
+  localhost_print_function('=========================================== candidates_test_summary_function START ===========================================')
+  alert_message_page, alert_message_type = alert_message_default_function()
+  # ------------------------ redirect codes start ------------------------
+  redirect_var = request.args.get('url_redirect_code')
+  if redirect_var != None:
+    if redirect_var == 'r':
+      alert_message_page = 'Previous question successfully removed.'
+      alert_message_type = 'success'
+    if redirect_var == 'a':
+      alert_message_page = 'Successfully added question to test.'
+      alert_message_type = 'success'
+  # ------------------------ valid redirect start ------------------------
+  # ------------------------ assessment start ------------------------
+  db_test_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id, id=url_test_id).first()
+  test_name = db_test_obj.assessment_name
+  # ------------------------ assessment end ------------------------
+  # ------------------------ schedule start ------------------------
+  db_schedule_obj = CandidatesScheduleObj.query.filter_by(user_id_fk=current_user.id, assessment_id_fk=url_test_id).order_by(CandidatesScheduleObj.candidates, CandidatesScheduleObj.created_timestamp).all()
+  db_schedule_obj = arr_of_dict_necessary_columns_function(db_schedule_obj, ['candidates', 'send_date', 'send_time', 'send_timezone', 'candidate_status', 'expiring_url'])
+  previous_email = ''
+  current_attempt = 0
+  for i in db_schedule_obj:
+    # ------------------------ attempt tracking start ------------------------
+    current_email = i['candidates']
+    if current_email == previous_email:
+      current_attempt += 1
+    if current_email != previous_email:
+      previous_email = current_email
+      current_attempt = 1
+    i['current_attempt'] = current_attempt
+    # ------------------------ attempt tracking end ------------------------
+    if i['send_date'] == 'Immediate':
+      i['send_date'] = 'Sent'
+    else:
+      # ------------------------ email sent start ------------------------
+      db_email_obj = CandidatesEmailSentObj.query.filter_by(assessment_expiring_url_fk=i['expiring_url']).order_by(CandidatesEmailSentObj.created_timestamp.desc()).first()
+      if db_email_obj == None:
+        i['send_date'] = f"{i['send_date']} {i['send_time']} {i['send_timezone']}"
+      else:
+        i['send_date'] = 'Sent'
+      # ------------------------ email sent end ------------------------
+    # ------------------------ graded start ------------------------
+    try:
+      db_graded_obj = CandidatesAssessmentGradedObj.query.filter_by(assessment_expiring_url_fk=i['expiring_url']).first()
+      i['candidate_test_status'] = db_graded_obj.status.capitalize()
+      if db_graded_obj.status != 'wip':
+        i['final_score'] = str(int(float(db_graded_obj.final_score) * float(100))) + '%'
+      else:
+        i['candidate_test_status'] = 'Work in progress'
+        i['final_score'] = '-'  
+    except:
+      i['candidate_test_status'] = 'Not started'
+      i['final_score'] = '-'
+    # ------------------------ graded end ------------------------
+  # ------------------------ schedule end ------------------------
+  # ------------------------ loop through each test add scheduled details end ------------------------
+  localhost_print_function('=========================================== candidates_test_summary_function END ===========================================')
+  return render_template('candidates/interior/assessments/assessments_dashboard/specific/index.html', user=current_user, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type, db_schedule_obj_to_html=db_schedule_obj, test_name_to_html=test_name, url_test_id_to_html=url_test_id)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------

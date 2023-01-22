@@ -13,10 +13,11 @@
 <!-- ----------------------------------- end ----------------------------------- -->
 <div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
   <div>
-    <h2 class="custom-header-2-mobile">Tests dashboard</h2>
+    <h2 class="custom-header-2-mobile">{{ test_name_to_html }}</h2>
   </div>
   <div>
-    <a href="/candidates/assessment/new/1b" class="btn btn-primary">Create test +</a>
+    <a href="/candidates/tests/dashboard" class="btn btn-outline-secondary">Back</a>
+    <a href="/candidates/assessment/new/1b" class="btn btn-primary custom-ml-3">Create test +</a>
   </div>
 </div>
 <div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
@@ -24,21 +25,23 @@
   <table id="candidates-test-dashboard" class="table table-striped" style="width:100%">
     <thead>
       <tr>
-        <th>Test</th>
-        <th>Preview</th>
-        <th>Candidates pending</th>
-        <th>Candidates completed</th>
-        <th>Summary</th>
+        <th>Candidate</th>
+        <th>Attempt</th>
+        <th>Test email link</th>
+        <th>Test status</th>
+        <th>Final score</th>
+        <th>Responses</th>
       </tr>
     </thead>
     <tbody>
-      {% for i in db_tests_obj_to_html %}
+      {% for i in db_schedule_obj_to_html %}
       <tr>
-        <td>{{ i['assessment_name'] }}</td>
-        <td><a href="#" class="custom-a-2">View test</a></td>
-        <td>{{ i['total_pending'] }}</td>
-        <td>{{ i['total_completed'] }}</td>
-        <td><a href="/candidates/tests/{{ i['id'] }}" class="custom-a-2">View report</a></td>
+        <td>{{ i['candidates'] }}</td>
+        <td>{{ i['current_attempt'] }}</td>
+        <td>{{ i['send_date'] }}</td>
+        <td>{{ i['candidate_test_status'] }}</td>
+        <td>{{ i['final_score'] }}</td>
+        <td><a href="/candidates/tests/responses/{{ url_test_id_to_html }}/{{ i['candidates'] }}" class="custom-a-2">View</a></td>
       </tr>
       {% endfor %}
     </tbody>
