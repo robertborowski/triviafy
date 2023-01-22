@@ -1,3 +1,3 @@
 $(document).ready(function () {
-  $('#candidates-test-dashboard').DataTable();
+  $('#candidates-datatable-id').DataTable();
 });
