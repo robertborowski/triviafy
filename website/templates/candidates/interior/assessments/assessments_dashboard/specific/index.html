@@ -36,7 +36,11 @@
     <tbody>
       {% for i in db_schedule_obj_to_html %}
       <tr>
+        {% if i['candidates'] == user.email %}
+        <td class="fw-bolder">{{ i['candidates'] }} <span class="custom-color-primary">(self)</span></td>
+        {% else %}
         <td>{{ i['candidates'] }}</td>
+        {% endif %}
         <td>{{ i['current_attempt'] }}</td>
         <td>{{ i['send_date'] }}</td>
         <td>{{ i['candidate_test_status'] }}</td>

@@ -90,7 +90,11 @@
     <tbody>
       {% for i in db_candidates_obj_to_html %}
       <tr>
+        {% if i['email'] == user.email %}
+        <td class="fw-bolder">{{ i['email'] }} <span class="custom-color-primary">(self)</span></td>
+        {% else %}
         <td>{{ i['email'] }}</td>
+        {% endif %}
         <td>{{ i['total_pending'] }}</td>
         <td>{{ i['total_completed'] }}</td>
         <td>{{ i['average_grade'] }}</td>

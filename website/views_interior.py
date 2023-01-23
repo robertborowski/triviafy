@@ -392,6 +392,7 @@ def candidates_upload_emails_function(url_redirect_code=None):
     # ------------------------ pull necessary columns start ------------------------
     db_candidates_obj = arr_of_dict_necessary_columns_function(db_candidates_obj, ['email'])
     # ------------------------ pull necessary columns end ------------------------
+    db_candidates_obj.append({'email': current_user.email})
     for i_dict in db_candidates_obj:
       # ------------------------ get schedule start ------------------------
       i_total_pending = 0

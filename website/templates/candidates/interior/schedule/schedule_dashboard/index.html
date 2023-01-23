@@ -72,7 +72,11 @@
       <tr>
         <td>{{ i['created_timestamp'] }}</td>
         <td>{{ i['assessment_name'] }}</td>
+        {% if i['candidates'] == user.email %}
+        <td class="fw-bolder">{{ i['candidates'] }} <span class="custom-color-primary">(self)</span></td>
+        {% else %}
         <td>{{ i['candidates'] }}</td>
+        {% endif %}
         <td>{{ i['send_date'] }}</td>
         <td>{{ i['candidate_status'] }}</td>
       </tr>
