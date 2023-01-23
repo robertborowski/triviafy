@@ -16,7 +16,8 @@
     <h2 class="custom-header-2-mobile">Tests dashboard</h2>
   </div>
   <div>
-    <a href="/candidates/assessment/new/1b" class="btn btn-primary">Create test +</a>
+    <a href="/candidates/schedule" class="btn btn-outline-secondary">Send test</a>
+    <a href="/candidates/assessment/new/1b" class="btn btn-primary custom-ml-3">Create test +</a>
   </div>
 </div>
 <div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
@@ -35,7 +36,7 @@
       {% for i in db_tests_obj_to_html %}
       <tr>
         <td>{{ i['assessment_name'] }}</td>
-        <td><a href="#" class="custom-a-2">View test</a></td>
+        <td><a href="/candidates/tests/preview/{{ i['id'] }}/1" class="custom-a-2">View test</a></td>
         <td>{{ i['total_pending'] }}</td>
         <td>{{ i['total_completed'] }}</td>
         <td><a href="/candidates/tests/{{ i['id'] }}" class="custom-a-2">View report</a></td>
