@@ -495,6 +495,7 @@ def candidates_email_specific_function(url_email=None, url_redirect_code=None):
       alert_message_type = 'danger'
   # ------------------------ redirect codes end ------------------------
   # ------------------------ assessments analytics start ------------------------
+  # this has to be ascending
   db_schedule_obj = CandidatesScheduleObj.query.filter_by(user_id_fk=current_user.id, candidates=url_email).order_by(CandidatesScheduleObj.assessment_name, CandidatesScheduleObj.created_timestamp).all()
   if db_schedule_obj == None or db_schedule_obj == []:
     localhost_print_function('=========================================== candidates_email_specific_function END ===========================================')
@@ -702,6 +703,96 @@ def candidates_test_preview_function(url_test_id=None, url_question_number='1', 
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
+@views_interior.route('/candidates/tests/results/', methods=['GET', 'POST'])
+@views_interior.route('/candidates/tests/results/<url_test_id>', methods=['GET', 'POST'])
+@views_interior.route('/candidates/tests/results/<url_test_id>/', methods=['GET', 'POST'])
+@views_interior.route('/candidates/tests/results/<url_test_id>/<url_email>', methods=['GET', 'POST'])
+@views_interior.route('/candidates/tests/results/<url_test_id>/<url_email>/', methods=['GET', 'POST'])
+@views_interior.route('/candidates/tests/results/<url_test_id>/<url_email>/<url_current_attempt>', methods=['GET', 'POST'])
+@views_interior.route('/candidates/tests/results/<url_test_id>/<url_email>/<url_current_attempt>/', methods=['GET', 'POST'])
+@views_interior.route('/candidates/tests/results/<url_test_id>/<url_email>/<url_current_attempt>/<url_question_number>', methods=['GET', 'POST'])
+@login_required
+def candidates_test_answered_preview_function(url_test_id=None, url_email=None, url_current_attempt=None, url_question_number='1', url_redirect_code=None):
+  localhost_print_function('=========================================== candidates_test_answered_preview_function START ===========================================')
+  alert_message_page, alert_message_type = alert_message_default_function()
+  # ------------------------ redirect codes start ------------------------
+  redirect_var = request.args.get('url_redirect_code')
+  if redirect_var != None:
+    if redirect_var == 'r':
+      alert_message_page = 'Previous question successfully removed.'
+      alert_message_type = 'success'
+  # ------------------------ valid redirect start ------------------------
+  # ------------------------ redirect start ------------------------
+  if url_test_id == None or url_email == None or url_current_attempt == None or url_question_number == None:
+    return redirect(url_for('views_interior.candidates_assessments_dashboard_function'))
+  # ------------------------ redirect end ------------------------
+  # ------------------------ valid test start ------------------------
+  db_test_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id, id=url_test_id).first()
+  if db_test_obj == None or url_test_id == []:
+    return redirect(url_for('views_interior.candidates_assessments_dashboard_function'))
+  # ------------------------ valid test end ------------------------
+  # ------------------------ valid number start ------------------------
+  try:
+    max_num = int(db_test_obj.total_questions)
+    if int(url_question_number) < 1 or int(url_question_number) > max_num:
+      return redirect(url_for('views_interior.candidates_test_answered_preview_function', url_test_id=url_test_id, url_email=url_email, url_current_attempt=url_current_attempt, url_question_number='1'))
+  except:
+    return redirect(url_for('views_interior.candidates_assessments_dashboard_function'))
+  current_question_number = str(int(url_question_number))
+  next_question_number = str(int(url_question_number)+1)
+  if int(current_question_number) == int(max_num):
+    next_question_number = 'submit'
+  previous_question_number = str(int(url_question_number)-1)
+  # ------------------------ valid number end ------------------------
+  # ------------------------ company name start ------------------------
+  user_company_name = current_user.company_name
+  if len(user_company_name) > 15:
+    user_company_name = user_company_name[:14] + '...'
+  # ------------------------ company name end ------------------------
+  # ------------------------ pull desired test obj start ------------------------
+  desired_question_arr = db_test_obj.question_ids_arr.split(',')
+  desired_question_str = desired_question_arr[(int(url_question_number)-1)]
+  # ------------------------ pull desired test obj end ------------------------
+  # ------------------------ pull desired question obj start ------------------------
+  db_question_obj = CandidatesCreatedQuestionsObj.query.filter_by(id=desired_question_str).first()
+  if db_question_obj == None or db_question_obj == []:
+    return redirect(url_for('views_interior.candidates_assessments_dashboard_function'))
+  db_question_obj = arr_of_dict_all_columns_single_item_function(db_question_obj)
+  db_question_obj['categories'] = categories_tuple_function(db_question_obj['categories'])
+  # ------------------------ check if contains img start ------------------------
+  contains_img = False
+  if 'amazonaws.com' in db_question_obj['aws_image_url']:
+    contains_img = True
+  # ------------------------ check if contains img end ------------------------
+  # ------------------------ stripe subscription status check start ------------------------
+  stripe_subscription_obj_status = check_stripe_subscription_status_function(current_user)
+  # ------------------------ stripe subscription status check end ------------------------
+  if stripe_subscription_obj_status != 'active':
+    db_question_obj['answer'] = ''
+  # ------------------------ pull desired question obj end ------------------------
+  # ------------------------ add/get candidate answers start ------------------------
+  # this has to be ascending
+  db_schedule_obj = CandidatesScheduleObj.query.filter_by(assessment_id_fk=url_test_id, candidates=url_email).order_by(CandidatesScheduleObj.created_timestamp).all()
+  db_schedule_obj = arr_of_dict_necessary_columns_function(db_schedule_obj, ['expiring_url'])
+  desired_expiring_url = ''
+  try:
+    desired_expiring_url = db_schedule_obj[(int(url_current_attempt)-1)]['expiring_url']
+  except:
+    return redirect(url_for('views_interior.candidates_assessments_dashboard_function'))
+  db_graded_obj = CandidatesAssessmentGradedObj.query.filter_by(assessment_expiring_url_fk=desired_expiring_url).first()
+  candidate_email = db_graded_obj.candidate_email
+  db_graded_arr = json.loads(db_graded_obj.assessment_obj)
+  db_user_anser = ''
+  try:
+    db_user_anser = db_graded_arr[(int(url_question_number)-1)]['user_answer'].upper()
+  except:
+    return redirect(url_for('views_interior.candidates_assessments_dashboard_function'))
+  # ------------------------ add/get candidate answers end ------------------------
+  localhost_print_function('=========================================== candidates_test_answered_preview_function END ===========================================')
+  return render_template('candidates/interior/assessments/post_preview/post_preview_answers/index.html', user=current_user, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type, users_company_name_to_html=user_company_name, current_question_number_to_html=current_question_number, next_question_number_to_html=next_question_number, previous_question_number_to_html=previous_question_number, url_test_id_to_html=url_test_id, db_question_obj_to_html=db_question_obj, contains_img_to_html=contains_img, db_user_anser_to_html=db_user_anser, url_current_attempt_to_html=url_current_attempt, candidate_email_to_html=candidate_email)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
 @views_interior.route('/candidates/tests/<url_test_id>', methods=['GET', 'POST'])
 @login_required
 def candidates_test_summary_function(url_test_id=None, url_redirect_code=None):
@@ -725,6 +816,7 @@ def candidates_test_summary_function(url_test_id=None, url_redirect_code=None):
   test_name = db_test_obj.assessment_name
   # ------------------------ assessment end ------------------------
   # ------------------------ schedule start ------------------------
+  # this has to be ascending
   db_schedule_obj = CandidatesScheduleObj.query.filter_by(user_id_fk=current_user.id, assessment_id_fk=url_test_id).order_by(CandidatesScheduleObj.candidates, CandidatesScheduleObj.created_timestamp).all()
   db_schedule_obj = arr_of_dict_necessary_columns_function(db_schedule_obj, ['candidates', 'send_date', 'send_time', 'send_timezone', 'candidate_status', 'expiring_url'])
   previous_email = ''
