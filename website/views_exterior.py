@@ -94,14 +94,6 @@ def candidates_pricing_page_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_exterior.route('/candidates/launch')
-def candidates_stand_in_page_function():
-  localhost_print_function('=========================================== candidates_stand_in_page_function START ===========================================')
-  localhost_print_function('=========================================== candidates_stand_in_page_function END ===========================================')
-  return render_template('candidates/exterior/stand_in_page_templates/index.html', user=current_user)
-# ------------------------ individual route end ------------------------
-
-# ------------------------ individual route start ------------------------
 @views_exterior.route('/candidates/email')
 def candidates_email_page_function():
   localhost_print_function('=========================================== candidates_email_page_function START ===========================================')

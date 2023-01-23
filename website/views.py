@@ -1,3 +1,4 @@
+"""
 # ------------------------ info about this file start ------------------------
 # -routes = pages. Examples: [landing, about, faq, pricing] pages = routes
 # -in this file we store the standard routes for our website
@@ -224,11 +225,11 @@ def dashboard_test_login_page_function():
   localhost_print_function('=========================================== dashboard_test_login_page_function START ===========================================')
   # ------------------------ auto redirect checks start ------------------------
   """
-  -The code will always hit this dashboard on login or create account. BUT BEFORE setting the cookie on the browser, we are going to auto redirect
-  users this makes the UX better so they dont have to click, read, or think, just auto redirect. The downside is that you cannot set the cookie
-  unless you know for sure where the user is ending up. So the redirected page will ALSO have to include the function that sets the cookie.
-  Downside is repeating code but it is not for all pages, only for the pages that auto redirect on new account creation.
-  -These pages will require the template_location_url variable
+  # -The code will always hit this dashboard on login or create account. BUT BEFORE setting the cookie on the browser, we are going to auto redirect
+  # users this makes the UX better so they dont have to click, read, or think, just auto redirect. The downside is that you cannot set the cookie
+  # unless you know for sure where the user is ending up. So the redirected page will ALSO have to include the function that sets the cookie.
+  # Downside is repeating code but it is not for all pages, only for the pages that auto redirect on new account creation.
+  # -These pages will require the template_location_url variable
   """
   template_location_url = 'candidates_page_templates/logged_in_page_templates/dashboard_page_templates/index.html'
   # ------------------------ get values from url start ------------------------
@@ -768,8 +769,8 @@ def candidates_assessment_create_new_function():
   # ------------------------ post method hit end ------------------------
   """
   # ------------------------ normal page load start ------------------------
-  localhost_print_function('=========================================== candidates_assessment_create_new_function END ===========================================')
-  return render_template('candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_create_new_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name, error_message_to_html=create_assessment_error_statement, candidate_categories_arr_1_to_html=candidate_categories_arr_1, candidate_categories_arr_2_to_html=candidate_categories_arr_2, candidate_categories_arr_3_to_html=candidate_categories_arr_3, trial_name_attempt_to_html=trial_name_attempt)
+  # localhost_print_function('=========================================== candidates_assessment_create_new_function END ===========================================')
+  # return render_template('candidates_page_templates/logged_in_page_templates/assessments_page_templates/assessments_create_new_page_templates/index.html', user=current_user, users_company_name_to_html = current_user.company_name, error_message_to_html=create_assessment_error_statement, candidate_categories_arr_1_to_html=candidate_categories_arr_1, candidate_categories_arr_2_to_html=candidate_categories_arr_2, candidate_categories_arr_3_to_html=candidate_categories_arr_3, trial_name_attempt_to_html=trial_name_attempt)
   # ------------------------ normal page load end ------------------------
   """
   # ------------------------ auto set cookie start ------------------------
@@ -1804,3 +1805,4 @@ def candidates_create_question_function():
   return render_template('candidates_page_templates/logged_in_page_templates/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
 # ------------------------ individual route end ------------------------
 # ------------------------ routes logged in end ------------------------
+"""
