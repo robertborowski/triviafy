@@ -1,0 +1,17 @@
+{% extends "candidates/aaa_base/single_message.html" %}
+
+{% block title %}
+<title>Expired / Triviafy</title>
+{% endblock %}
+
+{% block contentBodyExceptNavbarAndFooter %}
+<main>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Img, message, button Start -->
+  <div class="text-center custom-mt-5">
+    <img src="/static/images/candidates/logo/logo_v3.png" alt="Triviafy Logo" class="custom-img-size-7-mobile">
+    <p class="custom-ptb-4 custom-header-4">Assessment link expired or invalid.</p>
+    <a href="/candidates" class="btn btn-primary btn-lg">Home</a>
+  </div>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Img, message, button End -->
+</main>
+{% endblock %}

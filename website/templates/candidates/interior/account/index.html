@@ -1,0 +1,149 @@
+{% extends "candidates/aaa_base/base2_interior.html" %}
+<!-- head tag block content -->
+{% block title %}
+  <title>Create Assessment / Triviafy</title>
+{% endblock %}
+{% block contentBodyExceptNavbarAndFooter %}
+<!-- ----------------------------------- start ----------------------------------- -->
+{% if alert_message_page_to_html != '' %}
+<div class="alert alert-{{ alert_message_type_to_html }} mx-auto text-center custom-mt-3 container" role="alert">
+  {{ alert_message_page_to_html }}
+</div>
+{% endif %}
+<!-- ----------------------------------- end ----------------------------------- -->
+<div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
+  <h2 class="custom-header-2-mobile">Account settings</h2>
+</div>
+<div class="container custom-br-1"> 
+  <div class="accordion" id="accordionExample">
+    <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            Subscription <img src="/static/images/candidates/stripe/stripe_t.png" alt="powered by stripe" class="custom-img-size-4 custom-ml-3">
+          </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <p>Current plan: {{ current_plan_type_to_html }}</p>
+            {% if stripe_current_period_end_to_html != '' %}
+            <p>Next billing: {{ stripe_current_period_end_to_html }}</p>
+            {% endif %}
+            <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+              <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm">
+                  <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">Free</h4>
+                  </div>
+                  <div class="card-body">
+                    <h1 class="card-title pricing-card-title">$0<small class="text-muted fw-light">/mo</small></h1>
+                    <ul class="list-unstyled mt-3 mb-4 custom-height-6">
+                      <li>Test library</li>
+                      <li>Test customization</li>
+                      <li>Candidate analytics</li>
+                      <li>Send up to 5 tests</li>
+                    </ul>
+                    <input type="radio" class="btn-check" name="uiSubscriptionSelected" id="capacity_choice_1" autocomplete="off" value="1m" required>
+                    <label class="w-100 btn btn-lg btn-outline-primary" for="capacity_choice_1">Select</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm">
+                  <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">Pro</h4>
+                  </div>
+                  <div class="card-body">
+                    <h1 class="card-title pricing-card-title">$9<small class="text-muted fw-light">/mo</small></h1>
+                    <ul class="list-unstyled mt-3 mb-4 custom-height-6">
+                      <li>Test library</li>
+                      <li>Test customization</li>
+                      <li>Candidate analytics</li>
+                      <li>Question customization</li>
+                      <li>Bulk upload candidates</li>
+                      <li>Bulk upload tests</li>
+                      <li>Send up to 20 tests</li>
+                    </ul>
+                    <input type="radio" class="btn-check" name="uiSubscriptionSelected" id="capacity_choice_2" autocomplete="off" value="2m">
+                    <label class="w-100 btn btn-lg btn-outline-primary" for="capacity_choice_2">Select</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm border-primary">
+                  <div class="card-header py-3 text-bg-primary border-primary">
+                    <h4 class="my-0 fw-normal">Premium</h4>
+                  </div>
+                  <div class="card-body">
+                    <h1 class="card-title pricing-card-title">$99<small class="text-muted fw-light">/mo</small></h1>
+                    <ul class="list-unstyled mt-3 mb-4 custom-height-6">
+                      <li>Test library</li>
+                      <li>Test customization</li>
+                      <li>Candidate analytics</li>
+                      <li>Question customization</li>
+                      <li>Bulk upload candidates</li>
+                      <li>Bulk upload tests</li>
+                      <li>Send unlimited tests</li>
+                    </ul>
+                    <input type="radio" class="btn-check" name="uiSubscriptionSelected" id="capacity_choice_3" autocomplete="off" value="3m">
+                    <label class="w-100 btn btn-lg btn-outline-primary" for="capacity_choice_3">Select</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary btn-lg">Continue</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingTwo">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          Details
+        </button>
+      </h2>
+      <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <div class="custom-ptb-4">
+            <p class="custom-header-5">Email: {{ user_obj_to_html.email }}</p>
+            <p class="custom-header-5">Company: {{ user_obj_to_html.company_name }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingThree">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+            Contact
+          </button>
+        </h2>
+        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <div class="custom-ptb-4">
+              <div>
+                <p class="custom-header-5">Email: support@triviafy.com</p>
+              </div>
+              <!-- ------------------------------------- input start ------------------------------------- -->
+              <div class="form-floating">
+                <textarea class="form-control" id="uiMessage" name="uiMessage" placeholder="Message*" onkeyup="createQuestionCountCharsOptionA(this);" pattern="{1,280}" required></textarea>
+                <label for="uiMessage">Message*</label>
+                <p id="createQuestionCountCharsOptionA" class="custom-size-3 custom-color-light-1 fst-italic custom-mt-2 custom-ml-2"></p>
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+              <!-- ------------------------------------- input end ------------------------------------- -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+  </div>
+</div>
+{% endblock %}

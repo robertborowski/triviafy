@@ -1,0 +1,64 @@
+@media (max-width: 1200px) {
+    /* ------------------- border start ------------------- */
+    .custom-br-2-mobile {
+      border-radius: 15px;
+    }
+    /* ------------------- border end ------------------- */
+    /* ------------------- flex start ------------------- */
+    .custom-footer-mobile-1 {
+      flex-direction: column;
+      text-align: center;
+    }
+    /* ------------------- flex end ------------------- */
+    /* ------------------- height start ------------------- */
+    .custom-height-1-mobile {
+      height: 1100px;
+    }
+    .custom-height-2-mobile {
+      height: 625px;
+    }
+    .custom-height-3-mobile {
+      height: 1100px;
+    }
+    .custom-height-4-mobile {
+      height: 1000px;
+    }
+    .custom-height-5-mobile {
+      height: 350px;
+    }
+    .custom-img-size-7-mobile {
+      max-height: 200px;
+    }
+    /* ------------------- height end ------------------- */
+    /* ------------------- header start ------------------- */
+    .custom-header-2-mobile {
+      font-size: 25px;
+    }
+    .custom-header-4-mobile {
+      font-size: 10px;
+    }
+    .custom-header-5-mobile {
+      font-size: 10px;
+    }
+    /* ------------------- header end ------------------- */
+    /* ------------------- margin start ------------------- */
+    .custom-m-1-mobile {
+      margin: 5px;
+    }
+    .custom-my-1-mobile {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    /* ------------------- margin end ------------------- */
+    /* ------------------- padding start ------------------- */
+    /* ------------------- padding end ------------------- */
+    /* ------------------- width start ------------------- */
+    .custom-width-2-mobile {
+      width: 100%;
+    }
+    .custom-width-11-mobile {
+      width: 100%;
+      max-width: 100%;
+    }
+    /* ------------------- width end ------------------- */
+  }

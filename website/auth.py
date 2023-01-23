@@ -7,7 +7,6 @@
 # -use code: <methods=['GET', 'POST']> when you want the user to interact with the page through forms/checkbox/textbox/radio/etc.
 # ------------------------ info about this file end ------------------------
 
-
 # ------------------------ imports start ------------------------
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from flask import Blueprint, render_template, request, flash, redirect, url_for
@@ -24,7 +23,6 @@ from website.backend.candidates.send_emails import send_email_template_function
 import os
 # ------------------------ imports end ------------------------
 
-
 # ------------------------ function start ------------------------
 auth = Blueprint('auth', __name__)
 # ------------------------ function end ------------------------
@@ -34,7 +32,6 @@ cache_busting_output = create_uuid_function('css_')
 # ------------------------ connect to redis start ------------------------
 redis_connection = redis_connect_to_database_function()
 # ------------------------ connect to redis end ------------------------
-
 
 # ------------------------ individual route start ------------------------
 @auth.route('/candidates/signup', methods=['GET', 'POST'])
@@ -46,7 +43,7 @@ def candidates_signup_function():
     ui_email = request.form.get('various_pages1_ui_email')
     if ui_email != None:
       # ------------------------ sanitize/check user input email start ------------------------
-      ui_email_cleaned = sanitize_email_function(ui_email)
+      ui_email_cleaned = sanitize_email_function(ui_email, 'true')
       if ui_email_cleaned == False:
         create_account_error_statement = 'Please enter a valid work email.'
       # ------------------------ sanitize/check user input email end ------------------------
@@ -65,16 +62,14 @@ def candidates_signup_function():
       # ------------------------ create new signup in db end ------------------------
       localhost_print_function('user is being redirected to full sign up page')
       localhost_print_function('=========================================== candidates_signup_function END ===========================================')
-      return render_template('candidates_page_templates/not_logged_in_page_templates/create_account_templates/index.html', user=current_user, redirect_var_email = ui_email, error_message_to_html = create_account_error_statement)
+      return render_template('candidates/exterior/signup/index.html', user=current_user, redirect_var_email = ui_email, error_message_to_html = create_account_error_statement)
     # ------------------------ post method hit #1 - quick sign up end ------------------------
     # ------------------------ post method hit #2 - full sign up start ------------------------
     ui_email = request.form.get('create_account_page_ui_email')
     ui_password = request.form.get('create_account_page_ui_password')
-    ui_name = request.form.get('create_account_page_ui_name')
-    ui_company_name = request.form.get('create_account_page_ui_company_name')
     # ------------------------ sanitize/check user inputs start ------------------------
     # ------------------------ sanitize/check user input email start ------------------------
-    ui_email_cleaned = sanitize_email_function(ui_email)
+    ui_email_cleaned = sanitize_email_function(ui_email, 'true')
     if ui_email_cleaned == False:
       create_account_error_statement = 'Please enter a valid work email.'
     # ------------------------ sanitize/check user input email end ------------------------
@@ -83,54 +78,41 @@ def candidates_signup_function():
     if ui_password_cleaned == False:
       create_account_error_statement = 'Password is not valid.'
     # ------------------------ sanitize/check user input password end ------------------------
-    # ------------------------ sanitize/check user input name start ------------------------
-    if len(ui_name) > 20:
-      create_account_error_statement = 'Name can only be 2-20 characters.'
-    ui_name_cleaned = sanitize_create_account_text_inputs_function(ui_name)
-    if ui_name_cleaned == False:
-      create_account_error_statement = 'Name needs to be 2-20 characters. No special characters.'
-    # ------------------------ sanitize/check user input name end ------------------------
-    # ------------------------ sanitize/check user input company name start ------------------------
-    if len(ui_company_name) < 2 or len(ui_company_name) > 50:
-      create_account_error_statement = 'Company name needs to be 2-20 characters.'
-    ui_company_name_cleaned = sanitize_create_account_text_inputs_function(ui_company_name)
-    if ui_company_name_cleaned == False:
-      create_account_error_statement = 'Company name needs to be 2-20 characters. No special characters.'
-    # ------------------------ sanitize/check user input company name end ------------------------
     # ------------------------ sanitize/check user inputs end ------------------------
     # ------------------------ if user input error start ------------------------
     if create_account_error_statement != '':
       localhost_print_function('=========================================== candidates_signup_function END ===========================================')
-      return render_template('candidates_page_templates/not_logged_in_page_templates/create_account_templates/index.html',
+      return render_template('candidates/exterior/signup/index.html',
                               user = current_user,
                               error_message_to_html = create_account_error_statement,
                               redirect_var_email = ui_email,
-                              redirect_var_password = ui_password,
-                              redirect_var_first_name = ui_name,
-                              redirect_var_company_name = ui_company_name)
+                              redirect_var_password = ui_password)
     # ------------------------ if user input error end ------------------------
     # ------------------------ check if user email already exists in db start ------------------------
     user = CandidatesUserObj.query.filter_by(email=ui_email).first()
     if user:
       create_account_error_statement = 'Account already created for email.'
       localhost_print_function('=========================================== candidates_signup_function END ===========================================')
-      return render_template('candidates_page_templates/not_logged_in_page_templates/create_account_templates/index.html',
+      return render_template('candidates/exterior/signup/index.html',
                               user = current_user,
                               error_message_to_html = create_account_error_statement,
                               redirect_var_email = ui_email,
-                              redirect_var_password = ui_password,
-                              redirect_var_first_name = ui_name,
-                              redirect_var_company_name = ui_company_name)
+                              redirect_var_password = ui_password)
     # ------------------------ check if user email already exists in db start ------------------------
     else:
+      # ------------------------ infer company name start ------------------------
+      email_arr1 = ui_email.split('@')
+      email_desired1 = email_arr1[1]
+      email_arr2 = email_desired1.split('.')
+      company_name_from_email = email_arr2[0]
+      # ------------------------ infer company name end ------------------------
       # ------------------------ create new user in db start ------------------------
       new_user = CandidatesUserObj(
         id=create_uuid_function('user_'),
         created_timestamp=create_timestamp_function(),
         email=ui_email,
         password=generate_password_hash(ui_password, method="sha256"),
-        name = ui_name,
-        company_name = ui_company_name
+        company_name = company_name_from_email
       )
       db.session.add(new_user)
       db.session.commit()
@@ -148,14 +130,11 @@ def candidates_signup_function():
         pass
       # ------------------------ email self end ------------------------
       localhost_print_function('=========================================== candidates_signup_function END ===========================================')
-      return redirect(url_for('views.dashboard_test_login_page_function'))
+      return redirect(url_for('views_interior.login_dashboard_page_function'))
     # ------------------------ post method hit #2 - full sign up end ------------------------
-
   localhost_print_function('=========================================== candidates_signup_function END ===========================================')
-  return render_template('candidates_page_templates/not_logged_in_page_templates/create_account_templates/index.html', user=current_user, error_message_to_html = create_account_error_statement)
+  return render_template('candidates/exterior/signup/index.html', user=current_user, error_message_to_html = create_account_error_statement)
 # ------------------------ individual route end ------------------------
-
-
 
 # ------------------------ individual route start ------------------------
 @auth.route('/candidates/login', methods=['GET', 'POST'])
@@ -172,7 +151,7 @@ def candidates_login_page_function():
         login_user(user, remember=True)
         # ------------------------ keep user logged in end ------------------------
         localhost_print_function('redirecting to logged in page')
-        return redirect(url_for('views.dashboard_test_login_page_function'))
+        return redirect(url_for('views_interior.login_dashboard_page_function'))
     except:
       pass
   # ------------------------ auto sign in with cookie end ------------------------
@@ -199,18 +178,15 @@ def candidates_login_page_function():
         # ------------------------ keep user logged in start ------------------------
         login_user(user, remember=True)
         # ------------------------ keep user logged in end ------------------------
-        return redirect(url_for('views.dashboard_test_login_page_function'))
+        return redirect(url_for('views_interior.login_dashboard_page_function'))
       else:
         login_error_statement = 'Incorrect email/password, try again.'
     else:
       login_error_statement = 'Incorrect email/password, try again.'
     # ------------------------ post method hit #1 - regular login end ------------------------
-
   localhost_print_function('=========================================== candidates_login_page_function END ===========================================')
-  return render_template('candidates_page_templates/not_logged_in_page_templates/login_page_templates/index.html', user=current_user, error_message_to_html = login_error_statement)
+  return render_template('candidates/exterior/login/index.html', user=current_user, error_message_to_html = login_error_statement)
 # ------------------------ individual route end ------------------------
-
-
 
 # ------------------------ individual route start ------------------------
 @auth.route('/candidates/logout')

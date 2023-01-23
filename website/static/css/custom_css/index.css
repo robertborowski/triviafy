@@ -1,0 +1,730 @@
+/* ------------------- a start ------------------- */
+.custom-a-1, .custom-a-1:visited {
+  color: var(--custom-color-1);
+  text-decoration: none;
+}
+.custom-a-1:hover {
+  color: white;
+  text-decoration: underline;
+}
+.custom-a-2, .custom-a-2:visited {
+  color: black;
+  text-decoration: none;
+}
+.custom-a-2:hover {
+  color: black;
+  text-decoration: underline;
+}
+.custom-a-2-none, .custom-a-2-none:visited, .custom-a-2-none:hover {
+  color: black;
+  text-decoration: none;
+}
+.custom-a-3, .custom-a-3:visited {
+  color: var(--custom-color-1);
+  text-decoration: none;
+}
+.custom-a-3:hover {
+  color: black;
+  text-decoration: underline;
+}
+.custom-a-4, .custom-a-4:visited {
+  color: var(--custom-color-1);
+  text-decoration: none;
+}
+.custom-a-4:hover {
+  color: var(--bs-primary);
+  text-decoration: underline;
+}
+/* ------------------- a end ------------------- */
+/* ------------------- background start ------------------- */
+.custom-bg-white {
+  background-color: white;
+}
+.custom-bg-tan-1 {
+  background-color: rgb(255, 237, 217);
+}
+.custom-bg-colorful-1 {
+  background: linear-gradient(145deg, rgb(255 224 224)0%, rgb(255 254 221)25%, rgb(240 255 238)50%, rgb(233 209 255)100%);
+}
+.custom-bg-green-1 {
+  background-color: rgb(222 242 231);
+}
+.custom-bg-dark-1 {
+  background-color: rgb(10, 0, 28);
+}
+.custom-bg-blue-1 {
+  background-color: rgb(231 241 255);
+}
+.custom-bg-grey-1 {
+  background-color: rgb(244, 244, 244);
+}
+.custom-bg-grey-2 {
+  background-color: rgb(248, 248, 248);
+}
+.custom-bg-grey-3 {
+  background-color: rgb(240, 240, 240);
+}
+.custom-bg-1-dark {
+  background-color: var(--custom-color-2-dark);
+}
+.custom-bg-1-light {
+  background-color: var(--custom-color-2-light);
+}
+/* ------------------- background end ------------------- */
+/* ------------------- color start ------------------- */
+:root {
+  --custom-color-1: rgb(120 120 120);
+  --custom-color-2-dark: rgb(90, 90, 90);
+  --custom-color-2-light: rgb(180, 180, 180);
+  --custom-color-primary: rgb(111, 66, 193);
+}
+.custom-color-light-1 {
+  color: var(--custom-color-1);
+}
+.custom-color-primary {
+  color: var(--custom-color-primary);
+}
+/* ------------------- color end ------------------- */
+/* ------------------- border start ------------------- */
+.custom-border-1 {border: 1px solid black;}
+.custom-border-2 {border: 1px solid red;}
+.custom-border-3 {border: 1px solid blue;}
+.custom-border-4 {border: 1px solid green;}
+.custom-border-5-dark {
+  border: 3px solid var(--custom-color-2-dark);
+}
+.custom-border-5-light {
+  border: 3px solid var(--custom-color-2-light);
+}
+.custom-border-6-light {
+  border: 1px solid var(--custom-color-2-light);
+}
+.custom-br-1 {
+  border-radius: 15px;
+}
+.custom-br-2-mobile {
+  border-radius: 35px;
+}
+.custom-br-3 {
+  border-radius: 25px;
+}
+.custom-br-4 {
+  border-radius: 6px;
+}
+/* ------------------- border end ------------------- */
+/* ------------------- display start ------------------- */
+.custom-display-flex {
+  display: flex;
+}
+/* ------------------- display end ------------------- */
+/* ------------------- filler start ------------------- */
+.custom-filler-1 {
+  height: 86px;
+}
+.custom-filler-2 {
+  height: 50px;
+}
+.custom-filler-3 {
+  height: 250px;
+}
+.custom-filler-4 {
+  height: 63.5px;
+}
+.custom-filler-5 {
+  height: 56px;
+}
+/* ------------------- filler end ------------------- */
+/* ------------------- flex start ------------------- */
+.custom-fw-1 {
+  flex-wrap: wrap;
+}
+.custom-fw-2 {
+  flex-wrap: nowrap;
+}
+/* ------------------- flex end ------------------- */
+/* ------------------- google start ------------------- */
+.custom-google-font-1 {
+  font-family: 'Open Sans', arial;
+}
+/* ------------------- google end ------------------- */
+/* ------------------- header start ------------------- */
+.custom-header-1 {
+  font-size: 40px;
+}
+.custom-header-2 {
+  font-size: 30px;
+}
+.custom-header-2-mobile {
+  font-size: 30px;
+}
+.custom-size-3 {
+  font-size: 12px;
+}
+.custom-size-4 {
+  font-size: 10px;
+}
+.custom-header-4 {
+  font-size: 20px;
+}
+.custom-header-4-mobile {
+  font-size: 20px;
+}
+.custom-header-5 {
+  font-size: 15px;
+}
+.custom-header-5-mobile {
+  font-size: 15px;
+}
+.custom-header-6 {
+  font-size: 25px;
+}
+.custom-header-white {
+  color: white;
+}
+.custom-color-2-dark {
+  color: var(--custom-color-2-dark);
+}
+.custom-color-2-light {
+  color: var(--custom-color-2-light);
+}
+/* ------------------- header end ------------------- */
+/* ------------------- height start ------------------- */
+.custom-height-1-mobile {
+  height: 700px;
+}
+.custom-height-2-mobile {
+  height: 450px;
+}
+.custom-height-3-mobile {
+  height: 450px;
+}
+.custom-height-4 {
+  height: 300px;
+}
+.custom-height-4-mobile {
+  height: 600px;
+}
+.custom-height-5-mobile {
+  height: 450px;
+}
+.custom-height-6 {
+  height: 200px;
+}
+/* ------------------- height end ------------------- */
+/* ------------------- img start ------------------- */
+.custom-img-size-1 {
+  height: 40px;
+}
+.custom-img-size-2 {
+  max-width: 25px;
+}
+.custom-img-size-3 {
+  max-width: 90%;
+}
+.custom-img-size-4 {
+  max-height: 20px;
+}
+.custom-img-size-5 {
+  width: 600px;
+  max-width: 90%;
+}
+.custom-img-size-6 {
+  max-height: 100px;
+}
+.custom-img-size-7 {
+  max-height: 300px;
+}
+.custom-img-size-7-mobile {
+  max-height: 300px;
+}
+.custom-img-size-8 {
+  width: 125px;
+}
+.custom-img-size-9 {
+  width: 15px;
+}
+.custom-img-size-10 {
+  max-height: 60px;
+}
+.custom-img-opacity-1 {
+  opacity: 0.20;
+}
+.custom-img-size-11 {
+  max-width: 100%;
+}
+/* ------------------- img end ------------------- */
+/* ------------------- index start ------------------- */
+.custom-index-1 {
+  z-index: 1;
+}
+.custom-index-2 {
+  z-index: 2;
+}
+/* ------------------- index end ------------------- */
+/* ------------------- justify start ------------------- */
+.custom-jc-1 {
+  justify-content: space-evenly;
+}
+.custom-jc-2 {
+  justify-content: space-between;
+}
+.custom-jc-3 {
+  justify-content: center;
+}
+.custom-jc-4 {
+  justify-content: space-around;
+}
+/* ------------------- justify end ------------------- */
+/* ------------------- list style start ------------------- */
+.custom-ls-1 {
+  list-style: none;
+}
+/* ------------------- list style end ------------------- */
+/* ------------------- list style start ------------------- */
+.custom-line-1 {
+  line-height: 40px;
+}
+/* ------------------- list style end ------------------- */
+/* ------------------- margin start ------------------- */
+.custom-m-0 {
+  margin: 0 0 0 0;
+}
+.custom-m-1-mobile {
+  margin: 15px;
+}
+.custom-m-1 {
+  margin: 10px;
+}
+.custom-m-2 {
+  margin: 20px;
+}
+.custom-mb-1 {
+  margin-bottom: 50px;
+}
+.custom-mb-2 {
+  margin-bottom: 150px;
+}
+.custom-mb-3 {
+  margin-bottom: 100px;
+}
+.custom-mb-4 {
+  margin-bottom: 10px;
+}
+.custom-mb-5 {
+  margin-bottom: 75px;
+}
+.custom-mb-6 {
+  margin-bottom: 25px;
+}
+.custom-mb-7 {
+  margin-bottom: 3px;
+}
+.custom-mt-1 {
+  margin-top: 25px;
+}
+.custom-mt-2 {
+  margin-top: 10px;
+}
+.custom-mt-3 {
+  margin-top: 50px;
+}
+.custom-mt-4 {
+  margin-top: 5px;
+}
+.custom-mt-5 {
+  margin-top: 100px;
+}
+.custom-mt-negative-1 {
+  margin-top: -20px;
+}
+.custom-mt-negative-2 {
+  margin-top: -7px;
+}
+.custom-mr-1 {
+  margin-right: 5px;
+}
+.custom-mr-2 {
+  margin-right: 10px;
+}
+.custom-mr-3 {
+  margin-right: 25px;
+}
+.custom-ml-1 {
+  margin-left: 5px;
+}
+.custom-ml-1-negative {
+  margin-left: -35px;
+}
+.custom-ml-2-negative {
+  margin-left: -40px;
+}
+.custom-ml-2 {
+  margin-left: 25px;
+}
+.custom-ml-3 {
+  margin-left: 10px;
+}
+.custom-mlt-1 {
+  margin-left: 7px;
+  margin-top: 7px;
+}
+/* ------------------- margin end ------------------- */
+/* ------------------- overflow start ------------------- */
+.custom-overflow-1 {
+  overflow: scroll;
+}
+/* ------------------- overflow end ------------------- */
+/* ------------------- padding start ------------------- */
+.custom-p-1 {
+  padding: 10px;
+}
+.custom-p-2 {
+  padding: 25px;
+}
+.custom-p-3 {
+  padding: 12px;
+}
+.custom-p-4 {
+  padding: 50px;
+}
+.custom-p-5 {
+  padding: 50px 15px;
+}
+.custom-pb-1 {
+  padding-bottom: 150px;
+}
+.custom-pb-2 {
+  padding-bottom: 50px;
+}
+.custom-pb-3 {
+  padding-bottom: 100px;
+}
+.custom-pb-4 {
+  padding-bottom: 10px;
+}
+.custom-pb-5 {
+  padding-bottom: 200px;
+}
+.custom-pb-6 {
+  padding-bottom: 25px;
+}
+.custom-ptb-1 {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.custom-ptb-2 {
+  padding-top: 175px;
+  padding-bottom: 50px;
+}
+.custom-ptb-3 {
+  padding-top: 50px;
+  padding-bottom: 75px;
+}
+.custom-ptb-4 {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.custom-ptb-5 {
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+.custom-ptb-6 {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+.custom-ptb-7 {
+  padding-top: 200px;
+  padding-bottom: 200px;
+}
+.custom-pt-1 {
+  padding-top: 50px;
+}
+.custom-pt-2 {
+  padding-top: 150px;
+}
+.custom-pt-3 {
+  padding-top: 100px;
+}
+.custom-pt-4 {
+  padding-top: 25px;
+}
+.custom-pt-5 {
+  padding-top: 5px;
+}
+.custom-pt-6 {
+  padding-top: 75px;
+}
+.custom-pt-7 {
+  padding-top: 15px;
+}
+/* ------------------- padding end ------------------- */
+/* ------------------- shape divider start ------------------- */
+.custom-shape-divider-top-1672341955 {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+}
+.custom-shape-divider-top-1672341955 svg {
+  position: relative;
+  display: block;
+  width: calc(300% + 1.3px);
+  height: 199px;
+}
+.custom-shape-divider-top-1672341955 .shape-fill {
+  fill: #FFFFFF;
+}
+
+.custom-shape-divider-top-1672276628 {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+.custom-shape-divider-top-1672276628 svg {
+  position: relative;
+  display: block;
+  width: calc(300% + 1.3px);
+  height: 299px;
+}
+.custom-shape-divider-top-1672276628 .shape-fill {
+  fill: #FFFFFF;
+}
+
+.custom-shape-divider-bottom-1672276706 {
+  position: relative;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+}
+.custom-shape-divider-bottom-1672276706 svg {
+  position: relative;
+  display: block;
+  width: calc(300% + 1.3px);
+  height: 299px;
+}
+.custom-shape-divider-bottom-1672276706 .shape-fill {
+  fill: #FFFFFF;
+}
+
+.custom-shape-divider-top-1672337904 {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+}
+.custom-shape-divider-top-1672337904 svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 105px;
+}
+.custom-shape-divider-top-1672337904 .shape-fill {
+  fill: #FFFFFF;
+}
+/** For mobile devices **/
+@media (max-width: 767px) {
+  .custom-shape-divider-top-1672337904 svg {
+      width: calc(100% + 1.3px);
+      height: 100px;
+  }
+}
+
+.custom-shape-divider-bottom-1672337954 {
+  position: relative;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+.custom-shape-divider-bottom-1672337954 svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 105px;
+}
+.custom-shape-divider-bottom-1672337954 .shape-fill {
+  fill: #FFFFFF;
+}
+/** For mobile devices **/
+@media (max-width: 767px) {
+  .custom-shape-divider-bottom-1672337954 svg {
+      width: calc(100% + 1.3px);
+      height: 100px;
+  }
+}
+
+.custom-shape-divider-top-1672426066 {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+.custom-shape-divider-top-1672426066 svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 150px;
+}
+.custom-shape-divider-top-1672426066 .shape-fill {
+  fill: #FFFFFF;
+  fill: rgb(255, 237, 217);
+}
+/** For mobile devices **/
+@media (max-width: 767px) {
+  .custom-shape-divider-top-1672426066 svg {
+      width: calc(135% + 1.3px);
+      height: 100px;
+  }
+}
+/* ------------------- shape divider end ------------------- */
+/* ------------------- tag start ------------------- */
+.custom-tag-1 {
+  background-color: var(--custom-color-primary);
+  padding: 2px 5px;
+  color: white;
+}
+.custom-tag-category-accounting {background: #5e866b;}
+.custom-tag-category-android {background: #286e3e;}
+.custom-tag-category-animals {background: #b8a429;}
+.custom-tag-category-art {background: #57a09f;}
+.custom-tag-category-animation {background: #b27233;}
+.custom-tag-category-aws {background: #b76a2f;}
+.custom-tag-category-angular {background: #b52f31;}
+.custom-tag-category-azure {background: #008ad7;}
+.custom-tag-category-business {background: #598357;}
+.custom-tag-category-books {background: #b46b8d;}
+.custom-tag-category-basketball {background: #c77222;}
+.custom-tag-category-baseball {background: #1c91c2;}
+.custom-tag-category-boxing {background: #c54242;}
+.custom-tag-category-chess {background: #9f4cba;}
+.custom-tag-category-csharp {background: #822c98;}
+.custom-tag-category-cpp {background: #436c89;}
+.custom-tag-category-css {background: #337a8d;}
+.custom-tag-category-cloudflare {background: #9d7539;}
+.custom-tag-category-currency {background: #57986b;}
+.custom-tag-category-databricks {background: #9d3939;}
+.custom-tag-category-dbt {background: #b2772a;}
+.custom-tag-category-django {background: #39855b;}
+.custom-tag-category-docker {background: #2d8eae;}
+.custom-tag-category-drupal {background: #2a6ea6;}
+.custom-tag-category-excel {background: #438b41;}
+.custom-tag-category-engineering {background: #4772a9;}
+.custom-tag-category-food {background: #a3672f;}
+.custom-tag-category-finance {background: #4a9f4c;}
+.custom-tag-category-football {background: #90600f;}
+.custom-tag-category-fashion {background: #ae4770;}
+.custom-tag-category-golf {background: #51b06e;}
+.custom-tag-category-geography {background: #b48062;}
+.custom-tag-category-history {background: #ac5656;}
+.custom-tag-category-human_resources {background: #b95da5;}
+.custom-tag-category-human_centered_design {background: #438db7;}
+.custom-tag-category-harry_potter {background: #6a9e9e;}
+.custom-tag-category-javascript {background: #d49d00;}
+.custom-tag-category-marketing {background: #b1669a;}
+.custom-tag-category-movies {background: #7152ae;}
+.custom-tag-category-music {background: #4c7dbe;}
+.custom-tag-category-olympics {background: #7376cf;}
+.custom-tag-category-pop_culture {background: #a33fa4;}
+.custom-tag-category-politics {background: #a66db6;}
+.custom-tag-category-power_bi {background: #f3c813; color: black}
+.custom-tag-category-question_removed {background: #404040;}
+.custom-tag-category-sql {background: #597caa;}
+.custom-tag-category-sports {background: #42a962;}
+.custom-tag-category-sales {background: #3aa5c5;}
+.custom-tag-category-space {background: #3e3b4c;}
+.custom-tag-category-science {background: #ce7c7c;}
+.custom-tag-category-soccer {background: #2dbd9d;}
+.custom-tag-category-tv {background: #a159a5;}
+.custom-tag-category-talent_acquisition {background: #9a7db9;}
+.custom-tag-category-technology {background: #b98733;}
+.custom-tag-category-tableau {background: #4d96a3;}
+.custom-tag-category-travel {background: #4f99d3;}
+.custom-tag-category-uk {background: #d25454;}
+/* ------------------- tag end ------------------- */
+/* ------------------- text start ------------------- */
+.custom-tal {
+  text-align: left;
+}
+/* ------------------- text end ------------------- */
+/* ------------------- width start ------------------- */
+.custom-width-1 {
+  max-width: 600px;
+}
+.custom-width-2-mobile {
+  width: 600px;
+}
+.custom-width-3 {
+  max-width: 900px;
+}
+.custom-width-4 {
+  max-width: 500px;
+}
+.custom-width-5 {
+  width: 30%;
+  min-width: 250px;
+}
+.custom-width-6 {
+  width: 100%;
+}
+.custom-width-7 {
+  max-width: 1200px;
+}
+.custom-width-8 {
+  width: 350px;
+  max-width: 90%;
+}
+.custom-width-9 {
+  width: 100px;
+}
+.custom-width-10 {
+  width: 400px;
+  max-width: 90%;
+}
+.custom-width-11-mobile {
+  width: 50%;
+  max-width: 50%;
+}
+.custom-width-12 {
+  width: 80%;
+}
+.custom-width-13 {
+  width: 90%;
+}
+.custom-width-14 {
+  width: 600px;
+  max-width: 90%;
+}
+.custom-width-15 {
+  width: 200px;
+}
+.custom-width-16 {
+  width: 50%;
+}
+.custom-wh-1 {
+  width: 50px;
+  height: 50px;
+}
+.custom-wh-2 {
+  width: 30px;
+  height: 30px;
+}
+.custom-wh-3 {
+  width: 30%;
+  height: 0px;
+}
+/* ------------------- width end ------------------- */

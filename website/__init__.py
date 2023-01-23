@@ -61,16 +61,16 @@ def create_app_function():
   def not_found(e):
     # localhost_print_function('exception hit create_app_function')
     # localhost_print_function('=========================================== create_app_function END ===========================================')
-    return render_template("candidates_page_templates/not_logged_in_page_templates/error_404_page_templates/index.html")
+    return render_template("candidates/exterior/error_404/index.html")
   # ------------------------ Handleing Error Messages END ------------------------
   # ------------------------ stripe api environment start ------------------------
   stripe.api_key = os.environ.get('STRIPE_API_KEY')  # PRODUCTION
   # stripe.api_key = os.environ.get('STRIPE_TEST_API_KEY')  # TESTING
   # ------------------------ stripe api environment end ------------------------
   # ------------------------ views/auths/routes imports start ------------------------
-  from .views import views
   from .auth import auth
-  from .blog import blog
+  from .views_exterior import views_exterior
+  from .views_interior import views_interior
   # ------------------------ views/auths/routes imports end ------------------------
   # ------------------------ views/auths/routes register blueprints start ------------------------
   # ------------------------ TRIVIAFY EMPLOYEE ENGAGEMENT START ------------------------
@@ -318,9 +318,9 @@ def create_app_function():
   # Candidates launch  page
   app.register_blueprint(launch_page_render_template, url_prefix="")
   # ------------------------ TRIVIAFY EMPLOYEE ENGAGEMENT END ------------------------
-  app.register_blueprint(views, url_prefix='/')
   app.register_blueprint(auth, url_prefix='/')
-  app.register_blueprint(blog, url_prefix='/')
+  app.register_blueprint(views_exterior, url_prefix='/')
+  app.register_blueprint(views_interior, url_prefix='/')
   # ------------------------ views/auths/routes register blueprints end ------------------------
   # ------------------------ import models before creating db for first time start ------------------------
   from .models import CandidatesUserObj, CandidatesCapacityOptionsObj, CandidatesCollectEmailObj
@@ -358,7 +358,14 @@ def create_database_function(app):
   """
   localhost_print_function('=========================================== create_database_function START ===========================================')
   if not path.exists('website/' + DB_NAME):
+    # ------------------------ old - editing model tables start ------------------------
     # db.create_all(app=app)
+    # ------------------------ old - editing model tables end ------------------------
+    # ------------------------ new - editing model tables start ------------------------
+    # https://stackoverflow.com/questions/34122949/working-outside-of-application-context-flask
+    with app.app_context():
+      db.create_all()
+    # ------------------------ new - editing model tables end ------------------------
     print('Created database!')
   else:
     print('Database already exists!')

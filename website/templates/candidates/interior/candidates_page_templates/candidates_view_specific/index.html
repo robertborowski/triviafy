@@ -1,0 +1,68 @@
+{% extends "candidates/aaa_base/base2_interior.html" %}
+
+<!-- head tag block content -->
+{% block title %}
+  <title>Summary / Triviafy</title>
+{% endblock %}
+
+{% block contentBodyExceptNavbarAndFooter %}
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name start -->
+<div class="general-signed-in-company-name-section">
+  <p class="general-signed-in-company-name-title">{{ users_company_name_to_html }}</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - company name end -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title start -->
+<div class="general-page-title-section">
+  <p class="general-page-title">Candidate Summary</p>
+  <p class="general-page-sub-title">{{ email_title_to_html }}</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - general page title end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer start -->
+<div class="general-spacer-section"></div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - spacer end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - redirect link start -->
+<div class="general-center-container">
+  <a href="{{ url_for('views_interior.candidates_analytics_function') }}" class="general-a-primary"><p class="general-page-font">Back</p></a>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - redirect link end -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page start -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - candidate analytics datatables start -->
+<div class="assessment-analytics-datatable-section">
+  <table id="table_id_triviafy_assessment_analytics" class="display">
+    <thead>
+      <tr>
+        <th>Assessment Name</th>
+        <th>Schedule Pending</th>
+        <th>Assessment Completed</th>
+        <th>Total Correct</th>
+        <th>Correct %</th>
+        <th>Candidate Answers</th>
+      </tr>
+    </thead>
+    
+    <tbody>
+      {% for i in all_candidate_assessments_arr_of_dicts_to_html %}
+      <tr>
+        <td>{{ i['assessment_name'] }}</td>
+        <td>{{ i['total_schedules_pending'] }}</td>
+        <td>{{ i['total_schedules_completed'] }}</td>
+        <td>{{ i['total_correct_count'] }}</td>
+        <td>{{ i['average_final_score'] }}</td>
+        <td><a href="{{ url_for('views_interior.candidates_assessment_i_answers_function', url_email=email_title_to_html, url_assessment_name=i['assessment_name']) }}" class="general-a-primary">View latest</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - candidate analytics datatables end -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - main page end -->
+{% endblock %}

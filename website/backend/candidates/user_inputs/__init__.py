@@ -11,12 +11,13 @@ from website.backend.candidates.sql_statements.sql_statements_select import sele
 localhost_print_function('=========================================== user_inputs __init__ START ===========================================')
 
 # ------------------------ individual function start ------------------------
-def sanitize_email_function(user_input_email):
+def sanitize_email_function(user_input_email, is_signup='false'):
   localhost_print_function('=========================================== sanitize_email_function START ===========================================')
   desired_regex_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
   if(re.fullmatch(desired_regex_pattern, user_input_email)):
     # Check email for personal tags
-    user_input_email = check_email_personal_tags_function(user_input_email)
+    if is_signup == 'true':
+      user_input_email = check_email_personal_tags_function(user_input_email)
     localhost_print_function('=========================================== sanitize_email_function END ===========================================')
     return user_input_email
   localhost_print_function('=========================================== sanitize_email_function END ===========================================')
@@ -26,53 +27,53 @@ def sanitize_email_function(user_input_email):
 # ------------------------ individual function start ------------------------
 # ------------------------ block email list start ------------------------
 blocked_email_arr = [
-  # '@gmail.com',
-  # '@yahoo.',
-  # '@ymail.com',
-  # '@mail.com',
-  # '@msn.',
-  # '@aol.',
-  # '@fb.com',
-  # '@hotmail.',
-  # '@outlook.',
-  # '@topmail.ws',
-  # '@iopmail.com',
-  # '@mailinator.com',
-  # '@onmicrosoft.com',
-  # '@bingzone.net',
-  # '@msgsafe.io',
-  # '@sharklasers.com',
-  # '@ttirv.com',
-  # '@pm.me',
-  # '@protonmail.com',
-  # '@qq.com',
-  # '@gamil.com',
-  # '@gmal.com',
-  # '@me.com',
-  # '@yopmail.com',
-  # '@hey.com',
-  # '@icloud.com',
-  # '@fastmail.fm',
-  # '@mail.ru',
-  # '@web.de',
-  # '@ya.ru',
-  # '@vp.pl',
-  # '@inboxbear.com',
-  # '@tuks.co.za',
-  # '@kiabws.com',
-  # '@cikuh.com',
-  # '@relay.firefox.com',
-  # '@citromail.hu',
-  # '@mailpoof.com',
-  # '@biyac.com',
-  # '@byom.de',
-  # '@yandex.ru',
-  # '@naver.com',
-  # '@ukr.net',
-  # '@cuoly.com',
-  # '@zohomail.in',
-  # '@sltn.net',
-  # '@laposte.sn',
+  '@gmail.com',
+  '@yahoo.',
+  '@ymail.com',
+  '@mail.com',
+  '@msn.',
+  '@aol.',
+  '@fb.com',
+  '@hotmail.',
+  '@outlook.',
+  '@topmail.ws',
+  '@iopmail.com',
+  '@mailinator.com',
+  '@onmicrosoft.com',
+  '@bingzone.net',
+  '@msgsafe.io',
+  '@sharklasers.com',
+  '@ttirv.com',
+  '@pm.me',
+  '@protonmail.com',
+  '@qq.com',
+  '@gamil.com',
+  '@gmal.com',
+  '@me.com',
+  '@yopmail.com',
+  '@hey.com',
+  '@icloud.com',
+  '@fastmail.fm',
+  '@mail.ru',
+  '@web.de',
+  '@ya.ru',
+  '@vp.pl',
+  '@inboxbear.com',
+  '@tuks.co.za',
+  '@kiabws.com',
+  '@cikuh.com',
+  '@relay.firefox.com',
+  '@citromail.hu',
+  '@mailpoof.com',
+  '@biyac.com',
+  '@byom.de',
+  '@yandex.ru',
+  '@naver.com',
+  '@ukr.net',
+  '@cuoly.com',
+  '@zohomail.in',
+  '@sltn.net',
+  '@laposte.sn',
   '.edu']
 # ------------------------ block email list end ------------------------
 def check_email_personal_tags_function(user_input_email):
@@ -148,7 +149,7 @@ def sanitize_candidate_ui_answer_text_function(user_input):
   if len(user_input) == 0:
     localhost_print_function('=========================================== sanitize_candidate_ui_answer_text_function END ===========================================')
     return False
-  desired_regex_pattern = "^[\w\s,-]{1,100}$"
+  desired_regex_pattern = "^[*]{1,100}$"
   if(re.fullmatch(desired_regex_pattern, user_input)):
     localhost_print_function('=========================================== sanitize_candidate_ui_answer_text_function END ===========================================')
     return user_input
@@ -159,7 +160,7 @@ def sanitize_candidate_ui_answer_text_function(user_input):
 # ------------------------ individual function start ------------------------
 def sanitize_create_question_categories_function(user_input):
   localhost_print_function('=========================================== sanitize_create_question_categories_function START ===========================================')
-  if len(user_input) == 0 or len(user_input) > 150:
+  if len(user_input) == 0 or len(user_input) > 50:
     localhost_print_function('=========================================== sanitize_create_question_categories_function END ===========================================')
     return False
   localhost_print_function('=========================================== sanitize_create_question_categories_function END ===========================================')
@@ -167,9 +168,19 @@ def sanitize_create_question_categories_function(user_input):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
+def sanitize_char_count_1_function(user_input):
+  localhost_print_function('=========================================== sanitize_char_count_1_function START ===========================================')
+  if len(user_input) == 0 or len(user_input) > 100:
+    localhost_print_function('=========================================== sanitize_char_count_1_function END ===========================================')
+    return False
+  localhost_print_function('=========================================== sanitize_char_count_1_function END ===========================================')
+  return user_input
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
 def sanitize_create_question_question_function(user_input):
   localhost_print_function('=========================================== sanitize_create_question_question_function START ===========================================')
-  if len(user_input) == 0 or len(user_input) > 1000:
+  if len(user_input) == 0 or len(user_input) > 750:
     localhost_print_function('=========================================== sanitize_create_question_question_function END ===========================================')
     return False
   localhost_print_function('=========================================== sanitize_create_question_question_function END ===========================================')
@@ -189,7 +200,7 @@ def sanitize_create_question_options_function(user_input):
 # ------------------------ individual function start ------------------------
 def sanitize_create_question_option_e_function(user_input):
   localhost_print_function('=========================================== sanitize_create_question_options_function START ===========================================')
-  if user_input == None:
+  if user_input == None or user_input == '':
     localhost_print_function('=========================================== sanitize_create_question_options_function END ===========================================')
     return user_input
   if len(user_input) > 280:
@@ -244,10 +255,7 @@ def sanitize_candidate_ui_answer_radio_function(user_input):
 # ------------------------ individual function start ------------------------
 def sanitize_loop_check_if_exists_within_arr_function(user_input_arr, correct_master_arr):
   localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function START ===========================================')
-  if user_input_arr == None:
-    localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function END ===========================================')
-    return False
-  if len(user_input_arr) == 0:
+  if user_input_arr == None or len(user_input_arr) == 0 or user_input_arr == []:
     localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function END ===========================================')
     return False
   for i_str in user_input_arr:
@@ -279,21 +287,20 @@ def sanitize_check_if_str_exists_within_arr_function(user_input_str, correct_mas
 # ------------------------ individual function start ------------------------
 def validate_upload_candidate_function(db, current_user, ui_email, user_input_type):
   localhost_print_function('=========================================== validate_upload_candidate_function START ===========================================')
-  candidate_upload_error_statement = ''
-  candidate_upload_success_statement = ''
+  post_result = ''
   # ------------------------ ui_email start ------------------------
   # ------------------------ sanitize/check user input email start ------------------------
   if ui_email != None:
     ui_email_cleaned = sanitize_email_function(ui_email)
     if ui_email_cleaned == False and user_input_type == 'individual':
-      candidate_upload_error_statement = 'Please enter a valid email.'
+      post_result = 'e1'
     # ------------------------ sanitize/check user input email end ------------------------
     if ui_email_cleaned != False:
       # ------------------------ check if exists in db start ------------------------
       candidate_uploaded_email_exists = CandidatesUploadedCandidatesObj.query.filter_by(user_id_fk=current_user.id).filter_by(email=ui_email_cleaned).first()
       # ------------------------ check if exists in db end ------------------------
       if candidate_uploaded_email_exists != None and user_input_type == 'individual':
-        candidate_upload_error_statement = f'Candidate email: {ui_email_cleaned} already added.'
+        post_result = f'e2'
       if candidate_uploaded_email_exists == None:
         # ------------------------ create new user in db start ------------------------
         new_user = CandidatesUploadedCandidatesObj(
@@ -308,10 +315,10 @@ def validate_upload_candidate_function(db, current_user, ui_email, user_input_ty
         db.session.commit()
         # ------------------------ create new user in db end ------------------------
   # ------------------------ ui_email end ------------------------
-  if candidate_upload_success_statement == '' and candidate_upload_error_statement == '':
-    candidate_upload_success_statement = 'Uploaded successfully!'
+  if post_result == '':
+    post_result = 'success'
   localhost_print_function('=========================================== validate_upload_candidate_function END ===========================================')
-  return candidate_upload_error_statement, candidate_upload_success_statement
+  return post_result
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
@@ -323,5 +330,28 @@ def check_if_question_id_arr_exists_function(user_input_arr):
       return False
   localhost_print_function('=========================================== sanitize_loop_check_if_exists_within_arr_function END ===========================================')
   return True
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def sanitize_letters_numbers_spaces_only_function(user_input):
+  localhost_print_function('=========================================== sanitize_letters_numbers_spaces_only_function START ===========================================')
+  if len(user_input) == 0 or len(user_input) > 100:
+    localhost_print_function('=========================================== sanitize_letters_numbers_spaces_only_function END ===========================================')
+    return False
+  desired_regex_pattern = "^[a-zA-Z0-9 ]{1,100}$"
+  if(re.fullmatch(desired_regex_pattern, user_input)):
+    localhost_print_function('=========================================== sanitize_letters_numbers_spaces_only_function END ===========================================')
+    return user_input
+  localhost_print_function('=========================================== sanitize_letters_numbers_spaces_only_function END ===========================================')
+  return False
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def alert_message_default_function():
+  # localhost_print_function('=========================================== alert_message_default_function START ===========================================')
+  alert_message_page = ''
+  alert_message_type = 'danger'
+  # localhost_print_function('=========================================== alert_message_default_function END ===========================================')
+  return alert_message_page, alert_message_type
 # ------------------------ individual function end ------------------------
 localhost_print_function('=========================================== user_inputs __init__ END ===========================================')

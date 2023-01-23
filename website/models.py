@@ -42,6 +42,7 @@ class CandidatesCapacityOptionsObj(db.Model):
   candence = db.Column(db.String(10))
   price = db.Column(db.Float)
   fk_stripe_price_id = db.Column(db.String(150))
+  name = db.Column(db.String(20))
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
@@ -78,6 +79,7 @@ class CandidatesAssessmentsCreatedObj(db.Model):
   desired_languages_arr = db.Column(db.String(1000))
   total_questions = db.Column(db.Integer)
   question_ids_arr = db.Column(db.String(3000))
+  status = db.Column(db.String(15))
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
@@ -127,6 +129,8 @@ class CandidatesAssessmentGradedObj(db.Model):
   total_questions = db.Column(db.Integer)
   correct_count = db.Column(db.Integer)
   final_score = db.Column(db.Float)
+  status = db.Column(db.String(20))
+  graded_count = db.Column(db.Integer)
   assessment_obj = db.Column(db.String(180000))
 # ------------------------ individual model end ------------------------
 
@@ -136,6 +140,7 @@ class CandidatesStripeCheckoutSessionObj(db.Model):
   created_timestamp = db.Column(db.DateTime(timezone=True))
   fk_checkout_session_id = db.Column(db.String(150))
   fk_user_id = db.Column(db.String(150))
+  status = db.Column(db.String(20))
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
@@ -146,7 +151,6 @@ class CandidatesCreatedQuestionsObj(db.Model):
   status = db.Column(db.Boolean, default=False)
   categories = db.Column(db.String(150))
   title = db.Column(db.String(150))
-  difficulty = db.Column(db.String(20))
   question = db.Column(db.String(1000))
   option_a = db.Column(db.String(280))
   option_b = db.Column(db.String(280))
@@ -156,6 +160,7 @@ class CandidatesCreatedQuestionsObj(db.Model):
   answer = db.Column(db.String(10))
   aws_image_uuid = db.Column(db.String(150))
   aws_image_url = db.Column(db.String(150))
+  submission = db.Column(db.String(20))
 # ------------------------ individual model end ------------------------
 # ------------------------ models end ------------------------
 
