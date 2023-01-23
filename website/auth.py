@@ -9,16 +9,15 @@
 
 # ------------------------ imports start ------------------------
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for
 from .models import CandidatesUserObj, CandidatesCollectEmailObj
 from werkzeug.security import generate_password_hash, check_password_hash
 from website import db
 from flask_login import login_user, login_required, logout_user, current_user
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
-from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function, sanitize_create_account_text_inputs_function
+from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
 from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
-import stripe
 from website.backend.candidates.send_emails import send_email_template_function
 import os
 # ------------------------ imports end ------------------------

@@ -11,21 +11,20 @@
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
-from flask import Blueprint, render_template, request, redirect, url_for, session
-from flask_login import login_required, current_user, login_user
+from flask import Blueprint, render_template, request, redirect, url_for
+from flask_login import login_required, current_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
 from website.models import CandidatesUserObj, CandidatesDesiredLanguagesObj, CandidatesUploadedCandidatesObj, CandidatesAssessmentsCreatedObj, CandidatesRequestLanguageObj, CandidatesScheduleObj, CandidatesEmailSentObj, CandidatesAssessmentGradedObj, CandidatesCapacityOptionsObj, CandidatesStripeCheckoutSessionObj, CandidatesCreatedQuestionsObj
 from website.backend.candidates.browser import browser_response_set_cookie_function, browser_response_set_cookie_function_v2
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
 from website import db
-from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function, sanitize_create_account_text_inputs_function, sanitize_create_account_text_inputs_large_function, validate_upload_candidate_function, sanitize_loop_check_if_exists_within_arr_function, sanitize_check_if_str_exists_within_arr_function, check_if_question_id_arr_exists_function, sanitize_candidate_ui_answer_text_function, sanitize_candidate_ui_answer_radio_function, sanitize_create_question_categories_function, sanitize_create_question_question_function, sanitize_create_question_options_function, sanitize_create_question_answer_function, sanitize_create_question_difficulty_function, sanitize_create_question_option_e_function, sanitize_desired_langs_text_inputs_function, sanitize_letters_numbers_spaces_only_function, alert_message_default_function, sanitize_char_count_1_function
+from website.backend.candidates.user_inputs import validate_upload_candidate_function, sanitize_loop_check_if_exists_within_arr_function, sanitize_check_if_str_exists_within_arr_function, sanitize_create_question_categories_function, sanitize_create_question_question_function, sanitize_create_question_options_function, sanitize_create_question_answer_function, sanitize_create_question_option_e_function, sanitize_letters_numbers_spaces_only_function, alert_message_default_function, sanitize_char_count_1_function
 from website.backend.candidates.send_emails import send_email_template_function
-from werkzeug.security import generate_password_hash
 import pandas as pd
 from website.backend.candidates.string_manipulation import all_question_candidate_categories_sorted_function, create_assessment_name_function
 from website.backend.candidates.sqlalchemy_manipulation import pull_desired_languages_arr_function
-from website.backend.candidates.dict_manipulation import question_arr_of_dicts_manipulations_function, create_assessment_info_dict_function, map_user_answers_to_questions_dict_function, backend_store_question_answers_dict_function, grade_assessment_answers_dict_function, check_two_phrase_similarity_score_function, create_assessment_info_dict_function_v2, create_question_info_dict_function, arr_of_dict_necessary_columns_function, categories_tuple_function, arr_of_dict_all_columns_single_item_function
+from website.backend.candidates.dict_manipulation import create_assessment_info_dict_function_v2, create_question_info_dict_function, arr_of_dict_necessary_columns_function, categories_tuple_function, arr_of_dict_all_columns_single_item_function
 from website.backend.candidates.datetime_manipulation import next_x_days_function, times_arr_function, expired_assessment_check_function
 import datetime
 import json
@@ -91,76 +90,6 @@ def login_dashboard_page_function(url_redirect_code=None):
   else:
     browser_response = browser_response_set_cookie_function(current_user, template_location_url)
     localhost_print_function(' ------------------------ login_dashboard_page_function END ------------------------ ')
-    return browser_response
-  # ------------------------ auto set cookie end ------------------------
-# ------------------------ individual route end ------------------------
-
-
-# ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/capacity', methods=['GET', 'POST'])
-@login_required
-def capacity_page_function():
-  localhost_print_function(' ------------------------ capacity_page_function START ------------------------ ')
-  # ------------------------ capacity selection start ------------------------
-  if request.method == 'POST':
-    ui_capacity_selected = request.form.get('capacity_page_ui_capacity_selected')
-    ui_desired_languages = request.form.get('capacity_page_ui_desired_languages')
-    # ------------------------ postman checks start ------------------------
-    try:
-      if len(ui_capacity_selected) != 2:
-        ui_capacity_selected = None
-    except:
-      ui_capacity_selected = None
-    # ------------------------ postman checks end ------------------------
-    # ------------------------ valid input check start ------------------------
-    query_result_arr_of_dicts = select_general_function('select_all_capacity_options')
-    capacity_options_arr = one_col_dict_to_arr_function(query_result_arr_of_dicts)
-    if ui_capacity_selected not in capacity_options_arr:
-      ui_capacity_selected = None
-    # ------------------------ valid input check end ------------------------
-    # ------------------------ sanitize/check ui_desired_languages start ------------------------
-    if len(ui_desired_languages) > 150:
-      ui_desired_languages = None
-    ui_desired_languages_cleaned = sanitize_desired_langs_text_inputs_function(ui_desired_languages)
-    if ui_desired_languages_cleaned == False:
-      ui_desired_languages = None
-    # ------------------------ sanitize/check ui_desired_languages end ------------------------
-    # ------------------------ update db start ------------------------
-    if ui_capacity_selected != None and ui_desired_languages != None:
-      current_user.capacity_id_fk = ui_capacity_selected
-      db.session.commit()
-      # ------------------------ create new user in db start ------------------------
-      insert_new_row = CandidatesDesiredLanguagesObj(
-        id=create_uuid_function('langs_'),
-        created_timestamp=create_timestamp_function(),
-        user_id_fk=current_user.id,
-        desired_languages=ui_desired_languages
-      )
-      db.session.add(insert_new_row)
-      db.session.commit()
-      # ------------------------ create new user in db end ------------------------
-      return redirect(url_for('views_interior.login_dashboard_page_function'))
-    # ------------------------ update db end ------------------------
-  # ------------------------ capacity selection end ------------------------
-  # ------------------------ auto redirect checks start ------------------------
-  template_location_url = 'candidates/interior/capacity_select/index.html'
-  # ------------------------ auto redirect checks end ------------------------
-  # ------------------------ latest_language_selection start ------------------------
-  curr_user_id = current_user.id
-  try:
-    query_result_desired_languages_obj = CandidatesDesiredLanguagesObj.query.filter(CandidatesDesiredLanguagesObj.user_id_fk == curr_user_id).order_by(CandidatesDesiredLanguagesObj.created_timestamp.desc()).first()
-    user_id_fk_desired_languages = query_result_desired_languages_obj.desired_languages
-  except:
-    user_id_fk_desired_languages = None
-  # ------------------------ latest_language_selection end ------------------------
-  # ------------------------ auto set cookie start ------------------------
-  get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
-  if get_cookie_value_from_browser != None:
-    redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
-    return render_template(template_location_url, user=current_user, users_company_name_to_html=current_user.company_name, user_id_fk_desired_languages_to_html = user_id_fk_desired_languages)
-  else:
-    browser_response = browser_response_set_cookie_function(current_user, template_location_url)
-    localhost_print_function(' ------------------------ capacity_page_function END ------------------------ ')
     return browser_response
   # ------------------------ auto set cookie end ------------------------
 # ------------------------ individual route end ------------------------
@@ -540,57 +469,6 @@ def candidates_email_specific_function(url_email=None, url_redirect_code=None):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/analytics', methods=['GET', 'POST'])
-@login_required
-def candidates_analytics_function():
-  localhost_print_function(' ------------------------ candidates_analytics_function START ------------------------ ')
-  # ------------------------ pull all candidates start ------------------------
-  current_user_uploaded_emails_arr = CandidatesUploadedCandidatesObj.query.filter_by(user_id_fk=current_user.id).all()
-  all_candidates_arr_of_dicts = []
-  for i in current_user_uploaded_emails_arr:
-    all_candidates_dict = {}
-    all_candidates_dict['email'] = i.email
-    # ------------------------ get candidate stats start ------------------------
-    db_assessment_graded_obj = CandidatesAssessmentGradedObj.query.filter_by(candidate_email=i.email,created_assessment_user_id_fk=current_user.id).all()
-    if db_assessment_graded_obj == None:
-      all_candidates_dict['total_assessments'] = 0
-      all_candidates_dict['total_correct_answers'] = 0
-      all_candidates_dict['total_correct_percent'] = '0%'
-    else:
-      # ------------------------ set variables start ------------------------
-      total_assessments = 0
-      total_correct_answers = 0
-      total_questions = 0
-      # ------------------------ set variables end ------------------------
-      # ------------------------ loop add start ------------------------
-      for i_assessment_obj in db_assessment_graded_obj:
-        total_assessments += 1
-        total_correct_answers += i_assessment_obj.correct_count
-        total_questions += i_assessment_obj.total_questions
-      # ------------------------ loop add end ------------------------
-      # ------------------------ assign result start ------------------------
-      all_candidates_dict['total_assessments'] = total_assessments
-      all_candidates_dict['total_correct_answers'] = total_correct_answers
-      all_candidates_dict['total_correct_percent'] = '0%'
-      # ------------------------ divide by 0 error start ------------------------
-      try:
-        total_correct_percent_float = (total_correct_answers / total_questions) * 100
-        total_correct_percent_str = str(total_correct_percent_float)[0:3] + '%'
-        if '.' in total_correct_percent_str:
-          total_correct_percent_str = total_correct_percent_str.replace('.','')
-        all_candidates_dict['total_correct_percent'] = total_correct_percent_str
-      except:
-        pass
-      # ------------------------ divide by 0 error end ------------------------
-      # ------------------------ assign result end ------------------------
-    # ------------------------ get candidate stats end ------------------------
-    all_candidates_arr_of_dicts.append(all_candidates_dict)
-  # ------------------------ pull all candidates end ------------------------
-  localhost_print_function(' ------------------------ candidates_analytics_function END ------------------------ ')
-  return render_template('candidates/interior/candidates_page_templates/candidates_analytics/index.html', user=current_user, users_company_name_to_html = current_user.company_name, all_candidates_arr_of_dicts_to_html=all_candidates_arr_of_dicts)
-# ------------------------ individual route end ------------------------
-
-# ------------------------ individual route start ------------------------
 @views_interior.route('/candidates/tests/', methods=['GET', 'POST'])
 @views_interior.route('/candidates/tests/dashboard', methods=['GET', 'POST'])
 @login_required
@@ -861,37 +739,6 @@ def candidates_test_summary_function(url_test_id=None, url_redirect_code=None):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/assessments/analytics', methods=['GET', 'POST'])
-@login_required
-def candidates_assessments_analytics_function():
-  localhost_print_function(' ------------------------ candidates_assessments_analytics_function START ------------------------ ')
-  # ------------------------ pull all assessments start ------------------------
-  current_user_assessments_created_arr = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id).all()
-  all_assessments_arr_of_dicts = []
-  for i in current_user_assessments_created_arr:
-    all_assessments_dict = {}
-    all_assessments_dict['assessment_name'] = i.assessment_name
-    # ------------------------ pull info schedules start ------------------------
-    db_schedule_obj = CandidatesScheduleObj.query.filter_by(user_id_fk=current_user.id, assessment_name=i.assessment_name).all()
-    # ------------------------ set variables start ------------------------
-    candidates_pending = 0
-    candidates_completed = 0
-    # ------------------------ set variables end ------------------------
-    for i_schedule_obj in db_schedule_obj:
-      if i_schedule_obj.candidate_status == 'Pending':
-        candidates_pending += 1
-      elif i_schedule_obj.candidate_status == 'Completed':
-        candidates_completed += 1
-    all_assessments_dict['candidates_pending'] = candidates_pending
-    all_assessments_dict['candidates_completed'] = candidates_completed
-    # ------------------------ pull info schedules end ------------------------
-    all_assessments_arr_of_dicts.append(all_assessments_dict)
-  # ------------------------ pull all assessments end ------------------------
-  localhost_print_function(' ------------------------ candidates_assessments_analytics_function END ------------------------ ')
-  return render_template('candidates/interior/assessments/assessments_analytics/index.html', user=current_user, users_company_name_to_html = current_user.company_name, all_assessments_arr_of_dicts_to_html=all_assessments_arr_of_dicts)
-# ------------------------ individual route end ------------------------
-
-# ------------------------ individual route start ------------------------
 @views_interior.route('/candidates/assessment/new/<step_status>', methods=['GET', 'POST'])
 @login_required
 def candidates_assessment_create_new_function(step_status):
@@ -1004,6 +851,8 @@ def candidates_assessment_create_review_function(url_assessment_name):
   review_assessment_error_statement = ''
   # ------------------------ pull assessment obj start ------------------------
   db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(assessment_name=url_assessment_name,user_id_fk=current_user.id).first()
+  if db_assessment_obj == None or db_assessment_obj == []:
+    return redirect(url_for('views_interior.login_dashboard_page_function'))
   assessment_name = db_assessment_obj.assessment_name
   assessment_total_questions = db_assessment_obj.total_questions
   # ------------------------ pull assessment obj end ------------------------
@@ -1044,21 +893,9 @@ def candidates_assessment_create_review_function(url_assessment_name):
 
 # ------------------------ individual route start ------------------------
 @views_interior.route('/candidates/assessment/preview/<url_assessment_name>/', methods=['GET', 'POST'])
-@login_required
-def candidates_assessment_preview_redirect_function(url_assessment_name, url_question_number='1', url_redirect_code=None):
-  localhost_print_function(' ------------------------ candidates_assessment_preview_redirect_function START ------------------------ ')
-  db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(assessment_name=url_assessment_name,user_id_fk=current_user.id).first()
-  if db_assessment_obj == None:
-    localhost_print_function(' ------------------------ candidates_assessment_preview_redirect_function END ------------------------ ')
-    return redirect(url_for('views_interior.candidates_assessment_invalid_function'))
-  localhost_print_function(' ------------------------ candidates_assessment_preview_redirect_function END ------------------------ ')
-  return redirect(url_for('views_interior.candidates_assessment_preview_function',url_assessment_name=url_assessment_name, url_question_number=url_question_number))
-  # ------------------------ redirect codes start ------------------------
-
-# ------------------------ individual route start ------------------------
 @views_interior.route('/candidates/assessment/preview/<url_assessment_name>/<url_question_number>', methods=['GET', 'POST'])
 @login_required
-def candidates_assessment_preview_function(url_assessment_name, url_question_number, url_redirect_code=None):
+def candidates_assessment_preview_function(url_assessment_name, url_question_number='1', url_redirect_code=None):
   localhost_print_function(' ------------------------ candidates_assessment_preview_function START ------------------------ ')
   alert_message_page, alert_message_type = alert_message_default_function()
   # ------------------------ redirect codes start ------------------------
@@ -1245,271 +1082,6 @@ def candidates_assessment_preview_submit_function(url_assessment_name):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/assessment/new/questions/<url_assessment_name>', methods=['GET', 'POST'])
-@login_required
-def candidates_assessment_select_questions_function(url_assessment_name):
-  localhost_print_function(' ------------------------ candidates_assessment_select_questions_function START ------------------------ ')
-  # ------------------------ invalid url_assessment_name start ------------------------
-  if url_assessment_name == False or url_assessment_name == None or url_assessment_name == '':
-    localhost_print_function(' ------------------------ candidates_assessment_select_questions_function END ------------------------ ')
-    return redirect(url_for('views_interior.login_dashboard_page_function'))
-  # ------------------------ invalid url_assessment_name end ------------------------
-  select_questions_error_statement = ''
-  # ------------------------ get assessment obj details start ------------------------
-  db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(assessment_name=url_assessment_name,user_id_fk=current_user.id).first()
-  if db_assessment_obj == None:
-    localhost_print_function(' ------------------------ candidates_assessment_select_questions_function END ------------------------ ')
-    return redirect(url_for('views_interior.login_dashboard_page_function'))
-  db_assessment_obj_id = db_assessment_obj.id
-  db_assessment_obj_name = db_assessment_obj.assessment_name
-  db_assessment_obj_desired_langs = db_assessment_obj.desired_languages_arr
-  db_assessment_question_ids_arr = db_assessment_obj.question_ids_arr
-  # ------------------------ get assessment obj details end ------------------------
-  # ------------------------ individual redirect start ------------------------
-  # if questions were already selected for quiz
-  if db_assessment_question_ids_arr != None and db_assessment_question_ids_arr != '' and (len(db_assessment_question_ids_arr) != 0 and len(db_assessment_question_ids_arr) != 1):
-    localhost_print_function(' ------------------------ candidates_assessment_select_questions_function END ------------------------ ')
-    return redirect(url_for('views_interior.login_dashboard_page_function'))
-  # ------------------------ individual redirect end ------------------------
-  # ------------------------ post method hit start ------------------------
-  if request.method == 'POST':
-    ui_select_question_checkbox_arr = request.form.getlist('ui_select_question_checkbox')
-    # ------------------------ postman incorrect submission start ------------------------
-    if len(ui_select_question_checkbox_arr) == 0 or len(ui_select_question_checkbox_arr) > 50:
-      select_questions_error_statement = 'Assessment must contain 1-50 questions.'
-      localhost_print_function(' ------------------------ candidates_assessment_select_questions_function END ------------------------ ')
-      return redirect(url_for('views_interior.login_dashboard_page_function'))
-    # ------------------------ postman incorrect submission end ------------------------
-    # ------------------------ make sure that all ids provided actually exist in db start ------------------------
-    question_ids_actually_exist_check = check_if_question_id_arr_exists_function(ui_select_question_checkbox_arr)
-    if question_ids_actually_exist_check == False:
-      localhost_print_function(' ------------------------ candidates_assessment_select_questions_function END ------------------------ ')
-      return redirect(url_for('views_interior.login_dashboard_page_function'))
-    # ------------------------ make sure that all ids provided actually exist in db end ------------------------
-    # ------------------------ update row in db start ------------------------
-    ui_select_question_checkbox_str = ','.join(ui_select_question_checkbox_arr)
-    try:
-      db_assessment_obj.question_ids_arr = ui_select_question_checkbox_str
-      db_assessment_obj.total_questions = len(ui_select_question_checkbox_arr)
-      db.session.commit()
-      # ------------------------ email self start ------------------------
-      try:
-        output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
-        output_subject = f'Triviafy - Assessment Created - {current_user.email}'
-        output_body = f"Hi there,\n\n{current_user.email} created an assessment.\n\nAssessment name: '{db_assessment_obj_name}'\nDesired langs: '{db_assessment_obj_desired_langs}'\nTotal questions: {len(ui_select_question_checkbox_arr)} \n\nBest,\nTriviafy"
-        send_email_template_function(output_to_email, output_subject, output_body)
-      except:
-        pass
-      # ------------------------ email self end ------------------------
-    except:
-      localhost_print_function('error cannot update row')
-      pass
-    # ------------------------ update row in db end ------------------------
-    localhost_print_function(' ------------------------ candidates_assessment_select_questions_function END ------------------------ ')
-    return redirect(url_for('views_interior.candidates_schedule_create_now_function_v2', var1='a_success'))
-  # ------------------------ post method hit end ------------------------
-  # ------------------------ prepare where statement start ------------------------
-  where_clause_arr = []
-  desired_langs_arr = db_assessment_obj_desired_langs.split(',')
-  master_where_statement = ''
-  for i in range(len(desired_langs_arr)):
-    if i == (len(desired_langs_arr) - 1):
-      master_where_statement += f"(categories LIKE '%{desired_langs_arr[i]}%')"
-    else:
-      master_where_statement += f"(categories LIKE '%{desired_langs_arr[i]}%') OR "
-  where_clause_arr.append(master_where_statement)
-  # ------------------------ prepare where statement end ------------------------
-  # ------------------------ pull question obj from db start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_all_questions_for_x_categories_v2', where_clause_arr[0])
-  query_result_arr_of_dicts = question_arr_of_dicts_manipulations_function(query_result_arr_of_dicts)
-  # ------------------------ pull question obj from db end ------------------------
-  # ------------------------ stripe subscription status check start ------------------------
-  user_obj = CandidatesUserObj.query.filter_by(id=current_user.id).first()
-  fk_stripe_subscription_id = user_obj.fk_stripe_subscription_id
-  stripe_subscription_obj = ''
-  stripe_subscription_obj_status = 'not active'
-  try:
-    stripe_subscription_obj = stripe.Subscription.retrieve(fk_stripe_subscription_id)
-    stripe_subscription_obj_status = stripe_subscription_obj.status
-  except:
-    pass
-  # ------------------------ stripe subscription status check end ------------------------
-  # ------------------------ if subscription not paid start ------------------------
-  user_sub_active = False
-  if stripe_subscription_obj_status == 'active':
-    user_sub_active = True
-  if stripe_subscription_obj_status != 'active':
-    for i_dict in query_result_arr_of_dicts:
-      i_dict['answer'] = ''
-  # ------------------------ if subscription not paid end ------------------------
-  localhost_print_function(' ------------------------ candidates_assessment_select_questions_function END ------------------------ ')
-  return render_template('candidates/interior/assessments/assessments_create_new/assessments_select_questions/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=select_questions_error_statement, query_result_arr_of_dicts_to_html=query_result_arr_of_dicts, user_sub_active_to_html=user_sub_active)
-# ------------------------ individual route end ------------------------
-
-# ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/assessment/new/success', methods=['GET'])
-@login_required
-def candidates_assessment_sucessfully_created_function():
-  localhost_print_function(' ------------------------ candidates_assessment_sucessfully_created_function START ------------------------ ')
-  localhost_print_function(' ------------------------ candidates_assessment_sucessfully_created_function END ------------------------ ')
-  return render_template('candidates/interior/assessments/assessments_create_new/assessments_successfully_created/index.html', user=current_user, users_company_name_to_html=current_user.company_name)
-# ------------------------ individual route end ------------------------
-
-# ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/assessment/view/<url_assessment_name>', methods=['GET', 'POST'])
-@login_required
-def candidates_assessment_view_specific_function(url_assessment_name):
-  localhost_print_function(' ------------------------ candidates_assessment_view_specific_function START ------------------------ ')
-  # ------------------------ invalid url_assessment_name start ------------------------
-  if url_assessment_name == False or url_assessment_name == None or url_assessment_name == '':
-    localhost_print_function(' ------------------------ candidates_assessment_view_specific_function END ------------------------ ')
-    return redirect(url_for('views_interior.login_dashboard_page_function'))
-  # ------------------------ invalid url_assessment_name end ------------------------
-  # ------------------------ pull assessment info start ------------------------
-  db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(assessment_name=url_assessment_name,user_id_fk=current_user.id).first()
-  # ------------------------ pull assessment info end ------------------------
-  # ------------------------ assign assessment info to dict start ------------------------
-  assessment_info_dict = create_assessment_info_dict_function(db_assessment_obj)
-  # ------------------------ assign assessment info to dict end ------------------------
-  # ------------------------ check if user paid latest month start ------------------------
-  user_paid_latest_month = False
-  # ------------------------ check if user paid latest month end ------------------------
-  # ------------------------ remove answers for non paying users start ------------------------
-  if user_paid_latest_month == False:
-    for i in assessment_info_dict['questions_arr_of_dicts']:
-      i['answer'] = None
-  # ------------------------ remove answers for non paying users end ------------------------
-  localhost_print_function(' ------------------------ candidates_assessment_view_specific_function END ------------------------ ')
-  return render_template('candidates/interior/assessments/assessments_view_specific/index.html', user=current_user, users_company_name_to_html=current_user.company_name, assessment_info_dict_to_html=assessment_info_dict)
-# ------------------------ individual route end ------------------------
-
-# ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/assessment/results/<url_assessment_name>', methods=['GET', 'POST'])
-@login_required
-def candidates_assessment_results_specific_function(url_assessment_name):
-  localhost_print_function(' ------------------------ candidates_assessment_results_specific_function START ------------------------ ')
-  # ------------------------ invalid url_assessment_name start ------------------------
-  if url_assessment_name == False or url_assessment_name == None or url_assessment_name == '':
-    localhost_print_function(' ------------------------ candidates_assessment_results_specific_function END ------------------------ ')
-    return redirect(url_for('views_interior.login_dashboard_page_function'))
-  # ------------------------ invalid url_assessment_name end ------------------------
-  # ------------------------ set variables start ------------------------
-  assessment_name_title = url_assessment_name
-  all_candidates_arr_of_dicts = []
-  assessment_info_dict = {}
-  emails_tracked_set = {'a'}
-  # ------------------------ set variables end ------------------------
-  # ------------------------ pull db info schedule start ------------------------
-  db_schedule_obj = CandidatesScheduleObj.query.filter_by(assessment_name=url_assessment_name,user_id_fk=current_user.id).all()
-  for i_schedule_obj in db_schedule_obj:
-    i_email = i_schedule_obj.candidates
-    if i_email not in emails_tracked_set:
-      emails_tracked_set.add(i_email)
-      assessment_info_dict = {}
-      assessment_info_dict['email'] = i_email
-      total_schedules_pending = 0
-      total_schedules_completed = 0
-      # ------------------------ pull db info schedule candidate specific start ------------------------
-      db_schedule_email_specific_obj = CandidatesScheduleObj.query.filter_by(assessment_name=url_assessment_name,user_id_fk=current_user.id,candidates=i_email).all()
-      for i_schedule_email_specific_obj in db_schedule_email_specific_obj:
-        if i_schedule_email_specific_obj.candidate_status == 'Pending':
-          total_schedules_pending += 1
-        elif i_schedule_email_specific_obj.candidate_status == 'Completed':
-          total_schedules_completed += 1
-      assessment_info_dict['total_schedules_pending'] = total_schedules_pending
-      assessment_info_dict['total_schedules_completed'] = total_schedules_completed
-      # ------------------------ pull db info schedule candidate specific end ------------------------
-      # ------------------------ pull db info graded candidate specific start ------------------------
-      db_assessments_email_specific_obj = CandidatesAssessmentGradedObj.query.filter_by(assessment_name=url_assessment_name,created_assessment_user_id_fk=current_user.id,candidate_email=i_email).all()
-      total_correct_count = 0
-      total_questions = 0
-      for i_assessment_email_specific_obj in db_assessments_email_specific_obj:
-        total_correct_count += i_assessment_email_specific_obj.correct_count
-        total_questions += i_assessment_email_specific_obj.total_questions
-      assessment_info_dict['total_correct_count'] = total_correct_count
-      assessment_info_dict['average_final_score'] = '0%'
-      try:
-        average_final_score = (total_correct_count / total_questions) * 100
-        average_final_score = str(average_final_score)[0:3] + '%'
-        if '.' in average_final_score:
-          average_final_score = average_final_score.replace('.','')
-        assessment_info_dict['average_final_score'] = average_final_score
-      except:
-        pass
-      # ------------------------ pull db info graded candidate specific end ------------------------
-      all_candidates_arr_of_dicts.append(assessment_info_dict)
-  # ------------------------ pull db info schedule end ------------------------
-  emails_tracked_set.remove('a')
-  # ------------------------ remove answers for non paying users end ------------------------
-  localhost_print_function(' ------------------------ candidates_assessment_results_specific_function END ------------------------ ')
-  return render_template('candidates/interior/assessments/assessments_analytics/assessments_results/index.html', user=current_user, users_company_name_to_html=current_user.company_name, all_candidates_arr_of_dicts_to_html=all_candidates_arr_of_dicts, assessment_name_title_to_html=assessment_name_title)
-# ------------------------ individual route end ------------------------
-
-# ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/candidate/results/<url_candidate_email>', methods=['GET', 'POST'])
-@login_required
-def candidates_candidate_results_specific_function(url_candidate_email):
-  localhost_print_function(' ------------------------ candidates_candidate_results_specific_function START ------------------------ ')
-  # ------------------------ invalid url_candidate_email start ------------------------
-  if url_candidate_email == False or url_candidate_email == None or url_candidate_email == '':
-    localhost_print_function(' ------------------------ candidates_candidate_results_specific_function END ------------------------ ')
-    return redirect(url_for('views_interior.login_dashboard_page_function'))
-  # ------------------------ invalid url_assessment_name end ------------------------
-  # ------------------------ set variables start ------------------------
-  all_candidate_assessments_arr_of_dicts = []
-  assessment_info_dict = {}
-  assessment_tracked_set = {'a'}
-  # ------------------------ set variables end ------------------------
-  # ------------------------ pull db info schedule start ------------------------
-  db_schedule_obj = CandidatesScheduleObj.query.filter_by(candidates=url_candidate_email,user_id_fk=current_user.id).all()
-  for i_schedule_obj in db_schedule_obj:
-    i_assessment_id_fk = i_schedule_obj.assessment_id_fk
-    if i_assessment_id_fk not in assessment_tracked_set:
-      assessment_tracked_set.add(i_assessment_id_fk)
-      assessment_info_dict = {}
-      assessment_info_dict['assessment_id_fk'] = i_assessment_id_fk
-      assessment_info_dict['assessment_name'] = i_schedule_obj.assessment_name
-      total_schedules_pending = 0
-      total_schedules_completed = 0
-      # ------------------------ pull db info schedule candidate specific start ------------------------
-      db_schedule_email_specific_obj = CandidatesScheduleObj.query.filter_by(candidates=url_candidate_email,user_id_fk=current_user.id,assessment_id_fk=i_assessment_id_fk).all()
-      for i_schedule_email_specific_obj in db_schedule_email_specific_obj:
-        if i_schedule_email_specific_obj.candidate_status == 'Pending':
-          total_schedules_pending += 1
-        elif i_schedule_email_specific_obj.candidate_status == 'Completed':
-          total_schedules_completed += 1
-      assessment_info_dict['total_schedules_pending'] = total_schedules_pending
-      assessment_info_dict['total_schedules_completed'] = total_schedules_completed
-      # ------------------------ pull db info schedule candidate specific end ------------------------
-      # ------------------------ pull db info graded candidate specific start ------------------------
-      db_assessments_email_specific_obj = CandidatesAssessmentGradedObj.query.filter_by(candidate_email=url_candidate_email,created_assessment_user_id_fk=current_user.id,assessment_id_fk=i_assessment_id_fk).all()
-      total_correct_count = 0
-      total_questions = 0
-      total_final_score_counter = 0
-      average_final_score = 0
-      for i_assessment_email_specific_obj in db_assessments_email_specific_obj:
-        total_final_score_counter += 1
-        total_correct_count += i_assessment_email_specific_obj.correct_count
-        total_questions += i_assessment_email_specific_obj.total_questions
-      assessment_info_dict['total_correct_count'] = total_correct_count
-      assessment_info_dict['average_final_score'] = '0%'
-      try:
-        average_final_score = (total_correct_count / total_questions) * 100
-        average_final_score = str(average_final_score)[0:3] + '%'
-        if '.' in average_final_score:
-          average_final_score = average_final_score.replace('.','')
-        assessment_info_dict['average_final_score'] = average_final_score
-      except:
-        pass
-      # ------------------------ pull db info graded candidate specific end ------------------------
-      all_candidate_assessments_arr_of_dicts.append(assessment_info_dict)
-  assessment_tracked_set.remove('a')
-  # ------------------------ pull db info schedule end ------------------------
-  localhost_print_function(' ------------------------ candidates_candidate_results_specific_function END ------------------------ ')
-  return render_template('candidates/interior/candidates_page_templates/candidates_view_specific/index.html', user=current_user, users_company_name_to_html=current_user.company_name, all_candidate_assessments_arr_of_dicts_to_html=all_candidate_assessments_arr_of_dicts, email_title_to_html=url_candidate_email)
-# ------------------------ individual route end ------------------------
-
-# ------------------------ individual route start ------------------------
 @views_interior.route('/candidates/schedule', methods=['GET', 'POST'])
 @login_required
 def candidates_schedule_dashboard_function(url_redirect_code=None):
@@ -1563,24 +1135,6 @@ def candidates_schedule_dashboard_function(url_redirect_code=None):
     # ------------------------ user input end ------------------------
   localhost_print_function(' ------------------------ candidates_schedule_dashboard_function END ------------------------ ')
   return render_template('candidates/interior/schedule/schedule_dashboard/index.html', user=current_user, total_test_made_to_html=total_test_made, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type, db_schedule_obj_exists_to_html=db_schedule_obj_exists, db_schedule_obj_to_html=db_schedule_obj)
-# ------------------------ individual route end ------------------------
-
-# ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/schedule/assessment/message', methods=['GET'])
-@login_required
-def candidates_no_assessments_yet_function():
-  localhost_print_function(' ------------------------ candidates_no_assessments_yet_function START ------------------------ ')
-  localhost_print_function(' ------------------------ candidates_no_assessments_yet_function END ------------------------ ')
-  return render_template('candidates/interior/schedule/schedule_no_assessments_yet/index.html', user=current_user, users_company_name_to_html=current_user.company_name)
-# ------------------------ individual route end ------------------------
-
-# ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/schedule/candidate/message', methods=['GET'])
-@login_required
-def candidates_no_candidates_yet_function():
-  localhost_print_function(' ------------------------ candidates_no_candidates_yet_function START ------------------------ ')
-  localhost_print_function(' ------------------------ candidates_no_candidates_yet_function END ------------------------ ')
-  return render_template('candidates/interior/schedule/schedule_no_candidates_yet/index.html', user=current_user, users_company_name_to_html=current_user.company_name)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -1791,29 +1345,6 @@ def candidates_schedule_create_now_function_v2(url_redirect_code=None):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/schedule/analytics', methods=['GET', 'POST'])
-@login_required
-def candidates_schedule_analytics_function():
-  localhost_print_function(' ------------------------ candidates_schedule_analytics_function START ------------------------ ')
-  # ------------------------ pull schedules start ------------------------
-  current_user_schedules_obj = CandidatesScheduleObj.query.filter_by(user_id_fk=current_user.id).order_by(CandidatesScheduleObj.created_timestamp).all()
-  all_schedules_arr_of_dicts = []
-  for i in current_user_schedules_obj:
-    all_assessments_dict = {}
-    all_assessments_dict['created_timestamp'] = i.created_timestamp.strftime('%m-%d-%Y')
-    all_assessments_dict['assessment_name'] = i.assessment_name
-    all_assessments_dict['candidates'] = i.candidates
-    all_assessments_dict['send_date'] = i.send_date
-    all_assessments_dict['send_time'] = i.send_time
-    all_assessments_dict['send_timezone'] = i.send_timezone
-    all_assessments_dict['candidate_status'] = i.candidate_status
-    all_schedules_arr_of_dicts.append(all_assessments_dict)
-  # ------------------------ pull schedules end ------------------------
-  localhost_print_function(' ------------------------ candidates_schedule_analytics_function END ------------------------ ')
-  return render_template('candidates/interior/schedule/schedule_analytics/index.html', user=current_user, users_company_name_to_html=current_user.company_name, all_schedules_arr_of_dicts_to_html=all_schedules_arr_of_dicts)
-# ------------------------ individual route end ------------------------
-
-# ------------------------ individual route start ------------------------
 @views_interior.route('/candidates/assessment/invalid')
 def candidates_assessment_invalid_function():
   localhost_print_function(' ------------------------ candidates_assessment_invalid_function START ------------------------ ')
@@ -1847,13 +1378,6 @@ def candidates_assessment_closed_function():
 
 # ------------------------ individual route start ------------------------
 @views_interior.route('/candidates/assessment/<url_assessment_expiring>/', methods=['GET', 'POST'])
-def candidates_assessment_expiring_redirect_function(url_assessment_expiring, url_question_number='1', url_redirect_code=None):
-  localhost_print_function(' ------------------------ candidates_assessment_expiring_redirect_function START ------------------------ ')
-  localhost_print_function(' ------------------------ candidates_assessment_expiring_redirect_function END ------------------------ ')
-  return redirect(url_for('views_interior.candidates_assessment_expiring_function', url_assessment_expiring=url_assessment_expiring, url_question_number='1'))
-# ------------------------ individual route end ------------------------
-
-# ------------------------ individual route start ------------------------
 @views_interior.route('/candidates/assessment/<url_assessment_expiring>/<url_question_number>', methods=['GET', 'POST'])
 def candidates_assessment_expiring_function(url_assessment_expiring, url_question_number='1', url_redirect_code=None):
   localhost_print_function(' ------------------------ candidates_assessment_expiring_function START ------------------------ ')
@@ -2081,49 +1605,6 @@ def candidates_assessment_expiring_function(url_assessment_expiring, url_questio
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/assessment/<url_email>/<url_assessment_name>', methods=['GET', 'POST'])
-@login_required
-def candidates_assessment_i_answers_function(url_email, url_assessment_name):
-  localhost_print_function(' ------------------------ candidates_assessment_i_answers_function START ------------------------ ')
-  # ------------------------ invalid url_candidate_email start ------------------------
-  if url_email == False or url_email == None or url_email == '' or url_assessment_name == False or url_assessment_name == None or url_assessment_name == '':
-    localhost_print_function(' ------------------------ candidates_assessment_i_answers_function END ------------------------ ')
-    return redirect(url_for('views_interior.login_dashboard_page_function'))
-  # ------------------------ invalid url_assessment_name end ------------------------
-  # ------------------------ pull assessment graded obj start ------------------------
-  db_assessment_graded_obj = CandidatesAssessmentGradedObj.query.filter_by(created_assessment_user_id_fk=current_user.id,candidate_email=url_email,assessment_name=url_assessment_name).order_by(CandidatesAssessmentGradedObj.created_timestamp.desc()).first()
-  # ------------------------ pull assessment graded obj end ------------------------
-  # ------------------------ redirect if no obj found start ------------------------
-  if db_assessment_graded_obj == None:
-    localhost_print_function(' ------------------------ candidates_assessment_i_answers_function END ------------------------ ')
-    return redirect(url_for('views_interior.login_dashboard_page_function'))
-  # ------------------------ redirect if no obj found end ------------------------
-  ui_answers_error_statement = ''
-  assessment_info_dict = json.loads(db_assessment_graded_obj.assessment_obj)
-  # ------------------------ stripe subscription status check start ------------------------
-  user_obj = CandidatesUserObj.query.filter_by(id=current_user.id).first()
-  fk_stripe_subscription_id = user_obj.fk_stripe_subscription_id
-  stripe_subscription_obj = ''
-  stripe_subscription_obj_status = 'not active'
-  try:
-    stripe_subscription_obj = stripe.Subscription.retrieve(fk_stripe_subscription_id)
-    stripe_subscription_obj_status = stripe_subscription_obj.status
-  except:
-    pass
-  # ------------------------ stripe subscription status check end ------------------------
-  # ------------------------ if subscription not paid start ------------------------
-  user_sub_active = False
-  if stripe_subscription_obj_status == 'active':
-    user_sub_active = True
-  if stripe_subscription_obj_status != 'active':
-    for i_dict in assessment_info_dict['questions_arr_of_dicts']:
-      i_dict['answer'] = ''
-  # ------------------------ if subscription not paid end ------------------------
-  localhost_print_function(' ------------------------ candidates_assessment_i_answers_function END ------------------------ ')
-  return render_template('candidates/interior/candidates_page_templates/candidates_view_specific/candidates_view_specific_answers/index.html', error_message_to_html=ui_answers_error_statement, users_company_name_to_html = current_user.company_name, user_email_to_html=url_email, assessment_info_dict_to_html=assessment_info_dict,user_sub_active_to_html=user_sub_active)
-# ------------------------ individual route end ------------------------
-
-# ------------------------ individual route start ------------------------
 @views_interior.route('/candidates/request', methods=['GET', 'POST'])
 @login_required
 def candidates_categories_request_function(url_redirect_code=None):
@@ -2168,139 +1649,6 @@ def candidates_categories_request_function(url_redirect_code=None):
   # ------------------------ if post method hit end ------------------------
   localhost_print_function(' ------------------------ candidates_categories_request_function END ------------------------ ')
   return render_template('candidates/interior/request_categories/index.html', user=current_user, users_company_name_to_html=current_user.company_name, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type)
-# ------------------------ individual route end ------------------------
-
-# ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/question/create', methods=['GET', 'POST'])
-@login_required
-def candidates_create_question_function():
-  localhost_print_function(' ------------------------ candidates_create_question_function START ------------------------ ')
-  ui_question_error_statement = ''
-  ui_question_success_statement = ''
-  ui_create_question_dict = {}
-  if request.method == 'POST':
-    # ------------------------ get user inputs start ------------------------
-    ui_title = request.form.get('ui_create_question_title')             # str
-    ui_categories = request.form.get('ui_create_question_categories')   # str
-    ui_question = request.form.get('ui_create_question_question')       # str
-    ui_option_a = request.form.get('ui_create_question_option_a')       # str
-    ui_option_b = request.form.get('ui_create_question_option_b')       # str
-    ui_option_c = request.form.get('ui_create_question_option_c')       # str
-    ui_option_d = request.form.get('ui_create_question_option_d')       # str
-    ui_option_e = request.form.get('ui_create_question_option_e')       # str
-    ui_answer = request.form.get('ui_create_question_answer')           # str
-    ui_difficulty = request.form.get('ui_create_question_difficulty')   # str
-    # ------------------------ get user inputs end ------------------------
-    # ------------------------ set ui dict start ------------------------
-    ui_create_question_dict = {
-      'ui_title' : ui_title,
-      'ui_categories' : ui_categories,
-      'ui_question' : ui_question,
-      'ui_option_a' : ui_option_a,
-      'ui_option_b' : ui_option_b,
-      'ui_option_c' : ui_option_c,
-      'ui_option_d' : ui_option_d,
-      'ui_option_e' : ui_option_e,
-      'ui_answer' : ui_answer,
-      'ui_difficulty' : ui_difficulty
-    }
-    # ------------------------ set ui dict end ------------------------
-    # ------------------------ sanitize user inputs start ------------------------
-    if ui_option_e == '' or ui_option_e == None:
-      ui_option_e = None
-    ui_title_checked = sanitize_create_question_categories_function(ui_title)
-    ui_categories_checked = sanitize_create_question_categories_function(ui_categories)
-    ui_question_checked = sanitize_create_question_question_function(ui_question)
-    ui_option_a_checked = sanitize_create_question_options_function(ui_option_a)
-    ui_option_b_checked = sanitize_create_question_options_function(ui_option_b)
-    ui_option_c_checked = sanitize_create_question_options_function(ui_option_c)
-    ui_option_d_checked = sanitize_create_question_options_function(ui_option_d)
-    ui_option_e_checked = sanitize_create_question_option_e_function(ui_option_e)
-    ui_answer_checked = sanitize_create_question_answer_function(ui_answer)
-    ui_difficulty_checked = sanitize_create_question_difficulty_function(ui_difficulty)
-    # ------------------------ sanitize user inputs end ------------------------
-    # ------------------------ double check e start ------------------------
-    if ui_option_e == None and ui_answer_checked.lower() == 'e':
-      ui_question_error_statement = 'Invalid answer choice'
-      localhost_print_function(' ------------------------ candidates_create_question_function END ------------------------ ')
-      return render_template('candidates/interior/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
-    # ------------------------ double check e end ------------------------
-    # ------------------------ if invalid inputs start ------------------------
-    if ui_title_checked == False or ui_categories_checked == False or ui_question_checked == False or ui_option_a_checked == False or ui_option_b_checked == False or ui_option_c_checked == False or ui_option_d_checked == False or ui_option_e_checked == False or ui_answer_checked == False or ui_difficulty_checked == False:
-      ui_question_error_statement = 'Invalid input(s)'
-      localhost_print_function(' ------------------------ candidates_create_question_function END ------------------------ ')
-      return render_template('candidates/interior/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
-    # ------------------------ if invalid inputs end ------------------------
-    # ------------------------ define variable for insert start ------------------------
-    final_id = create_uuid_function('questionid_')
-    # ------------------------ define variable for insert end ------------------------
-    # ------------------------ ui uploaded image start ------------------------
-    create_question_uploaded_image_aws_url = ''
-    create_question_uploaded_image_uuid = ''
-    try:
-      if request.files:
-        if "filesize" in request.cookies:
-          # ------------------------ ui file start ------------------------
-          image = request.files["ui_image_upload"]
-          # ------------------------ ui file end ------------------------
-          # ------------------------ if no image attached start ------------------------
-          if image.filename == '' or image.filename == ' ' or image.filename == None:
-            ui_question_error_statement = 'Question must contain an image.'
-            localhost_print_function(' ------------------------ candidates_create_question_function END ------------------------ ')
-            return render_template('candidates/interior/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
-          # ------------------------ if no image attached end ------------------------
-          # ------------------------ if image attached start ------------------------
-          else:
-            # Keep track of the original filename that someone is uploading
-            create_question_upload_image_original_filename = image.filename
-            # Create image uuid to store in aws
-            create_question_uploaded_image_uuid = '_user_uploaded_image_' + final_id
-            # Change the name of the image from whatever the user uploaded to the question uuid as name
-            image = candidates_change_uploaded_image_filename_function(image, create_question_uploaded_image_uuid)
-            # Get image filesize
-            file_size = request.cookies["filesize"]
-            # Check and upload the user file image
-            user_image_upload_status = candidates_user_upload_image_checks_aws_s3_function(image, file_size)
-            # ------------------------ if image checks fail start ------------------------
-            if user_image_upload_status == False:
-              localhost_print_function(' ------------------------ candidates_create_question_function END ------------------------ ')
-              return render_template('candidates/interior/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
-            # ------------------------ if image checks fail end ------------------------
-            # Finalize image variables
-            create_question_uploaded_image_aws_url = 'https://' + os.environ.get('AWS_TRIVIAFY_BUCKET_NAME') + '.s3.' + os.environ.get('AWS_TRIVIAFY_REGION') + '.amazonaws.com/' + image.filename
-          # ------------------------ if image attached end ------------------------
-    except:
-      localhost_print_function('did not upload img')
-      pass
-    # ------------------------ ui uploaded image end ------------------------
-    # ------------------------ add to db start ------------------------
-    try:
-      insert_new_row = CandidatesCreatedQuestionsObj(
-        id=final_id,
-        created_timestamp=create_timestamp_function(),
-        fk_user_id = current_user.id,
-        status = False,
-        categories = ui_categories,
-        title = ui_title,
-        difficulty = ui_difficulty,
-        question = ui_question,
-        option_a = ui_option_a,
-        option_b = ui_option_b,
-        option_c = ui_option_c,
-        option_d = ui_option_d,
-        answer = ui_answer.upper(),
-        aws_image_uuid = create_question_uploaded_image_uuid,
-        aws_image_url = create_question_uploaded_image_aws_url
-      )
-      db.session.add(insert_new_row)
-      db.session.commit()
-      ui_question_success_statement = 'Successfully created question'
-    except:
-      localhost_print_function('did not create question in db')
-      pass
-    # ------------------------ add to db end ------------------------
-  localhost_print_function(' ------------------------ candidates_create_question_function END ------------------------ ')
-  return render_template('candidates/interior/create_question/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=ui_question_error_statement, success_message_to_html=ui_question_success_statement, ui_create_question_dict_to_html=ui_create_question_dict)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
