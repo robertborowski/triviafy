@@ -1062,26 +1062,6 @@ def candidates_assessment_preview_function(url_assessment_name, url_question_num
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/assessment/preview/<url_assessment_name>/submit', methods=['GET', 'POST'])
-@login_required
-def candidates_assessment_preview_submit_function(url_assessment_name):
-  localhost_print_function(' ------------------------ candidates_assessment_preview_submit_function START ------------------------ ')
-  submit_assessment_error_statement = ''
-  # ------------------------ variables start ------------------------
-  user_company_name = current_user.company_name
-  if len(user_company_name) > 15:
-    user_company_name = user_company_name[:14] + '...'
-  # ------------------------ variables end ------------------------
-  # ------------------------ pull assessment obj start ------------------------
-  db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(assessment_name=url_assessment_name,user_id_fk=current_user.id).first()
-  assessment_total_questions = db_assessment_obj.total_questions
-  previous_question_number = assessment_total_questions
-  # ------------------------ pull assessment obj end ------------------------
-  localhost_print_function(' ------------------------ candidates_assessment_preview_submit_function END ------------------------ ')
-  return render_template('candidates/interior/assessments/assessments_submit/index.html', user=current_user, users_company_name_to_html=user_company_name, error_message_to_html=submit_assessment_error_statement, previous_question_number_to_html=previous_question_number, url_assessment_name_to_html=url_assessment_name)
-# ------------------------ individual route end ------------------------
-
-# ------------------------ individual route start ------------------------
 @views_interior.route('/candidates/schedule', methods=['GET', 'POST'])
 @login_required
 def candidates_schedule_dashboard_function(url_redirect_code=None):
