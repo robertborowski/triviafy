@@ -612,7 +612,7 @@ def candidates_assessments_dashboard_function(url_redirect_code=None):
     return redirect(url_for('views_interior.candidates_assessment_create_new_function', step_status='1'))
   # ------------------------ get assessments end ------------------------
   # ------------------------ pull necessary columns start ------------------------
-  db_tests_obj = arr_of_dict_necessary_columns_function(db_tests_obj, ['id', 'assessment_name'])
+  db_tests_obj = arr_of_dict_necessary_columns_function(db_tests_obj, ['id', 'assessment_name', 'total_questions'])
   # ------------------------ pull necessary columns end ------------------------
   # ------------------------ loop through each test add scheduled details start ------------------------
   for i_dict in db_tests_obj:

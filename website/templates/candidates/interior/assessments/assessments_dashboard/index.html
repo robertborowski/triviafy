@@ -26,6 +26,7 @@
     <thead>
       <tr>
         <th>Test</th>
+        <th>Duration</th>
         <th>Preview</th>
         <th>Candidates pending</th>
         <th>Candidates completed</th>
@@ -36,10 +37,11 @@
       {% for i in db_tests_obj_to_html %}
       <tr>
         <td>{{ i['assessment_name'] }}</td>
-        <td><a href="/candidates/tests/preview/{{ i['id'] }}/1" class="custom-a-2">View test</a></td>
+        <td>{{ i['total_questions'] }} min.</td>
+        <td><a href="/candidates/tests/preview/{{ i['id'] }}/1" class="custom-a-2 fw-bolder">View test</a></td>
         <td>{{ i['total_pending'] }}</td>
         <td>{{ i['total_completed'] }}</td>
-        <td><a href="/candidates/tests/{{ i['id'] }}" class="custom-a-2">View report</a></td>
+        <td><a href="/candidates/tests/{{ i['id'] }}" class="custom-a-2 fw-bolder">View report</a></td>
       </tr>
       {% endfor %}
     </tbody>
