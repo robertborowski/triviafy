@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- ------------------------------------- title start ------------------------------------- -->
+    {% block title %}
+    base.html
+    {% endblock %}
+    <!-- ------------------------------------- title end ------------------------------------- -->
+    <!-- ------------------------------------- basic start ------------------------------------- -->
+    <meta name="Keywords" content="triviafy for pre employment testing and employee engagement" /> 
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://triviafy.com/">
+    <meta property="og:image" content="/static/images/candidates/logo/logo_v3.png" />
+    <!-- ------------------------------------- basic end ------------------------------------- -->
+    <!-- ------------------------------------- connect to google fonts start ------------------------------------- -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+    <!-- ------------------------------------- connect to google fonts end ------------------------------------- -->
+    <!-- ------------------------------------- favicon start ------------------------------------- -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/images/candidates/logo/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/images/candidates/logo/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/images/candidates/logo/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="/static/images/candidates/logo/favicon_io/site.webmanifest">
+    <!-- ------------------------------------- favicon end ------------------------------------- -->
+    <!-- ------------------------------------- global site tag (gtag.js) - google analytics start ------------------------------------- -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RV52SWE7RC"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    // old
+    // gtag('config', 'G-RV52SWE7RC');
+    // new
+    gtag('config', 'AW-10937231585');
+    </script>
+    <!-- ------------------------------------- global site tag (gtag.js) - google analytics end ------------------------------------- -->
+    <!-- ------------------------------------- global ads start ------------------------------------- -->
+    <!-- From email subject: "support@triviafy.com sent you a conversion tracking tag" -->
+    <!-- Global site tag (gtag.js) - Google Ads: 10937231585 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-10937231585"></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-10937231585'); </script>
+    <!-- ------------------------------------- global ads end ------------------------------------- -->
+    <!-- ------------------------------------- inspectlet start ------------------------------------- -->
+    <script type="text/javascript">
+    (function() {
+    window.__insp = window.__insp || [];
+    __insp.push(['wid', 121057973]);
+    var ldinsp = function(){
+    if(typeof window.__inspld != "undefined") return; window.__inspld = 1; var insp = document.createElement('script'); insp.type = 'text/javascript'; insp.async = true; insp.id = "inspsync"; insp.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://cdn.inspectlet.com/inspectlet.js?wid=121057973&r=' + Math.floor(new Date().getTime()/3600000); var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(insp, x); };
+    setTimeout(ldinsp, 0);
+    })();
+    </script>
+    <!-- ------------------------------------- inspectlet end ------------------------------------- -->
+
+    <!-- ------------------------------------------------ Font awesome icons Start -->
+    <script src="https://kit.fontawesome.com/f23f12952c.js" crossorigin="anonymous"></script>
+    <!-- ------------------------------------------------ Font awesome icons End -->
+    <!-- ------------------------------------- bootstrap start ------------------------------------- -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <!-- customized CSS should come after Bootstrap CSS -->
+    <!-- When making a change to the bootstrap defaults, run below compiler in the terminal -->
+    <!-- sass scss/custom.scss:website/static/css/custom_bootstrap.css -->
+    <link rel="stylesheet" type="text/css" href="/static/css/custom_bootstrap.css">
+    <!-- ------------------------------------- bootstrap end ------------------------------------- -->
+    <!-- ------------------------------------- css start ------------------------------------- -->
+    <!-- css custom -->
+    <link rel="stylesheet" type="text/css" href="/static/css/custom_css/index.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/custom_css/mobile_index.css">
+    <!-- css DataTables.net -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+    <!-- ------------------------------------- css end ------------------------------------- -->
+    <!-- ------------------------------------- javascript start ------------------------------------- -->
+    <!-- js bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous" defer></script>
+    <!-- ------------------------------------- javascript end ------------------------------------- -->
+    {% block contentHead %}
+    {% endblock %}
+  </head>
+  <!-- ------------------------------------- actual new dependent page start ------------------------------------- -->
+  {% block contentBody %}
+  {% endblock %}
+  <!-- ------------------------------------- actual new dependent page end ------------------------------------- -->
+  <!-- ------------------------------------- bootstrap start ------------------------------------- -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+  <!-- ------------------------------------- bootstrap end ------------------------------------- -->
+</html>
