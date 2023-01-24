@@ -9,7 +9,6 @@ from flask_login import LoginManager
 import stripe
 # ------------------------ imports end ------------------------
 
-
 localhost_print_function('=========================================== website __init__ START ===========================================')
 # ------------------------ define/initialize a new db sql_alchemy function start ------------------------
 # what is SQLAlchemy: https://www.youtube.com/watch?v=6k6NxFyKKQo&ab_channel=Treehouse
@@ -23,9 +22,7 @@ db = SQLAlchemy()
 DB_NAME = os.environ.get('HEROKU_POSTGRESQL_PURPLE_URL')
 # ------------------------ define/initialize a new db sql_alchemy function end ------------------------
 
-
 secret_key_ref = os.urandom(64)
-
 
 # ------------------------ __init__ function start ------------------------
 def create_app_function():
@@ -174,8 +171,6 @@ def create_app_function():
   # Collect User Email Page
   from backend.page_templates_backend.collect_email_page_backend.collect_email_processing import collect_email_processing
   from backend.page_templates_backend.collect_email_page_backend.collect_email_confirm_page_backend.collect_email_confirm_page_render_template import collect_email_confirm_page_render_template
-  from backend.page_templates_backend.candidates_page_backend.utils.collect_email_backend.collect_email_processing_candidates import collect_email_processing_candidates
-  from backend.page_templates_backend.candidates_page_backend.utils.collect_email_backend.collect_email_processing_candidates_success import collect_email_processing_candidates_success
   # Blog Single Post page
   from backend.page_templates_backend.blog_page_backend.blog_single_post_page_backend.blog_single_post_0001_index_page_render_template import blog_single_post_0001_index_page_render_template
   from backend.page_templates_backend.blog_page_backend.blog_single_post_page_backend.blog_single_post_0002_index_page_render_template import blog_single_post_0002_index_page_render_template
@@ -183,18 +178,6 @@ def create_app_function():
   from backend.page_templates_backend.blog_page_backend.blog_single_post_page_backend.blog_single_post_0004_index_page_render_template import blog_single_post_0004_index_page_render_template
   from backend.page_templates_backend.blog_page_backend.blog_single_post_page_backend.blog_single_post_0005_index_page_render_template import blog_single_post_0005_index_page_render_template
   from backend.page_templates_backend.blog_page_backend.blog_single_post_page_backend.blog_single_post_0006_index_page_render_template import blog_single_post_0006_index_page_render_template
-  # Candidates - index page
-  from backend.page_templates_backend.candidates_page_backend.index_page_backend.candidates_page_render_template import candidates_page_render_template
-  # Candidates - about page
-  from backend.page_templates_backend.candidates_page_backend.about_page_backend.candidates_about_page_render_template import candidates_about_page_render_template
-  # Candidates - faq page
-  from backend.page_templates_backend.candidates_page_backend.faq_page_backend.candidates_faq_page_render_template import candidates_faq_page_render_template
-  # Candidates - pricing page
-  from backend.page_templates_backend.candidates_page_backend.pricing_page_backend.candidates_pricing_page_render_template import candidates_pricing_page_render_template
-  # Candidates - test library page
-  from backend.page_templates_backend.candidates_page_backend.test_library_page_backend.candidates_test_library_page_render_template import candidates_test_library_page_render_template
-  # Candidates - launch page
-  from backend.page_templates_backend.candidates_page_backend.stand_in_page_backend.login_stand_in_page_backend.launch_page_render_template import launch_page_render_template
   
   # Index page
   app.register_blueprint(index_page_render_template, url_prefix="")
@@ -296,8 +279,6 @@ def create_app_function():
   # Collect User Email Page
   app.register_blueprint(collect_email_processing, url_prefix="")
   app.register_blueprint(collect_email_confirm_page_render_template, url_prefix="")
-  app.register_blueprint(collect_email_processing_candidates, url_prefix="")
-  app.register_blueprint(collect_email_processing_candidates_success, url_prefix="")
   # Blog Single Post page
   app.register_blueprint(blog_single_post_0001_index_page_render_template, url_prefix="")
   app.register_blueprint(blog_single_post_0002_index_page_render_template, url_prefix="")
@@ -305,18 +286,6 @@ def create_app_function():
   app.register_blueprint(blog_single_post_0004_index_page_render_template, url_prefix="")
   app.register_blueprint(blog_single_post_0005_index_page_render_template, url_prefix="")
   app.register_blueprint(blog_single_post_0006_index_page_render_template, url_prefix="")
-  # Candidates page
-  app.register_blueprint(candidates_page_render_template, url_prefix="")
-  # Candidates about page
-  app.register_blueprint(candidates_about_page_render_template, url_prefix="")
-  # Candidates faq page
-  app.register_blueprint(candidates_faq_page_render_template, url_prefix="")
-  # Candidates pricing page
-  app.register_blueprint(candidates_pricing_page_render_template, url_prefix="")
-  # Candidates test library page
-  app.register_blueprint(candidates_test_library_page_render_template, url_prefix="")
-  # Candidates launch  page
-  app.register_blueprint(launch_page_render_template, url_prefix="")
   # ------------------------ TRIVIAFY EMPLOYEE ENGAGEMENT END ------------------------
   app.register_blueprint(auth, url_prefix='/')
   app.register_blueprint(views_exterior, url_prefix='/')
@@ -333,12 +302,12 @@ def create_app_function():
   # ------------------------ function start ------------------------
   @login_manager.user_loader
   def load_user(id):
-    localhost_print_function('def load_user function hit')
+    # localhost_print_function('def load_user function hit')
     # ------------------------ list user dict directly from postgres start ------------------------
     # logged_in_user_dict = CandidatesUserObj.query.get(id).__dict__
     # print(logged_in_user_dict['first_name'])
     # ------------------------ list user dict directly from postgres end ------------------------
-    localhost_print_function('=========================================== create_app_function END ===========================================')
+    # localhost_print_function('=========================================== create_app_function END ===========================================')
     return CandidatesUserObj.query.get(id)  # when you write query.get -> .get: automatically knows it is looking through the primary key in sqlite
   # ------------------------ function end ------------------------
   # ------------------------ login manager end ------------------------
