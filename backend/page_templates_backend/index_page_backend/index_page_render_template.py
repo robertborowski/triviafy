@@ -19,7 +19,7 @@ def before_request():
     return redirect(new_url, code=302)
 
 # -------------------------------------------------------------- App
-@index_page_render_template.route("/employees", methods=['GET','POST'])
+@index_page_render_template.route("/employeesold", methods=['GET','POST'])
 def index_page_render_template_function():
   localhost_print_function('=========================================== Landing Page START ===========================================')
   
