@@ -102,7 +102,8 @@ def signup_function(url_redirect_code=None):
         created_timestamp=create_timestamp_function(),
         email=ui_email,
         password=generate_password_hash(ui_password, method="sha256"),
-        company_name = company_name_from_email
+        company_name = company_name_from_email,
+        employees_subscribed='subscribed'
       )
       db.session.add(new_row)
       db.session.commit()

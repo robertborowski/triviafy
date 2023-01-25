@@ -112,7 +112,8 @@ def candidates_signup_function():
         created_timestamp=create_timestamp_function(),
         email=ui_email,
         password=generate_password_hash(ui_password, method="sha256"),
-        company_name = company_name_from_email
+        company_name=company_name_from_email,
+        candidates_subscribed='subscribed'
       )
       db.session.add(new_user)
       db.session.commit()
@@ -189,7 +190,10 @@ def candidates_login_page_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
+@auth.route('/logout')
+@auth.route('/logout/')
 @auth.route('/candidates/logout')
+@auth.route('/candidates/logout/')
 @login_required
 def candidates_logout_function():
   localhost_print_function('=========================================== candidates_logout_function START ===========================================')

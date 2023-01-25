@@ -13,10 +13,10 @@ from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
 from flask import Blueprint, render_template, redirect, url_for
 from flask_login import login_required, current_user
-from website.backend.candidates.redis import redis_check_if_employees_cookie_exists_function, redis_connect_to_database_function
+from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
-from website.backend.candidates.browser import browser_response_set_cookie_function_v3
+from website.backend.candidates.browser import browser_response_set_cookie_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -48,12 +48,12 @@ def login_dashboard_page_function(url_redirect_code=None):
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
   # ------------------------ redirect codes end ------------------------
   # ------------------------ auto set cookie start ------------------------
-  get_cookie_value_from_browser = redis_check_if_employees_cookie_exists_function()
+  get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
   if get_cookie_value_from_browser != None:
     redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
-    return render_template(template_location_url, user=current_user)
+    return render_template(template_location_url, user=current_user, alert_message_dict_to_html=alert_message_dict)
   else:
-    browser_response = browser_response_set_cookie_function_v3(current_user, template_location_url)
+    browser_response = browser_response_set_cookie_function(current_user, template_location_url)
     localhost_print_function(' ------------------------ login_dashboard_page_function END ------------------------ ')
     return browser_response
   # ------------------------ auto set cookie end ------------------------
