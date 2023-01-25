@@ -369,6 +369,16 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':'Please enter a valid work email.',
       'type':'danger'
     }
+  elif redirect_var == 'e2':
+    alert_message_dict = {
+      'message':'Please enter a valid password.',
+      'type':'danger'
+    }
+  elif redirect_var == 'e3':
+    alert_message_dict = {
+      'message':'Account already created for email.',
+      'type':'danger'
+    }
   # localhost_print_function('=========================================== alert_message_default_function_v2 END ===========================================')
   return alert_message_dict
 # ------------------------ individual function end ------------------------

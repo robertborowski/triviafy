@@ -49,6 +49,16 @@ def redis_check_if_cookie_exists_function():
   return get_cookie_value_from_browser
 # ------------------------ individual function start ------------------------
 
+# ------------------------ individual function start ------------------------
+def redis_check_if_employees_cookie_exists_function():
+  localhost_print_function('=========================================== redis_check_if_employees_cookie_exists_function START ===========================================')
+  try:
+    get_cookie_value_from_browser = request.cookies.get('triviafy_employees_browser_cookie')
+  except:
+    get_cookie_value_from_browser = None
+  localhost_print_function('=========================================== redis_check_if_employees_cookie_exists_function END ===========================================')
+  return get_cookie_value_from_browser
+# ------------------------ individual function start ------------------------
 
 # ------------------------ individual function start ------------------------
 def redis_set_browser_cookie_function():
@@ -56,6 +66,15 @@ def redis_set_browser_cookie_function():
   set_browser_cookie_key = 'triviafy_candidates_browser_cookie'
   set_browser_cookie_value = create_uuid_function('bcooke_')
   localhost_print_function('=========================================== redis_set_browser_cookie_function END ===========================================')
+  return set_browser_cookie_key, set_browser_cookie_value
+# ------------------------ individual function start ------------------------
+
+# ------------------------ individual function start ------------------------
+def redis_set_employees_browser_cookie_function():
+  localhost_print_function('=========================================== redis_set_employees_browser_cookie_function START ===========================================')
+  set_browser_cookie_key = 'triviafy_employees_browser_cookie'
+  set_browser_cookie_value = create_uuid_function('b2cooke_')
+  localhost_print_function('=========================================== redis_set_employees_browser_cookie_function END ===========================================')
   return set_browser_cookie_key, set_browser_cookie_value
 # ------------------------ individual function start ------------------------
 localhost_print_function('=========================================== redis __init__ END ===========================================')

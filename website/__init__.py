@@ -70,6 +70,7 @@ def create_app_function():
   from .views_interior import views_interior
   from .employees_auth import employees_auth
   from .employees_views_exterior import employees_views_exterior
+  from .employees_views_interior import employees_views_interior
   # ------------------------ views/auths/routes imports end ------------------------
   # ------------------------ views/auths/routes register blueprints start ------------------------
   # ------------------------ TRIVIAFY EMPLOYEE ENGAGEMENT START ------------------------
@@ -294,6 +295,7 @@ def create_app_function():
   app.register_blueprint(views_interior, url_prefix='/')
   app.register_blueprint(employees_auth, url_prefix='/')
   app.register_blueprint(employees_views_exterior, url_prefix='/')
+  app.register_blueprint(employees_views_interior, url_prefix='/')
   # ------------------------ views/auths/routes register blueprints end ------------------------
   # ------------------------ import models before creating db for first time start ------------------------
   from .models import CandidatesUserObj, CandidatesCapacityOptionsObj, CandidatesCollectEmailObj
@@ -313,7 +315,12 @@ def create_app_function():
     # print(logged_in_user_dict['first_name'])
     # ------------------------ list user dict directly from postgres end ------------------------
     # localhost_print_function('=========================================== create_app_function END ===========================================')
-    return CandidatesUserObj.query.get(id)  # when you write query.get -> .get: automatically knows it is looking through the primary key in sqlite
+    try:
+      var1 = CandidatesUserObj.query.get(id)
+    except:
+      var1 = EmployeesUserObj.query.get(id)
+    return var1
+    # return CandidatesUserObj.query.get(id)  # when you write query.get -> .get: automatically knows it is looking through the primary key in sqlite
   # ------------------------ function end ------------------------
   # ------------------------ login manager end ------------------------
   # ------------------------ app setup end ------------------------

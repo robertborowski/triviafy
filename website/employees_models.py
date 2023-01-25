@@ -17,6 +17,7 @@ class EmployeesUserObj(db.Model, UserMixin):   # Only the users object inherits 
   password = db.Column(db.String(150))
   name = db.Column(db.String(150))
   company_name = db.Column(db.String(150))
+  email_status = db.Column(db.String(50))
   fk_stripe_customer_id = db.Column(db.String(150))
   fk_stripe_subscription_id = db.Column(db.String(150))
 
