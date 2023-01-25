@@ -20,6 +20,7 @@ from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_f
 from website.backend.candidates.send_emails import send_email_template_function
 import os
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
+from .models import UserObj, CollectEmailObj
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -38,7 +39,6 @@ def signup_function(url_redirect_code=None):
   # ------------------------ redirect codes start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
   # ------------------------ redirect codes end ------------------------
-  """
   if request.method == 'POST':
     # ------------------------ post method hit #1 - quick sign up start ------------------------
     ui_email = request.form.get('uiEmailVarious')
@@ -50,14 +50,15 @@ def signup_function(url_redirect_code=None):
         return redirect(url_for('employees_auth.signup_function', url_redirect_code='e1'))
       # ------------------------ sanitize/check user input email end ------------------------
       # ------------------------ check if email already exists in db start ------------------------
-      email_exists = EmployeesCollectEmailObj.query.filter_by(email=ui_email).first()
+      email_exists = CollectEmailObj.query.filter_by(email=ui_email).first()
       # ------------------------ check if email already exists in db end ------------------------
       # ------------------------ create new signup in db start ------------------------
       if email_exists == None or email_exists == []:
-        new_row = EmployeesCollectEmailObj(
-          id=create_uuid_function('collect_email2_'),
+        new_row = CollectEmailObj(
+          id=create_uuid_function('collect_email_'),
           created_timestamp=create_timestamp_function(),
-          email=ui_email
+          email=ui_email,
+          source='employees'
         )
         db.session.add(new_row)
         db.session.commit()
@@ -83,7 +84,7 @@ def signup_function(url_redirect_code=None):
     # ------------------------ sanitize/check user input password end ------------------------
     # ------------------------ sanitize/check user inputs end ------------------------
     # ------------------------ check if user email already exists in db start ------------------------
-    user_exists = EmployeesUserObj.query.filter_by(email=ui_email).first()
+    user_exists = UserObj.query.filter_by(email=ui_email).first()
     if user_exists != None and user_exists != []:
       localhost_print_function(' ------------------------ signup_function END ------------------------ ')
       return redirect(url_for('employees_auth.signup_function', url_redirect_code='e3'))
@@ -96,13 +97,12 @@ def signup_function(url_redirect_code=None):
       company_name_from_email = email_arr2[0]
       # ------------------------ infer company name end ------------------------
       # ------------------------ create new user in db start ------------------------
-      new_row = EmployeesUserObj(
-        id=create_uuid_function('user2_'),
+      new_row = UserObj(
+        id=create_uuid_function('user_'),
         created_timestamp=create_timestamp_function(),
         email=ui_email,
         password=generate_password_hash(ui_password, method="sha256"),
-        company_name = company_name_from_email,
-        email_status='subscribed'
+        company_name = company_name_from_email
       )
       db.session.add(new_row)
       db.session.commit()
@@ -123,6 +123,5 @@ def signup_function(url_redirect_code=None):
       return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
     # ------------------------ post method hit #2 - full sign up end ------------------------
   localhost_print_function(' ------------------------ signup_function END ------------------------ ')
-  """
   return render_template('employees/exterior/signup/index.html', alert_message_dict_to_html=alert_message_dict)
 # ------------------------ individual route end ------------------------
