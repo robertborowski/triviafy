@@ -354,4 +354,22 @@ def alert_message_default_function():
   # localhost_print_function('=========================================== alert_message_default_function END ===========================================')
   return alert_message_page, alert_message_type
 # ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def alert_message_default_function_v2(redirect_var=None):
+  # localhost_print_function('=========================================== alert_message_default_function_v2 START ===========================================')
+  alert_message_dict = {
+      'message':'',
+      'type':'danger'
+    }
+  if redirect_var == None:
+    pass
+  elif redirect_var == 'e1':
+    alert_message_dict = {
+      'message':'Please enter a valid work email.',
+      'type':'danger'
+    }
+  # localhost_print_function('=========================================== alert_message_default_function_v2 END ===========================================')
+  return alert_message_dict
+# ------------------------ individual function end ------------------------
 localhost_print_function('=========================================== user_inputs __init__ END ===========================================')

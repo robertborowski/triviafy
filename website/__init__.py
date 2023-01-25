@@ -68,6 +68,7 @@ def create_app_function():
   from .auth import auth
   from .views_exterior import views_exterior
   from .views_interior import views_interior
+  from .employees_auth import employees_auth
   from .employees_views_exterior import employees_views_exterior
   # ------------------------ views/auths/routes imports end ------------------------
   # ------------------------ views/auths/routes register blueprints start ------------------------
@@ -291,10 +292,12 @@ def create_app_function():
   app.register_blueprint(auth, url_prefix='/')
   app.register_blueprint(views_exterior, url_prefix='/')
   app.register_blueprint(views_interior, url_prefix='/')
+  app.register_blueprint(employees_auth, url_prefix='/')
   app.register_blueprint(employees_views_exterior, url_prefix='/')
   # ------------------------ views/auths/routes register blueprints end ------------------------
   # ------------------------ import models before creating db for first time start ------------------------
   from .models import CandidatesUserObj, CandidatesCapacityOptionsObj, CandidatesCollectEmailObj
+  from .employees_models import EmployeesUserObj
   create_database_function(app)
   # ------------------------ import models before creating db for first time end ------------------------
   # ------------------------ login manager start ------------------------

@@ -13,9 +13,9 @@
     <div class="float-start custom-pt-2">
       <h1 class="custom-m-0 custom-width-1 custom-header-1">Results driven team building activity for your team.</h1>
       <h2 class="custom-header-4 custom-mt-1">Boost your team's engagement metrics.</h2>
-      <form action="{{ url_for('auth.candidates_signup_function') }}" method="post" enctype="multipart/form-data" class="custom-display-flex custom-pt-1" onsubmit="return clickSubmitButtonOnce()">
-        <label for="various_pages1_ui_email" class="form-label"></label>
-        <input type="email" class="form-control custom-mr-2 custom-p-3" id="various_pages1_ui_email" name="various_pages1_ui_email" aria-describedby="emailHelp" placeholder="Work email" required>
+      <form action="{{ url_for('employees_auth.signup_function') }}" method="post" enctype="multipart/form-data" class="custom-display-flex custom-pt-1" onsubmit="return clickSubmitButtonOnce()">
+        <label for="uiEmailVarious" class="form-label"></label>
+        <input type="email" class="form-control custom-mr-2 custom-p-3" id="uiEmailVarious" name="uiEmailVarious" aria-describedby="emailHelp" placeholder="Work email" required>
         <button type="submit" class="btn btn-primary text-nowrap">Get Started</button>
       </form>
       <div class="text-center custom-mt-2">
