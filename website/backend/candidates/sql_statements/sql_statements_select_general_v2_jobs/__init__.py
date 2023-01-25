@@ -28,7 +28,7 @@ def select_general_v2_jobs_function(postgres_connection, postgres_cursor, tag_qu
       'raw_query': f"SELECT \
                       fk_stripe_customer_id \
                     FROM \
-                      candidates_user_obj \
+                      user_obj \
                     WHERE \
                       id='{additional_input[0][2]}';",
       'input_args': {}

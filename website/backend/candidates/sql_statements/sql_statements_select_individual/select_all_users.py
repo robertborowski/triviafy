@@ -12,7 +12,7 @@ def select_all_users_function(postgres_connection, postgres_cursor):
     postgres_cursor.execute("SELECT \
                               * \
                             FROM \
-                              candidates_user_obj;")
+                              user_obj;")
     # ------------------------ Query END ------------------------
 
 

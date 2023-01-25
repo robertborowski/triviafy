@@ -124,7 +124,7 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
   }
   # ------------------------ select queries end ------------------------
   # ------------------------ general query start ------------------------
-  # result_obj = db.session.execute('SELECT * FROM candidates_user_obj WHERE email = :val', {'val': 'a@a.com'})
+  # result_obj = db.session.execute('SELECT * FROM user_obj WHERE email = :val', {'val': 'a@a.com'})
   result_obj = db.session.execute(select_queries_dict[tag_query_to_use]['raw_query'], select_queries_dict[tag_query_to_use]['input_args'])
   # ------------------------ general query end ------------------------
   # ------------------------ default result start ------------------------

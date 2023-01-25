@@ -10,7 +10,7 @@ from backend.db.connection.redis_connect_to_database import redis_connect_to_dat
 def job_candidates_clean_out_redis_function(postgres_connection, postgres_cursor):
   localhost_print_function('=========================================== job_candidates_clean_out_redis_function start ===========================================')
   # ------------------------ get all current user id's as set start ------------------------
-  sql_input = 'candidates_user_obj'
+  sql_input = 'user_obj'
   query_result_arr_of_dicts = select_general_v1_jobs_function(postgres_connection, postgres_cursor, 'select_table1_id', additional_input=sql_input)
   user_ids_set = {'a'}
   for i in query_result_arr_of_dicts:
@@ -52,7 +52,7 @@ def job_candidates_remove_unsub_user_all_tables_function(postgres_connection, po
     ['candidates_schedule_obj','user_id_fk'],
     ['candidates_stripe_checkout_session_obj','fk_user_id'],
     ['candidates_uploaded_candidates_obj','user_id_fk'],
-    ['candidates_user_obj','id']
+    ['user_obj','id']
   ]
   # ------------------------ run specifics end ------------------------
   # ------------------------ loop user start ------------------------

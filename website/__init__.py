@@ -298,7 +298,7 @@ def create_app_function():
   app.register_blueprint(employees_views_interior, url_prefix='/')
   # ------------------------ views/auths/routes register blueprints end ------------------------
   # ------------------------ import models before creating db for first time start ------------------------
-  from .models import UserObj, CandidatesCapacityOptionsObj, CandidatesCollectEmailObj
+  from .models import UserObj
   create_database_function(app)
   # ------------------------ import models before creating db for first time end ------------------------
   # ------------------------ login manager start ------------------------

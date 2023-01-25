@@ -7,7 +7,7 @@ from website import secret_key_ref
 # ------------------------ imports end ------------------------
 
 
-# ------------------------ models start ------------------------
+# ------------------------ all product models start ------------------------
 # ------------------------ individual model start ------------------------
 # Note: models vs tables: https://stackoverflow.com/questions/45044926/db-model-vs-db-table-in-flask-sqlalchemy
 class UserObj(db.Model, UserMixin):   # Only the users object inherits UserMixin, other models do NOT!
@@ -42,6 +42,16 @@ class UserObj(db.Model, UserMixin):   # Only the users object inherits UserMixin
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
+class CollectEmailObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  email = db.Column(db.String(150))
+  source = db.Column(db.String(20))
+# ------------------------ individual model end ------------------------
+# ------------------------ all product models end ------------------------
+
+# ------------------------ candidates models start ------------------------
+# ------------------------ individual model start ------------------------
 class CandidatesCapacityOptionsObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
   created_timestamp = db.Column(db.DateTime(timezone=True))
@@ -49,13 +59,6 @@ class CandidatesCapacityOptionsObj(db.Model):
   price = db.Column(db.Float)
   fk_stripe_price_id = db.Column(db.String(150))
   name = db.Column(db.String(20))
-# ------------------------ individual model end ------------------------
-
-# ------------------------ individual model start ------------------------
-class CandidatesCollectEmailObj(db.Model):
-  id = db.Column(db.String(150), primary_key=True)
-  created_timestamp = db.Column(db.DateTime(timezone=True))
-  email = db.Column(db.String(150))
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
@@ -168,8 +171,8 @@ class CandidatesCreatedQuestionsObj(db.Model):
   aws_image_url = db.Column(db.String(150))
   submission = db.Column(db.String(20))
 # ------------------------ individual model end ------------------------
-# ------------------------ models end ------------------------
+# ------------------------ candidates models end ------------------------
 
 
-# ------------------------ tables start ------------------------
-# ------------------------ tables end ------------------------
+# ------------------------ employees models start ------------------------
+# ------------------------ employees models end ------------------------

@@ -9,7 +9,7 @@ def candidates_redis_delete_support_function(postgres_connection, postgres_curso
   
   try:
     # ------------------------ Query START ------------------------
-    postgres_cursor.execute("SELECT id FROM candidates_user_obj")
+    postgres_cursor.execute("SELECT id FROM user_obj")
     # ------------------------ Query END ------------------------
 
 

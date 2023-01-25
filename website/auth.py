@@ -10,7 +10,7 @@
 # ------------------------ imports start ------------------------
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from flask import Blueprint, render_template, request, redirect, url_for
-from .models import UserObj, CandidatesCollectEmailObj
+from .models import UserObj, CollectEmailObj
 from werkzeug.security import generate_password_hash, check_password_hash
 from website import db
 from flask_login import login_user, login_required, logout_user, current_user
@@ -47,14 +47,15 @@ def candidates_signup_function():
         create_account_error_statement = 'Please enter a valid work email.'
       # ------------------------ sanitize/check user input email end ------------------------
       # ------------------------ check if email already exists in db start ------------------------
-      email_exists = CandidatesCollectEmailObj.query.filter_by(email=ui_email).first()
+      email_exists = CollectEmailObj.query.filter_by(email=ui_email).first()
       # ------------------------ check if email already exists in db end ------------------------
       # ------------------------ create new signup in db start ------------------------
       if not email_exists and create_account_error_statement == '':
-        new_email = CandidatesCollectEmailObj(
+        new_email = CollectEmailObj(
           id=create_uuid_function('collect_email_'),
           created_timestamp=create_timestamp_function(),
-          email=ui_email
+          email=ui_email,
+          source='candidates'
         )
         db.session.add(new_email)
         db.session.commit()
