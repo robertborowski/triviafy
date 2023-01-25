@@ -315,12 +315,7 @@ def create_app_function():
     # print(logged_in_user_dict['first_name'])
     # ------------------------ list user dict directly from postgres end ------------------------
     # localhost_print_function('=========================================== create_app_function END ===========================================')
-    try:
-      var1 = CandidatesUserObj.query.get(id)
-    except:
-      var1 = EmployeesUserObj.query.get(id)
-    return var1
-    # return CandidatesUserObj.query.get(id)  # when you write query.get -> .get: automatically knows it is looking through the primary key in sqlite
+    return CandidatesUserObj.query.get(id)  # when you write query.get -> .get: automatically knows it is looking through the primary key in sqlite
   # ------------------------ function end ------------------------
   # ------------------------ login manager end ------------------------
   # ------------------------ app setup end ------------------------

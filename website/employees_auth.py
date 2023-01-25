@@ -130,7 +130,7 @@ def signup_function(url_redirect_code=None):
 @employees_auth.route('/employees/logout')
 @login_required
 def logout_function():
-  localhost_print_function('=========================================== logout_function START ===========================================')
+  localhost_print_function(' ------------------------ logout_function start ------------------------ ')
   logout_user()
   # ------------------------ auto sign in with cookie start ------------------------
   get_cookie_value_from_browser = redis_check_if_employees_cookie_exists_function()
@@ -141,6 +141,6 @@ def logout_function():
     except:
       pass
   # ------------------------ auto sign in with cookie end ------------------------
-  localhost_print_function('=========================================== logout_function END ===========================================')
+  localhost_print_function(' ------------------------ logout_function end ------------------------ ')
   return redirect(url_for('employees_auth.signup_function'))
 # ------------------------ individual route end ------------------------
