@@ -10,7 +10,7 @@
 # ------------------------ imports start ------------------------
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from flask import Blueprint, render_template, request, redirect, url_for
-from .models import CandidatesUserObj, CandidatesCollectEmailObj
+from .models import UserObj, CandidatesCollectEmailObj
 from werkzeug.security import generate_password_hash, check_password_hash
 from website import db
 from flask_login import login_user, login_required, logout_user, current_user
@@ -88,7 +88,7 @@ def candidates_signup_function():
                               redirect_var_password = ui_password)
     # ------------------------ if user input error end ------------------------
     # ------------------------ check if user email already exists in db start ------------------------
-    user = CandidatesUserObj.query.filter_by(email=ui_email).first()
+    user = UserObj.query.filter_by(email=ui_email).first()
     if user:
       create_account_error_statement = 'Account already created for email.'
       localhost_print_function('=========================================== candidates_signup_function END ===========================================')
@@ -106,7 +106,7 @@ def candidates_signup_function():
       company_name_from_email = email_arr2[0]
       # ------------------------ infer company name end ------------------------
       # ------------------------ create new user in db start ------------------------
-      new_user = CandidatesUserObj(
+      new_user = UserObj(
         id=create_uuid_function('user_'),
         created_timestamp=create_timestamp_function(),
         email=ui_email,
@@ -145,7 +145,7 @@ def candidates_login_page_function():
     try:
       user_id_from_redis = redis_connection.get(get_cookie_value_from_browser).decode('utf-8')
       if user_id_from_redis != None:
-        user = CandidatesUserObj.query.filter_by(id=user_id_from_redis).first()
+        user = UserObj.query.filter_by(id=user_id_from_redis).first()
         # ------------------------ keep user logged in start ------------------------
         login_user(user, remember=True)
         # ------------------------ keep user logged in end ------------------------
@@ -171,7 +171,7 @@ def candidates_login_page_function():
     if ui_password_cleaned == False:
       login_error_statement = 'Password is not valid.'
     # ------------------------ sanitize/check user input password end ------------------------
-    user = CandidatesUserObj.query.filter_by(email=ui_email).first()
+    user = UserObj.query.filter_by(email=ui_email).first()
     if user:
       if check_password_hash(user.password, ui_password):
         # ------------------------ keep user logged in start ------------------------

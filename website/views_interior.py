@@ -14,7 +14,7 @@ from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_f
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required, current_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
-from website.models import CandidatesUserObj, CandidatesDesiredLanguagesObj, CandidatesUploadedCandidatesObj, CandidatesAssessmentsCreatedObj, CandidatesRequestLanguageObj, CandidatesScheduleObj, CandidatesEmailSentObj, CandidatesAssessmentGradedObj, CandidatesCapacityOptionsObj, CandidatesStripeCheckoutSessionObj, CandidatesCreatedQuestionsObj
+from website.models import UserObj, CandidatesDesiredLanguagesObj, CandidatesUploadedCandidatesObj, CandidatesAssessmentsCreatedObj, CandidatesRequestLanguageObj, CandidatesScheduleObj, CandidatesEmailSentObj, CandidatesAssessmentGradedObj, CandidatesCapacityOptionsObj, CandidatesStripeCheckoutSessionObj, CandidatesCreatedQuestionsObj
 from website.backend.candidates.browser import browser_response_set_cookie_function, browser_response_set_cookie_function_v2
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
@@ -127,7 +127,7 @@ def candidates_subscription_success_function():
   stripe_subscription_id = stripe_checkout_session_obj.subscription
   # ------------------------ stripe lookup end ------------------------
   # ------------------------ update db start ------------------------
-  user_obj = CandidatesUserObj.query.filter_by(id=current_user.id).first()
+  user_obj = UserObj.query.filter_by(id=current_user.id).first()
   user_obj.fk_stripe_customer_id = stripe_customer_id
   user_obj.fk_stripe_subscription_id = stripe_subscription_id
   db_checkout_session_obj.status = 'final'
@@ -1480,7 +1480,7 @@ def candidates_assessment_expiring_function(url_assessment_expiring, url_questio
   categories_tuple = categories_tuple_function(db_question_obj.categories)
   # ------------------------ create categories tuple end ------------------------
   # ------------------------ company name start ------------------------
-  db_user_obj = CandidatesUserObj.query.filter_by(id=db_schedule_obj_user_id_fk).first()
+  db_user_obj = UserObj.query.filter_by(id=db_schedule_obj_user_id_fk).first()
   if db_user_obj == None:
     localhost_print_function(' ------------------------ candidates_assessment_expiring_function END ------------------------ ')
     return redirect(url_for('views_interior.candidates_assessment_invalid_function'))

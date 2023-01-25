@@ -13,7 +13,7 @@ from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import current_user
 from website.backend.candidates.redis import redis_connect_to_database_function
-from website.models import CandidatesUserObj
+from website.models import UserObj
 from website import db
 from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function
 from website.backend.candidates.send_emails import send_email_template_function
@@ -102,11 +102,11 @@ def candidates_forgot_password_page_function():
       forgot_password_error_statement = 'Please enter a valid work email.'
     # ------------------------ sanitize/check user input email end ------------------------
     # ------------------------ check if user email exists in db start ------------------------
-    user_exists = CandidatesUserObj.query.filter_by(email=ui_email).first()
+    user_exists = UserObj.query.filter_by(email=ui_email).first()
     if user_exists:
       forgot_password_error_statement = 'Password reset link sent to email.'
       # ------------------------ send email with token url start ------------------------
-      serializer_token_obj = CandidatesUserObj.get_reset_token_function(self=user_exists)
+      serializer_token_obj = UserObj.get_reset_token_function(self=user_exists)
       output_email = ui_email
       output_subject_line = 'Password Reset - Triviafy'
       output_message_content = f"To reset your password, visit the following link: https://triviafy.com/candidates/reset/{serializer_token_obj} \n\nThis link will expire after 30 minutes.\nIf you did not make this request then simply ignore this email and no changes will be made."
@@ -127,7 +127,7 @@ def candidates_reset_forgot_password_page_function(token):
   # if current_user.is_authenticated == False:
   #   return redirect(url_for('views_interior.login_dashboard_page_function'))
   reset_password_error_statement = ''
-  user_obj_from_token = CandidatesUserObj.verify_reset_token_function(token)
+  user_obj_from_token = UserObj.verify_reset_token_function(token)
   if user_obj_from_token is None:
     reset_password_error_statement = 'That is an invalid or expired token'
     localhost_print_function(' ------------------------ candidates_reset_forgot_password_page_function END ------------------------ ')

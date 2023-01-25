@@ -298,8 +298,7 @@ def create_app_function():
   app.register_blueprint(employees_views_interior, url_prefix='/')
   # ------------------------ views/auths/routes register blueprints end ------------------------
   # ------------------------ import models before creating db for first time start ------------------------
-  from .models import CandidatesUserObj, CandidatesCapacityOptionsObj, CandidatesCollectEmailObj
-  from .employees_models import EmployeesUserObj
+  from .models import UserObj, CandidatesCapacityOptionsObj, CandidatesCollectEmailObj
   create_database_function(app)
   # ------------------------ import models before creating db for first time end ------------------------
   # ------------------------ login manager start ------------------------
@@ -311,11 +310,11 @@ def create_app_function():
   def load_user(id):
     # localhost_print_function('def load_user function hit')
     # ------------------------ list user dict directly from postgres start ------------------------
-    # logged_in_user_dict = CandidatesUserObj.query.get(id).__dict__
+    # logged_in_user_dict = UserObj.query.get(id).__dict__
     # print(logged_in_user_dict['first_name'])
     # ------------------------ list user dict directly from postgres end ------------------------
     # localhost_print_function('=========================================== create_app_function END ===========================================')
-    return CandidatesUserObj.query.get(id)  # when you write query.get -> .get: automatically knows it is looking through the primary key in sqlite
+    return UserObj.query.get(id)  # when you write query.get -> .get: automatically knows it is looking through the primary key in sqlite
   # ------------------------ function end ------------------------
   # ------------------------ login manager end ------------------------
   # ------------------------ app setup end ------------------------

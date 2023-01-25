@@ -14,7 +14,6 @@ from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_f
 from flask import Blueprint, render_template, redirect, url_for
 from flask_login import login_required, current_user
 from website.backend.candidates.redis import redis_check_if_employees_cookie_exists_function, redis_connect_to_database_function
-from website.employees_models import EmployeesUserObj
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v3

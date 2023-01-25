@@ -46,10 +46,6 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
                       id = {additional_input};",
       'input_args': {}
     },
-    'select_if_capacity_chosen': {
-      'raw_query': 'SELECT capacity_id_fk FROM candidates_user_obj WHERE id = :val',
-      'input_args': {'val': current_user_id_defined_var}
-    },
     'select_all_capacity_options': {
       'raw_query': 'SELECT id FROM candidates_capacity_options_obj',
       'input_args': {}

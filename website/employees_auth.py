@@ -10,7 +10,6 @@
 # ------------------------ imports start ------------------------
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from flask import Blueprint, render_template, request, redirect, url_for
-from .employees_models import EmployeesUserObj, EmployeesCollectEmailObj
 from werkzeug.security import generate_password_hash, check_password_hash
 from website import db
 from flask_login import login_user, login_required, logout_user, current_user
@@ -39,6 +38,7 @@ def signup_function(url_redirect_code=None):
   # ------------------------ redirect codes start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
   # ------------------------ redirect codes end ------------------------
+  """
   if request.method == 'POST':
     # ------------------------ post method hit #1 - quick sign up start ------------------------
     ui_email = request.form.get('uiEmailVarious')
@@ -123,24 +123,6 @@ def signup_function(url_redirect_code=None):
       return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
     # ------------------------ post method hit #2 - full sign up end ------------------------
   localhost_print_function(' ------------------------ signup_function END ------------------------ ')
+  """
   return render_template('employees/exterior/signup/index.html', alert_message_dict_to_html=alert_message_dict)
-# ------------------------ individual route end ------------------------
-
-# ------------------------ individual route start ------------------------
-@employees_auth.route('/employees/logout')
-@login_required
-def logout_function():
-  localhost_print_function(' ------------------------ logout_function start ------------------------ ')
-  logout_user()
-  # ------------------------ auto sign in with cookie start ------------------------
-  get_cookie_value_from_browser = redis_check_if_employees_cookie_exists_function()
-  # ------------------------ auto sign in with cookie end ------------------------
-  if get_cookie_value_from_browser != None:
-    try:
-      redis_connection.delete(get_cookie_value_from_browser)
-    except:
-      pass
-  # ------------------------ auto sign in with cookie end ------------------------
-  localhost_print_function(' ------------------------ logout_function end ------------------------ ')
-  return redirect(url_for('employees_auth.signup_function'))
 # ------------------------ individual route end ------------------------

@@ -10,16 +10,22 @@ from website import secret_key_ref
 # ------------------------ models start ------------------------
 # ------------------------ individual model start ------------------------
 # Note: models vs tables: https://stackoverflow.com/questions/45044926/db-model-vs-db-table-in-flask-sqlalchemy
-class CandidatesUserObj(db.Model, UserMixin):   # Only the users object inherits UserMixin, other models do NOT!
+class UserObj(db.Model, UserMixin):   # Only the users object inherits UserMixin, other models do NOT!
+  # ------------------------ general start ------------------------
   id = db.Column(db.String(150), primary_key=True)
   created_timestamp = db.Column(db.DateTime(timezone=True))
   email = db.Column(db.String(150), unique=True)
   password = db.Column(db.String(150))
   name = db.Column(db.String(150))
   company_name = db.Column(db.String(150))
-  capacity_id_fk = db.Column(db.String(150), default=None)
   fk_stripe_customer_id = db.Column(db.String(150))
+  # ------------------------ general start ------------------------
+  # ------------------------ candidates start ------------------------
   fk_stripe_subscription_id = db.Column(db.String(150))
+  # ------------------------ candidates end ------------------------
+  # ------------------------ employees start ------------------------
+  employees_fk_stripe_subscription_id = db.Column(db.String(150))
+  # ------------------------ employees end ------------------------
 
   def get_reset_token_function(self, expires_sec=1800):
     serializer_token_obj = Serializer(secret_key_ref, expires_sec)
@@ -32,7 +38,7 @@ class CandidatesUserObj(db.Model, UserMixin):   # Only the users object inherits
       dl_user_id_from_token = serializer_token_obj.loads(token_to_search_for)['dump_load_user_id']
     except:
       return None
-    return CandidatesUserObj.query.get(dl_user_id_from_token)
+    return UserObj.query.get(dl_user_id_from_token)
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
