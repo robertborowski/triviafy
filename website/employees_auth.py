@@ -55,7 +55,7 @@ def signup_function(url_redirect_code=None):
       # ------------------------ create new signup in db start ------------------------
       if email_exists == None or email_exists == []:
         new_row = EmployeesCollectEmailObj(
-          id=create_uuid_function('collect_email_'),
+          id=create_uuid_function('collect_email2_'),
           created_timestamp=create_timestamp_function(),
           email=ui_email
         )
@@ -97,7 +97,7 @@ def signup_function(url_redirect_code=None):
       # ------------------------ infer company name end ------------------------
       # ------------------------ create new user in db start ------------------------
       new_row = EmployeesUserObj(
-        id=create_uuid_function('user_'),
+        id=create_uuid_function('user2_'),
         created_timestamp=create_timestamp_function(),
         email=ui_email,
         password=generate_password_hash(ui_password, method="sha256"),
