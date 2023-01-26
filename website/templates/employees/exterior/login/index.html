@@ -1,7 +1,7 @@
 {% extends "employees/aaa_base/base2_exterior.html" %}
 
 {% block title %}
-    <title>Create Account - Triviafy</title>
+    <title>Login - Triviafy</title>
     <meta name="description" content="The friendliest pre employment testing platform, mobile supported. Pre employment screening made simple. Pre employment tests for 50+ frameworks.">
     <meta name="og:description" content="The friendliest pre employment testing platform, mobile supported. Pre employment screening made simple. Pre employment tests for 50+ frameworks.">
 {% endblock %}
@@ -19,16 +19,16 @@
     {% endif %}
     <!-- ----------------------------------- end ----------------------------------- -->
     <div class="text-center custom-pb-4">
-      <h1 class="custom-header-2">Create account</h1>
+      <h1 class="custom-header-2">Login</h1>
     </div>
     <div class="custom-pb-6">
       <div class="mb-3">
         <label for="uiEmail" class="form-label"></label>
-        <input type="email" class="form-control" id="uiEmail" name="uiEmail" aria-describedby="emailHelp" placeholder="Work email*" pattern="\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b" value="{{ redirect_var_email }}" required>
+        <input type="email" class="form-control" id="uiEmail" name="uiEmail" aria-describedby="emailHelp" placeholder="Work email*" pattern="\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b" required>
       </div>
       <div class="mb-3">
         <label for="uiPassword" class="form-label"></label>
-        <input type="password" class="form-control" id="uiPassword" name="uiPassword" placeholder="Password*" value="{{ redirect_var_password }}" title="Minimum 4 characters" required>
+        <input type="password" class="form-control" id="uiPassword" name="uiPassword" placeholder="Password*" required>
       </div>
     </div>
     <div class="text-center">
@@ -37,7 +37,8 @@
   </form>
 
   <div class="text-center custom-pt-1">
-    <a href="/employees/login" class="custom-a-3"><p class="custom-m-0 custom-size-3">Login</p></a>
+    <a href="/employees/signup" class="custom-a-3"><p class="custom-m-0 custom-size-3">Create account</p></a>
+    <a href="/candidates/reset" class="custom-a-3"><p class="custom-mt-2 custom-size-3">Forgot password</p></a>
   </div>
 </div>
 <!-- ----------------------------------- end ----------------------------------- -->

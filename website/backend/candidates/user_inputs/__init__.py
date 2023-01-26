@@ -379,6 +379,11 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':'Account already created for email.',
       'type':'danger'
     }
+  elif redirect_var == 'e4':
+    alert_message_dict = {
+      'message':'Incorrect username/password.',
+      'type':'danger'
+    }
   # localhost_print_function('=========================================== alert_message_default_function_v2 END ===========================================')
   return alert_message_dict
 # ------------------------ individual function end ------------------------

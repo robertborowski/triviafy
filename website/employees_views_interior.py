@@ -28,7 +28,6 @@ redis_connection = redis_connect_to_database_function()
 
 # ------------------------ individual route start ------------------------
 @employees_views_interior.route('/employees/dashboard')
-@employees_views_interior.route('/employees/dashboard/')
 @employees_views_interior.route('/employees/dashboard/<url_redirect_code>')
 @login_required
 def login_dashboard_page_function(url_redirect_code=None):

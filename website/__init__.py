@@ -135,7 +135,6 @@ def create_app_function():
   from backend.page_templates_backend.account_page_backend.account_index_page_render_template import account_index_page_render_template
   from backend.page_templates_backend.account_page_backend.account_edit_settings_page_backend.account_edit_settings_page_render_template import account_edit_settings_page_render_template
   from backend.page_templates_backend.account_page_backend.account_edit_settings_page_backend.account_edit_settings_processing_changes_page_render_template import account_edit_settings_processing_changes_page_render_template
-  from backend.page_templates_backend.account_page_backend.logout import logout
   # Create question pages
   from backend.page_templates_backend.waitlist_page_backend.waitlist_create_question_page_backend.waitlist_create_question_page_render_template import waitlist_create_question_page_render_template
   from backend.page_templates_backend.waitlist_page_backend.waitlist_create_question_page_backend.waitlist_create_question_add_to_database_processing import waitlist_create_question_add_to_database_processing
@@ -243,7 +242,6 @@ def create_app_function():
   app.register_blueprint(account_index_page_render_template, url_prefix="")
   app.register_blueprint(account_edit_settings_page_render_template, url_prefix="")
   app.register_blueprint(account_edit_settings_processing_changes_page_render_template, url_prefix="")
-  app.register_blueprint(logout, url_prefix="")
   # Create question pages
   app.register_blueprint(waitlist_create_question_page_render_template, url_prefix="")
   app.register_blueprint(waitlist_create_question_add_to_database_processing, url_prefix="")
