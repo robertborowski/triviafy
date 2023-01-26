@@ -21,7 +21,6 @@ employees_views_exterior = Blueprint('employees_views_exterior', __name__)
 redis_connection = redis_connect_to_database_function()
 # ------------------------ connect to redis end ------------------------
 
-# ------------------------ routes not logged in start ------------------------
 # ------------------------ individual route start ------------------------
 @employees_views_exterior.route('/employees')
 @employees_views_exterior.route('/employees/')
@@ -29,4 +28,13 @@ def landing_page_function():
   localhost_print_function(' ------------------------ landing_page_function START ------------------------ ')
   localhost_print_function(' ------------------------ landing_page_function END ------------------------ ')
   return render_template('employees/exterior/landing/index.html')
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@employees_views_exterior.route('/employees/about')
+@employees_views_exterior.route('/employees/about/')
+def employees_about_function():
+  localhost_print_function(' ------------------------ employees_about_function START ------------------------ ')
+  localhost_print_function(' ------------------------ employees_about_function END ------------------------ ')
+  return render_template('employees/exterior/about/index.html')
 # ------------------------ individual route end ------------------------
