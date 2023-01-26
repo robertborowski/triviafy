@@ -27,7 +27,7 @@
     <div class="custom-p-4 text-center">
       {% for i in candidate_categories_arr_to_html %}
       <input type="checkbox" class="btn-check" id="testLabelAdded_{{ i }}" name="testLabelAdded" value="{{ i }}">
-      <label class="btn btn-outline-secondary custom-m-1 custom-width-5 custom-ptb-1" for="testLabelAdded_{{ i }}">{{ i }}</label>
+      <label class="btn btn-outline-secondary custom-m-1 custom-width-5 custom-ptb-1 eachTestItem" for="testLabelAdded_{{ i }}">{{ i }}</label>
       {% endfor %}
     </div>
   </div>

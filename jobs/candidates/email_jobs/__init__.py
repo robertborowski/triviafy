@@ -42,7 +42,7 @@ def job_candidates_email_all_collected_emails_function(postgres_connection, post
     try:
       # ------------------------ send email start ------------------------
       output_to_email = i_user_arr_email
-      add_link = 'https://triviafy.com/candidates/signup'
+      add_link = 'https://triviafy.com/'
       output_subject = f'Triviafy - Improved Product Experience - {todays_date}'
       output_body = f"Hi there,\n\nYou signed up to learn more about Triviafy's pre employment testing tool. You can create your candidates first pre employment test in less than 30 seconds at {add_link}\n\nBest,\nTriviafy\n\nReply 'STOP' to opt out."
       send_email_template_function(output_to_email, output_subject, output_body)
