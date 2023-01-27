@@ -275,6 +275,14 @@
   justify-content: space-around;
 }
 /* ------------------- justify end ------------------- */
+/* ------------------- jQuery start ------------------- */
+.uiSearchItemVisible {
+  display:inline-block;
+}
+.uiSearchItemInvisible {
+  display: none;
+}
+/* ------------------- jQuery end ------------------- */
 /* ------------------- list style start ------------------- */
 .custom-ls-1 {
   list-style: none;

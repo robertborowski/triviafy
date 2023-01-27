@@ -7,7 +7,10 @@
 <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
   <div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-mb-4">
     <h2 class="custom-header-2-mobile">Create test</h2>
-    <button type="submit" class="btn btn-primary">Continue</button>
+    <div class="float-end custom-mt-1 custom-display-flex">
+      <a href="/candidates/request" class="btn btn-outline-secondary">Request categories</a>
+      <button type="submit" class="btn btn-primary custom-ml-3">Continue</button>  
+    </div>
   </div>
   <div class="container border shadow custom-br-1 custom-bg-white">
     <div class="container custom-display-flex custom-jc-1 custom-pt-1">
@@ -24,16 +27,21 @@
         <p class="text-nowrap custom-color-2-light custom-header-5-mobile custom-mt-4">Review & confirm</p>
       </div>
     </div>
+    <div class="mx-auto custom-width-14 text-center custom-mt-1">
+      <div>
+        <label for="uiSearch" class="form-label">Search</label>
+        <input type="text" class="form-control custom-search-bar-1" id="uiSearch" name="uiSearch" placeholder="Search for category">
+      </div>
+    </div>
     <div class="custom-p-4 text-center">
       {% for i in candidate_categories_arr_to_html %}
       <input type="checkbox" class="btn-check" id="testLabelAdded_{{ i }}" name="testLabelAdded" value="{{ i }}">
-      <label class="btn btn-outline-secondary custom-m-1 custom-width-5 custom-ptb-1 eachTestItem" for="testLabelAdded_{{ i }}">{{ i }}</label>
+      <label class="btn btn-outline-secondary custom-m-1 custom-width-5 custom-ptb-1 uiSearchItem" for="testLabelAdded_{{ i }}">{{ i }}</label>
       {% endfor %}
     </div>
   </div>
   <div class="container">
     <div class="float-end custom-mt-1 custom-display-flex">
-      <a href="/candidates/request" class="btn btn-outline-secondary">Request more test categories</a>
       <button type="submit" class="btn btn-primary custom-ml-2">Continue</button>  
     </div>
   </div>
