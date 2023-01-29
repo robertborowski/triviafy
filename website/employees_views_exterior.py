@@ -38,3 +38,12 @@ def employees_about_function():
   localhost_print_function(' ------------------------ employees_about_function END ------------------------ ')
   return render_template('employees/exterior/about/index.html')
 # ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@employees_views_exterior.route('/employees/faq')
+@employees_views_exterior.route('/employees/faq/')
+def employees_faq_function():
+  localhost_print_function(' ------------------------ employees_faq_function start ------------------------ ')
+  localhost_print_function(' ------------------------ employees_faq_function end ------------------------ ')
+  return render_template('employees/exterior/faq/index.html')
+# ------------------------ individual route end ------------------------
