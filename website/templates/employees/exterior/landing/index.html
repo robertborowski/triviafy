@@ -262,7 +262,7 @@
       <img src="/static/images/employees/landing/puzzle4piece.png" alt="how it works img" class="custom-img-size-5">
     </div>
     <div class="float-end">
-      <p class="custom-header-4 custom-pb-2 custom-pt-3 custom-width-1">100% customizable trivia settings. <a href="#">Create</a> your team's first trivia quiz in less than 30 seconds.</p>
+      <p class="custom-header-4 custom-pb-2 custom-pt-3 custom-width-1">100% customizable trivia settings. <a href="/employees/signup">Create</a> your team's first trivia quiz in less than 60 seconds.</p>
     </div>
   </div>
   <!-- ----------------------------------- end ----------------------------------- -->
@@ -304,6 +304,40 @@
   <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
       <path d="M600,112.77C268.63,112.77,0,65.52,0,7.23V120H1200V7.23C1200,65.52,931.37,112.77,600,112.77Z" class="shape-fill"></path>
   </svg>
+</div>
+<!-- ----------------------------------- end ----------------------------------- -->
+
+<!-- ----------------------------------- start ----------------------------------- -->
+<div class="container-fluid">
+  <div class="container text-center custom-pt-3">
+    <h2 class="custom-mb-1 custom-header-1">Companies that love team building activites!</h2>
+  </div>
+  <div class="container custom-display-flex custom-fw-1 custom-jc-1 custom-mb-3">
+    <img src="/static/images/candidates/logos_companies/docusign.png" alt="pre employment testing docusign" class="custom-img-size-6 custom-m-2">
+    <img src="/static/images/candidates/logos_companies/dropbox.png" alt="pre employment testing dropbox" class="custom-img-size-6 custom-m-2">
+    <img src="/static/images/candidates/logos_companies/hm.png" alt="pre employment testing hm" class="custom-img-size-6 custom-m-2">
+    <img src="/static/images/candidates/logos_companies/homechef.png" alt="pre employment testing homechef" class="custom-img-size-6 custom-m-2">
+    <img src="/static/images/candidates/logos_companies/salesforce.png" alt="pre employment testing salesforce" class="custom-img-size-6 custom-m-2">
+  </div>
+</div>
+<!-- ----------------------------------- end ----------------------------------- -->
+
+<!-- ----------------------------------- start ----------------------------------- -->
+<div class="container-fluid custom-pb-1">
+  <div class="container custom-bg-colorful-1 custom-br-1 shadow custom-width-3">
+    <div class="container text-center custom-pt-3">
+      <h2 class="custom-header-1">Start team trivia <span class="fst-italic">today!</span></h2>
+      <h2 class="custom-header-4">Send your first triviafy test in less than 60 seconds.</h2>
+    </div>
+    <form action="{{ url_for('employees_auth.employees_signup_function') }}" method="post" enctype="multipart/form-data" class="custom-display-flex custom-width-1 mx-auto custom-pt-4" onsubmit="return clickSubmitButtonOnce()">
+      <label for="uiEmailVarious" class="form-label"></label>
+      <input type="email" class="form-control custom-mr-2 custom-p-3" id="uiEmailVarious" name="uiEmailVarious" aria-describedby="emailHelp" placeholder="Work email" required>
+      <button type="submit" class="btn btn-primary text-nowrap">Get Started</button>
+    </form>
+    <div class="text-center custom-mt-2 custom-pb-3">
+      <p class="custom-size-4 custom-color-light-1">(No credit card required.)</p>
+    </div>
+  </div>
 </div>
 <!-- ----------------------------------- end ----------------------------------- -->
 {% endblock %}
