@@ -605,6 +605,31 @@
       height: 100px;
   }
 }
+
+.custom-shape-divider-top-1672426066-2 {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+.custom-shape-divider-top-1672426066-2 svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 150px;
+}
+.custom-shape-divider-top-1672426066-2 .shape-fill {
+  fill: rgb(231 241 255);
+}
+/** For mobile devices **/
+@media (max-width: 767px) {
+  .custom-shape-divider-top-1672426066-2 svg {
+      width: calc(135% + 1.3px);
+      height: 100px;
+  }
+}
 /* ------------------- shape divider end ------------------- */
 /* ------------------- tag start ------------------- */
 .custom-tag-1 {
