@@ -210,6 +210,9 @@
 .custom-height-6 {
   height: 200px;
 }
+.custom-height-7 {
+  height: 25px;
+}
 /* ------------------- height end ------------------- */
 /* ------------------- img start ------------------- */
 .custom-img-size-1 {
@@ -347,6 +350,9 @@
 }
 .custom-mt-negative-2 {
   margin-top: -7px;
+}
+.custom-mt-negative-3 {
+  margin-top: -5px;
 }
 .custom-mr-1 {
   margin-right: 5px;
