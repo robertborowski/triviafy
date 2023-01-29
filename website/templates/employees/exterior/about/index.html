@@ -1,4 +1,4 @@
-{% extends "candidates/aaa_base/base2_exterior.html" %}
+{% extends "employees/aaa_base/base2_exterior.html" %}
 
 {% block title %}
     <title>About - Triviafy</title>
@@ -13,9 +13,9 @@
     <div class="float-start custom-pt-2">
       <h1 class="custom-m-0 custom-width-1 custom-header-1">About the best team building activity.</h1>
       <h2 class="custom-header-4 custom-mt-1">Boost your team's engagement metrics.</h2>
-      <form action="{{ url_for('auth.candidates_signup_function') }}" method="post" enctype="multipart/form-data" class="custom-display-flex custom-pt-1" onsubmit="return clickSubmitButtonOnce()">
-        <label for="various_pages1_ui_email" class="form-label"></label>
-        <input type="email" class="form-control custom-mr-2 custom-p-3" id="various_pages1_ui_email" name="various_pages1_ui_email" aria-describedby="emailHelp" placeholder="Work email" required>
+      <form action="{{ url_for('employees_auth.employees_signup_function') }}" method="post" enctype="multipart/form-data" class="custom-display-flex custom-pt-1" onsubmit="return clickSubmitButtonOnce()">
+        <label for="uiEmailVarious" class="form-label"></label>
+        <input type="email" class="form-control custom-mr-2 custom-p-3" id="uiEmailVarious" name="uiEmailVarious" aria-describedby="emailHelp" placeholder="Work email" required>
         <button type="submit" class="btn btn-primary text-nowrap">Get Started</button>
       </form>
       <div class="text-center custom-mt-2">
@@ -23,7 +23,7 @@
       </div>
     </div>
     <div class="float-end custom-pt-3 custom-pb-1 text-center">
-      <img src="/static/images/candidates/landing_page/emily.png" alt="candidate overview" class="custom-img-size-3">
+      <img src="/static/images/employees/cutouts/cutout_emily.png" alt="candidate overview" class="custom-img-size-3">
     </div>
   </div>
 </div>
@@ -31,9 +31,8 @@
 
 <!-- ----------------------------------- start ----------------------------------- -->
 <div class="container custom-width-3 custom-line-1">
-  <p class="custom-header-4"><span class="custom-ml-2">Triviafy</span> is a pre-employment testing platform that helps employers identify candidates that have the skills and abilities to best fit the job requirements. Triviafy offers pre-employment assessments for 50+ languages, tools, and frameworks. Some of the most popular assessments focus on skills like Excel, Python, JavaScript, and SQL. Triviafy also offers assessments based on soft skills such as teamwork, problem solving, communication, adaptability, critical thinking, and time management.</p>
-  <p class="custom-header-4">Triviafy’s platform allows you to use pre-built assessments or create your own custom assessments from scratch. Customize your assessment’s questions, categories, frameworks, difficulty, timeframe, passing score, and more. You can create a custom triviafy assessment and send it to a candidate in less than 2 minutes.</p>
-  <p class="custom-header-4">Triviafy offers in depth candidate analytics to provide you with even more insight into the effectiveness of each candidate that completes a test through our platform. Triviafy helps you understand which candidate has the widest array of skills as well as a candidates ranking by skill.</p>
+  <p class="custom-header-4"><span class="custom-ml-2">Employee</span> engagement trivia is a fun way to bring teams together and boost morale in the workplace. Trivia games and quizzes can challenge employees' knowledge and spark friendly competition, while also promoting teamwork and communication. Triviafy is a great way to create a relaxed and enjoyable atmosphere while also promoting learning and growth. Trivia can cover a variety of subjects, such as company history, industry trends, or general pop culture, and can be tailored to fit the interests and goals of the team. Incorporating employee engagement trivia into team-building activities can increase employee satisfaction and strengthen relationships within the workplace.</p>
+  <p class="custom-header-4">Triviafy is a quiz building tool that enables teams to create and participate in quizzes on various topics. Triviafy provides a user-friendly interface and offers features such as question creation, answer options, score tracking, and customizable quiz templates. With these tools, users can build quizzes for fun, educational purposes, or for training new team members. Triviafy also offers additional features like team member analytics and the ability to share quizzes easily across teams. Whether you're an analyst, student, or Vice President, Triviafy can provide an engaging and interactive way to test your teams knowledge.</p>
 </div>
 <!-- ----------------------------------- end ----------------------------------- -->
 
@@ -56,12 +55,12 @@
 <div class="container-fluid custom-pb-1">
   <div class="container custom-bg-colorful-1 custom-br-1 shadow custom-width-3">
     <div class="container text-center custom-pt-3">
-      <h2 class="custom-header-1">Start testing candidates <span class="fst-italic">today!</span></h2>
-      <h2 class="custom-header-4">Send your first pre employment test in less than 60 seconds.</h2>
+      <h2 class="custom-header-1">Start team trivia <span class="fst-italic">today!</span></h2>
+      <h2 class="custom-header-4">Send your first triviafy test in less than 60 seconds.</h2>
     </div>
-    <form action="{{ url_for('auth.candidates_signup_function') }}" method="post" enctype="multipart/form-data" class="custom-display-flex custom-width-1 mx-auto custom-pt-4" onsubmit="return clickSubmitButtonOnce()">
-      <label for="various_pages1_ui_email" class="form-label"></label>
-      <input type="email" class="form-control custom-mr-2 custom-p-3" id="various_pages1_ui_email" name="various_pages1_ui_email" aria-describedby="emailHelp" placeholder="Work email" required>
+    <form action="{{ url_for('employees_auth.employees_signup_function') }}" method="post" enctype="multipart/form-data" class="custom-display-flex custom-width-1 mx-auto custom-pt-4" onsubmit="return clickSubmitButtonOnce()">
+      <label for="uiEmailVarious" class="form-label"></label>
+      <input type="email" class="form-control custom-mr-2 custom-p-3" id="uiEmailVarious" name="uiEmailVarious" aria-describedby="emailHelp" placeholder="Work email" required>
       <button type="submit" class="btn btn-primary text-nowrap">Get Started</button>
     </form>
     <div class="text-center custom-mt-2 custom-pb-3">
