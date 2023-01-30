@@ -50,6 +50,28 @@ class CollectEmailObj(db.Model):
   email = db.Column(db.String(150))
   source = db.Column(db.String(20))
 # ------------------------ individual model end ------------------------
+
+# ------------------------ individual model start ------------------------
+class CreatedQuestionsObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  fk_user_id = db.Column(db.String(150))
+  status = db.Column(db.Boolean, default=False)
+  categories = db.Column(db.String(150))
+  title = db.Column(db.String(150))
+  question = db.Column(db.String(1000))
+  question_type = db.Column(db.String(50))
+  option_a = db.Column(db.String(280))
+  option_b = db.Column(db.String(280))
+  option_c = db.Column(db.String(280))
+  option_d = db.Column(db.String(280))
+  option_e = db.Column(db.String(280))
+  answer = db.Column(db.String(10))
+  aws_image_uuid = db.Column(db.String(150))
+  aws_image_url = db.Column(db.String(150))
+  submission = db.Column(db.String(20))
+  product = db.Column(db.String(50))
+# ------------------------ individual model end ------------------------
 # ------------------------ all product models end ------------------------
 
 # ------------------------ candidates models start ------------------------
@@ -155,23 +177,23 @@ class CandidatesStripeCheckoutSessionObj(db.Model):
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
-class CandidatesCreatedQuestionsObj(db.Model):
-  id = db.Column(db.String(150), primary_key=True)
-  created_timestamp = db.Column(db.DateTime(timezone=True))
-  fk_user_id = db.Column(db.String(150))
-  status = db.Column(db.Boolean, default=False)
-  categories = db.Column(db.String(150))
-  title = db.Column(db.String(150))
-  question = db.Column(db.String(1000))
-  option_a = db.Column(db.String(280))
-  option_b = db.Column(db.String(280))
-  option_c = db.Column(db.String(280))
-  option_d = db.Column(db.String(280))
-  option_e = db.Column(db.String(280))
-  answer = db.Column(db.String(10))
-  aws_image_uuid = db.Column(db.String(150))
-  aws_image_url = db.Column(db.String(150))
-  submission = db.Column(db.String(20))
+# class CandidatesCreatedQuestionsObj(db.Model):
+#   id = db.Column(db.String(150), primary_key=True)
+#   created_timestamp = db.Column(db.DateTime(timezone=True))
+#   fk_user_id = db.Column(db.String(150))
+#   status = db.Column(db.Boolean, default=False)
+#   categories = db.Column(db.String(150))
+#   title = db.Column(db.String(150))
+#   question = db.Column(db.String(1000))
+#   option_a = db.Column(db.String(280))
+#   option_b = db.Column(db.String(280))
+#   option_c = db.Column(db.String(280))
+#   option_d = db.Column(db.String(280))
+#   option_e = db.Column(db.String(280))
+#   answer = db.Column(db.String(10))
+#   aws_image_uuid = db.Column(db.String(150))
+#   aws_image_url = db.Column(db.String(150))
+#   submission = db.Column(db.String(20))
 # ------------------------ individual model end ------------------------
 # ------------------------ candidates models end ------------------------
 
