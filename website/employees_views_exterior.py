@@ -56,3 +56,23 @@ def employees_pricing_function():
   localhost_print_function(' ------------------------ employees_pricing_function end ------------------------ ')
   return render_template('employees/exterior/pricing/index.html')
 # ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@employees_views_exterior.route('/employees/blog', methods=['GET', 'POST'])
+@employees_views_exterior.route('/employees/blog/', methods=['GET', 'POST'])
+def employees_blog_page_function():
+  localhost_print_function(' ------------------------ employees_blog_page_function START ------------------------ ')
+  localhost_print_function(' ------------------------ employees_blog_page_function END ------------------------ ')
+  return render_template('employees/exterior/blog/index.html')
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@employees_views_exterior.route('/employees/blog/<i_blog_post_number>', methods=['GET', 'POST'])
+@employees_views_exterior.route('/employees/blog/<i_blog_post_number>/', methods=['GET', 'POST'])
+def employees_i_blog_page_function(i_blog_post_number='0001'):
+  localhost_print_function(' ------------------------ employees_i_blog_page_function start ------------------------ ')
+  current_blog_post_num = i_blog_post_number
+  current_blog_post_num_full_string = f'employees/exterior/blog/i_blog/i_{current_blog_post_num}.html'
+  localhost_print_function(' ------------------------ employees_i_blog_page_function end ------------------------ ')
+  return render_template(current_blog_post_num_full_string)
+# ------------------------ individual route end ------------------------
