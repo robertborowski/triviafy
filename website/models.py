@@ -66,7 +66,7 @@ class CreatedQuestionsObj(db.Model):
   option_c = db.Column(db.String(280))
   option_d = db.Column(db.String(280))
   option_e = db.Column(db.String(280))
-  answer = db.Column(db.String(10))
+  answer = db.Column(db.String(280))
   aws_image_uuid = db.Column(db.String(150))
   aws_image_url = db.Column(db.String(150))
   submission = db.Column(db.String(20))
