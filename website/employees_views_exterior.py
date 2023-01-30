@@ -47,3 +47,12 @@ def employees_faq_function():
   localhost_print_function(' ------------------------ employees_faq_function end ------------------------ ')
   return render_template('employees/exterior/faq/index.html')
 # ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@employees_views_exterior.route('/employees/pricing')
+@employees_views_exterior.route('/employees/pricing/')
+def employees_pricing_function():
+  localhost_print_function(' ------------------------ employees_pricing_function start ------------------------ ')
+  localhost_print_function(' ------------------------ employees_pricing_function end ------------------------ ')
+  return render_template('employees/exterior/pricing/index.html')
+# ------------------------ individual route end ------------------------

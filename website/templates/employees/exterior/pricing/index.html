@@ -1,0 +1,128 @@
+{% extends "employees/aaa_base/base2_exterior.html" %}
+
+{% block title %}
+    <title>Pricing - Triviafy</title>
+    <meta name="description" content="The friendliest pre employment testing platform, mobile supported. Pre employment screening made simple. Pre employment tests for 50+ frameworks.">
+    <meta name="og:description" content="The friendliest pre employment testing platform, mobile supported. Pre employment screening made simple. Pre employment tests for 50+ frameworks.">
+{% endblock %}
+
+{% block contentBodyExceptNavbarAndFooter %}
+<!-- ----------------------------------- start ----------------------------------- -->
+<div class="container-fluid">
+  <div class="container custom-height-1-mobile">
+    <div class="float-start custom-pt-2">
+      <h1 class="custom-m-0 custom-width-1 custom-header-1">Pricing for the best team building activity.</h1>
+      <h2 class="custom-header-4 custom-mt-1">Boost your team's engagement metrics.</h2>
+      <form action="{{ url_for('employees_auth.employees_signup_function') }}" method="post" enctype="multipart/form-data" class="custom-display-flex custom-pt-1" onsubmit="return clickSubmitButtonOnce()">
+        <label for="uiEmailVarious" class="form-label"></label>
+        <input type="email" class="form-control custom-mr-2 custom-p-3" id="uiEmailVarious" name="uiEmailVarious" aria-describedby="emailHelp" placeholder="Work email" required>
+        <button type="submit" class="btn btn-primary text-nowrap">Get Started</button>
+      </form>
+      <div class="text-center custom-mt-2">
+        <p class="custom-size-4 custom-color-light-1">(No credit card required.)</p>
+      </div>
+    </div>
+    <div class="float-end custom-pt-3 custom-pb-1 text-center">
+      <img src="/static/images/employees/cutouts/cutout_madison.png" alt="candidate overview" class="custom-img-size-3">
+    </div>
+  </div>
+</div>
+<!-- ----------------------------------- end ----------------------------------- -->
+
+<!-- ----------------------------------- start ----------------------------------- -->
+<div class="container">
+  <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+    <div class="col">
+      <div class="card mb-4 rounded-3 shadow-sm">
+        <div class="card-header py-3">
+          <h4 class="my-0 fw-normal">Free</h4>
+        </div>
+        <div class="card-body">
+          <h1 class="card-title pricing-card-title">$0<small class="text-muted fw-light">/mo</small></h1>
+          <ul class="list-unstyled mt-3 mb-4 custom-height-6">
+            <li>&#10003; Trivia test library</li>
+            <li>&#10003; Team leaderboard & analytics</li>
+            <li>&#10003; Create upto 3 custom tests total</li>
+            <li>&#10003; Create upto 3 custom questions total</li>
+            <li>&#10003; Send upto 3 trivia tests total total</li>
+          </ul>
+          <a href="/employees/signup" class="w-100 btn btn-lg btn-outline-primary">Select</a>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card mb-4 rounded-3 shadow-sm">
+        <div class="card-header py-3">
+          <h4 class="my-0 fw-normal">Pro</h4>
+        </div>
+        <div class="card-body">
+          <h1 class="card-title pricing-card-title">$19<small class="text-muted fw-light">/mo</small></h1>
+          <ul class="list-unstyled mt-3 mb-4 custom-height-6">
+            <li>&#10003; Trivia test library</li>
+            <li>&#10003; Team leaderboard & analytics</li>
+            <li>&#10003; Include winner prizes</li>
+            <li>&#10003; Create upto 4 custom tests monthly</li>
+            <li>&#10003; Create upto 10 custom questions monthly</li>
+            <li>&#10003; Send upto 4 trivia tests monthly</li>
+          </ul>
+          <a href="/employees/signup" class="w-100 btn btn-lg btn-outline-primary">Select</a>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card mb-4 rounded-3 shadow-sm border-primary">
+        <div class="card-header py-3 text-bg-primary border-primary">
+          <h4 class="my-0 fw-normal">Premium</h4>
+        </div>
+        <div class="card-body">
+          <h1 class="card-title pricing-card-title">$99<small class="text-muted fw-light">/mo</small></h1>
+          <ul class="list-unstyled mt-3 mb-4 custom-height-6">
+            <li>&#10003; Trivia test library</li>
+            <li>&#10003; Team leaderboard & analytics</li>
+            <li>&#10003; Include winner prizes</li>
+            <li>&#10003; Create unlimited custom tests</li>
+            <li>&#10003; Create unlimited custom questions</li>
+            <li>&#10003; Send unlimited trivia tests</li>
+          </ul>
+          <a href="/employees/signup" class="w-100 btn btn-lg btn-outline-primary">Select</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ----------------------------------- end ----------------------------------- -->
+
+<!-- ----------------------------------- start ----------------------------------- -->
+<div class="container-fluid">
+  <div class="container text-center custom-pt-3">
+    <h2 class="custom-mb-1 custom-header-1">Companies that love team building activites!</h2>
+  </div>
+  <div class="container custom-display-flex custom-fw-1 custom-jc-1 custom-mb-3">
+    <img src="/static/images/candidates/logos_companies/dell.png" alt="pre employment testing dell" class="custom-img-size-6 custom-m-2">
+    <img src="/static/images/candidates/logos_companies/dilveroo.png" alt="pre employment testing deliveroo" class="custom-img-size-6 custom-m-2">
+    <img src="/static/images/candidates/logos_companies/nvda.png" alt="pre employment testing nvda" class="custom-img-size-6 custom-m-2">
+    <img src="/static/images/candidates/logos_companies/oracle.png" alt="pre employment testing oracle" class="custom-img-size-6 custom-m-2">
+    <img src="/static/images/candidates/logos_companies/twitch.png" alt="pre employment testing twitch" class="custom-img-size-6 custom-m-2">
+  </div>
+</div>
+<!-- ----------------------------------- end ----------------------------------- -->
+
+<!-- ----------------------------------- start ----------------------------------- -->
+<div class="container-fluid custom-pb-1">
+  <div class="container custom-bg-colorful-1 custom-br-1 shadow custom-width-3">
+    <div class="container text-center custom-pt-3">
+      <h2 class="custom-header-1">Start team trivia <span class="fst-italic">today!</span></h2>
+      <h2 class="custom-header-4">Send your first triviafy test in less than 60 seconds.</h2>
+    </div>
+    <form action="{{ url_for('employees_auth.employees_signup_function') }}" method="post" enctype="multipart/form-data" class="custom-display-flex custom-width-1 mx-auto custom-pt-4" onsubmit="return clickSubmitButtonOnce()">
+      <label for="uiEmailVarious" class="form-label"></label>
+      <input type="email" class="form-control custom-mr-2 custom-p-3" id="uiEmailVarious" name="uiEmailVarious" aria-describedby="emailHelp" placeholder="Work email" required>
+      <button type="submit" class="btn btn-primary text-nowrap">Get Started</button>
+    </form>
+    <div class="text-center custom-mt-2 custom-pb-3">
+      <p class="custom-size-4 custom-color-light-1">(No credit card required.)</p>
+    </div>
+  </div>
+</div>
+<!-- ----------------------------------- end ----------------------------------- -->
+{% endblock %}
