@@ -59,7 +59,7 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
       'input_args': {}
     },
     'select_all_candidate_categories_chosen_v2': {
-      'raw_query': "SELECT DISTINCT q.categories FROM created_questions_obj AS q WHERE q.status=TRUE ORDER BY q.categories;",
+      'raw_query': "SELECT DISTINCT q.categories FROM created_questions_obj AS q WHERE q.status=TRUE AND q.product='candidates' ORDER BY q.categories;",
       'input_args': {}
     },
     'select_all_questions_for_x_categories': {
@@ -92,7 +92,7 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
                     FROM \
                       created_questions_obj \
                     WHERE \
-                      status = TRUE \
+                      status = TRUE AND product='candidates' \
                       AND ({additional_input}) \
                     ORDER BY \
                       RANDOM() \
