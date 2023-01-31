@@ -1,9 +1,17 @@
-{% extends "employees/aaa_base/base2_interior.html" %}
-<!-- head tag block content -->
+{% extends "candidates/aaa_base/single_message.html" %}
+
 {% block title %}
-  <title>Dashboard - Triviafy</title>
+<title>Triviafy Test</title>
 {% endblock %}
+
 {% block contentBodyExceptNavbarAndFooter %}
-<h1>Dashboard</h1>
-<h1>Hello</h1>
+<main>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Img, message, button Start -->
+  <div class="text-center custom-mt-5">
+    <img src="/static/images/all/logo/logo_v3.png" alt="Triviafy Logo" class="custom-img-size-7-mobile">
+    <p class="custom-ptb-4 custom-header-4">Thank you for signing up! Triviafy team building software will launch February 2023.</p>
+    <a href="/employees" class="btn btn-primary btn-lg">Home</a>
+  </div>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Img, message, button End -->
+</main>
 {% endblock %}
