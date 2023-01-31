@@ -17,6 +17,8 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function
+from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj
+from website.backend.candidates.autogeneration import generate_random_length_uuid_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -46,6 +48,57 @@ def login_dashboard_page_function(url_redirect_code=None):
   # ------------------------ redirect codes start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
   # ------------------------ redirect codes end ------------------------
+  # ------------------------ pull/create group id start ------------------------
+  company_group_id = None
+  db_groups_obj = EmployeesGroupsObj.query.filter_by(fk_company_name=current_user.company_name).first()
+  if db_groups_obj == None or db_groups_obj == []:
+    company_group_id = generate_random_length_uuid_function(6)
+    # ------------------------ insert to db start ------------------------
+    try:
+      new_row = EmployeesGroupsObj(
+        id = create_uuid_function('group_'),
+        created_timestamp = create_timestamp_function(),
+        fk_company_name = current_user.company_name,
+        fk_user_id = current_user.id,
+        public_group_id = company_group_id,
+        status = 'active'
+      )
+      db.session.add(new_row)
+      db.session.commit()
+    except:
+      pass
+    # ------------------------ insert to db end ------------------------
+  else:
+    company_group_id = db_groups_obj.public_group_id
+  # ------------------------ pull/create group id end ------------------------
+  if company_group_id != None:
+    # ------------------------ pull/create group settings start ------------------------
+    db_group_settings_obj = EmployeesGroupSettingsObj.query.filter_by(fk_group_id=company_group_id).first()
+    if db_group_settings_obj == None or db_group_settings_obj == []:
+      # ------------------------ insert to db start ------------------------
+      try:
+        new_row = EmployeesGroupSettingsObj(
+          id = create_uuid_function('gset_'),
+          created_timestamp = create_timestamp_function(),
+          fk_group_id = company_group_id,
+          fk_user_id = current_user.id,
+          timezone = 'EST',
+          start_day = 'Monday',
+          start_time = '12 Noon',
+          end_day = 'Thursday',
+          end_time = '1 PM',
+          total_questions = 10,
+          question_type = 'mixed',
+          categories = 'all_categories'
+        )
+        db.session.add(new_row)
+        db.session.commit()
+      except:
+        pass
+      # ------------------------ insert to db end ------------------------
+    else:
+      pass
+    # ------------------------ pull/create group settings end ------------------------
   # ------------------------ auto set cookie start ------------------------
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
   if get_cookie_value_from_browser != None:

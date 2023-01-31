@@ -179,4 +179,29 @@ class CandidatesStripeCheckoutSessionObj(db.Model):
 
 
 # ------------------------ employees models start ------------------------
+# ------------------------ individual model start ------------------------
+class EmployeesGroupsObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  fk_company_name = db.Column(db.String(150))
+  fk_user_id = db.Column(db.String(150))
+  public_group_id = db.Column(db.String(150))
+  status = db.Column(db.String(150))
+# ------------------------ individual model end ------------------------
+
+# ------------------------ individual model start ------------------------
+class EmployeesGroupSettingsObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  fk_group_id = db.Column(db.String(150))
+  fk_user_id = db.Column(db.String(150))
+  timezone = db.Column(db.String(150))
+  start_day = db.Column(db.String(150))
+  start_time = db.Column(db.String(150))
+  end_day = db.Column(db.String(150))
+  end_time = db.Column(db.String(150))
+  total_questions = db.Column(db.Integer)
+  question_type = db.Column(db.String(150))
+  categories = db.Column(db.String(1000))
+# ------------------------ individual model end ------------------------
 # ------------------------ employees models end ------------------------
