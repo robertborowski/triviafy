@@ -21,7 +21,7 @@ from werkzeug.security import generate_password_hash
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
-views_exterior = Blueprint('views_exterior', __name__)
+candidates_views_exterior = Blueprint('candidates_views_exterior', __name__)
 # ------------------------ function end ------------------------
 # ------------------------ before page variables start ------------------------
 cache_busting_output = create_uuid_function('css_')
@@ -32,7 +32,7 @@ redis_connection = redis_connect_to_database_function()
 
 # ------------------------ routes not logged in start ------------------------
 # ------------------------ individual route start ------------------------
-@views_exterior.route('/')
+@candidates_views_exterior.route('/')
 def products_page_function():
   localhost_print_function(' ------------------------ products_page_function START ------------------------ ')
   localhost_print_function(' ------------------------ products_page_function END ------------------------ ')
@@ -41,7 +41,7 @@ def products_page_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_exterior.route('/candidates')
+@candidates_views_exterior.route('/candidates')
 def candidates_landing_index_page_function():
   localhost_print_function(' ------------------------ candidates_landing_index_page_function START ------------------------ ')
   localhost_print_function(' ------------------------ candidates_landing_index_page_function END ------------------------ ')
@@ -49,7 +49,7 @@ def candidates_landing_index_page_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_exterior.route('/candidates/about')
+@candidates_views_exterior.route('/candidates/about')
 def candidates_about_page_function():
   localhost_print_function(' ------------------------ candidates_about_page_function START ------------------------ ')  
   localhost_print_function(' ------------------------ candidates_about_page_function END ------------------------ ')
@@ -57,7 +57,7 @@ def candidates_about_page_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_exterior.route('/candidates/faq')
+@candidates_views_exterior.route('/candidates/faq')
 def candidates_faq_page_function():
   localhost_print_function(' ------------------------ candidates_faq_page_function START ------------------------ ')
   localhost_print_function(' ------------------------ candidates_faq_page_function END ------------------------ ')
@@ -65,7 +65,7 @@ def candidates_faq_page_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_exterior.route('/candidates/library')
+@candidates_views_exterior.route('/candidates/library')
 def candidates_test_library_page_function():
   localhost_print_function(' ------------------------ candidates_test_library_page_function START ------------------------ ')
   localhost_print_function(' ------------------------ candidates_test_library_page_function END ------------------------ ')
@@ -73,7 +73,7 @@ def candidates_test_library_page_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_exterior.route('/candidates/pricing')
+@candidates_views_exterior.route('/candidates/pricing')
 def candidates_pricing_page_function():
   localhost_print_function(' ------------------------ candidates_pricing_page_function START ------------------------ ')
   localhost_print_function(' ------------------------ candidates_pricing_page_function END ------------------------ ')
@@ -81,7 +81,7 @@ def candidates_pricing_page_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_exterior.route('/404')
+@candidates_views_exterior.route('/404')
 def error_page_function():
   localhost_print_function(' ------------------------ error_page_function START ------------------------ ')
   localhost_print_function(' ------------------------ error_page_function END ------------------------ ')
@@ -89,7 +89,7 @@ def error_page_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_exterior.route('/candidates/reset', methods=['GET', 'POST'])
+@candidates_views_exterior.route('/candidates/reset', methods=['GET', 'POST'])
 def candidates_forgot_password_page_function():
   localhost_print_function(' ------------------------ candidates_forgot_password_page_function START ------------------------ ')  
   forgot_password_error_statement = ''
@@ -122,11 +122,11 @@ def candidates_forgot_password_page_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_exterior.route('/candidates/reset/<token>', methods=['GET', 'POST'])
+@candidates_views_exterior.route('/candidates/reset/<token>', methods=['GET', 'POST'])
 def candidates_reset_forgot_password_page_function(token):
   localhost_print_function(' ------------------------ candidates_reset_forgot_password_page_function START ------------------------ ')
   # if current_user.is_authenticated == False:
-  #   return redirect(url_for('views_interior.login_dashboard_page_function'))
+  #   return redirect(url_for('candidates_views_interior.login_dashboard_page_function'))
   reset_password_error_statement = ''
   user_obj_from_token = UserObj.verify_reset_token_function(token)
   if user_obj_from_token is None:
@@ -157,14 +157,14 @@ def candidates_reset_forgot_password_page_function(token):
     if reset_password_error_statement == '':
       user_obj_from_token.password = generate_password_hash(ui_password, method="sha256")
       db.session.commit()
-      return redirect(url_for('views_interior.login_dashboard_page_function'))
+      return redirect(url_for('candidates_views_interior.login_dashboard_page_function'))
     # ------------------------ update db end ------------------------
   localhost_print_function(' ------------------------ candidates_reset_forgot_password_page_function END ------------------------ ')
   return render_template('candidates/exterior/forgot_password/reset_forgot_password/index.html', user=current_user, error_message_to_html = reset_password_error_statement)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_exterior.route('/candidates/blog', methods=['GET', 'POST'])
+@candidates_views_exterior.route('/candidates/blog', methods=['GET', 'POST'])
 def candidates_blog_page_function():
   localhost_print_function(' ------------------------ candidates_blog_page_function START ------------------------ ')
   localhost_print_function(' ------------------------ candidates_blog_page_function END ------------------------ ')
@@ -172,7 +172,7 @@ def candidates_blog_page_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_exterior.route('/candidates/blog/<i_blog_post_number>', methods=['GET', 'POST'])
+@candidates_views_exterior.route('/candidates/blog/<i_blog_post_number>', methods=['GET', 'POST'])
 def candidates_i_blog_page_function(i_blog_post_number):
   localhost_print_function(' ------------------------ candidates_i_blog_page_function START ------------------------ ')
   current_blog_post_num = i_blog_post_number

@@ -66,7 +66,7 @@
       <h2 class="custom-header-1">Start testing candidates <span class="fst-italic">today!</span></h2>
       <h2 class="custom-header-4">Send your first pre employment test in less than 60 seconds.</h2>
     </div>
-    <form action="{{ url_for('auth.candidates_signup_function') }}" method="post" enctype="multipart/form-data" class="custom-display-flex custom-width-1 mx-auto custom-pt-4" onsubmit="return clickSubmitButtonOnce()">
+    <form action="{{ url_for('candidates_auth.candidates_signup_function') }}" method="post" enctype="multipart/form-data" class="custom-display-flex custom-width-1 mx-auto custom-pt-4" onsubmit="return clickSubmitButtonOnce()">
       <label for="various_pages1_ui_email" class="form-label"></label>
       <input type="email" class="form-control custom-mr-2 custom-p-3" id="various_pages1_ui_email" name="various_pages1_ui_email" aria-describedby="emailHelp" placeholder="Work email" required>
       <button type="submit" class="btn btn-primary text-nowrap">Get Started</button>

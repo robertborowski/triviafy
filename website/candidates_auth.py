@@ -1,9 +1,9 @@
 # ------------------------ info about this file start ------------------------
 # -routes = pages. Examples: [landing, about, faq, pricing] pages = routes
 # -in this file we store the standard routes for our website
-# -note: any pages related to authentication will be in this auth.py file
+# -note: any pages related to autthentication will be in this autth.py file
 # -@login_required   # this decorator says that url cannot be accessed unless the user is logged in. 
-# -@login_required: <-- This decorator will bring a user to __init__ code: [login_manager.login_view = 'auth.candidates_login_page_function'] if they hit a page that requires login and they are not logged in.
+# -@login_required: <-- This decorator will bring a user to __init__ code: [login_manager.login_view = 'autth.candidates_login_page_function'] if they hit a page that requires login and they are not logged in.
 # -use code: <methods=['GET', 'POST']> when you want the user to interact with the page through forms/checkbox/textbox/radio/etc.
 # ------------------------ info about this file end ------------------------
 
@@ -23,7 +23,7 @@ import os
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
-auth = Blueprint('auth', __name__)
+candidates_auth = Blueprint('candidates_auth', __name__)
 # ------------------------ function end ------------------------
 # ------------------------ before page variables start ------------------------
 cache_busting_output = create_uuid_function('css_')
@@ -33,7 +33,7 @@ redis_connection = redis_connect_to_database_function()
 # ------------------------ connect to redis end ------------------------
 
 # ------------------------ individual route start ------------------------
-@auth.route('/candidates/signup', methods=['GET', 'POST'])
+@candidates_auth.route('/candidates/signup', methods=['GET', 'POST'])
 def candidates_signup_function():
   localhost_print_function('=========================================== candidates_signup_function START ===========================================')
   create_account_error_statement = ''
@@ -131,14 +131,14 @@ def candidates_signup_function():
         pass
       # ------------------------ email self end ------------------------
       localhost_print_function('=========================================== candidates_signup_function END ===========================================')
-      return redirect(url_for('views_interior.login_dashboard_page_function'))
+      return redirect(url_for('candidates_views_interior.login_dashboard_page_function'))
     # ------------------------ post method hit #2 - full sign up end ------------------------
   localhost_print_function('=========================================== candidates_signup_function END ===========================================')
   return render_template('candidates/exterior/signup/index.html', user=current_user, error_message_to_html = create_account_error_statement)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@auth.route('/candidates/login', methods=['GET', 'POST'])
+@candidates_auth.route('/candidates/login', methods=['GET', 'POST'])
 def candidates_login_page_function():
   localhost_print_function('=========================================== candidates_login_page_function START ===========================================')
   # ------------------------ auto sign in with cookie start ------------------------
@@ -152,7 +152,7 @@ def candidates_login_page_function():
         login_user(user, remember=True)
         # ------------------------ keep user logged in end ------------------------
         localhost_print_function('redirecting to logged in page')
-        return redirect(url_for('views_interior.login_dashboard_page_function'))
+        return redirect(url_for('candidates_views_interior.login_dashboard_page_function'))
     except:
       pass
   # ------------------------ auto sign in with cookie end ------------------------
@@ -179,7 +179,7 @@ def candidates_login_page_function():
         # ------------------------ keep user logged in start ------------------------
         login_user(user, remember=True)
         # ------------------------ keep user logged in end ------------------------
-        return redirect(url_for('views_interior.login_dashboard_page_function'))
+        return redirect(url_for('candidates_views_interior.login_dashboard_page_function'))
       else:
         login_error_statement = 'Incorrect email/password, try again.'
     else:
@@ -190,10 +190,10 @@ def candidates_login_page_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@auth.route('/logout')
-@auth.route('/logout/')
-@auth.route('/candidates/logout')
-@auth.route('/candidates/logout/')
+@candidates_auth.route('/logout')
+@candidates_auth.route('/logout/')
+@candidates_auth.route('/candidates/logout')
+@candidates_auth.route('/candidates/logout/')
 @login_required
 def candidates_logout_function():
   localhost_print_function('=========================================== candidates_logout_function START ===========================================')
@@ -208,5 +208,5 @@ def candidates_logout_function():
       pass
   # ------------------------ auto sign in with cookie end ------------------------
   localhost_print_function('=========================================== candidates_logout_function END ===========================================')
-  return redirect(url_for('auth.candidates_login_page_function'))
+  return redirect(url_for('candidates_auth.candidates_login_page_function'))
 # ------------------------ individual route end ------------------------

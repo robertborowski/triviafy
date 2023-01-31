@@ -36,7 +36,7 @@ from website.backend.candidates.stripe import check_stripe_subscription_status_f
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
-views_interior = Blueprint('views_interior', __name__)
+candidates_views_interior = Blueprint('candidates_views_interior', __name__)
 # ------------------------ function end ------------------------
 # ------------------------ before page variables start ------------------------
 cache_busting_output = create_uuid_function('css_')
@@ -46,8 +46,8 @@ redis_connection = redis_connect_to_database_function()
 # ------------------------ connect to redis end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/')
-@views_interior.route('/candidates/dashboard')
+@candidates_views_interior.route('/candidates/')
+@candidates_views_interior.route('/candidates/dashboard')
 @login_required
 def login_dashboard_page_function(url_redirect_code=None):
   localhost_print_function(' ------------------------ login_dashboard_page_function START ------------------------ ')
@@ -80,7 +80,7 @@ def login_dashboard_page_function(url_redirect_code=None):
   # ------------------------ redirect new users to create assessment start ------------------------
   if len_test_created_obj == 0:
     localhost_print_function(' ------------------------ login_dashboard_page_function END ------------------------ ')
-    return redirect(url_for('views_interior.candidates_assessment_create_new_function', step_status='1'))
+    return redirect(url_for('candidates_views_interior.candidates_assessment_create_new_function', step_status='1'))
   # ------------------------ redirect new users to create assessment end ------------------------
   # ------------------------ auto set cookie start ------------------------
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
@@ -95,7 +95,7 @@ def login_dashboard_page_function(url_redirect_code=None):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/subscription/success')
+@candidates_views_interior.route('/candidates/subscription/success')
 @login_required
 def candidates_subscription_success_function():
   localhost_print_function(' ------------------------ candidates_subscription_success_function START ------------------------ ')
@@ -105,7 +105,7 @@ def candidates_subscription_success_function():
   # ------------------------ if not found start ------------------------
   if db_checkout_session_obj == None or db_checkout_session_obj == '' or db_checkout_session_obj == False:
     localhost_print_function(' ------------------------ candidates_subscription_success_function END ------------------------ ')
-    return redirect(url_for('views_interior.login_dashboard_page_function'))
+    return redirect(url_for('candidates_views_interior.login_dashboard_page_function'))
   # ------------------------ if not found end ------------------------
   # ------------------------ get desired start ------------------------
   fk_checkout_session_id = db_checkout_session_obj.fk_checkout_session_id
@@ -115,13 +115,13 @@ def candidates_subscription_success_function():
   # ------------------------ if not found start ------------------------
   if stripe_checkout_session_obj == None:
     localhost_print_function(' ------------------------ candidates_subscription_success_function END ------------------------ ')
-    return redirect(url_for('views_interior.login_dashboard_page_function'))
+    return redirect(url_for('candidates_views_interior.login_dashboard_page_function'))
   # ------------------------ if not found end ------------------------
   # ------------------------ if not finalized start ------------------------
   stripe_checkout_session_payment_status = stripe_checkout_session_obj.payment_status
   if stripe_checkout_session_payment_status != 'paid':
     localhost_print_function(' ------------------------ candidates_subscription_success_function END ------------------------ ')
-    return redirect(url_for('views_interior.login_dashboard_page_function'))
+    return redirect(url_for('candidates_views_interior.login_dashboard_page_function'))
   # ------------------------ if not finalized end ------------------------
   stripe_customer_id = stripe_checkout_session_obj.customer
   stripe_subscription_id = stripe_checkout_session_obj.subscription
@@ -143,11 +143,11 @@ def candidates_subscription_success_function():
     pass
   # ------------------------ email self end ------------------------
   localhost_print_function(' ------------------------ candidates_subscription_success_function END ------------------------ ')
-  return redirect(url_for('views_interior.candidates_account_settings_function_v2', url_redirect_code='s'))
+  return redirect(url_for('candidates_views_interior.candidates_account_settings_function_v2', url_redirect_code='s'))
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/account', methods=['GET', 'POST'])
+@candidates_views_interior.route('/candidates/account', methods=['GET', 'POST'])
 @login_required
 def candidates_account_settings_function_v2(url_redirect_code=None):
   localhost_print_function(' ------------------------ candidates_account_settings_function_v2 START ------------------------ ')
@@ -197,7 +197,7 @@ def candidates_account_settings_function_v2(url_redirect_code=None):
       ui_message = sanitize_create_question_options_function(ui_message)
       if ui_message == False:
         localhost_print_function(' ------------------------ candidates_account_settings_function_v2 END ------------------------ ')
-        return redirect(url_for('views_interior.candidates_account_settings_function_v2', url_redirect_code='e'))
+        return redirect(url_for('candidates_views_interior.candidates_account_settings_function_v2', url_redirect_code='e'))
       else:
         # ------------------------ email self start ------------------------
         try:
@@ -225,7 +225,7 @@ def candidates_account_settings_function_v2(url_redirect_code=None):
           pass
         # ------------------------ insert email to db end ------------------------
         localhost_print_function(' ------------------------ candidates_account_settings_function_v2 END ------------------------ ')
-        return redirect(url_for('views_interior.candidates_account_settings_function_v2', url_redirect_code='s2'))
+        return redirect(url_for('candidates_views_interior.candidates_account_settings_function_v2', url_redirect_code='s2'))
     # ------------------------ post uiMessage end ------------------------
     # ------------------------ delete all previous checkout drafts start ------------------------
     CandidatesStripeCheckoutSessionObj.query.filter_by(fk_user_id=current_user.id,status='draft').delete()
@@ -290,7 +290,7 @@ def candidates_account_settings_function_v2(url_redirect_code=None):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/upload', methods=['GET', 'POST'])
+@candidates_views_interior.route('/candidates/upload', methods=['GET', 'POST'])
 @login_required
 def candidates_upload_emails_function(url_redirect_code=None):
   localhost_print_function(' ------------------------ candidates_upload_emails_function START ------------------------ ')
@@ -395,17 +395,17 @@ def candidates_upload_emails_function(url_redirect_code=None):
       except:
         pass
       # ------------------------ email self end ------------------------
-      return redirect(url_for('views_interior.candidates_schedule_dashboard_function', url_redirect_code='s'))
+      return redirect(url_for('candidates_views_interior.candidates_schedule_dashboard_function', url_redirect_code='s'))
     # ------------------------ if post error start ------------------------
     if post_result != 'success' and post_result != None and post_result != '':
-      return redirect(url_for('views_interior.candidates_upload_emails_function', url_redirect_code=post_result))
+      return redirect(url_for('candidates_views_interior.candidates_upload_emails_function', url_redirect_code=post_result))
     # ------------------------ if post error end ------------------------
   localhost_print_function(' ------------------------ candidates_upload_emails_function END ------------------------ ')
   return render_template('candidates/interior/candidates_page_templates/candidates_upload/index.html', user=current_user, stripe_subscription_obj_status_to_html=stripe_subscription_obj_status, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type, db_candidates_obj_exists_to_html=db_candidates_obj_exists, db_candidates_obj_to_html=db_candidates_obj)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/<url_email>', methods=['GET', 'POST'])
+@candidates_views_interior.route('/candidates/<url_email>', methods=['GET', 'POST'])
 @login_required
 def candidates_email_specific_function(url_email=None, url_redirect_code=None):
   localhost_print_function(' ------------------------ candidates_email_specific_function START ------------------------ ')
@@ -428,7 +428,7 @@ def candidates_email_specific_function(url_email=None, url_redirect_code=None):
   db_schedule_obj = CandidatesScheduleObj.query.filter_by(user_id_fk=current_user.id, candidates=url_email).order_by(CandidatesScheduleObj.assessment_name, CandidatesScheduleObj.created_timestamp).all()
   if db_schedule_obj == None or db_schedule_obj == []:
     localhost_print_function(' ------------------------ candidates_email_specific_function END ------------------------ ')
-    return redirect(url_for('views_interior.login_dashboard_page_function'))
+    return redirect(url_for('candidates_views_interior.login_dashboard_page_function'))
   db_schedule_obj = arr_of_dict_necessary_columns_function(db_schedule_obj, ['assessment_name', 'assessment_id_fk', 'send_date', 'send_time', 'send_timezone', 'expiring_url'])
   previous_test_name = ''
   for i in db_schedule_obj:
@@ -469,8 +469,8 @@ def candidates_email_specific_function(url_email=None, url_redirect_code=None):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/tests/', methods=['GET', 'POST'])
-@views_interior.route('/candidates/tests/dashboard', methods=['GET', 'POST'])
+@candidates_views_interior.route('/candidates/tests/', methods=['GET', 'POST'])
+@candidates_views_interior.route('/candidates/tests/dashboard', methods=['GET', 'POST'])
 @login_required
 def candidates_assessments_dashboard_function(url_redirect_code=None):
   localhost_print_function(' ------------------------ candidates_assessments_dashboard_function START ------------------------ ')
@@ -489,7 +489,7 @@ def candidates_assessments_dashboard_function(url_redirect_code=None):
   db_tests_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id).order_by(CandidatesAssessmentsCreatedObj.assessment_name).all()
   if db_tests_obj == None:
     localhost_print_function(' ------------------------ candidates_assessments_dashboard_function END ------------------------ ')
-    return redirect(url_for('views_interior.candidates_assessment_create_new_function', step_status='1'))
+    return redirect(url_for('candidates_views_interior.candidates_assessment_create_new_function', step_status='1'))
   # ------------------------ get assessments end ------------------------
   # ------------------------ pull necessary columns start ------------------------
   db_tests_obj = arr_of_dict_necessary_columns_function(db_tests_obj, ['id', 'assessment_name', 'total_questions'])
@@ -518,9 +518,9 @@ def candidates_assessments_dashboard_function(url_redirect_code=None):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/tests/preview/', methods=['GET', 'POST'])
-@views_interior.route('/candidates/tests/preview/<url_test_id>', methods=['GET', 'POST'])
-@views_interior.route('/candidates/tests/preview/<url_test_id>/<url_question_number>', methods=['GET', 'POST'])
+@candidates_views_interior.route('/candidates/tests/preview/', methods=['GET', 'POST'])
+@candidates_views_interior.route('/candidates/tests/preview/<url_test_id>', methods=['GET', 'POST'])
+@candidates_views_interior.route('/candidates/tests/preview/<url_test_id>/<url_question_number>', methods=['GET', 'POST'])
 @login_required
 def candidates_test_preview_function(url_test_id=None, url_question_number='1', url_redirect_code=None):
   localhost_print_function(' ------------------------ candidates_test_preview_function START ------------------------ ')
@@ -535,15 +535,15 @@ def candidates_test_preview_function(url_test_id=None, url_question_number='1', 
   # ------------------------ valid test start ------------------------
   db_test_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id, id=url_test_id).first()
   if db_test_obj == None or url_test_id == []:
-    return redirect(url_for('views_interior.candidates_assessments_dashboard_function'))
+    return redirect(url_for('candidates_views_interior.candidates_assessments_dashboard_function'))
   # ------------------------ valid test end ------------------------
   # ------------------------ valid number start ------------------------
   try:
     max_num = int(db_test_obj.total_questions)
     if int(url_question_number) < 1 or int(url_question_number) > max_num:
-      return redirect(url_for('views_interior.candidates_test_preview_function', url_test_id=url_test_id, url_question_number='1'))
+      return redirect(url_for('candidates_views_interior.candidates_test_preview_function', url_test_id=url_test_id, url_question_number='1'))
   except:
-    return redirect(url_for('views_interior.candidates_assessments_dashboard_function'))
+    return redirect(url_for('candidates_views_interior.candidates_assessments_dashboard_function'))
   current_question_number = str(int(url_question_number))
   next_question_number = str(int(url_question_number)+1)
   if int(current_question_number) == int(max_num):
@@ -562,7 +562,7 @@ def candidates_test_preview_function(url_test_id=None, url_question_number='1', 
   # ------------------------ pull desired question obj start ------------------------
   db_question_obj = CreatedQuestionsObj.query.filter_by(id=desired_question_str).first()
   if db_question_obj == None or db_question_obj == []:
-    return redirect(url_for('views_interior.candidates_assessments_dashboard_function'))
+    return redirect(url_for('candidates_views_interior.candidates_assessments_dashboard_function'))
   db_question_obj = arr_of_dict_all_columns_single_item_function(db_question_obj)
   db_question_obj['categories'] = categories_tuple_function(db_question_obj['categories'])
   # ------------------------ check if contains img start ------------------------
@@ -581,14 +581,14 @@ def candidates_test_preview_function(url_test_id=None, url_question_number='1', 
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/tests/results/', methods=['GET', 'POST'])
-@views_interior.route('/candidates/tests/results/<url_test_id>', methods=['GET', 'POST'])
-@views_interior.route('/candidates/tests/results/<url_test_id>/', methods=['GET', 'POST'])
-@views_interior.route('/candidates/tests/results/<url_test_id>/<url_email>', methods=['GET', 'POST'])
-@views_interior.route('/candidates/tests/results/<url_test_id>/<url_email>/', methods=['GET', 'POST'])
-@views_interior.route('/candidates/tests/results/<url_test_id>/<url_email>/<url_current_attempt>', methods=['GET', 'POST'])
-@views_interior.route('/candidates/tests/results/<url_test_id>/<url_email>/<url_current_attempt>/', methods=['GET', 'POST'])
-@views_interior.route('/candidates/tests/results/<url_test_id>/<url_email>/<url_current_attempt>/<url_question_number>', methods=['GET', 'POST'])
+@candidates_views_interior.route('/candidates/tests/results/', methods=['GET', 'POST'])
+@candidates_views_interior.route('/candidates/tests/results/<url_test_id>', methods=['GET', 'POST'])
+@candidates_views_interior.route('/candidates/tests/results/<url_test_id>/', methods=['GET', 'POST'])
+@candidates_views_interior.route('/candidates/tests/results/<url_test_id>/<url_email>', methods=['GET', 'POST'])
+@candidates_views_interior.route('/candidates/tests/results/<url_test_id>/<url_email>/', methods=['GET', 'POST'])
+@candidates_views_interior.route('/candidates/tests/results/<url_test_id>/<url_email>/<url_current_attempt>', methods=['GET', 'POST'])
+@candidates_views_interior.route('/candidates/tests/results/<url_test_id>/<url_email>/<url_current_attempt>/', methods=['GET', 'POST'])
+@candidates_views_interior.route('/candidates/tests/results/<url_test_id>/<url_email>/<url_current_attempt>/<url_question_number>', methods=['GET', 'POST'])
 @login_required
 def candidates_test_answered_preview_function(url_test_id=None, url_email=None, url_current_attempt=None, url_question_number='1', url_redirect_code=None):
   localhost_print_function(' ------------------------ candidates_test_answered_preview_function START ------------------------ ')
@@ -602,20 +602,20 @@ def candidates_test_answered_preview_function(url_test_id=None, url_email=None, 
   # ------------------------ valid redirect start ------------------------
   # ------------------------ redirect start ------------------------
   if url_test_id == None or url_email == None or url_current_attempt == None or url_question_number == None:
-    return redirect(url_for('views_interior.candidates_assessments_dashboard_function'))
+    return redirect(url_for('candidates_views_interior.candidates_assessments_dashboard_function'))
   # ------------------------ redirect end ------------------------
   # ------------------------ valid test start ------------------------
   db_test_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id, id=url_test_id).first()
   if db_test_obj == None or url_test_id == []:
-    return redirect(url_for('views_interior.candidates_assessments_dashboard_function'))
+    return redirect(url_for('candidates_views_interior.candidates_assessments_dashboard_function'))
   # ------------------------ valid test end ------------------------
   # ------------------------ valid number start ------------------------
   try:
     max_num = int(db_test_obj.total_questions)
     if int(url_question_number) < 1 or int(url_question_number) > max_num:
-      return redirect(url_for('views_interior.candidates_test_answered_preview_function', url_test_id=url_test_id, url_email=url_email, url_current_attempt=url_current_attempt, url_question_number='1'))
+      return redirect(url_for('candidates_views_interior.candidates_test_answered_preview_function', url_test_id=url_test_id, url_email=url_email, url_current_attempt=url_current_attempt, url_question_number='1'))
   except:
-    return redirect(url_for('views_interior.candidates_assessments_dashboard_function'))
+    return redirect(url_for('candidates_views_interior.candidates_assessments_dashboard_function'))
   current_question_number = str(int(url_question_number))
   next_question_number = str(int(url_question_number)+1)
   if int(current_question_number) == int(max_num):
@@ -634,7 +634,7 @@ def candidates_test_answered_preview_function(url_test_id=None, url_email=None, 
   # ------------------------ pull desired question obj start ------------------------
   db_question_obj = CreatedQuestionsObj.query.filter_by(id=desired_question_str).first()
   if db_question_obj == None or db_question_obj == []:
-    return redirect(url_for('views_interior.candidates_assessments_dashboard_function'))
+    return redirect(url_for('candidates_views_interior.candidates_assessments_dashboard_function'))
   db_question_obj = arr_of_dict_all_columns_single_item_function(db_question_obj)
   db_question_obj['categories'] = categories_tuple_function(db_question_obj['categories'])
   # ------------------------ check if contains img start ------------------------
@@ -656,7 +656,7 @@ def candidates_test_answered_preview_function(url_test_id=None, url_email=None, 
   try:
     desired_expiring_url = db_schedule_obj[(int(url_current_attempt)-1)]['expiring_url']
   except:
-    return redirect(url_for('views_interior.candidates_assessments_dashboard_function'))
+    return redirect(url_for('candidates_views_interior.candidates_assessments_dashboard_function'))
   db_graded_obj = CandidatesAssessmentGradedObj.query.filter_by(assessment_expiring_url_fk=desired_expiring_url).first()
   candidate_email = db_graded_obj.candidate_email
   db_graded_arr = json.loads(db_graded_obj.assessment_obj)
@@ -664,14 +664,14 @@ def candidates_test_answered_preview_function(url_test_id=None, url_email=None, 
   try:
     db_user_anser = db_graded_arr[(int(url_question_number)-1)]['user_answer'].upper()
   except:
-    return redirect(url_for('views_interior.candidates_assessments_dashboard_function'))
+    return redirect(url_for('candidates_views_interior.candidates_assessments_dashboard_function'))
   # ------------------------ add/get candidate answers end ------------------------
   localhost_print_function(' ------------------------ candidates_test_answered_preview_function END ------------------------ ')
   return render_template('candidates/interior/assessments/post_preview/post_preview_answers/index.html', user=current_user, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type, users_company_name_to_html=user_company_name, current_question_number_to_html=current_question_number, next_question_number_to_html=next_question_number, previous_question_number_to_html=previous_question_number, url_test_id_to_html=url_test_id, db_question_obj_to_html=db_question_obj, contains_img_to_html=contains_img, db_user_anser_to_html=db_user_anser, url_current_attempt_to_html=url_current_attempt, candidate_email_to_html=candidate_email)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/tests/<url_test_id>', methods=['GET', 'POST'])
+@candidates_views_interior.route('/candidates/tests/<url_test_id>', methods=['GET', 'POST'])
 @login_required
 def candidates_test_summary_function(url_test_id=None, url_redirect_code=None):
   localhost_print_function(' ------------------------ candidates_test_summary_function START ------------------------ ')
@@ -690,7 +690,7 @@ def candidates_test_summary_function(url_test_id=None, url_redirect_code=None):
   db_test_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id, id=url_test_id).first()
   if db_test_obj == None or db_test_obj == []:
     localhost_print_function(' ------------------------ candidates_test_summary_function END ------------------------ ')
-    return redirect(url_for('views_interior.candidates_test_summary_function', url_test_id='dashboard'))
+    return redirect(url_for('candidates_views_interior.candidates_test_summary_function', url_test_id='dashboard'))
   test_name = db_test_obj.assessment_name
   # ------------------------ assessment end ------------------------
   # ------------------------ schedule start ------------------------
@@ -739,7 +739,7 @@ def candidates_test_summary_function(url_test_id=None, url_redirect_code=None):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/assessment/new/<step_status>', methods=['GET', 'POST'])
+@candidates_views_interior.route('/candidates/assessment/new/<step_status>', methods=['GET', 'POST'])
 @login_required
 def candidates_assessment_create_new_function(step_status):
   localhost_print_function(' ------------------------ candidates_assessment_create_new_function START ------------------------ ')
@@ -823,7 +823,7 @@ def candidates_assessment_create_new_function(step_status):
       db.session.commit()
       # ------------------------ create new assessment in db end ------------------------
       localhost_print_function(' ------------------------ candidates_assessment_create_new_function END ------------------------ ')
-      return redirect(url_for('views_interior.candidates_assessment_create_review_function', url_assessment_name=auto_generated_assessment_name))
+      return redirect(url_for('candidates_views_interior.candidates_assessment_create_review_function', url_assessment_name=auto_generated_assessment_name))
   # ------------------------ post method hit end ------------------------
   """
   # ------------------------ normal page load start ------------------------
@@ -844,7 +844,7 @@ def candidates_assessment_create_new_function(step_status):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/assessment/review/<url_assessment_name>', methods=['GET', 'POST'])
+@candidates_views_interior.route('/candidates/assessment/review/<url_assessment_name>', methods=['GET', 'POST'])
 @login_required
 def candidates_assessment_create_review_function(url_assessment_name):
   localhost_print_function(' ------------------------ candidates_assessment_create_review_function START ------------------------ ')
@@ -852,7 +852,7 @@ def candidates_assessment_create_review_function(url_assessment_name):
   # ------------------------ pull assessment obj start ------------------------
   db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(assessment_name=url_assessment_name,user_id_fk=current_user.id).first()
   if db_assessment_obj == None or db_assessment_obj == []:
-    return redirect(url_for('views_interior.login_dashboard_page_function'))
+    return redirect(url_for('candidates_views_interior.login_dashboard_page_function'))
   assessment_name = db_assessment_obj.assessment_name
   assessment_total_questions = db_assessment_obj.total_questions
   # ------------------------ pull assessment obj end ------------------------
@@ -885,15 +885,15 @@ def candidates_assessment_create_review_function(url_assessment_name):
       except:
         pass
       # ------------------------ email self end ------------------------
-      return redirect(url_for('views_interior.candidates_schedule_dashboard_function'))
+      return redirect(url_for('candidates_views_interior.candidates_schedule_dashboard_function'))
   # ------------------------ post submit end ------------------------
   localhost_print_function(' ------------------------ candidates_assessment_create_review_function END ------------------------ ')
   return render_template('candidates/interior/assessments/assessments_create_review/index.html', user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=review_assessment_error_statement, assessment_name_to_html=assessment_name, stripe_subscription_obj_status_to_html=stripe_subscription_obj_status, assessment_total_questions_to_html=assessment_total_questions)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/assessment/preview/<url_assessment_name>/', methods=['GET', 'POST'])
-@views_interior.route('/candidates/assessment/preview/<url_assessment_name>/<url_question_number>', methods=['GET', 'POST'])
+@candidates_views_interior.route('/candidates/assessment/preview/<url_assessment_name>/', methods=['GET', 'POST'])
+@candidates_views_interior.route('/candidates/assessment/preview/<url_assessment_name>/<url_question_number>', methods=['GET', 'POST'])
 @login_required
 def candidates_assessment_preview_function(url_assessment_name, url_question_number='1', url_redirect_code=None):
   localhost_print_function(' ------------------------ candidates_assessment_preview_function START ------------------------ ')
@@ -915,7 +915,7 @@ def candidates_assessment_preview_function(url_assessment_name, url_question_num
     pass
   if valid_url_question_number == False:
     localhost_print_function(' ------------------------ candidates_assessment_preview_function END ------------------------ ')
-    return redirect(url_for('views_interior.candidates_assessment_preview_function',url_assessment_name=url_assessment_name, url_question_number='1'))
+    return redirect(url_for('candidates_views_interior.candidates_assessment_preview_function',url_assessment_name=url_assessment_name, url_question_number='1'))
   # ------------------------ valid redirect end ------------------------
   # ------------------------ redirect codes end ------------------------
   next_question_number = int(url_question_number) + 1
@@ -929,14 +929,14 @@ def candidates_assessment_preview_function(url_assessment_name, url_question_num
   db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(assessment_name=url_assessment_name,user_id_fk=current_user.id).first()
   if db_assessment_obj == None:
     localhost_print_function(' ------------------------ candidates_assessment_preview_function END ------------------------ ')
-    return redirect(url_for('views_interior.candidates_assessment_invalid_function'))
+    return redirect(url_for('candidates_views_interior.candidates_assessment_invalid_function'))
   assessment_total_questions = db_assessment_obj.total_questions
   if str(url_question_number) == str(assessment_total_questions):
     next_question_number = 'submit'
   # ------------------------ pull assessment obj end ------------------------
   # ------------------------ redirect to latest if url number is not found start ------------------------
   if int(url_question_number) > int(assessment_total_questions):
-    return redirect(url_for('views_interior.candidates_assessment_preview_function',url_assessment_name=url_assessment_name, url_question_number=assessment_total_questions))
+    return redirect(url_for('candidates_views_interior.candidates_assessment_preview_function',url_assessment_name=url_assessment_name, url_question_number=assessment_total_questions))
   # ------------------------ redirect to latest if url number is not found end ------------------------
   # ------------------------ assign assessment info to dict start ------------------------
   try:
@@ -998,7 +998,7 @@ def candidates_assessment_preview_function(url_assessment_name, url_question_num
           pass
         else:
           url_question_number = str(int(url_question_number) - 1)
-        return redirect(url_for('views_interior.candidates_assessment_preview_function',url_assessment_name=url_assessment_name, url_question_number=url_question_number, url_redirect_code='r'))
+        return redirect(url_for('candidates_views_interior.candidates_assessment_preview_function',url_assessment_name=url_assessment_name, url_question_number=url_question_number, url_redirect_code='r'))
     # ------------------------ remove question id end ------------------------
     # ------------------------ add new question id start ------------------------
     if 'add' in ui_desired_actions_checkboxes_arr:
@@ -1052,7 +1052,7 @@ def candidates_assessment_preview_function(url_assessment_name, url_question_num
           db_assessment_obj.total_questions = new_total_question_count
           db.session.commit()
           # redirect back to same page post changes
-          return redirect(url_for('views_interior.candidates_assessment_preview_function',url_assessment_name=url_assessment_name, url_question_number=new_total_question_count, url_redirect_code='a'))
+          return redirect(url_for('candidates_views_interior.candidates_assessment_preview_function',url_assessment_name=url_assessment_name, url_question_number=new_total_question_count, url_redirect_code='a'))
         # ------------------------ action based on sql query result end ------------------------
     # ------------------------ add new question id end ------------------------
     # ------------------------ get user inputs end ------------------------
@@ -1062,7 +1062,7 @@ def candidates_assessment_preview_function(url_assessment_name, url_question_num
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/schedule', methods=['GET', 'POST'])
+@candidates_views_interior.route('/candidates/schedule', methods=['GET', 'POST'])
 @login_required
 def candidates_schedule_dashboard_function(url_redirect_code=None):
   localhost_print_function(' ------------------------ candidates_schedule_dashboard_function START ------------------------ ')
@@ -1104,21 +1104,21 @@ def candidates_schedule_dashboard_function(url_redirect_code=None):
     ui_choice = request.form.get('listGroupRadios')
     allowed_arr = ['immediate', 'scheduled']
     if ui_choice not in allowed_arr:
-      return redirect(url_for('views_interior.candidates_schedule_dashboard_function', url_redirect_code='e'))
+      return redirect(url_for('candidates_views_interior.candidates_schedule_dashboard_function', url_redirect_code='e'))
     else:
       if ui_choice == 'immediate':
         localhost_print_function(' ------------------------ candidates_schedule_dashboard_function END ------------------------ ')
-        return redirect(url_for('views_interior.candidates_schedule_create_now_function_v2'))
+        return redirect(url_for('candidates_views_interior.candidates_schedule_create_now_function_v2'))
       if ui_choice == 'scheduled':
         localhost_print_function(' ------------------------ candidates_schedule_dashboard_function END ------------------------ ')
-        return redirect(url_for('views_interior.candidates_schedule_create_new_function'))
+        return redirect(url_for('candidates_views_interior.candidates_schedule_create_new_function'))
     # ------------------------ user input end ------------------------
   localhost_print_function(' ------------------------ candidates_schedule_dashboard_function END ------------------------ ')
   return render_template('candidates/interior/schedule/schedule_dashboard/index.html', user=current_user, total_test_made_to_html=total_test_made, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type, db_schedule_obj_exists_to_html=db_schedule_obj_exists, db_schedule_obj_to_html=db_schedule_obj)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/schedule/new', methods=['GET', 'POST'])
+@candidates_views_interior.route('/candidates/schedule/new', methods=['GET', 'POST'])
 @login_required
 def candidates_schedule_create_new_function(url_redirect_code=None):
   localhost_print_function(' ------------------------ candidates_schedule_create_new_function START ------------------------ ')
@@ -1177,14 +1177,14 @@ def candidates_schedule_create_new_function(url_redirect_code=None):
     ui_timezone_selected_check = sanitize_check_if_str_exists_within_arr_function(ui_timezone_selected, timezone_arr)
     if ui_test_selected_check == False or ui_candidates_selected_check == False or ui_date_selected_check == False or ui_time_selected_check == False or ui_timezone_selected_check == False:
       localhost_print_function(' ------------------------ candidates_schedule_create_new_function END ------------------------ ')
-      return redirect(url_for('views_interior.candidates_schedule_create_new_function', url_redirect_code='e'))
+      return redirect(url_for('candidates_views_interior.candidates_schedule_create_new_function', url_redirect_code='e'))
     # ------------------------ validate ui end ------------------------
     else:
       # ------------------------ get assessment id based on name and user id fk start ------------------------
       db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id, assessment_name=ui_test_selected).first()
       if db_assessment_obj == None:
         localhost_print_function(' ------------------------ candidates_schedule_create_new_function END ------------------------ ')
-        return redirect(url_for('views_interior.candidates_schedule_create_new_function', url_redirect_code='e2'))
+        return redirect(url_for('candidates_views_interior.candidates_schedule_create_new_function', url_redirect_code='e2'))
       # ------------------------ get assessment id based on name and user id fk end ------------------------
       for i in ui_candidates_selected:
         new_row = CandidatesScheduleObj(
@@ -1212,7 +1212,7 @@ def candidates_schedule_create_new_function(url_redirect_code=None):
         pass
       # ------------------------ email self end ------------------------
       localhost_print_function(' ------------------------ candidates_schedule_create_new_function END ------------------------ ')
-      return redirect(url_for('views_interior.candidates_schedule_create_new_function', url_redirect_code='s'))
+      return redirect(url_for('candidates_views_interior.candidates_schedule_create_new_function', url_redirect_code='s'))
       # ------------------------ insert to db end ------------------------
   # ------------------------ post triggered end ------------------------
   localhost_print_function(' ------------------------ candidates_schedule_create_new_function END ------------------------ ')
@@ -1220,7 +1220,7 @@ def candidates_schedule_create_new_function(url_redirect_code=None):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/schedule/now', methods=['GET', 'POST'])
+@candidates_views_interior.route('/candidates/schedule/now', methods=['GET', 'POST'])
 @login_required
 def candidates_schedule_create_now_function_v2(url_redirect_code=None):
   localhost_print_function(' ------------------------ candidates_schedule_create_now_function_v2 START ------------------------ ')
@@ -1317,15 +1317,15 @@ def candidates_schedule_create_now_function_v2(url_redirect_code=None):
       except:
         pass
       # ------------------------ email self end ------------------------
-      return redirect(url_for('views_interior.candidates_schedule_create_now_function_v2', url_redirect_code='s'))
+      return redirect(url_for('candidates_views_interior.candidates_schedule_create_now_function_v2', url_redirect_code='s'))
     else:
-      return redirect(url_for('views_interior.candidates_schedule_create_now_function_v2', url_redirect_code='e'))
+      return redirect(url_for('candidates_views_interior.candidates_schedule_create_now_function_v2', url_redirect_code='e'))
   localhost_print_function(' ------------------------ candidates_schedule_create_now_function_v2 END ------------------------ ')
   return render_template('candidates/interior/schedule/schedule_create_now/index.html', user=current_user, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type, current_user_email_to_html=current_user_email, db_tests_obj_to_html=db_tests_obj, db_candidates_obj_to_html=db_candidates_obj)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/assessment/invalid')
+@candidates_views_interior.route('/candidates/assessment/invalid')
 def candidates_assessment_invalid_function():
   localhost_print_function(' ------------------------ candidates_assessment_invalid_function START ------------------------ ')
   localhost_print_function(' ------------------------ candidates_assessment_invalid_function END ------------------------ ')
@@ -1333,7 +1333,7 @@ def candidates_assessment_invalid_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/assessment/early')
+@candidates_views_interior.route('/candidates/assessment/early')
 def candidates_assessment_early_function():
   localhost_print_function(' ------------------------ candidates_assessment_early_function START ------------------------ ')
   localhost_print_function(' ------------------------ candidates_assessment_early_function END ------------------------ ')
@@ -1341,7 +1341,7 @@ def candidates_assessment_early_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/assessment/completed/success')
+@candidates_views_interior.route('/candidates/assessment/completed/success')
 def candidates_assessment_completed_success_function():
   localhost_print_function(' ------------------------ candidates_assessment_completed_success_function START ------------------------ ')
   localhost_print_function(' ------------------------ candidates_assessment_completed_success_function END ------------------------ ')
@@ -1349,7 +1349,7 @@ def candidates_assessment_completed_success_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/assessment/closed')
+@candidates_views_interior.route('/candidates/assessment/closed')
 def candidates_assessment_closed_function():
   localhost_print_function(' ------------------------ candidates_assessment_closed_function START ------------------------ ')
   localhost_print_function(' ------------------------ candidates_assessment_closed_function END ------------------------ ')
@@ -1357,8 +1357,8 @@ def candidates_assessment_closed_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/assessment/<url_assessment_expiring>/', methods=['GET', 'POST'])
-@views_interior.route('/candidates/assessment/<url_assessment_expiring>/<url_question_number>', methods=['GET', 'POST'])
+@candidates_views_interior.route('/candidates/assessment/<url_assessment_expiring>/', methods=['GET', 'POST'])
+@candidates_views_interior.route('/candidates/assessment/<url_assessment_expiring>/<url_question_number>', methods=['GET', 'POST'])
 def candidates_assessment_expiring_function(url_assessment_expiring, url_question_number='1', url_redirect_code=None):
   localhost_print_function(' ------------------------ candidates_assessment_expiring_function START ------------------------ ')
   alert_message_page, alert_message_type = alert_message_default_function()
@@ -1374,7 +1374,7 @@ def candidates_assessment_expiring_function(url_assessment_expiring, url_questio
     db_grading_in_progress_obj = CandidatesAssessmentGradedObj.query.filter_by(assessment_expiring_url_fk=url_assessment_expiring, status='wip').first()
     if db_grading_in_progress_obj == None:
       localhost_print_function(' ------------------------ candidates_assessment_expiring_function END ------------------------ ')
-      return redirect(url_for('views_interior.candidates_assessment_closed_function'))
+      return redirect(url_for('candidates_views_interior.candidates_assessment_closed_function'))
     else:
       if int(db_grading_in_progress_obj.graded_count) == int(db_grading_in_progress_obj.total_questions):
         db_grading_in_progress_obj.status = 'submitted'
@@ -1391,7 +1391,7 @@ def candidates_assessment_expiring_function(url_assessment_expiring, url_questio
           pass
         # ------------------------ email self end ------------------------
         localhost_print_function(' ------------------------ candidates_assessment_expiring_function END ------------------------ ')
-        return redirect(url_for('views_interior.candidates_assessment_completed_success_function'))
+        return redirect(url_for('candidates_views_interior.candidates_assessment_completed_success_function'))
   # ------------------------ submit after submit end ------------------------
   # ------------------------ confirm int start ------------------------
   is_int = False
@@ -1401,49 +1401,49 @@ def candidates_assessment_expiring_function(url_assessment_expiring, url_questio
     pass
   if is_int == False:
     localhost_print_function(' ------------------------ candidates_assessment_expiring_function END ------------------------ ')
-    return redirect(url_for('views_interior.candidates_assessment_expiring_function', url_assessment_expiring=url_assessment_expiring, url_question_number='1'))
+    return redirect(url_for('candidates_views_interior.candidates_assessment_expiring_function', url_assessment_expiring=url_assessment_expiring, url_question_number='1'))
   # ------------------------ confirm int end ------------------------
   # ------------------------ invalid url_assessment_name start ------------------------
   if url_assessment_expiring == False or url_assessment_expiring == None or url_assessment_expiring == '':
     localhost_print_function(' ------------------------ candidates_assessment_expiring_function END ------------------------ ')
-    return redirect(url_for('views_interior.candidates_assessment_invalid_function'))
+    return redirect(url_for('candidates_views_interior.candidates_assessment_invalid_function'))
   # ------------------------ invalid url_assessment_name end ------------------------
   # ------------------------ check if answers already submitted start ------------------------
   db_already_graded_obj = CandidatesAssessmentGradedObj.query.filter_by(assessment_expiring_url_fk=url_assessment_expiring, status='submitted').first()
   if db_already_graded_obj != None:
     localhost_print_function(' ------------------------ candidates_assessment_expiring_function END ------------------------ ')
-    return redirect(url_for('views_interior.candidates_assessment_closed_function'))
+    return redirect(url_for('candidates_views_interior.candidates_assessment_closed_function'))
   # ------------------------ check if answers already submitted end ------------------------
   # ------------------------ check if question number already submitted start ------------------------
   db_grading_in_progress_obj = CandidatesAssessmentGradedObj.query.filter_by(assessment_expiring_url_fk=url_assessment_expiring, status='wip').first()
   if db_grading_in_progress_obj == None:
     if int(url_question_number) > 1 or int(url_question_number) < 1:
       localhost_print_function(' ------------------------ candidates_assessment_expiring_function END ------------------------ ')
-      return redirect(url_for('views_interior.candidates_assessment_expiring_function', url_assessment_expiring=url_assessment_expiring, url_question_number='1'))
+      return redirect(url_for('candidates_views_interior.candidates_assessment_expiring_function', url_assessment_expiring=url_assessment_expiring, url_question_number='1'))
   if db_grading_in_progress_obj != None:
     if int(url_question_number) != (int(db_grading_in_progress_obj.graded_count) + 1):
       localhost_print_function(' ------------------------ candidates_assessment_expiring_function END ------------------------ ')
-      return redirect(url_for('views_interior.candidates_assessment_expiring_function', url_assessment_expiring=url_assessment_expiring, url_question_number=str(int(db_grading_in_progress_obj.graded_count) + 1)))
+      return redirect(url_for('candidates_views_interior.candidates_assessment_expiring_function', url_assessment_expiring=url_assessment_expiring, url_question_number=str(int(db_grading_in_progress_obj.graded_count) + 1)))
   # ------------------------ check if question number already submitted start ------------------------
   # ------------------------ expire check based on email send datetime start ------------------------
   db_email_obj = CandidatesEmailSentObj.query.filter_by(assessment_expiring_url_fk=url_assessment_expiring).order_by(CandidatesEmailSentObj.created_timestamp.desc()).first()
   if db_email_obj == None:
     localhost_print_function(' ------------------------ candidates_assessment_expiring_function END ------------------------ ')
-    return redirect(url_for('views_interior.candidates_assessment_invalid_function'))
+    return redirect(url_for('candidates_views_interior.candidates_assessment_invalid_function'))
   email_sent_timestamp = db_email_obj.created_timestamp      # type: datetime.datetime
   expired_assessment_check, assessment_not_open_yet_check = expired_assessment_check_function(email_sent_timestamp)
   if assessment_not_open_yet_check == True:
     localhost_print_function(' ------------------------ candidates_assessment_expiring_function END ------------------------ ')
-    return redirect(url_for('views_interior.candidates_assessment_early_function'))
+    return redirect(url_for('candidates_views_interior.candidates_assessment_early_function'))
   if expired_assessment_check == True:
     localhost_print_function(' ------------------------ candidates_assessment_expiring_function END ------------------------ ')
-    return redirect(url_for('views_interior.candidates_assessment_invalid_function'))
+    return redirect(url_for('candidates_views_interior.candidates_assessment_invalid_function'))
   # ------------------------ expire check based on email send datetime end ------------------------
   # ------------------------ pull schedule info start ------------------------
   db_schedule_obj = CandidatesScheduleObj.query.filter_by(expiring_url=url_assessment_expiring).first()
   if db_schedule_obj == None:
     localhost_print_function(' ------------------------ candidates_assessment_expiring_function END ------------------------ ')
-    return redirect(url_for('views_interior.candidates_assessment_invalid_function'))
+    return redirect(url_for('candidates_views_interior.candidates_assessment_invalid_function'))
   # ------------------------ pull schedule info end ------------------------
   # ------------------------ pull schedule vars start ------------------------
   db_schedule_obj_user_id_fk = db_schedule_obj.user_id_fk
@@ -1453,7 +1453,7 @@ def candidates_assessment_expiring_function(url_assessment_expiring, url_questio
   db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(id=db_schedule_obj_assessment_id_fk).first()
   if db_assessment_obj == None:
     localhost_print_function(' ------------------------ candidates_assessment_expiring_function END ------------------------ ')
-    return redirect(url_for('views_interior.candidates_assessment_invalid_function'))
+    return redirect(url_for('candidates_views_interior.candidates_assessment_invalid_function'))
   # ------------------------ pull assessment info end ------------------------
   # ------------------------ next question start ------------------------
   next_question_number = int(url_question_number) + 1
@@ -1469,7 +1469,7 @@ def candidates_assessment_expiring_function(url_assessment_expiring, url_questio
   db_question_obj = CreatedQuestionsObj.query.filter_by(id=current_page_question_id).first()
   if db_question_obj == None:
     localhost_print_function(' ------------------------ candidates_assessment_expiring_function END ------------------------ ')
-    return redirect(url_for('views_interior.candidates_assessment_invalid_function'))
+    return redirect(url_for('candidates_views_interior.candidates_assessment_invalid_function'))
   # ------------------------ pull question info start ------------------------
   # ------------------------ contains img start ------------------------
   contains_img = False
@@ -1483,7 +1483,7 @@ def candidates_assessment_expiring_function(url_assessment_expiring, url_questio
   db_user_obj = UserObj.query.filter_by(id=db_schedule_obj_user_id_fk).first()
   if db_user_obj == None:
     localhost_print_function(' ------------------------ candidates_assessment_expiring_function END ------------------------ ')
-    return redirect(url_for('views_interior.candidates_assessment_invalid_function'))
+    return redirect(url_for('candidates_views_interior.candidates_assessment_invalid_function'))
   user_company_name = db_user_obj.company_name
   if len(user_company_name) > 15:
     user_company_name = user_company_name[:14] + '...'
@@ -1497,7 +1497,7 @@ def candidates_assessment_expiring_function(url_assessment_expiring, url_questio
     allowed_answers_arr = ['a', 'b', 'c', 'd', 'e']
     if ui_answer_choice.lower() not in allowed_answers_arr:
       localhost_print_function(' ------------------------ candidates_assessment_expiring_function END ------------------------ ')
-      return redirect(url_for('views_interior.candidates_assessment_expiring_function', url_assessment_expiring=url_assessment_expiring, url_question_number=url_question_number, url_redirect_code='e1'))
+      return redirect(url_for('candidates_views_interior.candidates_assessment_expiring_function', url_assessment_expiring=url_assessment_expiring, url_question_number=url_question_number, url_redirect_code='e1'))
     # ------------------------ validate ui start ------------------------
     # ------------------------ answer graded start ------------------------
     answer_result = False
@@ -1545,7 +1545,7 @@ def candidates_assessment_expiring_function(url_assessment_expiring, url_questio
       # ------------------------ insert db end ------------------------
       # ------------------------ redirect next question start ------------------------
       localhost_print_function(' ------------------------ candidates_assessment_expiring_function END ------------------------ ')
-      return redirect(url_for('views_interior.candidates_assessment_expiring_function', url_assessment_expiring=url_assessment_expiring, url_question_number=next_question_number))
+      return redirect(url_for('candidates_views_interior.candidates_assessment_expiring_function', url_assessment_expiring=url_assessment_expiring, url_question_number=next_question_number))
       # ------------------------ redirect next question end ------------------------
     # ------------------------ first answer end ------------------------
     # ------------------------ subsequent answers start ------------------------
@@ -1573,7 +1573,7 @@ def candidates_assessment_expiring_function(url_assessment_expiring, url_questio
         db_grading_in_progress_obj.assessment_obj = json.dumps(current_master_arr_of_dict)
         db.session.commit()
         localhost_print_function(' ------------------------ candidates_assessment_expiring_function END ------------------------ ')
-        return redirect(url_for('views_interior.candidates_assessment_expiring_function', url_assessment_expiring=url_assessment_expiring, url_question_number=next_question_number))
+        return redirect(url_for('candidates_views_interior.candidates_assessment_expiring_function', url_assessment_expiring=url_assessment_expiring, url_question_number=next_question_number))
       except:
         pass
       # ------------------------ update db obj end ------------------------
@@ -1585,7 +1585,7 @@ def candidates_assessment_expiring_function(url_assessment_expiring, url_questio
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/request', methods=['GET', 'POST'])
+@candidates_views_interior.route('/candidates/request', methods=['GET', 'POST'])
 @login_required
 def candidates_categories_request_function(url_redirect_code=None):
   localhost_print_function(' ------------------------ candidates_categories_request_function START ------------------------ ')
@@ -1625,14 +1625,14 @@ def candidates_categories_request_function(url_redirect_code=None):
       except:
         pass
       # ------------------------ email self end ------------------------
-      return redirect(url_for('views_interior.candidates_categories_request_function', url_redirect_code='s'))
+      return redirect(url_for('candidates_views_interior.candidates_categories_request_function', url_redirect_code='s'))
   # ------------------------ if post method hit end ------------------------
   localhost_print_function(' ------------------------ candidates_categories_request_function END ------------------------ ')
   return render_template('candidates/interior/request_categories/index.html', user=current_user, users_company_name_to_html=current_user.company_name, alert_message_page_to_html=alert_message_page, alert_message_type_to_html=alert_message_type)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/question/create/dashboard', methods=['GET', 'POST'])
+@candidates_views_interior.route('/candidates/question/create/dashboard', methods=['GET', 'POST'])
 @login_required
 def candidates_create_question_dashboard_function():
   localhost_print_function(' ------------------------ candidates_create_question_dashboard_function START ------------------------ ')
@@ -1704,7 +1704,7 @@ def candidates_create_question_dashboard_function():
           # ------------------------ update latest draft test end ------------------------
           # ------------------------ redirect start ------------------------
           localhost_print_function(' ------------------------ candidates_create_question_dashboard_function END ------------------------ ')
-          return redirect(url_for('views_interior.candidates_assessment_create_review_function', url_assessment_name=ui_test_add_to))
+          return redirect(url_for('candidates_views_interior.candidates_assessment_create_review_function', url_assessment_name=ui_test_add_to))
           # ------------------------ redirect end ------------------------
     # ------------------------ check valid inputs end ------------------------
   # ------------------------ post submit end ------------------------
@@ -1713,7 +1713,7 @@ def candidates_create_question_dashboard_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/question/create/v2', methods=['GET', 'POST'])
+@candidates_views_interior.route('/candidates/question/create/v2', methods=['GET', 'POST'])
 @login_required
 def candidates_create_question_function_v2():
   localhost_print_function(' ------------------------ candidates_create_question_function_v2 START ------------------------ ')
@@ -1723,7 +1723,7 @@ def candidates_create_question_function_v2():
   # ------------------------ redirect if not subscribed start ------------------------
   if stripe_subscription_obj_status != 'active':
     localhost_print_function(' ------------------------ candidates_create_question_function_v2 END ------------------------ ')
-    return redirect(url_for('views_interior.login_dashboard_page_function'))
+    return redirect(url_for('candidates_views_interior.login_dashboard_page_function'))
   # ------------------------ redirect if not subscribed end ------------------------
   # ------------------------ variables start ------------------------
   user_company_name = current_user.company_name
@@ -1833,14 +1833,14 @@ def candidates_create_question_function_v2():
           pass
         # ------------------------ add to db end ------------------------
         # ------------------------ redirect start ------------------------
-        return redirect(url_for('views_interior.candidates_preview_created_question_function'))
+        return redirect(url_for('candidates_views_interior.candidates_preview_created_question_function'))
         # ------------------------ redirect end ------------------------
   localhost_print_function(' ------------------------ candidates_create_question_function_v2 END ------------------------ ')
   return render_template('candidates/interior/create_question_v2/index.html', user=current_user, users_company_name_to_html=user_company_name, error_message_to_html=page_error_statement)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@views_interior.route('/candidates/question/create/v2/preview', methods=['GET', 'POST'])
+@candidates_views_interior.route('/candidates/question/create/v2/preview', methods=['GET', 'POST'])
 @login_required
 def candidates_preview_created_question_function():
   localhost_print_function(' ------------------------ candidates_preview_created_question_function START ------------------------ ')
@@ -1850,7 +1850,7 @@ def candidates_preview_created_question_function():
   # ------------------------ redirect if not subscribed start ------------------------
   if stripe_subscription_obj_status != 'active':
     localhost_print_function(' ------------------------ candidates_preview_created_question_function END ------------------------ ')
-    return redirect(url_for('views_interior.login_dashboard_page_function'))
+    return redirect(url_for('candidates_views_interior.login_dashboard_page_function'))
   # ------------------------ redirect if not subscribed end ------------------------
   # ------------------------ variables start ------------------------
   user_company_name = current_user.company_name
@@ -1861,7 +1861,7 @@ def candidates_preview_created_question_function():
   db_question_obj = CreatedQuestionsObj.query.filter_by(fk_user_id=current_user.id,submission='draft',product='candidates').order_by(CreatedQuestionsObj.created_timestamp.desc()).first()
   if db_question_obj == None:
     localhost_print_function(' ------------------------ candidates_preview_created_question_function END ------------------------ ')
-    return redirect(url_for('views_interior.login_dashboard_page_function'))
+    return redirect(url_for('candidates_views_interior.login_dashboard_page_function'))
   # ------------------------ get latest custom question end ------------------------
   # ------------------------ build latest dict start ------------------------
   question_info_dict = create_question_info_dict_function(db_question_obj)
@@ -1879,7 +1879,7 @@ def candidates_preview_created_question_function():
     except:
       pass
     # ------------------------ email self end ------------------------
-    return redirect(url_for('views_interior.candidates_create_question_dashboard_function'))
+    return redirect(url_for('candidates_views_interior.candidates_create_question_dashboard_function'))
   localhost_print_function(' ------------------------ candidates_preview_created_question_function END ------------------------ ')
   return render_template('candidates/interior/create_question_v2/submission/index.html', user=current_user, users_company_name_to_html=user_company_name, error_message_to_html=page_error_statement, question_info_dict_to_html=question_info_dict)
 # ------------------------ individual route end ------------------------

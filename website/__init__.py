@@ -65,17 +65,19 @@ def create_app_function():
   # stripe.api_key = os.environ.get('STRIPE_TEST_API_KEY')  # TESTING
   # ------------------------ stripe api environment end ------------------------
   # ------------------------ views/auths/routes imports start ------------------------
-  from .auth import auth
-  from .views_exterior import views_exterior
-  from .views_interior import views_interior
+  from .candidates_auth import candidates_auth
+  from .candidates_views_exterior import candidates_views_exterior
+  from .candidates_views_interior import candidates_views_interior
+
   from .employees_auth import employees_auth
   from .employees_views_exterior import employees_views_exterior
   from .employees_views_interior import employees_views_interior
   # ------------------------ views/auths/routes imports end ------------------------
   # ------------------------ views/auths/routes register blueprints start ------------------------
-  app.register_blueprint(auth, url_prefix='/')
-  app.register_blueprint(views_exterior, url_prefix='/')
-  app.register_blueprint(views_interior, url_prefix='/')
+  app.register_blueprint(candidates_auth, url_prefix='/')
+  app.register_blueprint(candidates_views_exterior, url_prefix='/')
+  app.register_blueprint(candidates_views_interior, url_prefix='/')
+  
   app.register_blueprint(employees_auth, url_prefix='/')
   app.register_blueprint(employees_views_exterior, url_prefix='/')
   app.register_blueprint(employees_views_interior, url_prefix='/')
@@ -86,7 +88,7 @@ def create_app_function():
   # ------------------------ import models before creating db for first time end ------------------------
   # ------------------------ login manager start ------------------------
   login_manager = LoginManager()
-  login_manager.login_view = 'auth.candidates_login_page_function'   # where does the person go if they are not logged in -> auth.login route
+  login_manager.login_view = 'candidates_auth.candidates_login_page_function'   # where does the person go if they are not logged in -> auth.login route
   login_manager.init_app(app)
   # ------------------------ function start ------------------------
   @login_manager.user_loader
