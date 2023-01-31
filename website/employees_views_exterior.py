@@ -12,6 +12,7 @@ from backend.utils.localhost_print_utils.localhost_print import localhost_print_
 from flask import Blueprint, render_template
 from flask_login import current_user
 from website.backend.candidates.redis import redis_connect_to_database_function
+from website.models import CreatedQuestionsObj, CandidatesAssessmentsCreatedObj
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -75,4 +76,17 @@ def employees_i_blog_page_function(i_blog_post_number='0001'):
   current_blog_post_num_full_string = f'employees/exterior/blog/i_blog/i_{current_blog_post_num}.html'
   localhost_print_function(' ------------------------ employees_i_blog_page_function end ------------------------ ')
   return render_template(current_blog_post_num_full_string)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@employees_views_exterior.route('/employees/example', methods=['GET', 'POST'])
+@employees_views_exterior.route('/employees/example/', methods=['GET', 'POST'])
+def employees_example_page_function():
+  localhost_print_function(' ------------------------ employees_example_page_function start ------------------------ ')
+  db_test_obj = CandidatesAssessmentsCreatedObj.query.filter_by(id='employees_example_do_not_delete_01').first()
+  localhost_print_function(' ------------- 0 ------------- ')
+  localhost_print_function(f'db_test_obj | type: {type(db_test_obj)} | {db_test_obj}')
+  localhost_print_function(' ------------- 0 ------------- ')
+  localhost_print_function(' ------------------------ employees_example_page_function end ------------------------ ')
+  return render_template('employees/exterior/example/index.py')
 # ------------------------ individual route end ------------------------
