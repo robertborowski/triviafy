@@ -1,17 +1,32 @@
-{% extends "candidates/aaa_base/single_message.html" %}
-
+{% extends "employees/aaa_base/base2_interior.html" %}
+<!-- head tag block content -->
 {% block title %}
-<title>Triviafy Test</title>
+  <title>Dashboard - Triviafy</title>
 {% endblock %}
-
 {% block contentBodyExceptNavbarAndFooter %}
-<main>
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Img, message, button Start -->
-  <div class="text-center custom-mt-5">
-    <img src="/static/images/all/logo/logo_v3.png" alt="Triviafy Logo" class="custom-img-size-7-mobile">
-    <p class="custom-ptb-4 custom-header-4">Thank you for signing up! Triviafy team building software will launch February 2023.</p>
-    <a href="/employees" class="btn btn-primary btn-lg">Home</a>
+<!-- ----------------------------------- start ----------------------------------- -->
+{% if alert_message_page_to_html != '' %}
+<div class="alert alert-{{ alert_message_type_to_html }} mx-auto text-center custom-mt-3 container" role="alert">
+  {{ alert_message_page_to_html }}
+</div>
+{% endif %}
+<!-- ----------------------------------- end ----------------------------------- -->
+<div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
+  <div>
+    <h2 class="custom-header-2-mobile">Dashboard</h2>
   </div>
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - Img, message, button End -->
-</main>
+  <div>
+    <a href="/candidates/schedule" class="btn btn-outline-secondary">Send test</a>
+  </div>
+</div>
+<div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
+  <div class="custom-display-flex custom-fw-2">
+    <div class="custom-width-16 text-center">
+      <a href="/candidates/tests/dashboard" class="btn btn-outline-secondary btn-lg custom-width-13 custom-ptb-7">Tests</a>
+    </div>
+    <div class="custom-width-16 text-center">
+      <a href="/candidates/upload" class="btn btn-outline-secondary btn-lg custom-width-13 custom-ptb-7">Candidates</a>
+    </div>
+  </div>
+</div>
 {% endblock %}
