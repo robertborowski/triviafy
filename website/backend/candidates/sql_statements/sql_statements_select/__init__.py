@@ -80,7 +80,7 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
                     FROM \
                       created_questions_obj \
                     WHERE \
-                      status = TRUE \
+                      status = TRUE AND product='candidates' \
                       AND ({additional_input}) \
                     ORDER BY \
                       RANDOM();",
@@ -105,7 +105,7 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
                     FROM \
                       created_questions_obj \
                     WHERE \
-                      status = TRUE \
+                      status = TRUE AND product='candidates' \
                       AND ({additional_input}) \
                       AND id NOT IN ({additional_input2})\
                     ORDER BY \
