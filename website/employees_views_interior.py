@@ -121,3 +121,21 @@ def login_dashboard_page_function(url_redirect_code=None):
     return browser_response
   # ------------------------ auto set cookie end ------------------------
 # ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@employees_views_interior.route('/employees/schedule', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/schedule/', methods=['GET', 'POST'])
+@login_required
+def employees_schedule_function(url_redirect_code=None):
+  localhost_print_function(' ------------------------ employees_schedule_function START ------------------------ ')
+  # ------------------------ page dict start ------------------------
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ page dict end ------------------------
+  # ------------------------ get current group settings start ------------------------
+  
+  # ------------------------ get current group settings end ------------------------
+  localhost_print_function(' ------------------------ employees_schedule_function END ------------------------ ')
+  return render_template('employees/interior/schedule/index.html', page_dict_to_html=page_dict)
+# ------------------------ individual route end ------------------------

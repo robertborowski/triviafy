@@ -1,0 +1,25 @@
+{% extends "employees/aaa_base/base2_interior.html" %}
+<!-- head tag block content -->
+{% block title %}
+  <title>Dashboard - Triviafy</title>
+{% endblock %}
+{% block contentBodyExceptNavbarAndFooter %}
+<!-- ----------------------------------- start ----------------------------------- -->
+{% if page_dict_to_html['alert_message_dict']['message'] != '' %}
+<div class="alert alert-{{ page_dict_to_html['alert_message_dict']['type'] }} mx-auto text-center container custom-mt-1" role="alert">
+  {{ page_dict_to_html['alert_message_dict']['message'] }}
+</div>
+{% endif %}
+<!-- ----------------------------------- end ----------------------------------- -->
+<div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
+  <div>
+    <h2 class="custom-header-2-mobile">Schedule</h2>
+  </div>
+  <div>
+    <a href="#" class="btn btn-outline-primary">Create</a>
+  </div>
+</div>
+<div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
+  <p>Hello</p>
+</div>
+{% endblock %}
