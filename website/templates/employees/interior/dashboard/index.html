@@ -15,11 +15,18 @@
   <div>
     <h2 class="custom-header-2-mobile">Dashboard</h2>
   </div>
-  <div>
-    <a href="/candidates/schedule" class="btn btn-outline-secondary">Send test</a>
-  </div>
+  <!-- <div>
+    <a href="#" class="btn btn-outline-secondary">Schedule</a>
+  </div> -->
 </div>
 <div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
-  <p>Hello</p>
+  {% if page_dict_to_html['latest_test_exists'] == false %}
+  <div class="text-center">
+    <p class="custom-header-4"><span class="fst-italic">Create</span> your team's triviafy schedule.</p>
+    <a href="#" class="btn btn-lg btn-primary">Create +</a>
+  </div>
+  {% else %}
+  <p>hello</p>
+  {% endif %}
 </div>
 {% endblock %}

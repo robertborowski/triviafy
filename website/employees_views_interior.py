@@ -17,7 +17,7 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function
-from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj
+from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj, EmployeesTestsObj
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function
 # ------------------------ imports end ------------------------
 
@@ -48,6 +48,9 @@ def login_dashboard_page_function(url_redirect_code=None):
   # ------------------------ redirect codes start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
   # ------------------------ redirect codes end ------------------------
+  # ------------------------ page dict start ------------------------
+  page_dict = {}
+  # ------------------------ page dict end ------------------------
   # ------------------------ pull/create group id start ------------------------
   company_group_id = None
   db_groups_obj = EmployeesGroupsObj.query.filter_by(fk_company_name=current_user.company_name).first()
@@ -71,39 +74,47 @@ def login_dashboard_page_function(url_redirect_code=None):
   else:
     company_group_id = db_groups_obj.public_group_id
   # ------------------------ pull/create group id end ------------------------
-  if company_group_id != None:
-    # ------------------------ pull/create group settings start ------------------------
-    db_group_settings_obj = EmployeesGroupSettingsObj.query.filter_by(fk_group_id=company_group_id).first()
-    if db_group_settings_obj == None or db_group_settings_obj == []:
-      # ------------------------ insert to db start ------------------------
-      try:
-        new_row = EmployeesGroupSettingsObj(
-          id = create_uuid_function('gset_'),
-          created_timestamp = create_timestamp_function(),
-          fk_group_id = company_group_id,
-          fk_user_id = current_user.id,
-          timezone = 'EST',
-          start_day = 'Monday',
-          start_time = '12 Noon',
-          end_day = 'Thursday',
-          end_time = '1 PM',
-          total_questions = 10,
-          question_type = 'mixed',
-          categories = 'all_categories'
-        )
-        db.session.add(new_row)
-        db.session.commit()
-      except:
-        pass
-      # ------------------------ insert to db end ------------------------
-    else:
+  # ------------------------ pull/create group settings start ------------------------
+  db_group_settings_obj = EmployeesGroupSettingsObj.query.filter_by(fk_group_id=company_group_id).first()
+  if db_group_settings_obj == None or db_group_settings_obj == []:
+    # ------------------------ insert to db start ------------------------
+    try:
+      new_row = EmployeesGroupSettingsObj(
+        id = create_uuid_function('gset_'),
+        created_timestamp = create_timestamp_function(),
+        fk_group_id = company_group_id,
+        fk_user_id = current_user.id,
+        timezone = 'EST',
+        start_day = 'Monday',
+        start_time = '12 Noon',
+        end_day = 'Thursday',
+        end_time = '1 PM',
+        total_questions = 10,
+        question_type = 'mixed',
+        categories = 'all_categories'
+      )
+      db.session.add(new_row)
+      db.session.commit()
+    except:
       pass
-    # ------------------------ pull/create group settings end ------------------------
+    # ------------------------ insert to db end ------------------------
+  else:
+    pass
+  # ------------------------ pull/create group settings end ------------------------
+  # ------------------------ pull/create latest test start ------------------------
+  db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=company_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
+  latest_test_exists = False
+  if db_tests_obj == None or db_tests_obj == []:
+    pass
+  else:
+    latest_test_exists = True
+  page_dict['latest_test_exists'] = latest_test_exists
+  # ------------------------ pull/create latest test end ------------------------
   # ------------------------ auto set cookie start ------------------------
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
   if get_cookie_value_from_browser != None:
     redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
-    return render_template(template_location_url, user=current_user, alert_message_dict_to_html=alert_message_dict)
+    return render_template(template_location_url, user=current_user, alert_message_dict_to_html=alert_message_dict, page_dict_to_html=page_dict)
   else:
     browser_response = browser_response_set_cookie_function(current_user, template_location_url)
     localhost_print_function(' ------------------------ login_dashboard_page_function END ------------------------ ')

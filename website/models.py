@@ -204,4 +204,23 @@ class EmployeesGroupSettingsObj(db.Model):
   question_type = db.Column(db.String(150))
   categories = db.Column(db.String(1000))
 # ------------------------ individual model end ------------------------
+
+# ------------------------ individual model start ------------------------
+class EmployeesTestsObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  fk_group_id = db.Column(db.String(150))
+  timezone = db.Column(db.String(150))
+  start_day = db.Column(db.String(150))
+  start_time = db.Column(db.String(150))
+  start_timestamp = db.Column(db.DateTime(timezone=True))
+  end_day = db.Column(db.String(150))
+  end_time = db.Column(db.String(150))
+  end_timestamp = db.Column(db.DateTime(timezone=True))
+  total_questions = db.Column(db.Integer)
+  question_type = db.Column(db.String(150))
+  categories = db.Column(db.String(1000))
+  question_ids = db.Column(db.String(3000))
+  status = db.Column(db.String(150))
+# ------------------------ individual model end ------------------------
 # ------------------------ employees models end ------------------------
