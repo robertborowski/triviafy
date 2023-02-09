@@ -17,9 +17,10 @@ def generate_random_length_uuid_function(num_characters):
 # ------------------------ individual function start ------------------------
 def question_choices_function():
   localhost_print_function(' ------------------------ question_choices_function start ------------------------')
+  quiz_cadence_arr = ['Weekly', 'Biweekly', 'Monthly']
   question_num_arr = [5,10]
   question_type_arr = ['Multiple choice','Fill in the blank','Mixed']
   localhost_print_function(' ------------------------ question_choices_function end ------------------------')
-  return question_num_arr, question_type_arr
+  return quiz_cadence_arr, question_num_arr, question_type_arr
 # ------------------------ individual function end ------------------------
 localhost_print_function(' ------------------------ autogeneration __init__ end ------------------------ ')

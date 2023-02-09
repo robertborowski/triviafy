@@ -200,6 +200,7 @@ class EmployeesGroupSettingsObj(db.Model):
   start_time = db.Column(db.String(150))
   end_day = db.Column(db.String(150))
   end_time = db.Column(db.String(150))
+  cadence = db.Column(db.String(150))
   total_questions = db.Column(db.Integer)
   question_type = db.Column(db.String(150))
   categories = db.Column(db.String(1000))

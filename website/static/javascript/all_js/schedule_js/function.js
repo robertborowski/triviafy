@@ -46,3 +46,10 @@ $("input:radio[name=radioQuestionType]").click(function() {
   $("#buttonQuestionType").text(selectedRadioQuestionType);
 });
 // ------------------------ end ------------------------
+
+// ------------------------ start ------------------------
+$("input:radio[name=radioCadence]").click(function() {
+  selectedRadioCadence = $('input:radio[name=radioCadence]:checked').val();
+  $("#buttonCadence").text(selectedRadioCadence);
+});
+// ------------------------ end ------------------------

@@ -93,6 +93,7 @@ def login_dashboard_page_function(url_redirect_code=None):
         start_time = '12 Noon',
         end_day = 'Thursday',
         end_time = '1 PM',
+        cadence = 'Weekly',
         total_questions = 10,
         question_type = 'Mixed',
         categories = 'all_categories'
@@ -142,7 +143,7 @@ def employees_schedule_function(url_redirect_code=None):
   db_group_settings_dict = arr_of_dict_all_columns_single_item_function(db_group_settings_obj)
   page_dict['db_group_settings_dict'] = db_group_settings_dict
   page_dict['weekdays'], page_dict['times'], page_dict['timezones'] = days_times_timezone_arr_function()
-  page_dict['question_num_arr'], page_dict['question_type_arr'] = question_choices_function()
+  page_dict['quiz_cadence_arr'], page_dict['question_num_arr'], page_dict['question_type_arr'] = question_choices_function()
   # ------------------------ get current group settings end ------------------------
   # ------------------------ pull/create latest test start ------------------------
   db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=current_user.company_name).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
@@ -165,6 +166,7 @@ def employees_schedule_function(url_redirect_code=None):
     ui_end_day = request.form.get('radioEndDay')
     ui_end_time = request.form.get('radioEndTime')
     ui_timezone = request.form.get('radioTimeZone')
+    ui_cadence = request.form.get('radioCadence')
     ui_total_questions = request.form.get('radioTotalQuestions')
     ui_question_type = request.form.get('radioQuestionType')
     # ------------------------ get ui end ------------------------
@@ -175,6 +177,7 @@ def employees_schedule_function(url_redirect_code=None):
     localhost_print_function(f'ui_end_day | type: {type(ui_end_day)} | {ui_end_day}')
     localhost_print_function(f'ui_end_time | type: {type(ui_end_time)} | {ui_end_time}')
     localhost_print_function(f'ui_timezone | type: {type(ui_timezone)} | {ui_timezone}')
+    localhost_print_function(f'ui_cadence | type: {type(ui_cadence)} | {ui_cadence}')
     localhost_print_function(f'ui_total_questions | type: {type(ui_total_questions)} | {ui_total_questions}')
     localhost_print_function(f'ui_question_type | type: {type(ui_question_type)} | {ui_question_type}')
     localhost_print_function(' ------------- 0 ------------- ')
