@@ -24,7 +24,17 @@
     <p class="custom-m-0 custom-width-15 mx-auto custom-p-1 custom-br-1 border custom-bg-grey-1">Group ID: {{ page_dict_to_html['db_group_settings_dict']['fk_group_id'] }}</p>
   </div>
 
-  <div class="custom-display-flex custom-fw-1 custom-jc-4 custom-border-1">
+  {% if page_dict_to_html['latest_test_exists'] == false %}
+  <div class="custom-p-2 custom-width-10 mx-auto text-center custom-mt-3 custom-br-3 border shadow-sm">
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault_01" value="is_checked" checked>
+      <label class="form-check-label" for="flexSwitchCheckDefault_01">Your team's first quiz will start immediately (recommended).</label>
+    </div>
+  </div>
+  {% else %}
+  {% endif %}
+
+  <div class="custom-display-flex custom-fw-1 custom-jc-4 custom-ptb-6">
     <div class="custom-display-block text-center custom-p-2">
       <div class="custom-pb-4">
         <p class="custom-m-0"><i class="fa-regular fa-calendar-days"></i> Start day</p>

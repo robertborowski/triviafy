@@ -140,10 +140,16 @@ def employees_schedule_function(url_redirect_code=None):
   db_group_settings_dict = arr_of_dict_all_columns_single_item_function(db_group_settings_obj)
   page_dict['db_group_settings_dict'] = db_group_settings_dict
   page_dict['weekdays'], page_dict['times'], page_dict['timezones'] = days_times_timezone_arr_function()
-  localhost_print_function(' ------------- 0 ------------- ')
-  localhost_print_function(f'db_group_settings_dict | type: {type(db_group_settings_dict)} | {db_group_settings_dict}')
-  localhost_print_function(' ------------- 0 ------------- ')
   # ------------------------ get current group settings end ------------------------
+  # ------------------------ pull/create latest test start ------------------------
+  db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=current_user.company_name).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
+  latest_test_exists = False
+  if db_tests_obj == None or db_tests_obj == []:
+    pass
+  else:
+    latest_test_exists = True
+  page_dict['latest_test_exists'] = latest_test_exists
+  # ------------------------ pull/create latest test end ------------------------
   localhost_print_function(' ------------------------ employees_schedule_function END ------------------------ ')
   return render_template('employees/interior/schedule/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
