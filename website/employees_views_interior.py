@@ -19,6 +19,8 @@ from website.backend.candidates.user_inputs import alert_message_default_functio
 from website.backend.candidates.browser import browser_response_set_cookie_function
 from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj, EmployeesTestsObj
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function
+from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
+from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -134,7 +136,13 @@ def employees_schedule_function(url_redirect_code=None):
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
   # ------------------------ get current group settings start ------------------------
-  
+  db_group_settings_obj = EmployeesGroupSettingsObj.query.filter_by(fk_user_id=current_user.id).order_by(EmployeesGroupSettingsObj.created_timestamp.desc()).first()
+  db_group_settings_dict = arr_of_dict_all_columns_single_item_function(db_group_settings_obj)
+  page_dict['db_group_settings_dict'] = db_group_settings_dict
+  page_dict['weekdays'], page_dict['times'], page_dict['timezones'] = days_times_timezone_arr_function()
+  localhost_print_function(' ------------- 0 ------------- ')
+  localhost_print_function(f'db_group_settings_dict | type: {type(db_group_settings_dict)} | {db_group_settings_dict}')
+  localhost_print_function(' ------------- 0 ------------- ')
   # ------------------------ get current group settings end ------------------------
   localhost_print_function(' ------------------------ employees_schedule_function END ------------------------ ')
   return render_template('employees/interior/schedule/index.html', page_dict_to_html=page_dict)

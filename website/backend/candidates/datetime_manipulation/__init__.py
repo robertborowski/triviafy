@@ -70,6 +70,53 @@ def times_arr_function():
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
+def days_times_timezone_arr_function():
+  localhost_print_function(' ------------------------ days_times_timezone_arr_function start ------------------------ ')
+  # ------------------------ get todays date start ------------------------
+  weekdays_arr = [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday'
+  ]
+  times_arr = [
+    '1 AM',
+    '2 AM',
+    '3 AM',
+    '4 AM',
+    '5 AM',
+    '6 AM',
+    '7 AM',
+    '8 AM',
+    '9 AM',
+    '10 AM',
+    '11 AM',
+    '12 Noon',
+    '1 PM',
+    '2 PM',
+    '3 PM',
+    '4 PM',
+    '5 PM',
+    '6 PM',
+    '7 PM',
+    '8 PM',
+    '9 PM',
+    '10 PM',
+    '11 PM'
+  ]
+  timezone_arr = [
+    'CST',
+    'EST',
+    'MST',
+    'PST'
+  ]
+  # ------------------------ get todays date end ------------------------
+  localhost_print_function(' ------------------------ days_times_timezone_arr_function end ------------------------ ')
+  return weekdays_arr, times_arr, timezone_arr
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
 def expired_assessment_check_function(input_timestamp):
   localhost_print_function('=========================================== expired_assessment_check_function START ===========================================')
   # ------------------------ expire settings start ------------------------  

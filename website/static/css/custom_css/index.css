@@ -116,6 +116,9 @@
 .custom-display-flex {
   display: flex;
 }
+.custom-display-block {
+  display: block;
+}
 /* ------------------- display end ------------------- */
 /* ------------------- filler start ------------------- */
 .custom-filler-1 {
@@ -390,6 +393,9 @@
 }
 /* ------------------- overflow end ------------------- */
 /* ------------------- padding start ------------------- */
+.custom-p-0 {
+  padding: 0 0 0 0;
+}
 .custom-p-1 {
   padding: 10px;
 }
