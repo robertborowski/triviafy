@@ -224,7 +224,22 @@
       </div>
     </div>
 
-    <p>{{ page_dict_to_html['db_group_settings_dict']['categories'] }}</p>
+    <div class="custom-ptb-6">
+      <div class="custom-width-17 mx-auto text-center">
+        <div class="form-check form-switch">
+          {% if page_dict_to_html['db_group_settings_dict']['categories'] == 'all_categories' %}
+          <input class="form-check-input" type="checkbox" role="switch" name="flexSwitchCheckDefault_02" id="flexSwitchCheckDefault_02" value="is_checked" checked>
+          {% else %}
+          <input class="form-check-input" type="checkbox" role="switch" name="flexSwitchCheckDefault_02" id="flexSwitchCheckDefault_02" value="is_checked">
+          {% endif %}
+          <label class="form-check-label" for="flexSwitchCheckDefault_02">Select all triviafy categories.</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center custom-pt-1">
+      <button type="submit" class="btn btn-primary btn-lg custom-width-6">Submit</button>
+    </div>
   </div>
 </form>
 {% endblock %}
