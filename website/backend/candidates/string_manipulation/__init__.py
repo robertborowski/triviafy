@@ -34,6 +34,21 @@ def all_question_candidate_categories_sorted_function(query_result_arr_of_dicts)
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
+def all_employee_question_categories_sorted_function(query_result_arr_of_dicts):
+  localhost_print_function(' ------------------------ all_employee_question_categories_sorted_function start ------------------------ ')
+  output_arr = []
+  for i_dict in query_result_arr_of_dicts:
+    categories_str = i_dict['categories']
+    categories_arr = string_to_arr_function(categories_str)
+    for i_category in categories_arr:
+      if i_category not in output_arr:
+        output_arr.append(i_category)
+  output_arr = sorted(output_arr)
+  localhost_print_function(' ------------------------ all_employee_question_categories_sorted_function end ------------------------ ')
+  return output_arr
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
 def create_assessment_name_function(ui_desired_languages_checkboxes_str):
   localhost_print_function('=========================================== create_assessment_name_function START ===========================================')
   name_prefix = ui_desired_languages_checkboxes_str

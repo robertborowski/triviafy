@@ -21,6 +21,8 @@ from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj, Employ
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function, question_choices_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function
+from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
+from website.backend.candidates.string_manipulation import all_employee_question_categories_sorted_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -151,6 +153,10 @@ def employees_schedule_function(url_redirect_code=None):
     latest_test_exists = True
   page_dict['latest_test_exists'] = latest_test_exists
   # ------------------------ pull/create latest test end ------------------------
+  # ------------------------ get all categories start ------------------------
+  query_result_arr_of_dicts = select_general_function('select_all_employees_categories_v1')
+  page_dict['all_categories_arr'] = all_employee_question_categories_sorted_function(query_result_arr_of_dicts)
+  # ------------------------ get all categories end ------------------------
   if request.method == 'POST':
     # ------------------------ get ui start ------------------------
     ui_send_first_immediate = request.form.get('flexSwitchCheckDefault_01')

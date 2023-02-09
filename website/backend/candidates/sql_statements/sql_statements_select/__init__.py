@@ -62,6 +62,10 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
       'raw_query': "SELECT DISTINCT q.categories FROM created_questions_obj AS q WHERE q.status=TRUE AND q.product='candidates' ORDER BY q.categories;",
       'input_args': {}
     },
+    'select_all_employees_categories_v1': {
+      'raw_query': "SELECT DISTINCT q.categories FROM created_questions_obj AS q WHERE q.status=TRUE AND q.product='employees' ORDER BY q.categories;",
+      'input_args': {}
+    },
     'select_all_questions_for_x_categories': {
       'raw_query': f"SELECT \
                       question_uuid, question_categories_list, question_actual_question, question_difficulty, question_hint, question_title, question_image_aws_url, question_answers_list \
