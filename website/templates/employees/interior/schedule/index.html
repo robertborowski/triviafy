@@ -11,164 +11,167 @@
 </div>
 {% endif %}
 <!-- ----------------------------------- end ----------------------------------- -->
-<div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
-  <div>
-    <h2 class="custom-header-2-mobile">Schedule</h2>
-  </div>
-  <div>
-    <a href="#" class="btn btn-outline-primary">Create</a>
-  </div>
-</div>
-<div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
-  <div class="text-center">
-    <p class="custom-m-0 custom-width-15 mx-auto custom-p-1 custom-br-1 border custom-bg-grey-1">Group ID: {{ page_dict_to_html['db_group_settings_dict']['fk_group_id'] }}</p>
-  </div>
-
-  {% if page_dict_to_html['latest_test_exists'] == false %}
-  <div class="custom-p-2 custom-width-10 mx-auto text-center custom-mt-3 custom-br-3 border shadow-sm">
-    <div class="form-check form-switch">
-      <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault_01" value="is_checked" checked>
-      <label class="form-check-label" for="flexSwitchCheckDefault_01">Your team's first quiz will start immediately (recommended).</label>
+<form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+  <div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
+    <div>
+      <h2 class="custom-header-2-mobile">Schedule</h2>
     </div>
-  </div>
-  {% else %}
-  {% endif %}
-
-  <div class="custom-display-flex custom-fw-1 custom-jc-4 custom-ptb-6">
-    <div class="custom-display-block text-center custom-p-2">
-      <div class="custom-pb-4">
-        <p class="custom-m-0"><i class="fa-regular fa-calendar-days"></i> Start day</p>
-      </div>
-      <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="buttonStartDay">
-          {{ page_dict_to_html['db_group_settings_dict']['start_day'] }}
-        </button>
-        <ul class="dropdown-menu">
-          {% for i in page_dict_to_html['weekdays'] %}
-          <li class="dropdown-item">
-            <div class="form-check">
-              {% if i == page_dict_to_html['db_group_settings_dict']['start_day'] %}
-              <input class="form-check-input" type="radio" name="radioStartDay" id="radioStartDay{{ i }}" value="{{ i }}" checked>
-              {% else %}
-              <input class="form-check-input" type="radio" name="radioStartDay" id="radioStartDay{{ i }}" value="{{ i }}">
-              {% endif %}
-              <label class="form-check-label" for="radioStartDay{{ i }}">
-                {{ i }}
-              </label>
-            </div>
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
-    </div>
-    <div class="custom-display-block text-center custom-p-2">
-      <div class="custom-pb-4">
-        <p class="custom-m-0"><i class="fa-regular fa-clock"></i> Start time</p>
-      </div>
-      <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="buttonStartTime">
-          {{ page_dict_to_html['db_group_settings_dict']['start_time'] }}
-        </button>
-        <ul class="dropdown-menu">
-          {% for i in page_dict_to_html['times'] %}
-          <li class="dropdown-item">
-            <div class="form-check">
-              {% if i == page_dict_to_html['db_group_settings_dict']['start_time'] %}
-              <input class="form-check-input" type="radio" name="radioStartTime" id="radioStartTime{{ i }}" value="{{ i }}" checked>
-              {% else %}
-              <input class="form-check-input" type="radio" name="radioStartTime" id="radioStartTime{{ i }}" value="{{ i }}">
-              {% endif %}
-              <label class="form-check-label" for="radioStartTime{{ i }}">
-                {{ i }}
-              </label>
-            </div>
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
-    </div>
-    <div class="custom-display-block text-center custom-p-2">
-      <div class="custom-pb-4">
-        <p class="custom-m-0"><i class="fa-regular fa-calendar-days"></i> End day</p>
-      </div>
-      <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="buttonEndDay">
-          {{ page_dict_to_html['db_group_settings_dict']['end_day'] }}
-        </button>
-        <ul class="dropdown-menu">
-          {% for i in page_dict_to_html['weekdays'] %}
-          <li class="dropdown-item">
-            <div class="form-check">
-              {% if i == page_dict_to_html['db_group_settings_dict']['end_day'] %}
-              <input class="form-check-input" type="radio" name="radioEndDay" id="radioEndDay{{ i }}" value="{{ i }}" checked>
-              {% else %}
-              <input class="form-check-input" type="radio" name="radioEndDay" id="radioEndDay{{ i }}" value="{{ i }}">
-              {% endif %}
-              <label class="form-check-label" for="radioEndDay{{ i }}">
-                {{ i }}
-              </label>
-            </div>
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
-    </div>
-    <div class="custom-display-block text-center custom-p-2">
-      <div class="custom-pb-4">
-        <p class="custom-m-0"><i class="fa-regular fa-clock"></i> End time</p>
-      </div>
-      <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="buttonEndTime">
-          {{ page_dict_to_html['db_group_settings_dict']['end_time'] }}
-        </button>
-        <ul class="dropdown-menu">
-          {% for i in page_dict_to_html['times'] %}
-          <li class="dropdown-item">
-            <div class="form-check">
-              {% if i == page_dict_to_html['db_group_settings_dict']['end_time'] %}
-              <input class="form-check-input" type="radio" name="radioEndTime" id="radioEndTime{{ i }}" value="{{ i }}" checked>
-              {% else %}
-              <input class="form-check-input" type="radio" name="radioEndTime" id="radioEndTime{{ i }}" value="{{ i }}">
-              {% endif %}
-              <label class="form-check-label" for="radioEndTime{{ i }}">
-                {{ i }}
-              </label>
-            </div>
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
-    </div>
-    <div class="custom-display-block text-center custom-p-2">
-      <div class="custom-pb-4">
-        <p class="custom-m-0"><i class="fa-solid fa-earth-americas"></i> Time Zone</p>
-      </div>
-      <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="buttonTimeZone">
-          {{ page_dict_to_html['db_group_settings_dict']['timezone'] }}
-        </button>
-        <ul class="dropdown-menu">
-          {% for i in page_dict_to_html['timezones'] %}
-          <li class="dropdown-item">
-            <div class="form-check">
-              {% if i == page_dict_to_html['db_group_settings_dict']['timezone'] %}
-              <input class="form-check-input" type="radio" name="radioTimeZone" id="radioTimeZone{{ i }}" value="{{ i }}" checked>
-              {% else %}
-              <input class="form-check-input" type="radio" name="radioTimeZone" id="radioTimeZone{{ i }}" value="{{ i }}">
-              {% endif %}
-              <label class="form-check-label" for="radioTimeZone{{ i }}">
-                {{ i }}
-              </label>
-            </div>
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
+    <div>
+      <button type="submit" class="btn btn-primary custom-ml-3">Submit</button>
     </div>
   </div>
 
-  <p>{{ page_dict_to_html['db_group_settings_dict']['total_questions'] }}</p>
-  <p>{{ page_dict_to_html['db_group_settings_dict']['question_type'] }}</p>
-  <p>{{ page_dict_to_html['db_group_settings_dict']['categories'] }}</p>
-</div>
+  <div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
+    <div class="text-center">
+      <p class="custom-m-0 custom-width-15 mx-auto custom-p-1 custom-br-1 border custom-bg-grey-1">Group ID: {{ page_dict_to_html['db_group_settings_dict']['fk_group_id'] }}</p>
+    </div>
+
+    {% if page_dict_to_html['latest_test_exists'] == false %}
+    <div class="custom-p-2 custom-width-10 mx-auto text-center custom-mt-3 custom-br-3 border shadow-sm">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" name="flexSwitchCheckDefault_01" id="flexSwitchCheckDefault_01" value="is_checked" checked>
+        <label class="form-check-label" for="flexSwitchCheckDefault_01">Your team's first quiz will start immediately (recommended).</label>
+      </div>
+    </div>
+    {% else %}
+    {% endif %}
+
+    <div class="custom-display-flex custom-fw-1 custom-jc-4 custom-ptb-6">
+      <div class="custom-display-block text-center custom-p-2">
+        <div class="custom-pb-4">
+          <p class="custom-m-0"><i class="fa-regular fa-calendar-days"></i> Start day</p>
+        </div>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="buttonStartDay">
+            {{ page_dict_to_html['db_group_settings_dict']['start_day'] }}
+          </button>
+          <ul class="dropdown-menu">
+            {% for i in page_dict_to_html['weekdays'] %}
+            <li class="dropdown-item">
+              <div class="form-check">
+                {% if i == page_dict_to_html['db_group_settings_dict']['start_day'] %}
+                <input class="form-check-input" type="radio" name="radioStartDay" id="radioStartDay{{ i }}" value="{{ i }}" checked>
+                {% else %}
+                <input class="form-check-input" type="radio" name="radioStartDay" id="radioStartDay{{ i }}" value="{{ i }}">
+                {% endif %}
+                <label class="form-check-label" for="radioStartDay{{ i }}">
+                  {{ i }}
+                </label>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      <div class="custom-display-block text-center custom-p-2">
+        <div class="custom-pb-4">
+          <p class="custom-m-0"><i class="fa-regular fa-clock"></i> Start time</p>
+        </div>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="buttonStartTime">
+            {{ page_dict_to_html['db_group_settings_dict']['start_time'] }}
+          </button>
+          <ul class="dropdown-menu">
+            {% for i in page_dict_to_html['times'] %}
+            <li class="dropdown-item">
+              <div class="form-check">
+                {% if i == page_dict_to_html['db_group_settings_dict']['start_time'] %}
+                <input class="form-check-input" type="radio" name="radioStartTime" id="radioStartTime{{ i }}" value="{{ i }}" checked>
+                {% else %}
+                <input class="form-check-input" type="radio" name="radioStartTime" id="radioStartTime{{ i }}" value="{{ i }}">
+                {% endif %}
+                <label class="form-check-label" for="radioStartTime{{ i }}">
+                  {{ i }}
+                </label>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      <div class="custom-display-block text-center custom-p-2">
+        <div class="custom-pb-4">
+          <p class="custom-m-0"><i class="fa-regular fa-calendar-days"></i> End day</p>
+        </div>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="buttonEndDay">
+            {{ page_dict_to_html['db_group_settings_dict']['end_day'] }}
+          </button>
+          <ul class="dropdown-menu">
+            {% for i in page_dict_to_html['weekdays'] %}
+            <li class="dropdown-item">
+              <div class="form-check">
+                {% if i == page_dict_to_html['db_group_settings_dict']['end_day'] %}
+                <input class="form-check-input" type="radio" name="radioEndDay" id="radioEndDay{{ i }}" value="{{ i }}" checked>
+                {% else %}
+                <input class="form-check-input" type="radio" name="radioEndDay" id="radioEndDay{{ i }}" value="{{ i }}">
+                {% endif %}
+                <label class="form-check-label" for="radioEndDay{{ i }}">
+                  {{ i }}
+                </label>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      <div class="custom-display-block text-center custom-p-2">
+        <div class="custom-pb-4">
+          <p class="custom-m-0"><i class="fa-regular fa-clock"></i> End time</p>
+        </div>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="buttonEndTime">
+            {{ page_dict_to_html['db_group_settings_dict']['end_time'] }}
+          </button>
+          <ul class="dropdown-menu">
+            {% for i in page_dict_to_html['times'] %}
+            <li class="dropdown-item">
+              <div class="form-check">
+                {% if i == page_dict_to_html['db_group_settings_dict']['end_time'] %}
+                <input class="form-check-input" type="radio" name="radioEndTime" id="radioEndTime{{ i }}" value="{{ i }}" checked>
+                {% else %}
+                <input class="form-check-input" type="radio" name="radioEndTime" id="radioEndTime{{ i }}" value="{{ i }}">
+                {% endif %}
+                <label class="form-check-label" for="radioEndTime{{ i }}">
+                  {{ i }}
+                </label>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      <div class="custom-display-block text-center custom-p-2">
+        <div class="custom-pb-4">
+          <p class="custom-m-0"><i class="fa-solid fa-earth-americas"></i> Time Zone</p>
+        </div>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="buttonTimeZone">
+            {{ page_dict_to_html['db_group_settings_dict']['timezone'] }}
+          </button>
+          <ul class="dropdown-menu">
+            {% for i in page_dict_to_html['timezones'] %}
+            <li class="dropdown-item">
+              <div class="form-check">
+                {% if i == page_dict_to_html['db_group_settings_dict']['timezone'] %}
+                <input class="form-check-input" type="radio" name="radioTimeZone" id="radioTimeZone{{ i }}" value="{{ i }}" checked>
+                {% else %}
+                <input class="form-check-input" type="radio" name="radioTimeZone" id="radioTimeZone{{ i }}" value="{{ i }}">
+                {% endif %}
+                <label class="form-check-label" for="radioTimeZone{{ i }}">
+                  {{ i }}
+                </label>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <p>{{ page_dict_to_html['db_group_settings_dict']['total_questions'] }}</p>
+    <p>{{ page_dict_to_html['db_group_settings_dict']['question_type'] }}</p>
+    <p>{{ page_dict_to_html['db_group_settings_dict']['categories'] }}</p>
+  </div>
+</form>
 {% endblock %}

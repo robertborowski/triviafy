@@ -11,7 +11,7 @@
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required, current_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
 from website import db
@@ -150,6 +150,23 @@ def employees_schedule_function(url_redirect_code=None):
     latest_test_exists = True
   page_dict['latest_test_exists'] = latest_test_exists
   # ------------------------ pull/create latest test end ------------------------
+  if request.method == 'POST':
+    # ------------------------ get ui start ------------------------
+    ui_send_first_immediate = request.form.get('flexSwitchCheckDefault_01')
+    ui_start_day = request.form.get('radioStartDay')
+    ui_start_time = request.form.get('radioStartTime')
+    ui_end_day = request.form.get('radioEndDay')
+    ui_end_time = request.form.get('radioEndTime')
+    ui_timezone = request.form.get('radioTimeZone')
+    # ------------------------ get ui end ------------------------
+    localhost_print_function(' ------------- 0 ------------- ')
+    localhost_print_function(f'ui_send_first_immediate | type: {type(ui_send_first_immediate)} | {ui_send_first_immediate}')
+    localhost_print_function(f'ui_start_day | type: {type(ui_start_day)} | {ui_start_day}')
+    localhost_print_function(f'ui_start_time | type: {type(ui_start_time)} | {ui_start_time}')
+    localhost_print_function(f'ui_end_day | type: {type(ui_end_day)} | {ui_end_day}')
+    localhost_print_function(f'ui_end_time | type: {type(ui_end_time)} | {ui_end_time}')
+    localhost_print_function(f'ui_timezone | type: {type(ui_timezone)} | {ui_timezone}')
+    localhost_print_function(' ------------- 0 ------------- ')
   localhost_print_function(' ------------------------ employees_schedule_function END ------------------------ ')
   return render_template('employees/interior/schedule/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
