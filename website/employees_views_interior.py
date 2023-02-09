@@ -16,7 +16,7 @@ from flask_login import login_required, current_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
-from website.backend.candidates.browser import browser_response_set_cookie_function
+from website.backend.candidates.browser import browser_response_set_cookie_function_v4
 from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj, EmployeesTestsObj
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
@@ -118,7 +118,7 @@ def login_dashboard_page_function(url_redirect_code=None):
     redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
     return render_template(template_location_url, user=current_user, alert_message_dict_to_html=alert_message_dict, page_dict_to_html=page_dict)
   else:
-    browser_response = browser_response_set_cookie_function(current_user, template_location_url)
+    browser_response = browser_response_set_cookie_function_v4(current_user, template_location_url, alert_message_dict, page_dict)
     localhost_print_function(' ------------------------ login_dashboard_page_function END ------------------------ ')
     return browser_response
   # ------------------------ auto set cookie end ------------------------

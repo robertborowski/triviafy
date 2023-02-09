@@ -45,4 +45,15 @@ def browser_response_set_cookie_function_v3(current_user, input_template_url):
   localhost_print_function('=========================================== browser_response_set_cookie_function_v3 END ===========================================')
   return browser_response
 # ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def browser_response_set_cookie_function_v4(current_user, input_template_url, alert_message_dict, page_dict):
+  localhost_print_function('=========================================== browser_response_set_cookie_function START ===========================================')
+  set_browser_cookie_key, set_browser_cookie_value = redis_set_browser_cookie_function()
+  browser_response = make_response(render_template(input_template_url, user=current_user, alert_message_dict_to_html=alert_message_dict, page_dict_to_html=page_dict))
+  browser_response.set_cookie(set_browser_cookie_key, set_browser_cookie_value, expires=datetime.datetime.now() + datetime.timedelta(days=60))
+  redis_connection.set(set_browser_cookie_value, current_user.id.encode('utf-8'))
+  localhost_print_function('=========================================== browser_response_set_cookie_function END ===========================================')
+  return browser_response
+# ------------------------ individual function end ------------------------
 localhost_print_function('=========================================== browser __init__ END ===========================================')
