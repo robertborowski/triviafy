@@ -18,7 +18,7 @@ from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v4
 from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj, EmployeesTestsObj
-from website.backend.candidates.autogeneration import generate_random_length_uuid_function
+from website.backend.candidates.autogeneration import generate_random_length_uuid_function, question_choices_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function
 # ------------------------ imports end ------------------------
@@ -92,7 +92,7 @@ def login_dashboard_page_function(url_redirect_code=None):
         end_day = 'Thursday',
         end_time = '1 PM',
         total_questions = 10,
-        question_type = 'mixed',
+        question_type = 'Mixed',
         categories = 'all_categories'
       )
       db.session.add(new_row)
@@ -140,6 +140,7 @@ def employees_schedule_function(url_redirect_code=None):
   db_group_settings_dict = arr_of_dict_all_columns_single_item_function(db_group_settings_obj)
   page_dict['db_group_settings_dict'] = db_group_settings_dict
   page_dict['weekdays'], page_dict['times'], page_dict['timezones'] = days_times_timezone_arr_function()
+  page_dict['question_num_arr'], page_dict['question_type_arr'] = question_choices_function()
   # ------------------------ get current group settings end ------------------------
   # ------------------------ pull/create latest test start ------------------------
   db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=current_user.company_name).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
@@ -158,6 +159,8 @@ def employees_schedule_function(url_redirect_code=None):
     ui_end_day = request.form.get('radioEndDay')
     ui_end_time = request.form.get('radioEndTime')
     ui_timezone = request.form.get('radioTimeZone')
+    ui_total_questions = request.form.get('radioTotalQuestions')
+    ui_question_type = request.form.get('radioQuestionType')
     # ------------------------ get ui end ------------------------
     localhost_print_function(' ------------- 0 ------------- ')
     localhost_print_function(f'ui_send_first_immediate | type: {type(ui_send_first_immediate)} | {ui_send_first_immediate}')
@@ -166,6 +169,8 @@ def employees_schedule_function(url_redirect_code=None):
     localhost_print_function(f'ui_end_day | type: {type(ui_end_day)} | {ui_end_day}')
     localhost_print_function(f'ui_end_time | type: {type(ui_end_time)} | {ui_end_time}')
     localhost_print_function(f'ui_timezone | type: {type(ui_timezone)} | {ui_timezone}')
+    localhost_print_function(f'ui_total_questions | type: {type(ui_total_questions)} | {ui_total_questions}')
+    localhost_print_function(f'ui_question_type | type: {type(ui_question_type)} | {ui_question_type}')
     localhost_print_function(' ------------- 0 ------------- ')
   localhost_print_function(' ------------------------ employees_schedule_function END ------------------------ ')
   return render_template('employees/interior/schedule/index.html', page_dict_to_html=page_dict)

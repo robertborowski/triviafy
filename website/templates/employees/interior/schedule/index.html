@@ -169,8 +169,61 @@
       </div>
     </div>
 
-    <p>{{ page_dict_to_html['db_group_settings_dict']['total_questions'] }}</p>
-    <p>{{ page_dict_to_html['db_group_settings_dict']['question_type'] }}</p>
+    <div class="custom-display-flex custom-fw-1 custom-jc-3 custom-pb-2">
+      <div class="custom-display-block text-center custom-p-2">
+        <div class="custom-pb-4">
+          <p class="custom-m-0"><i class="fa-regular fa-circle-check"></i> Total questions</p>
+        </div>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="buttonTotalQuestions">
+            {{ page_dict_to_html['db_group_settings_dict']['total_questions'] }}
+          </button>
+          <ul class="dropdown-menu">
+            {% for i in page_dict_to_html['question_num_arr'] %}
+            <li class="dropdown-item">
+              <div class="form-check">
+                {% if i == page_dict_to_html['db_group_settings_dict']['total_questions'] %}
+                <input class="form-check-input" type="radio" name="radioTotalQuestions" id="radioTotalQuestions{{ i }}" value="{{ i }}" checked>
+                {% else %}
+                <input class="form-check-input" type="radio" name="radioTotalQuestions" id="radioTotalQuestions{{ i }}" value="{{ i }}">
+                {% endif %}
+                <label class="form-check-label" for="radioTotalQuestions{{ i }}">
+                  {{ i }}
+                </label>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      <div class="custom-display-block text-center custom-p-2">
+        <div class="custom-pb-4">
+          <p class="custom-m-0"><i class="fa-regular fa-circle-check"></i> Question type</p>
+        </div>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="buttonQuestionType">
+            {{ page_dict_to_html['db_group_settings_dict']['question_type'] }}
+          </button>
+          <ul class="dropdown-menu">
+            {% for i in page_dict_to_html['question_type_arr'] %}
+            <li class="dropdown-item">
+              <div class="form-check">
+                {% if i == page_dict_to_html['db_group_settings_dict']['question_type'] %}
+                <input class="form-check-input" type="radio" name="radioQuestionType" id="radioQuestionType{{ i }}" value="{{ i }}" checked>
+                {% else %}
+                <input class="form-check-input" type="radio" name="radioQuestionType" id="radioQuestionType{{ i }}" value="{{ i }}">
+                {% endif %}
+                <label class="form-check-label" for="radioQuestionType{{ i }}">
+                  {{ i }}
+                </label>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+
     <p>{{ page_dict_to_html['db_group_settings_dict']['categories'] }}</p>
   </div>
 </form>

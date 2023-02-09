@@ -32,3 +32,17 @@ $("input:radio[name=radioTimeZone]").click(function() {
   $("#buttonTimeZone").text(selectedRadioTimeZone);
 });
 // ------------------------ end ------------------------
+
+// ------------------------ start ------------------------
+$("input:radio[name=radioTotalQuestions]").click(function() {
+  selectedRadioTotalQuestions = $('input:radio[name=radioTotalQuestions]:checked').val();
+  $("#buttonTotalQuestions").text(selectedRadioTotalQuestions);
+});
+// ------------------------ end ------------------------
+
+// ------------------------ start ------------------------
+$("input:radio[name=radioQuestionType]").click(function() {
+  selectedRadioQuestionType = $('input:radio[name=radioQuestionType]:checked').val();
+  $("#buttonQuestionType").text(selectedRadioQuestionType);
+});
+// ------------------------ end ------------------------
