@@ -177,7 +177,7 @@ def employees_categories_request_function(url_redirect_code=None):
 
 # ------------------------ individual route start ------------------------
 @employees_views_interior.route('/employees/schedule', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/schedule/', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/schedule/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
 def employees_schedule_function(url_redirect_code=None):
   localhost_print_function(' ------------------------ employees_schedule_function START ------------------------ ')
@@ -220,21 +220,57 @@ def employees_schedule_function(url_redirect_code=None):
     ui_select_all_categories = request.form.get('flexSwitchCheckDefault_02')
     ui_selected_categories = request.form.getlist('uiSelectedCategories')
     # ------------------------ get ui end ------------------------
-    localhost_print_function(' ------------- 0 ------------- ')
-    localhost_print_function(f'ui_send_first_immediate | type: {type(ui_send_first_immediate)} | {ui_send_first_immediate}')
-    localhost_print_function(' - - - ')
-    localhost_print_function(f'ui_start_day | type: {type(ui_start_day)} | {ui_start_day}')
-    localhost_print_function(f'ui_start_time | type: {type(ui_start_time)} | {ui_start_time}')
-    localhost_print_function(f'ui_end_day | type: {type(ui_end_day)} | {ui_end_day}')
-    localhost_print_function(f'ui_end_time | type: {type(ui_end_time)} | {ui_end_time}')
-    localhost_print_function(f'ui_timezone | type: {type(ui_timezone)} | {ui_timezone}')
-    localhost_print_function(f'ui_cadence | type: {type(ui_cadence)} | {ui_cadence}')
-    localhost_print_function(f'ui_total_questions | type: {type(ui_total_questions)} | {ui_total_questions}')
-    localhost_print_function(f'ui_question_type | type: {type(ui_question_type)} | {ui_question_type}')
-    localhost_print_function(' - - - ')
-    localhost_print_function(f'ui_select_all_categories | type: {type(ui_select_all_categories)} | {ui_select_all_categories}')
-    localhost_print_function(f'ui_selected_categories | type: {type(ui_selected_categories)} | {ui_selected_categories}')
-    localhost_print_function(' ------------- 0 ------------- ')
+    # ------------------------ check if ui is invalid start ------------------------
+    if ui_start_day not in page_dict['weekdays'] or ui_end_day not in page_dict['weekdays'] or ui_start_time not in page_dict['times'] or ui_end_time not in page_dict['times'] or ui_timezone not in page_dict['timezones'] or ui_cadence not in page_dict['quiz_cadence_arr'] or int(ui_total_questions) not in page_dict['question_num_arr'] or ui_question_type not in page_dict['question_type_arr']:
+      return redirect(url_for('employees_views_interior.employees_schedule_function', url_redirect_code='e6'))
+    if ui_selected_categories != [] and ui_selected_categories != None:
+      for i in ui_selected_categories:
+        if i not in page_dict['all_categories_arr']:
+          return redirect(url_for('employees_views_interior.employees_schedule_function', url_redirect_code='e6'))
+    # ------------------------ check if ui is invalid start ------------------------
+    # ------------------------ if settings changed start ------------------------
+    settings_change_occured = False
+    # ------------------------ if all categories selected start ------------------------
+    if ui_select_all_categories == None and db_group_settings_dict['categories'] == 'all_categories':
+      settings_change_occured = True
+      if ui_selected_categories == [] or ui_selected_categories == None or len(ui_selected_categories) == 0:
+        return redirect(url_for('employees_views_interior.employees_schedule_function', url_redirect_code='e6'))
+      localhost_print_function(' ------------- 0 ------------- ')
+      localhost_print_function(f'ui_selected_categories | type: {type(ui_selected_categories)} | {ui_selected_categories}')
+      localhost_print_function(' ------------- 0 ------------- ')
+    if ui_select_all_categories == db_group_settings_dict['categories']:
+      pass
+    # ------------------------ if all categories selected end ------------------------
+    if ui_start_day != db_group_settings_dict['start_day']:
+      settings_change_occured = True
+      db_group_settings_obj.start_day = ui_start_day
+    if ui_start_time != db_group_settings_dict['start_time']:
+      settings_change_occured = True
+      db_group_settings_obj.start_time = ui_start_time
+    if ui_end_day != db_group_settings_dict['end_day']:
+      settings_change_occured = True
+      db_group_settings_obj.end_day = ui_end_day
+    if ui_end_time != db_group_settings_dict['end_time']:
+      settings_change_occured = True
+      db_group_settings_obj.end_time = ui_end_time
+    if ui_timezone != db_group_settings_dict['timezone']:
+      settings_change_occured = True
+      db_group_settings_obj.timezone = ui_timezone
+    if ui_cadence != db_group_settings_dict['cadence']:
+      settings_change_occured = True
+      db_group_settings_obj.cadence = ui_cadence
+    if ui_total_questions != db_group_settings_dict['total_questions']:
+      settings_change_occured = True
+      db_group_settings_obj.total_questions = ui_total_questions
+    if ui_question_type != db_group_settings_dict['question_type']:
+      settings_change_occured = True
+      db_group_settings_obj.question_type = ui_question_type
+    if settings_change_occured == True:
+      db.session.commit()
+      # ------------------------ if first quiz immediate is checked start ------------------------
+      # ------------------------ if first quiz immediate is checked end ------------------------
+      return redirect(url_for('employees_views_interior.employees_schedule_function', url_redirect_code='s2'))
+    # ------------------------ if settings changed end ------------------------
   localhost_print_function(' ------------------------ employees_schedule_function END ------------------------ ')
   return render_template('employees/interior/schedule/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------

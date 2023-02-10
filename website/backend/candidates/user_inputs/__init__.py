@@ -389,9 +389,19 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':'Requested categories should be 1-100 characters long.',
       'type':'danger'
     }
+  elif redirect_var == 'e6':
+    alert_message_dict = {
+      'message':'Invalid inputs.',
+      'type':'danger'
+    }
   elif redirect_var == 's1':
     alert_message_dict = {
       'message':'Request sent.',
+      'type':'success'
+    }
+  elif redirect_var == 's2':
+    alert_message_dict = {
+      'message':'Schedule settings successfully updated.',
       'type':'success'
     }
   # localhost_print_function('=========================================== alert_message_default_function_v2 END ===========================================')

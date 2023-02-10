@@ -7,14 +7,14 @@ from random import randint
 localhost_print_function('=========================================== string_manipulation __init__ START ===========================================')
 # ------------------------ individual function start ------------------------
 def string_to_arr_function(input_str):
-  localhost_print_function('=========================================== string_to_arr_function START ===========================================')
+  # localhost_print_function('=========================================== string_to_arr_function START ===========================================')
   output_arr = []
   input_str_split_arr = input_str.split(',')
   for word in input_str_split_arr:
     word_stripped = word.strip()
     if word_stripped not in output_arr and word_stripped != 'Candidates' and word_stripped != 'MCQ':
       output_arr.append(word_stripped)
-  localhost_print_function('=========================================== string_to_arr_function END ===========================================')
+  # localhost_print_function('=========================================== string_to_arr_function END ===========================================')
   return output_arr
 # ------------------------ individual function end ------------------------
 
