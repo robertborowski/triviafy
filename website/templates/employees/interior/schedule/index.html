@@ -253,7 +253,7 @@
     <div class="custom-ptb-6">
       <div class="custom-width-17 mx-auto text-center">
         <div class="form-check form-switch">
-          {% if page_dict_to_html['db_group_settings_dict']['categories'] != 'all_categories' %}
+          {% if page_dict_to_html['db_group_settings_dict']['categories'] == 'all_categories' %}
           <input class="form-check-input" type="checkbox" role="switch" name="flexSwitchCheckDefault_02" id="flexSwitchCheckDefault_02" value="is_checked" checked>
           {% else %}
           <input class="form-check-input" type="checkbox" role="switch" name="flexSwitchCheckDefault_02" id="flexSwitchCheckDefault_02" value="is_checked">
@@ -280,6 +280,11 @@
 
     <div class="text-center custom-pt-1">
       <button type="submit" class="btn btn-primary btn-lg custom-width-6">Submit</button>
+    </div>
+  </div>
+  <div class="container custom-mt-1">
+    <div class="float-end">
+      <a href="/employees/request" class="btn btn-outline-secondary">Request more categories</a>
     </div>
   </div>
 </form>

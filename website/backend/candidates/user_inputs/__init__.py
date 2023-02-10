@@ -384,6 +384,16 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':'Incorrect username/password.',
       'type':'danger'
     }
+  elif redirect_var == 'e5':
+    alert_message_dict = {
+      'message':'Requested categories should be 1-100 characters long.',
+      'type':'danger'
+    }
+  elif redirect_var == 's1':
+    alert_message_dict = {
+      'message':'Request sent.',
+      'type':'success'
+    }
   # localhost_print_function('=========================================== alert_message_default_function_v2 END ===========================================')
   return alert_message_dict
 # ------------------------ individual function end ------------------------

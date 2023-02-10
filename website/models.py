@@ -224,4 +224,12 @@ class EmployeesTestsObj(db.Model):
   question_ids = db.Column(db.String(3000))
   status = db.Column(db.String(150))
 # ------------------------ individual model end ------------------------
+
+# ------------------------ individual model start ------------------------
+class EmployeesDesiredCategoriesObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  user_id_fk = db.Column(db.String(150))
+  desired_categories = db.Column(db.String(150))
+# ------------------------ individual model end ------------------------
 # ------------------------ employees models end ------------------------

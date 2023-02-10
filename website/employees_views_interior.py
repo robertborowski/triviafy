@@ -17,12 +17,15 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v4
-from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj, EmployeesTestsObj
+from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesDesiredCategoriesObj
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function, question_choices_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.string_manipulation import all_employee_question_categories_sorted_function
+from website.backend.candidates.user_inputs import sanitize_char_count_1_function
+from website.backend.candidates.send_emails import send_email_template_function
+import os
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -125,6 +128,51 @@ def login_dashboard_page_function(url_redirect_code=None):
     localhost_print_function(' ------------------------ login_dashboard_page_function END ------------------------ ')
     return browser_response
   # ------------------------ auto set cookie end ------------------------
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@employees_views_interior.route('/employees/request', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/request/<url_redirect_code>', methods=['GET', 'POST'])
+@login_required
+def employees_categories_request_function(url_redirect_code=None):
+  localhost_print_function(' ------------------------ employees_categories_request_function START ------------------------ ')
+  # ------------------------ page dict start ------------------------
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  print(page_dict['alert_message_dict'])
+  # ------------------------ page dict end ------------------------
+  # ------------------------ if post method hit start ------------------------
+  ui_requested = ''
+  if request.method == 'POST':
+    ui_requested = request.form.get('ui_requested')
+    ui_requested = sanitize_char_count_1_function(ui_requested)
+    if ui_requested == False:
+      return redirect(url_for('employees_views_interior.employees_categories_request_function', url_redirect_code='e5'))
+    else:
+      # ------------------------ create new user in db start ------------------------
+      insert_new_row = EmployeesDesiredCategoriesObj(
+        id=create_uuid_function('cat_'),
+        created_timestamp=create_timestamp_function(),
+        user_id_fk=current_user.id,
+        desired_categories=ui_requested
+      )
+      db.session.add(insert_new_row)
+      db.session.commit()
+      # ------------------------ create new user in db end ------------------------
+      # ------------------------ email self start ------------------------
+      try:
+        output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+        output_subject = f'Triviafy - Employees Requested Category - {current_user.email}'
+        output_body = f"Hi there,\n\nRequester: {current_user.email}\nRequested: '{ui_requested}'\n\nBest,\nTriviafy"
+        send_email_template_function(output_to_email, output_subject, output_body)
+      except:
+        pass
+      # ------------------------ email self end ------------------------
+      return redirect(url_for('employees_views_interior.employees_categories_request_function', url_redirect_code='s1'))
+  # ------------------------ if post method hit end ------------------------
+  localhost_print_function(' ------------------------ employees_categories_request_function END ------------------------ ')
+  return render_template('employees/interior/request_categories/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
