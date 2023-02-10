@@ -253,13 +253,28 @@
     <div class="custom-ptb-6">
       <div class="custom-width-17 mx-auto text-center">
         <div class="form-check form-switch">
-          {% if page_dict_to_html['db_group_settings_dict']['categories'] == 'all_categories' %}
+          {% if page_dict_to_html['db_group_settings_dict']['categories'] != 'all_categories' %}
           <input class="form-check-input" type="checkbox" role="switch" name="flexSwitchCheckDefault_02" id="flexSwitchCheckDefault_02" value="is_checked" checked>
           {% else %}
           <input class="form-check-input" type="checkbox" role="switch" name="flexSwitchCheckDefault_02" id="flexSwitchCheckDefault_02" value="is_checked">
           {% endif %}
           <label class="form-check-label" for="flexSwitchCheckDefault_02">Select all triviafy categories.</label>
         </div>
+      </div>
+    </div>
+
+    <div id="uiSelectAllBlock" class="custom-width-6">
+      <div class="mx-auto custom-width-14 text-center">
+        <div>
+          <label for="uiSearch" class="form-label">Search</label>
+          <input type="text" class="form-control custom-search-bar-1" id="uiSearch" name="uiSearch" placeholder="Search for category">
+        </div>
+      </div>
+      <div class="custom-p-4 text-center">
+        {% for i in page_dict_to_html['all_categories_arr'] %}
+        <input type="checkbox" class="btn-check" id="uiSelectedCategories_{{ i }}" name="uiSelectedCategories" value="{{ i }}">
+        <label class="btn btn-outline-secondary custom-m-1 custom-width-5 custom-ptb-1 uiSearchItem" for="uiSelectedCategories_{{ i }}">{{ i }}</label>
+        {% endfor %}
       </div>
     </div>
 

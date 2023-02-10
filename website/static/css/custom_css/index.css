@@ -289,6 +289,12 @@
 .uiSearchItemInvisible {
   display: none;
 }
+.uiSelectAllBlockVisible {
+  display:inline-block;
+}
+.uiSelectAllBlockInvisible {
+  display: none;
+}
 /* ------------------- jQuery end ------------------- */
 /* ------------------- list style start ------------------- */
 .custom-ls-1 {
