@@ -222,6 +222,7 @@ class EmployeesTestsObj(db.Model):
   question_type = db.Column(db.String(150))
   categories = db.Column(db.String(1000))
   question_ids = db.Column(db.String(3000))
+  question_types_order = db.Column(db.String(500))
   status = db.Column(db.String(150))
 # ------------------------ individual model end ------------------------
 

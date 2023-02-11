@@ -52,10 +52,10 @@ def create_quiz_function(group_id, immediate=False):
     # ------------------------ construct start/end timestamps start ------------------------
     start_date_str = get_upcoming_date_function(db_group_settings_dict['start_day'])
     end_date_str = get_upcoming_date_function(db_group_settings_dict['end_day'])
-    start_timestamp_created = build_out_datetime_from_parts_function(start_date_str, db_group_settings_dict['start_time'], db_group_settings_dict['timezone'])
+    start_timestamp_created = build_out_datetime_from_parts_function(start_date_str, db_group_settings_dict['start_time'], db_group_settings_dict['timezone'])    # converted to EST for job runs
     if immediate == True:
       start_timestamp_created = build_out_datetime_from_parts_function(start_date_str, db_group_settings_dict['start_time'], 'EST')
-    end_timestamp_created = build_out_datetime_from_parts_function(end_date_str, db_group_settings_dict['end_time'], db_group_settings_dict['timezone'])
+    end_timestamp_created = build_out_datetime_from_parts_function(end_date_str, db_group_settings_dict['end_time'], db_group_settings_dict['timezone'])    # converted to EST for job runs
     # ------------------------ construct start/end timestamps end ------------------------
     # ------------------------ insert to db start ------------------------
     try:
@@ -74,6 +74,7 @@ def create_quiz_function(group_id, immediate=False):
         question_type = db_group_settings_dict['question_type'],
         categories = db_group_settings_dict['categories'],
         question_ids = 'tbd',
+        question_types_order = 'tbd',
         status = 'Open'
       )
       # db.session.add(new_row)
