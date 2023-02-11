@@ -200,11 +200,11 @@ def build_out_datetime_from_parts_function(input_date, input_time, input_timezon
   if input_timezone == 'EST':
     goal_time_str = time_mapping_dict[hour_times_arr[input_time_index_position]]
   elif input_timezone == 'PST':
-    goal_time_str = time_mapping_dict[hour_times_arr[input_time_index_position-3]]
+    goal_time_str = time_mapping_dict[hour_times_arr[input_time_index_position+3]]
   elif input_timezone == 'MST':
-    goal_time_str = time_mapping_dict[hour_times_arr[input_time_index_position-2]]
+    goal_time_str = time_mapping_dict[hour_times_arr[input_time_index_position+2]]
   elif input_timezone == 'CST':
-    goal_time_str = time_mapping_dict[hour_times_arr[input_time_index_position-1]]
+    goal_time_str = time_mapping_dict[hour_times_arr[input_time_index_position+1]]
   # ------------------------ fix time based on timezone end ------------------------
   # ------------------------ output manipulation start ------------------------
   goal_str = goal_date_str + ' ' + goal_time_str
@@ -215,8 +215,8 @@ def build_out_datetime_from_parts_function(input_date, input_time, input_timezon
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
-def get_current_weekday_function():
-  localhost_print_function(' ------------------------ get_current_weekday_function start ------------------------ ')
+def get_weekday_dict_function():
+  localhost_print_function(' ------------------------ get_weekday_dict_function start ------------------------ ')
   weekday_dict = {
     0 : 'Monday',
     1 : 'Tuesday',
@@ -226,15 +226,13 @@ def get_current_weekday_function():
     5 : 'Saturday',
     6 : 'Sunday'
   }
-  weekday_num = datetime.today().weekday()
-  weekday = weekday_dict[weekday_num]
-  localhost_print_function(' ------------------------ get_current_weekday_function end ------------------------ ')
-  return weekday
+  localhost_print_function(' ------------------------ get_weekday_dict_function end ------------------------ ')
+  return weekday_dict
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
-def get_current_hour_function():
-  localhost_print_function(' ------------------------ get_current_hour_function start ------------------------ ')
+def get_time_mapping_dict_function():
+  localhost_print_function(' ------------------------ get_time_mapping_dict_function start ------------------------ ')
   time_mapping_dict = {
     0 : '12 AM',
     1 : '1 AM',
@@ -261,9 +259,47 @@ def get_current_hour_function():
     22: '10 PM',
     23: '11 PM'
   }
+  localhost_print_function(' ------------------------ get_time_mapping_dict_function end ------------------------ ')
+  return time_mapping_dict
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def get_current_weekday_function():
+  localhost_print_function(' ------------------------ get_current_weekday_function start ------------------------ ')
+  weekday_dict = get_weekday_dict_function()
+  weekday_num = datetime.today().weekday()
+  weekday = weekday_dict[weekday_num]
+  localhost_print_function(' ------------------------ get_current_weekday_function end ------------------------ ')
+  return weekday
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def get_current_hour_function():
+  localhost_print_function(' ------------------------ get_current_hour_function start ------------------------ ')
+  time_mapping_dict = get_time_mapping_dict_function()
   current_hour_num = datetime.now().hour
   current_hour = time_mapping_dict[current_hour_num]
   localhost_print_function(' ------------------------ get_current_hour_function end ------------------------ ')
   return current_hour
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def get_upcoming_date_function(goal_day_of_week):
+  localhost_print_function(' ------------------------ get_upcoming_date_function start ------------------------ ')
+  weekday_dict = get_weekday_dict_function()
+  weekday_found = False
+  counter = 0
+  result_date = '1/1/1901'
+  while weekday_found == False:
+    i_date = datetime.today()+timedelta(days=counter)
+    i_weekday_num = i_date.weekday()
+    i_weekday = weekday_dict[i_weekday_num]
+    if i_weekday == goal_day_of_week:
+      weekday_found = True
+      result_date = i_date.strftime('%m-%d-%Y')
+    else:
+      counter += 1
+  localhost_print_function(' ------------------------ get_upcoming_date_function end ------------------------ ')
+  return result_date
 # ------------------------ individual function end ------------------------
 localhost_print_function('=========================================== datetime_manipulation __init__ END ===========================================')

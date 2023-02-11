@@ -67,11 +67,11 @@ def build_out_datetime_from_parts_function(input_date, input_time, input_timezon
   if input_timezone == 'EST':
     goal_time_str = time_mapping_dict[hour_times_arr[input_time_index_position]]
   elif input_timezone == 'PST':
-    goal_time_str = time_mapping_dict[hour_times_arr[input_time_index_position-3]]
+    goal_time_str = time_mapping_dict[hour_times_arr[input_time_index_position+3]]
   elif input_timezone == 'MST':
-    goal_time_str = time_mapping_dict[hour_times_arr[input_time_index_position-2]]
+    goal_time_str = time_mapping_dict[hour_times_arr[input_time_index_position+2]]
   elif input_timezone == 'CST':
-    goal_time_str = time_mapping_dict[hour_times_arr[input_time_index_position-1]]
+    goal_time_str = time_mapping_dict[hour_times_arr[input_time_index_position+1]]
   # ------------------------ fix time based on timezone end ------------------------
   # ------------------------ output manipulation start ------------------------
   goal_str = goal_date_str + ' ' + goal_time_str
