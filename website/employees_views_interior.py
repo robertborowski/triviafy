@@ -230,17 +230,25 @@ def employees_schedule_function(url_redirect_code=None):
     # ------------------------ check if ui is invalid start ------------------------
     # ------------------------ if settings changed start ------------------------
     settings_change_occured = False
-    # ------------------------ if all categories selected start ------------------------
-    if ui_select_all_categories == None and db_group_settings_dict['categories'] == 'all_categories':
-      settings_change_occured = True
-      if ui_selected_categories == [] or ui_selected_categories == None or len(ui_selected_categories) == 0:
-        return redirect(url_for('employees_views_interior.employees_schedule_function', url_redirect_code='e6'))
-      localhost_print_function(' ------------- 0 ------------- ')
-      localhost_print_function(f'ui_selected_categories | type: {type(ui_selected_categories)} | {ui_selected_categories}')
-      localhost_print_function(' ------------- 0 ------------- ')
-    if ui_select_all_categories == db_group_settings_dict['categories']:
-      pass
-    # ------------------------ if all categories selected end ------------------------
+    # ------------------------ if 'all_categories' selected start ------------------------
+    if ui_select_all_categories == 'all_categories':
+      if db_group_settings_dict['categories'] == 'all_categories':
+        pass
+      else:
+        settings_change_occured = True
+        db_group_settings_obj.categories = 'all_categories'
+    # ------------------------ if 'all_categories' selected end ------------------------
+    # ------------------------ if 'all_categories' not selected start ------------------------
+    if ui_select_all_categories == None:
+      if ui_selected_categories == [] or len(ui_selected_categories) == 0:
+        return redirect(url_for('employees_views_interior.employees_schedule_function', url_redirect_code='e7'))
+      if ui_selected_categories == db_group_settings_dict['categories']:
+        pass
+      else:
+        settings_change_occured = True
+        ui_selected_categories_str = ",".join(ui_selected_categories)
+        db_group_settings_obj.categories = ui_selected_categories_str
+    # ------------------------ if 'all_categories' not selected end ------------------------
     if ui_start_day != db_group_settings_dict['start_day']:
       settings_change_occured = True
       db_group_settings_obj.start_day = ui_start_day
@@ -259,7 +267,7 @@ def employees_schedule_function(url_redirect_code=None):
     if ui_cadence != db_group_settings_dict['cadence']:
       settings_change_occured = True
       db_group_settings_obj.cadence = ui_cadence
-    if ui_total_questions != db_group_settings_dict['total_questions']:
+    if int(ui_total_questions) != db_group_settings_dict['total_questions']:
       settings_change_occured = True
       db_group_settings_obj.total_questions = ui_total_questions
     if ui_question_type != db_group_settings_dict['question_type']:

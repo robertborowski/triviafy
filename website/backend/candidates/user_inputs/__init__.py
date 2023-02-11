@@ -358,6 +358,7 @@ def alert_message_default_function():
 # ------------------------ individual function start ------------------------
 def alert_message_default_function_v2(redirect_var=None):
   # localhost_print_function('=========================================== alert_message_default_function_v2 START ===========================================')
+  # ------------------------ errors start ------------------------
   alert_message_dict = {
       'message':'',
       'type':'danger'
@@ -394,6 +395,18 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':'Invalid inputs.',
       'type':'danger'
     }
+  elif redirect_var == 'e7':
+    alert_message_dict = {
+      'message':'You must select at least 1 triviafy category.',
+      'type':'danger'
+    }
+  elif redirect_var == 'e8':
+    alert_message_dict = {
+      'message':'Your quiz start day/time must be at least 1 hour before your quiz end day/time.',
+      'type':'danger'
+    }
+  # ------------------------ errors end ------------------------
+  # ------------------------ success start ------------------------
   elif redirect_var == 's1':
     alert_message_dict = {
       'message':'Request sent.',
@@ -404,6 +417,7 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':'Schedule settings successfully updated.',
       'type':'success'
     }
+  # ------------------------ success end ------------------------
   # localhost_print_function('=========================================== alert_message_default_function_v2 END ===========================================')
   return alert_message_dict
 # ------------------------ individual function end ------------------------

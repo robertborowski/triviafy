@@ -272,7 +272,11 @@
       </div>
       <div class="custom-p-4 text-center">
         {% for i in page_dict_to_html['all_categories_arr'] %}
+        {% if i in page_dict_to_html['db_group_settings_dict']['categories'] %}
+        <input type="checkbox" class="btn-check" id="uiSelectedCategories_{{ i }}" name="uiSelectedCategories" value="{{ i }}" checked>
+        {% else %}
         <input type="checkbox" class="btn-check" id="uiSelectedCategories_{{ i }}" name="uiSelectedCategories" value="{{ i }}">
+        {% endif %}
         <label class="btn btn-outline-secondary custom-m-1 custom-width-5 custom-ptb-1 uiSearchItem" for="uiSelectedCategories_{{ i }}">{{ i }}</label>
         {% endfor %}
       </div>
