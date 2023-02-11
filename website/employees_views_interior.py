@@ -273,6 +273,14 @@ def employees_schedule_function(url_redirect_code=None):
     if ui_question_type != db_group_settings_dict['question_type']:
       settings_change_occured = True
       db_group_settings_obj.question_type = ui_question_type
+    # ------------------------ if new start/end day/times make sense start ------------------------
+    start_day_index = page_dict['weekdays'].index(ui_start_day)
+    start_time_index = page_dict['times'].index(ui_start_time)
+    end_day_index = page_dict['weekdays'].index(ui_end_day)
+    end_time_index = page_dict['times'].index(ui_end_time)
+    if start_day_index > end_day_index or (start_day_index == end_day_index and start_time_index >= end_time_index):
+      return redirect(url_for('employees_views_interior.employees_schedule_function', url_redirect_code='e8'))
+    # ------------------------ if new start/end day/times make sense end ------------------------
     if settings_change_occured == True:
       db.session.commit()
       # ------------------------ if first quiz immediate is checked start ------------------------
