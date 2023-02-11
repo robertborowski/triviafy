@@ -81,6 +81,7 @@ def days_times_timezone_arr_function():
     'Friday'
   ]
   times_arr = [
+    '12 AM',
     '1 AM',
     '2 AM',
     '3 AM',
@@ -92,7 +93,7 @@ def days_times_timezone_arr_function():
     '9 AM',
     '10 AM',
     '11 AM',
-    '12 Noon',
+    '12 PM',
     '1 PM',
     '2 PM',
     '3 PM',
@@ -183,7 +184,7 @@ def times_dict_mapping_function():
 def build_out_datetime_from_parts_function(input_date, input_time, input_timezone):
   localhost_print_function('=========================================== expired_assessment_check_function START ===========================================')
   # Current = '10-17-2022', '7 AM', 'EST'
-  # Goal = '2022-10-14 06:43:18'
+  # Goal = '2022-10-17 07:00:00'
   # ------------------------ fix date start ------------------------
   input_date_arr = input_date.split('-')
   input_date_month = input_date_arr[0]
@@ -211,5 +212,58 @@ def build_out_datetime_from_parts_function(input_date, input_time, input_timezon
   # ------------------------ output manipulation end ------------------------
   localhost_print_function('=========================================== expired_assessment_check_function END ===========================================')
   return goal_timestamp
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def get_current_weekday_function():
+  localhost_print_function(' ------------------------ get_current_weekday_function start ------------------------ ')
+  weekday_dict = {
+    0 : 'Monday',
+    1 : 'Tuesday',
+    2 : 'Wednesday',
+    3 : 'Thursday',
+    4 : 'Friday',
+    5 : 'Saturday',
+    6 : 'Sunday'
+  }
+  weekday_num = datetime.today().weekday()
+  weekday = weekday_dict[weekday_num]
+  localhost_print_function(' ------------------------ get_current_weekday_function end ------------------------ ')
+  return weekday
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def get_current_hour_function():
+  localhost_print_function(' ------------------------ get_current_hour_function start ------------------------ ')
+  time_mapping_dict = {
+    0 : '12 AM',
+    1 : '1 AM',
+    2 : '2 AM',
+    3 : '3 AM',
+    4 : '4 AM',
+    5 : '5 AM',
+    6 : '6 AM',
+    7 : '7 AM',
+    8 : '8 AM',
+    9 : '9 AM',
+    10 : '10 AM',
+    11 : '11 AM',
+    12: '12 PM',
+    13: '1 PM',
+    14: '2 PM',
+    15: '3 PM',
+    16: '4 PM',
+    17: '5 PM',
+    18: '6 PM',
+    19: '7 PM',
+    20: '8 PM',
+    21: '9 PM',
+    22: '10 PM',
+    23: '11 PM'
+  }
+  current_hour_num = datetime.now().hour
+  current_hour = time_mapping_dict[current_hour_num]
+  localhost_print_function(' ------------------------ get_current_hour_function end ------------------------ ')
+  return current_hour
 # ------------------------ individual function end ------------------------
 localhost_print_function('=========================================== datetime_manipulation __init__ END ===========================================')

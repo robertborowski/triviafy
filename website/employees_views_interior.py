@@ -26,6 +26,7 @@ from website.backend.candidates.string_manipulation import all_employee_question
 from website.backend.candidates.user_inputs import sanitize_char_count_1_function
 from website.backend.candidates.send_emails import send_email_template_function
 import os
+from website.backend.candidates.quiz import create_quiz_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -99,7 +100,7 @@ def login_dashboard_page_function(url_redirect_code=None):
         fk_user_id = current_user.id,
         timezone = 'EST',
         start_day = 'Monday',
-        start_time = '12 Noon',
+        start_time = '12 PM',
         end_day = 'Thursday',
         end_time = '1 PM',
         cadence = 'Weekly',
@@ -289,10 +290,16 @@ def employees_schedule_function(url_redirect_code=None):
     # ------------------------ if new start/end day/times make sense end ------------------------
     if settings_change_occured == True:
       db.session.commit()
-      # ------------------------ if first quiz immediate is checked start ------------------------
-      # ------------------------ if first quiz immediate is checked end ------------------------
+      # ------------------------ if first quiz immediate is checked - after changes start ------------------------
+      if ui_send_first_immediate == 'is_checked' and latest_test_exists == False:
+        create_quiz_function(page_dict['db_group_settings_dict']['fk_group_id'], True)
+      # ------------------------ if first quiz immediate is checked - after changes end ------------------------
       return redirect(url_for('employees_views_interior.employees_schedule_function', url_redirect_code='s2'))
     # ------------------------ if settings changed end ------------------------
+    # ------------------------ if first quiz immediate is checked - no changes to existing settings start ------------------------
+    if ui_send_first_immediate == 'is_checked' and latest_test_exists == False:
+      create_quiz_function(page_dict['db_group_settings_dict']['fk_group_id'], True)
+    # ------------------------ if first quiz immediate is checked - no changes to existing settings end ------------------------
   localhost_print_function(' ------------------------ employees_schedule_function END ------------------------ ')
   return render_template('employees/interior/schedule/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
