@@ -63,6 +63,12 @@ def login_dashboard_page_function(url_redirect_code=None):
   db_groups_obj = EmployeesGroupsObj.query.filter_by(fk_company_name=current_user.company_name).first()
   if db_groups_obj == None or db_groups_obj == []:
     company_group_id = generate_random_length_uuid_function(6)
+    # ------------------------ while loop if generated group id already exists start ------------------------
+    group_id_exists_check = EmployeesGroupsObj.query.filter_by(public_group_id=company_group_id).first()
+    while group_id_exists_check != None:
+      company_group_id = generate_random_length_uuid_function(6)
+      group_id_exists_check = EmployeesGroupsObj.query.filter_by(public_group_id=company_group_id).first()
+    # ------------------------ while loop if generated group id already exists end ------------------------
     # ------------------------ insert to db start ------------------------
     try:
       new_row = EmployeesGroupsObj(
