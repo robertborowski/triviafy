@@ -227,6 +227,14 @@ class EmployeesTestsObj(db.Model):
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
+class EmployeesGroupQuestionsUsedObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  fk_group_id = db.Column(db.String(150))
+  fk_question_id = db.Column(db.String(150))
+# ------------------------ individual model end ------------------------
+
+# ------------------------ individual model start ------------------------
 class EmployeesDesiredCategoriesObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
   created_timestamp = db.Column(db.DateTime(timezone=True))
