@@ -119,6 +119,9 @@
 .custom-display-block {
   display: block;
 }
+.custom-mobile-display-2 {
+  display: none;
+}
 /* ------------------- display end ------------------- */
 /* ------------------- filler start ------------------- */
 .custom-filler-1 {

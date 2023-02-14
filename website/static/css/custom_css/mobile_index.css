@@ -4,6 +4,14 @@
       border-radius: 15px;
     }
     /* ------------------- border end ------------------- */
+    /* ------------------- display start ------------------- */
+    .custom-mobile-display-1 {
+      display: none;
+    }
+    .custom-mobile-display-2 {
+      display: block;
+    }
+    /* ------------------- display end ------------------- */
     /* ------------------- flex start ------------------- */
     .custom-footer-mobile-1 {
       flex-direction: column;
