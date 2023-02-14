@@ -201,7 +201,8 @@ def employees_schedule_function(url_redirect_code=None):
   page_dict['quiz_cadence_arr'], page_dict['question_num_arr'], page_dict['question_type_arr'] = question_choices_function()
   # ------------------------ get current group settings end ------------------------
   # ------------------------ pull/create latest test start ------------------------
-  db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=current_user.company_name).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
+  user_group_id = EmployeesGroupsObj.query.filter_by(fk_user_id=current_user.id).order_by(EmployeesGroupsObj.created_timestamp.desc()).first()
+  db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=user_group_id.public_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
   latest_test_exists = False
   if db_tests_obj == None or db_tests_obj == []:
     pass
@@ -249,11 +250,11 @@ def employees_schedule_function(url_redirect_code=None):
     if ui_select_all_categories == None:
       if ui_selected_categories == [] or len(ui_selected_categories) == 0:
         return redirect(url_for('employees_views_interior.employees_schedule_function', url_redirect_code='e7'))
-      if ui_selected_categories == db_group_settings_dict['categories']:
+      ui_selected_categories_str = ",".join(ui_selected_categories)
+      if ui_selected_categories_str == db_group_settings_dict['categories']:
         pass
       else:
         settings_change_occured = True
-        ui_selected_categories_str = ",".join(ui_selected_categories)
         db_group_settings_obj.categories = ui_selected_categories_str
     # ------------------------ if 'all_categories' not selected end ------------------------
     if ui_start_day != db_group_settings_dict['start_day']:
@@ -293,13 +294,19 @@ def employees_schedule_function(url_redirect_code=None):
       # ------------------------ if first quiz immediate is checked - after changes start ------------------------
       if ui_send_first_immediate == 'is_checked' and latest_test_exists == False:
         create_quiz_function(page_dict['db_group_settings_dict']['fk_group_id'], True)
+        return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='s3'))
       # ------------------------ if first quiz immediate is checked - after changes end ------------------------
-      return redirect(url_for('employees_views_interior.employees_schedule_function', url_redirect_code='s2'))
+      return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='s2'))
     # ------------------------ if settings changed end ------------------------
     # ------------------------ if first quiz immediate is checked - no changes to existing settings start ------------------------
     if ui_send_first_immediate == 'is_checked' and latest_test_exists == False:
       create_quiz_function(page_dict['db_group_settings_dict']['fk_group_id'], True)
+      return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='s3'))
     # ------------------------ if first quiz immediate is checked - no changes to existing settings end ------------------------
+    # ------------------------ if no change in settings start ------------------------
+    if settings_change_occured == False:
+      return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='i1'))
+    # ------------------------ if no change in settings end ------------------------
   localhost_print_function(' ------------------------ employees_schedule_function END ------------------------ ')
   return render_template('employees/interior/schedule/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------

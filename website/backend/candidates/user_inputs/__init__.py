@@ -418,7 +418,19 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':'Schedule settings successfully updated.',
       'type':'success'
     }
+  elif redirect_var == 's3':
+    alert_message_dict = {
+      'message':'Quiz successfully created.',
+      'type':'success'
+    }
   # ------------------------ success end ------------------------
+  # ------------------------ info end ------------------------
+  elif redirect_var == 'i1':
+    alert_message_dict = {
+      'message':'Schedule settings unchanged.',
+      'type':'info'
+    }
+  # ------------------------ info end ------------------------
   # localhost_print_function('=========================================== alert_message_default_function_v2 END ===========================================')
   return alert_message_dict
 # ------------------------ individual function end ------------------------

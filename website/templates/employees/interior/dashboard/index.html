@@ -6,7 +6,7 @@
 {% block contentBodyExceptNavbarAndFooter %}
 <!-- ----------------------------------- start ----------------------------------- -->
 {% if alert_message_dict_to_html['message'] != '' %}
-<div class="alert alert-{{ alert_message_dict_to_html['type'] }} mx-auto text-center container" role="alert">
+<div class="alert alert-{{ alert_message_dict_to_html['type'] }} mx-auto text-center container custom-mt-1" role="alert">
   {{ alert_message_dict_to_html['message'] }}
 </div>
 {% endif %}
