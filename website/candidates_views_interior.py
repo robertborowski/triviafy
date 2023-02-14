@@ -1229,7 +1229,7 @@ def candidates_schedule_create_now_function_v2(url_redirect_code=None):
   redirect_var = request.args.get('url_redirect_code')
   if redirect_var != None:
     if redirect_var == 's':
-      alert_message_page = 'Test sent successfully.'
+      alert_message_page = 'Emailed test sent successfully.'
       alert_message_type = 'success'
     if redirect_var == 'e':
       alert_message_page = 'Please select at least 1 test and 1 candidate.'
