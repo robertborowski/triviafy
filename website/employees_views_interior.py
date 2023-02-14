@@ -293,15 +293,21 @@ def employees_schedule_function(url_redirect_code=None):
       db.session.commit()
       # ------------------------ if first quiz immediate is checked - after changes start ------------------------
       if ui_send_first_immediate == 'is_checked' and latest_test_exists == False:
-        create_quiz_function(page_dict['db_group_settings_dict']['fk_group_id'], True)
-        return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='s3'))
+        create_quiz_status = create_quiz_function(page_dict['db_group_settings_dict']['fk_group_id'], True)
+        if create_quiz_status == 'false_end_time':
+          return redirect(url_for('employees_views_interior.employees_schedule_function', url_redirect_code='e8'))
+        if create_quiz_status == True:
+          return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='s3'))
       # ------------------------ if first quiz immediate is checked - after changes end ------------------------
       return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='s2'))
     # ------------------------ if settings changed end ------------------------
     # ------------------------ if first quiz immediate is checked - no changes to existing settings start ------------------------
     if ui_send_first_immediate == 'is_checked' and latest_test_exists == False:
-      create_quiz_function(page_dict['db_group_settings_dict']['fk_group_id'], True)
-      return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='s3'))
+      create_quiz_status = create_quiz_function(page_dict['db_group_settings_dict']['fk_group_id'], True)
+      if create_quiz_status == 'false_end_time':
+        return redirect(url_for('employees_views_interior.employees_schedule_function', url_redirect_code='e8'))
+      if create_quiz_status == True:
+        return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='s3'))
     # ------------------------ if first quiz immediate is checked - no changes to existing settings end ------------------------
     # ------------------------ if no change in settings start ------------------------
     if settings_change_occured == False:

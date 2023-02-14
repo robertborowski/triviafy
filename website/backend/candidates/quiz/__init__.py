@@ -84,6 +84,8 @@ def create_quiz_function(group_id, immediate=False):
     if immediate == True:
       start_timestamp_created = build_out_datetime_from_parts_function(start_date_str, db_group_settings_dict['start_time'], 'EST')
     end_timestamp_created = build_out_datetime_from_parts_function(end_date_str, db_group_settings_dict['end_time'], db_group_settings_dict['timezone'])    # converted to EST for job runs
+    if end_timestamp_created <= start_timestamp_created:
+      return 'false_end_time'
     # ------------------------ construct start/end timestamps end ------------------------
     # ------------------------ pull question id's start ------------------------
     final_uuids_arr = []
