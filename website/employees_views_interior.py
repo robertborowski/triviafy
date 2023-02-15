@@ -118,12 +118,12 @@ def login_dashboard_page_function(url_redirect_code=None):
   # ------------------------ pull/create group settings end ------------------------
   # ------------------------ pull/create latest test start ------------------------
   db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=company_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
-  latest_test_exists = False
+  first_test_exists = False
   if db_tests_obj == None or db_tests_obj == []:
     pass
   else:
-    latest_test_exists = True
-  page_dict['latest_test_exists'] = latest_test_exists
+    first_test_exists = True
+  page_dict['first_test_exists'] = first_test_exists
   # ------------------------ pull/create latest test end ------------------------
   # ------------------------ auto set cookie start ------------------------
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
@@ -203,12 +203,12 @@ def employees_schedule_function(url_redirect_code=None):
   # ------------------------ pull/create latest test start ------------------------
   user_group_id = EmployeesGroupsObj.query.filter_by(fk_user_id=current_user.id).order_by(EmployeesGroupsObj.created_timestamp.desc()).first()
   db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=user_group_id.public_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
-  latest_test_exists = False
+  first_test_exists = False
   if db_tests_obj == None or db_tests_obj == []:
     pass
   else:
-    latest_test_exists = True
-  page_dict['latest_test_exists'] = latest_test_exists
+    first_test_exists = True
+  page_dict['first_test_exists'] = first_test_exists
   # ------------------------ pull/create latest test end ------------------------
   # ------------------------ get all categories start ------------------------
   query_result_arr_of_dicts = select_general_function('select_all_employees_categories_v1')
@@ -292,7 +292,7 @@ def employees_schedule_function(url_redirect_code=None):
     if settings_change_occured == True:
       db.session.commit()
       # ------------------------ if first quiz immediate is checked - after changes start ------------------------
-      if ui_send_first_immediate == 'is_checked' and latest_test_exists == False:
+      if ui_send_first_immediate == 'is_checked' and first_test_exists == False:
         create_quiz_status = create_quiz_function(page_dict['db_group_settings_dict']['fk_group_id'], True)
         if create_quiz_status == 'false_end_time':
           return redirect(url_for('employees_views_interior.employees_schedule_function', url_redirect_code='e8'))
@@ -302,7 +302,7 @@ def employees_schedule_function(url_redirect_code=None):
       return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='s2'))
     # ------------------------ if settings changed end ------------------------
     # ------------------------ if first quiz immediate is checked - no changes to existing settings start ------------------------
-    if ui_send_first_immediate == 'is_checked' and latest_test_exists == False:
+    if ui_send_first_immediate == 'is_checked' and first_test_exists == False:
       create_quiz_status = create_quiz_function(page_dict['db_group_settings_dict']['fk_group_id'], True)
       if create_quiz_status == 'false_end_time':
         return redirect(url_for('employees_views_interior.employees_schedule_function', url_redirect_code='e8'))

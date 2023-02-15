@@ -26,7 +26,7 @@
       <p class="custom-m-0 custom-width-15 mx-auto custom-p-1 custom-br-1 border custom-bg-grey-1">Group ID: {{ page_dict_to_html['db_group_settings_dict']['fk_group_id'] }}</p>
     </div>
 
-    {% if page_dict_to_html['latest_test_exists'] == false %}
+    {% if page_dict_to_html['first_test_exists'] == false %}
     <div class="custom-p-2 custom-width-10 mx-auto text-center custom-mt-3 custom-br-3 border shadow-sm">
       <div class="form-check form-switch">
         <input class="form-check-input" type="checkbox" role="switch" name="flexSwitchCheckDefault_01" id="flexSwitchCheckDefault_01" value="is_checked" checked>
