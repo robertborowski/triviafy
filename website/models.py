@@ -218,6 +218,7 @@ class EmployeesTestsObj(db.Model):
   end_day = db.Column(db.String(150))
   end_time = db.Column(db.String(150))
   end_timestamp = db.Column(db.DateTime(timezone=True))
+  cadence = db.Column(db.String(150))
   total_questions = db.Column(db.Integer)
   question_type = db.Column(db.String(150))
   categories = db.Column(db.String(1000))

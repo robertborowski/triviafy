@@ -10,7 +10,7 @@ from website import db
 from website.backend.candidates.datetime_manipulation import get_current_weekday_function, get_current_hour_function, get_upcoming_date_function, build_out_datetime_from_parts_function, get_week_dates_function, get_weekday_dict_function_v2
 import os, time
 from website.backend.candidates.sql_statements.sql_prep import prepare_where_clause_function
-from datetime import date
+from datetime import date, timedelta
 # ------------------------ imports end ------------------------
 
 
@@ -70,6 +70,15 @@ def compare_candence_vs_previous_quiz_function(db_group_settings_dict, db_tests_
   else:
     if desired_cadence == 'Weekly':
       return True
+    if desired_cadence == 'Biweekly' or desired_cadence == 'Monthly':
+      monday_of_lastest_test_end_week = latest_test_dates_of_week_end_arr[0]    # 'datetime.date' | 2023-02-06
+      if desired_cadence == 'Biweekly':
+        should_be_this_weeks_monday = monday_of_lastest_test_end_week + timedelta(days=14)  # 'datetime.date' | 2023-02-20
+      if desired_cadence == 'Monthly':
+        should_be_this_weeks_monday = monday_of_lastest_test_end_week + timedelta(days=28)  # 'datetime.date' | 2023-02-20
+      should_be_dates_of_week_arr = get_week_dates_function(should_be_this_weeks_monday)
+      if todays_date in should_be_dates_of_week_arr:
+        return True
   # ------------------------ latest test checks end ------------------------
   localhost_print_function(' ------------------------ compare_candence_vs_previous_quiz_function end ------------------------ ')
   return False
@@ -173,6 +182,7 @@ def create_quiz_function(group_id, immediate=False):
         end_day = db_group_settings_dict['end_day'],
         end_time = db_group_settings_dict['end_time'],
         end_timestamp = end_timestamp_created,
+        cadence = db_group_settings_dict['cadence'],
         total_questions = db_group_settings_dict['total_questions'],
         question_type = db_group_settings_dict['question_type'],
         categories = db_group_settings_dict['categories'],
