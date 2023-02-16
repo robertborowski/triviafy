@@ -60,10 +60,12 @@ def compare_candence_vs_previous_quiz_function(db_group_settings_dict, db_tests_
   # ------------------------ all tests type conversion end ------------------------
   # ------------------------ latest test checks start ------------------------
   latest_test_dict = tests_arr_of_dicts[0]
+  latest_test_start_date = latest_test_dict['start_timestamp'].date()
   latest_test_end_date = latest_test_dict['end_timestamp'].date()
-  latest_test_dates_of_week_arr = get_week_dates_function(latest_test_end_date)
+  latest_test_dates_of_week_start_arr = get_week_dates_function(latest_test_start_date)
+  latest_test_dates_of_week_end_arr = get_week_dates_function(latest_test_end_date)
   todays_date = date.today()
-  if todays_date in latest_test_dates_of_week_arr:
+  if todays_date in latest_test_dates_of_week_start_arr or todays_date in latest_test_dates_of_week_end_arr:
     return False
   else:
     if desired_cadence == 'Weekly':
