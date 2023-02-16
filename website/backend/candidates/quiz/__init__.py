@@ -7,9 +7,10 @@ from website.backend.candidates.sql_statements.sql_statements_select import sele
 from website.models import EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesGroupQuestionsUsedObj
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from website import db
-from website.backend.candidates.datetime_manipulation import get_current_weekday_function, get_current_hour_function, get_upcoming_date_function, build_out_datetime_from_parts_function
+from website.backend.candidates.datetime_manipulation import get_current_weekday_function, get_current_hour_function, get_upcoming_date_function, build_out_datetime_from_parts_function, get_week_dates_function, get_weekday_dict_function_v2
 import os, time
 from website.backend.candidates.sql_statements.sql_prep import prepare_where_clause_function
+from datetime import date
 # ------------------------ imports end ------------------------
 
 
@@ -45,6 +46,34 @@ def build_question_type_arr_function(input_type, input_total_questions):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
+def compare_candence_vs_previous_quiz_function(db_group_settings_dict, db_tests_obj):
+  localhost_print_function(' ------------------------ compare_candence_vs_previous_quiz_function start ------------------------ ')
+  # ------------------------ desired start ------------------------
+  desired_start_day = db_group_settings_dict['start_day']
+  desired_cadence = db_group_settings_dict['cadence']
+  # ------------------------ desired end ------------------------
+  # ------------------------ all tests type conversion start ------------------------
+  tests_arr_of_dicts = []
+  for i in db_tests_obj:
+    db_tests_dict = arr_of_dict_all_columns_single_item_function(i)
+    tests_arr_of_dicts.append(db_tests_dict)
+  # ------------------------ all tests type conversion end ------------------------
+  # ------------------------ latest test checks start ------------------------
+  latest_test_dict = tests_arr_of_dicts[0]
+  latest_test_end_date = latest_test_dict['end_timestamp'].date()
+  latest_test_dates_of_week_arr = get_week_dates_function(latest_test_end_date)
+  todays_date = date.today()
+  if todays_date in latest_test_dates_of_week_arr:
+    return False
+  else:
+    if desired_cadence == 'Weekly':
+      return True
+  # ------------------------ latest test checks end ------------------------
+  localhost_print_function(' ------------------------ compare_candence_vs_previous_quiz_function end ------------------------ ')
+  return False
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
 def create_quiz_function(group_id, immediate=False):
   localhost_print_function(' ------------------------ create_quiz_function start ------------------------ ')
   # ------------------------ Set Timezone START ------------------------
@@ -63,12 +92,10 @@ def create_quiz_function(group_id, immediate=False):
     correct_cadence = True
   else:
     # ------------------------ update correct_cadence based on previous two quizzes start ------------------------
-    # <- - - - - Code to be added
-    localhost_print_function(' ------------- 0 ------------- ')
-    localhost_print_function('Need to check cadence before creating new test')
-    localhost_print_function(' ------------- 0 ------------- ')
+    quiz_to_be_made_check = compare_candence_vs_previous_quiz_function(db_group_settings_dict, db_tests_obj)
+    if quiz_to_be_made_check == True:
+      correct_cadence = True
     # ------------------------ update correct_cadence based on previous two quizzes end ------------------------
-    pass
   # ------------------------ pull latest tests check end ------------------------
   # ------------------------ create quiz start ------------------------
   if correct_cadence == True:
@@ -76,17 +103,29 @@ def create_quiz_function(group_id, immediate=False):
     if immediate == True:
       db_group_settings_dict['start_day'] = get_current_weekday_function()
       db_group_settings_dict['start_time'] = get_current_hour_function()  # will return current hour in EST
-    # ------------------------ if quiz to be made immediately (first quiz) end ------------------------
-    # ------------------------ construct start/end timestamps start ------------------------
-    start_date_str = get_upcoming_date_function(db_group_settings_dict['start_day'])
-    end_date_str = get_upcoming_date_function(db_group_settings_dict['end_day'])
-    start_timestamp_created = build_out_datetime_from_parts_function(start_date_str, db_group_settings_dict['start_time'], db_group_settings_dict['timezone'])    # converted to EST for job runs
-    if immediate == True:
+      # ------------------------ construct start/end timestamps start ------------------------
+      start_date_str = get_upcoming_date_function(db_group_settings_dict['start_day'])
+      end_date_str = get_upcoming_date_function(db_group_settings_dict['end_day'])
       start_timestamp_created = build_out_datetime_from_parts_function(start_date_str, db_group_settings_dict['start_time'], 'EST')
-    end_timestamp_created = build_out_datetime_from_parts_function(end_date_str, db_group_settings_dict['end_time'], db_group_settings_dict['timezone'])    # converted to EST for job runs
-    if end_timestamp_created <= start_timestamp_created:
-      return 'false_end_time'
-    # ------------------------ construct start/end timestamps end ------------------------
+      end_timestamp_created = build_out_datetime_from_parts_function(end_date_str, db_group_settings_dict['end_time'], db_group_settings_dict['timezone'])    # converted to EST for job runs
+      if end_timestamp_created <= start_timestamp_created:
+        return 'false_end_time'
+      # ------------------------ construct start/end timestamps end ------------------------
+      # ------------------------ if quiz to be made immediately (first quiz) end ------------------------
+    else:
+      # ------------------------ get this weeks dates start ------------------------
+      todays_date = date.today()
+      latest_test_dates_of_week_arr = get_week_dates_function(todays_date)
+      # ------------------------ get this weeks dates end ------------------------
+      # ------------------------ assign start ------------------------
+      weekday_dict = get_weekday_dict_function_v2()
+      start_date_str = latest_test_dates_of_week_arr[weekday_dict[db_group_settings_dict['start_day']]].strftime('%m-%d-%Y')
+      end_date_str = latest_test_dates_of_week_arr[weekday_dict[db_group_settings_dict['end_day']]].strftime('%m-%d-%Y')
+      # ------------------------ assign end ------------------------
+      start_timestamp_created = build_out_datetime_from_parts_function(start_date_str, db_group_settings_dict['start_time'], db_group_settings_dict['timezone'])
+      end_timestamp_created = build_out_datetime_from_parts_function(end_date_str, db_group_settings_dict['end_time'], db_group_settings_dict['timezone'])    # converted to EST for job runs
+      if end_timestamp_created <= start_timestamp_created:
+        return 'false_end_time'
     # ------------------------ pull question id's start ------------------------
     final_uuids_arr = []
     where_clause_str = None

@@ -231,6 +231,22 @@ def get_weekday_dict_function():
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
+def get_weekday_dict_function_v2():
+  localhost_print_function(' ------------------------ get_weekday_dict_function_v2 start ------------------------ ')
+  weekday_dict = {
+    'Monday': 0,
+    'Tuesday': 1,
+    'Wednesday': 2,
+    'Thursday': 3,
+    'Friday': 4,
+    'Saturday': 5,
+    'Sunday': 6
+  }
+  localhost_print_function(' ------------------------ get_weekday_dict_function_v2 end ------------------------ ')
+  return weekday_dict
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
 def get_time_mapping_dict_function():
   localhost_print_function(' ------------------------ get_time_mapping_dict_function start ------------------------ ')
   time_mapping_dict = {
@@ -301,5 +317,95 @@ def get_upcoming_date_function(goal_day_of_week):
       counter += 1
   localhost_print_function(' ------------------------ get_upcoming_date_function end ------------------------ ')
   return result_date
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def get_week_dates_function(date_var):
+  localhost_print_function(' ------------------------ get_week_dates_function start ------------------------ ')
+  weekday_var = date_var.weekday()
+  # ------------------------ define variables start ------------------------
+  sunday = 0
+  monday = 0
+  tuesday = 0
+  wednesday = 0
+  thursday = 0
+  friday = 0
+  saturday = 0
+  # ------------------------ define variables end ------------------------
+  # Monday
+  if weekday_var == 0:
+    sunday = date_var - timedelta(days=1)
+    monday = date_var
+    tuesday = date_var + timedelta(days=1)
+    wednesday = date_var + timedelta(days=2)
+    thursday = date_var + timedelta(days=3)
+    friday = date_var + timedelta(days=4)
+    saturday = date_var + timedelta(days=5)
+  # Tuesday
+  if weekday_var == 1:
+    sunday = date_var - timedelta(days=2)
+    monday = date_var - timedelta(days=1)
+    tuesday = date_var
+    wednesday = date_var + timedelta(days=1)
+    thursday = date_var + timedelta(days=2)
+    friday = date_var + timedelta(days=3)
+    saturday = date_var + timedelta(days=4)
+  # Wednesday
+  if weekday_var == 2:
+    sunday = date_var - timedelta(days=3)
+    monday = date_var - timedelta(days=2)
+    tuesday = date_var - timedelta(days=1)
+    wednesday = date_var
+    thursday = date_var + timedelta(days=1)
+    friday = date_var + timedelta(days=2)
+    saturday = date_var + timedelta(days=3)
+  # Thursday
+  if weekday_var == 3:
+    sunday = date_var - timedelta(days=4)
+    monday = date_var - timedelta(days=3)
+    tuesday = date_var - timedelta(days=2)
+    wednesday = date_var - timedelta(days=1)
+    thursday = date_var
+    friday = date_var + timedelta(days=1)
+    saturday = date_var + timedelta(days=2)
+  # Friday
+  if weekday_var == 4:
+    sunday = date_var - timedelta(days=5)
+    monday = date_var - timedelta(days=4)
+    tuesday = date_var - timedelta(days=3)
+    wednesday = date_var - timedelta(days=2)
+    thursday = date_var - timedelta(days=1)
+    friday = date_var
+    saturday = date_var + timedelta(days=1)
+  # Saturday
+  if weekday_var == 5:
+    sunday = date_var - timedelta(days=6)
+    monday = date_var - timedelta(days=5)
+    tuesday = date_var - timedelta(days=4)
+    wednesday = date_var - timedelta(days=3)
+    thursday = date_var - timedelta(days=2)
+    friday = date_var - timedelta(days=1)
+    saturday = date_var
+  # Sunday
+  if weekday_var == 6:
+    sunday = date_var
+    monday = date_var + timedelta(days=1)
+    tuesday = date_var + timedelta(days=2)
+    wednesday = date_var + timedelta(days=3)
+    thursday = date_var + timedelta(days=4)
+    friday = date_var + timedelta(days=5)
+    saturday = date_var + timedelta(days=6)
+  # ------------------------ arr append start ------------------------
+  weekdays_arr = []
+  weekdays_arr.append(monday)
+  weekdays_arr.append(tuesday)
+  weekdays_arr.append(wednesday)
+  weekdays_arr.append(thursday)
+  weekdays_arr.append(friday)
+  weekdays_arr.append(saturday)
+  weekdays_arr.append(sunday)
+  # ------------------------ arr append end ------------------------
+  localhost_print_function(' ------------------------ get_week_dates_function end ------------------------ ')
+  return weekdays_arr
 # ------------------------ individual function end ------------------------
 localhost_print_function('=========================================== datetime_manipulation __init__ END ===========================================')

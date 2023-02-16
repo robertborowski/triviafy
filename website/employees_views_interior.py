@@ -123,6 +123,9 @@ def login_dashboard_page_function(url_redirect_code=None):
     pass
   else:
     first_test_exists = True
+    # ------------------------ create latest test start ------------------------
+    create_quiz_status = create_quiz_function(db_group_settings_obj.fk_group_id)
+    # ------------------------ create latest test end ------------------------
   page_dict['first_test_exists'] = first_test_exists
   # ------------------------ pull/create latest test end ------------------------
   # ------------------------ auto set cookie start ------------------------
