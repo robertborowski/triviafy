@@ -408,4 +408,38 @@ def get_week_dates_function(date_var):
   localhost_print_function(' ------------------------ get_week_dates_function end ------------------------ ')
   return weekdays_arr
 # ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def lookup_months_dict_function():
+  localhost_print_function(' ------------------------ lookup_months_dict_function start ------------------------ ')
+  months_dict = {
+    1 : 'Jan',
+    2 : 'Feb',
+    3 : 'Mar',
+    4 : 'Apr',
+    5 : 'May',
+    6 : 'June',
+    7 : 'July',
+    8 : 'Aug',
+    9 : 'Sept',
+    10 : 'Oct',
+    11 : 'Nov',
+    12 : 'Dec'
+  }
+  localhost_print_function(' ------------------------ lookup_months_dict_function end ------------------------ ')
+  return months_dict
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def convert_timestamp_to_month_day_string_function(input_timestamp):
+  localhost_print_function(' ------------------------ convert_timestamp_to_month_day_string_function start ------------------------ ')
+  str_date = input_timestamp.date().strftime('%m-%d-%Y')
+  date_parts_arr = str_date.split('-')
+  date_month = int(date_parts_arr[0])
+  months_dict = lookup_months_dict_function()
+  month_str = months_dict[date_month]
+  month_day_str = month_str + f' {int(date_parts_arr[1])}'
+  localhost_print_function(' ------------------------ convert_timestamp_to_month_day_string_function end ------------------------ ')
+  return month_day_str
+# ------------------------ individual function end ------------------------
 localhost_print_function('=========================================== datetime_manipulation __init__ END ===========================================')

@@ -20,7 +20,7 @@ from website.backend.candidates.browser import browser_response_set_cookie_funct
 from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesDesiredCategoriesObj
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function, question_choices_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
-from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function
+from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function, convert_timestamp_to_month_day_string_function
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.string_manipulation import all_employee_question_categories_sorted_function
 from website.backend.candidates.user_inputs import sanitize_char_count_1_function
@@ -126,6 +126,13 @@ def login_dashboard_page_function(url_redirect_code=None):
     # ------------------------ create latest test start ------------------------
     create_quiz_status = create_quiz_function(db_group_settings_obj.fk_group_id)
     # ------------------------ create latest test end ------------------------
+    # ------------------------ latest test info start ------------------------
+    # db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=company_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
+    # start_month_day_str = convert_timestamp_to_month_day_string_function(db_tests_obj.start_timestamp)
+    # end_month_day_str = convert_timestamp_to_month_day_string_function(db_tests_obj.end_timestamp)
+    # page_dict['full_time_string'] = start_month_day_str + ', ' + db_tests_obj.start_time + ' - ' + end_month_day_str + ', ' + db_tests_obj.end_time + ' ' + db_tests_obj.timezone
+    # page_dict['ending_time_string'] = end_month_day_str + ', ' + db_tests_obj.end_time + ' ' + db_tests_obj.timezone
+    # ------------------------ latest test info end ------------------------
   page_dict['first_test_exists'] = first_test_exists
   # ------------------------ pull/create latest test end ------------------------
   # ------------------------ auto set cookie start ------------------------
