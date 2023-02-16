@@ -77,7 +77,7 @@ def compare_candence_vs_previous_quiz_function(db_group_settings_dict, db_tests_
       if desired_cadence == 'Monthly':
         should_be_this_weeks_monday = monday_of_lastest_test_end_week + timedelta(days=28)  # 'datetime.date' | 2023-02-20
       should_be_dates_of_week_arr = get_week_dates_function(should_be_this_weeks_monday)
-      if todays_date in should_be_dates_of_week_arr:
+      if todays_date in should_be_dates_of_week_arr or todays_date >= max(should_be_dates_of_week_arr):
         return True
   # ------------------------ latest test checks end ------------------------
   localhost_print_function(' ------------------------ compare_candence_vs_previous_quiz_function end ------------------------ ')
