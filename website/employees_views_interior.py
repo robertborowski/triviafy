@@ -197,14 +197,14 @@ def employees_schedule_function(url_redirect_code=None):
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
   # ------------------------ get current group settings start ------------------------
-  db_group_settings_obj = EmployeesGroupSettingsObj.query.filter_by(fk_user_id=current_user.id).order_by(EmployeesGroupSettingsObj.created_timestamp.desc()).first()
+  user_group_id = EmployeesGroupsObj.query.filter_by(fk_company_name=current_user.company_name).order_by(EmployeesGroupsObj.created_timestamp.desc()).first()
+  db_group_settings_obj = EmployeesGroupSettingsObj.query.filter_by(fk_group_id=user_group_id.public_group_id).order_by(EmployeesGroupSettingsObj.created_timestamp.desc()).first()
   db_group_settings_dict = arr_of_dict_all_columns_single_item_function(db_group_settings_obj)
   page_dict['db_group_settings_dict'] = db_group_settings_dict
   page_dict['weekdays'], page_dict['times'], page_dict['timezones'] = days_times_timezone_arr_function()
   page_dict['quiz_cadence_arr'], page_dict['question_num_arr'], page_dict['question_type_arr'] = question_choices_function()
   # ------------------------ get current group settings end ------------------------
   # ------------------------ pull/create latest test start ------------------------
-  user_group_id = EmployeesGroupsObj.query.filter_by(fk_user_id=current_user.id).order_by(EmployeesGroupsObj.created_timestamp.desc()).first()
   db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=user_group_id.public_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
   first_test_exists = False
   if db_tests_obj == None or db_tests_obj == []:
