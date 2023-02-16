@@ -11,23 +11,33 @@
 </div>
 {% endif %}
 <!-- ----------------------------------- end ----------------------------------- -->
+{% if page_dict_to_html['first_test_exists'] == false %}
 <div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
   <div>
     <h2 class="custom-header-2-mobile">Dashboard</h2>
   </div>
-  <!-- <div>
-    <a href="#" class="btn btn-outline-secondary">Schedule</a>
-  </div> -->
 </div>
 <div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
-  {% if page_dict_to_html['first_test_exists'] == false %}
   <div class="text-center">
-    <p class="custom-header-4">Create your team's triviafy schedule.</p>
-    <a href="/employees/schedule" class="btn btn-lg btn-primary">Create +</a>
+    <p class="custom-header-4">Confirm your team's triviafy schedule.</p>
+    <a href="/employees/schedule" class="btn btn-lg btn-primary">Confirm</a>
   </div>
-  {% else %}
-  <p>hello</p>
-  <a href="/employees/schedule" class="btn btn-outline-primary">Create again?</a>
-  {% endif %}
 </div>
+{% else %}
+<div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
+  <div>
+    <h2 class="custom-header-2-mobile">Dashboard</h2>
+  </div>
+</div>
+<div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
+  <div class="text-center">
+    <p class="custom-header-4">Your team's latest quiz is ready.</p>
+    <a href="#" class="btn btn-lg btn-primary">Complete quiz</a>
+  </div>
+</div>
+<div class="container custom-display-flex">
+  <a href="#" class="btn btn-outline-secondary custom-width-16 custom-mt-1 custom-mr-2">Leaderboard</a>
+  <a href="/employees/schedule" class="btn btn-outline-secondary custom-width-16 custom-mt-1 custom-ml-3">Schedule</a>
+</div>
+{% endif %}
 {% endblock %}
