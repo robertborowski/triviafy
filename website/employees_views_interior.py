@@ -326,3 +326,35 @@ def employees_schedule_function(url_redirect_code=None):
   localhost_print_function(' ------------------------ employees_schedule_function END ------------------------ ')
   return render_template('employees/interior/schedule/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@employees_views_interior.route('/employees/t', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/t/', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/t/<url_test_id>', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/t/<url_test_id>/', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/t/<url_test_id>/<url_redirect_code>', methods=['GET', 'POST'])
+@login_required
+def employees_test_id_function(url_redirect_code=None, url_test_id=None):
+  localhost_print_function(' ------------------------ employees_test_id_function START ------------------------ ')
+  # ------------------------ page dict start ------------------------
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  print(page_dict['alert_message_dict'])
+  # ------------------------ page dict end ------------------------
+  # ------------------------ get latest test id start ------------------------
+  localhost_print_function(' ------------- 0 ------------- ')
+  localhost_print_function(f'url_test_id | type: {type(url_test_id)} | {url_test_id}')
+  localhost_print_function(' ------------- 0 ------------- ')
+  if url_test_id == None:
+    user_group_id = EmployeesGroupsObj.query.filter_by(fk_company_name=current_user.company_name).order_by(EmployeesGroupsObj.created_timestamp.desc()).first()
+    db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=user_group_id.public_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
+    test_id = db_tests_obj.id
+    localhost_print_function(' ------------- 1 ------------- ')
+    localhost_print_function(f'test_id | type: {type(test_id)} | {test_id}')
+    localhost_print_function(' ------------- 1 ------------- ')
+    return redirect(url_for('employees_views_interior.employees_test_id_function', url_test_id=test_id))
+  # ------------------------ get latest test id end ------------------------
+  localhost_print_function(' ------------------------ employees_test_id_function END ------------------------ ')
+  return render_template('employees/interior/test_quiz/index.html', page_dict_to_html=page_dict)
+# ------------------------ individual route end ------------------------
