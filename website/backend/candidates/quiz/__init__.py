@@ -116,7 +116,7 @@ def create_quiz_function(group_id, immediate=False):
       db_group_settings_dict['start_time'] = get_current_hour_function()  # will return current hour in EST
       # ------------------------ construct start/end timestamps start ------------------------
       start_date_str = get_upcoming_date_function(db_group_settings_dict['start_day'])
-      end_date_str = get_upcoming_date_function(db_group_settings_dict['end_day'])
+      end_date_str = get_upcoming_date_function(db_group_settings_dict['end_day'], start_date_str)
       start_timestamp_created = build_out_datetime_from_parts_function(start_date_str, db_group_settings_dict['start_time'], 'EST')
       end_timestamp_created = build_out_datetime_from_parts_function(end_date_str, db_group_settings_dict['end_time'], db_group_settings_dict['timezone'])    # converted to EST for job runs
       if end_timestamp_created <= start_timestamp_created:

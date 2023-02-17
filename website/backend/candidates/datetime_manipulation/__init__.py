@@ -300,8 +300,10 @@ def get_current_hour_function():
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
-def get_upcoming_date_function(goal_day_of_week):
+def get_upcoming_date_function(goal_day_of_week, cannot_be_less_than_date=None):
   localhost_print_function(' ------------------------ get_upcoming_date_function start ------------------------ ')
+  if cannot_be_less_than_date != None:
+    cannot_be_less_than_date = datetime.strptime(cannot_be_less_than_date, '%m-%d-%Y').date()
   weekday_dict = get_weekday_dict_function()
   weekday_found = False
   counter = 0
@@ -310,7 +312,7 @@ def get_upcoming_date_function(goal_day_of_week):
     i_date = datetime.today()+timedelta(days=counter)
     i_weekday_num = i_date.weekday()
     i_weekday = weekday_dict[i_weekday_num]
-    if i_weekday == goal_day_of_week:
+    if (i_weekday == goal_day_of_week and cannot_be_less_than_date==None) or (i_weekday == goal_day_of_week and i_date.date() > cannot_be_less_than_date):
       weekday_found = True
       result_date = i_date.strftime('%m-%d-%Y')
     else:
