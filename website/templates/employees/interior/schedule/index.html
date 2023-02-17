@@ -17,7 +17,7 @@
       <h2 class="custom-header-2-mobile">Schedule</h2>
     </div>
     <div>
-      <button type="submit" class="btn btn-primary custom-ml-3">Submit</button>
+      <button type="submit" class="btn btn-primary custom-ml-3">Confirm</button>
     </div>
   </div>
 
@@ -25,16 +25,6 @@
     <div class="text-center">
       <p class="custom-m-0 custom-width-15 mx-auto custom-p-1 custom-br-1 border custom-bg-grey-1">Group ID: {{ page_dict_to_html['db_group_settings_dict']['fk_group_id'] }}</p>
     </div>
-
-    {% if page_dict_to_html['first_test_exists'] == false %}
-    <div class="custom-p-2 custom-width-10 mx-auto text-center custom-mt-3 custom-br-3 border shadow-sm">
-      <div class="form-check form-switch">
-        <input class="form-check-input" type="checkbox" role="switch" name="flexSwitchCheckDefault_01" id="flexSwitchCheckDefault_01" value="is_checked" checked>
-        <label class="form-check-label" for="flexSwitchCheckDefault_01">Your team's first quiz will start immediately (recommended).</label>
-      </div>
-    </div>
-    {% else %}
-    {% endif %}
 
     <div class="custom-display-flex custom-fw-1 custom-jc-3 custom-ptb-6">
       <div class="custom-display-block text-center custom-p-2">
@@ -282,8 +272,18 @@
       </div>
     </div>
 
+    {% if page_dict_to_html['first_test_exists'] == false %}
+    <div class="custom-p-2 custom-width-10 mx-auto text-center custom-mt-3 custom-br-3 border shadow-sm">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" name="flexSwitchCheckDefault_01" id="flexSwitchCheckDefault_01" value="is_checked" checked>
+        <label class="form-check-label" for="flexSwitchCheckDefault_01">Create your team's first quiz immediately (recommended).</label>
+      </div>
+    </div>
+    {% else %}
+    {% endif %}
+
     <div class="text-center custom-pt-1">
-      <button type="submit" class="btn btn-primary btn-lg custom-width-6">Submit</button>
+      <button type="submit" class="btn btn-primary btn-lg custom-width-6">Confirm</button>
     </div>
   </div>
   <div class="container custom-mt-1">
