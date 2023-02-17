@@ -233,6 +233,7 @@ class EmployeesGroupQuestionsUsedObj(db.Model):
   created_timestamp = db.Column(db.DateTime(timezone=True))
   fk_group_id = db.Column(db.String(150))
   fk_question_id = db.Column(db.String(150))
+  fk_test_id = db.Column(db.String(150))
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------

@@ -170,9 +170,10 @@ def create_quiz_function(group_id, immediate=False):
     question_types_str = build_question_type_arr_function(db_group_settings_dict['question_type'], db_group_settings_dict['total_questions'])
     # ------------------------ question type order end ------------------------
     # ------------------------ insert to db start ------------------------
+    new_test_id = create_uuid_function('test_')
     try:
       new_row = EmployeesTestsObj(
-        id = create_uuid_function('test_'),
+        id = new_test_id,
         created_timestamp = create_timestamp_function(),
         fk_group_id = db_group_settings_dict['fk_group_id'],
         timezone = db_group_settings_dict['timezone'],
@@ -202,7 +203,8 @@ def create_quiz_function(group_id, immediate=False):
           id = create_uuid_function('used_'),
           created_timestamp = create_timestamp_function(),
           fk_group_id = db_group_settings_dict['fk_group_id'],
-          fk_question_id = i
+          fk_question_id = i,
+          fk_test_id = new_test_id
         )
         db.session.add(new_row)
         db.session.commit()
