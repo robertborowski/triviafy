@@ -716,6 +716,11 @@
   text-align: left;
 }
 /* ------------------- text end ------------------- */
+/* ------------------- underline start ------------------- */
+.custom-underline-1 {
+  text-decoration: underline;
+}
+/* ------------------- underline end ------------------- */
 /* ------------------- width start ------------------- */
 .custom-width-1 {
   max-width: 600px;

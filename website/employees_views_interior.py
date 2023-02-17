@@ -127,11 +127,11 @@ def login_dashboard_page_function(url_redirect_code=None):
     create_quiz_status = create_quiz_function(db_group_settings_obj.fk_group_id)
     # ------------------------ create latest test end ------------------------
     # ------------------------ latest test info start ------------------------
-    # db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=company_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
-    # start_month_day_str = convert_timestamp_to_month_day_string_function(db_tests_obj.start_timestamp)
-    # end_month_day_str = convert_timestamp_to_month_day_string_function(db_tests_obj.end_timestamp)
-    # page_dict['full_time_string'] = start_month_day_str + ', ' + db_tests_obj.start_time + ' - ' + end_month_day_str + ', ' + db_tests_obj.end_time + ' ' + db_tests_obj.timezone
-    # page_dict['ending_time_string'] = end_month_day_str + ', ' + db_tests_obj.end_time + ' ' + db_tests_obj.timezone
+    db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=company_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
+    start_month_day_str = convert_timestamp_to_month_day_string_function(db_tests_obj.start_timestamp)
+    end_month_day_str = convert_timestamp_to_month_day_string_function(db_tests_obj.end_timestamp)
+    page_dict['full_time_string'] = start_month_day_str + ', ' + db_tests_obj.start_time + ' - ' + end_month_day_str + ', ' + db_tests_obj.end_time + ' ' + db_tests_obj.timezone
+    page_dict['ending_time_string'] = end_month_day_str + ', ' + db_tests_obj.end_time + ' ' + db_tests_obj.timezone
     # ------------------------ latest test info end ------------------------
   page_dict['first_test_exists'] = first_test_exists
   # ------------------------ pull/create latest test end ------------------------
