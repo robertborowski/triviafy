@@ -20,7 +20,7 @@
         <a href="/employees/example/{{ previous_question_number_to_html }}" class="btn btn-outline-secondary">< Back</a>
         {% endif %}
         {% if next_question_number_to_html == 'submit' %}
-        <a href="/employees/signup" class="btn btn-outline-danger custom-ml-3">Exit</a>
+        <a href="/employees/signup" class="btn btn-outline-success custom-ml-3">Sign up</a>
         {% else %}
         <a href="/employees/example/{{ next_question_number_to_html }}" class="btn btn-primary custom-ml-3">Next ></a>
         {% endif %}
@@ -68,7 +68,6 @@
             <div class="text-center">
               <p class="custom-size-3 custom-color-light-1 fst-italic"><a href="/candidates/signup">Create account</a> required to see correct answer.</p>
             </div>
-            {% if db_question_obj_to_html['question_type'] == 'mcq' %}
             {% if db_question_obj_to_html['option_a'] != None %}
             <div class="custom-mb-6">
               <input type="radio" class="btn-check" id="candidate_answer_choice_a{{ current_question_number_to_html }}" name="ui_answer_choice_selected_{{ current_question_number_to_html }}" value="a" autocomplete="off" required>
@@ -101,12 +100,6 @@
             <div class="custom-mb-6">
               <input type="radio" class="btn-check" id="candidate_answer_choice_e{{ current_question_number_to_html }}" name="ui_answer_choice_selected_{{ current_question_number_to_html }}" value="e" autocomplete="off" required>
               <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_e{{ current_question_number_to_html }}">E: {{ db_question_obj_to_html['option_e'] }}</label>
-            </div>
-            {% endif %}
-            {% else %}
-            <div>
-              <label for="uiSearch" class="form-label">Fill in the blank</label>
-              <input type="text" class="form-control custom-search-bar-1" id="uiSearch" name="uiSearch" placeholder="Your answer">
             </div>
             {% endif %}
           </div>

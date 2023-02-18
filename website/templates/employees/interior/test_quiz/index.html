@@ -101,9 +101,9 @@
             {% endif %}
             <!-- ------------------------------------- quesstion type: fitb start ------------------------------------- -->
             {% if page_dict_to_html['db_question_dict']['desired_question_type'] == 'Fill in the blank' %}
-            <div class="form-floating">
-              <textarea class="form-control" id="ui_answer_fitb" name="ui_answer_fitb" placeholder="Your answer" onkeyup="createQuestionCountCharsOptionA(this);" pattern="{1,280}" required></textarea>
-              <label for="ui_answer_fitb">Your answer</label>
+            <div>
+              <label for="ui_answer_fitb" class="form-label">Your answer</label>
+              <input type="text" class="form-control custom-search-bar-1" id="ui_answer_fitb" name="ui_answer_fitb" placeholder="Your answer" value="{{ i }}" onkeyup="createQuestionCountCharsOptionA(this);" pattern="{1,280}" required>
               <p id="createQuestionCountCharsOptionA" class="custom-size-3 custom-color-light-1 fst-italic custom-mt-2 custom-ml-2"></p>
             </div>
             {% endif %}

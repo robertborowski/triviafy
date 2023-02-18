@@ -411,13 +411,30 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
   if request.method == 'POST':
     # ------------------------ user input start ------------------------
     ui_answer = ''
+    ui_answer_is_correct = False
+    # ------------------------ user input - fill in the blank start ------------------------
     if page_dict['db_question_dict']['desired_question_type'] == 'Fill in the blank':
       ui_answer = request.form.get('ui_answer_fitb')
+      # ------------------------ validate ui start ------------------------
+      if len(ui_answer) < 1 or len(ui_answer) > 280:
+        return redirect(url_for('employees_views_interior.employees_test_id_function', url_test_id=url_test_id, url_question_number=str(url_question_number), url_redirect_code='e6'))
+      # ------------------------ validate ui end ------------------------
+      # ------------------------ grade ui start ------------------------
+
+      # ------------------------ grade ui end ------------------------
+    # ------------------------ user input - fill in the blank end ------------------------
+    # ------------------------ user input - multiple choice start ------------------------
     if page_dict['db_question_dict']['desired_question_type'] == 'Multiple choice':
       ui_answer = request.form.get('ui_answer_mcq')
-    localhost_print_function(' ------------- 0 ------------- ')
-    localhost_print_function(f'ui_answer | type: {type(ui_answer)} | {ui_answer}')
-    localhost_print_function(' ------------- 0 ------------- ')
+      # ------------------------ validate ui start ------------------------
+      allowed_answers_arr = ['a', 'b', 'c', 'd', 'e']
+      if ui_answer.lower() not in allowed_answers_arr:
+        return redirect(url_for('employees_views_interior.employees_test_id_function', url_test_id=url_test_id, url_question_number=str(url_question_number), url_redirect_code='e6'))
+      # ------------------------ validate ui start ------------------------
+      # ------------------------ grade ui start ------------------------
+      
+      # ------------------------ grade ui end ------------------------
+    # ------------------------ user input - multiple choice end ------------------------
     # ------------------------ user input end ------------------------
   # ------------------------ ui post end ------------------------
   localhost_print_function(' ------------------------ employees_test_id_function END ------------------------ ')
