@@ -19,7 +19,7 @@ from website.backend.candidates.user_inputs import alert_message_default_functio
 from website.backend.candidates.browser import browser_response_set_cookie_function_v4
 from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function, question_choices_function
-from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
+from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
 from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function, convert_timestamp_to_month_day_string_function
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.string_manipulation import all_employee_question_categories_sorted_function
@@ -367,17 +367,37 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
     return redirect(url_for('employees_views_interior.employees_test_id_function', url_test_id=test_id, url_question_number='1'))
   # ------------------------ validate question number end ------------------------
   # ------------------------ pull specific question id start ------------------------
-  question_ids = db_tests_obj.question_ids
-  question_ids_arr = question_ids.split(',')
+  question_ids_str = db_tests_obj.question_ids
+  question_ids_arr = question_ids_str.split(',')
   desired_question_id = question_ids_arr[url_question_number-1]
   # ------------------------ pull specific question id end ------------------------
-  # ------------------------ question from db start ------------------------
+  # ------------------------ pull question from db start ------------------------
   db_question_obj = CreatedQuestionsObj.query.filter_by(id=desired_question_id).first()
   db_question_dict = arr_of_dict_all_columns_single_item_function(db_question_obj)
-  localhost_print_function(' ------------- 0 ------------- ')
-  localhost_print_function(f'db_question_dict | type: {type(db_question_dict)} | {db_question_dict}')
-  localhost_print_function(' ------------- 0 ------------- ')
-  # ------------------------ question from db end ------------------------
+  page_dict['db_question_dict'] = db_question_dict
+  # ------------------------ pull question from db end ------------------------
+  # ------------------------ fix categories presentation start ------------------------
+  page_dict['db_question_dict']['categories'] = categories_tuple_function(page_dict['db_question_dict']['categories'])
+  # ------------------------ fix categories presentation end ------------------------
+  # ------------------------ pull user info start ------------------------
+  page_dict['user_company_name'] = current_user.company_name
+  # ------------------------ pull user info end ------------------------
+  # ------------------------ question order logic start ------------------------
+  page_dict['current_question_number'] = str(int(url_question_number))
+  page_dict['next_question_number'] = str(int(url_question_number) + 1)
+  page_dict['previous_question_number'] = str(int(url_question_number) - 1)
+  if int(db_tests_obj.total_questions) == int(url_question_number):
+    page_dict['next_question_number'] = 'submit'
+  # ------------------------ question order logic end ------------------------
+  # ------------------------ test variables start ------------------------
+  page_dict['url_test_id'] = url_test_id
+  # ------------------------ test variables end ------------------------
+  # ------------------------ contains image check start ------------------------
+  contains_img = False
+  if 'amazonaws.com' in page_dict['db_question_dict']['aws_image_url']:
+    contains_img = True
+  page_dict['question_contains_image'] = contains_img
+  # ------------------------ contains image check end ------------------------
   localhost_print_function(' ------------------------ employees_test_id_function END ------------------------ ')
   return render_template('employees/interior/test_quiz/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
