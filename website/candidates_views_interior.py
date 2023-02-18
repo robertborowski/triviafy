@@ -1814,7 +1814,6 @@ def candidates_create_question_function_v2():
             categories = ui_categories,
             title = ui_title,
             question = ui_question,
-            question_type = 'mcq',
             option_a = ui_option_a,
             option_b = ui_option_b,
             option_c = ui_option_c,

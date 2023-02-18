@@ -60,7 +60,6 @@ class CreatedQuestionsObj(db.Model):
   categories = db.Column(db.String(150))
   title = db.Column(db.String(150))
   question = db.Column(db.String(1000))
-  question_type = db.Column(db.String(50))
   option_a = db.Column(db.String(280))
   option_b = db.Column(db.String(280))
   option_c = db.Column(db.String(280))
