@@ -374,6 +374,12 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
   # ------------------------ pull question from db start ------------------------
   db_question_obj = CreatedQuestionsObj.query.filter_by(id=desired_question_id).first()
   db_question_dict = arr_of_dict_all_columns_single_item_function(db_question_obj)
+  # ------------------------ append question type start ------------------------
+  question_type_order_str = db_tests_obj.question_types_order
+  question_type_order_arr = question_type_order_str.split(',')
+  desired_question_type = question_type_order_arr[url_question_number-1]
+  db_question_dict['desired_question_type'] = desired_question_type
+  # ------------------------ append question type end ------------------------
   page_dict['db_question_dict'] = db_question_dict
   # ------------------------ pull question from db end ------------------------
   # ------------------------ fix categories presentation start ------------------------
@@ -398,6 +404,9 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
     contains_img = True
   page_dict['question_contains_image'] = contains_img
   # ------------------------ contains image check end ------------------------
+  # ------------------------ archive view defined start ------------------------
+  page_dict['view_as_archive'] = False
+  # ------------------------ archive view defined end ------------------------
   localhost_print_function(' ------------------------ employees_test_id_function END ------------------------ ')
   return render_template('employees/interior/test_quiz/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
