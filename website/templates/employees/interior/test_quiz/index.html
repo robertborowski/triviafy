@@ -112,35 +112,35 @@
             {% if page_dict_to_html['db_question_dict']['desired_question_type'] == 'Multiple choice' %}
               {% if page_dict_to_html['db_question_dict']['option_a'] != None %}
               <div class="custom-mb-6">
-                <input type="radio" class="btn-check" id="ui_answer_mcq_a{{ page_dict_to_html['current_question_number'] }}" name="ui_answer_choice_selected_{{ page_dict_to_html['current_question_number'] }}" value="a" autocomplete="off" required>
+                <input type="radio" class="btn-check" id="ui_answer_mcq_a{{ page_dict_to_html['current_question_number'] }}" name="ui_answer_mcq" value="a" autocomplete="off" required>
                 <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="ui_answer_mcq_a{{ page_dict_to_html['current_question_number'] }}">A: {{ page_dict_to_html['db_question_dict']['option_a'] }}</label>
               </div>
               {% endif %}
 
               {% if page_dict_to_html['db_question_dict']['option_b'] != None %}
               <div class="custom-mb-6">
-                <input type="radio" class="btn-check" id="ui_answer_mcq_b{{ page_dict_to_html['current_question_number'] }}" name="ui_answer_choice_selected_{{ page_dict_to_html['current_question_number'] }}" value="b" autocomplete="off" required>
+                <input type="radio" class="btn-check" id="ui_answer_mcq_b{{ page_dict_to_html['current_question_number'] }}" name="ui_answer_mcq" value="b" autocomplete="off" required>
                 <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="ui_answer_mcq_b{{ page_dict_to_html['current_question_number'] }}">B: {{ page_dict_to_html['db_question_dict']['option_b'] }}</label>
               </div>
               {% endif %}
 
               {% if page_dict_to_html['db_question_dict']['option_c'] != None %}
               <div class="custom-mb-6">
-                <input type="radio" class="btn-check" id="ui_answer_mcq_c{{ page_dict_to_html['current_question_number'] }}" name="ui_answer_choice_selected_{{ page_dict_to_html['current_question_number'] }}" value="c" autocomplete="off" required>
+                <input type="radio" class="btn-check" id="ui_answer_mcq_c{{ page_dict_to_html['current_question_number'] }}" name="ui_answer_mcq" value="c" autocomplete="off" required>
                 <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="ui_answer_mcq_c{{ page_dict_to_html['current_question_number'] }}">C: {{ page_dict_to_html['db_question_dict']['option_c'] }}</label>
               </div>
               {% endif %}
 
               {% if page_dict_to_html['db_question_dict']['option_d'] != None %}
               <div class="custom-mb-6">
-                <input type="radio" class="btn-check" id="ui_answer_mcq_d{{ page_dict_to_html['current_question_number'] }}" name="ui_answer_choice_selected_{{ page_dict_to_html['current_question_number'] }}" value="d" autocomplete="off" required>
+                <input type="radio" class="btn-check" id="ui_answer_mcq_d{{ page_dict_to_html['current_question_number'] }}" name="ui_answer_mcq" value="d" autocomplete="off" required>
                 <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="ui_answer_mcq_d{{ page_dict_to_html['current_question_number'] }}">D: {{ page_dict_to_html['db_question_dict']['option_d'] }}</label>
               </div>
               {% endif %}
 
               {% if page_dict_to_html['db_question_dict']['option_e'] != None and page_dict_to_html['db_question_dict']['option_e'] != '' %}
               <div class="custom-mb-6">
-                <input type="radio" class="btn-check" id="ui_answer_mcq_e{{ page_dict_to_html['current_question_number'] }}" name="ui_answer_choice_selected_{{ page_dict_to_html['current_question_number'] }}" value="e" autocomplete="off" required>
+                <input type="radio" class="btn-check" id="ui_answer_mcq_e{{ page_dict_to_html['current_question_number'] }}" name="ui_answer_mcq" value="e" autocomplete="off" required>
                 <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="ui_answer_mcq_e{{ page_dict_to_html['current_question_number'] }}">E: {{ page_dict_to_html['db_question_dict']['option_e'] }}</label>
               </div>
               {% endif %}

@@ -227,6 +227,21 @@ class EmployeesTestsObj(db.Model):
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
+class EmployeesTestsGradedObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  fk_group_id = db.Column(db.String(150))
+  fk_user_id = db.Column(db.String(150))
+  fk_test_id = db.Column(db.String(150))
+  total_questions = db.Column(db.Integer)
+  correct_count = db.Column(db.Integer)
+  final_score = db.Column(db.Float)
+  status = db.Column(db.String(20))
+  graded_count = db.Column(db.Integer)
+  test_obj = db.Column(db.String(180000))
+# ------------------------ individual model end ------------------------
+
+# ------------------------ individual model start ------------------------
 class EmployeesGroupQuestionsUsedObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
   created_timestamp = db.Column(db.DateTime(timezone=True))

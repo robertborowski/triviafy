@@ -17,7 +17,7 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v4
-from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj
+from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, EmployeesTestsGradedObj
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function, question_choices_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
 from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function, convert_timestamp_to_month_day_string_function
@@ -407,6 +407,19 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
   # ------------------------ archive view defined start ------------------------
   page_dict['view_as_archive'] = False
   # ------------------------ archive view defined end ------------------------
+  # ------------------------ ui post start ------------------------
+  if request.method == 'POST':
+    # ------------------------ user input start ------------------------
+    ui_answer = ''
+    if page_dict['db_question_dict']['desired_question_type'] == 'Fill in the blank':
+      ui_answer = request.form.get('ui_answer_fitb')
+    if page_dict['db_question_dict']['desired_question_type'] == 'Multiple choice':
+      ui_answer = request.form.get('ui_answer_mcq')
+    localhost_print_function(' ------------- 0 ------------- ')
+    localhost_print_function(f'ui_answer | type: {type(ui_answer)} | {ui_answer}')
+    localhost_print_function(' ------------- 0 ------------- ')
+    # ------------------------ user input end ------------------------
+  # ------------------------ ui post end ------------------------
   localhost_print_function(' ------------------------ employees_test_id_function END ------------------------ ')
   return render_template('employees/interior/test_quiz/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
