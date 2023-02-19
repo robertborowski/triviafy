@@ -17,7 +17,7 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v4
-from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, EmployeesTestsGradedObj
+from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, EmployeesTestsGradedObj, UserObj
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function, question_choices_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
 from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function, convert_timestamp_to_month_day_string_function
@@ -163,7 +163,28 @@ def login_dashboard_page_function(url_redirect_code=None):
         db.session.commit()
   # ------------------------ ensure all historical tests are closed end ------------------------
   # ------------------------ if latest closed then pull winner start ------------------------
-
+  page_dict['latest_test_is_closed'] = False
+  page_dict['latest_test_winner'] = ''
+  page_dict['latest_test_winner_score'] = float(0)
+  db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=company_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
+  db_tests_dict = arr_of_dict_all_columns_single_item_function(db_tests_obj)
+  if db_tests_dict['status'] == 'Closed':
+    page_dict['latest_test_is_closed'] = True
+    # ------------------------ pull winner start ------------------------
+    current_max_final_score = float(0)
+    current_max_final_score_user_id = ''
+    db_test_grading_obj = EmployeesTestsGradedObj.query.filter_by(fk_test_id=db_tests_dict['id']).order_by(EmployeesTestsGradedObj.created_timestamp.asc()).all()
+    for i_obj in db_test_grading_obj:
+      i_dict = arr_of_dict_all_columns_single_item_function(i_obj)
+      i_final_score = float(i_dict['final_score'])
+      if i_final_score > current_max_final_score:
+        current_max_final_score = i_final_score
+        current_max_final_score_user_id = i_dict['fk_user_id']
+        page_dict['latest_test_winner_score'] = float(i_final_score) * float(100)
+    if current_max_final_score_user_id != '':
+      db_user_obj = UserObj.query.filter_by(id=current_max_final_score_user_id).first()
+      page_dict['latest_test_winner'] = db_user_obj.email
+    # ------------------------ pull winner end ------------------------
   # ------------------------ if latest closed then pull winner end ------------------------
   # ------------------------ auto set cookie start ------------------------
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()

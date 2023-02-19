@@ -23,7 +23,8 @@
     <a href="/employees/schedule" class="btn btn-lg btn-primary">Confirm <i class="fa-solid fa-arrow-right"></i></a>
   </div>
 </div>
-{% else %}
+{% endif %}
+{% if page_dict_to_html['first_test_exists'] == true %}
 <div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
   <div>
     <h2 class="custom-header-2-mobile">Dashboard</h2>
@@ -31,11 +32,22 @@
 </div>
 <div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
   <div class="text-center">
-    <p class="custom-header-4">Your team's latest quiz is now <span class="custom-underline-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Complete by: {{ page_dict_to_html['ending_time_string'] }}">open</span>.</p>
-    {% if page_dict_to_html['ui_latest_test_completed'] == true %}
-    <a href="/employees/t/" class="btn btn-lg btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Quiz closes: {{ page_dict_to_html['ending_time_string'] }}">Review answers <i class="fa-solid fa-arrow-right"></i></a>
-    {% else %}
-    <a href="/employees/t/" class="btn btn-lg btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Complete by: {{ page_dict_to_html['ending_time_string'] }}">Complete quiz <i class="fa-solid fa-arrow-right"></i></a>
+    {% if page_dict_to_html['latest_test_is_closed'] == false %}
+      <p class="custom-header-4">Your team's latest quiz is now <span class="custom-underline-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Complete by: {{ page_dict_to_html['ending_time_string'] }}">open</span>.</p>
+      {% if page_dict_to_html['ui_latest_test_completed'] == true %}
+      <a href="/employees/t/" class="btn btn-lg btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Quiz closes: {{ page_dict_to_html['ending_time_string'] }}">Review answers <i class="fa-solid fa-arrow-right"></i></a>
+      {% else %}
+      <a href="/employees/t/" class="btn btn-lg btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Complete by: {{ page_dict_to_html['ending_time_string'] }}">Complete quiz <i class="fa-solid fa-arrow-right"></i></a>
+      {% endif %}
+    {% endif %}
+    {% if page_dict_to_html['latest_test_is_closed'] == true %}
+      <p class="custom-header-4">Your team's latest quiz is now closed.</p>
+      {% if page_dict_to_html['latest_test_winner'] == '' %}
+      <p class="custom-header-4">No winner, no one on your team participated.</p>
+      {% else %}
+      <p class="custom-header-4">&#127881; Winner <span class="btn btn-success btn-lg">{{ page_dict_to_html['latest_test_winner'] }}</span> <span class="btn btn-success btn-lg">{{ page_dict_to_html['latest_test_winner_score'] }}%</span></p>
+      {% endif %}
+      <a href="/employees/leaderboard" class="btn btn-outline-primary custom-mt-1">View all team responses <i class="fa-solid fa-arrow-right"></i></a>
     {% endif %}
   </div>
 </div>
@@ -44,4 +56,5 @@
   <a href="/employees/schedule" class="btn btn-outline-secondary btn-lg custom-width-16 custom-mt-1 custom-ml-3"><i class="fa-solid fa-gear"></i> Settings</a>
 </div>
 {% endif %}
+
 {% endblock %}
