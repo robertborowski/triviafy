@@ -25,12 +25,12 @@
         <div>
           {% if page_dict_to_html['current_question_number'] == '1' %}
           {% else %}
-          <a href="/employees/t/archive/{{ page_dict_to_html['url_test_id'] }}/{{ page_dict_to_html['previous_question_number'] }}" class="btn btn-outline-secondary">< Back</a>
+          <a href="/employees/t/{{ page_dict_to_html['url_test_id'] }}/{{ page_dict_to_html['previous_question_number'] }}" class="btn btn-outline-secondary">< Back</a>
           {% endif %}
           {% if page_dict_to_html['next_question_number'] == 'submit' %}
           <a href="/employees/dashboard" class="btn btn-outline-danger custom-ml-3">Exit</a>
           {% else %}
-          <a href="/employees/t/archive/{{ page_dict_to_html['url_test_id'] }}/{{ page_dict_to_html['next_question_number'] }}" class="btn btn-primary custom-ml-3">Next ></a>
+          <a href="/employees/t/{{ page_dict_to_html['url_test_id'] }}/{{ page_dict_to_html['next_question_number'] }}" class="btn btn-primary custom-ml-3">Next ></a>
           {% endif %}
         </div>
         <!-- ------------------------------------- feature view: archive end ------------------------------------- -->
