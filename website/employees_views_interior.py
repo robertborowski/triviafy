@@ -373,7 +373,7 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
   # ------------------------ pull specific question id end ------------------------
   # ------------------------ pull question from db start ------------------------
   db_question_obj = CreatedQuestionsObj.query.filter_by(id=desired_question_id).first()
-  db_question_dict = arr_of_dict_all_columns_single_item_function(db_question_obj)
+  db_question_dict = arr_of_dict_all_columns_single_item_function(db_question_obj, for_json_dumps=True)
   # ------------------------ append question type start ------------------------
   question_type_order_str = db_tests_obj.question_types_order
   question_type_order_arr = question_type_order_str.split(',')

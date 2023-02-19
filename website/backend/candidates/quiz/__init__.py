@@ -11,6 +11,8 @@ from website.backend.candidates.datetime_manipulation import get_current_weekday
 import os, time
 from website.backend.candidates.sql_statements.sql_prep import prepare_where_clause_function
 from datetime import date, timedelta
+import difflib
+import json
 # ------------------------ imports end ------------------------
 
 
@@ -219,18 +221,12 @@ def create_quiz_function(group_id, immediate=False):
 # ------------------------ individual function start ------------------------
 def grade_quiz_function(ui_answer, url_test_id, total_questions, url_question_number, db_question_dict, current_user_id, public_group_id):
   localhost_print_function(' ------------------------ grade_quiz_function start ------------------------ ')
-  # ------------------------ testprints start ------------------------
-  localhost_print_function(' ------------- 0 ------------- ')
-  localhost_print_function(f'ui_answer | type: {type(ui_answer)} | {ui_answer}')
-  localhost_print_function(f'url_test_id | type: {type(url_test_id)} | {url_test_id}')
-  localhost_print_function(f'total_questions | type: {type(total_questions)} | {total_questions}')
-  localhost_print_function(f'url_question_number | type: {type(url_question_number)} | {url_question_number}')
-  localhost_print_function(f'db_question_dict | type: {type(db_question_dict)} | {db_question_dict}')
-  localhost_print_function(f'current_user_id | type: {type(current_user_id)} | {current_user_id}')
-  localhost_print_function(f'public_group_id | type: {type(public_group_id)} | {public_group_id}')
-  localhost_print_function(' ------------- 0 ------------- ')
-  # ------------------------ testprints end ------------------------
   ui_answer_is_correct = False
+  ui_answer_fitb_accuracy_score = 0
+  # ------------------------ append to dict start ------------------------
+  db_question_dict['question_number'] = url_question_number
+  db_question_dict['ui_answer'] = ui_answer
+  # ------------------------ append to dict end ------------------------
   question_type = db_question_dict['desired_question_type']
   # ------------------------ grade multiple choice start ------------------------
   if question_type == 'Multiple choice':
@@ -252,16 +248,67 @@ def grade_quiz_function(ui_answer, url_test_id, total_questions, url_question_nu
       if correct_answer.lower() in acceptable_answer_arr:
         if correct_answer.lower() == ui_answer.lower():
           ui_answer_is_correct = True
+          db_question_dict['ui_answer_fitb_accuracy_score'] = 0
+        db_question_dict['ui_answer_fitb_accuracy_score'] = 0
     # ------------------------ compare 1 letter end ------------------------
   # ------------------------ grade multiple choice end ------------------------
   # ------------------------ grade fill in the blank start ------------------------
   if question_type == 'Fill in the blank':
-    localhost_print_function(' --> wip ')
-    pass
+    correct_answer = db_question_dict['answer']
+    ui_answer = ui_answer.strip()
+    # ------------------------ loop through answers arr start ------------------------
+    if ',' in correct_answer:
+      correct_answer_arr = correct_answer.split(',')
+      for i in correct_answer_arr:
+        i = i.strip()
+        # ------------------------ test similarity start ------------------------
+        answer_match_score = difflib.SequenceMatcher(None, i.lower(), ui_answer.lower()).ratio()*100
+        if answer_match_score > 80:
+          ui_answer_is_correct = True
+          ui_answer_fitb_accuracy_score = answer_match_score
+          db_question_dict['ui_answer_fitb_accuracy_score'] = ui_answer_fitb_accuracy_score
+          break
+        db_question_dict['ui_answer_fitb_accuracy_score'] = 0
+        # ------------------------ test similarity end ------------------------
+    # ------------------------ loop through answers arr end ------------------------
   # ------------------------ grade fill in the blank end ------------------------
+  # ------------------------ append to dict start ------------------------
+  db_question_dict['ui_answer_is_correct'] = ui_answer_is_correct
+  # ------------------------ append to dict end ------------------------
+  # ------------------------ pull/create grading obj start ------------------------
+  db_test_grading_obj = EmployeesTestsGradedObj.query.filter_by(fk_test_id=url_test_id, fk_user_id=current_user_id).first()
+  if db_test_grading_obj == None or db_test_grading_obj == []:
+    # ------------------------ insert to db start ------------------------
+    new_test_id = create_uuid_function('testg_')
+    try:
+      new_row = EmployeesTestsGradedObj(
+        id = new_test_id,
+        created_timestamp = create_timestamp_function(),
+        fk_group_id = public_group_id,
+        fk_user_id = current_user_id,
+        fk_test_id = url_test_id,
+        total_questions = int(total_questions),
+        correct_count = int(0),
+        final_score = int(0),
+        status = 'active',
+        graded_count = int(0),
+        test_obj = json.dumps(db_question_dict)
+      )
+      db.session.add(new_row)
+      db.session.commit()
+    except:
+      pass
+    # ------------------------ insert to db end ------------------------
+    db_test_grading_obj = EmployeesTestsGradedObj.query.filter_by(fk_test_id=url_test_id, fk_user_id=current_user_id).first()
+  # ------------------------ pull/create grading obj end ------------------------
+  db_test_grading_dict = arr_of_dict_all_columns_single_item_function(db_test_grading_obj, for_json_dumps=True)
+  master_test_tracking_dict = json.loads(db_test_grading_dict['test_obj'])
+  localhost_print_function(' ------------- 0 ------------- ')
+  localhost_print_function(f'master_test_tracking_dict | type: {type(master_test_tracking_dict)} | {master_test_tracking_dict}')
+  localhost_print_function(' ------------- 0 ------------- ')
   # ------------------------ db updates start ------------------------
   if ui_answer_is_correct == True:
-    pass
+      pass
   # ------------------------ db updates end ------------------------
   localhost_print_function(' ------------------------ grade_quiz_function end ------------------------ ')
   return True
