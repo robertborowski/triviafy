@@ -136,6 +136,16 @@ def login_dashboard_page_function(url_redirect_code=None):
     # ------------------------ latest test info end ------------------------
   page_dict['first_test_exists'] = first_test_exists
   # ------------------------ pull/create latest test end ------------------------
+  # ------------------------ pull latest graded start ------------------------
+  ui_latest_test_completed = False
+  try:
+    db_test_grading_obj = EmployeesTestsGradedObj.query.filter_by(fk_test_id=db_tests_obj.id, fk_user_id=current_user.id).first()
+    if db_test_grading_obj.status == 'complete':
+      ui_latest_test_completed = True
+  except:
+    pass
+  page_dict['ui_latest_test_completed'] = ui_latest_test_completed
+  # ------------------------ pull latest graded end ------------------------
   # ------------------------ auto set cookie start ------------------------
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
   if get_cookie_value_from_browser != None:
