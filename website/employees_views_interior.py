@@ -17,7 +17,7 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v4
-from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj
+from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, EmployeesTestsGradedObj
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function, question_choices_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
 from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function, convert_timestamp_to_month_day_string_function
@@ -27,6 +27,7 @@ from website.backend.candidates.user_inputs import sanitize_char_count_1_functio
 from website.backend.candidates.send_emails import send_email_template_function
 import os
 from website.backend.candidates.quiz import create_quiz_function, grade_quiz_function
+import json
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -420,7 +421,7 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
         return redirect(url_for('employees_views_interior.employees_test_id_function', url_test_id=url_test_id, url_question_number=str(url_question_number), url_redirect_code='e6'))
       # ------------------------ validate ui end ------------------------
       # ------------------------ grade ui start ------------------------
-      ui_answer_is_correct = grade_quiz_function(ui_answer, url_test_id, db_tests_obj.total_questions, url_question_number, db_question_dict, current_user.id, user_group_id.public_group_id)
+      grade_quiz_function(ui_answer, url_test_id, db_tests_obj.total_questions, url_question_number, db_question_dict, current_user.id, user_group_id.public_group_id)
       # ------------------------ grade ui end ------------------------
     # ------------------------ user input - fill in the blank end ------------------------
     # ------------------------ user input - multiple choice start ------------------------
@@ -432,10 +433,26 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
         return redirect(url_for('employees_views_interior.employees_test_id_function', url_test_id=url_test_id, url_question_number=str(url_question_number), url_redirect_code='e6'))
       # ------------------------ validate ui start ------------------------
       # ------------------------ grade ui start ------------------------
-      ui_answer_is_correct = grade_quiz_function(ui_answer, url_test_id, db_tests_obj.total_questions, url_question_number, db_question_dict, current_user.id, user_group_id.public_group_id)
+      grade_quiz_function(ui_answer, url_test_id, db_tests_obj.total_questions, url_question_number, db_question_dict, current_user.id, user_group_id.public_group_id)
       # ------------------------ grade ui end ------------------------
     # ------------------------ user input - multiple choice end ------------------------
     # ------------------------ user input end ------------------------
+    if page_dict['next_question_number'] == 'submit':
+      # ------------------------ pull latest graded start ------------------------
+      db_test_grading_obj = EmployeesTestsGradedObj.query.filter_by(fk_test_id=url_test_id, fk_user_id=current_user.id).first()
+      db_test_grading_dict = arr_of_dict_all_columns_single_item_function(db_test_grading_obj)
+      # ------------------------ pull latest graded end ------------------------
+      if db_test_grading_dict['total_questions'] == db_test_grading_dict['graded_count']:
+        return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='s4'))
+      else:
+        unanswered_arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+        for i in json.loads(db_test_grading_dict['test_obj']):
+          already_answered_question_number = str(i['question_number'])
+          if already_answered_question_number in unanswered_arr:
+            unanswered_arr.remove(already_answered_question_number)
+        return redirect(url_for('employees_views_interior.employees_test_id_function', url_test_id=url_test_id, url_question_number=unanswered_arr[0]))
+    else:
+      return redirect(url_for('employees_views_interior.employees_test_id_function', url_test_id=url_test_id, url_question_number=str(int(url_question_number)+1)))
   # ------------------------ ui post end ------------------------
   localhost_print_function(' ------------------------ employees_test_id_function END ------------------------ ')
   return render_template('employees/interior/test_quiz/index.html', page_dict_to_html=page_dict)

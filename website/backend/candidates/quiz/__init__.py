@@ -274,6 +274,8 @@ def grade_quiz_function(ui_answer, url_test_id, total_questions, url_question_nu
   # ------------------------ grade fill in the blank end ------------------------
   # ------------------------ append to dict start ------------------------
   db_question_dict['ui_answer_is_correct'] = ui_answer_is_correct
+  db_question_arr_of_dict = []
+  db_question_arr_of_dict.append(db_question_dict)
   # ------------------------ append to dict end ------------------------
   # ------------------------ pull/create grading obj start ------------------------
   db_test_grading_obj = EmployeesTestsGradedObj.query.filter_by(fk_test_id=url_test_id, fk_user_id=current_user_id).first()
@@ -292,7 +294,7 @@ def grade_quiz_function(ui_answer, url_test_id, total_questions, url_question_nu
         final_score = int(0),
         status = 'active',
         graded_count = int(0),
-        test_obj = json.dumps(db_question_dict)
+        test_obj = json.dumps(db_question_arr_of_dict)
       )
       db.session.add(new_row)
       db.session.commit()
@@ -301,15 +303,38 @@ def grade_quiz_function(ui_answer, url_test_id, total_questions, url_question_nu
     # ------------------------ insert to db end ------------------------
     db_test_grading_obj = EmployeesTestsGradedObj.query.filter_by(fk_test_id=url_test_id, fk_user_id=current_user_id).first()
   # ------------------------ pull/create grading obj end ------------------------
+  # ------------------------ update master dict start ------------------------
   db_test_grading_dict = arr_of_dict_all_columns_single_item_function(db_test_grading_obj, for_json_dumps=True)
-  master_test_tracking_dict = json.loads(db_test_grading_dict['test_obj'])
-  localhost_print_function(' ------------- 0 ------------- ')
-  localhost_print_function(f'master_test_tracking_dict | type: {type(master_test_tracking_dict)} | {master_test_tracking_dict}')
-  localhost_print_function(' ------------- 0 ------------- ')
-  # ------------------------ db updates start ------------------------
-  if ui_answer_is_correct == True:
-      pass
-  # ------------------------ db updates end ------------------------
+  master_test_tracking_arr_of_dict = json.loads(db_test_grading_dict['test_obj'])
+  quesion_id_found = False
+  quesion_id_found_index = 0
+  for i in range(len(master_test_tracking_arr_of_dict)):
+    if master_test_tracking_arr_of_dict[i]['id'] == db_question_dict['id']:
+      quesion_id_found = True
+      quesion_id_found_index = i
+      break
+  if quesion_id_found == True:
+    master_test_tracking_arr_of_dict[quesion_id_found_index] = db_question_dict
+  if quesion_id_found == False:
+    master_test_tracking_arr_of_dict.append(db_question_dict)
+  # ------------------------ update master dict end ------------------------
+  # ------------------------ wip grading entire master dict start ------------------------
+  wip_grading_total_correct_count = 0
+  for i in master_test_tracking_arr_of_dict:
+    if i['ui_answer_is_correct'] == True:
+      wip_grading_total_correct_count += 1
+  try:
+    wip_grading_final_score = float(float(wip_grading_total_correct_count) / float(db_test_grading_dict['total_questions']))
+  except:
+    wip_grading_final_score = float(0)
+  # ------------------------ wip grading entire master dict end ------------------------
+  # ------------------------ update db start ------------------------
+  db_test_grading_obj.correct_count = wip_grading_total_correct_count
+  db_test_grading_obj.final_score = wip_grading_final_score
+  db_test_grading_obj.graded_count = len(master_test_tracking_arr_of_dict)
+  db_test_grading_obj.test_obj = json.dumps(master_test_tracking_arr_of_dict)
+  db.session.commit()
+  # ------------------------ update db end ------------------------
   localhost_print_function(' ------------------------ grade_quiz_function end ------------------------ ')
   return True
 # ------------------------ individual function end ------------------------
