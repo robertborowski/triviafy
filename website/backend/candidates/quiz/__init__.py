@@ -259,9 +259,10 @@ def grade_quiz_function(ui_answer, url_test_id, total_questions, url_question_nu
     localhost_print_function(' --> wip ')
     pass
   # ------------------------ grade fill in the blank end ------------------------
-  # ------------------------ grade fill in the blank end ------------------------
+  # ------------------------ db updates start ------------------------
   if ui_answer_is_correct == True:
-  # ------------------------ grade fill in the blank end ------------------------
+    pass
+  # ------------------------ db updates end ------------------------
   localhost_print_function(' ------------------------ grade_quiz_function end ------------------------ ')
   return True
 # ------------------------ individual function end ------------------------
