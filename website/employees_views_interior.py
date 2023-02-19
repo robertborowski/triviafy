@@ -408,6 +408,18 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
   # ------------------------ archive view defined start ------------------------
   page_dict['view_as_archive'] = False
   # ------------------------ archive view defined end ------------------------
+  # ------------------------ redirect variables start ------------------------
+  page_dict['db_question_dict']['redirect_ui_answer'] = ''
+  try:
+    db_test_grading_obj = EmployeesTestsGradedObj.query.filter_by(fk_test_id=url_test_id, fk_user_id=current_user.id).first()
+    db_test_grading_dict = arr_of_dict_all_columns_single_item_function(db_test_grading_obj)
+    master_answer_arr_of_dict = json.loads(db_test_grading_dict['test_obj'])
+    for i in master_answer_arr_of_dict:
+      if int(i['question_number']) == int(url_question_number):
+        page_dict['db_question_dict']['redirect_ui_answer'] = i['ui_answer']
+  except:
+    pass
+  # ------------------------ redirect variables end ------------------------
   # ------------------------ ui post start ------------------------
   if request.method == 'POST':
     # ------------------------ user input start ------------------------
