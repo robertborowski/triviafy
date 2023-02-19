@@ -28,6 +28,7 @@ from website.backend.candidates.send_emails import send_email_template_function
 import os
 from website.backend.candidates.quiz import create_quiz_function, grade_quiz_function
 import json
+from datetime import datetime
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -146,6 +147,21 @@ def login_dashboard_page_function(url_redirect_code=None):
     pass
   page_dict['ui_latest_test_completed'] = ui_latest_test_completed
   # ------------------------ pull latest graded end ------------------------
+  # ------------------------ ensure all historical tests are closed start ------------------------
+  current_datetime_str = datetime.now().strftime("%m/%d/%Y %H:%M:%S")   # str
+  current_datetime_datetime = datetime.strptime(current_datetime_str, "%m/%d/%Y %H:%M:%S")  # datetime
+  db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=company_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).all()
+  for i in db_tests_obj:
+    i_test_dict = arr_of_dict_all_columns_single_item_function(i)
+    i_test_end_timestamp_str = i_test_dict['end_timestamp'].strftime("%m/%d/%Y %H:%M:%S")  # str
+    i_test_end_timestamp_datetime = datetime.strptime(i_test_end_timestamp_str, "%m/%d/%Y %H:%M:%S")  # datetime
+    if current_datetime_datetime > i_test_end_timestamp_datetime:
+      i.status = 'Closed'
+      db.session.commit()
+  # ------------------------ ensure all historical tests are closed end ------------------------
+  # ------------------------ if latest closed then pull winner start ------------------------
+  
+  # ------------------------ if latest closed then pull winner end ------------------------
   # ------------------------ auto set cookie start ------------------------
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
   if get_cookie_value_from_browser != None:
