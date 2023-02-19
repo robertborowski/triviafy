@@ -27,6 +27,31 @@ def check_stripe_subscription_status_function(current_user):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
+def check_stripe_subscription_status_function_v2(current_user, product):
+  localhost_print_function('=========================================== check_stripe_subscription_status_function_v2 START ===========================================')
+  # ------------------------ stripe subscription status check start ------------------------
+  if product == 'candidates':
+    fk_stripe_subscription_id = current_user.fk_stripe_subscription_id
+  if product == 'employees':
+    fk_stripe_subscription_id = current_user.employees_fk_stripe_subscription_id
+  else:
+    return 'invalid product'
+  stripe_subscription_obj = ''
+  stripe_subscription_obj_status = 'not active'
+  try:
+    stripe_subscription_obj = stripe.Subscription.retrieve(fk_stripe_subscription_id)
+    stripe_subscription_obj_status = stripe_subscription_obj.status
+  except:
+    pass
+  # ------------------------ delete this, only for testing start ------------------------
+  # stripe_subscription_obj_status = 'active'
+  # ------------------------ delete this, only for testing end ------------------------
+  # ------------------------ stripe subscription status check end ------------------------
+  localhost_print_function('=========================================== check_stripe_subscription_status_function_v2 END ===========================================')
+  return stripe_subscription_obj_status
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
 def convert_current_period_end_function(stripe_subscription_obj):
   localhost_print_function('=========================================== convert_current_period_end_function START ===========================================')
   # ------------------------ convert unix timestamp to regular start ------------------------

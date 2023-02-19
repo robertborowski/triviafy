@@ -29,6 +29,7 @@ import os
 from website.backend.candidates.quiz import create_quiz_function, grade_quiz_function
 import json
 from datetime import datetime
+from website.backend.candidates.stripe import check_stripe_subscription_status_function_v2
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -520,6 +521,10 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
   except:
     pass
   # ------------------------ archive logic end ------------------------
+  # ------------------------ stripe subscription status check start ------------------------
+  stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees')
+  page_dict['stripe_subscription_status'] = stripe_subscription_obj_status
+  # ------------------------ stripe subscription status check end ------------------------
   if page_dict['view_as_archive'] == False: # no user inputs should be accepted since this test is closed.
     # ------------------------ ui post start ------------------------
     if request.method == 'POST':
