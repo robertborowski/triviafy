@@ -497,7 +497,25 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
     if db_tests_obj.status == 'Closed':
       page_dict['view_as_archive'] = True
       # ------------------------ get teammate answers start ------------------------
-      
+      teammate_answers_tuple = []
+      db_test_grading_obj = EmployeesTestsGradedObj.query.filter_by(fk_test_id=url_test_id).all()
+      for i_obj in db_test_grading_obj:
+        db_user_obj = UserObj.query.filter_by(id=i_obj.fk_user_id).first()
+        users_master_test_results_arr_of_dict = json.loads(i_obj.test_obj)
+        for i_dict in users_master_test_results_arr_of_dict:
+          i_question_number = i_dict['question_number']
+          if int(i_question_number) == int(url_question_number):
+            i_ui_answer = i_dict['ui_answer']
+            # ------------------------ shorten email start ------------------------
+            i_email = db_user_obj.email
+            i_email_arr = i_email.split('@')
+            i_email = i_email_arr[0]
+            if len(i_email) > 15:
+              i_email = i_email[0:15]
+            # ------------------------ shorten email end ------------------------
+            teammate_answers_tuple.append((i_email, i_ui_answer))
+            break
+      page_dict['teammate_answers_tuple'] = teammate_answers_tuple
       # ------------------------ get teammate answers end ------------------------
   except:
     pass
