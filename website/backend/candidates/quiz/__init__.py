@@ -4,7 +4,7 @@ import re
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
-from website.models import EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesGroupQuestionsUsedObj
+from website.models import EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesGroupQuestionsUsedObj, EmployeesTestsGradedObj
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from website import db
 from website.backend.candidates.datetime_manipulation import get_current_weekday_function, get_current_hour_function, get_upcoming_date_function, build_out_datetime_from_parts_function, get_week_dates_function, get_weekday_dict_function_v2
@@ -258,6 +258,9 @@ def grade_quiz_function(ui_answer, url_test_id, total_questions, url_question_nu
   if question_type == 'Fill in the blank':
     localhost_print_function(' --> wip ')
     pass
+  # ------------------------ grade fill in the blank end ------------------------
+  # ------------------------ grade fill in the blank end ------------------------
+  if ui_answer_is_correct == True:
   # ------------------------ grade fill in the blank end ------------------------
   localhost_print_function(' ------------------------ grade_quiz_function end ------------------------ ')
   return True
