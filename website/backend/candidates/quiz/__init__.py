@@ -245,6 +245,7 @@ def grade_quiz_function(ui_answer, url_test_id, total_questions, url_question_nu
           if len(i) == 1:
             if i.lower() in acceptable_answer_arr:
               correct_answer = i
+              break
     # ------------------------ loop answers arr for 1 letter end ------------------------
     # ------------------------ compare 1 letter start ------------------------
     if len(correct_answer) == 1:
