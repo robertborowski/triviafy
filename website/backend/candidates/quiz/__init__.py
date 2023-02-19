@@ -215,4 +215,50 @@ def create_quiz_function(group_id, immediate=False):
   localhost_print_function(' ------------------------ create_quiz_function end ------------------------ ')
   return True
 # ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def grade_quiz_function(ui_answer, url_test_id, total_questions, url_question_number, db_question_dict, current_user_id, public_group_id):
+  localhost_print_function(' ------------------------ grade_quiz_function start ------------------------ ')
+  # ------------------------ testprints start ------------------------
+  localhost_print_function(' ------------- 0 ------------- ')
+  localhost_print_function(f'ui_answer | type: {type(ui_answer)} | {ui_answer}')
+  localhost_print_function(f'url_test_id | type: {type(url_test_id)} | {url_test_id}')
+  localhost_print_function(f'total_questions | type: {type(total_questions)} | {total_questions}')
+  localhost_print_function(f'url_question_number | type: {type(url_question_number)} | {url_question_number}')
+  localhost_print_function(f'db_question_dict | type: {type(db_question_dict)} | {db_question_dict}')
+  localhost_print_function(f'current_user_id | type: {type(current_user_id)} | {current_user_id}')
+  localhost_print_function(f'public_group_id | type: {type(public_group_id)} | {public_group_id}')
+  localhost_print_function(' ------------- 0 ------------- ')
+  # ------------------------ testprints end ------------------------
+  ui_answer_is_correct = False
+  question_type = db_question_dict['desired_question_type']
+  # ------------------------ grade multiple choice start ------------------------
+  if question_type == 'Multiple choice':
+    acceptable_answer_arr = ['a', 'b', 'c', 'd', 'e']
+    correct_answer = db_question_dict['answer']
+    # ------------------------ loop answers arr for 1 letter start ------------------------
+    if len(correct_answer) > 1:
+      if ',' in correct_answer:
+        correct_answer_arr = correct_answer.split(',')
+        for i in correct_answer_arr:
+          i = i.strip()
+          if len(i) == 1:
+            if i.lower() in acceptable_answer_arr:
+              correct_answer = i
+    # ------------------------ loop answers arr for 1 letter end ------------------------
+    # ------------------------ compare 1 letter start ------------------------
+    if len(correct_answer) == 1:
+      if correct_answer.lower() in acceptable_answer_arr:
+        if correct_answer.lower() == ui_answer.lower():
+          ui_answer_is_correct = True
+    # ------------------------ compare 1 letter end ------------------------
+  # ------------------------ grade multiple choice end ------------------------
+  # ------------------------ grade fill in the blank start ------------------------
+  if question_type == 'Fill in the blank':
+    localhost_print_function(' --> wip ')
+    pass
+  # ------------------------ grade fill in the blank end ------------------------
+  localhost_print_function(' ------------------------ grade_quiz_function end ------------------------ ')
+  return True
+# ------------------------ individual function end ------------------------
 localhost_print_function(' ------------------------ quiz __init__ end ------------------------ ')

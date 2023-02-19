@@ -26,7 +26,7 @@ from website.backend.candidates.string_manipulation import all_employee_question
 from website.backend.candidates.user_inputs import sanitize_char_count_1_function
 from website.backend.candidates.send_emails import send_email_template_function
 import os
-from website.backend.candidates.quiz import create_quiz_function
+from website.backend.candidates.quiz import create_quiz_function, grade_quiz_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -343,8 +343,8 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
   # ------------------------ redirect to latest test id start ------------------------
+  user_group_id = EmployeesGroupsObj.query.filter_by(fk_company_name=current_user.company_name).order_by(EmployeesGroupsObj.created_timestamp.desc()).first()
   if url_test_id == None:
-    user_group_id = EmployeesGroupsObj.query.filter_by(fk_company_name=current_user.company_name).order_by(EmployeesGroupsObj.created_timestamp.desc()).first()
     db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=user_group_id.public_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
     if db_tests_obj == None or db_tests_obj == []:
       return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
@@ -420,7 +420,7 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
         return redirect(url_for('employees_views_interior.employees_test_id_function', url_test_id=url_test_id, url_question_number=str(url_question_number), url_redirect_code='e6'))
       # ------------------------ validate ui end ------------------------
       # ------------------------ grade ui start ------------------------
-
+      ui_answer_is_correct = grade_quiz_function(ui_answer, url_test_id, db_tests_obj.total_questions, url_question_number, db_question_dict, current_user.id, user_group_id.public_group_id)
       # ------------------------ grade ui end ------------------------
     # ------------------------ user input - fill in the blank end ------------------------
     # ------------------------ user input - multiple choice start ------------------------
@@ -432,7 +432,7 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
         return redirect(url_for('employees_views_interior.employees_test_id_function', url_test_id=url_test_id, url_question_number=str(url_question_number), url_redirect_code='e6'))
       # ------------------------ validate ui start ------------------------
       # ------------------------ grade ui start ------------------------
-      
+      ui_answer_is_correct = grade_quiz_function(ui_answer, url_test_id, db_tests_obj.total_questions, url_question_number, db_question_dict, current_user.id, user_group_id.public_group_id)
       # ------------------------ grade ui end ------------------------
     # ------------------------ user input - multiple choice end ------------------------
     # ------------------------ user input end ------------------------
