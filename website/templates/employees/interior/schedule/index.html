@@ -270,6 +270,9 @@
         <label class="btn btn-outline-secondary custom-m-1 custom-width-5 custom-ptb-1 uiSearchItem" for="uiSelectedCategories_{{ i }}">{{ i }}</label>
         {% endfor %}
       </div>
+      <div class="container custom-mt-1 text-center">
+        <a href="/employees/request" class="btn btn-outline-secondary btn-lg"><i class="fa-regular fa-closed-captioning"></i> Request custom categories</a>
+      </div>
     </div>
 
     {% if page_dict_to_html['first_test_exists'] == false %}
@@ -285,9 +288,6 @@
     <div class="text-center custom-pt-1">
       <button type="submit" class="btn btn-primary btn-lg custom-width-6"><i class="fa-solid fa-check"></i> Confirm</button>
     </div>
-  </div>
-  <div class="container custom-mt-1">
-    <a href="/employees/request" class="btn btn-outline-secondary custom-width-6"><i class="fa-regular fa-closed-captioning"></i> Request more categories</a>
   </div>
 </form>
 {% endblock %}

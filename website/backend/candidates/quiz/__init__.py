@@ -261,15 +261,16 @@ def grade_quiz_function(ui_answer, url_test_id, total_questions, url_question_nu
       correct_answer_arr = correct_answer.split(',')
       for i in correct_answer_arr:
         i = i.strip()
-        # ------------------------ test similarity start ------------------------
-        answer_match_score = difflib.SequenceMatcher(None, i.lower(), ui_answer.lower()).ratio()*100
-        if answer_match_score > 80:
-          ui_answer_is_correct = True
-          ui_answer_fitb_accuracy_score = answer_match_score
-          db_question_dict['ui_answer_fitb_accuracy_score'] = ui_answer_fitb_accuracy_score
-          break
-        db_question_dict['ui_answer_fitb_accuracy_score'] = 0
-        # ------------------------ test similarity end ------------------------
+        if len(i) > 1:    # avoid multiple choice answers here
+          # ------------------------ test similarity start ------------------------
+          answer_match_score = difflib.SequenceMatcher(None, i.lower(), ui_answer.lower()).ratio()*100
+          if answer_match_score > 80:
+            ui_answer_is_correct = True
+            ui_answer_fitb_accuracy_score = answer_match_score
+            db_question_dict['ui_answer_fitb_accuracy_score'] = ui_answer_fitb_accuracy_score
+            break
+          db_question_dict['ui_answer_fitb_accuracy_score'] = 0
+          # ------------------------ test similarity end ------------------------
     # ------------------------ loop through answers arr end ------------------------
   # ------------------------ grade fill in the blank end ------------------------
   # ------------------------ append to dict start ------------------------

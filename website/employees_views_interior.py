@@ -167,9 +167,10 @@ def login_dashboard_page_function(url_redirect_code=None):
   page_dict['latest_test_winner'] = ''
   page_dict['latest_test_winner_score'] = float(0)
   db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=company_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
-  db_tests_dict = arr_of_dict_all_columns_single_item_function(db_tests_obj)
-  if db_tests_dict['status'] == 'Closed':
-    page_dict['latest_test_is_closed'] = True
+  try:
+    db_tests_dict = arr_of_dict_all_columns_single_item_function(db_tests_obj)
+    if db_tests_dict['status'] == 'Closed':
+      page_dict['latest_test_is_closed'] = True
     # ------------------------ pull winner start ------------------------
     current_max_final_score = float(0)
     current_max_final_score_user_id = ''
@@ -185,6 +186,8 @@ def login_dashboard_page_function(url_redirect_code=None):
       db_user_obj = UserObj.query.filter_by(id=current_max_final_score_user_id).first()
       page_dict['latest_test_winner'] = db_user_obj.email
     # ------------------------ pull winner end ------------------------
+  except:
+    pass
   # ------------------------ if latest closed then pull winner end ------------------------
   # ------------------------ auto set cookie start ------------------------
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
@@ -384,9 +387,11 @@ def employees_schedule_function(url_redirect_code=None):
 @employees_views_interior.route('/employees/t/<url_test_id>/', methods=['GET', 'POST'])
 @employees_views_interior.route('/employees/t/<url_test_id>/<url_question_number>', methods=['GET', 'POST'])
 @employees_views_interior.route('/employees/t/<url_test_id>/<url_question_number>/', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/t/<url_test_id>/<url_question_number>/<url_redirect_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/t/<url_test_id>/<url_question_number>/<url_initial_page_load>', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/t/<url_test_id>/<url_question_number>/<url_initial_page_load>/', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/t/<url_test_id>/<url_question_number>/<url_initial_page_load>/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
-def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_question_number='1'):
+def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_question_number='1', url_initial_page_load=None):
   localhost_print_function(' ------------------------ employees_test_id_function START ------------------------ ')
   # ------------------------ page dict start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
@@ -400,8 +405,27 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
     if db_tests_obj == None or db_tests_obj == []:
       return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
     else:
-      return redirect(url_for('employees_views_interior.employees_test_id_function', url_test_id=db_tests_obj.id, url_question_number='1'))
+      return redirect(url_for('employees_views_interior.employees_test_id_function', url_test_id=db_tests_obj.id, url_question_number='1', url_initial_page_load='init'))
   # ------------------------ redirect to latest test id end ------------------------
+  # ------------------------ on initial page load - redirect to first unanswered question start ------------------------
+  # ------------------------ pull latest graded start ------------------------
+  if url_initial_page_load == 'init':
+    db_test_grading_obj = EmployeesTestsGradedObj.query.filter_by(fk_test_id=url_test_id, fk_user_id=current_user.id).first()
+    try:
+      db_test_grading_dict = arr_of_dict_all_columns_single_item_function(db_test_grading_obj)
+      # ------------------------ pull latest graded end ------------------------
+      # ------------------------ pull question left off on initial load only start ------------------------
+      unanswered_arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+      for i in json.loads(db_test_grading_dict['test_obj']):
+        already_answered_question_number = str(i['question_number'])
+        if already_answered_question_number in unanswered_arr:
+          unanswered_arr.remove(already_answered_question_number)
+      if str(url_question_number) != unanswered_arr[0]:
+        return redirect(url_for('employees_views_interior.employees_test_id_function', url_test_id=url_test_id, url_question_number=unanswered_arr[0]))
+      # ------------------------ pull question left off on initial load only end ------------------------
+    except:
+      pass
+  # ------------------------ on initial page load - redirect to first unanswered question end ------------------------
   # ------------------------ pull test id start ------------------------
   test_id = url_test_id
   db_tests_obj = EmployeesTestsObj.query.filter_by(id=test_id).first()
