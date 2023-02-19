@@ -292,7 +292,7 @@ def grade_quiz_function(ui_answer, url_test_id, total_questions, url_question_nu
         total_questions = int(total_questions),
         correct_count = int(0),
         final_score = int(0),
-        status = 'active',
+        status = 'wip',
         graded_count = int(0),
         test_obj = json.dumps(db_question_arr_of_dict)
       )
@@ -333,6 +333,8 @@ def grade_quiz_function(ui_answer, url_test_id, total_questions, url_question_nu
   db_test_grading_obj.final_score = wip_grading_final_score
   db_test_grading_obj.graded_count = len(master_test_tracking_arr_of_dict)
   db_test_grading_obj.test_obj = json.dumps(master_test_tracking_arr_of_dict)
+  if int(db_test_grading_obj.graded_count) == int(total_questions):
+    db_test_grading_obj.status = 'complete'
   db.session.commit()
   # ------------------------ update db end ------------------------
   localhost_print_function(' ------------------------ grade_quiz_function end ------------------------ ')
