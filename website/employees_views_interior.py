@@ -17,7 +17,7 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v4
-from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, EmployeesTestsGradedObj, UserObj, EmployeesCapacityOptionsObj, EmployeesEmailSentObj
+from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, EmployeesTestsGradedObj, UserObj, EmployeesCapacityOptionsObj, EmployeesEmailSentObj, StripeCheckoutSessionObj
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function, question_choices_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
 from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function, convert_timestamp_to_month_day_string_function
@@ -31,6 +31,7 @@ import json
 from datetime import datetime
 from website.backend.candidates.stripe import check_stripe_subscription_status_function_v2, convert_current_period_end_function
 import stripe
+from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -648,7 +649,64 @@ def employees_account_function(url_redirect_code=None):
         # ------------------------ insert email to db end ------------------------
         return redirect(url_for('employees_views_interior.employees_account_function', url_redirect_code='s1'))
     # ------------------------ post uiMessage end ------------------------
-    
+    # ------------------------ post uiSubscriptionSelected start ------------------------
+    # ------------------------ delete all previous checkout drafts start ------------------------
+    StripeCheckoutSessionObj.query.filter_by(fk_user_id=current_user.id,status='draft').delete()
+    # ------------------------ delete all previous checkout drafts end ------------------------
+    ui_subscription_selected = request.form.get('uiSubscriptionSelected')
+    # ------------------------ postman checks start ------------------------
+    try:
+      if len(ui_subscription_selected) != 2:
+        ui_subscription_selected = None
+    except:
+      ui_subscription_selected = None
+    # ------------------------ postman checks end ------------------------
+    # ------------------------ valid input check start ------------------------
+    query_result_arr_of_dicts = select_general_function('select_all_capacity_options_employees')
+    capacity_options_arr = one_col_dict_to_arr_function(query_result_arr_of_dicts)
+    if ui_subscription_selected not in capacity_options_arr:
+      ui_subscription_selected = None
+    # ------------------------ valid input check end ------------------------
+    if ui_subscription_selected != None and ui_subscription_selected != '1m':
+      # ------------------------ db get price id start ------------------------
+      db_capacity_obj = EmployeesCapacityOptionsObj.query.filter_by(id=ui_subscription_selected).first()
+      fk_stripe_price_id = db_capacity_obj.fk_stripe_price_id
+      # ------------------------ db get price id end ------------------------
+      # ------------------------ stripe checkout start ------------------------
+      try:
+        checkout_session = stripe.checkout.Session.create(
+          line_items=[
+            {
+            'price': fk_stripe_price_id,
+            'quantity': 1,
+            },
+          ],
+          mode='subscription',
+          # success_url='https://triviafy.com/employees/subscription/success',
+          # cancel_url='https://triviafy.com/employees/account',
+          success_url='http://127.0.0.1:80/employees/subscription/success',
+          cancel_url='http://127.0.0.1:80/employees/account',
+          metadata={
+            'fk_user_id': current_user.id
+          }
+        )
+        # ------------------------ create db row start ------------------------
+        # This is so I can easily get the customer id and subscription id in a future lookup
+        checkout_session_id = checkout_session.id
+        current_user_id = current_user.id
+        new_checkout_session_obj = StripeCheckoutSessionObj(
+          id = create_uuid_function('echeck_'),
+          created_timestamp = create_timestamp_function(),
+          fk_checkout_session_id = checkout_session_id,
+          fk_user_id = current_user_id,
+          status = 'draft'
+        )
+        db.session.add(new_checkout_session_obj)
+        db.session.commit()
+        # ------------------------ create db row end ------------------------
+      except Exception as e:
+        return str(e)
+    # ------------------------ post uiSubscriptionSelected end ------------------------
   # ------------------------ post end ------------------------
   localhost_print_function(' ------------------------ employees_account_function END ------------------------ ')
   return render_template('employees/interior/account/index.html', page_dict_to_html=page_dict)
