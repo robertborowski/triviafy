@@ -14,7 +14,7 @@ from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_f
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required, current_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
-from website.models import UserObj, CandidatesDesiredLanguagesObj, CandidatesUploadedCandidatesObj, CandidatesAssessmentsCreatedObj, CandidatesRequestLanguageObj, CandidatesScheduleObj, CandidatesEmailSentObj, CandidatesAssessmentGradedObj, CandidatesCapacityOptionsObj, CandidatesStripeCheckoutSessionObj, CreatedQuestionsObj
+from website.models import UserObj, CandidatesDesiredLanguagesObj, CandidatesUploadedCandidatesObj, CandidatesAssessmentsCreatedObj, CandidatesRequestLanguageObj, CandidatesScheduleObj, CandidatesEmailSentObj, CandidatesAssessmentGradedObj, CandidatesCapacityOptionsObj, StripeCheckoutSessionObj, CreatedQuestionsObj
 from website.backend.candidates.browser import browser_response_set_cookie_function, browser_response_set_cookie_function_v2
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
@@ -100,7 +100,7 @@ def login_dashboard_page_function(url_redirect_code=None):
 def candidates_subscription_success_function():
   localhost_print_function(' ------------------------ candidates_subscription_success_function START ------------------------ ')
   # ------------------------ get from db start ------------------------
-  db_checkout_session_obj = CandidatesStripeCheckoutSessionObj.query.filter_by(fk_user_id=current_user.id,status='draft').order_by(CandidatesStripeCheckoutSessionObj.created_timestamp.desc()).first()
+  db_checkout_session_obj = StripeCheckoutSessionObj.query.filter_by(fk_user_id=current_user.id,status='draft').order_by(StripeCheckoutSessionObj.created_timestamp.desc()).first()
   # ------------------------ get from db end ------------------------
   # ------------------------ if not found start ------------------------
   if db_checkout_session_obj == None or db_checkout_session_obj == '' or db_checkout_session_obj == False:
@@ -228,7 +228,7 @@ def candidates_account_settings_function_v2(url_redirect_code=None):
         return redirect(url_for('candidates_views_interior.candidates_account_settings_function_v2', url_redirect_code='s2'))
     # ------------------------ post uiMessage end ------------------------
     # ------------------------ delete all previous checkout drafts start ------------------------
-    CandidatesStripeCheckoutSessionObj.query.filter_by(fk_user_id=current_user.id,status='draft').delete()
+    StripeCheckoutSessionObj.query.filter_by(fk_user_id=current_user.id,status='draft').delete()
     # ------------------------ delete all previous checkout drafts end ------------------------
     ui_subscription_selected = request.form.get('uiSubscriptionSelected')
     # ------------------------ postman checks start ------------------------
@@ -269,8 +269,8 @@ def candidates_account_settings_function_v2(url_redirect_code=None):
         # This is so I can easily get the customer id and subscription id in a future lookup
         checkout_session_id = checkout_session.id
         current_user_id = current_user.id
-        new_checkout_session_obj = CandidatesStripeCheckoutSessionObj(
-          id = create_uuid_function('checkout_'),
+        new_checkout_session_obj = StripeCheckoutSessionObj(
+          id = create_uuid_function('ccheck_'),
           created_timestamp = create_timestamp_function(),
           fk_checkout_session_id = checkout_session_id,
           fk_user_id = current_user_id,

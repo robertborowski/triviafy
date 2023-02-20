@@ -71,6 +71,15 @@ class CreatedQuestionsObj(db.Model):
   submission = db.Column(db.String(20))
   product = db.Column(db.String(50))
 # ------------------------ individual model end ------------------------
+
+# ------------------------ individual model start ------------------------
+class StripeCheckoutSessionObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  fk_checkout_session_id = db.Column(db.String(150))
+  fk_user_id = db.Column(db.String(150))
+  status = db.Column(db.String(20))
+# ------------------------ individual model end ------------------------
 # ------------------------ all product models end ------------------------
 
 # ------------------------ candidates models start ------------------------
@@ -164,15 +173,6 @@ class CandidatesAssessmentGradedObj(db.Model):
   status = db.Column(db.String(20))
   graded_count = db.Column(db.Integer)
   assessment_obj = db.Column(db.String(180000))
-# ------------------------ individual model end ------------------------
-
-# ------------------------ individual model start ------------------------
-class CandidatesStripeCheckoutSessionObj(db.Model):
-  id = db.Column(db.String(150), primary_key=True)
-  created_timestamp = db.Column(db.DateTime(timezone=True))
-  fk_checkout_session_id = db.Column(db.String(150))
-  fk_user_id = db.Column(db.String(150))
-  status = db.Column(db.String(20))
 # ------------------------ individual model end ------------------------
 # ------------------------ candidates models end ------------------------
 
