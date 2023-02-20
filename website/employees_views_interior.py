@@ -732,8 +732,8 @@ def employees_account_function(url_redirect_code=None):
             },
           ],
           mode='subscription',
-          success_url='https://triviafy.com/employees/subscription/success/',
-          cancel_url='https://triviafy.com/employees/account/',
+          success_url='https://triviafy.com/employees/subscription/success',
+          cancel_url='https://triviafy.com/employees/account',
           metadata={
             'fk_user_id': current_user.id
           }
