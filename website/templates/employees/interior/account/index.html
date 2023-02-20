@@ -1,0 +1,148 @@
+{% extends "employees/aaa_base/base2_interior.html" %}
+<!-- head tag block content -->
+{% block title %}
+  <title>Account - Triviafy</title>
+{% endblock %}
+{% block contentBodyExceptNavbarAndFooter %}
+<!-- ----------------------------------- start ----------------------------------- -->
+{% if page_dict_to_html['alert_message_dict']['message'] != '' %}
+<div class="alert alert-{{ page_dict_to_html['alert_message_dict']['type'] }} mx-auto text-center container custom-mt-1" role="alert">
+  {{ page_dict_to_html['alert_message_dict']['message'] }}
+</div>
+{% endif %}
+<!-- ----------------------------------- end ----------------------------------- -->
+<div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
+  <h2 class="custom-header-2-mobile">Account</h2>
+</div>
+<div class="container custom-br-1"> 
+  <div class="accordion" id="accordionExample">
+    <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            Subscription <img src="/static/images/candidates/stripe/stripe_t.png" alt="powered by stripe" class="custom-img-size-4 custom-ml-3">
+          </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <p>Current plan: {{ page_dict_to_html['stripe_current_plan_type'] }}</p>
+            {% if page_dict_to_html['stripe_current_period_end'] != '' %}
+            <p>Next billing: {{ page_dict_to_html['stripe_current_period_end'] }}</p>
+            {% endif %}
+            <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+              <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm">
+                  <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">Free</h4>
+                  </div>
+                  <div class="card-body">
+                    <h1 class="card-title pricing-card-title">$0<small class="text-muted fw-light">/mo</small></h1>
+                    <ul class="list-unstyled mt-3 mb-4 custom-height-6">
+                      <li>&#10003; Trivia test library</li>
+                      <li>&#10003; Team leaderboard & analytics</li>
+                      <li>&#10003; Create upto 3 custom tests total</li>
+                      <li>&#10003; Create upto 3 custom questions total</li>
+                      <li>&#10003; Send upto 3 trivia tests total total</li>
+                    </ul>
+                    <input type="radio" class="btn-check" name="uiSubscriptionSelected" id="capacity_choice_1" autocomplete="off" value="1m" required>
+                    <label class="w-100 btn btn-lg btn-outline-primary" for="capacity_choice_1">Select</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm">
+                  <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">Pro</h4>
+                  </div>
+                  <div class="card-body">
+                    <h1 class="card-title pricing-card-title">$19<small class="text-muted fw-light">/mo</small></h1>
+                    <ul class="list-unstyled mt-3 mb-4 custom-height-6">
+                      <li>&#10003; Trivia test library</li>
+                      <li>&#10003; Team leaderboard & analytics</li>
+                      <li>&#10003; Include winner prizes</li>
+                      <li>&#10003; Create upto 4 custom tests monthly</li>
+                      <li>&#10003; Create upto 10 custom questions monthly</li>
+                      <li>&#10003; Send upto 4 trivia tests monthly</li>
+                    </ul>
+                    <input type="radio" class="btn-check" name="uiSubscriptionSelected" id="capacity_choice_2" autocomplete="off" value="2m">
+                    <label class="w-100 btn btn-lg btn-outline-primary" for="capacity_choice_2">Select</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm border-primary">
+                  <div class="card-header py-3 text-bg-primary border-primary">
+                    <h4 class="my-0 fw-normal">Premium</h4>
+                  </div>
+                  <div class="card-body">
+                    <h1 class="card-title pricing-card-title">$99<small class="text-muted fw-light">/mo</small></h1>
+                    <ul class="list-unstyled mt-3 mb-4 custom-height-6">
+                      <li>&#10003; Trivia test library</li>
+                      <li>&#10003; Team leaderboard & analytics</li>
+                      <li>&#10003; Include winner prizes</li>
+                      <li>&#10003; Create unlimited custom tests</li>
+                      <li>&#10003; Create unlimited custom questions</li>
+                      <li>&#10003; Send unlimited trivia tests</li>
+                    </ul>
+                    <input type="radio" class="btn-check" name="uiSubscriptionSelected" id="capacity_choice_3" autocomplete="off" value="3m">
+                    <label class="w-100 btn btn-lg btn-outline-primary" for="capacity_choice_3">Select</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary btn-lg">Continue</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingTwo">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          Details
+        </button>
+      </h2>
+      <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <div class="custom-ptb-4">
+            <p class="custom-header-5">Email: {{ page_dict_to_html['current_user_email'] }}</p>
+            <p class="custom-header-5">Company: {{ page_dict_to_html['current_user_company_name'] }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingThree">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+            Contact
+          </button>
+        </h2>
+        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <div class="custom-ptb-4">
+              <div>
+                <p class="custom-header-5">Email: support@triviafy.com</p>
+              </div>
+              <!-- ------------------------------------- input start ------------------------------------- -->
+              <div class="form-floating">
+                <textarea class="form-control" id="uiMessage" name="uiMessage" placeholder="Message*" onkeyup="createQuestionCountCharsOptionA(this);" pattern="{1,280}" required></textarea>
+                <label for="uiMessage">Message*</label>
+                <p id="createQuestionCountCharsOptionA" class="custom-size-3 custom-color-light-1 fst-italic custom-mt-2 custom-ml-2"></p>
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+              <!-- ------------------------------------- input end ------------------------------------- -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+  </div>
+</div>
+{% endblock %}

@@ -17,7 +17,7 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v4
-from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, EmployeesTestsGradedObj, UserObj
+from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, EmployeesTestsGradedObj, UserObj, EmployeesCapacityOptionsObj
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function, question_choices_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
 from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function, convert_timestamp_to_month_day_string_function
@@ -29,7 +29,8 @@ import os
 from website.backend.candidates.quiz import create_quiz_function, grade_quiz_function
 import json
 from datetime import datetime
-from website.backend.candidates.stripe import check_stripe_subscription_status_function_v2
+from website.backend.candidates.stripe import check_stripe_subscription_status_function_v2, convert_current_period_end_function
+import stripe
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -574,4 +575,48 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
     # ------------------------ ui post end ------------------------
   localhost_print_function(' ------------------------ employees_test_id_function END ------------------------ ')
   return render_template('employees/interior/test_quiz/index.html', page_dict_to_html=page_dict)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@employees_views_interior.route('/employees/account', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/account/', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/account/<url_redirect_code>', methods=['GET', 'POST'])
+@login_required
+def employees_account_function(url_redirect_code=None):
+  localhost_print_function(' ------------------------ employees_account_function START ------------------------ ')
+  # ------------------------ page dict start ------------------------
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ page dict end ------------------------
+  # ------------------------ stripe subscription status check start ------------------------
+  stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees')
+  page_dict['stripe_subscription_status'] = stripe_subscription_obj_status
+  # ------------------------ stripe subscription status check end ------------------------
+  # ------------------------ get current plan from stripe start ------------------------
+  if stripe_subscription_obj_status == 'not active':
+    current_plan_type = 'Free'
+    stripe_current_period_end = ''
+  if stripe_subscription_obj_status == 'active':
+    try:
+      stripe_subscription_obj = stripe.Subscription.retrieve(current_user.fk_stripe_subscription_id)
+      stripe_current_period_end = convert_current_period_end_function(stripe_subscription_obj)
+      stripe_subscription_current_price_id = stripe_subscription_obj.plan.id
+      db_capacity_obj = EmployeesCapacityOptionsObj.query.filter_by(fk_stripe_price_id=stripe_subscription_current_price_id).first()
+      current_plan_type = db_capacity_obj.name
+    except:
+      current_plan_type = 'Pro'
+  page_dict['stripe_current_plan_type'] = current_plan_type
+  page_dict['stripe_current_period_end'] = stripe_current_period_end
+  # ------------------------ get current plan from stripe end ------------------------
+  # ------------------------ get current user info start ------------------------
+  page_dict['current_user_email'] = current_user.email
+  page_dict['current_user_company_name'] = current_user.company_name
+  # ------------------------ get current user info end ------------------------
+  # ------------------------ post start ------------------------
+  if request.method == 'POST':
+    pass
+  # ------------------------ post end ------------------------
+  localhost_print_function(' ------------------------ employees_account_function END ------------------------ ')
+  return render_template('employees/interior/account/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
