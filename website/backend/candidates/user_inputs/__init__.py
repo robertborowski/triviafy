@@ -428,6 +428,11 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':'Quiz successfully submitted.',
       'type':'success'
     }
+  elif redirect_var == 's5':
+    alert_message_dict = {
+      'message':'Subscription successfully updated.',
+      'type':'success'
+    }
   # ------------------------ success end ------------------------
   # ------------------------ info end ------------------------
   elif redirect_var == 'i1':

@@ -579,6 +579,56 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
+@employees_views_interior.route('/employees/subscription/success')
+@employees_views_interior.route('/employees/subscription/success/')
+@login_required
+def employees_subscription_success_function():
+  localhost_print_function(' ------------------------ employees_subscription_success_function start ------------------------ ')
+  # ------------------------ get from db start ------------------------
+  db_checkout_session_obj = StripeCheckoutSessionObj.query.filter_by(fk_user_id=current_user.id,status='draft').order_by(StripeCheckoutSessionObj.created_timestamp.desc()).first()
+  # ------------------------ get from db end ------------------------
+  # ------------------------ if not found start ------------------------
+  if db_checkout_session_obj == None or db_checkout_session_obj == '' or db_checkout_session_obj == False:
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+  # ------------------------ if not found end ------------------------
+  # ------------------------ get desired start ------------------------
+  fk_checkout_session_id = db_checkout_session_obj.fk_checkout_session_id
+  # ------------------------ get desired end ------------------------
+  # ------------------------ stripe lookup start ------------------------
+  stripe_checkout_session_obj = stripe.checkout.Session.retrieve(fk_checkout_session_id)
+  # ------------------------ if not found start ------------------------
+  if stripe_checkout_session_obj == None:
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+  # ------------------------ if not found end ------------------------
+  # ------------------------ if not finalized start ------------------------
+  stripe_checkout_session_payment_status = stripe_checkout_session_obj.payment_status
+  if stripe_checkout_session_payment_status != 'paid':
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+  # ------------------------ if not finalized end ------------------------
+  stripe_customer_id = stripe_checkout_session_obj.customer
+  employees_fk_stripe_subscription_id = stripe_checkout_session_obj.subscription
+  # ------------------------ stripe lookup end ------------------------
+  # ------------------------ update db start ------------------------
+  user_obj = UserObj.query.filter_by(id=current_user.id).first()
+  user_obj.fk_stripe_customer_id = stripe_customer_id
+  user_obj.employees_fk_stripe_subscription_id = employees_fk_stripe_subscription_id
+  db_checkout_session_obj.status = 'final'
+  db.session.commit()
+  # ------------------------ update db end ------------------------
+  # ------------------------ email self start ------------------------
+  try:
+    output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+    output_subject = f'Triviafy - Subscription - {user_obj.email}'
+    output_body = f"Hi there,\n\nNew user subscribed: {user_obj.email} \n\nBest,\nTriviafy"
+    send_email_template_function(output_to_email, output_subject, output_body)
+  except:
+    pass
+  # ------------------------ email self end ------------------------
+  localhost_print_function(' ------------------------ employees_subscription_success_function end ------------------------ ')
+  return redirect(url_for('employees_views_interior.employees_account_function', url_redirect_code='s5'))
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
 @employees_views_interior.route('/employees/account', methods=['GET', 'POST'])
 @employees_views_interior.route('/employees/account/', methods=['GET', 'POST'])
 @employees_views_interior.route('/employees/account/<url_redirect_code>', methods=['GET', 'POST'])
@@ -600,7 +650,7 @@ def employees_account_function(url_redirect_code=None):
     stripe_current_period_end = ''
   if stripe_subscription_obj_status == 'active':
     try:
-      stripe_subscription_obj = stripe.Subscription.retrieve(current_user.fk_stripe_subscription_id)
+      stripe_subscription_obj = stripe.Subscription.retrieve(current_user.employees_fk_stripe_subscription_id)
       stripe_current_period_end = convert_current_period_end_function(stripe_subscription_obj)
       stripe_subscription_current_price_id = stripe_subscription_obj.plan.id
       db_capacity_obj = EmployeesCapacityOptionsObj.query.filter_by(fk_stripe_price_id=stripe_subscription_current_price_id).first()
@@ -682,10 +732,8 @@ def employees_account_function(url_redirect_code=None):
             },
           ],
           mode='subscription',
-          # success_url='https://triviafy.com/employees/subscription/success',
-          # cancel_url='https://triviafy.com/employees/account',
-          success_url='http://127.0.0.1:80/employees/subscription/success',
-          cancel_url='http://127.0.0.1:80/employees/account',
+          success_url='https://triviafy.com/employees/subscription/success/',
+          cancel_url='https://triviafy.com/employees/account/',
           metadata={
             'fk_user_id': current_user.id
           }
