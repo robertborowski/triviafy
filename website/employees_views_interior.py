@@ -17,13 +17,13 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v4
-from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, EmployeesTestsGradedObj, UserObj, EmployeesCapacityOptionsObj
+from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, EmployeesTestsGradedObj, UserObj, EmployeesCapacityOptionsObj, EmployeesEmailSentObj
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function, question_choices_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
 from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function, convert_timestamp_to_month_day_string_function
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.string_manipulation import all_employee_question_categories_sorted_function
-from website.backend.candidates.user_inputs import sanitize_char_count_1_function
+from website.backend.candidates.user_inputs import sanitize_char_count_1_function, sanitize_create_question_options_function
 from website.backend.candidates.send_emails import send_email_template_function
 import os
 from website.backend.candidates.quiz import create_quiz_function, grade_quiz_function
@@ -615,7 +615,40 @@ def employees_account_function(url_redirect_code=None):
   # ------------------------ get current user info end ------------------------
   # ------------------------ post start ------------------------
   if request.method == 'POST':
-    pass
+    # ------------------------ post uiMessage start ------------------------
+    ui_message = request.form.get('uiMessage')
+    if ui_message != None and ui_message != '' and ui_message != []:
+      ui_message = sanitize_create_question_options_function(ui_message)
+      if ui_message == False:
+        return redirect(url_for('employees_views_interior.employees_account_function', url_redirect_code='e6'))
+      else:
+        # ------------------------ email self start ------------------------
+        try:
+          output_to_email = os.environ.get('TRIVIAFY_SUPPORT_EMAIL')
+          output_subject = f'Triviafy - Contact Message From: {current_user.email}'
+          output_body = f"Hi there,\n\nFrom: {current_user.email}\nMessage: {ui_message}\n\nBest,\nTriviafy"
+          send_email_template_function(output_to_email, output_subject, output_body)
+        except:
+          pass
+        # ------------------------ email self end ------------------------
+        # ------------------------ insert email to db start ------------------------
+        try:
+          new_row_email = EmployeesEmailSentObj(
+            id = create_uuid_function('email_'),
+            created_timestamp = create_timestamp_function(),
+            from_user_id_fk = current_user.id,
+            to_email = output_to_email,
+            subject = output_subject,
+            body = output_body
+          )
+          db.session.add(new_row_email)
+          db.session.commit()
+        except:
+          pass
+        # ------------------------ insert email to db end ------------------------
+        return redirect(url_for('employees_views_interior.employees_account_function', url_redirect_code='s1'))
+    # ------------------------ post uiMessage end ------------------------
+    
   # ------------------------ post end ------------------------
   localhost_print_function(' ------------------------ employees_account_function END ------------------------ ')
   return render_template('employees/interior/account/index.html', page_dict_to_html=page_dict)

@@ -267,4 +267,14 @@ class EmployeesCapacityOptionsObj(db.Model):
   fk_stripe_price_id = db.Column(db.String(150))
   name = db.Column(db.String(20))
 # ------------------------ individual model end ------------------------
+
+# ------------------------ individual model start ------------------------
+class EmployeesEmailSentObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  from_user_id_fk = db.Column(db.String(150))
+  to_email = db.Column(db.String(150))
+  subject = db.Column(db.String(1000))
+  body = db.Column(db.String(1000))
+# ------------------------ individual model end ------------------------
 # ------------------------ employees models end ------------------------
