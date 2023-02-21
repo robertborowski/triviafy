@@ -103,7 +103,7 @@ def employees_signup_function(url_redirect_code=None):
         email=ui_email,
         password=generate_password_hash(ui_password, method="sha256"),
         company_name = company_name_from_email,
-        employees_subscribed='subscribed'
+        employees_subscribed=None
       )
       db.session.add(new_row)
       db.session.commit()

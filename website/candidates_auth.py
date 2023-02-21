@@ -113,7 +113,7 @@ def candidates_signup_function():
         email=ui_email,
         password=generate_password_hash(ui_password, method="sha256"),
         company_name=company_name_from_email,
-        candidates_subscribed='subscribed'
+        candidates_subscribed=None
       )
       db.session.add(new_user)
       db.session.commit()
