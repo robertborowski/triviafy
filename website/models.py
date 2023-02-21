@@ -21,11 +21,9 @@ class UserObj(db.Model, UserMixin):   # Only the users object inherits UserMixin
   fk_stripe_customer_id = db.Column(db.String(150))
   # ------------------------ general start ------------------------
   # ------------------------ candidates start ------------------------
-  candidates_subscribed = db.Column(db.String(20))
   fk_stripe_subscription_id = db.Column(db.String(150))
   # ------------------------ candidates end ------------------------
   # ------------------------ employees start ------------------------
-  employees_subscribed = db.Column(db.String(20))
   employees_fk_stripe_subscription_id = db.Column(db.String(150))
   # ------------------------ employees end ------------------------
 

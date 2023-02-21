@@ -112,8 +112,7 @@ def candidates_signup_function():
         created_timestamp=create_timestamp_function(),
         email=ui_email,
         password=generate_password_hash(ui_password, method="sha256"),
-        company_name=company_name_from_email,
-        candidates_subscribed=None
+        company_name=company_name_from_email
       )
       db.session.add(new_user)
       db.session.commit()
