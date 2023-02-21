@@ -37,6 +37,9 @@
     .custom-img-size-7-mobile {
       max-height: 200px;
     }
+    .custom-min-height-1-mobile {
+      min-height: 550px;
+    }
     /* ------------------- height end ------------------- */
     /* ------------------- header start ------------------- */
     .custom-header-2-mobile {
