@@ -36,8 +36,8 @@ redis_connection = redis_connect_to_database_function()
 def products_page_function():
   localhost_print_function(' ------------------------ products_page_function START ------------------------ ')
   localhost_print_function(' ------------------------ products_page_function END ------------------------ ')
-  return render_template('candidates/exterior/landing/index.html', user=current_user)
-  # return render_template('products/index.html', user=current_user)
+  # return render_template('candidates/exterior/landing/index.html', user=current_user)
+  return render_template('products/index.html', user=current_user)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
