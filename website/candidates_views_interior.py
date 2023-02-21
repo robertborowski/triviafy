@@ -169,9 +169,10 @@ def candidates_account_settings_function_v2(url_redirect_code=None):
   stripe_subscription_obj_status = check_stripe_subscription_status_function(current_user)
   # ------------------------ stripe subscription status check end ------------------------
   # ------------------------ get current plan from stripe start ------------------------
+  current_plan_type = 'Free'
+  stripe_current_period_end = ''
   if stripe_subscription_obj_status == 'not active':
-    current_plan_type = 'Free'
-    stripe_current_period_end = ''
+    pass
   if stripe_subscription_obj_status == 'active':
     try:
       stripe_subscription_obj = stripe.Subscription.retrieve(current_user.fk_stripe_subscription_id)

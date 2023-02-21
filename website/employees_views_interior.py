@@ -647,9 +647,10 @@ def employees_account_function(url_redirect_code=None):
   page_dict['stripe_subscription_status'] = stripe_subscription_obj_status
   # ------------------------ stripe subscription status check end ------------------------
   # ------------------------ get current plan from stripe start ------------------------
+  current_plan_type = 'Free'
+  stripe_current_period_end = ''
   if stripe_subscription_obj_status == 'not active':
-    current_plan_type = 'Free'
-    stripe_current_period_end = ''
+    pass
   if stripe_subscription_obj_status == 'active':
     try:
       stripe_subscription_obj = stripe.Subscription.retrieve(current_user.employees_fk_stripe_subscription_id)
