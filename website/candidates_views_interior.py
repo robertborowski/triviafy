@@ -485,6 +485,10 @@ def candidates_assessments_dashboard_function(url_redirect_code=None):
       alert_message_page = 'Successfully added question to test.'
       alert_message_type = 'success'
   # ------------------------ valid redirect start ------------------------
+  # ------------------------ delete test drafts start ------------------------
+  CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,status='draft').delete()
+  db.session.commit()
+  # ------------------------ delete test drafts end ------------------------
   # ------------------------ get assessments start ------------------------
   db_tests_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id).order_by(CandidatesAssessmentsCreatedObj.assessment_name).all()
   if db_tests_obj == None:
