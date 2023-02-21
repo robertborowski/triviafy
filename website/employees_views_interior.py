@@ -754,6 +754,9 @@ def employees_account_function(url_redirect_code=None):
         # ------------------------ create db row end ------------------------
       except Exception as e:
         return str(e)
+      # ------------------------ this line of code is needed to actually redirec to stripe checkout page start ------------------------
+      return redirect(checkout_session.url, code=303)
+      # ------------------------ this line of code is needed to actually redirec to stripe checkout page end ------------------------
     # ------------------------ post uiSubscriptionSelected end ------------------------
   # ------------------------ post end ------------------------
   localhost_print_function(' ------------------------ employees_account_function END ------------------------ ')

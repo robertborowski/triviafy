@@ -281,8 +281,9 @@ def candidates_account_settings_function_v2(url_redirect_code=None):
         # ------------------------ create db row end ------------------------
       except Exception as e:
         return str(e)
-      localhost_print_function(' ------------------------ candidates_account_settings_function_v2 END ------------------------ ')
+      # ------------------------ this line of code is needed to actually redirec to stripe checkout page start ------------------------
       return redirect(checkout_session.url, code=303)
+      # ------------------------ this line of code is needed to actually redirec to stripe checkout page end ------------------------
       # ------------------------ stripe checkout end ------------------------
   # ------------------------ if post data end ------------------------
   localhost_print_function(' ------------------------ candidates_account_settings_function_v2 END ------------------------ ')
