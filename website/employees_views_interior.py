@@ -608,6 +608,53 @@ def employees_test_archive_function(url_redirect_code=None):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
+@employees_views_interior.route('/employees/leaderboard')
+@employees_views_interior.route('/employees/leaderboard/<url_redirect_code>')
+@login_required
+def employees_leaderboard_function(url_redirect_code=None):
+  localhost_print_function(' ------------------------ employees_leaderboard_function start ------------------------ ')
+  # ------------------------ page dict start ------------------------
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ page dict end ------------------------
+  # ------------------------ get current users from company start ------------------------
+  users_arr_of_dicts = []
+  db_users_obj = UserObj.query.filter_by(company_name=current_user.company_name).order_by(UserObj.email.asc()).all()
+  for i in db_users_obj:
+    i_dict = {}
+    user_id = i.id
+    user_email = i.email
+    # ------------------------ get total correct start ------------------------
+    total_correct = int(0)
+    db_test_grading_obj = EmployeesTestsGradedObj.query.filter_by(fk_user_id=user_id).all()
+    for j in db_test_grading_obj:
+      total_correct += int(j.correct_count)
+    # ------------------------ get total correct end ------------------------
+    i_dict['user_id'] = user_id
+    i_dict['user_email'] = user_email
+    i_dict['total_correct'] = total_correct
+    i_dict['total_wins'] = int(0)
+    users_arr_of_dicts.append(i_dict)
+  # ------------------------ get current users from company end ------------------------
+  # ------------------------ pull all tests for group start ------------------------
+  db_group_obj = EmployeesGroupsObj.query.filter_by(fk_company_name=current_user.company_name).first()
+  db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=db_group_obj.public_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).all()
+  # ------------------------ pull all tests for group end ------------------------
+  # ------------------------ pull test winner start ------------------------
+  for i in db_tests_obj:
+    test_winner, test_winner_score = get_test_winner(i.id, True)
+    for j in users_arr_of_dicts:
+      if j['user_id'] == test_winner:
+        j['total_wins'] += int(1)
+        break
+  # ------------------------ pull test winner end ------------------------
+  page_dict['users_arr_of_dicts'] = users_arr_of_dicts
+  localhost_print_function(' ------------------------ employees_leaderboard_function end ------------------------ ')
+  return render_template('employees/interior/leaderboard/index.html', page_dict_to_html=page_dict)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
 @employees_views_interior.route('/employees/subscription/success')
 @employees_views_interior.route('/employees/subscription/success/')
 @login_required
