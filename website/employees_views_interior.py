@@ -509,8 +509,10 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
           i_question_number = i_dict['question_number']
           if int(i_question_number) == int(url_question_number):
             i_ui_answer = i_dict['ui_answer']
+            # ------------------------ capitalize mcq answer start ------------------------
             if len(i_ui_answer) == 1:
               i_ui_answer = i_ui_answer.upper()
+            # ------------------------ capitalize mcq answer end ------------------------
             # ------------------------ shorten email start ------------------------
             i_email = db_user_obj.email
             i_email_arr = i_email.split('@')
