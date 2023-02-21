@@ -9,7 +9,7 @@
     <h2 class="custom-header-2-mobile">Create test</h2>
     <div>
       <a href="/candidates/assessment/new/1b" class="btn btn-outline-secondary">Discard</a>
-      <button type="submit" class="btn btn-primary custom-ml-3">Create</button>
+      <button type="submit" class="btn btn-primary custom-ml-3"><i class="fa-solid fa-check"></i> Create</button>
     </div>
   </div>
   <div class="container border shadow custom-br-1 custom-bg-white custom-width-1">
@@ -41,7 +41,7 @@
       </div>
       <div class="custom-mb-6">
         <label for="uiPreview" class="form-label">Length: <img src="/static/images/candidates/icons/clock-regular.svg" alt="clock icon" class="custom-img-size-9 custom-mr-1 custom-mb-7">{{ assessment_total_questions_to_html }} mins</label><br>
-        <a href="/candidates/assessment/preview/{{ assessment_name_to_html }}/1" class="btn btn-outline-primary custom-width-6">Preview test</a>
+        <a href="/candidates/assessment/preview/{{ assessment_name_to_html }}/1" class="btn btn-outline-primary custom-width-6"><i class="fa-regular fa-eye"></i> Preview test</a>
       </div>
       {% if stripe_subscription_obj_status_to_html == 'not active' %}
       <div class="custom-mb-6">
@@ -54,7 +54,7 @@
         <a href="/candidates/question/create/dashboard" class="btn btn-outline-primary custom-width-6">Customize</a>
       </div>
       {% endif %}
-      <button type="submit" class="btn btn-lg btn-primary custom-width-6 custom-mt-1">Create test</button>
+      <button type="submit" class="btn btn-lg btn-primary custom-width-6 custom-mt-1"><i class="fa-solid fa-check"></i> Create test</button>
     </div>
   </div>
 </form>
