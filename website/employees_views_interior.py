@@ -633,7 +633,11 @@ def employees_leaderboard_function(url_redirect_code=None):
     total_correct = int(0)
     db_test_grading_obj = EmployeesTestsGradedObj.query.filter_by(fk_user_id=user_id).all()
     for j in db_test_grading_obj:
-      total_correct += int(j.correct_count)
+      # ------------------------ check if test is closed start ------------------------
+      db_tests_obj = EmployeesTestsObj.query.filter_by(id=j.fk_test_id).first()
+      if db_tests_obj.status == 'Closed':
+        total_correct += int(j.correct_count)
+      # ------------------------ check if test is closed end ------------------------
     # ------------------------ get total correct end ------------------------
     i_dict['user_id'] = user_id
     i_dict['user_email'] = user_email
