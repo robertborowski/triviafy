@@ -32,6 +32,7 @@ from datetime import datetime
 from website.backend.candidates.stripe import check_stripe_subscription_status_function_v2, convert_current_period_end_function
 import stripe
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
+from website.backend.candidates.test_backend import get_test_winner
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -174,21 +175,9 @@ def login_dashboard_page_function(url_redirect_code=None):
     db_tests_dict = arr_of_dict_all_columns_single_item_function(db_tests_obj)
     if db_tests_dict['status'] == 'Closed':
       page_dict['latest_test_is_closed'] = True
-    # ------------------------ pull winner start ------------------------
-    current_max_final_score = float(0)
-    current_max_final_score_user_id = ''
-    db_test_grading_obj = EmployeesTestsGradedObj.query.filter_by(fk_test_id=db_tests_dict['id']).order_by(EmployeesTestsGradedObj.created_timestamp.asc()).all()
-    for i_obj in db_test_grading_obj:
-      i_dict = arr_of_dict_all_columns_single_item_function(i_obj)
-      i_final_score = float(i_dict['final_score'])
-      if i_final_score > current_max_final_score:
-        current_max_final_score = i_final_score
-        current_max_final_score_user_id = i_dict['fk_user_id']
-        page_dict['latest_test_winner_score'] = float(i_final_score) * float(100)
-    if current_max_final_score_user_id != '':
-      db_user_obj = UserObj.query.filter_by(id=current_max_final_score_user_id).first()
-      page_dict['latest_test_winner'] = db_user_obj.email
-    # ------------------------ pull winner end ------------------------
+    # ------------------------ winner start ------------------------
+    page_dict['latest_test_winner'], page_dict['latest_test_winner_score'] = get_test_winner(db_tests_dict['id'])
+    # ------------------------ winner end ------------------------
   except:
     pass
   # ------------------------ if latest closed then pull winner end ------------------------
@@ -580,6 +569,42 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
     # ------------------------ ui post end ------------------------
   localhost_print_function(' ------------------------ employees_test_id_function END ------------------------ ')
   return render_template('employees/interior/test_quiz/index.html', page_dict_to_html=page_dict)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@employees_views_interior.route('/employees/archive')
+@employees_views_interior.route('/employees/archive/<url_redirect_code>')
+@login_required
+def employees_test_archive_function(url_redirect_code=None):
+  localhost_print_function(' ------------------------ employees_test_archive_function start ------------------------ ')
+  # ------------------------ page dict start ------------------------
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ page dict end ------------------------
+  # ------------------------ get current group start ------------------------
+  db_group_obj = EmployeesGroupsObj.query.filter_by(fk_company_name=current_user.company_name).first()
+  # ------------------------ get current group end ------------------------
+  # ------------------------ pull all tests for group start ------------------------
+  db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=db_group_obj.public_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).all()
+  # ------------------------ pull all tests for group end ------------------------
+  # ------------------------ turn sql obj into arr of dicts start ------------------------
+  tests_arr_of_dicts = []
+  for i_obj in db_tests_obj:
+    i_dict = arr_of_dict_all_columns_single_item_function(i_obj)
+    tests_arr_of_dicts.append(i_dict)
+  # ------------------------ turn sql obj into arr of dicts end ------------------------
+  # ------------------------ loop through tests and assign variables per test start ------------------------
+  total_tests = len(tests_arr_of_dicts)
+  current_test = total_tests
+  for i in tests_arr_of_dicts:
+    i['test_number'] = current_test
+    i['test_winner'], i['test_winner_score'] = get_test_winner(i['id'])
+    current_test -= 1
+  page_dict['tests_arr_of_dicts'] = tests_arr_of_dicts
+  # ------------------------ loop through tests and assign variables per test end ------------------------
+  localhost_print_function(' ------------------------ employees_test_archive_function end ------------------------ ')
+  return render_template('employees/interior/test_archive/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------

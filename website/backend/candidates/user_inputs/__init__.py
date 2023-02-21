@@ -27,6 +27,7 @@ def sanitize_email_function(user_input_email, is_signup='false'):
 # ------------------------ individual function start ------------------------
 # ------------------------ block email list start ------------------------
 blocked_email_arr = [
+  '@gartner.com',
   '@gmail.com',
   '@gmail',
   '@yahoo.',
