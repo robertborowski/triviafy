@@ -49,7 +49,7 @@
       {% if page_dict_to_html['ui_latest_test_completed'] == true %}
       <a href="/employees/t/" class="btn btn-lg btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Quiz closes: {{ page_dict_to_html['ending_time_string'] }}">Review answers <i class="fa-solid fa-arrow-right"></i></a>
       {% else %}
-      <a href="/employees/t/" class="btn btn-lg btn-success" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Complete by: {{ page_dict_to_html['ending_time_string'] }}">&#127881; New team quiz <i class="fa-solid fa-arrow-right"></i></a>
+      <a href="/employees/t/" class="btn btn-lg btn-success" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Complete by: {{ page_dict_to_html['ending_time_string'] }}">&#127881; Go to team quiz <i class="fa-solid fa-arrow-right"></i></a>
       {% endif %}
     {% endif %}
     {% if page_dict_to_html['latest_test_is_closed'] == true %}
