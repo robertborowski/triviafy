@@ -16,6 +16,12 @@
   <div>
     <h2 class="custom-header-2-mobile">Dashboard</h2>
   </div>
+  <div>
+    {% if page_dict_to_html['stripe_subscription_status'] == 'active' %}
+    {% else %}
+    <a href="/employees/account" class="btn btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Subscription required"><i class="fa-solid fa-screwdriver-wrench"></i> Custom questions</a>
+    {% endif %}
+  </div>
 </div>
 <div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
   <div class="text-center">
@@ -28,6 +34,12 @@
 <div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
   <div>
     <h2 class="custom-header-2-mobile">Dashboard</h2>
+  </div>
+  <div>
+    {% if page_dict_to_html['stripe_subscription_status'] == 'active' %}
+    {% else %}
+    <a href="/employees/account" class="btn btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Subscription required"><i class="fa-solid fa-screwdriver-wrench"></i> Custom questions</a>
+    {% endif %}
   </div>
 </div>
 <div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
