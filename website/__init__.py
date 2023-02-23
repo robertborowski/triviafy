@@ -65,6 +65,8 @@ def create_app_function():
   # stripe.api_key = os.environ.get('STRIPE_TEST_API_KEY')  # TESTING
   # ------------------------ stripe api environment end ------------------------
   # ------------------------ views/auths/routes imports start ------------------------
+  from .admin_views_interior import admin_views_interior
+  
   from .candidates_auth import candidates_auth
   from .candidates_views_exterior import candidates_views_exterior
   from .candidates_views_interior import candidates_views_interior
@@ -74,6 +76,8 @@ def create_app_function():
   from .employees_views_interior import employees_views_interior
   # ------------------------ views/auths/routes imports end ------------------------
   # ------------------------ views/auths/routes register blueprints start ------------------------
+  app.register_blueprint(admin_views_interior, url_prefix='/')
+
   app.register_blueprint(candidates_auth, url_prefix='/')
   app.register_blueprint(candidates_views_exterior, url_prefix='/')
   app.register_blueprint(candidates_views_interior, url_prefix='/')

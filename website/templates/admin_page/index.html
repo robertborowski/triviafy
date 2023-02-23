@@ -1,0 +1,29 @@
+{% extends "employees/aaa_base/base2_interior.html" %}
+<!-- head tag block content -->
+{% block title %}
+  <title>Admin - Triviafy</title>
+{% endblock %}
+{% block contentBodyExceptNavbarAndFooter %}
+<form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+  <!-- ----------------------------------- start ----------------------------------- -->
+  {% if page_dict_to_html['alert_message_dict']['message'] != '' %}
+  <div class="alert alert-{{ page_dict_to_html['alert_message_dict']['type'] }} mx-auto text-center container" role="alert">
+    {{ page_dict_to_html['alert_message_dict']['message'] }}
+  </div>
+  {% endif %}
+  <!-- ----------------------------------- end ----------------------------------- -->
+  <div class="container custom-display-flex custom-pt-6 custom-jc-2">
+    <h2 class="custom-header-2-mobile">Admin</h2>
+  </div>
+  <!-- ------------------------------------- admin section start ------------------------------------- -->
+  <div class="container border shadow custom-br-1 custom-bg-white">
+    <div class="mx-auto custom-width-14 custom-ptb-5 custom-border-1">
+      <div>
+        <label for="ui_answer_fitb" class="form-label">DELETE_1_USER from all EMPLOYEES tables</label>
+        <input type="text" class="form-control custom-search-bar-1" id="ui_answer_fitb" name="ui_answer_fitb" placeholder="@email to delete" required>
+      </div>
+    </div>
+  </div>
+  <!-- ------------------------------------- admin section end ------------------------------------- -->
+</form>
+{% endblock %}
