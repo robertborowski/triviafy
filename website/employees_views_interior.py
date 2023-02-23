@@ -492,6 +492,7 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
   # ------------------------ contains image check end ------------------------
   # ------------------------ redirect variables start ------------------------
   page_dict['db_question_dict']['redirect_ui_answer'] = ''
+  page_dict['latest_test_completed'] = False
   try:
     db_test_grading_obj = EmployeesTestsGradedObj.query.filter_by(fk_test_id=url_test_id, fk_user_id=current_user.id).first()
     db_test_grading_dict = arr_of_dict_all_columns_single_item_function(db_test_grading_obj)
@@ -499,6 +500,8 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
     for i in master_answer_arr_of_dict:
       if int(i['question_number']) == int(url_question_number):
         page_dict['db_question_dict']['redirect_ui_answer'] = i['ui_answer']
+    if db_test_grading_dict['status'] == 'complete':
+      page_dict['latest_test_completed'] = True
   except:
     pass
   # ------------------------ redirect variables end ------------------------

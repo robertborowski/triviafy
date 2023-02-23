@@ -14,8 +14,8 @@
         <div>
           <a href="#" class="navbar-brand"><span class="custom-header-4-mobile">{{ page_dict_to_html['user_company_name'] }}</span></a>
           <!-- ------------------------------------- feature view: archive start ------------------------------------- -->
-          {% if page_dict_to_html['view_as_archive'] == true %}
-          <a href="/employees/dashboard" class="btn btn-outline-danger btn-sm">Exit preview</a>
+          {% if page_dict_to_html['view_as_archive'] == true or page_dict_to_html['latest_test_completed'] == true %}
+          <a href="/employees/dashboard" class="btn btn-outline-danger btn-sm">Exit</a>
           <!-- ------------------------------------- feature view: archive end ------------------------------------- -->
           {% else %}
           {% endif %}
@@ -25,12 +25,12 @@
         <div>
           {% if page_dict_to_html['current_question_number'] == '1' %}
           {% else %}
-          <a href="/employees/t/{{ page_dict_to_html['url_test_id'] }}/{{ page_dict_to_html['previous_question_number'] }}" class="btn btn-outline-secondary">< Back</a>
+          <a href="/employees/t/{{ page_dict_to_html['url_test_id'] }}/{{ page_dict_to_html['previous_question_number'] }}" class="btn btn-outline-secondary"><i class="fa-solid fa-arrow-left"></i> Back</a>
           {% endif %}
           {% if page_dict_to_html['next_question_number'] == 'submit' %}
           <a href="/employees/dashboard" class="btn btn-outline-danger custom-ml-3">Exit</a>
           {% else %}
-          <a href="/employees/t/{{ page_dict_to_html['url_test_id'] }}/{{ page_dict_to_html['next_question_number'] }}" class="btn btn-primary custom-ml-3">Next ></a>
+          <a href="/employees/t/{{ page_dict_to_html['url_test_id'] }}/{{ page_dict_to_html['next_question_number'] }}" class="btn btn-primary custom-ml-3">Next <i class="fa-solid fa-arrow-right"></i></a>
           {% endif %}
         </div>
         <!-- ------------------------------------- feature view: archive end ------------------------------------- -->
@@ -38,12 +38,12 @@
         <div>
           {% if page_dict_to_html['current_question_number'] == '1' %}
           {% else %}
-          <a href="/employees/t/{{ page_dict_to_html['url_test_id'] }}/{{ page_dict_to_html['previous_question_number'] }}" class="btn btn-outline-secondary">< Back</a>
+          <a href="/employees/t/{{ page_dict_to_html['url_test_id'] }}/{{ page_dict_to_html['previous_question_number'] }}" class="btn btn-outline-secondary"><i class="fa-solid fa-arrow-left"></i> Back</a>
           {% endif %}
           {% if page_dict_to_html['next_question_number'] == 'submit' %}
           <button type="submit" class="btn btn-outline-primary custom-ml-3">Submit</button>
           {% else %}
-          <button type="submit" class="btn btn-primary custom-ml-3">Next ></button>
+          <button type="submit" class="btn btn-primary custom-ml-3">Next <i class="fa-solid fa-arrow-right"></i></button>
           {% endif %}
         </div>
         {% endif %}
