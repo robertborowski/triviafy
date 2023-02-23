@@ -369,7 +369,7 @@ def alert_message_default_function_v2(redirect_var=None):
     pass
   elif redirect_var == 'e1':
     alert_message_dict = {
-      'message':'Please enter a valid work email.',
+      'message':'Please enter a valid work email. No @gmail, @yahoo, etc.',
       'type':'danger'
     }
   elif redirect_var == 'e2':
