@@ -274,20 +274,35 @@ def employees_schedule_function(url_redirect_code=None):
   page_dict['all_categories_arr'] = all_employee_question_categories_sorted_function(query_result_arr_of_dicts)
   # ------------------------ get all categories end ------------------------
   if request.method == 'POST':
-    # ------------------------ get ui start ------------------------
-    ui_send_first_immediate = request.form.get('flexSwitchCheckDefault_01')
-    ui_start_day = request.form.get('radioStartDay')
-    ui_start_time = request.form.get('radioStartTime')
-    ui_end_day = request.form.get('radioEndDay')
-    ui_end_time = request.form.get('radioEndTime')
-    ui_timezone = request.form.get('radioTimeZone')
-    ui_cadence = request.form.get('radioCadence')
-    ui_total_questions = request.form.get('radioTotalQuestions')
-    ui_question_type = request.form.get('radioQuestionType')
     ui_select_all_categories = request.form.get('flexSwitchCheckDefault_02')
-    ui_selected_categories = request.form.getlist('uiSelectedCategories')
-    # ------------------------ get ui end ------------------------
+    ui_timezone = request.form.get('radioTimeZone')
+    try:
+      # ------------------------ get ui start ------------------------
+      ui_start_day = request.form.get('radioStartDay')
+      ui_start_time = request.form.get('radioStartTime')
+      ui_end_day = request.form.get('radioEndDay')
+      ui_end_time = request.form.get('radioEndTime')
+      ui_timezone = request.form.get('radioTimeZone')
+      ui_cadence = request.form.get('radioCadence')
+      ui_total_questions = request.form.get('radioTotalQuestions')
+      ui_question_type = request.form.get('radioQuestionType')
+      ui_select_all_categories = request.form.get('flexSwitchCheckDefault_02')
+      ui_selected_categories = request.form.getlist('uiSelectedCategories')
+      # ------------------------ get ui end ------------------------
+    except:
+      pass
     # ------------------------ check if ui is invalid start ------------------------
+    if ui_start_day == None and ui_start_time == None and ui_end_day == None and ui_end_time == None and ui_cadence == None and ui_total_questions == None and ui_question_type == None and len(ui_selected_categories) == 0:
+      # ------------------------ defaults start ------------------------
+      ui_start_day = 'Monday'
+      ui_start_time = '12 PM'
+      ui_end_day = 'Thursday'
+      ui_end_time = '1 PM'
+      ui_cadence = 'Weekly'
+      ui_total_questions = 10
+      ui_question_type = 'Mixed'
+      ui_selected_categories = None
+      # ------------------------ defaults end ------------------------
     if ui_start_day not in page_dict['weekdays'] or ui_end_day not in page_dict['weekdays'] or ui_start_time not in page_dict['times'] or ui_end_time not in page_dict['times'] or ui_timezone not in page_dict['timezones'] or ui_cadence not in page_dict['quiz_cadence_arr'] or int(ui_total_questions) not in page_dict['question_num_arr'] or ui_question_type not in page_dict['question_type_arr']:
       return redirect(url_for('employees_views_interior.employees_schedule_function', url_redirect_code='e6'))
     if ui_selected_categories != [] and ui_selected_categories != None:
@@ -351,7 +366,7 @@ def employees_schedule_function(url_redirect_code=None):
     if settings_change_occured == True:
       db.session.commit()
       # ------------------------ if first quiz immediate is checked - after changes start ------------------------
-      if ui_send_first_immediate == 'is_checked' and first_test_exists == False:
+      if first_test_exists == False:
         create_quiz_status = create_quiz_function(page_dict['db_group_settings_dict']['fk_group_id'], True)
         if create_quiz_status == 'false_end_time':
           return redirect(url_for('employees_views_interior.employees_schedule_function', url_redirect_code='e8'))
@@ -361,7 +376,7 @@ def employees_schedule_function(url_redirect_code=None):
       return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='s2'))
     # ------------------------ if settings changed end ------------------------
     # ------------------------ if first quiz immediate is checked - no changes to existing settings start ------------------------
-    if ui_send_first_immediate == 'is_checked' and first_test_exists == False:
+    if first_test_exists == False:
       create_quiz_status = create_quiz_function(page_dict['db_group_settings_dict']['fk_group_id'], True)
       if create_quiz_status == 'false_end_time':
         return redirect(url_for('employees_views_interior.employees_schedule_function', url_redirect_code='e8'))

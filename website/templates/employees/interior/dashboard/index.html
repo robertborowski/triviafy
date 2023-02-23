@@ -1,4 +1,8 @@
+{% if page_dict_to_html['first_test_exists'] == false %}
+{% extends "employees/aaa_base/base2_interior2.html" %}
+{% else %}
 {% extends "employees/aaa_base/base2_interior.html" %}
+{% endif %}
 <!-- head tag block content -->
 {% block title %}
   <title>Dashboard - Triviafy</title>
@@ -19,13 +23,13 @@
   <div>
     {% if page_dict_to_html['stripe_subscription_status'] == 'active' %}
     {% else %}
-    <a href="/employees/account" class="btn btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Subscription required"><i class="fa-solid fa-screwdriver-wrench"></i> Custom questions</a>
+    <!-- <a href="/employees/account" class="btn btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Subscription required"><i class="fa-solid fa-screwdriver-wrench"></i> Custom questions</a> -->
     {% endif %}
   </div>
 </div>
 <div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
   <div class="text-center">
-    <p class="custom-header-4">Confirm your team's triviafy settings.</p>
+    <p class="custom-header-4">Confirm your team's quiz categories.</p>
     <a href="/employees/schedule" class="btn btn-lg btn-primary">Confirm <i class="fa-solid fa-arrow-right"></i></a>
   </div>
 </div>

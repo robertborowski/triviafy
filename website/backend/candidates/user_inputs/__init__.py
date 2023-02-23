@@ -421,7 +421,7 @@ def alert_message_default_function_v2(redirect_var=None):
     }
   elif redirect_var == 's3':
     alert_message_dict = {
-      'message':'Quiz successfully created.',
+      'message':'Quiz successfully created. Now anyone from your team can create an account with triviafy and they will be automatically routed to this same quiz!',
       'type':'success'
     }
   elif redirect_var == 's4':

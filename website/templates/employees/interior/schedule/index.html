@@ -1,4 +1,8 @@
+{% if page_dict_to_html['first_test_exists'] == false %}
+{% extends "employees/aaa_base/base2_interior2.html" %}
+{% else %}
 {% extends "employees/aaa_base/base2_interior.html" %}
+{% endif %}
 <!-- head tag block content -->
 {% block title %}
   <title>Settings - Triviafy</title>
@@ -22,233 +26,256 @@
   </div>
 
   <div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
-    <div class="text-center">
-      <p class="custom-m-0 custom-width-15 mx-auto custom-p-1 custom-br-1 border custom-bg-grey-1">Group ID: {{ page_dict_to_html['db_group_settings_dict']['fk_group_id'] }}</p>
+    {% if page_dict_to_html['first_test_exists'] == false %}
+    <div class="custom-display-flex custom-width-10 mx-auto">
+      <div class="custom-mt-2 custom-mr-2">
+        <p class="custom-m-0"><i class="fa-solid fa-earth-americas"></i> Time Zone:</p>
+      </div>
+      <div class="dropdown">
+        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="buttonTimeZone">
+          {{ page_dict_to_html['db_group_settings_dict']['timezone'] }}
+        </button>
+        <ul class="dropdown-menu">
+          {% for i in page_dict_to_html['timezones'] %}
+          <li class="dropdown-item">
+            <div class="form-check">
+              {% if i == page_dict_to_html['db_group_settings_dict']['timezone'] %}
+              <input class="form-check-input" type="radio" name="radioTimeZone" id="radioTimeZone{{ i }}" value="{{ i }}" checked>
+              {% else %}
+              <input class="form-check-input" type="radio" name="radioTimeZone" id="radioTimeZone{{ i }}" value="{{ i }}">
+              {% endif %}
+              <label class="form-check-label" for="radioTimeZone{{ i }}">
+                {{ i }}
+              </label>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
     </div>
+    {% else %}
+      <div class="custom-display-flex custom-fw-1 custom-jc-3 custom-ptb-6">
+        <div class="custom-display-block text-center custom-p-2">
+          <div class="custom-pb-4">
+            <p class="custom-m-0"><i class="fa-regular fa-calendar-days"></i> Start day</p>
+          </div>
+          <div class="dropdown">
+            <button class="btn btn-outline-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="buttonStartDay">
+              {{ page_dict_to_html['db_group_settings_dict']['start_day'] }}
+            </button>
+            <ul class="dropdown-menu">
+              {% for i in page_dict_to_html['weekdays'] %}
+              <li class="dropdown-item">
+                <div class="form-check">
+                  {% if i == page_dict_to_html['db_group_settings_dict']['start_day'] %}
+                  <input class="form-check-input" type="radio" name="radioStartDay" id="radioStartDay{{ i }}" value="{{ i }}" checked>
+                  {% else %}
+                  <input class="form-check-input" type="radio" name="radioStartDay" id="radioStartDay{{ i }}" value="{{ i }}">
+                  {% endif %}
+                  <label class="form-check-label" for="radioStartDay{{ i }}">
+                    {{ i }}
+                  </label>
+                </div>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <div class="custom-display-block text-center custom-p-2">
+          <div class="custom-pb-4">
+            <p class="custom-m-0"><i class="fa-regular fa-clock"></i> Start time</p>
+          </div>
+          <div class="dropdown">
+            <button class="btn btn-outline-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="buttonStartTime">
+              {{ page_dict_to_html['db_group_settings_dict']['start_time'] }}
+            </button>
+            <ul class="dropdown-menu">
+              {% for i in page_dict_to_html['times'] %}
+              <li class="dropdown-item">
+                <div class="form-check">
+                  {% if i == page_dict_to_html['db_group_settings_dict']['start_time'] %}
+                  <input class="form-check-input" type="radio" name="radioStartTime" id="radioStartTime{{ i }}" value="{{ i }}" checked>
+                  {% else %}
+                  <input class="form-check-input" type="radio" name="radioStartTime" id="radioStartTime{{ i }}" value="{{ i }}">
+                  {% endif %}
+                  <label class="form-check-label" for="radioStartTime{{ i }}">
+                    {{ i }}
+                  </label>
+                </div>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <div class="custom-display-block text-center custom-p-2">
+          <div class="custom-pb-4">
+            <p class="custom-m-0"><i class="fa-regular fa-calendar-days"></i> End day</p>
+          </div>
+          <div class="dropdown">
+            <button class="btn btn-outline-danger dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="buttonEndDay">
+              {{ page_dict_to_html['db_group_settings_dict']['end_day'] }}
+            </button>
+            <ul class="dropdown-menu">
+              {% for i in page_dict_to_html['weekdays'] %}
+              <li class="dropdown-item">
+                <div class="form-check">
+                  {% if i == page_dict_to_html['db_group_settings_dict']['end_day'] %}
+                  <input class="form-check-input" type="radio" name="radioEndDay" id="radioEndDay{{ i }}" value="{{ i }}" checked>
+                  {% else %}
+                  <input class="form-check-input" type="radio" name="radioEndDay" id="radioEndDay{{ i }}" value="{{ i }}">
+                  {% endif %}
+                  <label class="form-check-label" for="radioEndDay{{ i }}">
+                    {{ i }}
+                  </label>
+                </div>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <div class="custom-display-block text-center custom-p-2">
+          <div class="custom-pb-4">
+            <p class="custom-m-0"><i class="fa-regular fa-clock"></i> End time</p>
+          </div>
+          <div class="dropdown">
+            <button class="btn btn-outline-danger dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="buttonEndTime">
+              {{ page_dict_to_html['db_group_settings_dict']['end_time'] }}
+            </button>
+            <ul class="dropdown-menu">
+              {% for i in page_dict_to_html['times'] %}
+              <li class="dropdown-item">
+                <div class="form-check">
+                  {% if i == page_dict_to_html['db_group_settings_dict']['end_time'] %}
+                  <input class="form-check-input" type="radio" name="radioEndTime" id="radioEndTime{{ i }}" value="{{ i }}" checked>
+                  {% else %}
+                  <input class="form-check-input" type="radio" name="radioEndTime" id="radioEndTime{{ i }}" value="{{ i }}">
+                  {% endif %}
+                  <label class="form-check-label" for="radioEndTime{{ i }}">
+                    {{ i }}
+                  </label>
+                </div>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <div class="custom-display-block text-center custom-p-2">
+          <div class="custom-pb-4">
+            <p class="custom-m-0"><i class="fa-solid fa-earth-americas"></i> Time Zone</p>
+          </div>
+          <div class="dropdown">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="buttonTimeZone">
+              {{ page_dict_to_html['db_group_settings_dict']['timezone'] }}
+            </button>
+            <ul class="dropdown-menu">
+              {% for i in page_dict_to_html['timezones'] %}
+              <li class="dropdown-item">
+                <div class="form-check">
+                  {% if i == page_dict_to_html['db_group_settings_dict']['timezone'] %}
+                  <input class="form-check-input" type="radio" name="radioTimeZone" id="radioTimeZone{{ i }}" value="{{ i }}" checked>
+                  {% else %}
+                  <input class="form-check-input" type="radio" name="radioTimeZone" id="radioTimeZone{{ i }}" value="{{ i }}">
+                  {% endif %}
+                  <label class="form-check-label" for="radioTimeZone{{ i }}">
+                    {{ i }}
+                  </label>
+                </div>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
 
-    <div class="custom-display-flex custom-fw-1 custom-jc-3 custom-ptb-6">
-      <div class="custom-display-block text-center custom-p-2">
-        <div class="custom-pb-4">
-          <p class="custom-m-0"><i class="fa-regular fa-calendar-days"></i> Start day</p>
+      <div class="custom-display-flex custom-fw-1 custom-jc-3 custom-pb-2">
+        <div class="custom-display-block text-center custom-p-2">
+          <div class="custom-pb-4">
+            <p class="custom-m-0"><i class="fa-regular fa-calendar-days"></i> Cadence</p>
+          </div>
+          <div class="dropdown">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="buttonCadence">
+              {{ page_dict_to_html['db_group_settings_dict']['cadence'] }}
+            </button>
+            <ul class="dropdown-menu">
+              {% for i in page_dict_to_html['quiz_cadence_arr'] %}
+              <li class="dropdown-item">
+                <div class="form-check">
+                  {% if i == page_dict_to_html['db_group_settings_dict']['cadence'] %}
+                  <input class="form-check-input" type="radio" name="radioCadence" id="radioCadence{{ i }}" value="{{ i }}" checked>
+                  {% else %}
+                  <input class="form-check-input" type="radio" name="radioCadence" id="radioCadence{{ i }}" value="{{ i }}">
+                  {% endif %}
+                  <label class="form-check-label" for="radioCadence{{ i }}">
+                    {{ i }}
+                  </label>
+                </div>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
         </div>
-        <div class="dropdown">
-          <button class="btn btn-outline-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="buttonStartDay">
-            {{ page_dict_to_html['db_group_settings_dict']['start_day'] }}
-          </button>
-          <ul class="dropdown-menu">
-            {% for i in page_dict_to_html['weekdays'] %}
-            <li class="dropdown-item">
-              <div class="form-check">
-                {% if i == page_dict_to_html['db_group_settings_dict']['start_day'] %}
-                <input class="form-check-input" type="radio" name="radioStartDay" id="radioStartDay{{ i }}" value="{{ i }}" checked>
-                {% else %}
-                <input class="form-check-input" type="radio" name="radioStartDay" id="radioStartDay{{ i }}" value="{{ i }}">
-                {% endif %}
-                <label class="form-check-label" for="radioStartDay{{ i }}">
-                  {{ i }}
-                </label>
-              </div>
-            </li>
-            {% endfor %}
-          </ul>
+        <div class="custom-display-block text-center custom-p-2">
+          <div class="custom-pb-4">
+            <p class="custom-m-0"><i class="fa-regular fa-circle-check"></i> Total questions</p>
+          </div>
+          <div class="dropdown">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="buttonTotalQuestions">
+              {{ page_dict_to_html['db_group_settings_dict']['total_questions'] }}
+            </button>
+            <ul class="dropdown-menu">
+              {% for i in page_dict_to_html['question_num_arr'] %}
+              <li class="dropdown-item">
+                <div class="form-check">
+                  {% if i == page_dict_to_html['db_group_settings_dict']['total_questions'] %}
+                  <input class="form-check-input" type="radio" name="radioTotalQuestions" id="radioTotalQuestions{{ i }}" value="{{ i }}" checked>
+                  {% else %}
+                  <input class="form-check-input" type="radio" name="radioTotalQuestions" id="radioTotalQuestions{{ i }}" value="{{ i }}">
+                  {% endif %}
+                  <label class="form-check-label" for="radioTotalQuestions{{ i }}">
+                    {{ i }}
+                  </label>
+                </div>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
         </div>
-      </div>
-      <div class="custom-display-block text-center custom-p-2">
-        <div class="custom-pb-4">
-          <p class="custom-m-0"><i class="fa-regular fa-clock"></i> Start time</p>
-        </div>
-        <div class="dropdown">
-          <button class="btn btn-outline-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="buttonStartTime">
-            {{ page_dict_to_html['db_group_settings_dict']['start_time'] }}
-          </button>
-          <ul class="dropdown-menu">
-            {% for i in page_dict_to_html['times'] %}
-            <li class="dropdown-item">
-              <div class="form-check">
-                {% if i == page_dict_to_html['db_group_settings_dict']['start_time'] %}
-                <input class="form-check-input" type="radio" name="radioStartTime" id="radioStartTime{{ i }}" value="{{ i }}" checked>
-                {% else %}
-                <input class="form-check-input" type="radio" name="radioStartTime" id="radioStartTime{{ i }}" value="{{ i }}">
-                {% endif %}
-                <label class="form-check-label" for="radioStartTime{{ i }}">
-                  {{ i }}
-                </label>
-              </div>
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-      </div>
-      <div class="custom-display-block text-center custom-p-2">
-        <div class="custom-pb-4">
-          <p class="custom-m-0"><i class="fa-regular fa-calendar-days"></i> End day</p>
-        </div>
-        <div class="dropdown">
-          <button class="btn btn-outline-danger dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="buttonEndDay">
-            {{ page_dict_to_html['db_group_settings_dict']['end_day'] }}
-          </button>
-          <ul class="dropdown-menu">
-            {% for i in page_dict_to_html['weekdays'] %}
-            <li class="dropdown-item">
-              <div class="form-check">
-                {% if i == page_dict_to_html['db_group_settings_dict']['end_day'] %}
-                <input class="form-check-input" type="radio" name="radioEndDay" id="radioEndDay{{ i }}" value="{{ i }}" checked>
-                {% else %}
-                <input class="form-check-input" type="radio" name="radioEndDay" id="radioEndDay{{ i }}" value="{{ i }}">
-                {% endif %}
-                <label class="form-check-label" for="radioEndDay{{ i }}">
-                  {{ i }}
-                </label>
-              </div>
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-      </div>
-      <div class="custom-display-block text-center custom-p-2">
-        <div class="custom-pb-4">
-          <p class="custom-m-0"><i class="fa-regular fa-clock"></i> End time</p>
-        </div>
-        <div class="dropdown">
-          <button class="btn btn-outline-danger dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="buttonEndTime">
-            {{ page_dict_to_html['db_group_settings_dict']['end_time'] }}
-          </button>
-          <ul class="dropdown-menu">
-            {% for i in page_dict_to_html['times'] %}
-            <li class="dropdown-item">
-              <div class="form-check">
-                {% if i == page_dict_to_html['db_group_settings_dict']['end_time'] %}
-                <input class="form-check-input" type="radio" name="radioEndTime" id="radioEndTime{{ i }}" value="{{ i }}" checked>
-                {% else %}
-                <input class="form-check-input" type="radio" name="radioEndTime" id="radioEndTime{{ i }}" value="{{ i }}">
-                {% endif %}
-                <label class="form-check-label" for="radioEndTime{{ i }}">
-                  {{ i }}
-                </label>
-              </div>
-            </li>
-            {% endfor %}
-          </ul>
+        <div class="custom-display-block text-center custom-p-2">
+          <div class="custom-pb-4">
+            <p class="custom-m-0"><i class="fa-regular fa-circle-check"></i> Question type</p>
+          </div>
+          <div class="dropdown">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="buttonQuestionType">
+              {{ page_dict_to_html['db_group_settings_dict']['question_type'] }}
+            </button>
+            <ul class="dropdown-menu">
+              {% for i in page_dict_to_html['question_type_arr'] %}
+              <li class="dropdown-item">
+                <div class="form-check">
+                  {% if i == page_dict_to_html['db_group_settings_dict']['question_type'] %}
+                  <input class="form-check-input" type="radio" name="radioQuestionType" id="radioQuestionType{{ i }}" value="{{ i }}" checked>
+                  {% else %}
+                  <input class="form-check-input" type="radio" name="radioQuestionType" id="radioQuestionType{{ i }}" value="{{ i }}">
+                  {% endif %}
+                  <label class="form-check-label" for="radioQuestionType{{ i }}">
+                    {{ i }}
+                  </label>
+                </div>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
         </div>
       </div>
-      <div class="custom-display-block text-center custom-p-2">
-        <div class="custom-pb-4">
-          <p class="custom-m-0"><i class="fa-solid fa-earth-americas"></i> Time Zone</p>
-        </div>
-        <div class="dropdown">
-          <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="buttonTimeZone">
-            {{ page_dict_to_html['db_group_settings_dict']['timezone'] }}
-          </button>
-          <ul class="dropdown-menu">
-            {% for i in page_dict_to_html['timezones'] %}
-            <li class="dropdown-item">
-              <div class="form-check">
-                {% if i == page_dict_to_html['db_group_settings_dict']['timezone'] %}
-                <input class="form-check-input" type="radio" name="radioTimeZone" id="radioTimeZone{{ i }}" value="{{ i }}" checked>
-                {% else %}
-                <input class="form-check-input" type="radio" name="radioTimeZone" id="radioTimeZone{{ i }}" value="{{ i }}">
-                {% endif %}
-                <label class="form-check-label" for="radioTimeZone{{ i }}">
-                  {{ i }}
-                </label>
-              </div>
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <div class="custom-display-flex custom-fw-1 custom-jc-3 custom-pb-2">
-      <div class="custom-display-block text-center custom-p-2">
-        <div class="custom-pb-4">
-          <p class="custom-m-0"><i class="fa-regular fa-calendar-days"></i> Cadence</p>
-        </div>
-        <div class="dropdown">
-          <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="buttonCadence">
-            {{ page_dict_to_html['db_group_settings_dict']['cadence'] }}
-          </button>
-          <ul class="dropdown-menu">
-            {% for i in page_dict_to_html['quiz_cadence_arr'] %}
-            <li class="dropdown-item">
-              <div class="form-check">
-                {% if i == page_dict_to_html['db_group_settings_dict']['cadence'] %}
-                <input class="form-check-input" type="radio" name="radioCadence" id="radioCadence{{ i }}" value="{{ i }}" checked>
-                {% else %}
-                <input class="form-check-input" type="radio" name="radioCadence" id="radioCadence{{ i }}" value="{{ i }}">
-                {% endif %}
-                <label class="form-check-label" for="radioCadence{{ i }}">
-                  {{ i }}
-                </label>
-              </div>
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-      </div>
-      <div class="custom-display-block text-center custom-p-2">
-        <div class="custom-pb-4">
-          <p class="custom-m-0"><i class="fa-regular fa-circle-check"></i> Total questions</p>
-        </div>
-        <div class="dropdown">
-          <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="buttonTotalQuestions">
-            {{ page_dict_to_html['db_group_settings_dict']['total_questions'] }}
-          </button>
-          <ul class="dropdown-menu">
-            {% for i in page_dict_to_html['question_num_arr'] %}
-            <li class="dropdown-item">
-              <div class="form-check">
-                {% if i == page_dict_to_html['db_group_settings_dict']['total_questions'] %}
-                <input class="form-check-input" type="radio" name="radioTotalQuestions" id="radioTotalQuestions{{ i }}" value="{{ i }}" checked>
-                {% else %}
-                <input class="form-check-input" type="radio" name="radioTotalQuestions" id="radioTotalQuestions{{ i }}" value="{{ i }}">
-                {% endif %}
-                <label class="form-check-label" for="radioTotalQuestions{{ i }}">
-                  {{ i }}
-                </label>
-              </div>
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-      </div>
-      <div class="custom-display-block text-center custom-p-2">
-        <div class="custom-pb-4">
-          <p class="custom-m-0"><i class="fa-regular fa-circle-check"></i> Question type</p>
-        </div>
-        <div class="dropdown">
-          <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="buttonQuestionType">
-            {{ page_dict_to_html['db_group_settings_dict']['question_type'] }}
-          </button>
-          <ul class="dropdown-menu">
-            {% for i in page_dict_to_html['question_type_arr'] %}
-            <li class="dropdown-item">
-              <div class="form-check">
-                {% if i == page_dict_to_html['db_group_settings_dict']['question_type'] %}
-                <input class="form-check-input" type="radio" name="radioQuestionType" id="radioQuestionType{{ i }}" value="{{ i }}" checked>
-                {% else %}
-                <input class="form-check-input" type="radio" name="radioQuestionType" id="radioQuestionType{{ i }}" value="{{ i }}">
-                {% endif %}
-                <label class="form-check-label" for="radioQuestionType{{ i }}">
-                  {{ i }}
-                </label>
-              </div>
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-      </div>
-    </div>
+    {% endif %}
 
     <div class="custom-ptb-6">
-      <div class="custom-width-17 mx-auto text-center">
-        <div class="form-check form-switch">
-          {% if page_dict_to_html['db_group_settings_dict']['categories'] == 'all_categories' %}
-          <input class="form-check-input" type="checkbox" role="switch" name="flexSwitchCheckDefault_02" id="flexSwitchCheckDefault_02" value="all_categories" checked>
-          {% else %}
-          <input class="form-check-input" type="checkbox" role="switch" name="flexSwitchCheckDefault_02" id="flexSwitchCheckDefault_02" value="all_categories">
-          {% endif %}
-          <label class="form-check-label" for="flexSwitchCheckDefault_02">Select all triviafy categories.</label>
+      <div class="mx-auto text-center">
+        <div class="custom-p-2 custom-width-10 mx-auto text-center custom-br-3 border shadow-sm">
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" name="flexSwitchCheckDefault_02" id="flexSwitchCheckDefault_02" value="all_categories" checked>
+            <label class="form-check-label" for="flexSwitchCheckDefault_02">Select all triviafy categories.</label>
+          </div>
         </div>
       </div>
     </div>
@@ -256,7 +283,7 @@
     <div id="uiSelectAllBlock" class="custom-width-6">
       <div class="mx-auto custom-width-14 text-center">
         <div>
-          <label for="uiSearch" class="form-label">Search</label>
+          <label for="uiSearch" class="form-label">Select the categories you want.</label>
           <input type="text" class="form-control custom-search-bar-1" id="uiSearch" name="uiSearch" placeholder="Search for category">
         </div>
       </div>
@@ -275,19 +302,14 @@
       </div>
     </div>
 
-    {% if page_dict_to_html['first_test_exists'] == false %}
-    <div class="custom-p-2 custom-width-10 mx-auto text-center custom-mt-3 custom-br-3 border shadow-sm">
-      <div class="form-check form-switch">
-        <input class="form-check-input" type="checkbox" role="switch" name="flexSwitchCheckDefault_01" id="flexSwitchCheckDefault_01" value="is_checked" checked>
-        <label class="form-check-label" for="flexSwitchCheckDefault_01">Create your team's first quiz immediately (recommended).</label>
-      </div>
-    </div>
-    {% else %}
-    {% endif %}
-
     <div class="text-center custom-pt-1">
       <button type="submit" class="btn btn-primary btn-lg custom-width-6"><i class="fa-solid fa-check"></i> Confirm</button>
     </div>
   </div>
 </form>
+<!-- ------------------------------------- signature start ------------------------------------- -->
+<div class="text-center custom-mt-5">
+  <img src="/static/images/candidates/logo/logo_wide_v3.png" alt="powered by triviafy logo" class="custom-img-size-10 custom-img-opacity-1">
+</div>
+<!-- ------------------------------------- signature end ------------------------------------- -->
 {% endblock %}
