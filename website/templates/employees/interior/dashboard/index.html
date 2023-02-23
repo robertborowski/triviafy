@@ -1,7 +1,11 @@
 {% if page_dict_to_html['first_test_exists'] == false %}
-{% extends "employees/aaa_base/base2_interior2.html" %}
+  {% extends "employees/aaa_base/base2_interior2.html" %}
 {% else %}
-{% extends "employees/aaa_base/base2_interior.html" %}
+    {% if page_dict_to_html['ui_latest_test_completed'] == false %}
+      {% extends "employees/aaa_base/base2_interior2.html" %}
+    {% else %}
+      {% extends "employees/aaa_base/base2_interior.html" %}
+    {% endif %}
 {% endif %}
 <!-- head tag block content -->
 {% block title %}
@@ -42,14 +46,17 @@
   <div>
     {% if page_dict_to_html['stripe_subscription_status'] == 'active' %}
     {% else %}
-    <a href="/employees/account" class="btn btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Subscription required"><i class="fa-solid fa-screwdriver-wrench"></i> Custom questions</a>
+      {% if page_dict_to_html['ui_latest_test_completed'] == false %}
+      {% else %}
+        <a href="/employees/account" class="btn btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Subscription required"><i class="fa-solid fa-screwdriver-wrench"></i> Custom questions</a>
+      {% endif %}
     {% endif %}
   </div>
 </div>
 <div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
   <div class="text-center">
     {% if page_dict_to_html['latest_test_is_closed'] == false %}
-      <p class="custom-header-4">Your team's latest quiz is now <span class="custom-underline-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Complete by: {{ page_dict_to_html['ending_time_string'] }}">open</span>.</p>
+      <p class="custom-header-4">Your team's latest quiz is now <span class="custom-underline-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Anyone from your team can create an account with triviafy and they will be automatically routed to this same quiz!">open</span>.</p>
       {% if page_dict_to_html['ui_latest_test_completed'] == true %}
       <a href="/employees/t/" class="btn btn-lg btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Quiz closes: {{ page_dict_to_html['ending_time_string'] }}">Review answers <i class="fa-solid fa-arrow-right"></i></a>
       {% else %}
@@ -67,10 +74,13 @@
     {% endif %}
   </div>
 </div>
-<div class="container custom-display-flex">
-  <a href="/employees/leaderboard" class="btn btn-outline-secondary btn-lg custom-width-16 custom-mt-1 custom-mr-2"><i class="fa-solid fa-ranking-star"></i> Leaderboard</a>
-  <a href="/employees/schedule" class="btn btn-outline-secondary btn-lg custom-width-16 custom-mt-1 custom-ml-3"><i class="fa-solid fa-gear"></i> Settings</a>
-</div>
+  {% if page_dict_to_html['ui_latest_test_completed'] == false %}
+  {% else %}
+    <div class="container custom-display-flex">
+      <a href="/employees/leaderboard" class="btn btn-outline-secondary btn-lg custom-width-16 custom-mt-1 custom-mr-2"><i class="fa-solid fa-ranking-star"></i> Leaderboard</a>
+      <a href="/employees/schedule" class="btn btn-outline-secondary btn-lg custom-width-16 custom-mt-1 custom-ml-3"><i class="fa-solid fa-gear"></i> Settings</a>
+    </div>
+  {% endif %}
 {% endif %}
 <!-- ------------------------------------- signature start ------------------------------------- -->
 <div class="text-center custom-mt-5">
