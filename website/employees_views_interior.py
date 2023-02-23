@@ -276,6 +276,7 @@ def employees_schedule_function(url_redirect_code=None):
   if request.method == 'POST':
     ui_select_all_categories = request.form.get('flexSwitchCheckDefault_02')
     ui_timezone = request.form.get('radioTimeZone')
+    ui_selected_categories = []
     try:
       # ------------------------ get ui start ------------------------
       ui_start_day = request.form.get('radioStartDay')
@@ -292,7 +293,7 @@ def employees_schedule_function(url_redirect_code=None):
     except:
       pass
     # ------------------------ check if ui is invalid start ------------------------
-    if ui_start_day == None and ui_start_time == None and ui_end_day == None and ui_end_time == None and ui_cadence == None and ui_total_questions == None and ui_question_type == None and len(ui_selected_categories) == 0:
+    if ui_start_day == None and ui_start_time == None and ui_end_day == None and ui_end_time == None and ui_cadence == None and ui_total_questions == None and ui_question_type == None:
       # ------------------------ defaults start ------------------------
       ui_start_day = 'Monday'
       ui_start_time = '12 PM'
@@ -301,7 +302,6 @@ def employees_schedule_function(url_redirect_code=None):
       ui_cadence = 'Weekly'
       ui_total_questions = 10
       ui_question_type = 'Mixed'
-      ui_selected_categories = None
       # ------------------------ defaults end ------------------------
     if ui_start_day not in page_dict['weekdays'] or ui_end_day not in page_dict['weekdays'] or ui_start_time not in page_dict['times'] or ui_end_time not in page_dict['times'] or ui_timezone not in page_dict['timezones'] or ui_cadence not in page_dict['quiz_cadence_arr'] or int(ui_total_questions) not in page_dict['question_num_arr'] or ui_question_type not in page_dict['question_type_arr']:
       return redirect(url_for('employees_views_interior.employees_schedule_function', url_redirect_code='e6'))
