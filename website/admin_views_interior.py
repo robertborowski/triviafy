@@ -15,6 +15,7 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, EmployeesTestsGradedObj, UserObj, EmployeesCapacityOptionsObj, EmployeesEmailSentObj, StripeCheckoutSessionObj
+import os
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -25,8 +26,8 @@ redis_connection = redis_connect_to_database_function()
 # ------------------------ connect to redis end ------------------------
 
 # ------------------------ individual route start ------------------------
-@admin_views_interior.route('/admin')
-@admin_views_interior.route('/admin/<url_redirect_code>')
+@admin_views_interior.route('/admin', methods=['GET', 'POST'])
+@admin_views_interior.route('/admin/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
 def admin_dashboard_page_function(url_redirect_code=None):
   localhost_print_function(' ------------------------ admin_dashboard_page_function start ------------------------ ')
@@ -35,10 +36,26 @@ def admin_dashboard_page_function(url_redirect_code=None):
   page_dict = {}
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
-  current_user_email = current_user.email
-  localhost_print_function(' ------------- 0 ------------- ')
-  localhost_print_function(f"current_user_email | type: {type(current_user_email)} | {current_user_email}")
-  localhost_print_function(' ------------- 0 ------------- ')
+  # ------------------------ ensure correct email start ------------------------
+  if current_user.email != os.environ.get('RUN_TEST_EMAIL'):
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='e9'))
+  # ------------------------ ensure correct email end ------------------------
+  if request.method == 'POST':
+    # ------------------------ ensure correct email on post to be safe start ------------------------
+    try:
+      if current_user.email != os.environ.get('RUN_TEST_EMAIL'):
+        return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='e9'))
+    except:
+      return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='e9'))
+    # ------------------------ ensure correct email on post to be safe end ------------------------
+    # ------------------------ DeleteOneUserAllEmployeesTable start ------------------------
+    email_to_delete = request.form.get('DeleteOneUserAllEmployeesTables')
+    if email_to_delete != None:
+      localhost_print_function(' ------------- 0 ------------- ')
+      localhost_print_function(f'USER email_to_delete | type: {type(email_to_delete)} | {email_to_delete}')
+      localhost_print_function(' ------------- 0 ------------- ')
+    # ------------------------ DeleteOneUserAllEmployeesTable end ------------------------
+    pass
   localhost_print_function(' ------------------------ admin_dashboard_page_function end ------------------------ ')
   return render_template('admin_page/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------

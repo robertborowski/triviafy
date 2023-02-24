@@ -407,6 +407,11 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':'Your quiz start day/time must be at least 1 hour before your quiz end day/time.',
       'type':'danger'
     }
+  elif redirect_var == 'e9':
+    alert_message_dict = {
+      'message':'You are not an admin.',
+      'type':'danger'
+    }
   # ------------------------ errors end ------------------------
   # ------------------------ success start ------------------------
   elif redirect_var == 's1':

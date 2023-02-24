@@ -4,26 +4,49 @@
   <title>Admin - Triviafy</title>
 {% endblock %}
 {% block contentBodyExceptNavbarAndFooter %}
-<form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
-  <!-- ----------------------------------- start ----------------------------------- -->
-  {% if page_dict_to_html['alert_message_dict']['message'] != '' %}
-  <div class="alert alert-{{ page_dict_to_html['alert_message_dict']['type'] }} mx-auto text-center container" role="alert">
-    {{ page_dict_to_html['alert_message_dict']['message'] }}
-  </div>
-  {% endif %}
-  <!-- ----------------------------------- end ----------------------------------- -->
-  <div class="container custom-display-flex custom-pt-6 custom-jc-2">
-    <h2 class="custom-header-2-mobile">Admin</h2>
-  </div>
-  <!-- ------------------------------------- admin section start ------------------------------------- -->
-  <div class="container border shadow custom-br-1 custom-bg-white">
-    <div class="mx-auto custom-width-14 custom-ptb-5 custom-border-1">
+<!-- ----------------------------------- start ----------------------------------- -->
+{% if page_dict_to_html['alert_message_dict']['message'] != '' %}
+<div class="alert alert-{{ page_dict_to_html['alert_message_dict']['type'] }} mx-auto text-center container" role="alert">
+  {{ page_dict_to_html['alert_message_dict']['message'] }}
+</div>
+{% endif %}
+<!-- ----------------------------------- end ----------------------------------- -->
+<div class="container custom-display-flex custom-pt-6 custom-jc-2">
+  <h2 class="custom-header-2-mobile">Admin</h2>
+</div>
+<!-- ------------------------------------- admin section start ------------------------------------- -->
+<div class="container border shadow custom-br-1 custom-bg-white custom-mb-1">
+  <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+    <div class="mx-auto custom-width-14 custom-ptb-5">
       <div>
-        <label for="ui_answer_fitb" class="form-label">DELETE_1_USER from all EMPLOYEES tables</label>
-        <input type="text" class="form-control custom-search-bar-1" id="ui_answer_fitb" name="ui_answer_fitb" placeholder="@email to delete" required>
+        <label for="DeleteOneUserAllEmployeesTables" class="form-label">DELETE_1_USER from all EMPLOYEES tables</label>
+        <input type="text" class="form-control custom-search-bar-1" id="DeleteOneUserAllEmployeesTables" name="DeleteOneUserAllEmployeesTables" placeholder="@email to delete" required>
+      </div>
+      <div class="text-center">
+        <button type="submit" class="btn btn-outline-danger custom-mt-1">DELETE</button>
       </div>
     </div>
-  </div>
-  <!-- ------------------------------------- admin section end ------------------------------------- -->
-</form>
+  </form>
+</div>
+<!-- ------------------------------------- admin section end ------------------------------------- -->
+<!-- ------------------------------------- admin section start ------------------------------------- -->
+<div class="container border shadow custom-br-1 custom-bg-white custom-mb-1">
+  <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+    <div class="mx-auto custom-width-14 custom-ptb-5">
+      <div>
+        <label for="DeleteOneGroupAllEmployeesTables" class="form-label">DELETE_1_GROUP from all EMPLOYEES tables</label>
+        <input type="text" class="form-control custom-search-bar-1" id="DeleteOneGroupAllEmployeesTables" name="DeleteOneGroupAllEmployeesTables" placeholder="GroupID to delete" required>
+      </div>
+      <div class="text-center">
+        <button type="submit" class="btn btn-outline-danger custom-mt-1">DELETE</button>
+      </div>
+    </div>
+  </form>
+</div>
+<!-- ------------------------------------- admin section end ------------------------------------- -->
+<!-- ------------------------------------- signature start ------------------------------------- -->
+<div class="text-center custom-mt-5">
+  <img src="/static/images/candidates/logo/logo_wide_v3.png" alt="powered by triviafy logo" class="custom-img-size-10 custom-img-opacity-1">
+</div>
+<!-- ------------------------------------- signature end ------------------------------------- -->
 {% endblock %}
