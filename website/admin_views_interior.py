@@ -199,6 +199,27 @@ def admin_analytics_page_function(url_redirect_code=None):
   page_dict = {}
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
+  master_arr_of_dicts_01 = []
+  db_groups_obj = EmployeesGroupsObj.query.all()
+  # ------------------------ loop groups start ------------------------
+  localhost_print_function(' ------------- 0 ------------- ')
+  for i_group_obj in db_groups_obj:
+    # ------------------------ new i_dict start ------------------------
+    i_dict = {}
+    i_dict['group_progress'] = 'no tests yet'
+    # ------------------------ new i_dict end ------------------------
+    i_group_dict = arr_of_dict_all_columns_single_item_function(i_group_obj)
+    i_dict['company_name'] = i_group_dict['fk_company_name']
+    i_dict['public_group_id'] = i_group_dict['public_group_id']
+    db_all_users_obj = UserObj.query.filter_by(company_name=i_group_dict['fk_company_name']).all()
+    i_dict['total_users_with_same_company_name'] = len(db_all_users_obj)
+    # ------------------------ append i_dict start ------------------------
+    master_arr_of_dicts_01.append(i_dict)
+    # ------------------------ append i_dict end ------------------------
+    localhost_print_function(f"i_dict | type: {type(i_dict)} | {i_dict}")
+    localhost_print_function(f" ")
+  localhost_print_function(' ------------- 0 ------------- ')
+  # ------------------------ loop groups end ------------------------
   if request.method == 'POST':
     pass
   localhost_print_function(' ------------------------ admin_analytics_page_function end ------------------------ ')
