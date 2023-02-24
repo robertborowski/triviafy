@@ -14,7 +14,7 @@ from flask_login import login_required, current_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
-from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, EmployeesTestsGradedObj, UserObj, EmployeesCapacityOptionsObj, EmployeesEmailSentObj, StripeCheckoutSessionObj
+from website.models import EmployeesGroupQuestionsUsedObj, EmployeesGroupSettingsObj, EmployeesGroupsObj, EmployeesTestsGradedObj, EmployeesTestsObj
 import os
 # ------------------------ imports end ------------------------
 
@@ -48,13 +48,16 @@ def admin_dashboard_page_function(url_redirect_code=None):
     except:
       return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='e9'))
     # ------------------------ ensure correct email on post to be safe end ------------------------
-    # ------------------------ DeleteOneUserAllEmployeesTable start ------------------------
-    email_to_delete = request.form.get('DeleteOneUserAllEmployeesTables')
-    if email_to_delete != None:
-      localhost_print_function(' ------------- 0 ------------- ')
-      localhost_print_function(f'USER email_to_delete | type: {type(email_to_delete)} | {email_to_delete}')
-      localhost_print_function(' ------------- 0 ------------- ')
-    # ------------------------ DeleteOneUserAllEmployeesTable end ------------------------
+    # ------------------------ DeleteOneGroupAllEmployeesTables start ------------------------
+    group_to_delete = request.form.get('DeleteOneGroupAllEmployeesTables')
+    if group_to_delete != None:
+      EmployeesGroupQuestionsUsedObj.query.filter_by(fk_group_id=group_to_delete).delete()
+      EmployeesGroupSettingsObj.query.filter_by(fk_group_id=group_to_delete).delete()
+      EmployeesGroupsObj.query.filter_by(public_group_id=group_to_delete).delete()
+      EmployeesTestsGradedObj.query.filter_by(fk_group_id=group_to_delete).delete()
+      EmployeesTestsObj.query.filter_by(fk_group_id=group_to_delete).delete()
+      db.session.commit()
+    # ------------------------ DeleteOneGroupAllEmployeesTables end ------------------------
     pass
   localhost_print_function(' ------------------------ admin_dashboard_page_function end ------------------------ ')
   return render_template('admin_page/index.html', page_dict_to_html=page_dict)

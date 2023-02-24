@@ -208,6 +208,16 @@ def employees_categories_request_function(url_redirect_code=None):
   page_dict = {}
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
+  # ------------------------ pull/create latest test start ------------------------
+  user_group_id = EmployeesGroupsObj.query.filter_by(fk_company_name=current_user.company_name).order_by(EmployeesGroupsObj.created_timestamp.desc()).first()
+  db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=user_group_id.public_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
+  first_test_exists = False
+  if db_tests_obj == None or db_tests_obj == []:
+    pass
+  else:
+    first_test_exists = True
+  page_dict['first_test_exists'] = first_test_exists
+  # ------------------------ pull/create latest test end ------------------------
   # ------------------------ if post method hit start ------------------------
   ui_requested = ''
   if request.method == 'POST':
@@ -235,7 +245,7 @@ def employees_categories_request_function(url_redirect_code=None):
       except:
         pass
       # ------------------------ email self end ------------------------
-      return redirect(url_for('employees_views_interior.employees_categories_request_function', url_redirect_code='s1'))
+      return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='s1'))
   # ------------------------ if post method hit end ------------------------
   localhost_print_function(' ------------------------ employees_categories_request_function END ------------------------ ')
   return render_template('employees/interior/request_categories/index.html', page_dict_to_html=page_dict)

@@ -1,4 +1,8 @@
-{% extends "employees/aaa_base/base2_interior.html" %}
+{% if page_dict_to_html['first_test_exists'] == false %}
+  {% extends "employees/aaa_base/base2_interior2.html" %}
+{% else %}
+  {% extends "employees/aaa_base/base2_interior.html" %}
+{% endif %}
 <!-- head tag block content -->
 {% block title %}
   <title>Request - Triviafy</title>
