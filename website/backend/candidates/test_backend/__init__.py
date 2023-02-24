@@ -9,6 +9,7 @@ from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns
 localhost_print_function('=========================================== test_backend __init__ START ===========================================')
 # ------------------------ individual function start ------------------------
 def get_test_winner(input_test_id, result_id=False):
+  localhost_print_function(' ------------------------ get_test_winner start ------------------------ ')
   # ------------------------ check if test is closed start ------------------------
   db_tests_obj = EmployeesTestsObj.query.filter_by(id=input_test_id).first()
   if db_tests_obj.status == 'Closed':
@@ -38,10 +39,13 @@ def get_test_winner(input_test_id, result_id=False):
     # ------------------------ pull winner end ------------------------
     # ------------------------ specific call start ------------------------
     if result_id == True:
+      localhost_print_function(' ------------------------ get_test_winner end ------------------------ ')
       return current_max_final_score_user_id, latest_test_winner_score
     # ------------------------ specific call end ------------------------
+    localhost_print_function(' ------------------------ get_test_winner end ------------------------ ')
     return latest_test_winner, latest_test_winner_score
   else:
+    localhost_print_function(' ------------------------ get_test_winner end ------------------------ ')
     return 'Quiz not yet closed', 'Quiz not yet closed'
 # ------------------------ individual function end ------------------------
 localhost_print_function('=========================================== test_backend __init__ END ===========================================')

@@ -17,7 +17,7 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v4
-from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, EmployeesTestsGradedObj, UserObj, EmployeesCapacityOptionsObj, EmployeesEmailSentObj, StripeCheckoutSessionObj
+from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, EmployeesTestsGradedObj, UserObj, EmployeesCapacityOptionsObj, EmployeesEmailSentObj, StripeCheckoutSessionObj, EmployeesGroupQuestionsUsedObj
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function, question_choices_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
 from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function, convert_timestamp_to_month_day_string_function
@@ -122,6 +122,55 @@ def login_dashboard_page_function(url_redirect_code=None):
   else:
     pass
   # ------------------------ pull/create group settings end ------------------------
+  # ------------------------ ensure all historical tests are closed start ------------------------
+  current_datetime_str = datetime.now().strftime("%m/%d/%Y %H:%M:%S")   # str
+  current_datetime_datetime = datetime.strptime(current_datetime_str, "%m/%d/%Y %H:%M:%S")  # datetime
+  db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=company_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).all()
+  try:
+    historical_tests_were_closed = False
+    for i in db_tests_obj:
+      i_test_dict = arr_of_dict_all_columns_single_item_function(i)
+      if i_test_dict['status'] == 'Closed':
+        continue
+      else:
+        i_test_end_timestamp_str = i_test_dict['end_timestamp'].strftime("%m/%d/%Y %H:%M:%S")  # str
+        i_test_end_timestamp_datetime = datetime.strptime(i_test_end_timestamp_str, "%m/%d/%Y %H:%M:%S")  # datetime
+        if current_datetime_datetime > i_test_end_timestamp_datetime:
+          i.status = 'Closed'
+          db.session.commit()
+          historical_tests_were_closed = True
+    if historical_tests_were_closed == True:
+      db.session.commit()
+      return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+  except:
+    pass
+  # ------------------------ ensure all historical tests are closed end ------------------------
+  # ------------------------ delete all historical closed tests with 'No participation' start ------------------------
+  db_historical_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=company_group_id, status='Closed').order_by(EmployeesTestsObj.created_timestamp.desc()).all()
+  try:
+    if db_historical_tests_obj != None and db_historical_tests_obj != []:
+      historical_tests_were_deleted = False
+      for i_historical_test_obj in db_historical_tests_obj:
+        i_historical_test_dict = arr_of_dict_all_columns_single_item_function(i_historical_test_obj)
+        # ------------------------ winner start ------------------------
+        page_dict['latest_test_winner'], page_dict['latest_test_winner_score'] = get_test_winner(i_historical_test_dict['id'])
+        # ------------------------ winner end ------------------------
+        # ------------------------ delete histoical no participation start ------------------------
+        if page_dict['latest_test_winner'] == 'No participation':
+          EmployeesGroupQuestionsUsedObj.query.filter_by(fk_test_id=i_historical_test_dict['id']).delete()
+          EmployeesTestsGradedObj.query.filter_by(fk_test_id=i_historical_test_dict['id']).delete()
+          EmployeesTestsObj.query.filter_by(id=i_historical_test_dict['id']).delete()
+          historical_tests_were_deleted = True
+          db.session.commit()
+        # ------------------------ delete histoical no participation end ------------------------
+      # ------------------------ redirect start ------------------------
+      if historical_tests_were_deleted == True:
+        db.session.commit()
+        return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+      # ------------------------ redirect end ------------------------
+  except:
+    pass
+  # ------------------------ delete all historical closed tests with 'No participation' end ------------------------
   # ------------------------ pull/create latest test start ------------------------
   db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=company_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
   first_test_exists = False
@@ -151,21 +200,6 @@ def login_dashboard_page_function(url_redirect_code=None):
     pass
   page_dict['ui_latest_test_completed'] = ui_latest_test_completed
   # ------------------------ pull latest graded end ------------------------
-  # ------------------------ ensure all historical tests are closed start ------------------------
-  current_datetime_str = datetime.now().strftime("%m/%d/%Y %H:%M:%S")   # str
-  current_datetime_datetime = datetime.strptime(current_datetime_str, "%m/%d/%Y %H:%M:%S")  # datetime
-  db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=company_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).all()
-  for i in db_tests_obj:
-    i_test_dict = arr_of_dict_all_columns_single_item_function(i)
-    if i_test_dict['status'] == 'Closed':
-      continue
-    else:
-      i_test_end_timestamp_str = i_test_dict['end_timestamp'].strftime("%m/%d/%Y %H:%M:%S")  # str
-      i_test_end_timestamp_datetime = datetime.strptime(i_test_end_timestamp_str, "%m/%d/%Y %H:%M:%S")  # datetime
-      if current_datetime_datetime > i_test_end_timestamp_datetime:
-        i.status = 'Closed'
-        db.session.commit()
-  # ------------------------ ensure all historical tests are closed end ------------------------
   # ------------------------ if latest closed then pull winner start ------------------------
   page_dict['latest_test_is_closed'] = False
   page_dict['latest_test_winner'] = ''

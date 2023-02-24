@@ -10,7 +10,7 @@ from website import db
 from website.backend.candidates.datetime_manipulation import get_current_weekday_function, get_current_hour_function, get_upcoming_date_function, build_out_datetime_from_parts_function, get_week_dates_function, get_weekday_dict_function_v2
 import os, time
 from website.backend.candidates.sql_statements.sql_prep import prepare_where_clause_function
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 import difflib
 import json
 # ------------------------ imports end ------------------------
@@ -139,6 +139,12 @@ def create_quiz_function(group_id, immediate=False):
       end_timestamp_created = build_out_datetime_from_parts_function(end_date_str, db_group_settings_dict['end_time'], db_group_settings_dict['timezone'])    # converted to EST for job runs
       if end_timestamp_created <= start_timestamp_created:
         return 'false_end_time'
+      # ------------------------ catch example: If my test is set to end on Thrusday's but for the newest test I log on Friday, the end would be yesterday start ------------------------
+      current_datetime = datetime.now()
+      if end_timestamp_created <= current_datetime:
+        end_date_str_exception_1 = get_upcoming_date_function(db_group_settings_dict['end_day'], end_date_str)
+        end_timestamp_created = build_out_datetime_from_parts_function(end_date_str_exception_1, db_group_settings_dict['end_time'], db_group_settings_dict['timezone'])    # converted to EST for job runs
+      # ------------------------ catch example: If my test is set to end on Thrusday's but for the newest test I log on Friday, the end would be yesterday end ------------------------
     # ------------------------ pull question id's start ------------------------
     final_uuids_arr = []
     where_clause_str = None
