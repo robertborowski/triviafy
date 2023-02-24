@@ -33,7 +33,7 @@
 </div>
 <div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
   <div class="text-center">
-    <p class="custom-header-4">Confirm your team's quiz categories.</p>
+    <p class="custom-header-4">Welcome! Please confirm your team's quiz categories.</p>
     <a href="/employees/schedule" class="btn btn-lg btn-primary">Confirm <i class="fa-solid fa-arrow-right"></i></a>
   </div>
 </div>
@@ -60,7 +60,7 @@
       {% if page_dict_to_html['ui_latest_test_completed'] == true %}
       <a href="/employees/t/" class="btn btn-lg btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Quiz closes: {{ page_dict_to_html['ending_time_string'] }}">Review answers <i class="fa-solid fa-arrow-right"></i></a>
       {% else %}
-      <a href="/employees/t/" class="btn btn-lg btn-success" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Complete by: {{ page_dict_to_html['ending_time_string'] }}">&#127881; Go to team quiz <i class="fa-solid fa-arrow-right"></i></a>
+      <a href="/employees/t/" class="btn btn-lg btn-success" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Complete by: {{ page_dict_to_html['ending_time_string'] }}">&#127881; Start quiz <i class="fa-solid fa-arrow-right"></i></a>
       {% endif %}
     {% endif %}
     {% if page_dict_to_html['latest_test_is_closed'] == true %}

@@ -42,6 +42,6 @@ def get_test_winner(input_test_id, result_id=False):
     # ------------------------ specific call end ------------------------
     return latest_test_winner, latest_test_winner_score
   else:
-    return 'In progress', 'In progress'
+    return 'Quiz not yet closed', 'Quiz not yet closed'
 # ------------------------ individual function end ------------------------
 localhost_print_function('=========================================== test_backend __init__ END ===========================================')
