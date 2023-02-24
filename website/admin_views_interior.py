@@ -183,3 +183,24 @@ def admin_delete_page_function(url_redirect_code=None):
   localhost_print_function(' ------------------------ admin_delete_page_function end ------------------------ ')
   return render_template('admin_page/delete/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@admin_views_interior.route('/admin/a', methods=['GET', 'POST'])
+@admin_views_interior.route('/admin/a/<url_redirect_code>', methods=['GET', 'POST'])
+@login_required
+def admin_analytics_page_function(url_redirect_code=None):
+  localhost_print_function(' ------------------------ admin_analytics_page_function start ------------------------ ')
+  # ------------------------ page dict start ------------------------
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ page dict end ------------------------
+  # ------------------------ ensure correct email start ------------------------
+  if current_user.email != os.environ.get('RUN_TEST_EMAIL'):
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='e9'))
+  # ------------------------ ensure correct email end ------------------------
+  if request.method == 'POST':
+    pass
+  localhost_print_function(' ------------------------ admin_analytics_page_function end ------------------------ ')
+  return render_template('admin_page/analytics/index.html', page_dict_to_html=page_dict)
+# ------------------------ individual route end ------------------------
