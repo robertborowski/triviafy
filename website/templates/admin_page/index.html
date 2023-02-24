@@ -15,7 +15,7 @@
   <h2 class="custom-header-2-mobile">Admin</h2>
 </div>
 <!-- ------------------------------------- admin section start ------------------------------------- -->
-<div class="container border shadow custom-br-1 custom-bg-white custom-mb-1">
+<div class="container border shadow custom-br-1 custom-bg-tan-1 custom-mb-1">
   <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
     <div class="mx-auto custom-width-14 custom-ptb-5">
       <div>
@@ -30,12 +30,27 @@
 </div>
 <!-- ------------------------------------- admin section end ------------------------------------- -->
 <!-- ------------------------------------- admin section start ------------------------------------- -->
-<div class="container border shadow custom-br-1 custom-bg-white custom-mb-1">
+<div class="container border shadow custom-br-1 custom-bg-green-1 custom-mb-1">
   <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
     <div class="mx-auto custom-width-14 custom-ptb-5">
       <div>
         <label for="DeleteOneUserAllCandidatesAndEmployeesTables" class="form-label">DELETE_1_USER from all CANDIDATES + EMPLOYEES tables</label>
         <input type="text" class="form-control custom-search-bar-1" id="DeleteOneUserAllCandidatesAndEmployeesTables" name="DeleteOneUserAllCandidatesAndEmployeesTables" placeholder="@email to delete" required>
+      </div>
+      <div class="text-center">
+        <button type="submit" class="btn btn-outline-danger custom-mt-1">DELETE</button>
+      </div>
+    </div>
+  </form>
+</div>
+<!-- ------------------------------------- admin section end ------------------------------------- -->
+<!-- ------------------------------------- admin section start ------------------------------------- -->
+<div class="container border shadow custom-br-1 custom-bg-blue-1 custom-mb-1">
+  <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+    <div class="mx-auto custom-width-14 custom-ptb-5">
+      <div>
+        <label for="DeleteRedisDeletedCookies" class="form-label">Remove all redis cookie storage uuid's that have been deleted</label>
+        <input type="text" class="form-control custom-search-bar-1" id="DeleteRedisDeletedCookies" name="DeleteRedisDeletedCookies" placeholder="anything" required>
       </div>
       <div class="text-center">
         <button type="submit" class="btn btn-outline-danger custom-mt-1">DELETE</button>

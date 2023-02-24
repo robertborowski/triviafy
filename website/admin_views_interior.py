@@ -17,6 +17,9 @@ from website.backend.candidates.user_inputs import alert_message_default_functio
 from website.models import EmployeesGroupQuestionsUsedObj, EmployeesGroupSettingsObj, EmployeesGroupsObj, EmployeesTestsGradedObj, EmployeesTestsObj, UserObj, CandidatesAssessmentGradedObj, CandidatesAssessmentsCreatedObj, CandidatesScheduleObj, CandidatesUploadedCandidatesObj, StripeCheckoutSessionObj
 import os
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
+from website.backend.candidates.sql_statements.sql_statements_select_general_v1_jobs import select_general_v1_jobs_function
+from backend.db.connection.postgres_connect_to_database import postgres_connect_to_database_function
+from backend.db.connection.postgres_close_connection_to_database import postgres_close_connection_to_database_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -110,12 +113,16 @@ def admin_dashboard_page_function(url_redirect_code=None):
       UserObj.query.filter_by(id=db_users_dict['id']).delete()
       db.session.commit()
       # ------------------------ delete from user table end ------------------------
-      """
+    # ------------------------ DeleteOneUserAllCandidatesAndEmployeesTables end ------------------------
+    # ------------------------ DeleteRedisDeletedCookies start ------------------------
+    delete_unused_cookies_from_redis = request.form.get('DeleteRedisDeletedCookies')
+    if delete_unused_cookies_from_redis != None:
       # ------------------------ delete from redis start ------------------------
       # ------------------------ get all current user id's as set start ------------------------
+      postgres_connection, postgres_cursor = postgres_connect_to_database_function()
       sql_input = 'user_obj'
       query_result_arr_of_dicts = select_general_v1_jobs_function(postgres_connection, postgres_cursor, 'select_table1_id', additional_input=sql_input)
-      
+
       user_ids_set = {'a'}
       for i in query_result_arr_of_dicts:
         if i['id'] not in user_ids_set:
@@ -135,9 +142,9 @@ def admin_dashboard_page_function(url_redirect_code=None):
             redis_candidates_deleted_counter += 1
       localhost_print_function(f'redis_candidates_deleted_counter: {redis_candidates_deleted_counter}')
       # ------------------------ loop through redis end ------------------------
+      postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)
       # ------------------------ delete from redis end ------------------------
-      """
-    # ------------------------ DeleteOneUserAllCandidatesAndEmployeesTables end ------------------------
+    # ------------------------ DeleteRedisDeletedCookies end ------------------------
   localhost_print_function(' ------------------------ admin_dashboard_page_function end ------------------------ ')
   return render_template('admin_page/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
