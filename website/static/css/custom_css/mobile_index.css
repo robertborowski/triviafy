@@ -12,10 +12,18 @@
       display: block;
     }
     /* ------------------- display end ------------------- */
+    /* ------------------- filler start ------------------- */
+    .custom-filler-1-mobile {
+      height: 400px;
+    }
+    /* ------------------- filler end ------------------- */
     /* ------------------- flex start ------------------- */
     .custom-footer-mobile-1 {
       flex-direction: column;
       text-align: center;
+    }
+    .custom-fw-2-mobile {
+      flex-wrap: wrap;
     }
     /* ------------------- flex end ------------------- */
     /* ------------------- height start ------------------- */
@@ -45,6 +53,9 @@
     .custom-header-2-mobile {
       font-size: 25px;
     }
+    .custom-header-2-mobile-2 {
+      font-size: 20px;
+    }
     .custom-header-4-mobile {
       font-size: 10px;
     }
@@ -60,6 +71,9 @@
       margin-top: 20px;
       margin-bottom: 20px;
     }
+    .custom-mt-negative-4-mobile {
+      margin-top: -80px;
+    }
     /* ------------------- margin end ------------------- */
     /* ------------------- padding start ------------------- */
     /* ------------------- padding end ------------------- */
@@ -70,6 +84,9 @@
     .custom-width-11-mobile {
       width: 100%;
       max-width: 100%;
+    }
+    .custom-width-16-mobile {
+      width: 100%;
     }
     /* ------------------- width end ------------------- */
   }
