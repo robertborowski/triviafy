@@ -462,6 +462,13 @@ def alert_message_default_function_v2(redirect_var=None):
       'type':'info'
     }
   # ------------------------ info end ------------------------
+  # ------------------------ warning end ------------------------
+  elif redirect_var == 'w1':
+    alert_message_dict = {
+      'message':'Deleted!',
+      'type':'warning'
+    }
+  # ------------------------ warning end ------------------------
   # localhost_print_function('=========================================== alert_message_default_function_v2 END ===========================================')
   return alert_message_dict
 # ------------------------ individual function end ------------------------

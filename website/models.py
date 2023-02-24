@@ -50,6 +50,14 @@ class CollectEmailObj(db.Model):
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
+class DeletedEmailsObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  email = db.Column(db.String(150), primary_key=True)
+  uuid_archive = db.Column(db.String(150), primary_key=True)
+# ------------------------ individual model end ------------------------
+
+# ------------------------ individual model start ------------------------
 class CreatedQuestionsObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
   created_timestamp = db.Column(db.DateTime(timezone=True))

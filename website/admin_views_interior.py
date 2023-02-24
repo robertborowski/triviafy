@@ -14,12 +14,14 @@ from flask_login import login_required, current_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
-from website.models import EmployeesGroupQuestionsUsedObj, EmployeesGroupSettingsObj, EmployeesGroupsObj, EmployeesTestsGradedObj, EmployeesTestsObj, UserObj, CandidatesAssessmentGradedObj, CandidatesAssessmentsCreatedObj, CandidatesScheduleObj, CandidatesUploadedCandidatesObj, StripeCheckoutSessionObj
+from website.models import EmployeesGroupQuestionsUsedObj, EmployeesGroupSettingsObj, EmployeesGroupsObj, EmployeesTestsGradedObj, EmployeesTestsObj, UserObj, CandidatesAssessmentGradedObj, CandidatesAssessmentsCreatedObj, CandidatesScheduleObj, CandidatesUploadedCandidatesObj, StripeCheckoutSessionObj, DeletedEmailsObj
 import os
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from website.backend.candidates.sql_statements.sql_statements_select_general_v1_jobs import select_general_v1_jobs_function
 from backend.db.connection.postgres_connect_to_database import postgres_connect_to_database_function
 from backend.db.connection.postgres_close_connection_to_database import postgres_close_connection_to_database_function
+from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
+from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -80,6 +82,7 @@ def admin_delete_page_function(url_redirect_code=None):
       EmployeesTestsGradedObj.query.filter_by(fk_group_id=group_to_delete).delete()
       EmployeesTestsObj.query.filter_by(fk_group_id=group_to_delete).delete()
       db.session.commit()
+      return redirect(url_for('admin_views_interior.admin_delete_page_function', url_redirect_code='w1'))
     # ------------------------ DeleteOneGroupAllEmployeesTables end ------------------------
     # ------------------------ DeleteOneUserInAllGroupsAllEmployeesTables start ------------------------
     user_to_delete_from_groups = request.form.get('DeleteOneUserInAllGroupsAllEmployeesTables')
@@ -96,6 +99,7 @@ def admin_delete_page_function(url_redirect_code=None):
         return redirect(url_for('admin_views_interior.admin_delete_page_function', url_redirect_code='e10'))
       EmployeesTestsGradedObj.query.filter_by(fk_user_id=db_users_dict['id']).delete()
       db.session.commit()
+      return redirect(url_for('admin_views_interior.admin_delete_page_function', url_redirect_code='w1'))
     # ------------------------ DeleteOneUserInAllGroupsAllEmployeesTables end ------------------------
     # ------------------------ DeleteOneUserAllCandidatesAndEmployeesTables start ------------------------
     user_to_delete = request.form.get('DeleteOneUserAllCandidatesAndEmployeesTables')
@@ -123,31 +127,46 @@ def admin_delete_page_function(url_redirect_code=None):
       if len(db_all_users_obj) == 1:
         # ------------------------ if user is the only one from company start ------------------------
         try:
-          db_group_obj = EmployeesGroupsObj.query.filter_by(fk_company_name=db_users_dict['company_name']).first()
-          db_group_dict = arr_of_dict_all_columns_single_item_function(db_group_obj)
-          group_to_delete = db_group_dict['public_group_id']
-          EmployeesGroupQuestionsUsedObj.query.filter_by(fk_group_id=group_to_delete).delete()
-          EmployeesGroupSettingsObj.query.filter_by(fk_group_id=group_to_delete).delete()
-          EmployeesGroupsObj.query.filter_by(public_group_id=group_to_delete).delete()
-          EmployeesTestsGradedObj.query.filter_by(fk_group_id=group_to_delete).delete()
-          EmployeesTestsObj.query.filter_by(fk_group_id=group_to_delete).delete()
+          db_group_obj = EmployeesGroupsObj.query.filter_by(fk_company_name=db_users_dict['company_name']).all()
+          for i_group_obj in db_group_obj:
+            db_group_dict = arr_of_dict_all_columns_single_item_function(i_group_obj)
+            group_to_delete = db_group_dict['public_group_id']
+            EmployeesGroupQuestionsUsedObj.query.filter_by(fk_group_id=group_to_delete).delete()
+            EmployeesGroupSettingsObj.query.filter_by(fk_group_id=group_to_delete).delete()
+            EmployeesGroupsObj.query.filter_by(public_group_id=group_to_delete).delete()
+            EmployeesTestsGradedObj.query.filter_by(fk_group_id=group_to_delete).delete()
+            EmployeesTestsObj.query.filter_by(fk_group_id=group_to_delete).delete()
         except:
           pass
         # ------------------------ if user is the only one from company end ------------------------
       # ------------------------ delete from employees tables end ------------------------
       elif len(db_all_users_obj) > 1:
         try:
-          db_group_obj = EmployeesGroupsObj.query.filter_by(fk_company_name=db_users_dict['company_name']).first()
-          db_group_dict = arr_of_dict_all_columns_single_item_function(db_group_obj)
-          group_to_delete = db_group_dict['public_group_id']
-          EmployeesTestsGradedObj.query.filter_by(fk_user_id=db_users_dict['id']).delete()
+          db_group_obj = EmployeesGroupsObj.query.filter_by(fk_company_name=db_users_dict['company_name']).all()
+          for i_group_obj in db_group_obj:
+            db_group_dict = arr_of_dict_all_columns_single_item_function(i_group_obj)
+            group_to_delete = db_group_dict['public_group_id']
+            EmployeesTestsGradedObj.query.filter_by(fk_user_id=db_users_dict['id']).delete()
         except:
           pass
       # ------------------------ delete from user table start ------------------------
       StripeCheckoutSessionObj.query.filter_by(fk_user_id=db_users_dict['id']).delete()
       UserObj.query.filter_by(id=db_users_dict['id']).delete()
+      # ------------------------ add unique removed email to db start ------------------------
+      try:
+        new_row = DeletedEmailsObj(
+          id=create_uuid_function('removed_'),
+          created_timestamp=create_timestamp_function(),
+          email=user_to_delete,
+          uuid_archive=db_users_dict['id']
+        )
+        db.session.add(new_row)
+      except:
+        pass
+      # ------------------------ add unique removed email to db end ------------------------
       db.session.commit()
       # ------------------------ delete from user table end ------------------------
+      return redirect(url_for('admin_views_interior.admin_delete_page_function', url_redirect_code='w1'))
     # ------------------------ DeleteOneUserAllCandidatesAndEmployeesTables end ------------------------
     # ------------------------ DeleteRedisDeletedCookies start ------------------------
     delete_unused_cookies_from_redis = request.form.get('DeleteRedisDeletedCookies')
@@ -179,6 +198,7 @@ def admin_delete_page_function(url_redirect_code=None):
       # ------------------------ loop through redis end ------------------------
       postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)
       # ------------------------ delete from redis end ------------------------
+      return redirect(url_for('admin_views_interior.admin_delete_page_function', url_redirect_code='w1'))
     # ------------------------ DeleteRedisDeletedCookies end ------------------------
   localhost_print_function(' ------------------------ admin_delete_page_function end ------------------------ ')
   return render_template('admin_page/delete/index.html', page_dict_to_html=page_dict)
