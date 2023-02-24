@@ -35,15 +35,15 @@ redis_connection = redis_connect_to_database_function()
 @login_required
 def admin_dashboard_page_function(url_redirect_code=None):
   localhost_print_function(' ------------------------ admin_dashboard_page_function start ------------------------ ')
+  # ------------------------ ensure correct email start ------------------------
+  if current_user.email != os.environ.get('RUN_TEST_EMAIL'):
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='e9'))
+  # ------------------------ ensure correct email end ------------------------
   # ------------------------ page dict start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
   page_dict = {}
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
-  # ------------------------ ensure correct email start ------------------------
-  if current_user.email != os.environ.get('RUN_TEST_EMAIL'):
-    return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='e9'))
-  # ------------------------ ensure correct email end ------------------------
   localhost_print_function(' ------------------------ admin_dashboard_page_function end ------------------------ ')
   return render_template('admin_page/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
@@ -54,15 +54,15 @@ def admin_dashboard_page_function(url_redirect_code=None):
 @login_required
 def admin_delete_page_function(url_redirect_code=None):
   localhost_print_function(' ------------------------ admin_delete_page_function start ------------------------ ')
+  # ------------------------ ensure correct email start ------------------------
+  if current_user.email != os.environ.get('RUN_TEST_EMAIL'):
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='e9'))
+  # ------------------------ ensure correct email end ------------------------
   # ------------------------ page dict start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
   page_dict = {}
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
-  # ------------------------ ensure correct email start ------------------------
-  if current_user.email != os.environ.get('RUN_TEST_EMAIL'):
-    return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='e9'))
-  # ------------------------ ensure correct email end ------------------------
   if request.method == 'POST':
     # ------------------------ ensure correct email on post to be safe start ------------------------
     try:
@@ -190,15 +190,15 @@ def admin_delete_page_function(url_redirect_code=None):
 @login_required
 def admin_analytics_page_function(url_redirect_code=None):
   localhost_print_function(' ------------------------ admin_analytics_page_function start ------------------------ ')
+  # ------------------------ ensure correct email start ------------------------
+  if current_user.email != os.environ.get('RUN_TEST_EMAIL'):
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='e9'))
+  # ------------------------ ensure correct email end ------------------------
   # ------------------------ page dict start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
   page_dict = {}
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
-  # ------------------------ ensure correct email start ------------------------
-  if current_user.email != os.environ.get('RUN_TEST_EMAIL'):
-    return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='e9'))
-  # ------------------------ ensure correct email end ------------------------
   if request.method == 'POST':
     pass
   localhost_print_function(' ------------------------ admin_analytics_page_function end ------------------------ ')
