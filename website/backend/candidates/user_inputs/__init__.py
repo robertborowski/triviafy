@@ -412,6 +412,11 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':'You are not an admin.',
       'type':'danger'
     }
+  elif redirect_var == 'e10':
+    alert_message_dict = {
+      'message':'Email invalid.',
+      'type':'danger'
+    }
   # ------------------------ errors end ------------------------
   # ------------------------ success start ------------------------
   elif redirect_var == 's1':
@@ -444,6 +449,11 @@ def alert_message_default_function_v2(redirect_var=None):
   elif redirect_var == 'i1':
     alert_message_dict = {
       'message':'Schedule settings unchanged.',
+      'type':'info'
+    }
+  elif redirect_var == 'i2':
+    alert_message_dict = {
+      'message':'User is subscribed.',
       'type':'info'
     }
   # ------------------------ info end ------------------------
