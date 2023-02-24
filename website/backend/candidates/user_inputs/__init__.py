@@ -417,6 +417,11 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':'Email invalid.',
       'type':'danger'
     }
+  elif redirect_var == 'e11':
+    alert_message_dict = {
+      'message':'User is the only person within group.',
+      'type':'danger'
+    }
   # ------------------------ errors end ------------------------
   # ------------------------ success start ------------------------
   elif redirect_var == 's1':

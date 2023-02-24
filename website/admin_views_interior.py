@@ -62,6 +62,22 @@ def admin_dashboard_page_function(url_redirect_code=None):
       EmployeesTestsObj.query.filter_by(fk_group_id=group_to_delete).delete()
       db.session.commit()
     # ------------------------ DeleteOneGroupAllEmployeesTables end ------------------------
+    # ------------------------ DeleteOneUserInAllGroupsAllEmployeesTables start ------------------------
+    user_to_delete_from_groups = request.form.get('DeleteOneUserInAllGroupsAllEmployeesTables')
+    if user_to_delete_from_groups != None:
+      try:
+        db_users_obj = UserObj.query.filter_by(email=user_to_delete_from_groups).first()
+        db_users_dict = arr_of_dict_all_columns_single_item_function(db_users_obj)
+        # ------------------------ check if alone start ------------------------
+        db_all_users_obj = UserObj.query.filter_by(company_name=db_users_dict['company_name']).all()
+        if len(db_all_users_obj) == 1:
+          return redirect(url_for('admin_views_interior.admin_dashboard_page_function', url_redirect_code='e11'))
+        # ------------------------ check if alone end ------------------------
+      except:
+        return redirect(url_for('admin_views_interior.admin_dashboard_page_function', url_redirect_code='e10'))
+      EmployeesTestsGradedObj.query.filter_by(fk_user_id=db_users_dict['id']).delete()
+      db.session.commit()
+    # ------------------------ DeleteOneUserInAllGroupsAllEmployeesTables end ------------------------
     # ------------------------ DeleteOneUserAllCandidatesAndEmployeesTables start ------------------------
     user_to_delete = request.form.get('DeleteOneUserAllCandidatesAndEmployeesTables')
     if user_to_delete != None:

@@ -43,6 +43,9 @@
 .custom-bg-tan-1 {
   background-color: rgb(255, 237, 217);
 }
+.custom-bg-purple-1 {
+  background-color: rgb(234, 217, 255);
+}
 .custom-bg-colorful-1 {
   background: linear-gradient(145deg, rgb(255 224 224)0%, rgb(255 254 221)25%, rgb(240 255 238)50%, rgb(233 209 255)100%);
 }
