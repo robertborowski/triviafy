@@ -44,6 +44,25 @@ def admin_dashboard_page_function(url_redirect_code=None):
   if current_user.email != os.environ.get('RUN_TEST_EMAIL'):
     return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='e9'))
   # ------------------------ ensure correct email end ------------------------
+  localhost_print_function(' ------------------------ admin_dashboard_page_function end ------------------------ ')
+  return render_template('admin_page/index.html', page_dict_to_html=page_dict)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@admin_views_interior.route('/admin/d', methods=['GET', 'POST'])
+@admin_views_interior.route('/admin/d/<url_redirect_code>', methods=['GET', 'POST'])
+@login_required
+def admin_delete_page_function(url_redirect_code=None):
+  localhost_print_function(' ------------------------ admin_delete_page_function start ------------------------ ')
+  # ------------------------ page dict start ------------------------
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ page dict end ------------------------
+  # ------------------------ ensure correct email start ------------------------
+  if current_user.email != os.environ.get('RUN_TEST_EMAIL'):
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='e9'))
+  # ------------------------ ensure correct email end ------------------------
   if request.method == 'POST':
     # ------------------------ ensure correct email on post to be safe start ------------------------
     try:
@@ -71,10 +90,10 @@ def admin_dashboard_page_function(url_redirect_code=None):
         # ------------------------ check if alone start ------------------------
         db_all_users_obj = UserObj.query.filter_by(company_name=db_users_dict['company_name']).all()
         if len(db_all_users_obj) == 1:
-          return redirect(url_for('admin_views_interior.admin_dashboard_page_function', url_redirect_code='e11'))
+          return redirect(url_for('admin_views_interior.admin_delete_page_function', url_redirect_code='e11'))
         # ------------------------ check if alone end ------------------------
       except:
-        return redirect(url_for('admin_views_interior.admin_dashboard_page_function', url_redirect_code='e10'))
+        return redirect(url_for('admin_views_interior.admin_delete_page_function', url_redirect_code='e10'))
       EmployeesTestsGradedObj.query.filter_by(fk_user_id=db_users_dict['id']).delete()
       db.session.commit()
     # ------------------------ DeleteOneUserInAllGroupsAllEmployeesTables end ------------------------
@@ -85,10 +104,10 @@ def admin_dashboard_page_function(url_redirect_code=None):
         db_users_obj = UserObj.query.filter_by(email=user_to_delete).first()
         db_users_dict = arr_of_dict_all_columns_single_item_function(db_users_obj)
       except:
-        return redirect(url_for('admin_views_interior.admin_dashboard_page_function', url_redirect_code='e10'))
+        return redirect(url_for('admin_views_interior.admin_delete_page_function', url_redirect_code='e10'))
       # ------------------------ check if user is subscribed start ------------------------
       if (db_users_dict['fk_stripe_subscription_id'] != '' and db_users_dict['fk_stripe_subscription_id'] != None) or (db_users_dict['employees_fk_stripe_subscription_id'] != '' and db_users_dict['employees_fk_stripe_subscription_id'] != None):
-        return redirect(url_for('admin_views_interior.admin_dashboard_page_function', url_redirect_code='i2'))
+        return redirect(url_for('admin_views_interior.admin_delete_page_function', url_redirect_code='i2'))
       # ------------------------ check if user is subscribed end ------------------------
       # ------------------------ delete from candidates tables start ------------------------
       try:
@@ -161,6 +180,6 @@ def admin_dashboard_page_function(url_redirect_code=None):
       postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)
       # ------------------------ delete from redis end ------------------------
     # ------------------------ DeleteRedisDeletedCookies end ------------------------
-  localhost_print_function(' ------------------------ admin_dashboard_page_function end ------------------------ ')
-  return render_template('admin_page/index.html', page_dict_to_html=page_dict)
+  localhost_print_function(' ------------------------ admin_delete_page_function end ------------------------ ')
+  return render_template('admin_page/delete/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
