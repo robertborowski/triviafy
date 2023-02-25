@@ -41,7 +41,6 @@ def job_daily_backup_all_db_tables_to_aws_function():
       postgres_cursor.execute("SELECT * FROM %s" % table_name)
       result_list = postgres_cursor.fetchall()
       # ------------------------ Get Individual Table Data END ------------------------
-      
       # ------------------------ Get Individual Table Headers START ------------------------
       # Get table headers, store in array
       headers_tuple = postgres_cursor.description
@@ -62,22 +61,7 @@ def job_daily_backup_all_db_tables_to_aws_function():
       # ------------------------ Upload to AWS s3 as csv END ------------------------
     # Except clause
     except (Exception, psycopg2.Error) as error:
-      # ------------------------ Email Self About New Account START ------------------------
-      personal_email = os.environ.get('PERSONAL_EMAIL')
-      output_email = personal_email
-      output_subject_line = 'Error when uploading backup to AWS s3'
-      output_message_content = f"Hi Rob,\n\nBackup tables did not upload to AWS s3 properly."
-      output_message_content_str_for_db = output_message_content
-      # Insert this sent email into DB
-      uuid_email_sent = create_uuid_function('email_sent_')
-      email_sent_timestamp = create_timestamp_function()
-      # - - -
-      email_sent_search_category = 'Backup AWS s3 Upload Error'
-      uuid_quiz = None
-      # - - -
-      user_uuid = 'sent_to_personal_email'
-      output_message = insert_triviafy_emails_sent_table_function(postgres_connection, postgres_cursor, uuid_email_sent, email_sent_timestamp, user_uuid, email_sent_search_category, uuid_quiz, output_message_content_str_for_db)
-      # ------------------------ Email Self About New Account END ------------------------
+      localhost_print_function('error')
       localhost_print_function(' ------------------------ job_daily_backup_all_db_tables_to_aws_function end ------------------------ ')
       return True
   # ------------------------ Push Info Into AWS s3 END ------------------------
@@ -88,7 +72,6 @@ def job_daily_backup_all_db_tables_to_aws_function():
   localhost_print_function(' ------------------------ job_daily_backup_all_db_tables_to_aws_function end ------------------------ ')
   return True
 # ------------------------ individual function end ------------------------
-
 
 
 # ------------------------ run function start ------------------------
