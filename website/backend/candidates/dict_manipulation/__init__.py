@@ -258,7 +258,7 @@ def arr_of_dict_necessary_columns_function(sql_obj, desired_columns_arr):
 
 # ------------------------ individual function start ------------------------
 def arr_of_dict_all_columns_single_item_function(sql_obj, for_json_dumps=False):
-  localhost_print_function(' ------------------------ arr_of_dict_all_columns_function START ------------------------ ')
+  # localhost_print_function(' ------------------------ arr_of_dict_all_columns_function START ------------------------ ')
   current_dict = {}
   for c in sql_obj.__table__.columns:
     current_value = getattr(sql_obj, c.name)
@@ -266,7 +266,7 @@ def arr_of_dict_all_columns_single_item_function(sql_obj, for_json_dumps=False):
       if isinstance(current_value, datetime):
         current_value = str(current_value)
     current_dict[c.name] = current_value
-  localhost_print_function(' ------------------------ arr_of_dict_all_columns_function END ------------------------ ')
+  # localhost_print_function(' ------------------------ arr_of_dict_all_columns_function END ------------------------ ')
   return current_dict
 # ------------------------ individual function end ------------------------
 localhost_print_function('=========================================== dict_manipulation __init__ END ===========================================')
