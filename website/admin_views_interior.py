@@ -289,8 +289,6 @@ def admin_analytics_page_function(url_redirect_code=None):
       return redirect(url_for('admin_views_interior.admin_analytics_page_function', url_redirect_code='e6'))
     if status_email_hit == 'all':
       for i_dict in page_dict['master_arr_of_dicts_01']:
-        if i_dict['public_group_id'] != 'Z5SBQ6':
-          continue
         # ------------------------ progress option start ------------------------
         if i_dict['group_progress'] == 'no tests yet':
           for i_email in i_dict['team_member_emails_arr']:
@@ -298,21 +296,28 @@ def admin_analytics_page_function(url_redirect_code=None):
             guessed_name = breakup_email_function(i_email)
             output_to_email = i_email
             output_subject = f"Action Required: {todays_date_str}"
-            output_body = f"Hi {guessed_name},\n\nYou have not completed your part of the team building activity. Complete it at https://triviafy.com/employees/dashboard \n\nBest,\nTriviafy Support Team\n\nReply 'STOP' to unsubscribe."
-            send_email_template_function(output_to_email, output_subject, output_body)
-            # ------------------------ send email end ------------------------
-            # ------------------------ insert email to db start ------------------------
-            new_row = EmployeesEmailSentObj(
-              id = create_uuid_function('progress_'),
-              created_timestamp = create_timestamp_function(),
-              from_user_id_fk = current_user.id,
-              to_email = output_to_email,
-              subject = output_subject,
-              body = output_body
-            )
-            db.session.add(new_row)
-            db.session.commit()
-            # ------------------------ insert email to db end ------------------------
+            output_body = f"Hi {guessed_name},\n\nYou have not completed your part of your team building activity. Complete it at https://triviafy.com/employees/dashboard \n\nBest,\nTriviafy Support Team\nReply 'stop' to unsubscribe."
+            # ------------------------ check if email+subject already sent today start ------------------------
+            db_email_sent_obj = EmployeesEmailSentObj.query.filter_by(to_email=output_to_email, subject=output_subject).first()
+            if db_email_sent_obj != None and db_email_sent_obj != []:
+              localhost_print_function(f'email already sent to this {output_to_email} - {output_subject}')
+              continue
+            # ------------------------ check if email+subject already sent today end ------------------------
+            else:
+              send_email_template_function(output_to_email, output_subject, output_body)
+              # ------------------------ send email end ------------------------
+              # ------------------------ insert email to db start ------------------------
+              new_row = EmployeesEmailSentObj(
+                id = create_uuid_function('progress_'),
+                created_timestamp = create_timestamp_function(),
+                from_user_id_fk = current_user.id,
+                to_email = output_to_email,
+                subject = output_subject,
+                body = output_body
+              )
+              db.session.add(new_row)
+              db.session.commit()
+              # ------------------------ insert email to db end ------------------------
         # ------------------------ progress option end ------------------------
     # ------------------------ SendStatusEmails end ------------------------
   # ------------------------ post method end ------------------------
