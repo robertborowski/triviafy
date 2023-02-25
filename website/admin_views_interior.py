@@ -263,9 +263,17 @@ def admin_analytics_page_function(url_redirect_code=None):
     master_arr_of_dicts_01.append(i_dict)
     # ------------------------ append i_dict end ------------------------
   # ------------------------ loop groups end ------------------------
+  # ------------------------ post method start ------------------------
   page_dict['master_arr_of_dicts_01'] = master_arr_of_dicts_01
   if request.method == 'POST':
-    pass
+    # ------------------------ SendStatusEmails start ------------------------
+    status_email_hit = request.form.get('SendStatusEmails')
+    if status_email_hit != 'all':
+      return redirect(url_for('admin_views_interior.admin_analytics_page_function', url_redirect_code='e6'))
+    if status_email_hit == 'all':
+      pass
+    # ------------------------ SendStatusEmails end ------------------------
+  # ------------------------ post method end ------------------------
   localhost_print_function(' ------------------------ admin_analytics_page_function end ------------------------ ')
   return render_template('admin_page/analytics/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
