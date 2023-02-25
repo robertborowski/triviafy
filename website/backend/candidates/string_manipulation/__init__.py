@@ -61,4 +61,12 @@ def create_assessment_name_function(ui_desired_languages_checkboxes_str):
   localhost_print_function('=========================================== create_assessment_name_function START ===========================================')
   return name_prefix + str(name_suffix)
 # ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def breakup_email_function(input_email):
+  # localhost_print_function(' ------------------------ breakup_email_function start ------------------------ ')
+  email_arr = input_email.split('@')
+  # localhost_print_function(' ------------------------ breakup_email_function end ------------------------ ')
+  return email_arr[0]
+# ------------------------ individual function end ------------------------
 localhost_print_function('=========================================== string_manipulation __init__ END ===========================================')

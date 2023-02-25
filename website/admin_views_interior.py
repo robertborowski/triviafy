@@ -14,7 +14,7 @@ from flask_login import login_required, current_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
-from website.models import EmployeesGroupQuestionsUsedObj, EmployeesGroupSettingsObj, EmployeesGroupsObj, EmployeesTestsGradedObj, EmployeesTestsObj, UserObj, CandidatesAssessmentGradedObj, CandidatesAssessmentsCreatedObj, CandidatesScheduleObj, CandidatesUploadedCandidatesObj, StripeCheckoutSessionObj, DeletedEmailsObj
+from website.models import EmployeesGroupQuestionsUsedObj, EmployeesGroupSettingsObj, EmployeesGroupsObj, EmployeesTestsGradedObj, EmployeesTestsObj, UserObj, CandidatesAssessmentGradedObj, CandidatesAssessmentsCreatedObj, CandidatesScheduleObj, CandidatesUploadedCandidatesObj, StripeCheckoutSessionObj, DeletedEmailsObj, EmployeesEmailSentObj
 import os
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from website.backend.candidates.sql_statements.sql_statements_select_general_v1_jobs import select_general_v1_jobs_function
@@ -22,6 +22,9 @@ from backend.db.connection.postgres_connect_to_database import postgres_connect_
 from backend.db.connection.postgres_close_connection_to_database import postgres_close_connection_to_database_function
 from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
+from datetime import datetime
+from website.backend.candidates.string_manipulation import breakup_email_function
+from website.backend.candidates.send_emails import send_email_template_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -266,12 +269,51 @@ def admin_analytics_page_function(url_redirect_code=None):
   # ------------------------ post method start ------------------------
   page_dict['master_arr_of_dicts_01'] = master_arr_of_dicts_01
   if request.method == 'POST':
+    # ------------------------ initialize on post start ------------------------
+    # ------------------------ get today's date start ------------------------
+    todays_date_str = datetime.today().strftime('%Y-%m-%d')   # 2023-02-25
+    # ------------------------ get today's date end ------------------------
+    # ------------------------ append all team member emails start ------------------------
+    for i_dict in page_dict['master_arr_of_dicts_01']:
+      team_member_emails_arr = []
+      db_all_users_obj = UserObj.query.filter_by(company_name=i_dict['company_name']).all()
+      for i in db_all_users_obj:
+        if i.email not in team_member_emails_arr:
+          team_member_emails_arr.append(i.email)
+      i_dict['team_member_emails_arr'] = team_member_emails_arr
+    # ------------------------ append all team member emails end ------------------------
+    # ------------------------ initialize on post end ------------------------
     # ------------------------ SendStatusEmails start ------------------------
     status_email_hit = request.form.get('SendStatusEmails')
     if status_email_hit != 'all':
       return redirect(url_for('admin_views_interior.admin_analytics_page_function', url_redirect_code='e6'))
     if status_email_hit == 'all':
-      pass
+      for i_dict in page_dict['master_arr_of_dicts_01']:
+        if i_dict['public_group_id'] != 'Z5SBQ6':
+          continue
+        # ------------------------ progress option start ------------------------
+        if i_dict['group_progress'] == 'no tests yet':
+          for i_email in i_dict['team_member_emails_arr']:
+            # ------------------------ send email start ------------------------
+            guessed_name = breakup_email_function(i_email)
+            output_to_email = i_email
+            output_subject = f"Action Required: {todays_date_str}"
+            output_body = f"Hi {guessed_name},\n\nYou have not completed your part of the team building activity. Complete it at https://triviafy.com/employees/dashboard \n\nBest,\nTriviafy Support Team\n\nReply 'STOP' to unsubscribe."
+            send_email_template_function(output_to_email, output_subject, output_body)
+            # ------------------------ send email end ------------------------
+            # ------------------------ insert email to db start ------------------------
+            new_row = EmployeesEmailSentObj(
+              id = create_uuid_function('progress_'),
+              created_timestamp = create_timestamp_function(),
+              from_user_id_fk = current_user.id,
+              to_email = output_to_email,
+              subject = output_subject,
+              body = output_body
+            )
+            db.session.add(new_row)
+            db.session.commit()
+            # ------------------------ insert email to db end ------------------------
+        # ------------------------ progress option end ------------------------
     # ------------------------ SendStatusEmails end ------------------------
   # ------------------------ post method end ------------------------
   localhost_print_function(' ------------------------ admin_analytics_page_function end ------------------------ ')
