@@ -15,7 +15,14 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
           fk_company_name, \
           public_group_id \
         FROM \
-          employees_groups_obj;"
+          employees_groups_obj;",
+    'select_group_settings_1':
+      f"SELECT \
+          * \
+        FROM \
+          employees_group_settings_obj \
+        WHERE \
+          fk_group_id='{additional_input}';"
   }
   # ------------------------ select queries end ------------------------
   # ------------------------ cursor start ------------------------
