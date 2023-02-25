@@ -22,19 +22,23 @@
   <table id="candidates-datatable-id" class="table table-striped" style="width:100%">
     <thead>
       <tr>
-        <th>Email</th>
-        <th>Total Wins</th>
-        <th>Total Correct</th>
-        <th>Archive</th>
+        <th>Progress</th>
+        <th>Created</th>
+        <th>Company</th>
+        <th>GroupID</th>
+        <th>#Users</th>
+        <th>#Participation</th>
       </tr>
     </thead>
     <tbody>
-      {% for i in page_dict_to_html['users_arr_of_dicts'] %}
+      {% for i in page_dict_to_html['master_arr_of_dicts_01'] %}
       <tr>
-        <td>{{ i['user_email'] }}</td>
-        <td>{{ i['total_wins'] }}</td>
-        <td>{{ i['total_correct'] }}</td>
-        <td><a href="/employees/archive" class="custom-a-2 fw-bolder">View archive</a></td>
+        <td>{{ i['group_progress'] }}</td>
+        <td>{{ i['created_timestamp'] }}</td>
+        <td>{{ i['company_name'] }}</td>
+        <td>{{ i['public_group_id'] }}</td>
+        <td>{{ i['total_users_with_same_company_name'] }}</td>
+        <td>{{ i['latest_test_participation'] }}</td>
       </tr>
       {% endfor %}
     </tbody>

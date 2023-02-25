@@ -228,9 +228,9 @@ def admin_analytics_page_function(url_redirect_code=None):
     i_dict['group_progress'] = 'no tests yet'
     # ------------------------ new i_dict end ------------------------
     i_group_dict = arr_of_dict_all_columns_single_item_function(i_group_obj)
+    i_dict['created_timestamp'] = i_group_dict['created_timestamp']
     i_dict['company_name'] = i_group_dict['fk_company_name']
     i_dict['public_group_id'] = i_group_dict['public_group_id']
-    i_dict['created_timestamp'] = i_group_dict['created_timestamp']
     # ------------------------ total users start ------------------------
     db_all_users_obj = UserObj.query.filter_by(company_name=i_group_dict['fk_company_name']).all()
     i_dict['total_users_with_same_company_name'] = len(db_all_users_obj)
@@ -245,6 +245,14 @@ def admin_analytics_page_function(url_redirect_code=None):
       try:
         db_latest_test_graded_obj = EmployeesTestsGradedObj.query.filter_by(fk_group_id=i_group_dict['public_group_id'], status='complete').all()
         i_dict['latest_test_participation'] = len(db_latest_test_graded_obj)
+        if int(i_dict['latest_test_participation']) > 0:
+          if int(i_dict['latest_test_participation']) == int(i_dict['total_users_with_same_company_name']):
+            if int(i_dict['total_users_with_same_company_name']) == 1:
+              i_dict['group_progress'] = 'complete full alone'
+            else:
+              i_dict['group_progress'] = 'complete full'
+          else:
+            i_dict['group_progress'] = 'complete partial'
       except:
         pass
       # ------------------------ latest test graded end ------------------------
@@ -255,6 +263,7 @@ def admin_analytics_page_function(url_redirect_code=None):
     master_arr_of_dicts_01.append(i_dict)
     # ------------------------ append i_dict end ------------------------
   # ------------------------ loop groups end ------------------------
+  page_dict['master_arr_of_dicts_01'] = master_arr_of_dicts_01
   if request.method == 'POST':
     pass
   localhost_print_function(' ------------------------ admin_analytics_page_function end ------------------------ ')
