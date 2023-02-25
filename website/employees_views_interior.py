@@ -26,7 +26,7 @@ from website.backend.candidates.string_manipulation import all_employee_question
 from website.backend.candidates.user_inputs import sanitize_char_count_1_function, sanitize_create_question_options_function
 from website.backend.candidates.send_emails import send_email_template_function
 import os
-from website.backend.candidates.quiz import create_quiz_function, grade_quiz_function
+from website.backend.candidates.quiz import create_quiz_function, grade_quiz_function, get_next_quiz_open_function
 import json
 from datetime import datetime
 from website.backend.candidates.stripe import check_stripe_subscription_status_function_v2, convert_current_period_end_function
@@ -212,6 +212,9 @@ def login_dashboard_page_function(url_redirect_code=None):
     # ------------------------ winner start ------------------------
     page_dict['latest_test_winner'], page_dict['latest_test_winner_score'] = get_test_winner(db_tests_dict['id'])
     # ------------------------ winner end ------------------------
+    # ------------------------ if latest closed then pull next quiz open datetime start ------------------------
+    page_dict['next_quiz_open_string'] = get_next_quiz_open_function(company_group_id)
+    # ------------------------ if latest closed then pull next quiz open datetime end ------------------------
   except:
     pass
   # ------------------------ if latest closed then pull winner end ------------------------

@@ -48,6 +48,35 @@ def build_question_type_arr_function(input_type, input_total_questions):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
+def get_next_quiz_open_function(company_group_id):
+  localhost_print_function(' ------------------------ get_next_quiz_open_function start ------------------------ ')
+  # ------------------------ get group settings start ------------------------
+  db_group_settings_obj = EmployeesGroupSettingsObj.query.filter_by(fk_group_id=company_group_id).order_by(EmployeesGroupSettingsObj.created_timestamp.desc()).first()
+  db_group_settings_dict = arr_of_dict_all_columns_single_item_function(db_group_settings_obj)
+  # ------------------------ get group settings end ------------------------
+  # ------------------------ get latest test start ------------------------
+  db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=company_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
+  db_tests_dict = arr_of_dict_all_columns_single_item_function(db_tests_obj)
+  # ------------------------ get latest test end ------------------------
+  # ------------------------ get next quiz open start ------------------------
+  weekday_dict = get_weekday_dict_function_v2()
+  latest_test_dates_of_week_end_arr = get_week_dates_function(db_tests_dict['end_timestamp'].date())
+  monday_of_lastest_test_end_week = latest_test_dates_of_week_end_arr[0]
+  if db_group_settings_dict['cadence'] == 'Weekly':
+    should_be_this_weeks_monday = monday_of_lastest_test_end_week + timedelta(days=7)
+  elif db_group_settings_dict['cadence'] == 'Biweekly':
+    should_be_this_weeks_monday = monday_of_lastest_test_end_week + timedelta(days=14)
+  elif db_group_settings_dict['cadence'] == 'Monthly':
+    should_be_this_weeks_monday = monday_of_lastest_test_end_week + timedelta(days=28)
+  should_be_dates_of_week_arr = get_week_dates_function(should_be_this_weeks_monday)
+  next_quiz_open_start_date = should_be_dates_of_week_arr[weekday_dict[db_group_settings_dict['start_day']]]
+  final_str = db_group_settings_dict['start_day'] + ' ' + next_quiz_open_start_date.strftime('%m/%d') + ', ' + db_group_settings_dict['start_time'] + ' ' + db_group_settings_dict['timezone']
+  # ------------------------ get next quiz open end ------------------------
+  localhost_print_function(' ------------------------ get_next_quiz_open_function end ------------------------ ')
+  return final_str
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
 def compare_candence_vs_previous_quiz_function(db_group_settings_dict, db_tests_obj):
   localhost_print_function(' ------------------------ compare_candence_vs_previous_quiz_function start ------------------------ ')
   # ------------------------ desired start ------------------------
