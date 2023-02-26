@@ -99,6 +99,10 @@
   position: absolute;
   bottom: 0;
 }
+.custom-top-1 {
+  position: absolute;
+  top: 0;
+}
 .custom-right-1 {
   position: absolute;
   right: 0;
