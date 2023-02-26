@@ -94,6 +94,16 @@
   background: linear-gradient(to bottom, var(--custom-color-primary), var(--custom-color-primary-darker));
 }
 /* ------------------- background end ------------------- */
+/* ------------------- bottom start ------------------- */
+.custom-bottom-1 {
+  position: absolute;
+  bottom: 0;
+}
+.custom-right-1 {
+  position: absolute;
+  right: 0;
+}
+/* ------------------- bottom end ------------------- */
 /* ------------------- color start ------------------- */
 :root {
   --custom-color-1: rgb(120 120 120);
@@ -245,6 +255,9 @@
 }
 .custom-height-7 {
   height: 25px;
+}
+.custom-min-height-1 {
+  min-height: 350px;
 }
 /* ------------------- height end ------------------- */
 /* ------------------- img start ------------------- */
@@ -753,6 +766,9 @@
 /* ------------------- text start ------------------- */
 .custom-tal {
   text-align: left;
+}
+.custom-tar {
+  text-align: right;
 }
 /* ------------------- text end ------------------- */
 /* ------------------- underline start ------------------- */

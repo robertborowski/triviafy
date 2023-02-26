@@ -1,7 +1,7 @@
 # ------------------------ imports start ------------------------
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 import re
-from website.models import UserObj, EmployeesTestsGradedObj, EmployeesTestsObj
+from website.models import UserObj, EmployeesTestsGradedObj, EmployeesTestsObj, EmployeesGroupsObj
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 # ------------------------ imports end ------------------------
 
@@ -47,5 +47,32 @@ def get_test_winner(input_test_id, result_id=False):
   else:
     localhost_print_function(' ------------------------ get_test_winner end ------------------------ ')
     return 'Quiz not yet closed', 'Quiz not yet closed'
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def first_user_first_quiz_check_function(company_name):
+  localhost_print_function(' ------------------------ first_user_first_quiz_check_function start ------------------------ ')
+  check_first_user_first_quiz_can_replace = False
+  try:
+    user_group_id = EmployeesGroupsObj.query.filter_by(fk_company_name=company_name).order_by(EmployeesGroupsObj.created_timestamp.desc()).first()
+    fufq_check_test_count_obj = EmployeesTestsObj.query.filter_by(fk_group_id=user_group_id.public_group_id).all()
+    if len(fufq_check_test_count_obj) == 1:
+      fufq_check_test_graded_count_obj = EmployeesTestsGradedObj.query.filter_by(fk_group_id=user_group_id.public_group_id).all()
+      # ------------------------ check if none start ------------------------
+      if fufq_check_test_graded_count_obj == None or fufq_check_test_graded_count_obj == []:
+        check_first_user_first_quiz_can_replace = True
+      # ------------------------ check if none end ------------------------
+      # ------------------------ check if at least 1 person from team already completed start ------------------------
+      at_least_one_test_completed = False
+      for i_obj in fufq_check_test_graded_count_obj:
+        if i_obj.status == 'complete':
+          at_least_one_test_completed = True
+      if at_least_one_test_completed == False:
+        check_first_user_first_quiz_can_replace = True
+      # ------------------------ check if at least 1 person from team already completed end ------------------------
+  except:
+    pass
+  localhost_print_function(' ------------------------ first_user_first_quiz_check_function end ------------------------ ')
+  return check_first_user_first_quiz_can_replace
 # ------------------------ individual function end ------------------------
 localhost_print_function('=========================================== test_backend __init__ END ===========================================')

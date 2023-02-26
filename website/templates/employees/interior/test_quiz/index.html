@@ -54,7 +54,7 @@
     <!-- ------------------------------------- entire page start ------------------------------------- -->
     <div class="container-fluid custom-bg-grey-3 custom-pb-3 custom-pt-1">
       <!-- ------------------------------------- question start ------------------------------------- -->
-      <div class="container border shadow custom-br-1 custom-bg-white custom-display-flex custom-fw-1">
+      <div class="container border shadow custom-br-1 custom-bg-white custom-display-flex custom-fw-1 custom-position-1">
         <!-- ----------------------------------- errors start ----------------------------------- -->
         <div class="custom-width-6">
           {% if page_dict_to_html['alert_message_dict']['message'] != '' %}
@@ -89,7 +89,7 @@
         <!-- ----------------------------------- question left side end ----------------------------------- -->
         <!-- ----------------------------------- question right side start ----------------------------------- -->
         <div class="custom-width-11-mobile custom-p-5">
-          <div>
+          <div class="custom-min-height-1">
             <!-- ------------------------------------- feature view: archive start ------------------------------------- -->
             {% if page_dict_to_html['view_as_archive'] == true %}
             <div class="text-center">
@@ -179,6 +179,14 @@
           {% else %}
           {% endif %}
           <!-- ------------------------------------- coworker answers end ------------------------------------- -->
+          <!-- ------------------------------------- first user first quiz discard option start ------------------------------------- -->
+          {% if page_dict_to_html['first_user_first_quiz_can_replace'] == true %}
+          <div class="custom-br-1 custom-bg-white custom-bottom-1 custom-right-1 custom-tar custom-p-1 custom-display-flex">
+            <p class="custom-m-0 custom-p-0 custom-size-3 custom-color-2-dark">Select <span class="fst-italic custom-underline-1">different</span> categories: <a href="/employees/t/fufq_remove" class="btn btn-danger btn-sm custom-ml-1">Discard this quiz</a></p>
+          </div>
+          {% else %}
+          {% endif %}
+          <!-- ------------------------------------- first user first quiz discard option end ------------------------------------- -->
         </div>
         <!-- ----------------------------------- question right side end ----------------------------------- -->
       </div>

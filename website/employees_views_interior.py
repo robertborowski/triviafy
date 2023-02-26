@@ -33,6 +33,7 @@ from website.backend.candidates.stripe import check_stripe_subscription_status_f
 import stripe
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
 from website.backend.candidates.test_backend import get_test_winner
+from website.backend.candidates.test_backend import first_user_first_quiz_check_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -471,6 +472,17 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
     else:
       return redirect(url_for('employees_views_interior.employees_test_id_function', url_test_id=db_tests_obj.id, url_question_number='1', url_initial_page_load='init'))
   # ------------------------ redirect to latest test id end ------------------------
+  # ------------------------ first user first quiz delete logic start ------------------------
+  page_dict['first_user_first_quiz_can_replace'] = first_user_first_quiz_check_function(current_user.company_name)
+  if url_test_id == 'fufq_remove':
+    if page_dict['first_user_first_quiz_can_replace'] == True:
+      check_latest_test_obj = EmployeesTestsObj.query.filter_by(fk_group_id=user_group_id.public_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
+      EmployeesTestsObj.query.filter_by(id=check_latest_test_obj.id).delete()
+      EmployeesTestsGradedObj.query.filter_by(fk_test_id=check_latest_test_obj.id).delete()
+      EmployeesGroupQuestionsUsedObj.query.filter_by(fk_test_id=check_latest_test_obj.id).delete()
+      db.session.commit()
+      return redirect(url_for('employees_views_interior.employees_schedule_function'))
+  # ------------------------ first user first quiz delete logic end ------------------------
   # ------------------------ on initial page load - redirect to first unanswered question start ------------------------
   # ------------------------ pull latest graded start ------------------------
   if url_initial_page_load == 'init':
