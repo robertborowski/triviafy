@@ -157,7 +157,7 @@ def candidates_reset_forgot_password_page_function(token):
     if reset_password_error_statement == '':
       user_obj_from_token.password = generate_password_hash(ui_password, method="sha256")
       db.session.commit()
-      return redirect(url_for('candidates_views_interior.login_dashboard_page_function'))
+      return redirect(url_for('candidates_auth.candidates_login_page_function'))
     # ------------------------ update db end ------------------------
   localhost_print_function(' ------------------------ candidates_reset_forgot_password_page_function END ------------------------ ')
   return render_template('candidates/exterior/forgot_password/reset_forgot_password/index.html', user=current_user, error_message_to_html = reset_password_error_statement)
