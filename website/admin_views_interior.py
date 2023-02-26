@@ -190,21 +190,19 @@ def admin_delete_page_function(url_redirect_code=None):
       # Connect to redis database pool (no need to close)
       redis_connection = redis_connect_to_database_function()
       redis_keys = redis_connection.keys()
-      redis_candidates_deleted_counter = 0
       for key in redis_keys:
         # ------------------------ remove stored cookies of deleted users start ------------------------
         if 'bcooke' in str(key):
           value = redis_connection.get(key).decode('utf-8')
           if value not in user_ids_set:
+            localhost_print_function(f'deleting key: {key} | value: {value}')
             redis_connection.delete(key)
-            redis_candidates_deleted_counter += 1
         # ------------------------ remove stored cookies of deleted users end ------------------------
         # ------------------------ delete keys not related to triviafy start ------------------------
         if 'bcooke' not in str(key):
-          localhost_print_function(f'this key: {key} | value: {value}')
+          localhost_print_function(f'deleting key: {key} | value: {value}')
           redis_connection.delete(key)
         # ------------------------ delete keys not related to triviafy end ------------------------
-      localhost_print_function(f'redis_candidates_deleted_counter: {redis_candidates_deleted_counter}')
       # ------------------------ loop through redis end ------------------------
       postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)
       # ------------------------ delete from redis end ------------------------
