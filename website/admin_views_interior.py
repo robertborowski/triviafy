@@ -192,15 +192,13 @@ def admin_delete_page_function(url_redirect_code=None):
       redis_keys = redis_connection.keys()
       redis_candidates_deleted_counter = 0
       for key in redis_keys:
+        # ------------------------ remove stored cookies of deleted users start ------------------------
         if 'bcooke' in str(key):
           value = redis_connection.get(key).decode('utf-8')
           if value not in user_ids_set:
             redis_connection.delete(key)
             redis_candidates_deleted_counter += 1
-          # ------------------------ temporary proxy as user get browser cookie start ------------------------
-          # if value == '':
-          #   localhost_print_function(f'key: {key} | value: {value}')
-          # ------------------------ temporary proxy as user get browser cookie end ------------------------
+        # ------------------------ remove stored cookies of deleted users end ------------------------
         # ------------------------ delete keys not related to triviafy start ------------------------
         if 'bcooke' not in str(key):
           localhost_print_function(f'this key: {key} | value: {value}')
