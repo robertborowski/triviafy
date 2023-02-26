@@ -422,6 +422,11 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':'User is the only person within group.',
       'type':'danger'
     }
+  elif redirect_var == 'e12':
+    alert_message_dict = {
+      'message':'Select at least one category that you want to test a candidate on.',
+      'type':'danger'
+    }
   # ------------------------ errors end ------------------------
   # ------------------------ success start ------------------------
   elif redirect_var == 's1':

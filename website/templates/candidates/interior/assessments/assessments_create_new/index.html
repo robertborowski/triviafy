@@ -6,10 +6,9 @@
 {% block contentBodyExceptNavbarAndFooter %}
 <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
   <div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-mb-4">
-    <h2 class="custom-header-2-mobile">Create test</h2>
+    <h2 class="custom-header-mobile-1">Pre-employment test</h2>
     <div class="float-end">
-      <a href="/candidates/request" class="btn btn-outline-secondary btn-sm">Request categories</a>
-      <button type="submit" class="btn btn-primary custom-ml-3 btn-sm">Continue <i class="fa-solid fa-arrow-right"></i></button>  
+      <button type="submit" class="btn btn-primary custom-ml-3 btn"><i class="fa-solid fa-check"></i> <i class="fa-solid fa-arrow-right"></i></button>  
     </div>
   </div>
   <div class="container border shadow custom-br-1 custom-bg-white">
@@ -33,11 +32,21 @@
         <input type="text" class="form-control custom-search-bar-1" id="uiSearch" name="uiSearch" placeholder="Search for category">
       </div>
     </div>
+    <!-- ----------------------------------- start ----------------------------------- -->
+    {% if page_dict_to_html['alert_message_dict']['message'] != '' %}
+    <div class="alert alert-{{ page_dict_to_html['alert_message_dict']['type'] }} mx-auto text-center container custom-mt-1" role="alert">
+      {{ page_dict_to_html['alert_message_dict']['message'] }}
+    </div>
+    {% endif %}
+    <!-- ----------------------------------- end ----------------------------------- -->
     <div class="custom-p-4 text-center">
       {% for i in candidate_categories_arr_to_html %}
       <input type="checkbox" class="btn-check" id="testLabelAdded_{{ i }}" name="testLabelAdded" value="{{ i }}">
       <label class="btn btn-outline-secondary custom-m-1 custom-width-5 custom-ptb-1 uiSearchItem" for="testLabelAdded_{{ i }}">{{ i }}</label>
       {% endfor %}
+    </div>
+    <div class="container custom-mt-1 text-center custom-pb-2">
+      <a href="/candidates/request" class="btn btn-outline-secondary btn-lg"><i class="fa-regular fa-closed-captioning"></i> Request custom categories</a>
     </div>
   </div>
   <div class="container">

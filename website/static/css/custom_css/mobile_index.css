@@ -50,6 +50,9 @@
     }
     /* ------------------- height end ------------------- */
     /* ------------------- header start ------------------- */
+    .custom-header-mobile-1 {
+      font-size: 20px;
+    }
     .custom-header-2-mobile {
       font-size: 25px;
     }

@@ -33,6 +33,7 @@ import os
 from website.backend.candidates.aws_manipulation import candidates_change_uploaded_image_filename_function, candidates_user_upload_image_checks_aws_s3_function
 from website.backend.candidates.sql_statements.sql_prep import prepare_where_clause_function, prepare_question_ids_where_clause_function
 from website.backend.candidates.stripe import check_stripe_subscription_status_function, convert_current_period_end_function
+from website.backend.candidates.user_inputs import alert_message_default_function_v2
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -746,10 +747,16 @@ def candidates_test_summary_function(url_test_id=None, url_redirect_code=None):
 
 # ------------------------ individual route start ------------------------
 @candidates_views_interior.route('/candidates/assessment/new/<step_status>', methods=['GET', 'POST'])
+@candidates_views_interior.route('/candidates/assessment/new/<step_status>/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
-def candidates_assessment_create_new_function(step_status):
+def candidates_assessment_create_new_function(step_status, url_redirect_code=None):
   localhost_print_function(' ------------------------ candidates_assessment_create_new_function START ------------------------ ')
   template_location_url = 'candidates/interior/assessments/assessments_create_new/index.html'
+  # ------------------------ page dict start ------------------------
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ page dict end ------------------------
   # ------------------------ delete test drafts start ------------------------
   if step_status == '1b':
     CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,status='draft').delete()
@@ -775,6 +782,10 @@ def candidates_assessment_create_new_function(step_status):
     # ------------------------ get form user inputs start ------------------------
     ui_desired_languages_checkboxes_arr = request.form.getlist('testLabelAdded')
     # ------------------------ get form user inputs end ------------------------
+    # ------------------------ redirect start ------------------------
+    if ui_desired_languages_checkboxes_arr == None or ui_desired_languages_checkboxes_arr == []:
+      return redirect(url_for('candidates_views_interior.candidates_assessment_create_new_function', step_status='1', url_redirect_code='e12'))
+    # ------------------------ redirect end ------------------------
     # ------------------------ sanitize/check user inputs start ------------------------
     # ------------------------ sanitize/check desired languages start ------------------------
     ui_desired_languages_checkboxes_arr = sanitize_loop_check_if_exists_within_arr_function(ui_desired_languages_checkboxes_arr, candidate_categories_arr)
@@ -841,9 +852,9 @@ def candidates_assessment_create_new_function(step_status):
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
   if get_cookie_value_from_browser != None:
     redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
-    return render_template(template_location_url, user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=create_assessment_error_statement, candidate_categories_arr_to_html=candidate_categories_arr)
+    return render_template(template_location_url, user=current_user, users_company_name_to_html=current_user.company_name, error_message_to_html=create_assessment_error_statement, candidate_categories_arr_to_html=candidate_categories_arr, page_dict_to_html=page_dict)
   else:
-    browser_response = browser_response_set_cookie_function_v2(template_location_url, current_user, current_user.company_name, create_assessment_error_statement, candidate_categories_arr)
+    browser_response = browser_response_set_cookie_function_v2(template_location_url, current_user, current_user.company_name, create_assessment_error_statement, candidate_categories_arr, page_dict)
     localhost_print_function(' ------------------------ candidates_assessment_create_new_function END ------------------------ ')
     return browser_response
   # ------------------------ auto set cookie end ------------------------
