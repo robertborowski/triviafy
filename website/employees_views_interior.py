@@ -547,6 +547,7 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
     page_dict['next_question_number'] = 'submit'
   # ------------------------ question order logic end ------------------------
   # ------------------------ test variables start ------------------------
+  page_dict['test_total_questions'] = db_tests_obj.total_questions
   page_dict['url_test_id'] = url_test_id
   # ------------------------ test variables end ------------------------
   # ------------------------ contains image check start ------------------------

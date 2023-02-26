@@ -75,7 +75,7 @@
         <!-- ----------------------------------- question left side start ----------------------------------- -->
         <div class="custom-width-11-mobile custom-p-5">
           <div class="custom-display-flex custom-mb-6">
-            <h2 class="custom-header-4">Q{{ page_dict_to_html['current_question_number'] }}: {{ page_dict_to_html['db_question_dict']['title'] }}</h2>
+            <h2 class="custom-header-4">Q{{ page_dict_to_html['current_question_number'] }}/{{ page_dict_to_html['test_total_questions'] }}: {{ page_dict_to_html['db_question_dict']['title'] }}</h2>
             <div>
                 {% for category_tuple in page_dict_to_html['db_question_dict']['categories'] %}
                   <span class="custom-tag-1 custom-tag-category-{{ category_tuple[1] }} custom-br-4 custom-ml-3 custom-header-5">{{ category_tuple[0] }}</span>
