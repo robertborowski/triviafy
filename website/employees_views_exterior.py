@@ -9,12 +9,15 @@
 
 # ------------------------ imports start ------------------------
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import current_user
 from website.backend.candidates.redis import redis_connect_to_database_function
-from website.models import CreatedQuestionsObj, CandidatesAssessmentsCreatedObj
+from website.models import CreatedQuestionsObj, CandidatesAssessmentsCreatedObj, UserObj
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
-from website.backend.candidates.user_inputs import alert_message_default_function_v2
+from website.backend.candidates.user_inputs import alert_message_default_function_v2, sanitize_email_function, sanitize_password_function
+from website.backend.candidates.send_emails import send_email_template_function
+from website import db
+from werkzeug.security import generate_password_hash
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -122,4 +125,77 @@ def employees_example_page_function(url_redirect_code=None, url_question_number=
   # ------------------------ check if contains img end ------------------------
   localhost_print_function(' ------------------------ employees_example_page_function end ------------------------ ')
   return render_template('employees/exterior/example_test/index.html', db_question_obj_to_html=db_question_obj, previous_question_number_to_html=previous_question_number, current_question_number_to_html=current_question_number, next_question_number_to_html=next_question_number, alert_message_dict_to_html=alert_message_dict, contains_img_to_html=contains_img)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@employees_views_exterior.route('/employees/reset', methods=['GET', 'POST'])
+def employees_forgot_password_page_function():
+  localhost_print_function(' ------------------------ employees_forgot_password_page_function START ------------------------ ')  
+  forgot_password_error_statement = ''
+  if request.method == 'POST':
+    # ------------------------ post request sent start ------------------------
+    ui_email = request.form.get('forgot_password_page_ui_email')
+    # ------------------------ post request sent end ------------------------
+    # ------------------------ sanitize/check user input email start ------------------------
+    ui_email_cleaned = sanitize_email_function(ui_email)
+    if ui_email_cleaned == False:
+      forgot_password_error_statement = 'Please enter a valid work email.'
+    # ------------------------ sanitize/check user input email end ------------------------
+    # ------------------------ check if user email exists in db start ------------------------
+    user_exists = UserObj.query.filter_by(email=ui_email).first()
+    if user_exists:
+      forgot_password_error_statement = 'Password reset link sent to email.'
+      # ------------------------ send email with token url start ------------------------
+      serializer_token_obj = UserObj.get_reset_token_function(self=user_exists)
+      output_email = ui_email
+      output_subject_line = 'Password Reset - Triviafy'
+      output_message_content = f"To reset your password, visit the following link: https://triviafy.com/employees/reset/{serializer_token_obj} \n\nThis link will expire after 30 minutes.\nIf you did not make this request then simply ignore this email and no changes will be made."
+      send_email_template_function(output_email, output_subject_line, output_message_content)
+      # ------------------------ send email with token url end ------------------------
+    else:
+      forgot_password_error_statement = 'Password reset link sent to email.'
+      pass
+    # ------------------------ check if user email exists in db end ------------------------
+  localhost_print_function(' ------------------------ employees_forgot_password_page_function END ------------------------ ')
+  return render_template('employees/exterior/forgot_password/index.html', user=current_user, error_message_to_html = forgot_password_error_statement)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@employees_views_exterior.route('/employees/reset/<token>', methods=['GET', 'POST'])
+def employees_reset_forgot_password_page_function(token):
+  localhost_print_function(' ------------------------ employees_reset_forgot_password_page_function START ------------------------ ')
+  reset_password_error_statement = ''
+  user_obj_from_token = UserObj.verify_reset_token_function(token)
+  if user_obj_from_token is None:
+    reset_password_error_statement = 'That is an invalid or expired token'
+    localhost_print_function(' ------------------------ employees_reset_forgot_password_page_function END ------------------------ ')
+    return render_template('employees/exterior/forgot_password/index.html', user=current_user, error_message_to_html = reset_password_error_statement)
+  if request.method == 'POST':
+    reset_password_error_statement = ''
+    # ------------------------ get inputs from form start ------------------------
+    ui_password = request.form.get('reset_forgot_password_page_ui_password')
+    ui_password_confirmed = request.form.get('reset_forgot_password_page_ui_password_confirmed')
+    # ------------------------ get inputs from form end ------------------------
+    # ------------------------ check match start ------------------------
+    if ui_password != ui_password_confirmed:
+      reset_password_error_statement = 'Passwords do not match.'
+    # ------------------------ check match end ------------------------
+    # ------------------------ sanitize/check user input password start ------------------------
+    ui_password_cleaned = sanitize_password_function(ui_password)
+    if ui_password_cleaned == False:
+      reset_password_error_statement = 'Password is not valid.'
+    # ------------------------ sanitize/check user input password end ------------------------
+    # ------------------------ sanitize/check user input password start ------------------------
+    ui_password_confirmed_cleaned = sanitize_password_function(ui_password_confirmed)
+    if ui_password_confirmed_cleaned == False:
+      reset_password_error_statement = 'Password is not valid.'
+    # ------------------------ sanitize/check user input password end ------------------------
+    # ------------------------ update db start ------------------------
+    if reset_password_error_statement == '':
+      user_obj_from_token.password = generate_password_hash(ui_password, method="sha256")
+      db.session.commit()
+      return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+    # ------------------------ update db end ------------------------
+  localhost_print_function(' ------------------------ employees_reset_forgot_password_page_function END ------------------------ ')
+  return render_template('employees/exterior/forgot_password/reset_forgot_password/index.html', user=current_user, error_message_to_html = reset_password_error_statement)
 # ------------------------ individual route end ------------------------
