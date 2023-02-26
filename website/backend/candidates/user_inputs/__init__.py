@@ -441,7 +441,7 @@ def alert_message_default_function_v2(redirect_var=None):
     }
   elif redirect_var == 's4':
     alert_message_dict = {
-      'message':'Quiz successfully submitted.',
+      'message':'Answers successfully saved.',
       'type':'success'
     }
   elif redirect_var == 's5':

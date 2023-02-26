@@ -194,14 +194,14 @@ def login_dashboard_page_function(url_redirect_code=None):
   ui_latest_test_completed = False
   try:
     db_test_grading_obj = EmployeesTestsGradedObj.query.filter_by(fk_test_id=db_tests_obj.id, fk_user_id=current_user.id).first()
-    if db_test_grading_obj.status == 'complete':
-      ui_latest_test_completed = True
     # ------------------------ auto route to latest quiz start ------------------------
-    if db_test_grading_obj == None or db_test_grading_obj == []:
+    if (db_test_grading_obj == None or db_test_grading_obj == []) and db_tests_obj.status == 'Open':
       return redirect(url_for('employees_views_interior.employees_test_id_function'))
-    if db_test_grading_obj.status == 'wip' and ui_latest_test_completed != True:
+    if db_test_grading_obj.status == 'wip' and db_tests_obj.status == 'Open':
       return redirect(url_for('employees_views_interior.employees_test_id_function'))
     # ------------------------ auto route to latest quiz end ------------------------
+    if db_test_grading_obj.status == 'complete':
+      ui_latest_test_completed = True
   except:
     pass
   page_dict['ui_latest_test_completed'] = ui_latest_test_completed
