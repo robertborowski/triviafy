@@ -192,6 +192,10 @@ def admin_delete_page_function(url_redirect_code=None):
       redis_keys = redis_connection.keys()
       redis_candidates_deleted_counter = 0
       for key in redis_keys:
+        # ------------------------ project: changefunders clutters up the redis db for no reason start ------------------------
+        if 'cfref' in str(key):
+          redis_connection.delete(key)
+        # ------------------------ project: changefunders clutters up the redis db for no reason end ------------------------
         if 'bcooke' in str(key):
           value = redis_connection.get(key).decode('utf-8')
           if value not in user_ids_set:
