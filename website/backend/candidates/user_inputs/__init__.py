@@ -449,6 +449,11 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':'Subscription successfully updated.',
       'type':'success'
     }
+  elif redirect_var == 's6':
+    alert_message_dict = {
+      'message':'Password updated!',
+      'type':'success'
+    }
   # ------------------------ success end ------------------------
   # ------------------------ info end ------------------------
   elif redirect_var == 'i1':

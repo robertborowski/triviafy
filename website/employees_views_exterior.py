@@ -194,7 +194,7 @@ def employees_reset_forgot_password_page_function(token):
     if reset_password_error_statement == '':
       user_obj_from_token.password = generate_password_hash(ui_password, method="sha256")
       db.session.commit()
-      return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+      return redirect(url_for('employees_auth.employees_login_page_function', url_redirect_code='s6'))
     # ------------------------ update db end ------------------------
   localhost_print_function(' ------------------------ employees_reset_forgot_password_page_function END ------------------------ ')
   return render_template('employees/exterior/forgot_password/reset_forgot_password/index.html', user=current_user, error_message_to_html = reset_password_error_statement)
