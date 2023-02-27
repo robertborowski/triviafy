@@ -32,7 +32,14 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
           fk_group_id='{additional_input}' \
         ORDER BY \
           created_timestamp DESC \
-        LIMIT 1;"
+        LIMIT 1;",
+    'select_user_emails_1':
+      f"SELECT \
+          email \
+        FROM \
+          user_obj \
+        WHERE \
+          company_name='{additional_input}';"
   }
   # ------------------------ select queries end ------------------------
   # ------------------------ cursor start ------------------------

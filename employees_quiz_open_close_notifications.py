@@ -14,10 +14,17 @@ time.tzset()
 # ------------------------ set timezone end ------------------------
 
 # ------------------------ individual function start ------------------------
+# fix issue: "can't compare offset-naive and offset-aware datetimes"
+def timestamp_offset_convert_function(input_dt):
+  input_dt = input_dt.strftime("%Y-%m-%d %H:%M:%S")
+  input_dt = datetime.strptime(input_dt, "%Y-%m-%d %H:%M:%S")
+  return input_dt
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
 def get_current_timestamp_function():
   current_timestamp = datetime.now()
-  current_timestamp = current_timestamp.strftime("%Y-%m-%d %H:%M:%S")
-  current_timestamp = datetime.strptime(current_timestamp, "%Y-%m-%d %H:%M:%S")
+  current_timestamp = timestamp_offset_convert_function(current_timestamp)
   return current_timestamp
 # ------------------------ individual function end ------------------------
 
@@ -30,16 +37,16 @@ def employees_quiz_open_close_notifications():
   # ------------------------ get all groups start ------------------------
   db_groups_arr_of_dict = select_manual_function(postgres_connection, postgres_cursor, 'select_groups_1')
   # ------------------------ get all groups end ------------------------
-  # ------------------------ current datetime start ------------------------
-  current_timestamp = get_current_timestamp_function()
-  # ------------------------ current datetime end ------------------------
   # ------------------------ loop all groups start ------------------------
   localhost_print_function(' ------------- 0 ------------- ')
   for i_group_dict in db_groups_arr_of_dict:
     localhost_print_function(' ')
+    localhost_print_function(' ------------------------------------------------------------- ')
     localhost_print_function(f"i_group_dict | type: {type(i_group_dict)} | {i_group_dict}")
-    i_group_status = 'start of script'
-    # ------------------------ get latest test start ------------------------
+    # ------------------------ get all emails with group start ------------------------
+    db_user_emails_arr_of_dicts = select_manual_function(postgres_connection, postgres_cursor, 'select_user_emails_1', i_group_dict['fk_company_name'])
+    # ------------------------ get all emails with group end ------------------------
+    # ------------------------ get latest test + status start ------------------------
     i_group_status = 'no latest test'
     latest_test_id = None
     db_latest_test_dict = {}
@@ -48,14 +55,20 @@ def employees_quiz_open_close_notifications():
       db_latest_test_dict = db_latest_test_arr[0]
       i_group_status = 'at least 1 test exists'
       latest_test_id = db_latest_test_dict['id']
-      # ------------------------ get latest test status start ------------------------
-      latest_test_start_timestamp = db_latest_test_dict['start_timestamp']
-      latest_test_end_timestamp = db_latest_test_dict['end_timestamp']
-      localhost_print_function(f"latest_test_start_timestamp | type: {type(latest_test_start_timestamp)} | {latest_test_start_timestamp}")
-      localhost_print_function(f"latest_test_end_timestamp | type: {type(latest_test_end_timestamp)} | {latest_test_end_timestamp}")
-      localhost_print_function(f"current_timestamp | type: {type(current_timestamp)} | {current_timestamp}")
-      # ------------------------ get latest test status end ------------------------
-    # ------------------------ get latest test end ------------------------
+      latest_test_start_timestamp = timestamp_offset_convert_function(db_latest_test_dict['start_timestamp'])
+      latest_test_end_timestamp = timestamp_offset_convert_function(db_latest_test_dict['end_timestamp'])
+      current_timestamp = get_current_timestamp_function()
+      if latest_test_end_timestamp >= current_timestamp:
+        latest_test_remainder_timestamp = latest_test_end_timestamp - current_timestamp
+        latest_test_remainder_days = latest_test_remainder_timestamp.days
+        latest_test_remainder_hours = ((latest_test_remainder_timestamp.seconds / 60) / 60)
+        if latest_test_remainder_days >= 0:
+          i_group_status = 'latest test is open'
+          if latest_test_remainder_hours <= 1:
+            i_group_status = 'latest test is open with less than 1 hour'
+      else:
+        i_group_status = 'latest test is closed'
+    # ------------------------ get latest test + status end ------------------------
     # ------------------------ get all group settings start ------------------------
     db_group_settings_arr_of_dict = select_manual_function(postgres_connection, postgres_cursor, 'select_group_settings_1', i_group_dict['public_group_id'])
     # ------------------------ get all group settings end ------------------------
