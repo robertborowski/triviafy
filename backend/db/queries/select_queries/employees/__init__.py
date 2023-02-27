@@ -7,7 +7,7 @@ from psycopg2 import Error, extras
 localhost_print_function(' ------------------------ select_queries employees __init__ start ------------------------ ')
 # ------------------------ individual function start ------------------------
 def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_use, additional_input=None, additional_input2=None, additional_input3=None):
-  localhost_print_function(' ------------------------ select_manual_function start ------------------------ ')
+  # localhost_print_function(' ------------------------ select_manual_function start ------------------------ ')
   # ------------------------ select queries start ------------------------
   select_queries_dict = {
     'select_groups_1':
@@ -22,7 +22,17 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
         FROM \
           employees_group_settings_obj \
         WHERE \
-          fk_group_id='{additional_input}';"
+          fk_group_id='{additional_input}';",
+    'select_latest_test_1':
+      f"SELECT \
+          * \
+        FROM \
+          employees_tests_obj \
+        WHERE \
+          fk_group_id='{additional_input}' \
+        ORDER BY \
+          created_timestamp DESC \
+        LIMIT 1;"
   }
   # ------------------------ select queries end ------------------------
   # ------------------------ cursor start ------------------------
@@ -35,7 +45,7 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
   for row in results_arr:
     result_arr_dicts.append(dict(row))
   # ------------------------ results end ------------------------
-  localhost_print_function(' ------------------------ select_manual_function end ------------------------ ')
+  # localhost_print_function(' ------------------------ select_manual_function end ------------------------ ')
   return result_arr_dicts
 # ------------------------ individual function end ------------------------
 localhost_print_function(' ------------------------ select_queries employees __init__ end ------------------------ ')
