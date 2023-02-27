@@ -11,6 +11,7 @@
 </div>
 {% endif %}
 <!-- ----------------------------------- end ----------------------------------- -->
+
 <!-- ----------------------------------- start ----------------------------------- -->
 <div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
   <div>
@@ -55,6 +56,31 @@
   <!-- ----------------------------------- end ----------------------------------- -->
 </div>
 <!-- ----------------------------------- end ----------------------------------- -->
+
+<!-- ----------------------------------- start ----------------------------------- -->
+<div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
+  <div>
+    <h2 class="custom-header-2-mobile">Admin analytics > Candidates > Have not explored Employees</h2>
+  </div>
+</div>
+<div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
+  <!-- ----------------------------------- start ----------------------------------- -->
+  <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+    <div class="text-center">
+      <label for="SendTryEmployeesEmails" class="form-label">SendTryEmployeesEmails</label>
+      <input type="text" class="form-control custom-width-17 mx-auto" id="SendTryEmployeesEmails" name="SendTryEmployeesEmails" placeholder="Send email" value="all" required>
+      <button type="submit" class="btn btn-outline-primary custom-mt-2">Send</button>
+    </div>
+  </form>
+  <!-- ----------------------------------- end ----------------------------------- -->
+  <!-- ----------------------------------- start ----------------------------------- -->
+  <div class="text-center custom-mt-1">
+    <p>{{ page_dict_to_html['total_candidate_only_emails'] }}</p>
+  </div>
+  <!-- ----------------------------------- end ----------------------------------- -->
+</div>
+<!-- ----------------------------------- end ----------------------------------- -->
+
 <!-- ------------------------------------- signature start ------------------------------------- -->
 <div class="text-center custom-mt-5">
   <img src="/static/images/candidates/logo/logo_wide_v3.png" alt="powered by triviafy logo" class="custom-img-size-10 custom-img-opacity-1">

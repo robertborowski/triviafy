@@ -272,6 +272,17 @@ def admin_analytics_page_function(url_redirect_code=None):
     # ------------------------ append i_dict end ------------------------
   # ------------------------ loop groups end ------------------------
   page_dict['master_arr_of_dicts_01'] = master_arr_of_dicts_01
+  # ------------------------ candidate_only_emails_arr start ------------------------
+  candidate_only_emails_arr = []
+  db_users_obj = UserObj.query.all()
+  for i_obj in db_users_obj:
+    db_group_obj = EmployeesGroupsObj.query.filter_by(fk_company_name=i_obj.company_name).first()
+    if db_group_obj == None or db_group_obj == []:
+      if i_obj.email not in candidate_only_emails_arr:
+        candidate_only_emails_arr.append(i_obj.email)
+  page_dict['candidate_only_emails_arr'] = candidate_only_emails_arr
+  page_dict['total_candidate_only_emails'] = len(candidate_only_emails_arr)
+  # ------------------------ candidate_only_emails_arr end ------------------------
   # ------------------------ post method start ------------------------
   if request.method == 'POST':
     # ------------------------ initialize on post start ------------------------
@@ -290,8 +301,6 @@ def admin_analytics_page_function(url_redirect_code=None):
     # ------------------------ initialize on post end ------------------------
     # ------------------------ SendStatusEmails start ------------------------
     status_email_hit = request.form.get('SendStatusEmails')
-    if status_email_hit != 'all':
-      return redirect(url_for('admin_views_interior.admin_analytics_page_function', url_redirect_code='e6'))
     if status_email_hit == 'all':
       for i_dict in page_dict['master_arr_of_dicts_01']:
         # ------------------------ progress option start ------------------------
@@ -324,7 +333,40 @@ def admin_analytics_page_function(url_redirect_code=None):
               db.session.commit()
               # ------------------------ insert email to db end ------------------------
         # ------------------------ progress option end ------------------------
+      return redirect(url_for('admin_views_interior.admin_analytics_page_function', url_redirect_code='s7'))
     # ------------------------ SendStatusEmails end ------------------------
+    # ------------------------ SendTryEmployeesEmails start ------------------------
+    status_email_hit = request.form.get('SendTryEmployeesEmails')
+    if status_email_hit == 'all':
+      for i_email in page_dict['candidate_only_emails_arr']:
+        # ------------------------ send email start ------------------------
+        guessed_name = breakup_email_function(i_email)
+        output_to_email = i_email
+        output_subject = f"Promotion Strategy: {todays_date_str}"
+        output_body = f"Hi {guessed_name},\n\nYou will get more recognition and exposure with weekly team building trivia at https://triviafy.com/employees/dashboard \n\nBest,\nTriviafy Support Team\nReply 'stop' to unsubscribe."
+        # ------------------------ check if email+subject already sent today start ------------------------
+        db_email_sent_obj = EmployeesEmailSentObj.query.filter_by(to_email=output_to_email, subject=output_subject).first()
+        if db_email_sent_obj != None and db_email_sent_obj != []:
+          localhost_print_function(f'email already sent to this {output_to_email} - {output_subject}')
+          continue
+        # ------------------------ check if email+subject already sent today end ------------------------
+        else:
+          send_email_template_function(output_to_email, output_subject, output_body)
+          # ------------------------ send email end ------------------------
+          # ------------------------ insert email to db start ------------------------
+          new_row = EmployeesEmailSentObj(
+            id = create_uuid_function('progress_'),
+            created_timestamp = create_timestamp_function(),
+            from_user_id_fk = current_user.id,
+            to_email = output_to_email,
+            subject = output_subject,
+            body = output_body
+          )
+          db.session.add(new_row)
+          db.session.commit()
+          # ------------------------ insert email to db end ------------------------
+      return redirect(url_for('admin_views_interior.admin_analytics_page_function', url_redirect_code='s7'))
+    # ------------------------ SendTryEmployeesEmails end ------------------------
   # ------------------------ post method end ------------------------
   localhost_print_function(' ------------------------ admin_analytics_page_function end ------------------------ ')
   return render_template('admin_page/analytics/index.html', page_dict_to_html=page_dict)

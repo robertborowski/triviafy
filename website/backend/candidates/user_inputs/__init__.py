@@ -459,6 +459,11 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':'Password updated!',
       'type':'success'
     }
+  elif redirect_var == 's7':
+    alert_message_dict = {
+      'message':'Emails sent!',
+      'type':'success'
+    }
   # ------------------------ success end ------------------------
   # ------------------------ info end ------------------------
   elif redirect_var == 'i1':
