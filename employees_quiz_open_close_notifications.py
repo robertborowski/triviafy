@@ -3,8 +3,14 @@ from backend.utils.localhost_print_utils.localhost_print import localhost_print_
 from backend.db.connection.postgres_connect_to_database import postgres_connect_to_database_function
 from backend.db.connection.postgres_close_connection_to_database import postgres_close_connection_to_database_function
 from backend.db.queries.select_queries.employees import select_manual_function
+from backend.db.queries.insert_queries.employees import insert_manual_function
 from datetime import datetime, timedelta
 import os, time
+import sendgrid
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail, Email, To, Content
+from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
+from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ set timezone start ------------------------
@@ -119,6 +125,35 @@ def get_week_dates_function(date_var):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
+def send_email_template_function(output_email, output_subject_line, output_message_content):
+  localhost_print_function(' ------------------------ send_email_template_function start ------------------------ ')
+  sg = sendgrid.SendGridAPIClient(api_key=os.environ.get('SENDGRID_API_KEY_TRIVIAFY'))
+  from_email = Email(email = os.environ.get('TRIVIAFY_SUPPORT_EMAIL'), name = "Triviafy")
+  to_email = To(output_email)
+  subject = output_subject_line
+  content = Content("text/plain", output_message_content)
+  mail = Mail(from_email, to_email, subject, content)
+  mail_json = mail.get()
+  try:
+    sg.client.mail.send.post(request_body=mail_json)
+    localhost_print_function('email sent successfully! ' + output_subject_line + " - To: " + output_email)
+  except:
+    localhost_print_function('email did not send successfully...' + output_subject_line)
+    localhost_print_function(' ------------------------ send_email_template_function end ------------------------ ')
+    return False
+  localhost_print_function(' ------------------------ send_email_template_function end ------------------------ ')
+  return True
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def breakup_email_function(input_email):
+  # localhost_print_function(' ------------------------ breakup_email_function start ------------------------ ')
+  email_arr = input_email.split('@')
+  # localhost_print_function(' ------------------------ breakup_email_function end ------------------------ ')
+  return email_arr[0]
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
 def employees_quiz_open_close_notifications():
   localhost_print_function(' ------------------------ employees_quiz_open_close_notifications start ------------------------ ')
   # ------------------------ open connection start ------------------------
@@ -132,9 +167,6 @@ def employees_quiz_open_close_notifications():
     if i_group_dict['fk_company_name'] != 'gmail':
       continue
     localhost_print_function(f"i_group_dict | type: {type(i_group_dict)} | {i_group_dict}")
-    # ------------------------ get all emails with group start ------------------------
-    db_user_emails_arr_of_dicts = select_manual_function(postgres_connection, postgres_cursor, 'select_user_emails_1', i_group_dict['fk_company_name'])
-    # ------------------------ get all emails with group end ------------------------
     # ------------------------ get latest test + status start ------------------------
     i_group_status = 'no latest test'
     latest_test_id = None
@@ -142,7 +174,6 @@ def employees_quiz_open_close_notifications():
     db_latest_test_arr = select_manual_function(postgres_connection, postgres_cursor, 'select_latest_test_1', i_group_dict['public_group_id'])
     if db_latest_test_arr != None and db_latest_test_arr != []:
       db_latest_test_dict = db_latest_test_arr[0]
-      i_group_status = 'at least 1 test exists'
       latest_test_id = db_latest_test_dict['id']
       latest_test_start_timestamp = timestamp_offset_convert_function(db_latest_test_dict['start_timestamp'])
       latest_test_end_timestamp = timestamp_offset_convert_function(db_latest_test_dict['end_timestamp'])
@@ -180,6 +211,35 @@ def employees_quiz_open_close_notifications():
         if current_timestamp >= should_be_this_weeks_monday:
           check_correct_cadence = True
     # ------------------------ if latest quiz closed, check cadence to send next email end ------------------------
+    # ------------------------ loop each user email start ------------------------
+    db_user_emails_arr_of_dicts = select_manual_function(postgres_connection, postgres_cursor, 'select_user_emails_1', i_group_dict['fk_company_name'])
+    for i_dict in db_user_emails_arr_of_dicts:
+      todays_date_str = datetime.today().strftime('%Y-%m-%d')   # 2023-02-25
+      # ------------------------ send email start ------------------------
+      if i_group_status == 'no latest test':
+        output_to_email = i_dict['email']
+        output_subject = f'Action Required: First Team Trivia {todays_date_str}'
+        db_email_already_sent = select_manual_function(postgres_connection, postgres_cursor, 'select_check_email_sent_1', output_to_email, output_subject)
+        if db_email_already_sent == None or db_email_already_sent == []:
+          guessed_name = breakup_email_function(i_dict['email'])
+          output_body = f"Hi {guessed_name},\n\nYou have not completed your part of your team's latest team building activity. Complete it at https://triviafy.com/employees/dashboard \n\nBest,\nTriviafy Support Team\nReply 'stop' to unsubscribe."
+          send_email_template_function(output_to_email, output_subject, output_body)
+          # ------------------------ insert to db start ------------------------
+          send_email_id = create_uuid_function('job_')
+          send_email_created_timestamp = create_timestamp_function()
+          insert_inputs_arr = [send_email_id, send_email_created_timestamp, 'job_heroku', output_to_email, output_subject, output_body]
+          insert_manual_function(postgres_connection, postgres_cursor, 'insert_email_1', insert_inputs_arr)
+          # ------------------------ insert to db end ------------------------
+        else:
+          pass
+      # ------------------------ send email end ------------------------
+      # ------------------------ check if grading exists start ------------------------
+      i_user_completed_latest_test = False
+      db_test_graded_arr_of_dicts = select_manual_function(postgres_connection, postgres_cursor, 'select_test_graded_1', i_dict['id'], latest_test_id)
+      if db_test_graded_arr_of_dicts != None and db_test_graded_arr_of_dicts != []:
+        i_user_completed_latest_test = True
+      # ------------------------ check if grading exists end ------------------------
+    # ------------------------ loop each user email end ------------------------
   # ------------------------ loop all groups end ------------------------
   # ------------------------ close connection start ------------------------
   postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)

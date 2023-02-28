@@ -35,11 +35,29 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
         LIMIT 1;",
     'select_user_emails_1':
       f"SELECT \
+          id, \
           email \
         FROM \
           user_obj \
         WHERE \
-          company_name='{additional_input}';"
+          company_name='{additional_input}';",
+    'select_test_graded_1':
+      f"SELECT \
+          created_timestamp, fk_group_id, fk_user_id, fk_test_id, total_questions, correct_count, final_score, status, graded_count \
+        FROM \
+          employees_tests_graded_obj \
+        WHERE \
+          fk_user_id='{additional_input}' AND \
+          fk_test_id='{additional_input2}' AND \
+          status='complete';",
+    'select_check_email_sent_1':
+      f"SELECT \
+          * \
+        FROM \
+          employees_email_sent_obj \
+        WHERE \
+          to_email='{additional_input}' AND \
+          subject='{additional_input2}';"
   }
   # ------------------------ select queries end ------------------------
   # ------------------------ cursor start ------------------------
