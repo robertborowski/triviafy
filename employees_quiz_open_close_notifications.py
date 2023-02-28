@@ -189,10 +189,8 @@ def employees_quiz_open_close_notifications():
       else:
         i_group_status = 'latest test is closed'
     # ------------------------ get latest test + status end ------------------------
-    # ------------------------ get all group settings start ------------------------
-    db_group_settings_arr_of_dict = select_manual_function(postgres_connection, postgres_cursor, 'select_group_settings_1', i_group_dict['public_group_id'])
-    # ------------------------ get all group settings end ------------------------
     # ------------------------ if latest quiz closed, check cadence to send next email start ------------------------
+    db_group_settings_arr_of_dict = select_manual_function(postgres_connection, postgres_cursor, 'select_group_settings_1', i_group_dict['public_group_id'])
     check_correct_cadence = False
     if i_group_status == 'latest test is closed':
       if db_group_settings_arr_of_dict == None or db_group_settings_arr_of_dict == []:
