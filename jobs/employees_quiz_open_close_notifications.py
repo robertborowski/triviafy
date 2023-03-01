@@ -160,6 +160,12 @@ def breakup_email_function(input_email):
 # ------------------------ individual function start ------------------------
 def employees_quiz_open_close_notifications():
   localhost_print_function(' ------------------------ employees_quiz_open_close_notifications start ------------------------ ')
+  # ------------------------ job check start ------------------------
+  job_datetime_check = datetime.now()
+  job_hour_check = job_datetime_check.hour
+  if job_hour_check < 12:
+    return True
+  # ------------------------ job check end ------------------------
   # ------------------------ open connection start ------------------------
   postgres_connection, postgres_cursor = postgres_connect_to_database_function()
   # ------------------------ open connection end ------------------------
