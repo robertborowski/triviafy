@@ -375,6 +375,38 @@ def admin_analytics_page_function(url_redirect_code=None):
           # ------------------------ insert email to db end ------------------------
       return redirect(url_for('admin_views_interior.admin_analytics_page_function', url_redirect_code='s7'))
     # ------------------------ SendTryEmployeesEmails end ------------------------
+    # ------------------------ SendCollectedEmailsTryProduct start ------------------------
+    status_email_hit = request.form.get('SendCollectedEmailsTryProduct')
+    if status_email_hit == 'all':
+      for i_email in page_dict['landing_collect_emails_arr']:
+        # ------------------------ send email start ------------------------
+        guessed_name = breakup_email_function(i_email)
+        output_to_email = i_email
+        output_subject = f"Team Engagement Strategy: {todays_date_str}"
+        output_body = f"Hi {guessed_name},\n\nYou will get more recognition and exposure with your team through weekly trivia contests at https://triviafy.com/employees/dashboard first quiz in seconds. \n\nBest,\nTriviafy Support Team\nReply 'stop' to unsubscribe."
+        # ------------------------ check if email+subject already sent today start ------------------------
+        db_email_sent_obj = EmployeesEmailSentObj.query.filter_by(to_email=output_to_email, subject=output_subject).first()
+        if db_email_sent_obj != None and db_email_sent_obj != []:
+          localhost_print_function(f'email already sent to this {output_to_email} - {output_subject}')
+          continue
+        # ------------------------ check if email+subject already sent today end ------------------------
+        else:
+          send_email_template_function(output_to_email, output_subject, output_body)
+          # ------------------------ send email end ------------------------
+          # ------------------------ insert email to db start ------------------------
+          new_row = EmployeesEmailSentObj(
+            id = create_uuid_function('collected_'),
+            created_timestamp = create_timestamp_function(),
+            from_user_id_fk = current_user.id,
+            to_email = output_to_email,
+            subject = output_subject,
+            body = output_body
+          )
+          db.session.add(new_row)
+          db.session.commit()
+          # ------------------------ insert email to db end ------------------------
+      return redirect(url_for('admin_views_interior.admin_analytics_page_function', url_redirect_code='s7'))
+    # ------------------------ SendCollectedEmailsTryProduct end ------------------------
   # ------------------------ post method end ------------------------
   localhost_print_function(' ------------------------ admin_analytics_page_function end ------------------------ ')
   return render_template('admin_page/analytics/index.html', page_dict_to_html=page_dict)
