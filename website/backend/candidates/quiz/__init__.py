@@ -4,7 +4,7 @@ import re
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
-from website.models import EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesGroupQuestionsUsedObj, EmployeesTestsGradedObj
+from website.models import EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesGroupQuestionsUsedObj, EmployeesTestsGradedObj, UserObj, EmployeesEmailSentObj
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from website import db
 from website.backend.candidates.datetime_manipulation import get_current_weekday_function, get_current_hour_function, get_upcoming_date_function, build_out_datetime_from_parts_function, get_week_dates_function, get_weekday_dict_function_v2
@@ -13,6 +13,7 @@ from website.backend.candidates.sql_statements.sql_prep import prepare_where_cla
 from datetime import date, timedelta, datetime
 import difflib
 import json
+from website.backend.candidates.send_emails import send_email_template_function
 # ------------------------ imports end ------------------------
 
 
@@ -371,6 +372,35 @@ def grade_quiz_function(ui_answer, url_test_id, total_questions, url_question_nu
   db_test_grading_obj.test_obj = json.dumps(master_test_tracking_arr_of_dict)
   if int(db_test_grading_obj.graded_count) == int(total_questions):
     db_test_grading_obj.status = 'complete'
+    # ------------------------ email self start ------------------------
+    try:
+      db_user_obj = UserObj.query.filter_by(id=current_user_id).first()
+      output_subject = f'Employees Test Graded | {db_user_obj.email} | {url_test_id}'
+      db_email_sent_obj = EmployeesEmailSentObj.query.filter_by(subject=output_subject).first()
+      if db_email_sent_obj == None or db_email_sent_obj == []:
+        output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+        output_body = f"Hi there,\n\n{db_user_obj.email} completed their team's latest test\n\nBest,\nTriviafy"
+        send_email_template_function(output_to_email, output_subject, output_body)
+        # ------------------------ insert email to db start ------------------------
+        try:
+          new_row_email = EmployeesEmailSentObj(
+            id = create_uuid_function('self_'),
+            created_timestamp = create_timestamp_function(),
+            from_user_id_fk = 'notifications',
+            to_email = output_to_email,
+            subject = output_subject,
+            body = output_body
+          )
+          db.session.add(new_row_email)
+        except:
+          pass
+        # ------------------------ insert email to db end ------------------------
+      else:
+        localhost_print_function('email already sent')
+        pass
+    except:
+      pass
+    # ------------------------ email self end ------------------------
   db.session.commit()
   # ------------------------ update db end ------------------------
   localhost_print_function(' ------------------------ grade_quiz_function end ------------------------ ')
