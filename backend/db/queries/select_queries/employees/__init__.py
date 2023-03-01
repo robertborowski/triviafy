@@ -57,7 +57,31 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
           employees_email_sent_obj \
         WHERE \
           to_email='{additional_input}' AND \
-          subject='{additional_input2}';"
+          subject='{additional_input2}';",
+    'select_latest_test_winner_1':
+      f"SELECT \
+          MAX(final_score) AS max_score, \
+          fk_user_id, \
+          created_timestamp \
+        FROM \
+          employees_tests_graded_obj \
+        WHERE \
+          fk_test_id='{additional_input}' \
+        GROUP BY \
+          fk_user_id, \
+          created_timestamp \
+        ORDER BY \
+          MAX(final_score) DESC, \
+          created_timestamp \
+        LIMIT 1;",
+    'select_user_1':
+      f"SELECT \
+          email, \
+          company_name \
+        FROM \
+          user_obj \
+        WHERE \
+          id='{additional_input}';"
   }
   # ------------------------ select queries end ------------------------
   # ------------------------ cursor start ------------------------

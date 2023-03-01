@@ -170,10 +170,10 @@ def employees_quiz_open_close_notifications():
   for i_group_dict in db_groups_arr_of_dict:
     if i_group_dict['fk_company_name'] != 'gmail':
       continue
-    localhost_print_function(f"i_group_dict | type: {type(i_group_dict)} | {i_group_dict}")
     # ------------------------ get latest test + status start ------------------------
     i_group_status = 'no latest test'
     latest_test_id = None
+    latest_test_id_winner = None
     db_latest_test_dict = {}
     db_latest_test_arr = select_manual_function(postgres_connection, postgres_cursor, 'select_latest_test_1', i_group_dict['public_group_id'])
     if db_latest_test_arr != None and db_latest_test_arr != []:
@@ -220,8 +220,8 @@ def employees_quiz_open_close_notifications():
       guessed_name = breakup_email_function(i_dict['email'])
       todays_date_str = datetime.today().strftime('%m/%d/%Y')   # 2023-02-25
       # ------------------------ send email start ------------------------
-      if i_group_status == 'no latest test':
-        output_subject = f'Action Required: First Team Trivia Contest {todays_date_str}'
+      if i_group_status == 'no latest test' or (check_correct_cadence == True and i_group_status == 'latest test is closed'):
+        output_subject = f'Action Required: New Team Trivia Contest {todays_date_str}'
         db_email_already_sent = select_manual_function(postgres_connection, postgres_cursor, 'select_check_email_sent_1', output_to_email, output_subject)
         if db_email_already_sent == None or db_email_already_sent == []:
           output_body = f"Hi {guessed_name},\n\nYour team's latest trivia contest https://triviafy.com/employees/dashboard \n\nBest,\nTriviafy Support Team\nReply 'stop' to unsubscribe."
@@ -277,7 +277,28 @@ def employees_quiz_open_close_notifications():
         # ------------------------ send email end ------------------------
       # ------------------------ email only people who have not yet participated end ------------------------
       # ------------------------ email everyone with winner once quiz is closed start ------------------------
-      
+      if i_group_status == 'latest test is closed':
+        # ------------------------ get latest quiz winner start ------------------------
+        if latest_test_id_winner == None:
+          db_latest_test_winner_arr_of_dict = select_manual_function(postgres_connection, postgres_cursor, 'select_latest_test_winner_1', latest_test_id)
+          db_winner_email_arr_of_dict = select_manual_function(postgres_connection, postgres_cursor, 'select_user_1', db_latest_test_winner_arr_of_dict[0]['fk_user_id'])
+          latest_test_id_winner = db_winner_email_arr_of_dict[0]['email']
+        # ------------------------ get latest quiz winner end ------------------------
+        # ------------------------ send email start ------------------------
+        output_subject = f'Team Trivia Contest Closed | Confirmation: {latest_test_id}'
+        db_email_already_sent = select_manual_function(postgres_connection, postgres_cursor, 'select_check_email_sent_1', output_to_email, output_subject)
+        if db_email_already_sent == None or db_email_already_sent == []:
+          output_body = f"Hi {guessed_name},\n\nYour team's latest trivia contest winner is {latest_test_id_winner}! See your team's responses, leaderboard, and statistics at https://triviafy.com/employees/dashboard \n\nBest,\nTriviafy Support Team\nReply 'stop' to unsubscribe."
+          send_email_template_function(output_to_email, output_subject, output_body)
+          # ------------------------ insert to db start ------------------------
+          send_email_id = create_uuid_function('job_')
+          send_email_created_timestamp = create_timestamp_function()
+          insert_inputs_arr = [send_email_id, send_email_created_timestamp, 'job_heroku', output_to_email, output_subject, output_body]
+          insert_manual_function(postgres_connection, postgres_cursor, 'insert_email_1', insert_inputs_arr)
+          # ------------------------ insert to db end ------------------------
+        else:
+          pass
+        # ------------------------ send email end ------------------------
       # ------------------------ email everyone with winner once quiz is closed end ------------------------
     # ------------------------ loop each user email end ------------------------
   # ------------------------ loop all groups end ------------------------
