@@ -174,8 +174,8 @@ def employees_quiz_open_close_notifications():
   # ------------------------ get all groups end ------------------------
   # ------------------------ loop all groups start ------------------------
   for i_group_dict in db_groups_arr_of_dict:
-    if i_group_dict['fk_company_name'] != 'gmail':
-      continue
+    # if i_group_dict['fk_company_name'] != 'gmail':
+    #   continue
     # ------------------------ get latest test + status start ------------------------
     i_group_status = 'no latest test'
     latest_test_id = None
