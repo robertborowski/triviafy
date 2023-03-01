@@ -14,7 +14,7 @@ from flask_login import login_required, current_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
-from website.models import EmployeesGroupQuestionsUsedObj, EmployeesGroupSettingsObj, EmployeesGroupsObj, EmployeesTestsGradedObj, EmployeesTestsObj, UserObj, CandidatesAssessmentGradedObj, CandidatesAssessmentsCreatedObj, CandidatesScheduleObj, CandidatesUploadedCandidatesObj, StripeCheckoutSessionObj, DeletedEmailsObj, EmployeesEmailSentObj
+from website.models import EmployeesGroupQuestionsUsedObj, EmployeesGroupSettingsObj, EmployeesGroupsObj, EmployeesTestsGradedObj, EmployeesTestsObj, UserObj, CandidatesAssessmentGradedObj, CandidatesAssessmentsCreatedObj, CandidatesScheduleObj, CandidatesUploadedCandidatesObj, StripeCheckoutSessionObj, DeletedEmailsObj, EmployeesEmailSentObj, CollectEmailObj
 import os
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from website.backend.candidates.sql_statements.sql_statements_select_general_v1_jobs import select_general_v1_jobs_function
@@ -283,6 +283,14 @@ def admin_analytics_page_function(url_redirect_code=None):
   page_dict['candidate_only_emails_arr'] = candidate_only_emails_arr
   page_dict['total_candidate_only_emails'] = len(candidate_only_emails_arr)
   # ------------------------ candidate_only_emails_arr end ------------------------
+  # ------------------------ landing_collect_emails_arr start ------------------------
+  landing_collect_emails_arr = []
+  db_collected_obj = CollectEmailObj.query.all()
+  for i_obj in db_collected_obj:
+    landing_collect_emails_arr.append(i_obj.email)
+  page_dict['landing_collect_emails_arr'] = landing_collect_emails_arr
+  page_dict['total_landing_collect_emails_arr'] = len(landing_collect_emails_arr)
+  # ------------------------ landing_collect_emails_arr end ------------------------
   # ------------------------ post method start ------------------------
   if request.method == 'POST':
     # ------------------------ initialize on post start ------------------------
