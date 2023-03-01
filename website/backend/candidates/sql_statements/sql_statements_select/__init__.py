@@ -155,6 +155,10 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
     'select_question_id_actually_exists_v2': {
       'raw_query': "SELECT id FROM created_questions_obj WHERE id=:val;",
       'input_args': {'val': additional_input}
+    },
+    'select_all_scraped_emails_1': {
+      'raw_query': "SELECT * FROM z_dont_delete_yet;",
+      'input_args': {}
     }
   }
   # ------------------------ select queries end ------------------------

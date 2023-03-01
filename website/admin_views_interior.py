@@ -25,6 +25,7 @@ from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from datetime import datetime
 from website.backend.candidates.string_manipulation import breakup_email_function
 from website.backend.candidates.send_emails import send_email_template_function
+from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -291,6 +292,14 @@ def admin_analytics_page_function(url_redirect_code=None):
   page_dict['landing_collect_emails_arr'] = landing_collect_emails_arr
   page_dict['total_landing_collect_emails_arr'] = len(landing_collect_emails_arr)
   # ------------------------ landing_collect_emails_arr end ------------------------
+  # ------------------------ scraped_collect_emails_arr start ------------------------
+  scraped_emails_arr = []
+  query_result_arr_of_dicts = select_general_function('select_all_scraped_emails_1')
+  for i in query_result_arr_of_dicts:
+    scraped_emails_arr.append(i['collect_email_actual_email'])
+  page_dict['scraped_emails_arr'] = scraped_emails_arr
+  page_dict['total_scraped_emails_arr'] = len(scraped_emails_arr)
+  # ------------------------ scraped_collect_emails_arr end ------------------------
   # ------------------------ post method start ------------------------
   if request.method == 'POST':
     # ------------------------ initialize on post start ------------------------
@@ -407,6 +416,38 @@ def admin_analytics_page_function(url_redirect_code=None):
           # ------------------------ insert email to db end ------------------------
       return redirect(url_for('admin_views_interior.admin_analytics_page_function', url_redirect_code='s7'))
     # ------------------------ SendCollectedEmailsTryProduct end ------------------------
+    # ------------------------ ScrapedEmailsTryProduct start ------------------------
+    status_email_hit = request.form.get('ScrapedEmailsTryProduct')
+    if status_email_hit == 'all':
+      for i_email in page_dict['scraped_emails_arr']:
+        # ------------------------ send email start ------------------------
+        guessed_name = breakup_email_function(i_email)
+        output_to_email = i_email
+        output_subject = f"Team Engagement Strategy: {todays_date_str}"
+        output_body = f"Hi {guessed_name},\n\nYou will get more recognition and exposure with your team through weekly trivia contests at https://triviafy.com/employees/dashboard first quiz in seconds. \n\nBest,\nTriviafy Support Team\nReply 'stop' to unsubscribe."
+        # ------------------------ check if email+subject already sent today start ------------------------
+        db_email_sent_obj = EmployeesEmailSentObj.query.filter_by(to_email=output_to_email, subject=output_subject).first()
+        if db_email_sent_obj != None and db_email_sent_obj != []:
+          localhost_print_function(f'email already sent to this {output_to_email} - {output_subject}')
+          continue
+        # ------------------------ check if email+subject already sent today end ------------------------
+        else:
+          send_email_template_function(output_to_email, output_subject, output_body)
+          # ------------------------ send email end ------------------------
+          # ------------------------ insert email to db start ------------------------
+          new_row = EmployeesEmailSentObj(
+            id = create_uuid_function('collected_'),
+            created_timestamp = create_timestamp_function(),
+            from_user_id_fk = current_user.id,
+            to_email = output_to_email,
+            subject = output_subject,
+            body = output_body
+          )
+          db.session.add(new_row)
+          db.session.commit()
+          # ------------------------ insert email to db end ------------------------
+      return redirect(url_for('admin_views_interior.admin_analytics_page_function', url_redirect_code='s7'))
+    # ------------------------ ScrapedEmailsTryProduct end ------------------------
   # ------------------------ post method end ------------------------
   localhost_print_function(' ------------------------ admin_analytics_page_function end ------------------------ ')
   return render_template('admin_page/analytics/index.html', page_dict_to_html=page_dict)

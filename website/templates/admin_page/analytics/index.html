@@ -105,6 +105,30 @@
 </div>
 <!-- ----------------------------------- end ----------------------------------- -->
 
+<!-- ----------------------------------- start ----------------------------------- -->
+<div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
+  <div>
+    <h2 class="custom-header-2-mobile">Admin analytics > Collected Emails > Have not signed up for Employees</h2>
+  </div>
+</div>
+<div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
+  <!-- ----------------------------------- start ----------------------------------- -->
+  <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+    <div class="text-center">
+      <label for="ScrapedEmailsTryProduct" class="form-label">ScrapedEmailsTryProduct</label>
+      <input type="text" class="form-control custom-width-17 mx-auto" id="ScrapedEmailsTryProduct" name="ScrapedEmailsTryProduct" placeholder="Send email" value="all" required>
+      <button type="submit" class="btn btn-outline-primary custom-mt-2">Send</button>
+    </div>
+  </form>
+  <!-- ----------------------------------- end ----------------------------------- -->
+  <!-- ----------------------------------- start ----------------------------------- -->
+  <div class="text-center custom-mt-1">
+    <p>{{ page_dict_to_html['total_scraped_emails_arr'] }}</p>
+  </div>
+  <!-- ----------------------------------- end ----------------------------------- -->
+</div>
+<!-- ----------------------------------- end ----------------------------------- -->
+
 <!-- ------------------------------------- signature start ------------------------------------- -->
 <div class="text-center custom-mt-5">
   <img src="/static/images/candidates/logo/logo_wide_v3.png" alt="powered by triviafy logo" class="custom-img-size-10 custom-img-opacity-1">
