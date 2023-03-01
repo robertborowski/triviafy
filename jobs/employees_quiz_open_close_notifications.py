@@ -286,15 +286,22 @@ def employees_quiz_open_close_notifications():
       if i_group_status == 'latest test is closed':
         # ------------------------ get latest quiz winner start ------------------------
         if latest_test_id_winner == None:
-          db_latest_test_winner_arr_of_dict = select_manual_function(postgres_connection, postgres_cursor, 'select_latest_test_winner_1', latest_test_id)
-          db_winner_email_arr_of_dict = select_manual_function(postgres_connection, postgres_cursor, 'select_user_1', db_latest_test_winner_arr_of_dict[0]['fk_user_id'])
-          latest_test_id_winner = db_winner_email_arr_of_dict[0]['email']
+          latest_test_id_winner = None
+          try:
+            db_latest_test_winner_arr_of_dict = select_manual_function(postgres_connection, postgres_cursor, 'select_latest_test_winner_1', latest_test_id)
+            db_winner_email_arr_of_dict = select_manual_function(postgres_connection, postgres_cursor, 'select_user_1', db_latest_test_winner_arr_of_dict[0]['fk_user_id'])
+            latest_test_id_winner = db_winner_email_arr_of_dict[0]['email']
+          except:
+            pass
         # ------------------------ get latest quiz winner end ------------------------
         # ------------------------ send email start ------------------------
         output_subject = f'Team Trivia Contest Closed | Confirmation: {latest_test_id}'
         db_email_already_sent = select_manual_function(postgres_connection, postgres_cursor, 'select_check_email_sent_1', output_to_email, output_subject)
         if db_email_already_sent == None or db_email_already_sent == []:
-          output_body = f"Hi {guessed_name},\n\nYour team's latest trivia contest winner is {latest_test_id_winner}! See your team's responses, leaderboard, and statistics at https://triviafy.com/employees/dashboard \n\nBest,\nTriviafy Support Team\nReply 'stop' to unsubscribe."
+          if latest_test_id_winner == None:
+            output_body = f"Hi {guessed_name},\n\nYour team's latest trivia contest is closed. See your team's responses, leaderboard, and statistics at https://triviafy.com/employees/dashboard \n\nBest,\nTriviafy Support Team\nReply 'stop' to unsubscribe."
+          else:
+            output_body = f"Hi {guessed_name},\n\nYour team's latest trivia contest winner is {latest_test_id_winner}! See your team's responses, leaderboard, and statistics at https://triviafy.com/employees/dashboard \n\nBest,\nTriviafy Support Team\nReply 'stop' to unsubscribe."
           send_email_template_function(output_to_email, output_subject, output_body)
           # ------------------------ insert to db start ------------------------
           send_email_id = create_uuid_function('job_')
