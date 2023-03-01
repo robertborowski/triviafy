@@ -191,9 +191,9 @@ def admin_delete_page_function(url_redirect_code=None):
       redis_connection = redis_connect_to_database_function()
       redis_keys = redis_connection.keys()
       for key in redis_keys:
+        value = redis_connection.get(key).decode('utf-8')
         # ------------------------ remove stored cookies of deleted users start ------------------------
         if 'bcooke' in str(key):
-          value = redis_connection.get(key).decode('utf-8')
           if value not in user_ids_set:
             localhost_print_function(f'deleting key: {key} | value: {value}')
             redis_connection.delete(key)
