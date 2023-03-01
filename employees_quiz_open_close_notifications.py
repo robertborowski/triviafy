@@ -149,8 +149,12 @@ def send_email_template_function(output_email, output_subject_line, output_messa
 def breakup_email_function(input_email):
   # localhost_print_function(' ------------------------ breakup_email_function start ------------------------ ')
   email_arr = input_email.split('@')
+  try:
+    email_arr = email_arr[0].split('.')
+  except:
+    pass
   # localhost_print_function(' ------------------------ breakup_email_function end ------------------------ ')
-  return email_arr[0]
+  return email_arr[0].title()
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
@@ -212,15 +216,15 @@ def employees_quiz_open_close_notifications():
     # ------------------------ loop each user email start ------------------------
     db_user_emails_arr_of_dicts = select_manual_function(postgres_connection, postgres_cursor, 'select_user_emails_1', i_group_dict['fk_company_name'])
     for i_dict in db_user_emails_arr_of_dicts:
-      todays_date_str = datetime.today().strftime('%Y-%m-%d')   # 2023-02-25
+      output_to_email = i_dict['email']
+      guessed_name = breakup_email_function(i_dict['email'])
+      todays_date_str = datetime.today().strftime('%m/%d/%Y')   # 2023-02-25
       # ------------------------ send email start ------------------------
       if i_group_status == 'no latest test':
-        output_to_email = i_dict['email']
-        output_subject = f'Action Required: First Team Trivia {todays_date_str}'
+        output_subject = f'Action Required: First Team Trivia Contest {todays_date_str}'
         db_email_already_sent = select_manual_function(postgres_connection, postgres_cursor, 'select_check_email_sent_1', output_to_email, output_subject)
         if db_email_already_sent == None or db_email_already_sent == []:
-          guessed_name = breakup_email_function(i_dict['email'])
-          output_body = f"Hi {guessed_name},\n\nYou have not completed your part of your team's latest team building activity. Complete it at https://triviafy.com/employees/dashboard \n\nBest,\nTriviafy Support Team\nReply 'stop' to unsubscribe."
+          output_body = f"Hi {guessed_name},\n\nYour team's latest trivia contest https://triviafy.com/employees/dashboard \n\nBest,\nTriviafy Support Team\nReply 'stop' to unsubscribe."
           send_email_template_function(output_to_email, output_subject, output_body)
           # ------------------------ insert to db start ------------------------
           send_email_id = create_uuid_function('job_')
@@ -237,6 +241,44 @@ def employees_quiz_open_close_notifications():
       if db_test_graded_arr_of_dicts != None and db_test_graded_arr_of_dicts != []:
         i_user_completed_latest_test = True
       # ------------------------ check if grading exists end ------------------------
+      # ------------------------ email only people who have not yet participated start ------------------------
+      if i_user_completed_latest_test == False:
+        # ------------------------ send email start ------------------------
+        if i_group_status == 'latest test is open':
+          output_subject = f'Action Required: Team Trivia Contest Open {todays_date_str}'
+          db_email_already_sent = select_manual_function(postgres_connection, postgres_cursor, 'select_check_email_sent_1', output_to_email, output_subject)
+          if db_email_already_sent == None or db_email_already_sent == []:
+            output_body = f"Hi {guessed_name},\n\nYour team's latest trivia contest https://triviafy.com/employees/dashboard \n\nBest,\nTriviafy Support Team\nReply 'stop' to unsubscribe."
+            send_email_template_function(output_to_email, output_subject, output_body)
+            # ------------------------ insert to db start ------------------------
+            send_email_id = create_uuid_function('job_')
+            send_email_created_timestamp = create_timestamp_function()
+            insert_inputs_arr = [send_email_id, send_email_created_timestamp, 'job_heroku', output_to_email, output_subject, output_body]
+            insert_manual_function(postgres_connection, postgres_cursor, 'insert_email_1', insert_inputs_arr)
+            # ------------------------ insert to db end ------------------------
+          else:
+            pass
+        # ------------------------ send email end ------------------------
+        # ------------------------ send email start ------------------------
+        if i_group_status == 'latest test is open with less than 1 hour':
+          output_subject = f'Action Required: 1 Hour Left In Team Trivia Contest {todays_date_str}'
+          db_email_already_sent = select_manual_function(postgres_connection, postgres_cursor, 'select_check_email_sent_1', output_to_email, output_subject)
+          if db_email_already_sent == None or db_email_already_sent == []:
+            output_body = f"Hi {guessed_name},\n\nOne hour left to enter your team's latest trivia contest https://triviafy.com/employees/dashboard \n\nBest,\nTriviafy Support Team\nReply 'stop' to unsubscribe."
+            send_email_template_function(output_to_email, output_subject, output_body)
+            # ------------------------ insert to db start ------------------------
+            send_email_id = create_uuid_function('job_')
+            send_email_created_timestamp = create_timestamp_function()
+            insert_inputs_arr = [send_email_id, send_email_created_timestamp, 'job_heroku', output_to_email, output_subject, output_body]
+            insert_manual_function(postgres_connection, postgres_cursor, 'insert_email_1', insert_inputs_arr)
+            # ------------------------ insert to db end ------------------------
+          else:
+            pass
+        # ------------------------ send email end ------------------------
+      # ------------------------ email only people who have not yet participated end ------------------------
+      # ------------------------ email everyone with winner once quiz is closed start ------------------------
+      
+      # ------------------------ email everyone with winner once quiz is closed end ------------------------
     # ------------------------ loop each user email end ------------------------
   # ------------------------ loop all groups end ------------------------
   # ------------------------ close connection start ------------------------
