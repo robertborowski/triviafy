@@ -16,7 +16,7 @@ from flask_login import login_required, current_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
-from website.backend.candidates.browser import browser_response_set_cookie_function_v4
+from website.backend.candidates.browser import browser_response_set_cookie_function_v4, browser_response_set_cookie_function_v5
 from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, EmployeesTestsGradedObj, UserObj, EmployeesCapacityOptionsObj, EmployeesEmailSentObj, StripeCheckoutSessionObj, EmployeesGroupQuestionsUsedObj
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function, question_choices_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
@@ -458,6 +458,7 @@ def employees_schedule_function(url_redirect_code=None):
 @login_required
 def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_question_number='1', url_initial_page_load=None):
   localhost_print_function(' ------------------------ employees_test_id_function START ------------------------ ')
+  template_location_url = 'employees/interior/test_quiz/index.html'
   # ------------------------ page dict start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
   page_dict = {}
@@ -655,8 +656,18 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
       else:
         return redirect(url_for('employees_views_interior.employees_test_id_function', url_test_id=url_test_id, url_question_number=str(int(url_question_number)+1)))
     # ------------------------ ui post end ------------------------
-  localhost_print_function(' ------------------------ employees_test_id_function END ------------------------ ')
-  return render_template('employees/interior/test_quiz/index.html', page_dict_to_html=page_dict)
+  localhost_print_function(' ------------------------ employees_test_id_function end ------------------------ ')
+  # return render_template('employees/interior/test_quiz/index.html', page_dict_to_html=page_dict)
+  # ------------------------ auto set cookie start ------------------------
+  get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
+  if get_cookie_value_from_browser != None:
+    redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
+    return render_template(template_location_url, page_dict_to_html=page_dict)
+  else:
+    browser_response = browser_response_set_cookie_function_v5(current_user, template_location_url, page_dict)
+    localhost_print_function(' ------------------------ employees_test_id_function end ------------------------ ')
+    return browser_response
+  # ------------------------ auto set cookie end ------------------------
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
