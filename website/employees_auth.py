@@ -57,7 +57,7 @@ def employees_signup_function(url_redirect_code=None):
         new_row = CollectEmailObj(
           id=create_uuid_function('collect_email_'),
           created_timestamp=create_timestamp_function(),
-          email=ui_email,
+          email=ui_email.lower(),
           source='employees'
         )
         db.session.add(new_row)
@@ -94,13 +94,13 @@ def employees_signup_function(url_redirect_code=None):
       email_arr1 = ui_email.split('@')
       email_desired1 = email_arr1[1]
       email_arr2 = email_desired1.split('.')
-      company_name_from_email = email_arr2[0]
+      company_name_from_email = email_arr2[0].lower()
       # ------------------------ infer company name end ------------------------
       # ------------------------ create new user in db start ------------------------
       new_row = UserObj(
         id=create_uuid_function('user_'),
         created_timestamp=create_timestamp_function(),
-        email=ui_email,
+        email=ui_email.lower(),
         password=generate_password_hash(ui_password, method="sha256"),
         company_name = company_name_from_email
       )
