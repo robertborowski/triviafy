@@ -24,12 +24,6 @@
     <div>
       <h2 class="custom-header-mobile-1">Team building</h2>
     </div>
-    <div>
-      {% if page_dict_to_html['stripe_subscription_status'] == 'active' %}
-      {% else %}
-      <!-- <a href="/employees/account" class="btn btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Subscription required"><i class="fa-solid fa-screwdriver-wrench"></i> Custom questions</a> -->
-      {% endif %}
-    </div>
   </div>
   <div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
     <div class="text-center">
@@ -48,7 +42,7 @@
       {% else %}
         {% if page_dict_to_html['ui_latest_test_completed'] == false %}
         {% else %}
-          <a href="/employees/account" class="btn btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Subscription required"><i class="fa-solid fa-screwdriver-wrench"></i> Custom questions</a>
+          <a href="/employees/schedule" class="btn btn-outline-secondary"><i class="fa-solid fa-gear"></i> Settings</a>
         {% endif %}
       {% endif %}
     </div>
@@ -83,9 +77,19 @@
   </div>
   {% if page_dict_to_html['ui_latest_test_completed'] == false %}
   {% else %}
-    <div class="container custom-display-flex">
-      <a href="/employees/leaderboard" class="btn btn-outline-secondary btn-lg custom-width-16 custom-mt-1 custom-mr-2"><i class="fa-solid fa-ranking-star"></i> Leaderboard</a>
-      <a href="/employees/schedule" class="btn btn-outline-secondary btn-lg custom-width-16 custom-mt-1 custom-ml-3"><i class="fa-solid fa-gear"></i> Settings</a>
+    <div class="container custom-mt-5 custom-pb-6">
+      <h2 class="custom-header-mobile-1">Resources</h2>
+    </div>
+    <div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
+      <a href="/employees/archive" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto"><i class="fa-regular fa-folder-open"></i> Archive</a>
+      <a href="/employees/leaderboard" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1"><i class="fa-solid fa-ranking-star"></i> Leaderboard</a>
+      {% if page_dict_to_html['stripe_subscription_status'] == 'active' %}
+      {% else %}
+        <a href="/employees/account" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Subscription required"><i class="fa-solid fa-screwdriver-wrench"></i> Custom questions</a>
+        <a href="/employees/account" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Subscription required"><i class="fa-solid fa-square-poll-vertical"></i> Employee surveys</a>
+        <a href="/employees/account" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Subscription required"><i class="fa-solid fa-user"></i> Personality tests</a>
+        <a href="/employees/account" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Subscription required"><i class="fa-solid fa-check-to-slot"></i> Pre employee testing</a>
+      {% endif %}
     </div>
   {% endif %}
 {% endif %}

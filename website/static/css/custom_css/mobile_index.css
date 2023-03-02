@@ -91,5 +91,8 @@
     .custom-width-16-mobile {
       width: 100%;
     }
+    .custom-width-18-mobile {
+      max-width: 90%;
+    }
     /* ------------------- width end ------------------- */
   }

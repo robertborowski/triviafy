@@ -846,6 +846,10 @@
 .custom-width-17 {
   width: 250px;
 }
+.custom-width-18-mobile {
+  width: 600px;
+  max-width: 50%;
+}
 .custom-wh-1 {
   width: 50px;
   height: 50px;
