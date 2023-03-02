@@ -115,6 +115,12 @@ def candidates_signup_function():
         company_name=company_name_from_email
       )
       db.session.add(new_user)
+      # ------------------------ remove from landing page collected start ------------------------
+      try:
+        CollectEmailObj.query.filter_by(email=ui_email.lower()).delete()
+      except:
+        pass
+      # ------------------------ remove from landing page collected end ------------------------
       db.session.commit()
       # ------------------------ create new user in db end ------------------------
       # ------------------------ keep user logged in start ------------------------
