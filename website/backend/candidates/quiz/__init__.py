@@ -379,7 +379,13 @@ def grade_quiz_function(ui_answer, url_test_id, total_questions, url_question_nu
       db_email_sent_obj = EmployeesEmailSentObj.query.filter_by(subject=output_subject).first()
       if db_email_sent_obj == None or db_email_sent_obj == []:
         output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
-        output_body = f"Hi there,\n\n{db_user_obj.email} completed their team's latest test\n\nBest,\nTriviafy"
+        # ------------------------ get str of all answers start ------------------------
+        all_user_answers_arr = []
+        for i in range(len(master_test_tracking_arr_of_dict)):
+          all_user_answers_arr.append(master_test_tracking_arr_of_dict[i]['ui_answer'])
+        all_user_answers_str = ','.join(all_user_answers_arr)
+        # ------------------------ get str of all answers end ------------------------
+        output_body = f"Hi there,\n\n{db_user_obj.email} completed their team's latest test. User answered: {all_user_answers_str}\n\nBest,\nTriviafy"
         send_email_template_function(output_to_email, output_subject, output_body)
         # ------------------------ insert email to db start ------------------------
         try:

@@ -797,7 +797,7 @@ def employees_subscription_success_function():
   # ------------------------ email self start ------------------------
   try:
     output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
-    output_subject = f'Triviafy - Subscription - {user_obj.email}'
+    output_subject = f'New Subscription - {user_obj.email}'
     output_body = f"Hi there,\n\nNew user subscribed: {user_obj.email} \n\nBest,\nTriviafy"
     send_email_template_function(output_to_email, output_subject, output_body)
   except:
