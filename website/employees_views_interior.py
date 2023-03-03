@@ -999,3 +999,30 @@ def employees_feature_function(url_redirect_code=None, url_feature_request_code=
   localhost_print_function(' ------------------------ employees_feature_function END ------------------------ ')
   return render_template('employees/interior/feature/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@employees_views_interior.route('/employees/questions', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/questions/', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/questions/<url_redirect_code>', methods=['GET', 'POST'])
+@login_required
+def employees_questions_function(url_redirect_code=None):
+  localhost_print_function(' ------------------------ employees_questions_function START ------------------------ ')
+  # ------------------------ page dict start ------------------------
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ page dict end ------------------------
+  # ------------------------ stripe subscription status check start ------------------------
+  stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees')
+  page_dict['stripe_subscription_status'] = stripe_subscription_obj_status
+  # ------------------------ stripe subscription status check end ------------------------
+  # ------------------------ redirect if not subscribed start ------------------------
+  if page_dict['stripe_subscription_status'] != 'active':
+    return redirect(url_for('employees_views_interior.employees_account_function', url_redirect_code='e14'))
+  # ------------------------ redirect if not subscribed end ------------------------
+  # ------------------------ pull created questions start ------------------------
+  # db_created_questions_obj = CreatedQuestionsObj.query.filter_by(fk_user_id=current_user.id).first()
+  # ------------------------ pull created questions end ------------------------
+  localhost_print_function(' ------------------------ employees_questions_function END ------------------------ ')
+  return render_template('employees/interior/create_question/index.html', page_dict_to_html=page_dict)
+# ------------------------ individual route end ------------------------

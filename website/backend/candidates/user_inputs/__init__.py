@@ -432,6 +432,11 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':'You are not a subscribed user, see account settings.',
       'type':'danger'
     }
+  elif redirect_var == 'e14':
+    alert_message_dict = {
+      'message':'Subscription required.',
+      'type':'danger'
+    }
   # ------------------------ errors end ------------------------
   # ------------------------ success start ------------------------
   elif redirect_var == 's1':
