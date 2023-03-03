@@ -385,7 +385,7 @@ def grade_quiz_function(ui_answer, url_test_id, total_questions, url_question_nu
           all_user_answers_arr.append(master_test_tracking_arr_of_dict[i]['ui_answer'])
         all_user_answers_str = ','.join(all_user_answers_arr)
         # ------------------------ get str of all answers end ------------------------
-        output_body = f"Hi there,\n\n{db_user_obj.email} completed their team's latest test. User answered: {all_user_answers_str}\n\nBest,\nTriviafy"
+        output_body = f"Hi there,\n\n{db_user_obj.email} completed their team's latest test.\nAnswers on first submission: {all_user_answers_str}\nScore on first submission: {wip_grading_final_score}\n\nBest,\nTriviafy"
         send_email_template_function(output_to_email, output_subject, output_body)
         # ------------------------ insert email to db start ------------------------
         try:
