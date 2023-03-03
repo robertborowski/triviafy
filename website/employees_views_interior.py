@@ -942,3 +942,36 @@ def employees_account_function(url_redirect_code=None):
   localhost_print_function(' ------------------------ employees_account_function END ------------------------ ')
   return render_template('employees/interior/account/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@employees_views_interior.route('/employees/feature', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/feature/', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/feature/<url_feature_request_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/feature/<url_feature_request_code>/', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/feature/<url_feature_request_code>/<url_redirect_code>', methods=['GET', 'POST'])
+@login_required
+def employees_feature_function(url_redirect_code=None, url_feature_request_code=None):
+  localhost_print_function(' ------------------------ employees_feature_function START ------------------------ ')
+  # ------------------------ page dict start ------------------------
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ page dict end ------------------------
+  # ------------------------ stripe subscription status check start ------------------------
+  stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees')
+  page_dict['stripe_subscription_status'] = stripe_subscription_obj_status
+  # ------------------------ stripe subscription status check end ------------------------
+  # ------------------------ non subscribed users should not see this page start ------------------------
+  if page_dict['stripe_subscription_status'] != 'active' or url_feature_request_code == None:
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='e13'))
+  # ------------------------ non subscribed users should not see this page end ------------------------
+  # ------------------------ set feature request start ------------------------
+  page_dict['url_feature_request_code'] = url_feature_request_code
+  # ------------------------ set feature request end ------------------------
+  # ------------------------ post start ------------------------
+  if request.method == 'POST':
+    ui_feature_request = request.form.get('ui_feature_request')
+  # ------------------------ post end ------------------------
+  localhost_print_function(' ------------------------ employees_feature_function END ------------------------ ')
+  return render_template('employees/interior/feature/index.html', page_dict_to_html=page_dict)
+# ------------------------ individual route end ------------------------

@@ -427,6 +427,11 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':'Select at least one category that you want to test a candidate on.',
       'type':'danger'
     }
+  elif redirect_var == 'e13':
+    alert_message_dict = {
+      'message':'You are not a subscribed user, see account settings.',
+      'type':'danger'
+    }
   # ------------------------ errors end ------------------------
   # ------------------------ success start ------------------------
   elif redirect_var == 's1':
