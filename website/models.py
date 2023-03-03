@@ -76,6 +76,7 @@ class CreatedQuestionsObj(db.Model):
   aws_image_url = db.Column(db.String(150))
   submission = db.Column(db.String(20))
   product = db.Column(db.String(50))
+  fk_group_id = db.Column(db.String(150))
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------

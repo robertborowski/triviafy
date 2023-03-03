@@ -1840,7 +1840,8 @@ def candidates_create_question_function_v2():
             aws_image_uuid = create_question_uploaded_image_uuid,
             aws_image_url = create_question_uploaded_image_aws_url,
             submission='draft',
-            product = 'candidates'
+            product = 'candidates',
+            fk_group_id='candidates'
           )
           db.session.add(insert_new_row)
           db.session.commit()
