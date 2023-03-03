@@ -14,7 +14,7 @@ from flask_login import login_required, current_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
-from website.models import EmployeesGroupQuestionsUsedObj, EmployeesGroupSettingsObj, EmployeesGroupsObj, EmployeesTestsGradedObj, EmployeesTestsObj, UserObj, CandidatesAssessmentGradedObj, CandidatesAssessmentsCreatedObj, CandidatesScheduleObj, CandidatesUploadedCandidatesObj, StripeCheckoutSessionObj, DeletedEmailsObj, EmployeesEmailSentObj, CollectEmailObj
+from website.models import EmployeesGroupQuestionsUsedObj, EmployeesGroupSettingsObj, EmployeesGroupsObj, EmployeesTestsGradedObj, EmployeesTestsObj, UserObj, CandidatesAssessmentGradedObj, CandidatesAssessmentsCreatedObj, CandidatesScheduleObj, CandidatesUploadedCandidatesObj, StripeCheckoutSessionObj, DeletedEmailsObj, EmployeesEmailSentObj, CollectEmailObj, EmployeesFeatureRequestObj
 import os
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from website.backend.candidates.sql_statements.sql_statements_select_general_v1_jobs import select_general_v1_jobs_function
@@ -80,6 +80,7 @@ def admin_delete_page_function(url_redirect_code=None):
     # ------------------------ DeleteOneGroupAllEmployeesTables start ------------------------
     group_to_delete = request.form.get('DeleteOneGroupAllEmployeesTables')
     if group_to_delete != None:
+      EmployeesFeatureRequestObj.query.filter_by(fk_group_id=group_to_delete).delete()
       EmployeesGroupQuestionsUsedObj.query.filter_by(fk_group_id=group_to_delete).delete()
       EmployeesGroupSettingsObj.query.filter_by(fk_group_id=group_to_delete).delete()
       EmployeesGroupsObj.query.filter_by(public_group_id=group_to_delete).delete()
@@ -101,6 +102,7 @@ def admin_delete_page_function(url_redirect_code=None):
         # ------------------------ check if alone end ------------------------
       except:
         return redirect(url_for('admin_views_interior.admin_delete_page_function', url_redirect_code='e10'))
+      EmployeesFeatureRequestObj.query.filter_by(fk_user_id=db_users_dict['id']).delete()
       EmployeesTestsGradedObj.query.filter_by(fk_user_id=db_users_dict['id']).delete()
       db.session.commit()
       return redirect(url_for('admin_views_interior.admin_delete_page_function', url_redirect_code='w1'))
@@ -135,6 +137,7 @@ def admin_delete_page_function(url_redirect_code=None):
           for i_group_obj in db_group_obj:
             db_group_dict = arr_of_dict_all_columns_single_item_function(i_group_obj)
             group_to_delete = db_group_dict['public_group_id']
+            EmployeesFeatureRequestObj.query.filter_by(fk_group_id=group_to_delete).delete()
             EmployeesGroupQuestionsUsedObj.query.filter_by(fk_group_id=group_to_delete).delete()
             EmployeesGroupSettingsObj.query.filter_by(fk_group_id=group_to_delete).delete()
             EmployeesGroupsObj.query.filter_by(public_group_id=group_to_delete).delete()
