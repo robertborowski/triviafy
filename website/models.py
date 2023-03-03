@@ -283,4 +283,13 @@ class EmployeesEmailSentObj(db.Model):
   subject = db.Column(db.String(1000))
   body = db.Column(db.String(1000))
 # ------------------------ individual model end ------------------------
+
+# ------------------------ individual model start ------------------------
+class EmployeesFeatureRequestObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  fk_user_id = db.Column(db.String(150))
+  fk_group_id = db.Column(db.String(150))
+  feature_requested = db.Column(db.String(150))
+# ------------------------ individual model end ------------------------
 # ------------------------ employees models end ------------------------

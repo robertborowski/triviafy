@@ -84,7 +84,11 @@
       <a href="/employees/archive" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto"><i class="fa-regular fa-folder-open"></i> Archive</a>
       <a href="/employees/leaderboard" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1"><i class="fa-solid fa-ranking-star"></i> Leaderboard</a>
       {% if page_dict_to_html['stripe_subscription_status'] == 'active' %}
-      <a href="/employees/feature/custom_quetions" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1"><i class="fa-solid fa-screwdriver-wrench"></i> Custom questions</a>
+      <a href="/employees/feature/access_custom_questions" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1"><i class="fa-solid fa-screwdriver-wrench"></i> Custom questions</a>
+      <a href="/employees/feature/access_employee_surveys" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1"><i class="fa-solid fa-square-poll-vertical"></i> Employee surveys</a>
+      <a href="/employees/feature/access_ice_breakers" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1"><i class="fa-solid fa-ice-cream"></i> Ice breakers</a>
+      <a href="/employees/feature/access_personality_tests" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1"><i class="fa-solid fa-user"></i> Personality tests</a>
+      <a href="/employees/feature/access_pre_employment_testing" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1"><i class="fa-solid fa-check-to-slot"></i> Pre employee testing</a>
       {% else %}
         <a href="/employees/account" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Subscription required"><i class="fa-solid fa-screwdriver-wrench"></i> Custom questions</a>
         <a href="/employees/account" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Subscription required"><i class="fa-solid fa-square-poll-vertical"></i> Employee surveys</a>

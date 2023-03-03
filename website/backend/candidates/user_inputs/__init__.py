@@ -481,6 +481,11 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':'User is subscribed.',
       'type':'info'
     }
+  elif redirect_var == 'i3':
+    alert_message_dict = {
+      'message':'Request already sent.',
+      'type':'info'
+    }
   # ------------------------ info end ------------------------
   # ------------------------ warning end ------------------------
   elif redirect_var == 'w1':

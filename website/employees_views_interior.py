@@ -17,7 +17,7 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v4, browser_response_set_cookie_function_v5
-from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, EmployeesTestsGradedObj, UserObj, EmployeesCapacityOptionsObj, EmployeesEmailSentObj, StripeCheckoutSessionObj, EmployeesGroupQuestionsUsedObj
+from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, EmployeesTestsGradedObj, UserObj, EmployeesCapacityOptionsObj, EmployeesEmailSentObj, StripeCheckoutSessionObj, EmployeesGroupQuestionsUsedObj, EmployeesFeatureRequestObj
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function, question_choices_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
 from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function, convert_timestamp_to_month_day_string_function
@@ -970,7 +970,31 @@ def employees_feature_function(url_redirect_code=None, url_feature_request_code=
   # ------------------------ set feature request end ------------------------
   # ------------------------ post start ------------------------
   if request.method == 'POST':
+    acceptable_arr = ['access_custom_questions', 'access_employee_surveys', 'access_ice_breakers', 'access_personality_tests', 'access_pre_employment_testing']
     ui_feature_request = request.form.get('ui_feature_request')
+    if ui_feature_request not in acceptable_arr:
+      return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='s1'))
+    if ui_feature_request in acceptable_arr:
+      db_feature_requested_obj = EmployeesFeatureRequestObj.query.filter_by(fk_user_id=current_user.id, feature_requested=ui_feature_request).first()
+      if db_feature_requested_obj == None or db_feature_requested_obj == []:
+        # ------------------------ insert email to db start ------------------------
+        try:
+          db_groups_obj = EmployeesGroupsObj.query.filter_by(fk_company_name=current_user.company_name).first()
+          new_row = EmployeesFeatureRequestObj(
+            id = create_uuid_function('feature_'),
+            created_timestamp = create_timestamp_function(),
+            fk_user_id = current_user.id,
+            fk_group_id = db_groups_obj.public_group_id,
+            feature_requested = ui_feature_request
+          )
+          db.session.add(new_row)
+          db.session.commit()
+          return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='s1'))
+        except:
+          pass
+        # ------------------------ insert email to db end ------------------------
+      else:
+        return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='i3'))
   # ------------------------ post end ------------------------
   localhost_print_function(' ------------------------ employees_feature_function END ------------------------ ')
   return render_template('employees/interior/feature/index.html', page_dict_to_html=page_dict)
