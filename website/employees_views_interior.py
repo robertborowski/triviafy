@@ -1026,6 +1026,16 @@ def employees_questions_function(url_redirect_code=None):
   group_created_questions_arr_of_dicts = []
   for i_obj in db_created_questions_obj:
     i_dict = arr_of_dict_all_columns_single_item_function(i_obj)
+    # ------------------------ append creator email start ------------------------
+    db_user_obj = UserObj.query.filter_by(id=i_dict['fk_user_id']).first()
+    i_dict['created_by_email'] = db_user_obj.email
+    # ------------------------ append creator email end ------------------------
+    # ------------------------ append asked status start ------------------------
+    i_dict['question_used_status'] = 'In queue'
+    db_used_obj = EmployeesGroupQuestionsUsedObj.query.filter_by(fk_question_id=i_dict['id'], fk_group_id=db_groups_obj.public_group_id).first()
+    if db_used_obj != None and db_used_obj != []:
+      i_dict['question_used_status'] = 'Answered by team'
+    # ------------------------ append asked status end ------------------------
     group_created_questions_arr_of_dicts.append(i_dict)
   page_dict['group_created_questions_arr_of_dicts'] = group_created_questions_arr_of_dicts
   page_dict['total_group_created_questions_arr_of_dicts'] = len(group_created_questions_arr_of_dicts)
