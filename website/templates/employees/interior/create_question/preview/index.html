@@ -1,0 +1,95 @@
+{% extends "employees/aaa_base/base.html" %}
+
+<!-- head tag block content -->
+{% block title %}
+  <title>Preview Question - Triviafy</title>
+{% endblock %}
+
+{% block contentBody %}
+<body class="custom-bg-grey-3">
+  <form method="POST" enctype="multipart/form-data" class="custom-pt-1" onsubmit="return clickSubmitButtonOnce()">
+    <!-- ------------------------------------- navbar start ------------------------------------- -->
+    <div class="container-fluid fixed-top shadow-sm custom-bg-white">
+      <nav class="container navbar navbar-expand-md navbar-light custom-display-flex custom-jc-2">
+        <a href="#" class="navbar-brand">
+          <span class="custom-header-4">{{ page_dict_to_html['user_company_name'] }}</span>
+        </a>
+        <div>
+          <a href="/employees/questions" class="btn btn-outline-secondary">Discard</a>
+          <button type="submit" class="btn btn-primary custom-ml-3">Submit</a>
+        </div>
+      </nav>
+    </div>
+    <div class="custom-filler-5"></div>
+    <!-- ------------------------------------- navbar end ------------------------------------- -->
+    <div class="container-fluid custom-bg-grey-3">
+      <!-- ------------------------------------- question start ------------------------------------- -->
+      <div class="container border shadow custom-br-1 custom-bg-white custom-display-flex custom-fw-1">
+        <div class="custom-width-11-mobile custom-p-5">
+          <div class="custom-display-flex custom-mb-6">
+            <h2 class="custom-header-4">Q1: {{ page_dict_to_html['question_info_dict']['title'] }}</h2>
+            <div>
+              {% for category_tuple in page_dict_to_html['question_info_dict']['categories'] %}
+                <span class="custom-tag-1 custom-tag-category-{{ category_tuple[1] }} custom-br-4 custom-ml-3 custom-header-5">{{ category_tuple[0] }}</span>
+              {% endfor %}
+            </div>
+          </div>
+          <div>
+            <div class="custom-mb-6">
+              <p>{{ page_dict_to_html['question_info_dict']['question'] }}</p>
+            </div>
+            {% if page_dict_to_html['question_info_dict']['aws_image_url']|length != 0 %}
+            <div class="text-center">
+              <img src="{{ page_dict_to_html['question_info_dict']['aws_image_url'] }}" alt="" class="custom-img-size-11 custom-br-1 shadow">
+            </div>
+            {% else %}
+            {% endif %}
+          </div>
+        </div>
+        <div class="custom-width-11-mobile custom-p-5">
+          <div>
+            {% if page_dict_to_html['question_info_dict']['option_a'] != None %}
+            <div class="custom-mb-6">
+              <input type="radio" class="btn-check" id="candidate_answer_choice_a" name="ui_answer_choice_selected" value="a" autocomplete="off">
+              <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_a">A: {{ page_dict_to_html['question_info_dict']['option_a'] }}</label>
+            </div>
+            {% endif %}
+
+            {% if page_dict_to_html['question_info_dict']['option_b'] != None %}
+            <div class="custom-mb-6">
+              <input type="radio" class="btn-check" id="candidate_answer_choice_b" name="ui_answer_choice_selected" value="b" autocomplete="off">
+              <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_b">B: {{ page_dict_to_html['question_info_dict']['option_b'] }}</label>
+            </div>
+            {% endif %}
+
+            {% if page_dict_to_html['question_info_dict']['option_c'] != None %}
+            <div class="custom-mb-6">
+              <input type="radio" class="btn-check" id="candidate_answer_choice_c" name="ui_answer_choice_selected" value="d" autocomplete="off">
+              <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_c">C: {{ page_dict_to_html['question_info_dict']['option_c'] }}</label>
+            </div>
+            {% endif %}
+
+            {% if page_dict_to_html['question_info_dict']['option_d'] != None %}
+            <div class="custom-mb-6">
+              <input type="radio" class="btn-check" id="candidate_answer_choice_d" name="ui_answer_choice_selected" value="d" autocomplete="off">
+              <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_d">D: {{ page_dict_to_html['question_info_dict']['option_d'] }}</label>
+            </div>
+            {% endif %}
+
+            {% if page_dict_to_html['question_info_dict']['option_e'] != None %}
+            <div class="custom-mb-6">
+              <input type="radio" class="btn-check" id="candidate_answer_choice_e" name="ui_answer_choice_selected" value="e" autocomplete="off">
+              <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_e">E: {{ page_dict_to_html['question_info_dict']['option_e'] }}</label>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <!-- ------------------------------------- question end ------------------------------------- -->
+    </div>
+    <div class="text-center custom-mt-5 custom-pb-2">
+      <img src="/static/images/candidates/logo/logo_wide_v3.png" alt="powered by triviafy logo" class="custom-img-size-10 custom-img-opacity-1">
+    </div>
+  </form>
+</body>
+{% endblock %}

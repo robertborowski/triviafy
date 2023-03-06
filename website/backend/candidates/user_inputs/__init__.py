@@ -437,6 +437,11 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':'Subscription required.',
       'type':'danger'
     }
+  elif redirect_var == 'e15':
+    alert_message_dict = {
+      'message':'Invalid answer choice/inputs.',
+      'type':'danger'
+    }
   # ------------------------ errors end ------------------------
   # ------------------------ success start ------------------------
   elif redirect_var == 's1':

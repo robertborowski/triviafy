@@ -23,7 +23,7 @@ from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns
 from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function, convert_timestamp_to_month_day_string_function
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.string_manipulation import all_employee_question_categories_sorted_function
-from website.backend.candidates.user_inputs import sanitize_char_count_1_function, sanitize_create_question_options_function
+from website.backend.candidates.user_inputs import sanitize_char_count_1_function, sanitize_create_question_options_function, sanitize_create_question_categories_function, sanitize_create_question_question_function, sanitize_create_question_option_e_function, sanitize_create_question_answer_function
 from website.backend.candidates.send_emails import send_email_template_function
 import os
 from website.backend.candidates.quiz import create_quiz_function, grade_quiz_function, get_next_quiz_open_function
@@ -34,6 +34,7 @@ import stripe
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
 from website.backend.candidates.test_backend import get_test_winner
 from website.backend.candidates.test_backend import first_user_first_quiz_check_function
+from website.backend.candidates.aws_manipulation import candidates_change_uploaded_image_filename_function, candidates_user_upload_image_checks_aws_s3_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -1065,6 +1066,160 @@ def employees_create_question_v3_function(url_redirect_code=None):
     return redirect(url_for('employees_views_interior.employees_account_function', url_redirect_code='e14'))
   # ------------------------ redirect if not subscribed end ------------------------
   page_dict['user_company_name'] = current_user.company_name
+  # ------------------------ post start ------------------------
+  if request.method == 'POST':
+    # ------------------------ get user inputs start ------------------------
+    ui_title = request.form.get('ui_create_question_title')             # str
+    ui_categories = request.form.get('ui_create_question_categories')   # str
+    ui_question = request.form.get('ui_create_question_question')       # str
+    ui_option_a = request.form.get('ui_create_question_option_a')       # str
+    ui_option_b = request.form.get('ui_create_question_option_b')       # str
+    ui_option_c = request.form.get('ui_create_question_option_c')       # str
+    ui_option_d = request.form.get('ui_create_question_option_d')       # str
+    ui_option_e = request.form.get('ui_create_question_option_e')       # str
+    ui_answer = request.form.get('ui_create_question_answer')           # str
+    ui_answer_fitb = request.form.get('ui_create_question_answer_fitb')      # str
+    # ------------------------ get user inputs end ------------------------
+    # ------------------------ sanitize user inputs start ------------------------
+    if ui_option_e == None or ui_option_e.strip() == '':
+      ui_option_e = None
+    ui_title_checked = sanitize_create_question_categories_function(ui_title)
+    ui_categories_checked = sanitize_create_question_categories_function(ui_categories)
+    ui_question_checked = sanitize_create_question_question_function(ui_question)
+    ui_option_a_checked = sanitize_create_question_options_function(ui_option_a)
+    ui_option_b_checked = sanitize_create_question_options_function(ui_option_b)
+    ui_option_c_checked = sanitize_create_question_options_function(ui_option_c)
+    ui_option_d_checked = sanitize_create_question_options_function(ui_option_d)
+    ui_option_e_checked = sanitize_create_question_option_e_function(ui_option_e)
+    ui_answer_checked = sanitize_create_question_answer_function(ui_answer)
+    ui_answer_fitb_checked = sanitize_create_question_options_function(ui_answer_fitb)
+    # ------------------------ sanitize user inputs end ------------------------
+    # ------------------------ error catch check start ------------------------
+    if ui_option_e == None and ui_answer_checked.lower() == 'e':
+      page_error_statement = 'Invalid answer choice'
+      return redirect(url_for('employees_views_interior.employees_create_question_v3_function', url_redirect_code='e15'))
+    if ui_title_checked == False or ui_categories_checked == False or ui_question_checked == False or ui_option_a_checked == False or ui_option_b_checked == False or ui_option_c_checked == False or ui_option_d_checked == False or ui_option_e_checked == False or ui_answer_checked == False or ui_answer_fitb_checked == False :
+      return redirect(url_for('employees_views_interior.employees_create_question_v3_function', url_redirect_code='e15'))
+    # ------------------------ error catch check end ------------------------
+    # ------------------------ define variable for insert start ------------------------
+    final_id = create_uuid_function('questionid_')
+    # ------------------------ define variable for insert end ------------------------
+    # ------------------------ ui uploaded image start ------------------------
+    create_question_uploaded_image_aws_url = ''
+    create_question_uploaded_image_uuid = ''
+    try:
+      if request.files:
+        if "filesize" in request.cookies:
+          # ------------------------ ui file start ------------------------
+          image = request.files["ui_image_upload"]
+          # ------------------------ ui file end ------------------------
+          # ------------------------ if no image attached start ------------------------
+          if image.filename == '' or image.filename == ' ' or image.filename == None:
+            pass
+          # ------------------------ if no image attached end ------------------------
+          # ------------------------ if image attached start ------------------------
+          else:
+            # Keep track of the original filename that someone is uploading
+            create_question_upload_image_original_filename = image.filename
+            # Create image uuid to store in aws
+            create_question_uploaded_image_uuid = '_user_uploaded_image_' + final_id
+            # Change the name of the image from whatever the user uploaded to the question uuid as name
+            image = candidates_change_uploaded_image_filename_function(image, create_question_uploaded_image_uuid)
+            # Get image filesize
+            file_size = request.cookies["filesize"]
+            # Check and upload the user file image
+            user_image_upload_status = candidates_user_upload_image_checks_aws_s3_function(image, file_size)
+            if user_image_upload_status != False:
+              # Finalize image variables
+              create_question_uploaded_image_aws_url = 'https://' + os.environ.get('AWS_TRIVIAFY_BUCKET_NAME') + '.s3.' + os.environ.get('AWS_TRIVIAFY_REGION') + '.amazonaws.com/' + image.filename
+          # ------------------------ if image attached end ------------------------
+    except:
+      localhost_print_function('did not upload img')
+      pass
+    # ------------------------ ui uploaded image end ------------------------
+    # ------------------------ add to db start ------------------------
+    try:
+      db_groups_obj = EmployeesGroupsObj.query.filter_by(fk_company_name=current_user.company_name).first()
+      # ------------------------ append answers start ------------------------
+      concat_ui_answer = ui_answer.upper() + ',' + ui_answer_fitb.lower()
+      # ------------------------ append answers end ------------------------
+      new_row = CreatedQuestionsObj(
+        id = final_id,
+        created_timestamp=create_timestamp_function(),
+        fk_user_id = current_user.id,
+        status = False,
+        categories = ui_categories,
+        title = ui_title,
+        question = ui_question,
+        option_a = ui_option_a,
+        option_b = ui_option_b,
+        option_c = ui_option_c,
+        option_d = ui_option_d,
+        option_e = ui_option_e,
+        answer = concat_ui_answer,
+        aws_image_uuid = create_question_uploaded_image_uuid,
+        aws_image_url = create_question_uploaded_image_aws_url,
+        submission = 'draft',
+        product = 'employees',
+        fk_group_id = db_groups_obj.public_group_id
+      )
+      db.session.add(new_row)
+      db.session.commit()
+    except:
+      localhost_print_function('did not create question in db')
+      pass
+    # ------------------------ add to db end ------------------------
+    # ------------------------ redirect start ------------------------
+    return redirect(url_for('employees_views_interior.employees_preview_question_function'))
+    # ------------------------ redirect end ------------------------
+  # ------------------------ post end ------------------------
   localhost_print_function(' ------------------------ employees_create_question_v3_function END ------------------------ ')
   return render_template('employees/interior/create_question/v3/index.html', page_dict_to_html=page_dict)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@employees_views_interior.route('/employees/questions/preview', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/questions/preview/', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/questions/preview/<url_redirect_code>', methods=['GET', 'POST'])
+@login_required
+def employees_preview_question_function(url_redirect_code=None):
+  localhost_print_function(' ------------------------ employees_preview_question_function START ------------------------ ')
+  # ------------------------ page dict start ------------------------
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ page dict end ------------------------
+  # ------------------------ stripe subscription status check start ------------------------
+  stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees')
+  page_dict['stripe_subscription_status'] = stripe_subscription_obj_status
+  # ------------------------ stripe subscription status check end ------------------------
+  # ------------------------ redirect if not subscribed start ------------------------
+  if page_dict['stripe_subscription_status'] != 'active':
+    return redirect(url_for('employees_views_interior.employees_account_function', url_redirect_code='e14'))
+  # ------------------------ redirect if not subscribed end ------------------------
+  page_dict['user_company_name'] = current_user.company_name
+  # ------------------------ get latest custom question start ------------------------
+  db_question_obj = CreatedQuestionsObj.query.filter_by(fk_user_id=current_user.id,submission='draft',product='employees').order_by(CreatedQuestionsObj.created_timestamp.desc()).first()
+  if db_question_obj == None or db_question_obj == []:
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+  # ------------------------ get latest custom question end ------------------------
+  # ------------------------ build latest dict start ------------------------
+  page_dict['question_info_dict'] = arr_of_dict_all_columns_single_item_function(db_question_obj)
+  page_dict['question_info_dict']['categories'] = categories_tuple_function(page_dict['question_info_dict']['categories'])
+  # ------------------------ build latest dict end ------------------------
+  if request.method == 'POST':
+    db_question_obj.submission = 'submitted'
+    db.session.commit()
+    # ------------------------ email self start ------------------------
+    try:
+      output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+      output_subject = f'Employees: Custom Question by {current_user.email}'
+      output_body = f"Hi there,\n\nNew custom question created by {current_user.email} \n\nBest,\nTriviafy"
+      send_email_template_function(output_to_email, output_subject, output_body)
+    except:
+      pass
+    # ------------------------ email self end ------------------------
+    return redirect(url_for('employees_views_interior.employees_questions_function'))
+  localhost_print_function(' ------------------------ employees_preview_question_function END ------------------------ ')
+  return render_template('employees/interior/create_question/preview/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
