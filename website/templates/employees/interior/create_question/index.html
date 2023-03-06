@@ -14,10 +14,9 @@
 <div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
   <h2 class="custom-header-2-mobile">Custom questions</h2>
   {% if page_dict_to_html['total_group_created_questions_arr_of_dicts'] == 0 %}
-    <button class="btn btn-secondary" disabled>Add to test</button>
   {% else %}
     <div>
-      <a href="/candidates/question/create/v2" class="btn btn-primary">Create +</a>
+      <a href="/employees/questions/v3" class="btn btn-primary">Create +</a>
     </div>
   {% endif %}
 </div>
@@ -26,7 +25,7 @@
     {% if page_dict_to_html['total_group_created_questions_arr_of_dicts'] == 0 %}
       <div class="text-center custom-ptb-5">
         <p class="fst-italic custom-color-light-1 custom-header-5">Your group has not created any questions yet.</p>
-        <a href="/candidates/question/create/v2" class="btn btn-primary btn-lg">Create +</a>
+        <a href="/employees/questions/v3" class="btn btn-primary btn-lg">Create +</a>
       </div>
     {% else %}
       <div class="custom-ptb-6">

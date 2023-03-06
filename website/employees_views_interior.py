@@ -1031,10 +1031,10 @@ def employees_questions_function(url_redirect_code=None):
     i_dict['created_by_email'] = db_user_obj.email
     # ------------------------ append creator email end ------------------------
     # ------------------------ append asked status start ------------------------
-    i_dict['question_used_status'] = 'In queue'
+    i_dict['question_used_status'] = 'Include in future quiz'
     db_used_obj = EmployeesGroupQuestionsUsedObj.query.filter_by(fk_question_id=i_dict['id'], fk_group_id=db_groups_obj.public_group_id).first()
     if db_used_obj != None and db_used_obj != []:
-      i_dict['question_used_status'] = 'Answered by team'
+      i_dict['question_used_status'] = 'Included in past quiz'
     # ------------------------ append asked status end ------------------------
     group_created_questions_arr_of_dicts.append(i_dict)
   page_dict['group_created_questions_arr_of_dicts'] = group_created_questions_arr_of_dicts
@@ -1042,4 +1042,29 @@ def employees_questions_function(url_redirect_code=None):
   # ------------------------ pull all created questions by group end ------------------------
   localhost_print_function(' ------------------------ employees_questions_function END ------------------------ ')
   return render_template('employees/interior/create_question/index.html', page_dict_to_html=page_dict)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@employees_views_interior.route('/employees/questions/v3', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/questions/v3/', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/questions/v3/<url_redirect_code>', methods=['GET', 'POST'])
+@login_required
+def employees_create_question_v3_function(url_redirect_code=None):
+  localhost_print_function(' ------------------------ employees_create_question_v3_function START ------------------------ ')
+  # ------------------------ page dict start ------------------------
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ page dict end ------------------------
+  # ------------------------ stripe subscription status check start ------------------------
+  stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees')
+  page_dict['stripe_subscription_status'] = stripe_subscription_obj_status
+  # ------------------------ stripe subscription status check end ------------------------
+  # ------------------------ redirect if not subscribed start ------------------------
+  if page_dict['stripe_subscription_status'] != 'active':
+    return redirect(url_for('employees_views_interior.employees_account_function', url_redirect_code='e14'))
+  # ------------------------ redirect if not subscribed end ------------------------
+  page_dict['user_company_name'] = current_user.company_name
+  localhost_print_function(' ------------------------ employees_create_question_v3_function END ------------------------ ')
+  return render_template('employees/interior/create_question/v3/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
