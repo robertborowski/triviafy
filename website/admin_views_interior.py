@@ -363,7 +363,7 @@ def admin_analytics_page_function(url_redirect_code=None):
         guessed_name = breakup_email_function(i_email)
         output_to_email = i_email
         output_subject = f"Team Engagement Strategy: {todays_date_str}"
-        output_body = f"Hi {guessed_name},\n\nYou will get more recognition and exposure with your team through weekly trivia contests at https://triviafy.com/employees/dashboard first quiz in seconds. \n\nBest,\nTriviafy Support Team\nReply 'stop' to unsubscribe."
+        output_body = f"Hi {guessed_name},\n\nYou will get more recognition and exposure with your team through weekly trivia contests at https://triviafy.com/employees/dashboard \n\nBest,\nTriviafy Support Team\nReply 'stop' to unsubscribe."
         # ------------------------ check if email+subject already sent today start ------------------------
         db_email_sent_obj = EmployeesEmailSentObj.query.filter_by(to_email=output_to_email, subject=output_subject).first()
         if db_email_sent_obj != None and db_email_sent_obj != []:
