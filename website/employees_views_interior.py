@@ -1148,7 +1148,7 @@ def employees_create_question_v3_function(url_redirect_code=None):
     try:
       db_groups_obj = EmployeesGroupsObj.query.filter_by(fk_company_name=current_user.company_name).first()
       # ------------------------ append answers start ------------------------
-      concat_ui_answer = ui_answer.upper() + ',' + ui_answer_fitb.lower()
+      concat_ui_answer = ui_answer.upper() + ', ' + ui_answer_fitb.lower()
       # ------------------------ append answers end ------------------------
       new_row = CreatedQuestionsObj(
         id = final_id,
