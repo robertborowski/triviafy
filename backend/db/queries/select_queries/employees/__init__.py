@@ -81,7 +81,14 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
         FROM \
           user_obj \
         WHERE \
-          id='{additional_input}';"
+          id='{additional_input}';",
+    'select_categories_v1':
+      f"SELECT \
+          categories \
+        FROM \
+          created_questions_obj \
+        WHERE \
+          product='employees';"
   }
   # ------------------------ select queries end ------------------------
   # ------------------------ cursor start ------------------------
