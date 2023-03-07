@@ -44,7 +44,7 @@ def check_stripe_subscription_status_function_v2(current_user, product):
   except:
     pass
   # ------------------------ delete this, only for testing start ------------------------
-  # stripe_subscription_obj_status = 'active'
+  stripe_subscription_obj_status = 'active'
   # ------------------------ delete this, only for testing end ------------------------
   # ------------------------ stripe subscription status check end ------------------------
   localhost_print_function('=========================================== check_stripe_subscription_status_function_v2 END ===========================================')

@@ -1021,8 +1021,15 @@ def employees_questions_function(url_redirect_code=None):
   if page_dict['stripe_subscription_status'] != 'active':
     return redirect(url_for('employees_views_interior.employees_account_function', url_redirect_code='e14'))
   # ------------------------ redirect if not subscribed end ------------------------
-  # ------------------------ pull all created questions by group start ------------------------
   db_groups_obj = EmployeesGroupsObj.query.filter_by(fk_company_name=current_user.company_name).first()
+  # ------------------------ delete all in progress questions start ------------------------
+  db_drafted_questions_obj = CreatedQuestionsObj.query.filter_by(fk_group_id=db_groups_obj.public_group_id,submission='draft').first()
+  if db_drafted_questions_obj != None and db_drafted_questions_obj != []:
+    CreatedQuestionsObj.query.filter_by(fk_group_id=db_groups_obj.public_group_id,submission='draft').delete()
+    db.session.commit()
+    return redirect(url_for('employees_views_interior.employees_questions_function'))
+  # ------------------------ delete all in progress questions end ------------------------
+  # ------------------------ pull all created questions by group start ------------------------
   db_created_questions_obj = CreatedQuestionsObj.query.filter_by(fk_group_id=db_groups_obj.public_group_id).all()
   group_created_questions_arr_of_dicts = []
   for i_obj in db_created_questions_obj:
