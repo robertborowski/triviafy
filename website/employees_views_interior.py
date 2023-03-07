@@ -1228,7 +1228,7 @@ def employees_preview_question_function(url_redirect_code=None, url_question_id=
       db_question_obj.submission = 'submitted'
       db.session.commit()
       # ------------------------ email self start ------------------------
-      if output_to_email != os.environ.get('PERSONAL_EMAIL') and output_to_email != os.environ.get('RUN_TEST_EMAIL'):
+      if current_user.email != os.environ.get('PERSONAL_EMAIL') and current_user.email != os.environ.get('RUN_TEST_EMAIL'):
         try:
           output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
           output_subject = f'Employees: Custom Question by {current_user.email}'
