@@ -47,7 +47,7 @@
               <td>{{ i['created_timestamp'] }}</td>
               <td>{{ i['title'] }}</td>
               <td>{{ i['question_used_status'] }}</td>
-              <td><a href="#" class="custom-a-2 fw-bolder">View</a></td>
+              <td><a href="/employees/questions/preview/{{ i['id'] }}" class="custom-a-2 fw-bolder">View</a></td>
             </tr>
             {% endfor %}
           </tbody>

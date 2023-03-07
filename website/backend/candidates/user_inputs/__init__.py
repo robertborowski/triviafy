@@ -442,6 +442,11 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':'Invalid answer choice/inputs.',
       'type':'danger'
     }
+  elif redirect_var == 'e16':
+    alert_message_dict = {
+      'message':'Invalid question ID.',
+      'type':'danger'
+    }
   # ------------------------ errors end ------------------------
   # ------------------------ success start ------------------------
   elif redirect_var == 's1':

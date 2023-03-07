@@ -15,8 +15,12 @@
           <span class="custom-header-4">{{ page_dict_to_html['user_company_name'] }}</span>
         </a>
         <div>
-          <a href="/employees/questions" class="btn btn-outline-secondary">Discard</a>
-          <button type="submit" class="btn btn-primary custom-ml-3">Submit</a>
+          {% if page_dict_to_html['current_question_is_draft'] == true %}
+            <a href="/employees/questions" class="btn btn-outline-secondary">Discard</a>
+            <button type="submit" class="btn btn-primary custom-ml-3">Submit</a>
+          {% else %}
+            <a href="/employees/questions" class="btn btn-outline-primary">Done</a>
+          {% endif %}
         </div>
       </nav>
     </div>
@@ -47,6 +51,9 @@
           </div>
         </div>
         <div class="custom-width-11-mobile custom-p-5">
+          <div>
+            <p>Answer: {{ page_dict_to_html['question_info_dict']['answer'] }}</p>
+          </div>
           <div>
             {% if page_dict_to_html['question_info_dict']['option_a'] != None %}
             <div class="custom-mb-6">

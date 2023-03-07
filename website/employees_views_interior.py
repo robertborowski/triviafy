@@ -1177,7 +1177,7 @@ def employees_create_question_v3_function(url_redirect_code=None):
       pass
     # ------------------------ add to db end ------------------------
     # ------------------------ redirect start ------------------------
-    return redirect(url_for('employees_views_interior.employees_preview_question_function'))
+    return redirect(url_for('employees_views_interior.employees_preview_question_function', url_question_id=final_id))
     # ------------------------ redirect end ------------------------
   # ------------------------ post end ------------------------
   localhost_print_function(' ------------------------ employees_create_question_v3_function END ------------------------ ')
@@ -1187,9 +1187,11 @@ def employees_create_question_v3_function(url_redirect_code=None):
 # ------------------------ individual route start ------------------------
 @employees_views_interior.route('/employees/questions/preview', methods=['GET', 'POST'])
 @employees_views_interior.route('/employees/questions/preview/', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/questions/preview/<url_redirect_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/questions/preview/<url_question_id>', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/questions/preview/<url_question_id>/', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/questions/preview/<url_question_id>/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
-def employees_preview_question_function(url_redirect_code=None):
+def employees_preview_question_function(url_redirect_code=None, url_question_id=None):
   localhost_print_function(' ------------------------ employees_preview_question_function START ------------------------ ')
   # ------------------------ page dict start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
@@ -1204,28 +1206,37 @@ def employees_preview_question_function(url_redirect_code=None):
   if page_dict['stripe_subscription_status'] != 'active':
     return redirect(url_for('employees_views_interior.employees_account_function', url_redirect_code='e14'))
   # ------------------------ redirect if not subscribed end ------------------------
+  # ------------------------ redirect if question id none start ------------------------
+  if url_question_id == None:
+    return redirect(url_for('employees_views_interior.employees_questions_function', url_redirect_code='e16'))
+  # ------------------------ redirect if question id none end ------------------------
   page_dict['user_company_name'] = current_user.company_name
   # ------------------------ get latest custom question start ------------------------
-  db_question_obj = CreatedQuestionsObj.query.filter_by(fk_user_id=current_user.id,submission='draft',product='employees').order_by(CreatedQuestionsObj.created_timestamp.desc()).first()
+  db_question_obj = CreatedQuestionsObj.query.filter_by(id=url_question_id).first()
   if db_question_obj == None or db_question_obj == []:
-    return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+    return redirect(url_for('employees_views_interior.employees_questions_function', url_redirect_code='e16'))
   # ------------------------ get latest custom question end ------------------------
+  page_dict['current_question_is_draft'] = False
+  if db_question_obj.submission == 'draft':
+    page_dict['current_question_is_draft'] = True
   # ------------------------ build latest dict start ------------------------
   page_dict['question_info_dict'] = arr_of_dict_all_columns_single_item_function(db_question_obj)
   page_dict['question_info_dict']['categories'] = categories_tuple_function(page_dict['question_info_dict']['categories'])
   # ------------------------ build latest dict end ------------------------
   if request.method == 'POST':
-    db_question_obj.submission = 'submitted'
-    db.session.commit()
-    # ------------------------ email self start ------------------------
-    try:
-      output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
-      output_subject = f'Employees: Custom Question by {current_user.email}'
-      output_body = f"Hi there,\n\nNew custom question created by {current_user.email} \n\nBest,\nTriviafy"
-      send_email_template_function(output_to_email, output_subject, output_body)
-    except:
-      pass
-    # ------------------------ email self end ------------------------
+    if db_question_obj.submission == 'draft':
+      db_question_obj.submission = 'submitted'
+      db.session.commit()
+      # ------------------------ email self start ------------------------
+      if output_to_email != os.environ.get('PERSONAL_EMAIL') and output_to_email != os.environ.get('RUN_TEST_EMAIL'):
+        try:
+          output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+          output_subject = f'Employees: Custom Question by {current_user.email}'
+          output_body = f"Hi there,\n\nNew custom question created by {current_user.email} \n\nBest,\nTriviafy"
+          send_email_template_function(output_to_email, output_subject, output_body)
+        except:
+          pass
+      # ------------------------ email self end ------------------------
     return redirect(url_for('employees_views_interior.employees_questions_function'))
   localhost_print_function(' ------------------------ employees_preview_question_function END ------------------------ ')
   return render_template('employees/interior/create_question/preview/index.html', page_dict_to_html=page_dict)
