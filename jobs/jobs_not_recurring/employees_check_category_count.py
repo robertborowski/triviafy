@@ -48,6 +48,14 @@ def employees_check_category_count_function():
   for r in a1_sorted_keys:
     print(r, master_dict[r])
   print(' --------------------------------------- ')
+
+  # SQL query
+  db_arr_of_dict = select_manual_function(postgres_connection, postgres_cursor, 'select_letter_count_v1')
+  
+  print(' --> Answer count')
+  for i in db_arr_of_dict:
+    print(f"{i['letter']} : {i['total_count']}")
+  print(' --------------------------------------- ')
   
   postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)
   return True

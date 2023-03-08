@@ -88,7 +88,15 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
         FROM \
           created_questions_obj \
         WHERE \
-          product='employees';"
+          product='employees';",
+    'select_letter_count_v1':
+      f"SELECT 'A' AS letter, COUNT(*) AS total_count FROM created_questions_obj WHERE product = 'employees' AND answer LIKE 'A,%' \
+        UNION \
+        SELECT 'B' AS letter, COUNT(*) AS total_count FROM created_questions_obj WHERE product = 'employees' AND answer LIKE 'B,%' \
+        UNION \
+        SELECT 'C' AS letter, COUNT(*) AS total_count FROM created_questions_obj WHERE product = 'employees' AND answer LIKE 'C,%' \
+        UNION \
+        SELECT 'D' AS letter, COUNT(*) AS total_count FROM created_questions_obj WHERE product = 'employees' AND answer LIKE 'D,%';"
   }
   # ------------------------ select queries end ------------------------
   # ------------------------ cursor start ------------------------
