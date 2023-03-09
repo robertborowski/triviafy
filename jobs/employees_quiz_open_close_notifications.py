@@ -131,7 +131,7 @@ def send_email_template_function(output_email, output_subject_line, output_messa
   from_email = Email(email = os.environ.get('TRIVIAFY_SUPPORT_EMAIL'), name = "Triviafy")
   to_email = To(output_email)
   subject = output_subject_line
-  content = Content("text/plain", output_message_content)
+  content = Content("text/html", output_message_content)
   mail = Mail(from_email, to_email, subject, content)
   mail_json = mail.get()
   try:
@@ -231,7 +231,11 @@ def employees_quiz_open_close_notifications():
         output_subject = f'Action Required: New Team Trivia Contest {todays_date_str}'
         db_email_already_sent = select_manual_function(postgres_connection, postgres_cursor, 'select_check_email_sent_1', output_to_email, output_subject)
         if db_email_already_sent == None or db_email_already_sent == []:
-          output_body = f"Hi {guessed_name},\n\nYour team's latest trivia contest is now open at https://triviafy.com/employees/dashboard \n\nBest,\nTriviafy Support Team\nReply 'stop' to unsubscribe."
+          output_body = f"<p>Hi {guessed_name},</p>\
+                          <p>Your team's latest trivia contest is now open, click <a href='https://triviafy.com/employees/dashboard'>here</a> to participate.</p>\
+                          <p style='margin:0;'>Best,</p>\
+                          <p style='margin:0;'>Triviafy Support Team</p>\
+                          <p style='margin:0;font-size:10px;'>Reply 'stop' to unsubscribe.</p>"
           send_email_template_function(output_to_email, output_subject, output_body)
           # ------------------------ insert to db start ------------------------
           send_email_id = create_uuid_function('job_')
@@ -255,7 +259,11 @@ def employees_quiz_open_close_notifications():
           output_subject = f'Action Required: Team Trivia Contest Open {todays_date_str}'
           db_email_already_sent = select_manual_function(postgres_connection, postgres_cursor, 'select_check_email_sent_1', output_to_email, output_subject)
           if db_email_already_sent == None or db_email_already_sent == []:
-            output_body = f"Hi {guessed_name},\n\nYour team's latest trivia contest is now open at https://triviafy.com/employees/dashboard \n\nBest,\nTriviafy Support Team\nReply 'stop' to unsubscribe."
+            output_body = f"<p>Hi {guessed_name},</p>\
+                            <p>Your team's latest trivia contest is now open, click <a href='https://triviafy.com/employees/dashboard'>here</a> to participate.</p>\
+                            <p style='margin:0;'>Best,</p>\
+                            <p style='margin:0;'>Triviafy Support Team</p>\
+                            <p style='margin:0;font-size:10px;'>Reply 'stop' to unsubscribe.</p>"
             send_email_template_function(output_to_email, output_subject, output_body)
             # ------------------------ insert to db start ------------------------
             send_email_id = create_uuid_function('job_')
@@ -272,7 +280,11 @@ def employees_quiz_open_close_notifications():
           output_subject = f'Action Required: 1 Hour Left In Team Trivia Contest {todays_date_str}'
           db_email_already_sent = select_manual_function(postgres_connection, postgres_cursor, 'select_check_email_sent_1', output_to_email, output_subject)
           if db_email_already_sent == None or db_email_already_sent == []:
-            output_body = f"Hi {guessed_name},\n\nOne hour left to participate in your team's latest trivia contest at https://triviafy.com/employees/dashboard \n\nBest,\nTriviafy Support Team\nReply 'stop' to unsubscribe."
+            output_body = f"<p>Hi {guessed_name},</p>\
+                            <p>You team's latest trivia contest closes in one hour, click <a href='https://triviafy.com/employees/dashboard'>here</a> to participate.</p>\
+                            <p style='margin:0;'>Best,</p>\
+                            <p style='margin:0;'>Triviafy Support Team</p>\
+                            <p style='margin:0;font-size:10px;'>Reply 'stop' to unsubscribe.</p>"
             send_email_template_function(output_to_email, output_subject, output_body)
             # ------------------------ insert to db start ------------------------
             send_email_id = create_uuid_function('job_')
@@ -302,9 +314,17 @@ def employees_quiz_open_close_notifications():
         db_email_already_sent = select_manual_function(postgres_connection, postgres_cursor, 'select_check_email_sent_1', output_to_email, output_subject)
         if db_email_already_sent == None or db_email_already_sent == []:
           if latest_test_id_winner == None:
-            output_body = f"Hi {guessed_name},\n\nYour team's latest trivia contest is now closed. See your team's responses, leaderboard, and statistics at https://triviafy.com/employees/dashboard \n\nBest,\nTriviafy Support Team\nReply 'stop' to unsubscribe."
+            output_body = f"<p>Hi {guessed_name},</p>\
+                            <p>Your team's latest trivia contest is now closed! Click <a href='https://triviafy.com/employees/dashboard'>here</a> to see your team's responses, leaderboard, and statistics.</p>\
+                            <p style='margin:0;'>Best,</p>\
+                            <p style='margin:0;'>Triviafy Support Team</p>\
+                            <p style='margin:0;font-size:10px;'>Reply 'stop' to unsubscribe.</p>"
           else:
-            output_body = f"Hi {guessed_name},\n\nYour team's latest trivia contest winner is {latest_test_id_winner}! See your team's responses, leaderboard, and statistics at https://triviafy.com/employees/dashboard \n\nBest,\nTriviafy Support Team\nReply 'stop' to unsubscribe."
+            output_body = f"<p>Hi {guessed_name},</p>\
+                            <p>Your team's latest trivia contest winner is {latest_test_id_winner}! Click <a href='https://triviafy.com/employees/dashboard'>here</a> to see your team's responses, leaderboard, and statistics.</p>\
+                            <p style='margin:0;'>Best,</p>\
+                            <p style='margin:0;'>Triviafy Support Team</p>\
+                            <p style='margin:0;font-size:10px;'>Reply 'stop' to unsubscribe.</p>"
           send_email_template_function(output_to_email, output_subject, output_body)
           # ------------------------ insert to db start ------------------------
           send_email_id = create_uuid_function('job_')
