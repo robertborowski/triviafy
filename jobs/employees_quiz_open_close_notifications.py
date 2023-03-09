@@ -163,7 +163,7 @@ def employees_quiz_open_close_notifications():
   # ------------------------ job check start ------------------------
   job_datetime_check = datetime.now()
   job_hour_check = job_datetime_check.hour
-  if job_hour_check < 12:
+  if job_hour_check < 11:
     return True
   # ------------------------ job check end ------------------------
   # ------------------------ open connection start ------------------------
