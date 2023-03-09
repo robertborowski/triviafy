@@ -16,7 +16,7 @@ def send_email_template_function(output_email, output_subject_line, output_messa
   from_email = Email(email = os.environ.get('TRIVIAFY_SUPPORT_EMAIL'), name = "Triviafy")  # Change to your verified sender
   to_email = To(output_email)  # Change to your recipient
   subject = output_subject_line
-  content = Content("text/plain", output_message_content)
+  content = Content("text/html", output_message_content)
   mail = Mail(from_email, to_email, subject, content)
 
   # Get a JSON-ready representation of the Mail object
