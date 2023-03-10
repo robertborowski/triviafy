@@ -20,7 +20,7 @@ from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_f
 from website.backend.candidates.send_emails import send_email_template_function
 import os
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
-from .models import UserObj, CollectEmailObj
+from .models import UserObj, CollectEmailObj, EmployeesEmailSentObj
 from website.backend.candidates.string_manipulation import breakup_email_function
 # ------------------------ imports end ------------------------
 
@@ -140,6 +140,21 @@ def employees_signup_function(url_redirect_code=None):
       except:
         pass
       # ------------------------ send email end ------------------------
+      # ------------------------ insert email to db start ------------------------
+      try:
+        new_row = EmployeesEmailSentObj(
+          id = create_uuid_function('email_'),
+          created_timestamp = create_timestamp_function(),
+          from_user_id_fk = 'New signup',
+          to_email = output_to_email,
+          subject = output_subject,
+          body = output_body
+        )
+        db.session.add(new_row)
+        db.session.commit()
+      except:
+        pass
+      # ------------------------ insert email to db end ------------------------
       localhost_print_function(' ------------------------ employees_signup_function END ------------------------ ')
       return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
     # ------------------------ post method hit #2 - full sign up end ------------------------
