@@ -6,27 +6,27 @@
 {% endblock %}
 
 {% block contentBody %}
-<body class="custom-bg-grey-3">
-  <form method="POST" enctype="multipart/form-data" class="custom-pt-1" onsubmit="return clickSubmitButtonOnce()">
+<body class="custom-bg-primary-darker">
+  <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
     <!-- ------------------------------------- navbar start ------------------------------------- -->
-    <div class="container-fluid fixed-top shadow-sm custom-bg-white">
+    <div class="container-fluid fixed-top custom-bg-primary custom-pt-4">
       <nav class="container navbar navbar-expand-md navbar-light custom-display-flex custom-jc-2">
-        <a href="#" class="navbar-brand">
+        <a href="#" class="navbar-brand custom-header-white">
           <span class="custom-header-4">{{ page_dict_to_html['user_company_name'] }}</span>
         </a>
         <div>
           {% if page_dict_to_html['current_question_is_draft'] == true %}
-            <a href="/employees/questions" class="btn btn-outline-secondary">Discard</a>
-            <button type="submit" class="btn btn-primary custom-ml-3">Submit</a>
+            <a href="/employees/questions" class="btn btn-danger">Discard</a>
+            <button type="submit" class="btn btn-success custom-ml-3">Submit</a>
           {% else %}
-            <a href="/employees/questions" class="btn btn-outline-primary">Done</a>
+            <a href="/employees/questions" class="btn btn-success">Done</a>
           {% endif %}
         </div>
       </nav>
     </div>
     <div class="custom-filler-5"></div>
     <!-- ------------------------------------- navbar end ------------------------------------- -->
-    <div class="container-fluid custom-bg-grey-3">
+    <div class="container-fluid custom-bg-primary-gradient-1 custom-pt-1">
       <!-- ------------------------------------- question start ------------------------------------- -->
       <div class="container border shadow custom-br-1 custom-bg-white custom-display-flex custom-fw-1">
         <div class="custom-width-11-mobile custom-p-5">
@@ -39,8 +39,8 @@
             </div>
           </div>
           <div>
-            <div class="custom-mb-6">
-              <p>{{ page_dict_to_html['question_info_dict']['question'] }}</p>
+            <div class="custom-mb-6 shadow custom-bg-green-1">
+              <p class="custom-header-6 custom-p-1 custom-br-1 fst-italic fw-bold">{{ page_dict_to_html['question_info_dict']['question'] }}</p>
             </div>
             {% if page_dict_to_html['question_info_dict']['aws_image_url']|length != 0 %}
             <div class="text-center">
@@ -58,35 +58,35 @@
             {% if page_dict_to_html['question_info_dict']['option_a'] != None %}
             <div class="custom-mb-6">
               <input type="radio" class="btn-check" id="candidate_answer_choice_a" name="ui_answer_choice_selected" value="a" autocomplete="off">
-              <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_a">A: {{ page_dict_to_html['question_info_dict']['option_a'] }}</label>
+              <label class="btn btn-outline-success custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_a">A: {{ page_dict_to_html['question_info_dict']['option_a'] }}</label>
             </div>
             {% endif %}
 
             {% if page_dict_to_html['question_info_dict']['option_b'] != None %}
             <div class="custom-mb-6">
               <input type="radio" class="btn-check" id="candidate_answer_choice_b" name="ui_answer_choice_selected" value="b" autocomplete="off">
-              <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_b">B: {{ page_dict_to_html['question_info_dict']['option_b'] }}</label>
+              <label class="btn btn-outline-success custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_b">B: {{ page_dict_to_html['question_info_dict']['option_b'] }}</label>
             </div>
             {% endif %}
 
             {% if page_dict_to_html['question_info_dict']['option_c'] != None %}
             <div class="custom-mb-6">
               <input type="radio" class="btn-check" id="candidate_answer_choice_c" name="ui_answer_choice_selected" value="d" autocomplete="off">
-              <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_c">C: {{ page_dict_to_html['question_info_dict']['option_c'] }}</label>
+              <label class="btn btn-outline-success custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_c">C: {{ page_dict_to_html['question_info_dict']['option_c'] }}</label>
             </div>
             {% endif %}
 
             {% if page_dict_to_html['question_info_dict']['option_d'] != None %}
             <div class="custom-mb-6">
               <input type="radio" class="btn-check" id="candidate_answer_choice_d" name="ui_answer_choice_selected" value="d" autocomplete="off">
-              <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_d">D: {{ page_dict_to_html['question_info_dict']['option_d'] }}</label>
+              <label class="btn btn-outline-success custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_d">D: {{ page_dict_to_html['question_info_dict']['option_d'] }}</label>
             </div>
             {% endif %}
 
             {% if page_dict_to_html['question_info_dict']['option_e'] != None %}
             <div class="custom-mb-6">
               <input type="radio" class="btn-check" id="candidate_answer_choice_e" name="ui_answer_choice_selected" value="e" autocomplete="off">
-              <label class="btn btn-outline-secondary custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_e">E: {{ page_dict_to_html['question_info_dict']['option_e'] }}</label>
+              <label class="btn btn-outline-success custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_e">E: {{ page_dict_to_html['question_info_dict']['option_e'] }}</label>
             </div>
             {% endif %}
           </div>
@@ -95,7 +95,7 @@
       <!-- ------------------------------------- question end ------------------------------------- -->
     </div>
     <div class="text-center custom-mt-5 custom-pb-2">
-      <img src="/static/images/candidates/logo/logo_wide_v3.png" alt="powered by triviafy logo" class="custom-img-size-10 custom-img-opacity-1">
+      <img src="/static/images/candidates/logo/logo_wide_v3_white_com.png" alt="powered by triviafy logo" class="custom-img-size-10">
     </div>
   </form>
 </body>
