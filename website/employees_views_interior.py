@@ -227,7 +227,7 @@ def login_dashboard_page_function(url_redirect_code=None):
     pass
   # ------------------------ if latest closed then pull winner end ------------------------
   # ------------------------ stripe subscription status check start ------------------------
-  stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees')
+  stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees', current_user.email)
   page_dict['stripe_subscription_status'] = stripe_subscription_obj_status
   # ------------------------ stripe subscription status check end ------------------------
   # ------------------------ auto set cookie start ------------------------
@@ -1014,7 +1014,7 @@ def employees_questions_function(url_redirect_code=None):
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
   # ------------------------ stripe subscription status check start ------------------------
-  stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees')
+  stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees', current_user.email)
   page_dict['stripe_subscription_status'] = stripe_subscription_obj_status
   # ------------------------ stripe subscription status check end ------------------------
   # ------------------------ redirect if not subscribed start ------------------------
@@ -1065,7 +1065,7 @@ def employees_create_question_v3_function(url_redirect_code=None):
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
   # ------------------------ stripe subscription status check start ------------------------
-  stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees')
+  stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees', current_user.email)
   page_dict['stripe_subscription_status'] = stripe_subscription_obj_status
   # ------------------------ stripe subscription status check end ------------------------
   # ------------------------ redirect if not subscribed start ------------------------
@@ -1199,7 +1199,7 @@ def employees_preview_question_function(url_redirect_code=None, url_question_id=
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
   # ------------------------ stripe subscription status check start ------------------------
-  stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees')
+  stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees', current_user.email)
   page_dict['stripe_subscription_status'] = stripe_subscription_obj_status
   # ------------------------ stripe subscription status check end ------------------------
   # ------------------------ redirect if not subscribed start ------------------------

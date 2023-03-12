@@ -2,6 +2,7 @@
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 import stripe
 from datetime import datetime
+import os
 # ------------------------ imports end ------------------------
 
 
@@ -27,7 +28,7 @@ def check_stripe_subscription_status_function(current_user):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
-def check_stripe_subscription_status_function_v2(current_user, product):
+def check_stripe_subscription_status_function_v2(current_user, product, attempting_user=None):
   localhost_print_function('=========================================== check_stripe_subscription_status_function_v2 START ===========================================')
   # ------------------------ stripe subscription status check start ------------------------
   if product == 'candidates':
@@ -46,6 +47,10 @@ def check_stripe_subscription_status_function_v2(current_user, product):
   # ------------------------ delete this, only for testing start ------------------------
   # stripe_subscription_obj_status = 'active'
   # ------------------------ delete this, only for testing end ------------------------
+  # ------------------------ only approved email start ------------------------
+  if attempting_user == os.environ.get('RUN_TEST_EMAIL'):
+    stripe_subscription_obj_status = 'active'
+  # ------------------------ only approved email end ------------------------
   # ------------------------ stripe subscription status check end ------------------------
   localhost_print_function('=========================================== check_stripe_subscription_status_function_v2 END ===========================================')
   return stripe_subscription_obj_status
