@@ -39,6 +39,7 @@
     </div>
     <div>
       {% if page_dict_to_html['stripe_subscription_status'] == 'active' %}
+      <a href="/employees/schedule" class="btn btn-outline-secondary"><i class="fa-solid fa-gear"></i> Settings</a>
       {% else %}
         {% if page_dict_to_html['ui_latest_test_completed'] == false %}
         {% else %}
@@ -51,8 +52,8 @@
     <div class="text-center">
       {% if page_dict_to_html['latest_test_is_closed'] == false %}
         <div class="custom-width-14 mx-auto custom-tal">
-          <p class="custom-header-4 text-center">Your team's latest quiz is now <span class="custom-underline-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Complete by: {{ page_dict_to_html['ending_time_string'] }}">open</span>.</p>
-          <p class="custom-size-3 fst-italic">FAQ: How do I share this quiz with my team? Team members have to create an account <a href="/employees/signup" target="_blank">here</a> and they will be automatically routed to this same quiz!</p>
+          <p class="custom-header-4 text-center">Your latest team building contest is now <span class="custom-underline-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Complete by: {{ page_dict_to_html['ending_time_string'] }}">open</span>. Your coworkers have until <span class="fst-italic custom-underline-1">{{ page_dict_to_html['ending_time_string'] }}</span> to participate. The winner will be announced by email.</p>
+          <p class="custom-size-3 fst-italic custom-bg-tan-1 custom-p-1 custom-br-1">FAQ: How do I share this contest with my team? Team members have to create an account <a href="/employees/signup" target="_blank">here</a> and they will be automatically routed to this same quiz!</p>
         </div>
         {% if page_dict_to_html['ui_latest_test_completed'] == true %}
           <a href="/employees/t/" class="btn btn-lg btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Quiz closes: {{ page_dict_to_html['ending_time_string'] }}">Review answers <i class="fa-solid fa-arrow-right"></i></a>
@@ -62,13 +63,13 @@
       {% endif %}
       {% if page_dict_to_html['latest_test_is_closed'] == true %}
         <div class="custom-width-14 mx-auto custom-tal">
-          <p class="custom-header-4 text-center">Your team's latest quiz is now <span class="custom-underline-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Next quiz opens: {{ page_dict_to_html['next_quiz_open_string'] }}">closed</span>.</p>
-          <p class="custom-size-3 fst-italic">FAQ: How do I share this quiz with my team? Team members have to create an account <a href="/employees/signup" target="_blank">here</a> and they will be automatically routed to this same quiz!</p>
+          <p class="custom-header-4 text-center">Your latest team building contest is now <span class="custom-underline-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Next quiz opens: {{ page_dict_to_html['next_quiz_open_string'] }}">closed</span>. Your team's next contest opens on <span class="fst-italic custom-underline-1">{{ page_dict_to_html['next_quiz_open_string'] }}</span>.</p>
+          <p class="custom-size-3 fst-italic custom-bg-tan-1 custom-p-1 custom-br-1">FAQ: How do I share this contest with my team? Team members have to create an account <a href="/employees/signup" target="_blank">here</a> and they will be automatically routed to this same quiz!</p>
         </div>
         {% if page_dict_to_html['latest_test_winner'] == '' %}
           <p class="custom-header-4">No winner, no one on your team participated.</p>
         {% else %}
-          <p class="custom-header-4">Winner</p>
+          <p class="custom-header-4">Latest Winner</p>
           <p class="custom-header-4"><span class="btn btn-success btn-lg">&#127881; {{ page_dict_to_html['latest_test_winner'] }}</span> <span class="btn btn-success btn-lg">{{ page_dict_to_html['latest_test_winner_score'] }}%</span></p>
         {% endif %}
         <a href="/employees/t/" class="btn btn-outline-primary custom-mt-1">View all team responses <i class="fa-solid fa-arrow-right"></i></a>
