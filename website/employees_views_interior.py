@@ -1211,6 +1211,7 @@ def employees_preview_question_function(url_redirect_code=None, url_question_id=
     return redirect(url_for('employees_views_interior.employees_questions_function', url_redirect_code='e16'))
   # ------------------------ redirect if question id none end ------------------------
   page_dict['user_company_name'] = current_user.company_name
+  page_dict['user_company_name'] = page_dict['user_company_name'].title()
   # ------------------------ get latest custom question start ------------------------
   db_question_obj = CreatedQuestionsObj.query.filter_by(id=url_question_id).first()
   if db_question_obj == None or db_question_obj == []:
