@@ -244,6 +244,7 @@ def employees_quiz_open_close_notifications():
           insert_manual_function(postgres_connection, postgres_cursor, 'insert_email_1', insert_inputs_arr)
           # ------------------------ insert to db end ------------------------
         else:
+          localhost_print_function(f'already sent {output_to_email} | {output_subject}')
           pass
       # ------------------------ send email end ------------------------
       # ------------------------ check if grading exists start ------------------------
