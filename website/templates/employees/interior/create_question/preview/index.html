@@ -55,35 +55,35 @@
             <p>Answer: {{ page_dict_to_html['question_info_dict']['answer'] }}</p>
           </div>
           <div>
-            {% if page_dict_to_html['question_info_dict']['option_a'] != None %}
+            {% if page_dict_to_html['question_info_dict']['option_a'] != None and page_dict_to_html['question_info_dict']['option_a'] != '' %}
             <div class="custom-mb-6">
               <input type="radio" class="btn-check" id="candidate_answer_choice_a" name="ui_answer_choice_selected" value="a" autocomplete="off">
               <label class="btn btn-outline-success custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_a">A: {{ page_dict_to_html['question_info_dict']['option_a'] }}</label>
             </div>
             {% endif %}
 
-            {% if page_dict_to_html['question_info_dict']['option_b'] != None %}
+            {% if page_dict_to_html['question_info_dict']['option_b'] != None and page_dict_to_html['question_info_dict']['option_b'] != '' %}
             <div class="custom-mb-6">
               <input type="radio" class="btn-check" id="candidate_answer_choice_b" name="ui_answer_choice_selected" value="b" autocomplete="off">
               <label class="btn btn-outline-success custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_b">B: {{ page_dict_to_html['question_info_dict']['option_b'] }}</label>
             </div>
             {% endif %}
 
-            {% if page_dict_to_html['question_info_dict']['option_c'] != None %}
+            {% if page_dict_to_html['question_info_dict']['option_c'] != None and page_dict_to_html['question_info_dict']['option_c'] != '' %}
             <div class="custom-mb-6">
               <input type="radio" class="btn-check" id="candidate_answer_choice_c" name="ui_answer_choice_selected" value="d" autocomplete="off">
               <label class="btn btn-outline-success custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_c">C: {{ page_dict_to_html['question_info_dict']['option_c'] }}</label>
             </div>
             {% endif %}
 
-            {% if page_dict_to_html['question_info_dict']['option_d'] != None %}
+            {% if page_dict_to_html['question_info_dict']['option_d'] != None and page_dict_to_html['question_info_dict']['option_d'] != '' %}
             <div class="custom-mb-6">
               <input type="radio" class="btn-check" id="candidate_answer_choice_d" name="ui_answer_choice_selected" value="d" autocomplete="off">
               <label class="btn btn-outline-success custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_d">D: {{ page_dict_to_html['question_info_dict']['option_d'] }}</label>
             </div>
             {% endif %}
 
-            {% if page_dict_to_html['question_info_dict']['option_e'] != None %}
+            {% if page_dict_to_html['question_info_dict']['option_e'] != None and page_dict_to_html['question_info_dict']['option_e'] != '' %}
             <div class="custom-mb-6">
               <input type="radio" class="btn-check" id="candidate_answer_choice_e" name="ui_answer_choice_selected" value="e" autocomplete="off">
               <label class="btn btn-outline-success custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_e">E: {{ page_dict_to_html['question_info_dict']['option_e'] }}</label>
