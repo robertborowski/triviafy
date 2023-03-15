@@ -53,10 +53,12 @@
       {% if page_dict_to_html['latest_test_is_closed'] == false %}
         <div class="custom-width-14 mx-auto custom-tal">
           <p class="custom-header-4 text-center">Your latest team building contest is now <span class="custom-underline-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Complete by: {{ page_dict_to_html['ending_time_string'] }}">open</span>. Your coworkers have until <span class="fst-italic custom-underline-1">{{ page_dict_to_html['ending_time_string'] }}</span> to participate. The winner will be announced by email.</p>
-          <p class="custom-size-3 fst-italic custom-bg-tan-1 custom-p-1 custom-br-1">FAQ: How do I share this contest with my team? Team members have to create an account <a href="/employees/signup" target="_blank">here</a> and they will be automatically routed to this same quiz!</p>
+          <p class="custom-size-3 fst-italic custom-bg-green-1 custom-p-1 custom-br-1">FAQ: How do I share this contest with my team? Team members have to create an account <a href="/employees/signup" target="_blank">here</a> and they will be automatically routed to this same quiz!</p>
         </div>
         {% if page_dict_to_html['ui_latest_test_completed'] == true %}
-          <a href="/employees/t/" class="btn btn-lg btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Quiz closes: {{ page_dict_to_html['ending_time_string'] }}">Review answers <i class="fa-solid fa-arrow-right"></i></a>
+          <button class="btn btn-outline-success btn-lg custom-mb-1-mobile" id="demo" onclick="copyToClipboard(document.getElementById('demo').innerHTML)">Share with team <i class="fa-solid fa-up-right-from-square"></i></button>
+          <script>function copyToClipboard(text) {window.prompt("Share this link with your team and they will be routed to the same quiz.", 'https://triviafy.com/employees/signup');}</script>
+          <a href="/employees/t/" class="btn btn-lg btn-primary custom-ml-2" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Quiz closes: {{ page_dict_to_html['ending_time_string'] }}">Review my answers <i class="fa-solid fa-arrow-right"></i></a>
         {% else %}
           <a href="/employees/t/" class="btn btn-lg btn-success" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Complete by: {{ page_dict_to_html['ending_time_string'] }}">&#127881; Start quiz <i class="fa-solid fa-arrow-right"></i></a>
         {% endif %}
@@ -64,7 +66,7 @@
       {% if page_dict_to_html['latest_test_is_closed'] == true %}
         <div class="custom-width-14 mx-auto custom-tal">
           <p class="custom-header-4 text-center">Your latest team building contest is now <span class="custom-underline-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Next quiz opens: {{ page_dict_to_html['next_quiz_open_string'] }}">closed</span>. Your team's next contest opens on <span class="fst-italic custom-underline-1">{{ page_dict_to_html['next_quiz_open_string'] }}</span>.</p>
-          <p class="custom-size-3 fst-italic custom-bg-tan-1 custom-p-1 custom-br-1">FAQ: How do I share this contest with my team? Team members have to create an account <a href="/employees/signup" target="_blank">here</a> and they will be automatically routed to this same quiz!</p>
+          <p class="custom-size-3 fst-italic custom-bg-green-1 custom-p-1 custom-br-1">FAQ: How do I share this contest with my team? Team members have to create an account <a href="/employees/signup" target="_blank">here</a> and they will be automatically routed to this same quiz!</p>
         </div>
         {% if page_dict_to_html['latest_test_winner'] == '' %}
           <p class="custom-header-4">No winner, no one on your team participated.</p>
@@ -72,7 +74,11 @@
           <p class="custom-header-4">Latest Winner</p>
           <p class="custom-header-4"><span class="btn btn-success btn-lg">&#127881; {{ page_dict_to_html['latest_test_winner'] }}</span> <span class="btn btn-success btn-lg">{{ page_dict_to_html['latest_test_winner_score'] }}%</span></p>
         {% endif %}
-        <a href="/employees/t/" class="btn btn-outline-primary custom-mt-1">View all team responses <i class="fa-solid fa-arrow-right"></i></a>
+        <div class="custom-mt-1">
+          <button class="btn btn-outline-success custom-mb-1-mobile" id="demo" onclick="copyToClipboard(document.getElementById('demo').innerHTML)">Share with team <i class="fa-solid fa-up-right-from-square"></i></button>
+          <script>function copyToClipboard(text) {window.prompt("Share this link with your team and they will be routed to the same quiz.", 'https://triviafy.com/employees/signup');}</script>
+          <a href="/employees/t/" class="btn btn-outline-primary custom-ml-2">View all team responses <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
       {% endif %}
     </div>
   </div>
