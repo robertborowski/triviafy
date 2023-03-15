@@ -466,7 +466,7 @@ def alert_message_default_function_v2(redirect_var=None):
     }
   elif redirect_var == 's4':
     alert_message_dict = {
-      'message':'Answers successfully saved.',
+      'message':'Answers successfully saved. The grading/winner will be announced by email when your quiz closes.',
       'type':'success'
     }
   elif redirect_var == 's5':
