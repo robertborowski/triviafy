@@ -456,7 +456,7 @@ def alert_message_default_function_v2(redirect_var=None):
     }
   elif redirect_var == 's2':
     alert_message_dict = {
-      'message':'Schedule settings successfully updated.',
+      'message':'Schedule settings successfully updated. They will go into effect on your NEXT team quiz.',
       'type':'success'
     }
   elif redirect_var == 's3':
