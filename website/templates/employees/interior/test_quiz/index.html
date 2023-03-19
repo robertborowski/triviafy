@@ -52,7 +52,7 @@
     <div class="custom-filler-5"></div>
     <!-- ------------------------------------- navbar end ------------------------------------- -->
     <!-- ------------------------------------- entire page start ------------------------------------- -->
-    <div class="container-fluid custom-bg-primary-gradient-1 custom-pb-3 custom-pt-1">
+    <div class="container-fluid custom-bg-primary-gradient-1 custom-pt-1">
       <!-- ------------------------------------- first user first quiz discard option start ------------------------------------- -->
       {% if page_dict_to_html['first_user_first_quiz_can_replace'] == true %}
       <div class="container custom-tal custom-mb-4">
@@ -191,20 +191,19 @@
         <!-- ----------------------------------- question right side end ----------------------------------- -->
       </div>
       <!-- ------------------------------------- question end ------------------------------------- -->
-      <!-- ------------------------------------- share quiz start ------------------------------------- -->
-      <div class="container">
-        <button class="btn btn-primary btn-lg custom-mt-1 custom-width-6" id="demo" onclick="copyToClipboard(document.getElementById('demo').innerHTML)">Share this quiz with my team <i class="fa-solid fa-up-right-from-square"></i></button>
-        <script>function copyToClipboard(text) {window.prompt("Automated trivia contests for work. Screenshot + share below link with your team and everyone will be routed to the same trivia contest. (Link: CTRL + C)", 'https://triviafy.com/dashboard');}</script>
-      </div>
-      <!-- ------------------------------------- share quiz end ------------------------------------- -->
-
-      <!-- ------------------------------------- signature start ------------------------------------- -->
-      <div class="text-center custom-mt-5">
-        <img src="/static/images/candidates/logo/logo_wide_v3_white_com.png" alt="powered by triviafy logo" class="custom-img-size-10">
-      </div>
-      <!-- ------------------------------------- signature end ------------------------------------- -->
     </div>
   <!-- ------------------------------------- entire page end ------------------------------------- -->
   </form>
+  <!-- ------------------------------------- share quiz start ------------------------------------- -->
+  <div class="container">
+    <button class="btn btn-primary btn-lg custom-mt-1 custom-width-6" id="demo" onclick="copyToClipboard(document.getElementById('demo').innerHTML)">Share this quiz with my team <i class="fa-solid fa-up-right-from-square"></i></button>
+    <script>function copyToClipboard(text) {window.prompt("Automated trivia contests for work. Screenshot + share below link with your team and everyone will be routed to the same trivia contest. (Link: CTRL + C)", 'https://triviafy.com/dashboard');}</script>
+  </div>
+  <!-- ------------------------------------- share quiz end ------------------------------------- -->
+  <!-- ------------------------------------- signature start ------------------------------------- -->
+  <div class="text-center custom-mt-5">
+    <img src="/static/images/candidates/logo/logo_wide_v3_white_com.png" alt="powered by triviafy logo" class="custom-img-size-10">
+  </div>
+  <!-- ------------------------------------- signature end ------------------------------------- -->
 </body>
 {% endblock %}
