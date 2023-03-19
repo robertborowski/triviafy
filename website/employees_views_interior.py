@@ -45,6 +45,7 @@ redis_connection = redis_connect_to_database_function()
 # ------------------------ connect to redis end ------------------------
 
 # ------------------------ individual route start ------------------------
+@employees_views_interior.route('/dashboard')
 @employees_views_interior.route('/employees/dashboard')
 @employees_views_interior.route('/employees/dashboard/<url_redirect_code>')
 @login_required

@@ -22,7 +22,7 @@
 {% if page_dict_to_html['first_test_exists'] == false %}
   <div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
     <div>
-      <h2 class="custom-header-mobile-1">Team building</h2>
+      <h2 class="custom-header-mobile-1">Automated team trivia <span class="custom-size-4 fst-italic custom-color-grey-1 custom-wrap-1">Loved by 100's of virtual & hybrid teams.</span></h2>
     </div>
   </div>
   <div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
@@ -34,18 +34,8 @@
 {% endif %}
 {% if page_dict_to_html['first_test_exists'] == true %}
   <div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
-    <div>
-      <h2 class="custom-header-mobile-1">Team building</h2>
-    </div>
-    <div>
-      {% if page_dict_to_html['stripe_subscription_status'] == 'active' %}
-      <a href="/employees/schedule" class="btn btn-outline-secondary"><i class="fa-solid fa-gear"></i> Settings</a>
-      {% else %}
-        {% if page_dict_to_html['ui_latest_test_completed'] == false %}
-        {% else %}
-          <a href="/employees/schedule" class="btn btn-outline-secondary"><i class="fa-solid fa-gear"></i> Settings</a>
-        {% endif %}
-      {% endif %}
+    <div> 
+      <h2 class="custom-header-mobile-1">Automated team trivia <span class="custom-size-4 fst-italic custom-color-grey-1 custom-wrap-1">Loved by 100's of virtual & hybrid teams.</span></h2>
     </div>
   </div>
   <div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
@@ -57,7 +47,7 @@
         </div>
         {% if page_dict_to_html['ui_latest_test_completed'] == true %}
           <button class="btn btn-outline-success btn-lg custom-mb-1-mobile" id="demo" onclick="copyToClipboard(document.getElementById('demo').innerHTML)">Share with team <i class="fa-solid fa-up-right-from-square"></i></button>
-          <script>function copyToClipboard(text) {window.prompt("Share this link with your team and they will be routed to the same quiz.", 'https://triviafy.com/employees/signup');}</script>
+          <script>function copyToClipboard(text) {window.prompt("Automated trivia contests for work. Screenshot + share below link with your team and everyone will be routed to the same trivia contest. (Link: CTRL + C)", 'https://triviafy.com/dashboard');}</script>
           <a href="/employees/t/" class="btn btn-lg btn-primary custom-ml-2" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Quiz closes: {{ page_dict_to_html['ending_time_string'] }}">Review my answers <i class="fa-solid fa-arrow-right"></i></a>
         {% else %}
           <a href="/employees/t/" class="btn btn-lg btn-success" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Complete by: {{ page_dict_to_html['ending_time_string'] }}">&#127881; Start quiz <i class="fa-solid fa-arrow-right"></i></a>
@@ -76,7 +66,7 @@
         {% endif %}
         <div class="custom-mt-1">
           <button class="btn btn-outline-success custom-mb-1-mobile" id="demo" onclick="copyToClipboard(document.getElementById('demo').innerHTML)">Share with team <i class="fa-solid fa-up-right-from-square"></i></button>
-          <script>function copyToClipboard(text) {window.prompt("Share this link with your team and they will be routed to the same quiz.", 'https://triviafy.com/employees/signup');}</script>
+          <script>function copyToClipboard(text) {window.prompt("Automated trivia contests for work. Screenshot + share below link with your team and everyone will be routed to the same trivia contest. (Link: CTRL + C)", 'https://triviafy.com/dashboard');}</script>
           <a href="/employees/t/" class="btn btn-outline-primary custom-ml-2">View all team responses <i class="fa-solid fa-arrow-right"></i></a>
         </div>
       {% endif %}
@@ -91,11 +81,11 @@
       <a href="/employees/archive" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto"><i class="fa-regular fa-folder-open"></i> Archive</a>
       <a href="/employees/leaderboard" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1"><i class="fa-solid fa-ranking-star"></i> Leaderboard</a>
       {% if page_dict_to_html['stripe_subscription_status'] == 'active' %}
-      <a href="/employees/questions" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1"><i class="fa-solid fa-screwdriver-wrench"></i> Custom questions</a>
-      <a href="/employees/feature/access_employee_surveys" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1"><i class="fa-solid fa-square-poll-vertical"></i> Employee surveys</a>
-      <a href="/employees/feature/access_ice_breakers" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1"><i class="fa-solid fa-ice-cream"></i> Ice breakers</a>
-      <a href="/employees/feature/access_personality_tests" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1"><i class="fa-solid fa-user"></i> Personality tests</a>
-      <a href="/employees/feature/access_pre_employment_testing" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1"><i class="fa-solid fa-check-to-slot"></i> Pre employee testing</a>
+        <a href="/employees/questions" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1"><i class="fa-solid fa-screwdriver-wrench"></i> Custom questions</a>
+        <a href="/employees/feature/access_employee_surveys" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1"><i class="fa-solid fa-square-poll-vertical"></i> Employee surveys</a>
+        <a href="/employees/feature/access_ice_breakers" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1"><i class="fa-solid fa-ice-cream"></i> Ice breakers</a>
+        <a href="/employees/feature/access_personality_tests" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1"><i class="fa-solid fa-user"></i> Personality tests</a>
+        <a href="/employees/feature/access_pre_employment_testing" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1"><i class="fa-solid fa-check-to-slot"></i> Pre employee testing</a>
       {% else %}
         <a href="/employees/account" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Subscription required"><i class="fa-solid fa-screwdriver-wrench"></i> Custom questions</a>
         <a href="/employees/account" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Subscription required"><i class="fa-solid fa-square-poll-vertical"></i> Employee surveys</a>
@@ -103,6 +93,7 @@
         <a href="/employees/account" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Subscription required"><i class="fa-solid fa-user"></i> Personality tests</a>
         <a href="/employees/account" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Subscription required"><i class="fa-solid fa-check-to-slot"></i> Pre employee testing</a>
       {% endif %}
+      <a href="/employees/schedule" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1"><i class="fa-solid fa-gear"></i> Settings</a>
     </div>
   {% endif %}
 {% endif %}
