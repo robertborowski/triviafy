@@ -47,7 +47,7 @@
         </div>
         {% if page_dict_to_html['ui_latest_test_completed'] == true %}
           <button class="btn btn-outline-success btn-lg custom-mb-1-mobile" id="demo" onclick="copyToClipboard(document.getElementById('demo').innerHTML)">Share with team <i class="fa-solid fa-up-right-from-square"></i></button>
-          <script>function copyToClipboard(text) {window.prompt("Automated trivia contests for work. Screenshot + share below link with your team and everyone will be routed to the same trivia contest. (Link: CTRL + C)", 'https://triviafy.com/dashboard');}</script>
+          <script>function copyToClipboard(text) {window.prompt("Automated trivia contests for work. Screenshot + share below link with your team and everyone will be routed to the same trivia contest. (Copy link: CTRL + C)", 'https://triviafy.com/dashboard');}</script>
           <a href="/employees/t/" class="btn btn-lg btn-primary custom-ml-2" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Quiz closes: {{ page_dict_to_html['ending_time_string'] }}">Review my answers <i class="fa-solid fa-arrow-right"></i></a>
         {% else %}
           <a href="/employees/t/" class="btn btn-lg btn-success" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Complete by: {{ page_dict_to_html['ending_time_string'] }}">&#127881; Start quiz <i class="fa-solid fa-arrow-right"></i></a>
@@ -66,7 +66,7 @@
         {% endif %}
         <div class="custom-mt-1">
           <button class="btn btn-outline-success custom-mb-1-mobile" id="demo" onclick="copyToClipboard(document.getElementById('demo').innerHTML)">Share with team <i class="fa-solid fa-up-right-from-square"></i></button>
-          <script>function copyToClipboard(text) {window.prompt("Automated trivia contests for work. Screenshot + share below link with your team and everyone will be routed to the same trivia contest. (Link: CTRL + C)", 'https://triviafy.com/dashboard');}</script>
+          <script>function copyToClipboard(text) {window.prompt("Automated trivia contests for work. Screenshot + share below link with your team and everyone will be routed to the same trivia contest. (Copy link: CTRL + C)", 'https://triviafy.com/dashboard');}</script>
           <a href="/employees/t/" class="btn btn-outline-primary custom-ml-2">View all team responses <i class="fa-solid fa-arrow-right"></i></a>
         </div>
       {% endif %}
