@@ -81,7 +81,7 @@ blocked_email_arr = [
 def check_email_personal_tags_function(user_input_email):
   localhost_print_function('=========================================== check_email_personal_tags_function START ===========================================')
   for i_email in blocked_email_arr:
-    if i_email in user_input_email:
+    if i_email in user_input_email.lower():
       localhost_print_function('=========================================== check_email_personal_tags_function END ===========================================')
       return False
   localhost_print_function('=========================================== check_email_personal_tags_function END ===========================================')
