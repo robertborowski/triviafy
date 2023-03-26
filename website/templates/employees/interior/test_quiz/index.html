@@ -18,37 +18,44 @@
         </div>
         <!-- ------------------------------------- feature view: archive start ------------------------------------- -->
         {% if page_dict_to_html['view_as_archive'] == true %}
-        <div>
-          <!-- ------------------------------------- feature view: archive start ------------------------------------- -->
-          {% if page_dict_to_html['view_as_archive'] == true or page_dict_to_html['latest_test_completed'] == true %}
-            <a href="/employees/dashboard" class="btn btn-danger btn custom-mr-2"><i class="fa-regular fa-circle-xmark"></i> Exit</a>
-          <!-- ------------------------------------- feature view: archive end ------------------------------------- -->
-          {% else %}
-          {% endif %}
+          <div>
+            <!-- ------------------------------------- feature view: archive start ------------------------------------- -->
+            {% if page_dict_to_html['view_as_archive'] == true or page_dict_to_html['latest_test_completed'] == true %}
+              <a href="/employees/dashboard" class="btn btn-danger btn custom-mr-2"><i class="fa-regular fa-circle-xmark"></i> Exit</a>
+            <!-- ------------------------------------- feature view: archive end ------------------------------------- -->
+            {% else %}
+            {% endif %}
 
-          {% if page_dict_to_html['current_question_number'] == '1' %}
-          {% else %}
-          <a href="/employees/t/{{ page_dict_to_html['url_test_id'] }}/{{ page_dict_to_html['previous_question_number'] }}" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Back</a>
-          {% endif %}
-          {% if page_dict_to_html['next_question_number'] == 'submit' %}
-          <a href="/employees/dashboard" class="btn btn-success custom-ml-3">Exit <i class="fa-solid fa-check"></i></a>
-          {% else %}
-          <a href="/employees/t/{{ page_dict_to_html['url_test_id'] }}/{{ page_dict_to_html['next_question_number'] }}" class="btn btn-success custom-ml-3">Next <i class="fa-solid fa-arrow-right"></i></a>
-          {% endif %}
-        </div>
-        <!-- ------------------------------------- feature view: archive end ------------------------------------- -->
+            {% if page_dict_to_html['current_question_number'] == '1' %}
+            {% else %}
+            <a href="/employees/t/{{ page_dict_to_html['url_test_id'] }}/{{ page_dict_to_html['previous_question_number'] }}" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Back</a>
+            {% endif %}
+            {% if page_dict_to_html['next_question_number'] == 'submit' %}
+            <a href="/employees/dashboard" class="btn btn-success custom-ml-3">Exit <i class="fa-solid fa-check"></i></a>
+            {% else %}
+            <a href="/employees/t/{{ page_dict_to_html['url_test_id'] }}/{{ page_dict_to_html['next_question_number'] }}" class="btn btn-success custom-ml-3">Next <i class="fa-solid fa-arrow-right"></i></a>
+            {% endif %}
+          </div>
+          <!-- ------------------------------------- feature view: archive end ------------------------------------- -->
         {% else %}
-        <div>
-          {% if page_dict_to_html['current_question_number'] == '1' %}
-          {% else %}
-          <a href="/employees/t/{{ page_dict_to_html['url_test_id'] }}/{{ page_dict_to_html['previous_question_number'] }}" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Back</a>
-          {% endif %}
-          {% if page_dict_to_html['next_question_number'] == 'submit' %}
-          <button type="submit" class="btn btn-success custom-ml-3">Submit <i class="fa-solid fa-check"></i></button>
-          {% else %}
-          <button type="submit" class="btn btn-success custom-ml-3">Next <i class="fa-solid fa-arrow-right"></i></button>
-          {% endif %}
-        </div>
+          <div>
+            <!-- ------------------------------------- feature view: archive start ------------------------------------- -->
+            {% if page_dict_to_html['view_as_archive'] == true or page_dict_to_html['latest_test_completed'] == true %}
+              <a href="/employees/dashboard" class="btn btn-danger btn custom-mr-2"><i class="fa-regular fa-circle-xmark"></i> Exit</a>
+            <!-- ------------------------------------- feature view: archive end ------------------------------------- -->
+            {% else %}
+            {% endif %}
+            
+            {% if page_dict_to_html['current_question_number'] == '1' %}
+            {% else %}
+            <a href="/employees/t/{{ page_dict_to_html['url_test_id'] }}/{{ page_dict_to_html['previous_question_number'] }}" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Back</a>
+            {% endif %}
+            {% if page_dict_to_html['next_question_number'] == 'submit' %}
+            <button type="submit" class="btn btn-success custom-ml-3">Submit <i class="fa-solid fa-check"></i></button>
+            {% else %}
+            <button type="submit" class="btn btn-success custom-ml-3">Next <i class="fa-solid fa-arrow-right"></i></button>
+            {% endif %}
+          </div>
         {% endif %}
       </nav>
     </div>
