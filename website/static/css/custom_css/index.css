@@ -93,6 +93,9 @@
 .custom-bg-primary-gradient-1 {
   background: linear-gradient(to bottom, var(--custom-color-primary), var(--custom-color-primary-darker));
 }
+.custom-bg-gradient-1 {
+  background: linear-gradient(to top, rgb(255 255 255), rgb(194 230 201 / 23%));
+}
 /* ------------------- background end ------------------- */
 /* ------------------- bottom start ------------------- */
 .custom-bottom-1 {
