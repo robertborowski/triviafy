@@ -12,19 +12,20 @@
       <nav class="container navbar navbar-expand-md navbar-light custom-display-flex custom-jc-2">
         <div>
           <!-- <a href="/employees/t/" class="btn btn-lg btn-success custom-width-6 custom-mt-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Quiz closes: {{ page_dict_to_html['ending_time_string'] }}">Review my answers <i class="fa-solid fa-arrow-right"></i></a> -->
-          <button class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Share this triviafy quiz with my coworkers" id="demo" onclick="copyToClipboard(document.getElementById('demo').innerHTML)">{{ page_dict_to_html['user_company_name'] }} <i class="fa-solid fa-up-right-from-square"></i></button>
+          <button class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Share this triviafy quiz with my coworkers" id="demo" onclick="copyToClipboard(document.getElementById('demo').innerHTML)">{{ page_dict_to_html['user_company_name'] }} <i class="fa-solid fa-up-right-from-square"></i></button>
           <script>function copyToClipboard(text) {window.prompt("Automated trivia contests for work. Share below link with your team and everyone will be routed to the same trivia contest. (Copy link: CTRL + C)", 'https://triviafy.com/dashboard');}</script>
           <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
-          <!-- ------------------------------------- feature view: archive start ------------------------------------- -->
-          {% if page_dict_to_html['view_as_archive'] == true or page_dict_to_html['latest_test_completed'] == true %}
-          <a href="/employees/dashboard" class="btn btn-secondary btn-sm">Exit</a>
-          <!-- ------------------------------------- feature view: archive end ------------------------------------- -->
-          {% else %}
-          {% endif %}
         </div>
         <!-- ------------------------------------- feature view: archive start ------------------------------------- -->
         {% if page_dict_to_html['view_as_archive'] == true %}
         <div>
+          <!-- ------------------------------------- feature view: archive start ------------------------------------- -->
+          {% if page_dict_to_html['view_as_archive'] == true or page_dict_to_html['latest_test_completed'] == true %}
+            <a href="/employees/dashboard" class="btn btn-danger btn custom-mr-2"><i class="fa-regular fa-circle-xmark"></i> Exit</a>
+          <!-- ------------------------------------- feature view: archive end ------------------------------------- -->
+          {% else %}
+          {% endif %}
+
           {% if page_dict_to_html['current_question_number'] == '1' %}
           {% else %}
           <a href="/employees/t/{{ page_dict_to_html['url_test_id'] }}/{{ page_dict_to_html['previous_question_number'] }}" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Back</a>
