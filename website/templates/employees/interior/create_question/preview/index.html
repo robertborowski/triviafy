@@ -7,96 +7,83 @@
 
 {% block contentBody %}
 <body class="custom-bg-primary-darker">
-  <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
-    <!-- ------------------------------------- navbar start ------------------------------------- -->
-    <div class="container-fluid fixed-top custom-bg-primary custom-pt-4">
-      <nav class="container navbar navbar-expand-md navbar-light custom-display-flex custom-jc-2">
-        <a href="#" class="navbar-brand custom-header-white">
-          <span class="custom-header-4">{{ page_dict_to_html['user_company_name'] }}</span>
-        </a>
+  <div class="container-fluid custom-bg-primary-gradient-1 custom-pt-3">
+    <!-- ------------------------------------- question start ------------------------------------- -->
+    <div class="container border shadow custom-br-1 custom-bg-white custom-display-flex custom-fw-1">
+      <div class="custom-width-11-mobile custom-p-5">
+        <div class="custom-display-flex custom-mb-6">
+          <h2 class="custom-header-4">Q1: {{ page_dict_to_html['question_info_dict']['title'] }}</h2>
+          <div>
+            {% for category_tuple in page_dict_to_html['question_info_dict']['categories'] %}
+              <span class="custom-tag-1 custom-tag-category-{{ category_tuple[1] }} custom-br-4 custom-ml-3 custom-header-5">{{ category_tuple[0] }}</span>
+            {% endfor %}
+          </div>
+        </div>
         <div>
-          {% if page_dict_to_html['current_question_is_draft'] == true %}
-            <a href="/employees/questions" class="btn btn-danger">Discard</a>
-            <button type="submit" class="btn btn-success custom-ml-3">Submit</a>
+          <div class="custom-mb-6 shadow custom-bg-green-1">
+            <p class="custom-header-6 custom-p-1 custom-br-1 fst-italic fw-bold">{{ page_dict_to_html['question_info_dict']['question'] }}</p>
+          </div>
+          {% if page_dict_to_html['question_info_dict']['aws_image_url']|length != 0 %}
+          <div class="text-center">
+            <img src="{{ page_dict_to_html['question_info_dict']['aws_image_url'] }}" alt="" class="custom-img-size-11 custom-br-1 shadow">
+          </div>
           {% else %}
-            <a href="/employees/questions" class="btn btn-success">Done</a>
           {% endif %}
         </div>
-      </nav>
-    </div>
-    <div class="custom-filler-5"></div>
-    <!-- ------------------------------------- navbar end ------------------------------------- -->
-    <div class="container-fluid custom-bg-primary-gradient-1 custom-pt-1">
-      <!-- ------------------------------------- question start ------------------------------------- -->
-      <div class="container border shadow custom-br-1 custom-bg-white custom-display-flex custom-fw-1">
-        <div class="custom-width-11-mobile custom-p-5">
-          <div class="custom-display-flex custom-mb-6">
-            <h2 class="custom-header-4">Q1: {{ page_dict_to_html['question_info_dict']['title'] }}</h2>
-            <div>
-              {% for category_tuple in page_dict_to_html['question_info_dict']['categories'] %}
-                <span class="custom-tag-1 custom-tag-category-{{ category_tuple[1] }} custom-br-4 custom-ml-3 custom-header-5">{{ category_tuple[0] }}</span>
-              {% endfor %}
-            </div>
+      </div>
+      <div class="custom-width-11-mobile custom-p-5">
+        <div>
+          {% if page_dict_to_html['question_info_dict']['option_a'] != None and page_dict_to_html['question_info_dict']['option_a'] != '' %}
+          <div class="custom-mb-6">
+            <input type="radio" class="btn-check" id="candidate_answer_choice_a" name="ui_answer_choice_selected" value="a" autocomplete="off">
+            <label class="btn btn-success custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_a">A: {{ page_dict_to_html['question_info_dict']['option_a'] }}</label>
           </div>
-          <div>
-            <div class="custom-mb-6 shadow custom-bg-green-1">
-              <p class="custom-header-6 custom-p-1 custom-br-1 fst-italic fw-bold">{{ page_dict_to_html['question_info_dict']['question'] }}</p>
-            </div>
-            {% if page_dict_to_html['question_info_dict']['aws_image_url']|length != 0 %}
-            <div class="text-center">
-              <img src="{{ page_dict_to_html['question_info_dict']['aws_image_url'] }}" alt="" class="custom-img-size-11 custom-br-1 shadow">
-            </div>
-            {% else %}
-            {% endif %}
+          {% endif %}
+
+          {% if page_dict_to_html['question_info_dict']['option_b'] != None and page_dict_to_html['question_info_dict']['option_b'] != '' %}
+          <div class="custom-mb-6">
+            <input type="radio" class="btn-check" id="candidate_answer_choice_b" name="ui_answer_choice_selected" value="b" autocomplete="off">
+            <label class="btn btn-success custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_b">B: {{ page_dict_to_html['question_info_dict']['option_b'] }}</label>
           </div>
-        </div>
-        <div class="custom-width-11-mobile custom-p-5">
-          <div>
-            <p>Answer: {{ page_dict_to_html['question_info_dict']['answer'] }}</p>
+          {% endif %}
+
+          {% if page_dict_to_html['question_info_dict']['option_c'] != None and page_dict_to_html['question_info_dict']['option_c'] != '' %}
+          <div class="custom-mb-6">
+            <input type="radio" class="btn-check" id="candidate_answer_choice_c" name="ui_answer_choice_selected" value="d" autocomplete="off">
+            <label class="btn btn-success custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_c">C: {{ page_dict_to_html['question_info_dict']['option_c'] }}</label>
           </div>
-          <div>
-            {% if page_dict_to_html['question_info_dict']['option_a'] != None and page_dict_to_html['question_info_dict']['option_a'] != '' %}
-            <div class="custom-mb-6">
-              <input type="radio" class="btn-check" id="candidate_answer_choice_a" name="ui_answer_choice_selected" value="a" autocomplete="off">
-              <label class="btn btn-outline-success custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_a">A: {{ page_dict_to_html['question_info_dict']['option_a'] }}</label>
-            </div>
-            {% endif %}
+          {% endif %}
 
-            {% if page_dict_to_html['question_info_dict']['option_b'] != None and page_dict_to_html['question_info_dict']['option_b'] != '' %}
-            <div class="custom-mb-6">
-              <input type="radio" class="btn-check" id="candidate_answer_choice_b" name="ui_answer_choice_selected" value="b" autocomplete="off">
-              <label class="btn btn-outline-success custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_b">B: {{ page_dict_to_html['question_info_dict']['option_b'] }}</label>
-            </div>
-            {% endif %}
-
-            {% if page_dict_to_html['question_info_dict']['option_c'] != None and page_dict_to_html['question_info_dict']['option_c'] != '' %}
-            <div class="custom-mb-6">
-              <input type="radio" class="btn-check" id="candidate_answer_choice_c" name="ui_answer_choice_selected" value="d" autocomplete="off">
-              <label class="btn btn-outline-success custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_c">C: {{ page_dict_to_html['question_info_dict']['option_c'] }}</label>
-            </div>
-            {% endif %}
-
-            {% if page_dict_to_html['question_info_dict']['option_d'] != None and page_dict_to_html['question_info_dict']['option_d'] != '' %}
-            <div class="custom-mb-6">
-              <input type="radio" class="btn-check" id="candidate_answer_choice_d" name="ui_answer_choice_selected" value="d" autocomplete="off">
-              <label class="btn btn-outline-success custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_d">D: {{ page_dict_to_html['question_info_dict']['option_d'] }}</label>
-            </div>
-            {% endif %}
-
-            {% if page_dict_to_html['question_info_dict']['option_e'] != None and page_dict_to_html['question_info_dict']['option_e'] != '' %}
-            <div class="custom-mb-6">
-              <input type="radio" class="btn-check" id="candidate_answer_choice_e" name="ui_answer_choice_selected" value="e" autocomplete="off">
-              <label class="btn btn-outline-success custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_e">E: {{ page_dict_to_html['question_info_dict']['option_e'] }}</label>
-            </div>
-            {% endif %}
+          {% if page_dict_to_html['question_info_dict']['option_d'] != None and page_dict_to_html['question_info_dict']['option_d'] != '' %}
+          <div class="custom-mb-6">
+            <input type="radio" class="btn-check" id="candidate_answer_choice_d" name="ui_answer_choice_selected" value="d" autocomplete="off">
+            <label class="btn btn-success custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_d">D: {{ page_dict_to_html['question_info_dict']['option_d'] }}</label>
           </div>
+          {% endif %}
+
+          {% if page_dict_to_html['question_info_dict']['option_e'] != None and page_dict_to_html['question_info_dict']['option_e'] != '' %}
+          <div class="custom-mb-6">
+            <input type="radio" class="btn-check" id="candidate_answer_choice_e" name="ui_answer_choice_selected" value="e" autocomplete="off">
+            <label class="btn btn-success custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_e">E: {{ page_dict_to_html['question_info_dict']['option_e'] }}</label>
+          </div>
+          {% endif %}
         </div>
       </div>
-      <!-- ------------------------------------- question end ------------------------------------- -->
     </div>
-    <div class="text-center custom-mt-5 custom-pb-2">
-      <img src="/static/images/candidates/logo/logo_wide_v3_white_com.png" alt="powered by triviafy logo" class="custom-img-size-10">
-    </div>
-  </form>
+    <!-- ------------------------------------- question end ------------------------------------- -->
+  </div>
+  <div class="text-center custom-mt-5 custom-pb-3">
+    <img src="/static/images/candidates/logo/logo_wide_v3_white_com.png" alt="powered by triviafy logo" class="custom-img-size-10">
+  </div>
+  <!-- ------------------------------------- answer start ------------------------------------- -->
+  <div class="container custom-pb-6">
+    <p class="custom-color-white custom-width-6 text-center custom-header-6">Answer: {{ page_dict_to_html['question_info_dict']['answer'] }}</p>
+  </div>
+  <!-- ------------------------------------- answer end ------------------------------------- -->
+  <!-- ------------------------------------- back start ------------------------------------- -->
+  <div class="container custom-pb-3">
+    <a href="/employees/questions" class="btn btn-danger btn-lg custom-width-6"><i class="fa-solid fa-arrow-left"></i> Back</a>
+  </div>
+  <!-- ------------------------------------- back end ------------------------------------- -->
 </body>
 {% endblock %}
