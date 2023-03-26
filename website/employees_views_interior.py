@@ -386,6 +386,18 @@ def employees_schedule_function(url_redirect_code=None):
       else:
         settings_change_occured = True
         db_group_settings_obj.categories = ui_selected_categories_str
+        # ------------------------ email self start ------------------------
+        try:
+          output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+          output_subject = f'Triviafy - Employees Settings Categories Changed - {current_user.email}'
+          output_body = f"<p>Hi there,</p>\
+                          <p>{current_user.email} changed their categories to: [{ui_selected_categories_str}]</p>\
+                          <p style='margin:0;'>Best,</p>\
+                          <p style='margin:0;'>Triviafy Support Team</p>"
+          send_email_template_function(output_to_email, output_subject, output_body)
+        except:
+          pass
+        # ------------------------ email self end ------------------------
     # ------------------------ if 'all_categories' not selected end ------------------------
     if ui_start_day != db_group_settings_dict['start_day']:
       settings_change_occured = True
