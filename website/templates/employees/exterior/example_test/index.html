@@ -13,8 +13,10 @@
   <div class="container-fluid fixed-top custom-bg-primary custom-pt-4">
     <nav class="container navbar navbar-expand-md navbar-light custom-display-flex custom-jc-2">
       <div>
-        <a href="#" class="navbar-brand custom-header-white"><span class="custom-header-4-mobile">Your Team Name</span></a>
-        <a href="/employees/signup" class="btn btn-danger btn-sm">Exit preview</a>
+        <!-- <a href="#" class="navbar-brand custom-header-white"><span class="custom-header-4-mobile">Your Team Name</span></a> -->
+        <button class="btn btn-primary btn-sm" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Share this triviafy quiz with my coworkers" id="demo" onclick="copyToClipboard(document.getElementById('demo').innerHTML)">Your team <i class="fa-solid fa-up-right-from-square"></i></button>
+        <script>function copyToClipboard(text) {window.prompt("Automated trivia contests for work. Share below link with your team and everyone will be routed to the same trivia contest. (Copy link: CTRL + C)", 'https://triviafy.com/dashboard');}</script>
+        <a href="/employees/signup" class="btn btn-danger btn-sm custom-ml-3">Exit preview</a>
       </div>
       <div>
         {% if current_question_number_to_html == '1' %}
@@ -109,13 +111,7 @@
       </div>
     </form>
     <!-- ------------------------------------- question end ------------------------------------- -->
-    <!-- ------------------------------------- share quiz start ------------------------------------- -->
-    <div class="container">
-      <button class="btn btn-primary btn-lg custom-mt-1 custom-width-6" id="demo" onclick="copyToClipboard(document.getElementById('demo').innerHTML)">Share this quiz with my team <i class="fa-solid fa-up-right-from-square"></i></button>
-      <script>function copyToClipboard(text) {window.prompt("Automated trivia contests for work. Share below link with your team and everyone will be routed to the same trivia contest. (Copy link: CTRL + C)", 'https://triviafy.com/dashboard');}</script>
-    </div>
-    <!-- ------------------------------------- share quiz end ------------------------------------- -->
-    <div class="text-center custom-mt-5">
+    <div class="text-center custom-mt-5 custom-pb-3">
       <img src="/static/images/candidates/logo/logo_wide_v3_white_com.png" alt="powered by triviafy logo" class="custom-img-size-10">
     </div>
   </div>

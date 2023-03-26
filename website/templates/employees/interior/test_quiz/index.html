@@ -7,12 +7,14 @@
 
 {% block contentBody %}
 <body class="custom-bg-primary-darker">
-  <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
     <!-- ------------------------------------- navbar start ------------------------------------- -->
     <div class="container-fluid fixed-top custom-bg-primary custom-pt-4">
       <nav class="container navbar navbar-expand-md navbar-light custom-display-flex custom-jc-2">
         <div>
-          <a href="/employees/t/" class="navbar-brand custom-header-white"><span class="custom-header-4-mobile custom-text">{{ page_dict_to_html['user_company_name'] }}</span></a>
+          <!-- <a href="/employees/t/" class="btn btn-lg btn-success custom-width-6 custom-mt-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Quiz closes: {{ page_dict_to_html['ending_time_string'] }}">Review my answers <i class="fa-solid fa-arrow-right"></i></a> -->
+          <button class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Share this triviafy quiz with my coworkers" id="demo" onclick="copyToClipboard(document.getElementById('demo').innerHTML)">{{ page_dict_to_html['user_company_name'] }} <i class="fa-solid fa-up-right-from-square"></i></button>
+          <script>function copyToClipboard(text) {window.prompt("Automated trivia contests for work. Share below link with your team and everyone will be routed to the same trivia contest. (Copy link: CTRL + C)", 'https://triviafy.com/dashboard');}</script>
+          <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
           <!-- ------------------------------------- feature view: archive start ------------------------------------- -->
           {% if page_dict_to_html['view_as_archive'] == true or page_dict_to_html['latest_test_completed'] == true %}
           <a href="/employees/dashboard" class="btn btn-secondary btn-sm">Exit</a>
@@ -194,14 +196,8 @@
     </div>
   <!-- ------------------------------------- entire page end ------------------------------------- -->
   </form>
-  <!-- ------------------------------------- share quiz start ------------------------------------- -->
-  <div class="container">
-    <button class="btn btn-primary btn-lg custom-mt-1 custom-width-6" id="demo" onclick="copyToClipboard(document.getElementById('demo').innerHTML)">Share this quiz with my team <i class="fa-solid fa-up-right-from-square"></i></button>
-    <script>function copyToClipboard(text) {window.prompt("Automated trivia contests for work. Share below link with your team and everyone will be routed to the same trivia contest. (Copy link: CTRL + C)", 'https://triviafy.com/dashboard');}</script>
-  </div>
-  <!-- ------------------------------------- share quiz end ------------------------------------- -->
   <!-- ------------------------------------- signature start ------------------------------------- -->
-  <div class="text-center custom-mt-5">
+  <div class="text-center custom-mt-5 custom-pb-3">
     <img src="/static/images/candidates/logo/logo_wide_v3_white_com.png" alt="powered by triviafy logo" class="custom-img-size-10">
   </div>
   <!-- ------------------------------------- signature end ------------------------------------- -->
