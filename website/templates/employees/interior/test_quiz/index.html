@@ -119,7 +119,7 @@
             <!-- ------------------------------------- quesstion type: fitb start ------------------------------------- -->
             {% if page_dict_to_html['db_question_dict']['desired_question_type'] == 'Fill in the blank' %}
             <div>
-              <label for="ui_answer_fitb" class="form-label">Your answer</label>
+              <label for="ui_answer_fitb" class="form-label">Your best <span class="custom-underline-1 fst-italic" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Your team will see your response later, don't cheat.">guess</span>?</label>
               <input type="text" class="form-control custom-search-bar-1" id="ui_answer_fitb" name="ui_answer_fitb" placeholder="Your answer" value="{{ page_dict_to_html['db_question_dict']['redirect_ui_answer'] }}" onkeyup="createQuestionCountCharsOptionA(this);" pattern="{1,280}" required>
               <p id="createQuestionCountCharsOptionA" class="custom-size-3 custom-color-light-1 fst-italic custom-mt-2 custom-ml-2"></p>
             </div>
