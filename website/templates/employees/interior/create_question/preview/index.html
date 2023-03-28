@@ -68,6 +68,9 @@
           </div>
           {% endif %}
         </div>
+        <div class="container custom-br-1 shadow custom-bg-tan-1 custom-mt-5">
+          <p class="custom-p-0 custom-m-0 custom-header-6 custom-p-2 fst-italic custom-color-grey-1"><i class="fa-solid fa-arrow-left"></i> Automate your department's team building activities at <span class="custom-underline-1">triviafy.com</span></p>
+        </div>
       </div>
     </div>
     <!-- ------------------------------------- question end ------------------------------------- -->
@@ -85,5 +88,14 @@
     <a href="/employees/questions" class="btn btn-danger btn-lg custom-width-6"><i class="fa-solid fa-arrow-left"></i> Back</a>
   </div>
   <!-- ------------------------------------- back end ------------------------------------- -->
+  <!-- ------------------------------------- submit start ------------------------------------- -->
+  {% if page_dict_to_html['current_question_is_draft'] == true %}
+    <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+      <div class="container custom-pb-3">
+        <button class="btn btn-success btn-lg custom-width-6">Submit <i class="fa-solid fa-check"></i></button>
+      </div>
+    </form>
+  {% endif %}
+  <!-- ------------------------------------- submit end ------------------------------------- -->
 </body>
 {% endblock %}
