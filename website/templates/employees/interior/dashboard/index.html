@@ -46,11 +46,11 @@
         </div>
         <div class="custom-width-14 mx-auto shadow custom-br-3 custom-p-2 custom-bg-gradient-1">
           {% if page_dict_to_html['ui_latest_test_completed'] == true %}
-            <a href="/employees/t/" class="btn btn-lg btn-success custom-width-6 custom-mt-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Quiz closes: {{ page_dict_to_html['ending_time_string'] }}">Review my answers <i class="fa-solid fa-arrow-right"></i></a>
+            <a href="/employees/t/" class="btn btn-lg btn-success custom-width-6 custom-mt-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Quiz closes: {{ page_dict_to_html['ending_time_string'] }}">Review my answers <i class="fa-solid fa-arrow-right"></i></a>
             <button class="btn btn-outline-success btn-lg custom-mb-1-mobile custom-width-6 custom-mt-1" id="demo" onclick="copyToClipboard(document.getElementById('demo').innerHTML)">Share this quiz with your team <i class="fa-solid fa-up-right-from-square"></i></button>
             <script>function copyToClipboard(text) {window.prompt("Automated trivia contests for work. Share below link with your team and everyone will be routed to the same trivia contest. (Copy link: CTRL + C)", 'https://triviafy.com/dashboard');}</script>
           {% else %}
-            <a href="/employees/t/" class="btn btn-lg btn-success" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Complete by: {{ page_dict_to_html['ending_time_string'] }}">&#127881; Start quiz <i class="fa-solid fa-arrow-right"></i></a>
+            <a href="/employees/t/" class="btn btn-lg btn-success" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Complete by: {{ page_dict_to_html['ending_time_string'] }}">&#127881; Start quiz <i class="fa-solid fa-arrow-right"></i></a>
           {% endif %}
         </div>
       {% endif %}
