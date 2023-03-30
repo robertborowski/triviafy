@@ -364,7 +364,8 @@ def admin_analytics_page_function(url_redirect_code=None):
         output_to_email = i_email
         output_subject = f"Team Engagement Strategy: {todays_date_str}"
         output_body = f"<p>Hi {guessed_name},</p>\
-                        <p>You will get more recognition and exposure with your team through weekly trivia contests. Click <a href='https://triviafy.com/employees/dashboard'>here</a> to create your team's first trivia contest in seconds.</p>\
+                        <p>Looking for a way to inject some fun into your department's routine? Try Triviafy - the weekly trivia contest that's designed to automate your team building activities!</p>\
+                        <p>Not only will you have a blast competing against one another, but you'll also have the chance to learn new things and build stronger connections. <a href='https://triviafy.com/employees/dashboard'>Sign up</a> now to get two months free!</p>\
                         <p style='margin:0;'>Best,</p>\
                         <p style='margin:0;'>Triviafy Support Team</p>\
                         <p style='margin:0;font-size:10px;'>Reply 'stop' to unsubscribe.</p>"
@@ -400,7 +401,8 @@ def admin_analytics_page_function(url_redirect_code=None):
         output_to_email = i_email
         output_subject = f"Team Engagement Strategy: {todays_date_str}"
         output_body = f"<p>Hi {guessed_name},</p>\
-                        <p>You will get more recognition and exposure with your team through weekly trivia contests. Click <a href='https://triviafy.com/employees/dashboard'>here</a> to create your team's first trivia contest in seconds.</p>\
+                        <p>Looking for a way to inject some fun into your department's routine? Try Triviafy - the weekly trivia contest that's designed to automate your team building activities!</p>\
+                        <p>Not only will you have a blast competing against one another, but you'll also have the chance to learn new things and build stronger connections. <a href='https://triviafy.com/employees/dashboard'>Sign up</a> now to get two months free!</p>\
                         <p style='margin:0;'>Best,</p>\
                         <p style='margin:0;'>Triviafy Support Team</p>\
                         <p style='margin:0;font-size:10px;'>Reply 'stop' to unsubscribe.</p>"
@@ -436,7 +438,8 @@ def admin_analytics_page_function(url_redirect_code=None):
         output_to_email = i_email
         output_subject = f"Team Engagement Strategy: {todays_date_str}"
         output_body = f"<p>Hi {guessed_name},</p>\
-                        <p>You will get more recognition and exposure with your team through weekly trivia contests. Click <a href='https://triviafy.com/employees/dashboard'>here</a> to create your team's first trivia contest in seconds.</p>\
+                        <p>Looking for a way to inject some fun into your department's routine? Try Triviafy - the weekly trivia contest that's designed to automate your team building activities!</p>\
+                        <p>Not only will you have a blast competing against one another, but you'll also have the chance to learn new things and build stronger connections. <a href='https://triviafy.com/employees/dashboard'>Sign up</a> now to get two months free!</p>\
                         <p style='margin:0;'>Best,</p>\
                         <p style='margin:0;'>Triviafy Support Team</p>\
                         <p style='margin:0;font-size:10px;'>Reply 'stop' to unsubscribe.</p>"
