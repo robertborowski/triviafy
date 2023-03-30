@@ -231,6 +231,11 @@ def login_dashboard_page_function(url_redirect_code=None):
   stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees', current_user.email)
   page_dict['stripe_subscription_status'] = stripe_subscription_obj_status
   # ------------------------ stripe subscription status check end ------------------------
+  # ------------------------ total company users check start ------------------------
+  db_users_obj = UserObj.query.filter_by(company_name=current_user.company_name).all()
+  page_dict['current_total_company_users'] = len(db_users_obj)
+  page_dict['desired_min_total_company_users'] = 4
+  # ------------------------ total company users check end ------------------------
   # ------------------------ auto set cookie start ------------------------
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
   if get_cookie_value_from_browser != None:

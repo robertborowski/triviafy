@@ -19,6 +19,14 @@
   </div>
 {% endif %}
 <!-- ----------------------------------- end ----------------------------------- -->
+<!-- ----------------------------------- start ----------------------------------- -->
+{% if page_dict_to_html['current_total_company_users'] < page_dict_to_html['desired_min_total_company_users'] %}
+  <div class="alert alert-info mx-auto text-center container custom-mt-1" role="alert">
+    Enjoy <span class="custom-underline-1 fst-italic">three months</span> of our automated team trivia tool for <span class="fst-italic">free</span> by simply having <span class="custom-underline-1 fst-italic">four members of your team <a href="/employees/signup" target="_blank">sign up for Triviafy</a></span>. Don't miss out on this exclusive offer!
+    <p class="custom-mt-1">You currently need <span class="fst-italic">{{ page_dict_to_html['desired_min_total_company_users'] - page_dict_to_html['current_total_company_users'] }} more</span> team members to join triviafy in order to take advantage of <span class="fst-italic">three free months!</span></p>
+  </div>
+{% endif %}
+<!-- ----------------------------------- end ----------------------------------- -->
 {% if page_dict_to_html['first_test_exists'] == false %}
   <div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
     <div>
