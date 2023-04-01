@@ -26,6 +26,7 @@ class UserObj(db.Model, UserMixin):   # Only the users object inherits UserMixin
   # ------------------------ employees start ------------------------
   employees_fk_stripe_subscription_id = db.Column(db.String(150))
   # ------------------------ employees end ------------------------
+  verified_email = db.Column(db.Boolean, default=False)
 
   def get_reset_token_function(self, expires_sec=1800):
     serializer_token_obj = Serializer(secret_key_ref, expires_sec)

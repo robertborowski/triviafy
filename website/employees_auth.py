@@ -103,7 +103,8 @@ def employees_signup_function(url_redirect_code=None):
         created_timestamp=create_timestamp_function(),
         email=ui_email.lower(),
         password=generate_password_hash(ui_password, method="sha256"),
-        company_name = company_name_from_email
+        company_name = company_name_from_email,
+        verified_email = False
       )
       db.session.add(new_row)
       # ------------------------ remove from landing page collected start ------------------------
