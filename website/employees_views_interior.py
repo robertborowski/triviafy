@@ -35,6 +35,7 @@ from website.backend.candidates.datatype_conversion_manipulation import one_col_
 from website.backend.candidates.test_backend import get_test_winner
 from website.backend.candidates.test_backend import first_user_first_quiz_check_function
 from website.backend.candidates.aws_manipulation import candidates_change_uploaded_image_filename_function, candidates_user_upload_image_checks_aws_s3_function
+from website.backend.candidates.string_manipulation import breakup_email_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -43,6 +44,96 @@ employees_views_interior = Blueprint('employees_views_interior', __name__)
 # ------------------------ connect to redis start ------------------------
 redis_connection = redis_connect_to_database_function()
 # ------------------------ connect to redis end ------------------------
+
+# ------------------------ individual route start ------------------------
+@employees_views_interior.route('/employees/verify/success/<url_verification_code>')
+@employees_views_interior.route('/employees/verify/success/<url_verification_code>/<url_redirect_code>')
+@login_required
+def verification_code_clicked_function(url_redirect_code=None, url_verification_code=None):
+  localhost_print_function(' ------------------------ verification_code_clicked_function start ------------------------ ')
+  # ------------------------ page dict start ------------------------
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ page dict end ------------------------
+  # ------------------------ verification start ------------------------
+  if url_verification_code == None:
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+  redis_uuid_value = ''
+  try:
+    redis_uuid_value = redis_connection.get(url_verification_code).decode('utf-8')
+  except:
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+  db_user_obj = UserObj.query.filter_by(id=redis_uuid_value).first()
+  db_user_obj.verified_email = True
+  db.session.commit()
+  redis_connection.delete(url_verification_code)
+  # ------------------------ verification end ------------------------
+  localhost_print_function(' ------------------------ verification_code_clicked_function end ------------------------ ')
+  return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='s9'))
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@employees_views_interior.route('/employees/verify')
+@employees_views_interior.route('/employees/verify/<url_redirect_code>')
+@login_required
+def verify_email_function(url_redirect_code=None):
+  localhost_print_function(' ------------------------ verify_email_function start ------------------------ ')
+  # ------------------------ page dict start ------------------------
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ page dict end ------------------------
+  output_subject = f'Verify Email: {current_user.email}'
+  # ------------------------ check if verify email already sent start ------------------------
+  db_email_obj = EmployeesEmailSentObj.query.filter_by(to_email=current_user.email,subject=output_subject).first()
+  # ------------------------ check if verify email already sent end ------------------------
+  if db_email_obj == None or db_email_obj == []:
+    # ------------------------ verification code store in redis start ------------------------
+    verification_code = create_uuid_function('verify_')
+    redis_connection.set(verification_code, current_user.id.encode('utf-8'))
+    # ------------------------ verification code store in redis end ------------------------
+    # ------------------------ auto send first email to employee start ------------------------
+    guessed_name = breakup_email_function(current_user.email)
+    try:
+      output_to_email = current_user.email
+      output_body = f"<p>Hi {guessed_name},</p>\
+                      <p>Please click the link below to verify your email address.</p>\
+                      <p>Verify email link: https://triviafy.com/employees/verify/success/{verification_code}</p>\
+                      <p style='margin:0;'>Best,</p>\
+                      <p style='margin:0;'>Triviafy Support Team</p>"
+      send_email_template_function(output_to_email, output_subject, output_body)
+    except:
+      pass
+    # ------------------------ auto send first email to employee end ------------------------
+    # ------------------------ insert email to db start ------------------------
+    try:
+      new_row_email = EmployeesEmailSentObj(
+        id = create_uuid_function('email_'),
+        created_timestamp = create_timestamp_function(),
+        from_user_id_fk = current_user.id,
+        to_email = output_to_email,
+        subject = output_subject,
+        body = output_body
+      )
+      db.session.add(new_row_email)
+      db.session.commit()
+    except:
+      pass
+    # ------------------------ insert email to db end ------------------------
+  # ------------------------ resend email start ------------------------
+  if request.method == 'POST':
+    # ------------------------ delete all existing redis keys for this uuid start ------------------------
+    # ------------------------ delete all existing redis keys for this uuid end ------------------------
+    # ------------------------ create new verification key start ------------------------
+    # ------------------------ create new verification key end ------------------------
+    # ------------------------ send email start ------------------------
+    # ------------------------ send email end ------------------------
+    pass
+  # ------------------------ resend email end ------------------------
+  localhost_print_function(' ------------------------ verify_email_function end ------------------------ ')
+  return render_template('employees/interior/verify_email/index.html', page_dict_to_html=page_dict)
+# ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
 @employees_views_interior.route('/dashboard')
@@ -59,6 +150,10 @@ def login_dashboard_page_function(url_redirect_code=None):
   Downside is repeating code but it is not for all pages, only for the pages that auto redirect on new account creation.
   -These pages will require the template_location_url variable
   """
+  # ------------------------ check if email verified start ------------------------
+  if current_user.verified_email == False:
+    return redirect(url_for('employees_views_interior.verify_email_function', url_redirect_code='s8'))
+  # ------------------------ check if email verified end ------------------------
   # ------------------------ for setting cookie start ------------------------
   template_location_url = 'employees/interior/dashboard/index.html'
   # ------------------------ for setting cookie end ------------------------

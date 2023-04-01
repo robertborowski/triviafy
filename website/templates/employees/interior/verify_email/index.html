@@ -1,0 +1,25 @@
+{% extends "employees/aaa_base/base2_interior2.html" %}
+<!-- head tag block content -->
+{% block title %}
+  <title>Verify Email - Triviafy</title>
+{% endblock %}
+{% block contentBodyExceptNavbarAndFooter %}
+<!-- ----------------------------------- start ----------------------------------- -->
+{% if page_dict_to_html['alert_message_dict']['message'] != '' %}
+<div class="alert alert-{{ page_dict_to_html['alert_message_dict']['type'] }} mx-auto text-center container custom-mt-1" role="alert">
+  {{ page_dict_to_html['alert_message_dict']['message'] }}
+</div>
+{% endif %}
+<!-- ----------------------------------- end ----------------------------------- -->
+<!-- ------------------------------------- main start ------------------------------------- -->
+<p>Hello</p>
+<form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+  <button type="submit" class="btn btn-outline-primary btn-sm">Resend verification link</button>
+</form>
+<!-- ------------------------------------- main end ------------------------------------- -->
+<!-- ------------------------------------- signature start ------------------------------------- -->
+<div class="text-center custom-mt-5 custom-pb-3">
+  <img src="/static/images/candidates/logo/logo_wide_v3.png" alt="powered by triviafy logo" class="custom-img-size-10 custom-img-opacity-1">
+</div>
+<!-- ------------------------------------- signature end ------------------------------------- -->
+{% endblock %}

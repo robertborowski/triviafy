@@ -16,14 +16,10 @@ def job_testing_redis_specific_key_function():
   counter = 0
   for key in redis_keys:    
     # ------------------------ Set/Get/Delete Local Host START ------------------------
-    # Set localhost cookie
-    if 'localhost_testing_user_nested_dict' in str(key):
-      # redis_connection.set(key, 'browsercke_code_goes_here')
-      
+    if 'verify' in str(key):
       localhost_print_function('Redis Key: {}'.format(key))
       redis_value = redis_connection.get(key).decode('utf-8')
       localhost_print_function('Redis Value: {}'.format(redis_value))
-      
       counter += 1
       # redis_connection.delete(key)
       print('- - -')

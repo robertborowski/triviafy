@@ -484,6 +484,16 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':'Emails sent!',
       'type':'success'
     }
+  elif redirect_var == 's8':
+    alert_message_dict = {
+      'message':'A verification link has been successfully sent to your email.',
+      'type':'success'
+    }
+  elif redirect_var == 's9':
+    alert_message_dict = {
+      'message':'Your email has been successfully verified.',
+      'type':'success'
+    }
   # ------------------------ success end ------------------------
   # ------------------------ info end ------------------------
   elif redirect_var == 'i1':
