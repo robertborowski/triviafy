@@ -74,8 +74,8 @@ def verification_code_clicked_function(url_redirect_code=None, url_verification_
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_interior.route('/employees/verify')
-@employees_views_interior.route('/employees/verify/<url_redirect_code>')
+@employees_views_interior.route('/employees/verify', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/verify/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
 def verify_email_function(url_redirect_code=None):
   localhost_print_function(' ------------------------ verify_email_function start ------------------------ ')
@@ -124,11 +124,45 @@ def verify_email_function(url_redirect_code=None):
   # ------------------------ resend email start ------------------------
   if request.method == 'POST':
     # ------------------------ delete all existing redis keys for this uuid start ------------------------
+    redis_keys = redis_connection.keys()
+    for i_key in redis_keys:    
+      if 'verify' in str(i_key):
+        redis_value = redis_connection.get(i_key).decode('utf-8')
+        if redis_value == current_user.id:
+          redis_connection.delete(i_key)
     # ------------------------ delete all existing redis keys for this uuid end ------------------------
     # ------------------------ create new verification key start ------------------------
+    new_verification_code = create_uuid_function('verify_')
+    redis_connection.set(new_verification_code, current_user.id.encode('utf-8'))
     # ------------------------ create new verification key end ------------------------
     # ------------------------ send email start ------------------------
+    guessed_name = breakup_email_function(current_user.email)
+    try:
+      output_to_email = current_user.email
+      output_body = f"<p>Hi {guessed_name},</p>\
+                      <p>Please click the link below to verify your email address.</p>\
+                      <p>Verify email link: https://triviafy.com/employees/verify/success/{new_verification_code}</p>\
+                      <p style='margin:0;'>Best,</p>\
+                      <p style='margin:0;'>Triviafy Support Team</p>"
+      send_email_template_function(output_to_email, output_subject, output_body)
+    except:
+      pass
     # ------------------------ send email end ------------------------
+    # ------------------------ insert email to db start ------------------------
+    try:
+      new_row_email = EmployeesEmailSentObj(
+        id = create_uuid_function('email_'),
+        created_timestamp = create_timestamp_function(),
+        from_user_id_fk = current_user.id,
+        to_email = output_to_email,
+        subject = output_subject,
+        body = output_body
+      )
+      db.session.add(new_row_email)
+      db.session.commit()
+    except:
+      pass
+    # ------------------------ insert email to db end ------------------------
     pass
   # ------------------------ resend email end ------------------------
   localhost_print_function(' ------------------------ verify_email_function end ------------------------ ')
