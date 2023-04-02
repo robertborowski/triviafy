@@ -4,18 +4,28 @@
   <title>Verify Email - Triviafy</title>
 {% endblock %}
 {% block contentBodyExceptNavbarAndFooter %}
-<!-- ----------------------------------- start ----------------------------------- -->
-{% if page_dict_to_html['alert_message_dict']['message'] != '' %}
-<div class="alert alert-{{ page_dict_to_html['alert_message_dict']['type'] }} mx-auto text-center container custom-mt-1" role="alert">
-  {{ page_dict_to_html['alert_message_dict']['message'] }}
-</div>
-{% endif %}
-<!-- ----------------------------------- end ----------------------------------- -->
 <!-- ------------------------------------- main start ------------------------------------- -->
-<p>Hello</p>
-<form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
-  <button type="submit" class="btn btn-outline-primary btn-sm">Resend verification link</button>
-</form>
+<div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6 custom-width-1">
+  <div>
+    <h2 class="custom-header-mobile-1">Verify your email</h2>
+  </div>
+</div>
+<div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6 custom-width-1">
+  <!-- ----------------------------------- start ----------------------------------- -->
+  {% if page_dict_to_html['alert_message_dict']['message'] != '' %}
+  <div class="alert alert-{{ page_dict_to_html['alert_message_dict']['type'] }} mx-auto text-center container custom-mt-1 custom-width-1" role="alert">
+    {{ page_dict_to_html['alert_message_dict']['message'] }}
+  </div>
+  {% endif %}
+  <!-- ----------------------------------- end ----------------------------------- -->
+  <div class="text-center">
+    <p class="custom-header-4">To ensure the security of your account, please verify your email address by clicking on the link sent to your email inbox.</p>
+    <!-- <p class="custom-header-4">To inbox | From: support@triviafy.com</p> -->
+    <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+      <button type="submit" class="btn btn-outline-primary btn-sm custom-mt-1">Resend verification link</button>
+    </form>
+  </div>
+</div>
 <!-- ------------------------------------- main end ------------------------------------- -->
 <!-- ------------------------------------- signature start ------------------------------------- -->
 <div class="text-center custom-mt-5 custom-pb-3">
