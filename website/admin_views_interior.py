@@ -332,9 +332,9 @@ def admin_analytics_page_function(url_redirect_code=None):
   # ------------------------ landing_collect_emails_arr end ------------------------
   # ------------------------ scraped_collect_emails_arr start ------------------------
   scraped_emails_arr = []
-  query_result_arr_of_dicts = select_general_function('select_all_scraped_emails_1')
-  for i in query_result_arr_of_dicts:
-    scraped_emails_arr.append(i['collect_email_actual_email'])
+  db_scraped_obj = ScrapedEmailsObj.query.all()
+  for i_obj in db_scraped_obj:
+    scraped_emails_arr.append(i_obj.email)
   page_dict['scraped_emails_arr'] = scraped_emails_arr
   page_dict['total_scraped_emails_arr'] = len(scraped_emails_arr)
   # ------------------------ scraped_collect_emails_arr end ------------------------
