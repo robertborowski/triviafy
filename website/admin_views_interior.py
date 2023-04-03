@@ -14,7 +14,7 @@ from flask_login import login_required, current_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
-from website.models import EmployeesGroupQuestionsUsedObj, EmployeesGroupSettingsObj, EmployeesGroupsObj, EmployeesTestsGradedObj, EmployeesTestsObj, UserObj, CandidatesAssessmentGradedObj, CandidatesAssessmentsCreatedObj, CandidatesScheduleObj, CandidatesUploadedCandidatesObj, StripeCheckoutSessionObj, DeletedEmailsObj, EmployeesEmailSentObj, CollectEmailObj, EmployeesFeatureRequestObj
+from website.models import EmployeesGroupQuestionsUsedObj, EmployeesGroupSettingsObj, EmployeesGroupsObj, EmployeesTestsGradedObj, EmployeesTestsObj, UserObj, CandidatesAssessmentGradedObj, CandidatesAssessmentsCreatedObj, CandidatesScheduleObj, CandidatesUploadedCandidatesObj, StripeCheckoutSessionObj, DeletedEmailsObj, EmployeesEmailSentObj, CollectEmailObj, EmployeesFeatureRequestObj, ScrapedEmailsObj
 import os
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from website.backend.candidates.sql_statements.sql_statements_select_general_v1_jobs import select_general_v1_jobs_function
@@ -26,6 +26,7 @@ from datetime import datetime
 from website.backend.candidates.string_manipulation import breakup_email_function
 from website.backend.candidates.send_emails import send_email_template_function
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
+from website.backend.candidates.user_inputs import sanitize_email_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -50,6 +51,40 @@ def admin_dashboard_page_function(url_redirect_code=None):
   page_dict = {}
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
+  # ------------------------ add scraped email start ------------------------
+  if request.method == 'POST':
+    ui_email = request.form.get('NewScrapedEmail').lower()
+    # ------------------------ sanitize start ------------------------
+    ui_email_cleaned = sanitize_email_function(ui_email)
+    if ui_email_cleaned == False:
+      return redirect(url_for('admin_views_interior.admin_dashboard_page_function', url_redirect_code='e1'))
+    # ------------------------ sanitize end ------------------------
+    # ------------------------ check if user alread exists start ------------------------
+    db_users_obj = UserObj.query.filter_by(email=ui_email).first()
+    if db_users_obj != None and db_users_obj != []:
+      return redirect(url_for('admin_views_interior.admin_dashboard_page_function', url_redirect_code='e3'))
+    # ------------------------ check if user alread exists end ------------------------
+    # ------------------------ check if collected email alread exists start ------------------------
+    db_collected_obj = CollectEmailObj.query.filter_by(email=ui_email).first()
+    if db_collected_obj != None and db_collected_obj != []:
+      return redirect(url_for('admin_views_interior.admin_dashboard_page_function', url_redirect_code='e3'))
+    # ------------------------ check if collected email alread exists end ------------------------
+    # ------------------------ check if scraped email alread exists start ------------------------
+    db_scraped_obj = ScrapedEmailsObj.query.filter_by(email=ui_email).first()
+    if db_scraped_obj != None and db_scraped_obj != []:
+      return redirect(url_for('admin_views_interior.admin_dashboard_page_function', url_redirect_code='e3'))
+    # ------------------------ check if scraped email alread exists end ------------------------
+    # ------------------------ insert email to db start ------------------------
+    new_row = ScrapedEmailsObj(
+      id = create_uuid_function('scraped_'),
+      created_timestamp = create_timestamp_function(),
+      email = ui_email
+    )
+    db.session.add(new_row)
+    db.session.commit()
+    return redirect(url_for('admin_views_interior.admin_dashboard_page_function', url_redirect_code='s10'))
+    # ------------------------ insert email to db end ------------------------
+  # ------------------------ add scraped email end ------------------------
   localhost_print_function(' ------------------------ admin_dashboard_page_function end ------------------------ ')
   return render_template('admin_page/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------

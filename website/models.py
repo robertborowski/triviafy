@@ -88,6 +88,13 @@ class StripeCheckoutSessionObj(db.Model):
   fk_user_id = db.Column(db.String(150))
   status = db.Column(db.String(20))
 # ------------------------ individual model end ------------------------
+
+# ------------------------ individual model start ------------------------
+class ScrapedEmailsObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  email = db.Column(db.String(150), unique=True)
+# ------------------------ individual model end ------------------------
 # ------------------------ all product models end ------------------------
 
 # ------------------------ candidates models start ------------------------

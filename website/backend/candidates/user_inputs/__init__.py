@@ -494,6 +494,11 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':'Your email has been successfully verified.',
       'type':'success'
     }
+  elif redirect_var == 's10':
+    alert_message_dict = {
+      'message':'Successfully added',
+      'type':'success'
+    }
   # ------------------------ success end ------------------------
   # ------------------------ info end ------------------------
   elif redirect_var == 'i1':
