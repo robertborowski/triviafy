@@ -48,20 +48,20 @@
         </div>
         <div class="custom-width-11-mobile custom-p-5">
           <div class="custom-display-flex custom-mb-6">
-            <h2 class="custom-header-4">Q{{ current_question_number_to_html }}: {{ db_question_obj_to_html['title'] }}</h2>
+            <h2 class="custom-header-4" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Create an account to customize your team's trivia categories & settings">Q{{ current_question_number_to_html }}: {{ db_question_obj_to_html['title'] }}</h2>
             <div>
                 {% for category_tuple in db_question_obj_to_html['categories'] %}
-                  <span class="custom-tag-1 custom-tag-category-{{ category_tuple[1] }} custom-br-4 custom-ml-3 custom-header-5">{{ category_tuple[0] }}</span>
+                  <span class="custom-tag-1 custom-tag-category-{{ category_tuple[1] }} custom-br-4 custom-ml-3 custom-header-5" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Create an account to customize your team's trivia categories & settings">{{ category_tuple[0] }}</span>
                 {% endfor %}
             </div>
           </div>
           <div>
             <div class="custom-mb-6 shadow custom-bg-green-1">
-              <p class="custom-header-6 custom-p-1 custom-br-1 fst-italic fw-bold">{{ db_question_obj_to_html['question'] }}</p>
+              <p class="custom-header-6 custom-p-1 custom-br-1 fst-italic fw-bold" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Create an account to customize your team's trivia categories & settings">{{ db_question_obj_to_html['question'] }}</p>
             </div>
             {% if contains_img_to_html == true %}
             <div class="text-center">
-              <img src="{{ db_question_obj_to_html['aws_image_url'] }}" alt="" class="custom-img-size-11 custom-br-1 shadow">
+              <img src="{{ db_question_obj_to_html['aws_image_url'] }}" alt="" class="custom-img-size-11 custom-br-1 shadow" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Create an account to customize your team's trivia categories & settings">
             </div>
             {% else %}
             {% endif %}
