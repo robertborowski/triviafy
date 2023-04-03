@@ -362,10 +362,10 @@ def admin_analytics_page_function(url_redirect_code=None):
         # ------------------------ send email start ------------------------
         guessed_name = breakup_email_function(i_email)
         output_to_email = i_email
-        output_subject = f"Team Engagement Strategy: {todays_date_str}"
+        output_subject = f"Exclusive Offer: Two Months Free, Automated Team Building Activity: {todays_date_str}"
         output_body = f"<p>Hi {guessed_name},</p>\
-                        <p>Looking for a way to inject some fun into your department's routine? Try Triviafy - the weekly trivia contest that's designed to automate your team building activities!</p>\
-                        <p>Not only will you have a blast competing against one another, but you'll also have the chance to learn new things and build stronger connections. <a href='https://triviafy.com/employees/dashboard'>Sign up</a> now to get two months free!</p>\
+                        <p>A Harvard Business Review study found that 86% of remote workers who participated in virtual team building activities reported feeling more connected to their team members. Looking for a way to inject some fun into your department's routine? Try Triviafy - the weekly trivia contest that's designed to automate your team building activities!</p>\
+                        <p>Not only will you have a blast competing against your co-workers, but you'll also have the chance to learn new things and build stronger connections. <a href='https://triviafy.com/employees/dashboard'>Sign up</a> now to get two months free!</p>\
                         <p style='margin:0;'>Best,</p>\
                         <p style='margin:0;'>Triviafy Support Team</p>\
                         <p style='margin:0;font-size:10px;'>Reply 'stop' to unsubscribe.</p>"
@@ -399,10 +399,10 @@ def admin_analytics_page_function(url_redirect_code=None):
         # ------------------------ send email start ------------------------
         guessed_name = breakup_email_function(i_email)
         output_to_email = i_email
-        output_subject = f"Team Engagement Strategy: {todays_date_str}"
+        output_subject = f"Exclusive Offer: Two Months Free, Automated Team Building Activity: {todays_date_str}"
         output_body = f"<p>Hi {guessed_name},</p>\
-                        <p>Looking for a way to inject some fun into your department's routine? Try Triviafy - the weekly trivia contest that's designed to automate your team building activities!</p>\
-                        <p>Not only will you have a blast competing against one another, but you'll also have the chance to learn new things and build stronger connections. <a href='https://triviafy.com/employees/dashboard'>Sign up</a> now to get two months free!</p>\
+                        <p>A Harvard Business Review study found that 86% of remote workers who participated in virtual team building activities reported feeling more connected to their team members. Looking for a way to inject some fun into your department's routine? Try Triviafy - the weekly trivia contest that's designed to automate your team building activities!</p>\
+                        <p>Not only will you have a blast competing against your co-workers, but you'll also have the chance to learn new things and build stronger connections. <a href='https://triviafy.com/employees/dashboard'>Sign up</a> now to get two months free!</p>\
                         <p style='margin:0;'>Best,</p>\
                         <p style='margin:0;'>Triviafy Support Team</p>\
                         <p style='margin:0;font-size:10px;'>Reply 'stop' to unsubscribe.</p>"
@@ -436,10 +436,10 @@ def admin_analytics_page_function(url_redirect_code=None):
         # ------------------------ send email start ------------------------
         guessed_name = breakup_email_function(i_email)
         output_to_email = i_email
-        output_subject = f"Team Engagement Strategy: {todays_date_str}"
+        output_subject = f"Exclusive Offer: Two Months Free, Automated Team Building Activity: {todays_date_str}"
         output_body = f"<p>Hi {guessed_name},</p>\
-                        <p>Looking for a way to inject some fun into your department's routine? Try Triviafy - the weekly trivia contest that's designed to automate your team building activities!</p>\
-                        <p>Not only will you have a blast competing against one another, but you'll also have the chance to learn new things and build stronger connections. <a href='https://triviafy.com/employees/dashboard'>Sign up</a> now to get two months free!</p>\
+                        <p>A Harvard Business Review study found that 86% of remote workers who participated in virtual team building activities reported feeling more connected to their team members. Looking for a way to inject some fun into your department's routine? Try Triviafy - the weekly trivia contest that's designed to automate your team building activities!</p>\
+                        <p>Not only will you have a blast competing against your co-workers, but you'll also have the chance to learn new things and build stronger connections. <a href='https://triviafy.com/employees/dashboard'>Sign up</a> now to get two months free!</p>\
                         <p style='margin:0;'>Best,</p>\
                         <p style='margin:0;'>Triviafy Support Team</p>\
                         <p style='margin:0;font-size:10px;'>Reply 'stop' to unsubscribe.</p>"
