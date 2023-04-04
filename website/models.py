@@ -290,7 +290,7 @@ class EmployeesEmailSentObj(db.Model):
   from_user_id_fk = db.Column(db.String(150))
   to_email = db.Column(db.String(150))
   subject = db.Column(db.String(1000))
-  body = db.Column(db.String(1000))
+  body = db.Column(db.String(5000))
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------

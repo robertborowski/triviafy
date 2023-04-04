@@ -397,13 +397,18 @@ def admin_analytics_page_function(url_redirect_code=None):
         # ------------------------ send email start ------------------------
         guessed_name = breakup_email_function(i_email)
         output_to_email = i_email
-        output_subject = f"Exclusive Offer: Two Months Free, Automated Team Building Activity: {todays_date_str}"
+        output_subject = f"We Help You Maximize Your Visibility, Get Recognition, and Get Ahead! {todays_date_str}"
         output_body = f"<p>Hi {guessed_name},</p>\
-                        <p>A Harvard Business Review study found that 86% of remote workers who participated in virtual team building activities reported feeling more connected to their team members. Looking for a way to inject some fun into your department's routine? Try Triviafy - the weekly trivia contest that's designed to automate your team building activities!</p>\
-                        <p>Not only will you have a blast competing against your co-workers, but you'll also have the chance to learn new things and build stronger connections. <a href='https://triviafy.com/employees/dashboard'>Sign up</a> now to get two months free!</p>\
+                        <p>Unleash your inner strengths and connect with your co-workers through 4 weeks of FREE team building trivia, designed to showcase your unique personality within your company.</p>\
+                        <p>Transform your team-building activities with Triviafy - the exciting weekly trivia contest that injects fun into your department's routine and fosters better communication among team members.</p>\
+                        <ul>Success stories for your team:</ul>\
+                        <li>""Remote employees who feel connected to their colleagues are 50% less likely to quit their jobs."" - Harvard Business Review</li>\
+                        <li>""71% of remote workers believe that virtual team building activities have a positive impact on their job satisfaction."" - Owl Labs</li>\
+                        <li>""Virtual team building activities can reduce employee turnover by up to 30%."" - Gallup</li>\
+                        <p>Boost your team's spirits and camaraderie with Triviafy's customized trivia contests - get started in less than 60 seconds at <a href='https://triviafy.com/employees/dashboard'>triviafy.com</a>!</p>\
                         <p style='margin:0;'>Best,</p>\
                         <p style='margin:0;'>Triviafy Support Team</p>\
-                        <p style='margin:0;font-size:10px;'>Reply 'stop' to unsubscribe.</p>"
+                        <p style='margin:0;font-size:9px;'>Reply 'stop' to unsubscribe.</p>"
         # ------------------------ check if email+subject already sent today start ------------------------
         db_email_sent_obj = EmployeesEmailSentObj.query.filter_by(to_email=output_to_email, subject=output_subject).first()
         if db_email_sent_obj != None and db_email_sent_obj != []:
@@ -434,13 +439,18 @@ def admin_analytics_page_function(url_redirect_code=None):
         # ------------------------ send email start ------------------------
         guessed_name = breakup_email_function(i_email)
         output_to_email = i_email
-        output_subject = f"Exclusive Offer: Two Months Free, Automated Team Building Activity: {todays_date_str}"
+        output_subject = f"We Help You Maximize Your Visibility, Get Recognition, and Get Ahead! {todays_date_str}"
         output_body = f"<p>Hi {guessed_name},</p>\
-                        <p>A Harvard Business Review study found that 86% of remote workers who participated in virtual team building activities reported feeling more connected to their team members. Looking for a way to inject some fun into your department's routine? Try Triviafy - the weekly trivia contest that's designed to automate your team building activities!</p>\
-                        <p>Not only will you have a blast competing against your co-workers, but you'll also have the chance to learn new things and build stronger connections. <a href='https://triviafy.com/employees/dashboard'>Sign up</a> now to get two months free!</p>\
+                        <p>Unleash your inner strengths and connect with your co-workers through 4 weeks of FREE team building trivia, designed to showcase your unique personality within your company.</p>\
+                        <p>Transform your team-building activities with Triviafy - the exciting weekly trivia contest that injects fun into your department's routine and fosters better communication among team members.</p>\
+                        <ul>Success stories for your team:</ul>\
+                        <li>""Remote employees who feel connected to their colleagues are 50% less likely to quit their jobs."" - Harvard Business Review</li>\
+                        <li>""71% of remote workers believe that virtual team building activities have a positive impact on their job satisfaction."" - Owl Labs</li>\
+                        <li>""Virtual team building activities can reduce employee turnover by up to 30%."" - Gallup</li>\
+                        <p>Boost your team's spirits and camaraderie with Triviafy's customized trivia contests - get started in less than 60 seconds at <a href='https://triviafy.com/employees/dashboard'>triviafy.com</a>!</p>\
                         <p style='margin:0;'>Best,</p>\
                         <p style='margin:0;'>Triviafy Support Team</p>\
-                        <p style='margin:0;font-size:10px;'>Reply 'stop' to unsubscribe.</p>"
+                        <p style='margin:0;font-size:9px;'>Reply 'stop' to unsubscribe.</p>"
         # ------------------------ check if email+subject already sent today start ------------------------
         db_email_sent_obj = EmployeesEmailSentObj.query.filter_by(to_email=output_to_email, subject=output_subject).first()
         if db_email_sent_obj != None and db_email_sent_obj != []:
@@ -471,13 +481,18 @@ def admin_analytics_page_function(url_redirect_code=None):
         # ------------------------ send email start ------------------------
         guessed_name = breakup_email_function(i_email)
         output_to_email = i_email
-        output_subject = f"Exclusive Offer: Two Months Free, Automated Team Building Activity: {todays_date_str}"
+        output_subject = f"We Help You Maximize Your Visibility, Get Recognition, and Get Ahead! {todays_date_str}"
         output_body = f"<p>Hi {guessed_name},</p>\
-                        <p>A Harvard Business Review study found that 86% of remote workers who participated in virtual team building activities reported feeling more connected to their team members. Looking for a way to inject some fun into your department's routine? Try Triviafy - the weekly trivia contest that's designed to automate your team building activities!</p>\
-                        <p>Not only will you have a blast competing against your co-workers, but you'll also have the chance to learn new things and build stronger connections. <a href='https://triviafy.com/employees/dashboard'>Sign up</a> now to get two months free!</p>\
+                        <p>Unleash your inner strengths and connect with your co-workers through 4 weeks of FREE team building trivia, designed to showcase your unique personality within your company.</p>\
+                        <p>Transform your team-building activities with Triviafy - the exciting weekly trivia contest that injects fun into your department's routine and fosters better communication among team members.</p>\
+                        <ul>Success stories for your team:</ul>\
+                        <li>""Remote employees who feel connected to their colleagues are 50% less likely to quit their jobs."" - Harvard Business Review</li>\
+                        <li>""71% of remote workers believe that virtual team building activities have a positive impact on their job satisfaction."" - Owl Labs</li>\
+                        <li>""Virtual team building activities can reduce employee turnover by up to 30%."" - Gallup</li>\
+                        <p>Boost your team's spirits and camaraderie with Triviafy's customized trivia contests - get started in less than 60 seconds at <a href='https://triviafy.com/employees/dashboard'>triviafy.com</a>!</p>\
                         <p style='margin:0;'>Best,</p>\
                         <p style='margin:0;'>Triviafy Support Team</p>\
-                        <p style='margin:0;font-size:10px;'>Reply 'stop' to unsubscribe.</p>"
+                        <p style='margin:0;font-size:9px;'>Reply 'stop' to unsubscribe.</p>"
         # ------------------------ check if email+subject already sent today start ------------------------
         db_email_sent_obj = EmployeesEmailSentObj.query.filter_by(to_email=output_to_email, subject=output_subject).first()
         if db_email_sent_obj != None and db_email_sent_obj != []:
