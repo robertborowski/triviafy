@@ -84,10 +84,10 @@ def employees_i_blog_page_function(i_blog_post_number='0001'):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_exterior.route('/employees/example', methods=['GET', 'POST'])
-@employees_views_exterior.route('/employees/example/', methods=['GET', 'POST'])
-@employees_views_exterior.route('/employees/example/<url_question_number>', methods=['GET', 'POST'])
-@employees_views_exterior.route('/employees/example/<url_question_number>/', methods=['GET', 'POST'])
+@employees_views_exterior.route('/example', methods=['GET', 'POST'])
+@employees_views_exterior.route('/example/', methods=['GET', 'POST'])
+@employees_views_exterior.route('/example/<url_question_number>', methods=['GET', 'POST'])
+@employees_views_exterior.route('/example/<url_question_number>/', methods=['GET', 'POST'])
 def employees_example_page_function(url_redirect_code=None, url_question_number='1'):
   localhost_print_function(' ------------------------ employees_example_page_function start ------------------------ ')
   # ------------------------ redirect codes start ------------------------

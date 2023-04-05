@@ -21,12 +21,12 @@
       <div>
         {% if current_question_number_to_html == '1' %}
         {% else %}
-        <a href="/employees/example/{{ previous_question_number_to_html }}" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Back</a>
+        <a href="/example/{{ previous_question_number_to_html }}" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Back</a>
         {% endif %}
         {% if next_question_number_to_html == 'submit' %}
         <a href="/employees/signup" class="btn btn-success custom-ml-3">Sign up <i class="fa-solid fa-arrow-right"></i></a>
         {% else %}
-        <a href="/employees/example/{{ next_question_number_to_html }}" class="btn btn-success custom-ml-3">Next <i class="fa-solid fa-arrow-right"></i></a>
+        <a href="/example/{{ next_question_number_to_html }}" class="btn btn-success custom-ml-3">Next <i class="fa-solid fa-arrow-right"></i></a>
         {% endif %}
       </div>
     </nav>
