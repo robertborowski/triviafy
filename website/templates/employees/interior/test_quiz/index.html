@@ -11,7 +11,6 @@
     <div class="container-fluid fixed-top custom-bg-primary custom-pt-4">
       <nav class="container navbar navbar-expand-md navbar-light custom-display-flex custom-jc-2">
         <div>
-          <!-- <a href="/employees/t/" class="btn btn-lg btn-success custom-width-6 custom-mt-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Quiz closes: {{ page_dict_to_html['ending_time_string'] }}">Review my answers <i class="fa-solid fa-arrow-right"></i></a> -->
           <button class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Share this triviafy quiz with my coworkers" id="demo" onclick="copyToClipboard(document.getElementById('demo').innerHTML)">{{ page_dict_to_html['user_company_name'] }} <i class="fa-solid fa-up-right-from-square"></i></button>
           <script>function copyToClipboard(text) {window.prompt("Automated trivia contests for work. Share below link with your team and everyone will be routed to the same trivia contest. (Copy link: CTRL + C)", 'https://triviafy.com/dashboard');}</script>
           <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
@@ -106,7 +105,7 @@
         </div>
         <!-- ----------------------------------- question left side end ----------------------------------- -->
         <!-- ----------------------------------- question right side start ----------------------------------- -->
-        <div class="custom-width-11-mobile custom-p-5">
+        <div class="custom-width-11-mobile custom-p-6">
           <div>
             <!-- ------------------------------------- feature view: archive start ------------------------------------- -->
             {% if page_dict_to_html['view_as_archive'] == true %}
@@ -118,8 +117,8 @@
             {% endif %}
             <!-- ------------------------------------- quesstion type: fitb start ------------------------------------- -->
             {% if page_dict_to_html['db_question_dict']['desired_question_type'] == 'Fill in the blank' %}
-            <div>
-              <label for="ui_answer_fitb" class="form-label">Your best <span class="custom-underline-1 fst-italic" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Your team will see your response later, don't cheat.">guess</span>?</label>
+            <div class="text-center">
+              <label for="ui_answer_fitb" class="form-label custom-header-4">Your best <span class="custom-underline-1 fst-italic" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Your team will see your response later, don't cheat.">guess</span>?</label>
               <input type="text" class="form-control custom-search-bar-1" id="ui_answer_fitb" name="ui_answer_fitb" placeholder="Your answer" value="{{ page_dict_to_html['db_question_dict']['redirect_ui_answer'] }}" onkeyup="createQuestionCountCharsOptionA(this);" pattern="{1,280}" required>
               <p id="createQuestionCountCharsOptionA" class="custom-size-3 custom-color-light-1 fst-italic custom-mt-2 custom-ml-2"></p>
             </div>
@@ -127,60 +126,65 @@
             <!-- ------------------------------------- quesstion type: fitb end ------------------------------------- -->
             <!-- ------------------------------------- quesstion type: mcq start ------------------------------------- -->
             {% if page_dict_to_html['db_question_dict']['desired_question_type'] == 'Multiple choice' %}
-              {% if page_dict_to_html['db_question_dict']['option_a'] != None %}
-              <div class="custom-mb-6">
-                {% if page_dict_to_html['db_question_dict']['redirect_ui_answer'] == 'a'  %}
-                <input type="radio" class="btn-check" id="ui_answer_mcq_a{{ page_dict_to_html['current_question_number'] }}" name="ui_answer_mcq" value="a" autocomplete="off" required checked>
-                {% else %}
-                <input type="radio" class="btn-check" id="ui_answer_mcq_a{{ page_dict_to_html['current_question_number'] }}" name="ui_answer_mcq" value="a" autocomplete="off" required>
+            <div class="text-center">
+              <p class="custom-header-4">Your best <span class="custom-underline-1 fst-italic" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Your team will see your response later, don't cheat.">guess</span>?</p>
+            </div>
+              <div class="custom-grid-container-3x2-mobile">
+                {% if page_dict_to_html['db_question_dict']['option_a'] != None %}
+                <div>
+                  {% if page_dict_to_html['db_question_dict']['redirect_ui_answer'] == 'a'  %}
+                  <input type="radio" class="btn-check" id="ui_answer_mcq_a{{ page_dict_to_html['current_question_number'] }}" name="ui_answer_mcq" value="a" autocomplete="off" required checked>
+                  {% else %}
+                  <input type="radio" class="btn-check" id="ui_answer_mcq_a{{ page_dict_to_html['current_question_number'] }}" name="ui_answer_mcq" value="a" autocomplete="off" required>
+                  {% endif %}
+                  <label class="btn btn-outline-danger custom-width-6 btn-lg custom-ptb-6" for="ui_answer_mcq_a{{ page_dict_to_html['current_question_number'] }}">{{ page_dict_to_html['db_question_dict']['option_a'] }}</label>
+                </div>
                 {% endif %}
-                <label class="btn btn-outline-success custom-width-6 custom-tal btn-lg" for="ui_answer_mcq_a{{ page_dict_to_html['current_question_number'] }}">A: {{ page_dict_to_html['db_question_dict']['option_a'] }}</label>
-              </div>
-              {% endif %}
 
-              {% if page_dict_to_html['db_question_dict']['option_b'] != None %}
-              <div class="custom-mb-6">
-                {% if page_dict_to_html['db_question_dict']['redirect_ui_answer'] == 'b'  %}
-                <input type="radio" class="btn-check" id="ui_answer_mcq_b{{ page_dict_to_html['current_question_number'] }}" name="ui_answer_mcq" value="b" autocomplete="off" required checked>
-                {% else %}
-                <input type="radio" class="btn-check" id="ui_answer_mcq_b{{ page_dict_to_html['current_question_number'] }}" name="ui_answer_mcq" value="b" autocomplete="off" required>
+                {% if page_dict_to_html['db_question_dict']['option_b'] != None %}
+                <div>
+                  {% if page_dict_to_html['db_question_dict']['redirect_ui_answer'] == 'b'  %}
+                  <input type="radio" class="btn-check" id="ui_answer_mcq_b{{ page_dict_to_html['current_question_number'] }}" name="ui_answer_mcq" value="b" autocomplete="off" required checked>
+                  {% else %}
+                  <input type="radio" class="btn-check" id="ui_answer_mcq_b{{ page_dict_to_html['current_question_number'] }}" name="ui_answer_mcq" value="b" autocomplete="off" required>
+                  {% endif %}
+                  <label class="btn btn-outline-success custom-width-6 btn-lg custom-ptb-6" for="ui_answer_mcq_b{{ page_dict_to_html['current_question_number'] }}">{{ page_dict_to_html['db_question_dict']['option_b'] }}</label>
+                </div>
                 {% endif %}
-                <label class="btn btn-outline-success custom-width-6 custom-tal btn-lg" for="ui_answer_mcq_b{{ page_dict_to_html['current_question_number'] }}">B: {{ page_dict_to_html['db_question_dict']['option_b'] }}</label>
-              </div>
-              {% endif %}
 
-              {% if page_dict_to_html['db_question_dict']['option_c'] != None %}
-              <div class="custom-mb-6">
-                {% if page_dict_to_html['db_question_dict']['redirect_ui_answer'] == 'c'  %}
-                <input type="radio" class="btn-check" id="ui_answer_mcq_c{{ page_dict_to_html['current_question_number'] }}" name="ui_answer_mcq" value="c" autocomplete="off" required checked>
-                {% else %}
-                <input type="radio" class="btn-check" id="ui_answer_mcq_c{{ page_dict_to_html['current_question_number'] }}" name="ui_answer_mcq" value="c" autocomplete="off" required>
+                {% if page_dict_to_html['db_question_dict']['option_c'] != None %}
+                <div>
+                  {% if page_dict_to_html['db_question_dict']['redirect_ui_answer'] == 'c'  %}
+                  <input type="radio" class="btn-check" id="ui_answer_mcq_c{{ page_dict_to_html['current_question_number'] }}" name="ui_answer_mcq" value="c" autocomplete="off" required checked>
+                  {% else %}
+                  <input type="radio" class="btn-check" id="ui_answer_mcq_c{{ page_dict_to_html['current_question_number'] }}" name="ui_answer_mcq" value="c" autocomplete="off" required>
+                  {% endif %}
+                  <label class="btn btn-outline-primary custom-width-6 btn-lg custom-ptb-6" for="ui_answer_mcq_c{{ page_dict_to_html['current_question_number'] }}">{{ page_dict_to_html['db_question_dict']['option_c'] }}</label>
+                </div>
                 {% endif %}
-                <label class="btn btn-outline-success custom-width-6 custom-tal btn-lg" for="ui_answer_mcq_c{{ page_dict_to_html['current_question_number'] }}">C: {{ page_dict_to_html['db_question_dict']['option_c'] }}</label>
-              </div>
-              {% endif %}
 
-              {% if page_dict_to_html['db_question_dict']['option_d'] != None %}
-              <div class="custom-mb-6">
-                {% if page_dict_to_html['db_question_dict']['redirect_ui_answer'] == 'd'  %}
-                <input type="radio" class="btn-check" id="ui_answer_mcq_d{{ page_dict_to_html['current_question_number'] }}" name="ui_answer_mcq" value="d" autocomplete="off" required checked>
-                {% else %}
-                <input type="radio" class="btn-check" id="ui_answer_mcq_d{{ page_dict_to_html['current_question_number'] }}" name="ui_answer_mcq" value="d" autocomplete="off" required>
+                {% if page_dict_to_html['db_question_dict']['option_d'] != None %}
+                <div>
+                  {% if page_dict_to_html['db_question_dict']['redirect_ui_answer'] == 'd'  %}
+                  <input type="radio" class="btn-check" id="ui_answer_mcq_d{{ page_dict_to_html['current_question_number'] }}" name="ui_answer_mcq" value="d" autocomplete="off" required checked>
+                  {% else %}
+                  <input type="radio" class="btn-check" id="ui_answer_mcq_d{{ page_dict_to_html['current_question_number'] }}" name="ui_answer_mcq" value="d" autocomplete="off" required>
+                  {% endif %}
+                  <label class="btn btn-outline-info custom-width-6 btn-lg custom-ptb-6" for="ui_answer_mcq_d{{ page_dict_to_html['current_question_number'] }}">{{ page_dict_to_html['db_question_dict']['option_d'] }}</label>
+                </div>
                 {% endif %}
-                <label class="btn btn-outline-success custom-width-6 custom-tal btn-lg" for="ui_answer_mcq_d{{ page_dict_to_html['current_question_number'] }}">D: {{ page_dict_to_html['db_question_dict']['option_d'] }}</label>
-              </div>
-              {% endif %}
 
-              {% if page_dict_to_html['db_question_dict']['option_e'] != None and page_dict_to_html['db_question_dict']['option_e'] != '' %}
-              <div class="custom-mb-6">
-                {% if page_dict_to_html['db_question_dict']['redirect_ui_answer'] == 'e'  %}
-                <input type="radio" class="btn-check" id="ui_answer_mcq_e{{ page_dict_to_html['current_question_number'] }}" name="ui_answer_mcq" value="e" autocomplete="off" required checked>
-                {% else %}
-                <input type="radio" class="btn-check" id="ui_answer_mcq_e{{ page_dict_to_html['current_question_number'] }}" name="ui_answer_mcq" value="e" autocomplete="off" required>
+                {% if page_dict_to_html['db_question_dict']['option_e'] != None and page_dict_to_html['db_question_dict']['option_e'] != '' %}
+                <div>
+                  {% if page_dict_to_html['db_question_dict']['redirect_ui_answer'] == 'e'  %}
+                  <input type="radio" class="btn-check" id="ui_answer_mcq_e{{ page_dict_to_html['current_question_number'] }}" name="ui_answer_mcq" value="e" autocomplete="off" required checked>
+                  {% else %}
+                  <input type="radio" class="btn-check" id="ui_answer_mcq_e{{ page_dict_to_html['current_question_number'] }}" name="ui_answer_mcq" value="e" autocomplete="off" required>
+                  {% endif %}
+                  <label class="btn btn-outline-warning custom-width-6 btn-lg custom-ptb-6" for="ui_answer_mcq_e{{ page_dict_to_html['current_question_number'] }}">{{ page_dict_to_html['db_question_dict']['option_e'] }}</label>
+                </div>
                 {% endif %}
-                <label class="btn btn-outline-success custom-width-6 custom-tal btn-lg" for="ui_answer_mcq_e{{ page_dict_to_html['current_question_number'] }}">E: {{ page_dict_to_html['db_question_dict']['option_e'] }}</label>
               </div>
-              {% endif %}
             {% endif %}
             <!-- ------------------------------------- quesstion type: mcq end ------------------------------------- -->
           </div>

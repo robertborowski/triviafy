@@ -12,7 +12,7 @@
     <div class="container border shadow custom-br-1 custom-bg-white custom-display-flex custom-fw-1">
       <div class="custom-width-11-mobile custom-p-5">
         <div class="custom-display-flex custom-mb-6">
-          <h2 class="custom-header-4">Q1: {{ page_dict_to_html['question_info_dict']['title'] }}</h2>
+          <h2 class="custom-header-4">Q1/10: {{ page_dict_to_html['question_info_dict']['title'] }}</h2>
           <div>
             {% for category_tuple in page_dict_to_html['question_info_dict']['categories'] %}
               <span class="custom-tag-1 custom-tag-category-{{ category_tuple[1] }} custom-br-4 custom-ml-3 custom-header-5">{{ category_tuple[0] }}</span>
