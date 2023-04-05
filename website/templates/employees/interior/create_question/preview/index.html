@@ -30,46 +30,49 @@
           {% else %}
           {% endif %}
         </div>
+        <div class="container custom-tar custom-mt-6">
+          <a href="#" class="fst-italic">Free demo at triviafy.com <i class="fa-solid fa-up-right-from-square"></i></a>
+        </div>
       </div>
-      <div class="custom-width-11-mobile custom-p-5">
-        <div>
+      <div class="custom-width-11-mobile custom-p-6">
+        <div class="text-center">
+          <p class="custom-header-4">Your best guess!?</p>
+        </div>
+        <div class="custom-grid-container-3x2-mobile">
           {% if page_dict_to_html['question_info_dict']['option_a'] != None and page_dict_to_html['question_info_dict']['option_a'] != '' %}
-          <div class="custom-mb-6">
+          <div>
             <input type="radio" class="btn-check" id="candidate_answer_choice_a" name="ui_answer_choice_selected" value="a" autocomplete="off">
-            <label class="btn btn-success custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_a">A: {{ page_dict_to_html['question_info_dict']['option_a'] }}</label>
+            <label class="btn btn-danger custom-width-6 btn-lg custom-ptb-6" for="candidate_answer_choice_a">{{ page_dict_to_html['question_info_dict']['option_a'] }}</label>
           </div>
           {% endif %}
 
           {% if page_dict_to_html['question_info_dict']['option_b'] != None and page_dict_to_html['question_info_dict']['option_b'] != '' %}
-          <div class="custom-mb-6">
+          <div>
             <input type="radio" class="btn-check" id="candidate_answer_choice_b" name="ui_answer_choice_selected" value="b" autocomplete="off">
-            <label class="btn btn-success custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_b">B: {{ page_dict_to_html['question_info_dict']['option_b'] }}</label>
+            <label class="btn btn-success custom-width-6 btn-lg custom-ptb-6" for="candidate_answer_choice_b">{{ page_dict_to_html['question_info_dict']['option_b'] }}</label>
           </div>
           {% endif %}
 
           {% if page_dict_to_html['question_info_dict']['option_c'] != None and page_dict_to_html['question_info_dict']['option_c'] != '' %}
-          <div class="custom-mb-6">
+          <div>
             <input type="radio" class="btn-check" id="candidate_answer_choice_c" name="ui_answer_choice_selected" value="d" autocomplete="off">
-            <label class="btn btn-success custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_c">C: {{ page_dict_to_html['question_info_dict']['option_c'] }}</label>
+            <label class="btn btn-primary custom-width-6 btn-lg custom-ptb-6" for="candidate_answer_choice_c">{{ page_dict_to_html['question_info_dict']['option_c'] }}</label>
           </div>
           {% endif %}
 
           {% if page_dict_to_html['question_info_dict']['option_d'] != None and page_dict_to_html['question_info_dict']['option_d'] != '' %}
-          <div class="custom-mb-6">
+          <div>
             <input type="radio" class="btn-check" id="candidate_answer_choice_d" name="ui_answer_choice_selected" value="d" autocomplete="off">
-            <label class="btn btn-success custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_d">D: {{ page_dict_to_html['question_info_dict']['option_d'] }}</label>
+            <label class="btn btn-warning custom-width-6 btn-lg custom-ptb-6" for="candidate_answer_choice_d">{{ page_dict_to_html['question_info_dict']['option_d'] }}</label>
           </div>
           {% endif %}
 
           {% if page_dict_to_html['question_info_dict']['option_e'] != None and page_dict_to_html['question_info_dict']['option_e'] != '' %}
-          <div class="custom-mb-6">
+          <div>
             <input type="radio" class="btn-check" id="candidate_answer_choice_e" name="ui_answer_choice_selected" value="e" autocomplete="off">
-            <label class="btn btn-success custom-width-6 custom-tal btn-lg" for="candidate_answer_choice_e">E: {{ page_dict_to_html['question_info_dict']['option_e'] }}</label>
+            <label class="btn btn-info custom-width-6 btn-lg custom-ptb-6" for="candidate_answer_choice_e">{{ page_dict_to_html['question_info_dict']['option_e'] }}</label>
           </div>
           {% endif %}
-        </div>
-        <div class="container custom-br-1 shadow custom-bg-tan-1 custom-mt-5">
-          <p class="custom-p-0 custom-m-0 custom-header-6 custom-p-2 fst-italic custom-color-grey-1"><i class="fa-solid fa-check"></i> Automate your department's team building activities at <span class="custom-underline-1">triviafy.com</span></p>
         </div>
       </div>
     </div>

@@ -203,6 +203,14 @@
   font-family: 'Open Sans', arial;
 }
 /* ------------------- google end ------------------- */
+/* ------------------- grid start ------------------- */
+.custom-grid-container-3x2-mobile {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Creates 2 columns */
+  grid-template-rows: repeat(3, 1fr); /* Creates 3 rows */
+  grid-gap: 15px; /* Adds a 10px gap between grid items */
+}
+/* ------------------- grid end ------------------- */
 /* ------------------- header start ------------------- */
 .custom-header-1 {
   font-size: 40px;
@@ -421,6 +429,9 @@
 .custom-mt-5 {
   margin-top: 100px;
 }
+.custom-mt-6 {
+  margin-top: 15px;
+}
 .custom-mt-negative-1 {
   margin-top: -20px;
 }
@@ -485,6 +496,9 @@
 }
 .custom-p-5 {
   padding: 50px 15px;
+}
+.custom-p-6 {
+  padding: 60px 15px 50px 15px;
 }
 .custom-pb-1 {
   padding-bottom: 150px;

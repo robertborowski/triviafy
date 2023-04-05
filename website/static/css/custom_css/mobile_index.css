@@ -26,6 +26,14 @@
       flex-wrap: wrap;
     }
     /* ------------------- flex end ------------------- */
+    /* ------------------- grid start ------------------- */
+    .custom-grid-container-3x2-mobile {
+      display: grid;
+      grid-template-columns: 1fr; /* Creates 2 columns */
+      grid-template-rows: repeat(5, 1fr); /* Creates 3 rows */
+      grid-gap: 15px; /* Adds a 10px gap between grid items */
+    }
+    /* ------------------- grid end ------------------- */
     /* ------------------- height start ------------------- */
     .custom-height-1-mobile {
       height: 1100px;
