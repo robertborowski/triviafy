@@ -210,6 +210,12 @@
   grid-template-rows: repeat(3, 1fr); /* Creates 3 rows */
   grid-gap: 15px; /* Adds a 10px gap between grid items */
 }
+.custom-grid-container-5x1 {
+  display: grid;
+  grid-template-columns: 1fr; /* Creates 2 columns */
+  grid-template-rows: repeat(5, 1fr); /* Creates 3 rows */
+  grid-gap: 15px; /* Adds a 10px gap between grid items */
+}
 /* ------------------- grid end ------------------- */
 /* ------------------- header start ------------------- */
 .custom-header-1 {
@@ -432,6 +438,9 @@
 .custom-mt-6 {
   margin-top: 15px;
 }
+.custom-mt-7 {
+  margin-top: 300px;
+}
 .custom-mt-negative-1 {
   margin-top: -20px;
 }
@@ -545,6 +554,10 @@
 .custom-ptb-7 {
   padding-top: 200px;
   padding-bottom: 200px;
+}
+.custom-ptb-8 {
+  padding-top: 25px;
+  padding-bottom: 25px;
 }
 .custom-pt-1 {
   padding-top: 50px;
