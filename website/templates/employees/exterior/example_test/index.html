@@ -1,4 +1,4 @@
-{% extends "employees/aaa_base/base.html" %}
+{% extends "employees/aaa_base/base2_primary.html" %}
 
 <!-- head tag block content -->
 {% block title %}
@@ -7,8 +7,8 @@
   <meta name="og:description" content="Weekly team building activity, mobile supported. Trivia fun made simple. Employee engagement trivia for for 50+ categories.">
 {% endblock %}
 
-{% block contentBody %}
-<body class="custom-bg-primary-darker">
+{% block contentBodyExceptNavbarAndFooter %}
+<div class="custom-bg-primary-darker">
   <!-- ------------------------------------- navbar start ------------------------------------- -->
   <div class="container-fluid fixed-top custom-bg-primary custom-pt-4">
     <nav class="container navbar navbar-expand-md navbar-light custom-display-flex custom-jc-2">
@@ -120,5 +120,5 @@
     </form>
     <!-- ------------------------------------- question end ------------------------------------- -->
   </div>
-</body>
+</div>
 {% endblock %}

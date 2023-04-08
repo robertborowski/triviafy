@@ -1,0 +1,14 @@
+{% extends "aaa_base/base.html" %}
+
+<!-- head tag block content -->
+{% block title %}
+  <title>base2_primary.html</title>
+{% endblock %}
+
+{% block contentBody %}
+<body>
+  <div class="custom-filler-6 custom-bg-primary"></div>
+  {% block contentBodyExceptNavbarAndFooter %}
+  {% endblock %}
+</body>
+{% endblock %}

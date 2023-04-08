@@ -1,12 +1,12 @@
-{% extends "employees/aaa_base/base.html" %}
+{% extends "employees/aaa_base/base2_primary.html" %}
 
 <!-- head tag block content -->
 {% block title %}
   <title>Triviafy</title>
 {% endblock %}
 
-{% block contentBody %}
-<body class="custom-bg-primary-darker">
+{% block contentBodyExceptNavbarAndFooter %}
+<div class="custom-bg-primary-darker">
     <!-- ------------------------------------- navbar start ------------------------------------- -->
     <div class="container-fluid fixed-top custom-bg-primary custom-pt-4">
       <nav class="container navbar navbar-expand-md navbar-light custom-display-flex custom-jc-2">
@@ -213,5 +213,5 @@
     <img src="/static/images/candidates/logo/logo_wide_v3_white_com.png" alt="powered by triviafy logo" class="custom-img-size-10">
   </div>
   <!-- ------------------------------------- signature end ------------------------------------- -->
-</body>
+</div>
 {% endblock %}

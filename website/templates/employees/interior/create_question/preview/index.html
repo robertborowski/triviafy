@@ -1,12 +1,12 @@
-{% extends "employees/aaa_base/base.html" %}
+{% extends "employees/aaa_base/base2_primary.html" %}
 
 <!-- head tag block content -->
 {% block title %}
   <title>Preview Question - Triviafy</title>
 {% endblock %}
 
-{% block contentBody %}
-<body class="custom-bg-primary-darker">
+{% block contentBodyExceptNavbarAndFooter %}
+<div class="custom-bg-primary-darker">
   <div class="container-fluid custom-bg-primary-gradient-1 custom-pt-3">
     <!-- ------------------------------------- submit start ------------------------------------- -->
     {% if page_dict_to_html['current_question_is_draft'] == true %}
@@ -100,5 +100,5 @@
     <a href="/employees/questions" class="btn btn-danger btn-lg custom-width-6"><i class="fa-solid fa-arrow-left"></i> Back</a>
   </div>
   <!-- ------------------------------------- back end ------------------------------------- -->
-</body>
+</div>
 {% endblock %}
