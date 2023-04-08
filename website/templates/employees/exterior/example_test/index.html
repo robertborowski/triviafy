@@ -72,53 +72,53 @@
             <div class="text-center">
               <p class="custom-header-4">Your best <span class="custom-underline-1 fst-italic" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Your team will see your response later, don't cheat.">guess</span>?</p>
             </div>
-            <div class="text-center">
-              <p class="custom-size-3 custom-color-light-1 fst-italic"><a href="/employees/signup">Create account</a> required to see results.</p>
-            </div>
-            <div class="custom-grid-container-3x2-mobile">
+            <div class="custom-grid-container-5x1">
               {% if db_question_obj_to_html['option_a'] != None %}
               <div>
                 <input type="radio" class="btn-check" id="candidate_answer_choice_a{{ current_question_number_to_html }}" name="ui_answer_choice_selected_{{ current_question_number_to_html }}" value="a" autocomplete="off" required>
-                <label class="btn btn-outline-danger custom-width-6 btn-lg custom-ptb-6" for="candidate_answer_choice_a{{ current_question_number_to_html }}">{{ db_question_obj_to_html['option_a'] }}</label>
+                <label class="btn btn-outline-danger custom-width-6 btn-lg custom-ptb-8" for="candidate_answer_choice_a{{ current_question_number_to_html }}">{{ db_question_obj_to_html['option_a'] }}</label>
               </div>
               {% endif %}
 
               {% if db_question_obj_to_html['option_b'] != None %}
               <div>
                 <input type="radio" class="btn-check" id="candidate_answer_choice_b{{ current_question_number_to_html }}" name="ui_answer_choice_selected_{{ current_question_number_to_html }}" value="b" autocomplete="off" required>
-                <label class="btn btn-outline-success custom-width-6 btn-lg custom-ptb-6" for="candidate_answer_choice_b{{ current_question_number_to_html }}">{{ db_question_obj_to_html['option_b'] }}</label>
+                <label class="btn btn-outline-success custom-width-6 btn-lg custom-ptb-8" for="candidate_answer_choice_b{{ current_question_number_to_html }}">{{ db_question_obj_to_html['option_b'] }}</label>
               </div>
               {% endif %}
 
               {% if db_question_obj_to_html['option_c'] != None %}
               <div>
                 <input type="radio" class="btn-check" id="candidate_answer_choice_c{{ current_question_number_to_html }}" name="ui_answer_choice_selected_{{ current_question_number_to_html }}" value="c" autocomplete="off" required>
-                <label class="btn btn-outline-primary custom-width-6 btn-lg custom-ptb-6" for="candidate_answer_choice_c{{ current_question_number_to_html }}">{{ db_question_obj_to_html['option_c'] }}</label>
+                <label class="btn btn-outline-primary custom-width-6 btn-lg custom-ptb-8" for="candidate_answer_choice_c{{ current_question_number_to_html }}">{{ db_question_obj_to_html['option_c'] }}</label>
               </div>
               {% endif %}
 
               {% if db_question_obj_to_html['option_d'] != None %}
               <div>
                 <input type="radio" class="btn-check" id="candidate_answer_choice_d{{ current_question_number_to_html }}" name="ui_answer_choice_selected_{{ current_question_number_to_html }}" value="d" autocomplete="off" required>
-                <label class="btn btn-outline-info custom-width-6 btn-lg custom-ptb-6" for="candidate_answer_choice_d{{ current_question_number_to_html }}">{{ db_question_obj_to_html['option_d'] }}</label>
+                <label class="btn btn-outline-info custom-width-6 btn-lg custom-ptb-8" for="candidate_answer_choice_d{{ current_question_number_to_html }}">{{ db_question_obj_to_html['option_d'] }}</label>
               </div>
               {% endif %}
 
               {% if db_question_obj_to_html['option_e'] != None and db_question_obj_to_html['option_e'] != '' %}
               <div>
                 <input type="radio" class="btn-check" id="candidate_answer_choice_e{{ current_question_number_to_html }}" name="ui_answer_choice_selected_{{ current_question_number_to_html }}" value="e" autocomplete="off" required>
-                <label class="btn btn-outline-warning custom-width-6 btn-lg custom-ptb-6" for="candidate_answer_choice_e{{ current_question_number_to_html }}">{{ db_question_obj_to_html['option_e'] }}</label>
+                <label class="btn btn-outline-warning custom-width-6 btn-lg custom-ptb-8" for="candidate_answer_choice_e{{ current_question_number_to_html }}">{{ db_question_obj_to_html['option_e'] }}</label>
               </div>
               {% endif %}
+            </div>
+            <div class="text-center">
+              <img src="/static/images/candidates/logo/logo_wide_v3_black2.png" alt="powered by triviafy logo" class="custom-img-size-10">
+              <div class="text-center custom-mt-4">
+                <p class="custom-size-3 custom-color-light-1 fst-italic"><a href="/employees/signup">Create account</a> required to see results.</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </form>
     <!-- ------------------------------------- question end ------------------------------------- -->
-    <div class="text-center custom-mt-5 custom-pb-3">
-      <img src="/static/images/candidates/logo/logo_wide_v3_white_com.png" alt="powered by triviafy logo" class="custom-img-size-10">
-    </div>
   </div>
 </body>
 {% endblock %}
