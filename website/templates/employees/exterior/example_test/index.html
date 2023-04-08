@@ -51,7 +51,7 @@
             <h2 class="custom-header-4" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Create an account to customize your team's trivia categories & settings">Q{{ current_question_number_to_html }}: {{ db_question_obj_to_html['title'] }}</h2>
             <div>
                 {% for category_tuple in db_question_obj_to_html['categories'] %}
-                  <span class="custom-tag-1 custom-tag-category-{{ category_tuple[1] }} custom-br-4 custom-ml-3 custom-header-5" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Create an account to customize your team's trivia categories & settings">{{ category_tuple[0] }}</span>
+                  <span class="custom-tag-1 custom-tag-category-{{ category_tuple[1] }} custom-br-4 custom-ml-3 custom-header-5 custom-wrap-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Create an account to customize your team's trivia categories & settings">{{ category_tuple[0] }}</span>
                 {% endfor %}
             </div>
           </div>
