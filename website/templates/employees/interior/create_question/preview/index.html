@@ -8,6 +8,15 @@
 {% block contentBody %}
 <body class="custom-bg-primary-darker">
   <div class="container-fluid custom-bg-primary-gradient-1 custom-pt-3">
+    <!-- ------------------------------------- submit start ------------------------------------- -->
+    {% if page_dict_to_html['current_question_is_draft'] == true %}
+      <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+        <div class="container custom-pb-3">
+          <button class="btn btn-success btn-lg custom-width-6">Submit <i class="fa-solid fa-check"></i></button>
+        </div>
+      </form>
+    {% endif %}
+    <!-- ------------------------------------- submit end ------------------------------------- -->
     <!-- ------------------------------------- question start ------------------------------------- -->
     <div class="container border shadow custom-br-1 custom-bg-white custom-display-flex custom-fw-1">
       <div class="custom-width-11-mobile custom-p-5">
@@ -91,14 +100,5 @@
     <a href="/employees/questions" class="btn btn-danger btn-lg custom-width-6"><i class="fa-solid fa-arrow-left"></i> Back</a>
   </div>
   <!-- ------------------------------------- back end ------------------------------------- -->
-  <!-- ------------------------------------- submit start ------------------------------------- -->
-  {% if page_dict_to_html['current_question_is_draft'] == true %}
-    <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
-      <div class="container custom-pb-3">
-        <button class="btn btn-success btn-lg custom-width-6">Submit <i class="fa-solid fa-check"></i></button>
-      </div>
-    </form>
-  {% endif %}
-  <!-- ------------------------------------- submit end ------------------------------------- -->
 </body>
 {% endblock %}
