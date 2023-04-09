@@ -402,6 +402,9 @@
 .custom-m-2 {
   margin: 20px;
 }
+.custom-m-3 {
+  margin: 5px;
+}
 .custom-mb-1 {
   margin-bottom: 50px;
 }
@@ -802,7 +805,7 @@
 .custom-tag-category-music {background: #4c7dbe;}
 .custom-tag-category-olympics {background: #7376cf;}
 .custom-tag-category-pop_culture {background: #3fa459;}
-.custom-tag-category-politics {background: #a66db6;}
+.custom-tag-category-politics {background: #6db693;}
 .custom-tag-category-power_bi {background: #f3c813; color: black}
 .custom-tag-category-question_removed {background: #404040;}
 .custom-tag-category-sql {background: #597caa;}
