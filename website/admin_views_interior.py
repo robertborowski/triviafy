@@ -405,7 +405,7 @@ def admin_analytics_page_function(url_redirect_code=None):
                         <li>""Remote employees who feel connected to their colleagues are 50% less likely to quit their jobs."" - Harvard Business Review</li>\
                         <li>""71% of remote workers believe that virtual team building activities have a positive impact on their job satisfaction."" - Owl Labs</li>\
                         <li>""Virtual team building activities can reduce employee turnover by up to 30%."" - Gallup</li>\
-                        <p>Boost your team's spirits and camaraderie with Triviafy's customized trivia contests - get started in less than 60 seconds at <a href='https://triviafy.com/employees/dashboard'>triviafy.com</a>!</p>\
+                        <p>Boost your team's spirits and camaraderie with Triviafy's customized trivia contests - get started in less than 60 seconds at <a href='https://triviafy.com/employees'>triviafy.com</a>!</p>\
                         <p style='margin:0;'>Best,</p>\
                         <p style='margin:0;'>Triviafy Support Team</p>\
                         <p style='margin:0;font-size:9px;'>Reply 'stop' to unsubscribe.</p>"
@@ -447,7 +447,7 @@ def admin_analytics_page_function(url_redirect_code=None):
                         <li>""Remote employees who feel connected to their colleagues are 50% less likely to quit their jobs."" - Harvard Business Review</li>\
                         <li>""71% of remote workers believe that virtual team building activities have a positive impact on their job satisfaction."" - Owl Labs</li>\
                         <li>""Virtual team building activities can reduce employee turnover by up to 30%."" - Gallup</li>\
-                        <p>Boost your team's spirits and camaraderie with Triviafy's customized trivia contests - get started in less than 60 seconds at <a href='https://triviafy.com/employees/dashboard'>triviafy.com</a>!</p>\
+                        <p>Boost your team's spirits and camaraderie with Triviafy's customized trivia contests - get started in less than 60 seconds at <a href='https://triviafy.com/employees'>triviafy.com</a>!</p>\
                         <p style='margin:0;'>Best,</p>\
                         <p style='margin:0;'>Triviafy Support Team</p>\
                         <p style='margin:0;font-size:9px;'>Reply 'stop' to unsubscribe.</p>"
@@ -489,7 +489,7 @@ def admin_analytics_page_function(url_redirect_code=None):
                         <li>""Remote employees who feel connected to their colleagues are 50% less likely to quit their jobs."" - Harvard Business Review</li>\
                         <li>""71% of remote workers believe that virtual team building activities have a positive impact on their job satisfaction."" - Owl Labs</li>\
                         <li>""Virtual team building activities can reduce employee turnover by up to 30%."" - Gallup</li>\
-                        <p>Boost your team's spirits and camaraderie with Triviafy's customized trivia contests - get started in less than 60 seconds at <a href='https://triviafy.com/employees/dashboard'>triviafy.com</a>!</p>\
+                        <p>Boost your team's spirits and camaraderie with Triviafy's customized trivia contests - get started in less than 60 seconds at <a href='https://triviafy.com/employees'>triviafy.com</a>!</p>\
                         <p style='margin:0;'>Best,</p>\
                         <p style='margin:0;'>Triviafy Support Team</p>\
                         <p style='margin:0;font-size:9px;'>Reply 'stop' to unsubscribe.</p>"
