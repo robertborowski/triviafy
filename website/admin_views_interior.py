@@ -324,7 +324,7 @@ def admin_analytics_page_function(url_redirect_code=None):
   # ------------------------ candidate_only_emails_arr end ------------------------
   # ------------------------ landing_collect_emails_arr start ------------------------
   landing_collect_emails_arr = []
-  db_collected_obj = CollectEmailObj.query.all()
+  db_collected_obj = CollectEmailObj.query.filter_by(unsubscribed=False).all()
   for i_obj in db_collected_obj:
     landing_collect_emails_arr.append(i_obj.email)
   page_dict['landing_collect_emails_arr'] = landing_collect_emails_arr
@@ -332,7 +332,7 @@ def admin_analytics_page_function(url_redirect_code=None):
   # ------------------------ landing_collect_emails_arr end ------------------------
   # ------------------------ scraped_collect_emails_arr start ------------------------
   scraped_emails_arr = []
-  db_scraped_obj = ScrapedEmailsObj.query.all()
+  db_scraped_obj = ScrapedEmailsObj.query.filter_by(unsubscribed=False).all()
   for i_obj in db_scraped_obj:
     scraped_emails_arr.append(i_obj.email)
   page_dict['scraped_emails_arr'] = scraped_emails_arr
