@@ -48,6 +48,7 @@ class CollectEmailObj(db.Model):
   created_timestamp = db.Column(db.DateTime(timezone=True))
   email = db.Column(db.String(150))
   source = db.Column(db.String(20))
+  unsubscribed = db.Column(db.Boolean, default=False)
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
@@ -94,6 +95,7 @@ class ScrapedEmailsObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
   created_timestamp = db.Column(db.DateTime(timezone=True))
   email = db.Column(db.String(150), unique=True)
+  unsubscribed = db.Column(db.Boolean, default=False)
 # ------------------------ individual model end ------------------------
 # ------------------------ all product models end ------------------------
 
