@@ -20,7 +20,7 @@ from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_f
 from website.backend.candidates.send_emails import send_email_template_function
 import os
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
-from .models import UserObj, CollectEmailObj, EmployeesEmailSentObj
+from .models import UserObj, CollectEmailObj, EmployeesEmailSentObj, ScrapedEmailsObj
 from website.backend.candidates.string_manipulation import breakup_email_function
 # ------------------------ imports end ------------------------
 
@@ -113,6 +113,12 @@ def employees_signup_function(url_redirect_code=None):
       except:
         pass
       # ------------------------ remove from landing page collected end ------------------------
+      # ------------------------ remove from scraped start ------------------------
+      try:
+        ScrapedEmailsObj.query.filter_by(email=ui_email.lower()).delete()
+      except:
+        pass
+      # ------------------------ remove from scraped end ------------------------
       db.session.commit()
       # ------------------------ create new user in db end ------------------------
       # ------------------------ keep user logged in start ------------------------
