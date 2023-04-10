@@ -232,7 +232,7 @@ def employees_quiz_open_close_notifications():
         db_email_already_sent = select_manual_function(postgres_connection, postgres_cursor, 'select_check_email_sent_1', output_to_email, output_subject)
         if db_email_already_sent == None or db_email_already_sent == []:
           output_body = f"<p>Hi {guessed_name},</p>\
-                          <p>Your team's latest trivia contest is now open, click <a href='https://triviafy.com/employees/dashboard'>here</a> to participate.</p>\
+                          <p>Your team's latest trivia contest is now open, <a href='https://triviafy.com/employees/dashboard'>click here to participate</a>.</p>\
                           <ul>Success stories for your team:</ul>\
                           <li>""Remote employees who feel connected to their colleagues are 50% less likely to quit their jobs."" - Harvard Business Review</li>\
                           <li>""71% of remote workers believe that virtual team building activities have a positive impact on their job satisfaction."" - Owl Labs</li>\
@@ -265,7 +265,7 @@ def employees_quiz_open_close_notifications():
           db_email_already_sent = select_manual_function(postgres_connection, postgres_cursor, 'select_check_email_sent_1', output_to_email, output_subject)
           if db_email_already_sent == None or db_email_already_sent == []:
             output_body = f"<p>Hi {guessed_name},</p>\
-                            <p>Your team's latest trivia contest is now open, click <a href='https://triviafy.com/employees/dashboard'>here</a> to participate.</p>\
+                            <p>Your team's latest trivia contest is now open, <a href='https://triviafy.com/employees/dashboard'>click here to participate</a>.</p>\
                             <ul>Success stories for your team:</ul>\
                             <li>""Remote employees who feel connected to their colleagues are 50% less likely to quit their jobs."" - Harvard Business Review</li>\
                             <li>""71% of remote workers believe that virtual team building activities have a positive impact on their job satisfaction."" - Owl Labs</li>\
@@ -290,7 +290,7 @@ def employees_quiz_open_close_notifications():
           db_email_already_sent = select_manual_function(postgres_connection, postgres_cursor, 'select_check_email_sent_1', output_to_email, output_subject)
           if db_email_already_sent == None or db_email_already_sent == []:
             output_body = f"<p>Hi {guessed_name},</p>\
-                            <p>You team's latest trivia contest closes in one hour, click <a href='https://triviafy.com/employees/dashboard'>here</a> to participate.</p>\
+                            <p>You team's latest trivia contest closes in one hour, <a href='https://triviafy.com/employees/dashboard'>click here to participate</a>.</p>\
                             <ul>Success stories for your team:</ul>\
                             <li>""Remote employees who feel connected to their colleagues are 50% less likely to quit their jobs."" - Harvard Business Review</li>\
                             <li>""71% of remote workers believe that virtual team building activities have a positive impact on their job satisfaction."" - Owl Labs</li>\
@@ -328,7 +328,7 @@ def employees_quiz_open_close_notifications():
         if db_email_already_sent == None or db_email_already_sent == []:
           if latest_test_id_winner == None:
             output_body = f"<p>Hi {guessed_name},</p>\
-                            <p>Your team's latest trivia contest is now closed! Click <a href='https://triviafy.com/employees/dashboard'>here</a> to see your team's responses, leaderboard, and statistics.</p>\
+                            <p>Your team's latest trivia contest is now closed! <a href='https://triviafy.com/employees/dashboard'>Click here to see your team's responses, leaderboard, and statistics</a>.</p>\
                             <ul>Success stories for your team:</ul>\
                             <li>""Remote employees who feel connected to their colleagues are 50% less likely to quit their jobs."" - Harvard Business Review</li>\
                             <li>""71% of remote workers believe that virtual team building activities have a positive impact on their job satisfaction."" - Owl Labs</li>\
@@ -338,7 +338,7 @@ def employees_quiz_open_close_notifications():
                             <p style='margin:0;font-size:10px;'>Reply 'stop' to unsubscribe.</p>"
           else:
             output_body = f"<p>Hi {guessed_name},</p>\
-                            <p>Your team's latest trivia contest winner is {latest_test_id_winner}! Click <a href='https://triviafy.com/employees/dashboard'>here</a> to see your team's responses, leaderboard, and statistics.</p>\
+                            <p>Your team's latest trivia contest winner is {latest_test_id_winner}! <a href='https://triviafy.com/employees/dashboard'>Click here to see your team's responses, leaderboard, and statistics</a>.</p>\
                             <ul>Success stories for your team:</ul>\
                             <li>""Remote employees who feel connected to their colleagues are 50% less likely to quit their jobs."" - Harvard Business Review</li>\
                             <li>""71% of remote workers believe that virtual team building activities have a positive impact on their job satisfaction."" - Owl Labs</li>\
