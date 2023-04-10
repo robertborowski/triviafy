@@ -233,6 +233,10 @@ def employees_quiz_open_close_notifications():
         if db_email_already_sent == None or db_email_already_sent == []:
           output_body = f"<p>Hi {guessed_name},</p>\
                           <p>Your team's latest trivia contest is now open, click <a href='https://triviafy.com/employees/dashboard'>here</a> to participate.</p>\
+                          <ul>Success stories for your team:</ul>\
+                          <li>""Remote employees who feel connected to their colleagues are 50% less likely to quit their jobs."" - Harvard Business Review</li>\
+                          <li>""71% of remote workers believe that virtual team building activities have a positive impact on their job satisfaction."" - Owl Labs</li>\
+                          <li>""Virtual team building activities can reduce employee turnover by up to 30%."" - Gallup</li>\
                           <p style='margin:0;'>Best,</p>\
                           <p style='margin:0;'>Triviafy Support Team</p>\
                           <p style='margin:0;font-size:10px;'>Reply 'stop' to unsubscribe.</p>"
@@ -262,6 +266,10 @@ def employees_quiz_open_close_notifications():
           if db_email_already_sent == None or db_email_already_sent == []:
             output_body = f"<p>Hi {guessed_name},</p>\
                             <p>Your team's latest trivia contest is now open, click <a href='https://triviafy.com/employees/dashboard'>here</a> to participate.</p>\
+                            <ul>Success stories for your team:</ul>\
+                            <li>""Remote employees who feel connected to their colleagues are 50% less likely to quit their jobs."" - Harvard Business Review</li>\
+                            <li>""71% of remote workers believe that virtual team building activities have a positive impact on their job satisfaction."" - Owl Labs</li>\
+                            <li>""Virtual team building activities can reduce employee turnover by up to 30%."" - Gallup</li>\
                             <p style='margin:0;'>Best,</p>\
                             <p style='margin:0;'>Triviafy Support Team</p>\
                             <p style='margin:0;font-size:10px;'>Reply 'stop' to unsubscribe.</p>"
@@ -283,6 +291,10 @@ def employees_quiz_open_close_notifications():
           if db_email_already_sent == None or db_email_already_sent == []:
             output_body = f"<p>Hi {guessed_name},</p>\
                             <p>You team's latest trivia contest closes in one hour, click <a href='https://triviafy.com/employees/dashboard'>here</a> to participate.</p>\
+                            <ul>Success stories for your team:</ul>\
+                            <li>""Remote employees who feel connected to their colleagues are 50% less likely to quit their jobs."" - Harvard Business Review</li>\
+                            <li>""71% of remote workers believe that virtual team building activities have a positive impact on their job satisfaction."" - Owl Labs</li>\
+                            <li>""Virtual team building activities can reduce employee turnover by up to 30%."" - Gallup</li>\
                             <p style='margin:0;'>Best,</p>\
                             <p style='margin:0;'>Triviafy Support Team</p>\
                             <p style='margin:0;font-size:10px;'>Reply 'stop' to unsubscribe.</p>"
@@ -317,12 +329,20 @@ def employees_quiz_open_close_notifications():
           if latest_test_id_winner == None:
             output_body = f"<p>Hi {guessed_name},</p>\
                             <p>Your team's latest trivia contest is now closed! Click <a href='https://triviafy.com/employees/dashboard'>here</a> to see your team's responses, leaderboard, and statistics.</p>\
+                            <ul>Success stories for your team:</ul>\
+                            <li>""Remote employees who feel connected to their colleagues are 50% less likely to quit their jobs."" - Harvard Business Review</li>\
+                            <li>""71% of remote workers believe that virtual team building activities have a positive impact on their job satisfaction."" - Owl Labs</li>\
+                            <li>""Virtual team building activities can reduce employee turnover by up to 30%."" - Gallup</li>\
                             <p style='margin:0;'>Best,</p>\
                             <p style='margin:0;'>Triviafy Support Team</p>\
                             <p style='margin:0;font-size:10px;'>Reply 'stop' to unsubscribe.</p>"
           else:
             output_body = f"<p>Hi {guessed_name},</p>\
                             <p>Your team's latest trivia contest winner is {latest_test_id_winner}! Click <a href='https://triviafy.com/employees/dashboard'>here</a> to see your team's responses, leaderboard, and statistics.</p>\
+                            <ul>Success stories for your team:</ul>\
+                            <li>""Remote employees who feel connected to their colleagues are 50% less likely to quit their jobs."" - Harvard Business Review</li>\
+                            <li>""71% of remote workers believe that virtual team building activities have a positive impact on their job satisfaction."" - Owl Labs</li>\
+                            <li>""Virtual team building activities can reduce employee turnover by up to 30%."" - Gallup</li>\
                             <p style='margin:0;'>Best,</p>\
                             <p style='margin:0;'>Triviafy Support Team</p>\
                             <p style='margin:0;font-size:10px;'>Reply 'stop' to unsubscribe.</p>"
