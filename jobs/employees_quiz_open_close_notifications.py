@@ -228,7 +228,8 @@ def employees_quiz_open_close_notifications():
       todays_date_str = datetime.today().strftime('%m/%d/%Y')   # 2023-02-25
       # ------------------------ send email start ------------------------
       if i_group_status == 'no latest test' or (check_correct_cadence == True and i_group_status == 'latest test is closed'):
-        output_subject = f'Action Required: New Team Trivia Contest {todays_date_str}'
+        # output_subject = f'Action Required: New Team Trivia Contest {todays_date_str}'
+        output_subject = f'Action Required: 60 Second Team Building Activity {todays_date_str}'
         db_email_already_sent = select_manual_function(postgres_connection, postgres_cursor, 'select_check_email_sent_1', output_to_email, output_subject)
         if db_email_already_sent == None or db_email_already_sent == []:
           output_body = f"<p>Hi {guessed_name},</p>\
