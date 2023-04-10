@@ -481,7 +481,7 @@ def admin_analytics_page_function(url_redirect_code=None):
         # ------------------------ send email start ------------------------
         guessed_name = breakup_email_function(i_email)
         output_to_email = i_email
-        output_subject = f"We Help You Maximize Your Visibility, Get Recognition, and Get Ahead! {todays_date_str}"
+        output_subject = f"We Help You Maximize Your Visibility, Get Recognition, and Get Ahead! {todays_date_str} (2)"
         output_body = f"<p>Hi {guessed_name},</p>\
                         <p>Unleash your inner strengths and connect with your co-workers through 4 weeks of FREE team building trivia, designed to showcase your unique personality within your company.</p>\
                         <p>Transform your team-building activities with Triviafy - the exciting weekly trivia contest that injects fun into your department's routine and fosters better communication among team members.</p>\
