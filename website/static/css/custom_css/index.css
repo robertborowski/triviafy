@@ -69,6 +69,9 @@
 .custom-bg-blue-1 {
   background-color: rgb(231 241 255);
 }
+.custom-bg-color-2 {
+  background-color: rgb(246 247 255);
+}
 .custom-bg-grey-1 {
   background-color: rgb(244, 244, 244);
 }
@@ -125,6 +128,9 @@
 .custom-color-primary {
   color: var(--custom-color-primary);
 }
+.custom-color-primary-darker {
+  color: var(--custom-color-primary-darker);
+}
 .custom-color-white {
   color: white;
 }
@@ -137,15 +143,10 @@
 .custom-border-2 {border: 1px solid red;}
 .custom-border-3 {border: 1px solid blue;}
 .custom-border-4 {border: 1px solid green;}
-.custom-border-5-dark {
-  border: 3px solid var(--custom-color-2-dark);
-}
-.custom-border-5-light {
-  border: 3px solid var(--custom-color-2-light);
-}
-.custom-border-6-light {
-  border: 1px solid var(--custom-color-2-light);
-}
+.custom-border-5-dark {border: 3px solid var(--custom-color-2-dark);}
+.custom-border-5-light {border: 3px solid var(--custom-color-2-light);}
+.custom-border-6-light {border: 1px solid var(--custom-color-2-light);}
+.custom-border-7 {border: 2px solid rgb(220 223 233);}
 .custom-br-1 {
   border-radius: 15px;
 }
