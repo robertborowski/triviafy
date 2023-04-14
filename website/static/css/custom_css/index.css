@@ -334,6 +334,9 @@
 .custom-img-opacity-1 {
   opacity: 0.20;
 }
+.custom-img-opacity-2 {
+  opacity: 0.75;
+}
 .custom-img-size-11 {
   max-width: 100%;
   max-height: 500px;
@@ -487,6 +490,10 @@
   margin-left: 7px;
   margin-top: 7px;
 }
+.custom-mtb-1 {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
 /* ------------------- margin end ------------------- */
 /* ------------------- overflow start ------------------- */
 .custom-overflow-1 {
@@ -628,6 +635,9 @@
 }
 .custom-shape-divider-top-1672276628 .shape-fill {
   fill: #FFFFFF;
+}
+.custom-shape-divider-top-1672276628 .shape-fill-custom-1 {
+  fill: var(--custom-color-primary-darker);
 }
 
 .custom-shape-divider-bottom-1672276706 {
@@ -873,6 +883,10 @@
 .custom-width-11-mobile {
   width: 50%;
   max-width: 50%;
+}
+.custom-width-12-mobile {
+  width: 30%;
+  max-width: 30%;
 }
 .custom-width-12 {
   width: 80%;
