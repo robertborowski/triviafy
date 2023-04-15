@@ -19,9 +19,11 @@ $(document).ready(function() {
         $('#flexRadioSelectMonthly').addClass('custom-bg-primary');
         $('#flexRadioSelectMonthly').addClass('fw-bold');
         $('#flexRadioSelectMonthly').addClass('custom-color-white');
+        $('#flexRadioSelectMonthly').removeClass('custom-img-opacity-3');
         $('#flexRadioSelectYearly').removeClass('custom-bg-primary');
         $('#flexRadioSelectYearly').removeClass('fw-bold');
         $('#flexRadioSelectYearly').removeClass('custom-color-white');
+        $('#flexRadioSelectYearly').addClass('custom-img-opacity-3');
         // ------------------------ selection end ------------------------
       }
       if ($(this).val() == 'yearly') {
@@ -41,9 +43,11 @@ $(document).ready(function() {
         $('#flexRadioSelectMonthly').removeClass('custom-bg-primary');
         $('#flexRadioSelectMonthly').removeClass('fw-bold');
         $('#flexRadioSelectMonthly').removeClass('custom-color-white');
+        $('#flexRadioSelectMonthly').addClass('custom-img-opacity-3');
         $('#flexRadioSelectYearly').addClass('custom-bg-primary');
         $('#flexRadioSelectYearly').addClass('fw-bold');
         $('#flexRadioSelectYearly').addClass('custom-color-white');
+        $('#flexRadioSelectYearly').removeClass('custom-img-opacity-3');
         // ------------------------ selection end ------------------------
       }
     }

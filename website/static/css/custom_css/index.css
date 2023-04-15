@@ -150,6 +150,7 @@
 .custom-border-5-light {border: 3px solid var(--custom-color-2-light);}
 .custom-border-6-light {border: 1px solid var(--custom-color-2-light);}
 .custom-border-7 {border: 2px solid rgb(220 223 233);}
+.custom-border-8 {border: 1px solid rgb(220 223 233);}
 .custom-br-1 {
   border-radius: 15px;
 }
@@ -306,6 +307,11 @@
   min-height: 350px;
 }
 /* ------------------- height end ------------------- */
+/* ------------------- hover start ------------------- */
+.custom-hover-1 {
+  cursor: pointer;
+}
+/* ------------------- hover end ------------------- */
 /* ------------------- img start ------------------- */
 .custom-img-size-1 {
   height: 40px;
@@ -346,6 +352,9 @@
 }
 .custom-img-opacity-2 {
   opacity: 0.75;
+}
+.custom-img-opacity-3 {
+  opacity: 0.40;
 }
 .custom-img-size-11 {
   max-width: 100%;
