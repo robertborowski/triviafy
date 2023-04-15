@@ -137,6 +137,9 @@
 .custom-color-grey-1 {
   color: rgb(126 121 130);
 }
+.custom-color-3 {
+  color: rgb(89 92 135);
+}
 /* ------------------- color end ------------------- */
 /* ------------------- border start ------------------- */
 .custom-border-1 {border: 1px solid black;}
