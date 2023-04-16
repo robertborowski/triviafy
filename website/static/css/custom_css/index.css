@@ -99,6 +99,9 @@
 .custom-bg-gradient-1 {
   background: linear-gradient(to top, rgb(255 255 255), rgb(194 230 201 / 23%));
 }
+.custom-bg-see-through {
+  background-color: rgba(255, 255, 255, 0);
+}
 /* ------------------- background end ------------------- */
 /* ------------------- bottom start ------------------- */
 .custom-bottom-1 {
@@ -151,6 +154,8 @@
 .custom-border-6-light {border: 1px solid var(--custom-color-2-light);}
 .custom-border-7 {border: 2px solid rgb(220 223 233);}
 .custom-border-8 {border: 1px solid rgb(220 223 233);}
+.custom-border-see-through {border: 1px solid rgba(255, 255, 255, 0);}
+.custom-border-white-opacity-1 {border: 1px solid rgba(255, 255, 255, 0.200);}
 .custom-br-1 {
   border-radius: 15px;
 }
@@ -264,6 +269,9 @@
 }
 .custom-header-6 {
   font-size: 25px;
+}
+.custom-header-7 {
+  font-size: 50px;
 }
 .custom-header-white {
   color: white;
@@ -946,6 +954,9 @@
 }
 .custom-width-19 {
   width: 150px;
+}
+.custom-width-20 {
+  max-width: 700px;
 }
 .custom-wh-1 {
   width: 50px;
