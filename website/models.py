@@ -283,6 +283,7 @@ class EmployeesCapacityOptionsObj(db.Model):
   price = db.Column(db.Float)
   fk_stripe_price_id = db.Column(db.String(150))
   name = db.Column(db.String(20))
+  fk_stripe_price_id_testing = db.Column(db.String(150))
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
