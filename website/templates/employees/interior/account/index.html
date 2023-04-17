@@ -25,7 +25,6 @@
         </h2>
         <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
           <div class="accordion-body">
-            <!-- <p>Current plan: {{ page_dict_to_html['stripe_current_plan_type'] }}</p> -->
             {% if page_dict_to_html['stripe_current_period_end'] != '' %}
             <p>Next billing: {{ page_dict_to_html['stripe_current_period_end'] }}</p>
             {% endif %}
