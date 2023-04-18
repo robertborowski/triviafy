@@ -182,7 +182,7 @@ def candidates_account_settings_function_v2(url_redirect_code=None):
       db_capacity_obj = CandidatesCapacityOptionsObj.query.filter_by(fk_stripe_price_id=stripe_subscription_current_price_id).first()
       current_plan_type = db_capacity_obj.name
     except:
-      current_plan_type = 'Pro'
+      current_plan_type = 'Free'
   # ------------------------ get current plan from stripe end ------------------------
   # ------------------------ get current user info start ------------------------
   user_obj = {

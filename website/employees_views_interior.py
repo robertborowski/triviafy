@@ -1048,7 +1048,7 @@ def employees_account_function(url_redirect_code=None):
       db_capacity_obj = EmployeesCapacityOptionsObj.query.filter_by(fk_stripe_price_id=stripe_subscription_current_price_id).first()
       current_plan_type = db_capacity_obj.name
     except:
-      current_plan_type = 'Pro'
+      current_plan_type = 'Free'
   page_dict['stripe_current_plan_type'] = current_plan_type
   page_dict['stripe_current_period_end'] = stripe_current_period_end
   # ------------------------ get current plan from stripe end ------------------------
