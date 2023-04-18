@@ -25,6 +25,30 @@ $(document).ready(function() {
         $('#flexRadioSelectYearly').removeClass('custom-color-4');
         $('#flexRadioSelectYearly').addClass('custom-img-opacity-3');
         // ------------------------ selection end ------------------------
+        // ------------------------ subscription section 1 start ------------------------
+        $('#flexRadioSectionMonthly1').addClass('uiSearchItemVisible');
+        $('#flexRadioSectionMonthly1').removeClass('uiSearchItemInvisible');
+        $('#flexRadioSectionYearly1').addClass('uiSearchItemInvisible');
+        $('#flexRadioSectionYearly1').removeClass('uiSearchItemVisible');
+        // ------------------------ subscription section 1 end ------------------------
+        // ------------------------ subscription section 2 start ------------------------
+        $('#flexRadioSectionMonthly2').addClass('uiSearchItemVisible');
+        $('#flexRadioSectionMonthly2').removeClass('uiSearchItemInvisible');
+        $('#flexRadioSectionYearly2').addClass('uiSearchItemInvisible');
+        $('#flexRadioSectionYearly2').removeClass('uiSearchItemVisible');
+        // ------------------------ subscription section 2 end ------------------------
+        // ------------------------ subscription 1 start ------------------------
+        $('#flexRadioMonthlySubscription1').addClass('uiSearchItemVisible');
+        $('#flexRadioMonthlySubscription1').removeClass('uiSearchItemInvisible');
+        $('#flexRadioYearlySubscription1').addClass('uiSearchItemInvisible');
+        $('#flexRadioYearlySubscription1').removeClass('uiSearchItemVisible');
+        // ------------------------ subscription 1 end ------------------------
+        // ------------------------ subscription 2 start ------------------------
+        $('#flexRadioMonthlySubscription2').addClass('uiSearchItemVisible');
+        $('#flexRadioMonthlySubscription2').removeClass('uiSearchItemInvisible');
+        $('#flexRadioYearlySubscription2').addClass('uiSearchItemInvisible');
+        $('#flexRadioYearlySubscription2').removeClass('uiSearchItemVisible');
+        // ------------------------ subscription 2 end ------------------------
       }
       if ($(this).val() == 'yearly') {
         // ------------------------ price 1 start ------------------------
@@ -49,6 +73,30 @@ $(document).ready(function() {
         $('#flexRadioSelectYearly').addClass('custom-color-4');
         $('#flexRadioSelectYearly').removeClass('custom-img-opacity-3');
         // ------------------------ selection end ------------------------
+        // ------------------------ subscription section 1 start ------------------------
+        $('#flexRadioSectionYearly1').addClass('uiSearchItemVisible');
+        $('#flexRadioSectionYearly1').removeClass('uiSearchItemInvisible');
+        $('#flexRadioSectionMonthly1').addClass('uiSearchItemInvisible');
+        $('#flexRadioSectionMonthly1').removeClass('uiSearchItemVisible');
+        // ------------------------ subscription section 1 end ------------------------
+        // ------------------------ subscription section 1 start ------------------------
+        $('#flexRadioSectionYearly2').addClass('uiSearchItemVisible');
+        $('#flexRadioSectionYearly2').removeClass('uiSearchItemInvisible');
+        $('#flexRadioSectionMonthly2').addClass('uiSearchItemInvisible');
+        $('#flexRadioSectionMonthly2').removeClass('uiSearchItemVisible');
+        // ------------------------ subscription section 1 end ------------------------
+        // ------------------------ subscription 1 start ------------------------
+        $('#flexRadioMonthlySubscription1').addClass('uiSearchItemInvisible');
+        $('#flexRadioMonthlySubscription1').removeClass('uiSearchItemVisible');
+        $('#flexRadioYearlySubscription1').addClass('uiSearchItemVisible');
+        $('#flexRadioYearlySubscription1').removeClass('uiSearchItemInvisible');
+        // ------------------------ subscription 1 end ------------------------
+        // ------------------------ subscription 2 start ------------------------
+        $('#flexRadioMonthlySubscription2').addClass('uiSearchItemInvisible');
+        $('#flexRadioMonthlySubscription2').removeClass('uiSearchItemVisible');
+        $('#flexRadioYearlySubscription2').addClass('uiSearchItemVisible');
+        $('#flexRadioYearlySubscription2').removeClass('uiSearchItemInvisible');
+        // ------------------------ subscription 2 end ------------------------
       }
     }
   });

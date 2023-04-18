@@ -1045,27 +1045,53 @@ def employees_account_function(url_redirect_code=None):
     if ui_subscription_selected not in capacity_options_arr:
       ui_subscription_selected = None
     # ------------------------ valid input check end ------------------------
-    if ui_subscription_selected != None and ui_subscription_selected != '1m':
+    if ui_subscription_selected != None:
       # ------------------------ db get price id start ------------------------
       db_capacity_obj = EmployeesCapacityOptionsObj.query.filter_by(id=ui_subscription_selected).first()
-      fk_stripe_price_id = db_capacity_obj.fk_stripe_price_id
+      server_env = os.environ.get('TESTING', 'false')
+      fk_stripe_price_id = ''
+      if server_env == 'true':
+        fk_stripe_price_id = db_capacity_obj.fk_stripe_price_id_testing
+      else:
+        fk_stripe_price_id = db_capacity_obj.fk_stripe_price_id
       # ------------------------ db get price id end ------------------------
       # ------------------------ stripe checkout start ------------------------
       try:
-        checkout_session = stripe.checkout.Session.create(
-          line_items=[
-            {
-            'price': fk_stripe_price_id,
-            'quantity': 1,
-            },
-          ],
-          mode='subscription',
-          success_url='https://triviafy.com/employees/subscription/success',
-          cancel_url='https://triviafy.com/employees/account',
-          metadata={
-            'fk_user_id': current_user.id
-          }
-        )
+        checkout_session = None
+        # ------------------------ localhost testing start ------------------------
+        if server_env == 'true':
+          checkout_session = stripe.checkout.Session.create(
+            line_items=[
+              {
+              'price': fk_stripe_price_id,
+              'quantity': 1,
+              },
+            ],
+            mode='subscription',
+            success_url='http://127.0.0.1:80/employees/subscription/success',
+            cancel_url='http://127.0.0.1:80/employees/account',
+            metadata={
+              'fk_user_id': current_user.id
+            }
+          )
+        # ------------------------ localhost testing end ------------------------
+        # ------------------------ production start ------------------------
+        else:
+          checkout_session = stripe.checkout.Session.create(
+            line_items=[
+              {
+              'price': fk_stripe_price_id,
+              'quantity': 1,
+              },
+            ],
+            mode='subscription',
+            success_url='https://triviafy.com/employees/subscription/success',
+            cancel_url='https://triviafy.com/employees/account',
+            metadata={
+              'fk_user_id': current_user.id
+            }
+          )
+        # ------------------------ production end ------------------------
         # ------------------------ create db row start ------------------------
         # This is so I can easily get the customer id and subscription id in a future lookup
         checkout_session_id = checkout_session.id
