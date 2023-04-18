@@ -28,8 +28,8 @@ def sanitize_email_function(user_input_email, is_signup='false'):
 # ------------------------ block email list start ------------------------
 blocked_email_arr = [
   '@gartner.com',
-  # '@gmail.com',
-  # '@gmail',
+  '@gmail.com',
+  '@gmail',
   '@yahoo.',
   '@ymail.com',
   '@mail.com',

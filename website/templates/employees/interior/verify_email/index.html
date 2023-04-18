@@ -18,14 +18,16 @@
   </div>
   {% endif %}
   <!-- ----------------------------------- end ----------------------------------- -->
-  <div class="text-center">
+  <div class="custom-p-2">
     <p class="custom-header-4">To ensure the security of your account, please verify your email address by clicking on the link sent to your email inbox.</p>
-    <p class="custom-header-4">Note: Please check your spam folder and mark Triviafy as "not spam".</p>
-    <p class="custom-header-5">From: support@triviafy.com</p>
-    <p class="custom-header-5">Sent to: {{ page_dict_to_html['user_email'] }}</p>
-    <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
-      <button type="submit" class="btn btn-outline-primary custom-mt-1">Resend verification link</button>
-    </form>
+    <p class="custom-header-4">Note: Please check your spam folder and mark sender as "not spam".</p>
+    <div class="text-center">
+      <p class="custom-header-5">From: support@triviafy.com</p>
+      <p class="custom-header-5">Sent to: {{ page_dict_to_html['user_email'] }}</p>
+      <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+        <button type="submit" class="btn btn-outline-primary custom-mt-1">Resend verification link</button>
+      </form>
+    </div>
   </div>
 </div>
 <!-- ------------------------------------- main end ------------------------------------- -->
