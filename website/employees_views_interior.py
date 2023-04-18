@@ -127,11 +127,26 @@ def verify_email_function(url_redirect_code=None):
     guessed_name = breakup_email_function(current_user.email)
     try:
       output_to_email = current_user.email
-      output_body = f"<p>Hi {guessed_name},</p>\
-                      <p>Please click the link below to verify your email address.</p>\
-                      <p>Verify email link: https://triviafy.com/employees/verify/success/{verification_code}</p>\
-                      <p style='margin:0;'>Best,</p>\
-                      <p style='margin:0;'>Triviafy Support Team</p>"
+      output_body = ''
+      # ------------------------ get environment start ------------------------
+      server_env = os.environ.get('TESTING', 'false')
+      # ------------------------ get environment end ------------------------
+      # ------------------------ localhost start ------------------------
+      if server_env == 'true':
+        output_body = f"<p>Hi {guessed_name},</p>\
+                        <p>Please click the link below to verify your email address.</p>\
+                        <p>Verify email link: http://127.0.0.1:80/employees/verify/success/{verification_code}</p>\
+                        <p style='margin:0;'>Best,</p>\
+                        <p style='margin:0;'>Triviafy Support Team</p>"
+      # ------------------------ localhost end ------------------------
+      # ------------------------ production start ------------------------
+      else:
+        output_body = f"<p>Hi {guessed_name},</p>\
+                        <p>Please click the link below to verify your email address.</p>\
+                        <p>Verify email link: https://triviafy.com/employees/verify/success/{verification_code}</p>\
+                        <p style='margin:0;'>Best,</p>\
+                        <p style='margin:0;'>Triviafy Support Team</p>"
+      # ------------------------ production end ------------------------
       send_email_template_function(output_to_email, output_subject, output_body)
     except:
       pass
@@ -169,11 +184,26 @@ def verify_email_function(url_redirect_code=None):
     guessed_name = breakup_email_function(current_user.email)
     try:
       output_to_email = current_user.email
-      output_body = f"<p>Hi {guessed_name},</p>\
+      output_body = ''
+      # ------------------------ get environment start ------------------------
+      server_env = os.environ.get('TESTING', 'false')
+      # ------------------------ get environment end ------------------------
+      # ------------------------ localhost start ------------------------
+      if server_env == 'true':
+        output_body = f"<p>Hi {guessed_name},</p>\
                       <p>Please click the link below to verify your email address.</p>\
-                      <p>Verify email link: https://triviafy.com/employees/verify/success/{new_verification_code}</p>\
+                      <p>Verify email link: http://127.0.0.1:80/employees/verify/success/{new_verification_code}</p>\
                       <p style='margin:0;'>Best,</p>\
                       <p style='margin:0;'>Triviafy Support Team</p>"
+      # ------------------------ localhost end ------------------------
+      # ------------------------ production start ------------------------
+      else:
+        output_body = f"<p>Hi {guessed_name},</p>\
+                        <p>Please click the link below to verify your email address.</p>\
+                        <p>Verify email link: https://triviafy.com/employees/verify/success/{new_verification_code}</p>\
+                        <p style='margin:0;'>Best,</p>\
+                        <p style='margin:0;'>Triviafy Support Team</p>"
+      # ------------------------ production end ------------------------
       send_email_template_function(output_to_email, output_subject, output_body)
     except:
       pass
