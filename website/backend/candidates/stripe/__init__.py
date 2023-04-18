@@ -3,6 +3,7 @@ from backend.utils.localhost_print_utils.localhost_print import localhost_print_
 import stripe
 from datetime import datetime
 import os
+from website.models import UserObj
 # ------------------------ imports end ------------------------
 
 
@@ -35,6 +36,16 @@ def check_stripe_subscription_status_function_v2(current_user, product, attempti
     fk_stripe_subscription_id = current_user.fk_stripe_subscription_id
   if product == 'employees':
     fk_stripe_subscription_id = current_user.employees_fk_stripe_subscription_id
+    # ------------------------ loop through whole team's subscription status start ------------------------
+    try:
+      db_user_obj = UserObj.query.filter_by(email=attempting_user).first()
+      db_users_obj = UserObj.query.filter_by(company_name=db_user_obj.company_name).all()
+      for i_user in db_users_obj:
+        if i_user.employees_fk_stripe_subscription_id != None and i_user.employees_fk_stripe_subscription_id != '':
+          fk_stripe_subscription_id = i_user.employees_fk_stripe_subscription_id
+    except:
+      pass
+    # ------------------------ loop through whole team's subscription status end ------------------------
   else:
     return 'invalid product'
   stripe_subscription_obj = ''

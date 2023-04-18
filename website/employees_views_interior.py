@@ -754,7 +754,7 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
     pass
   # ------------------------ archive logic end ------------------------
   # ------------------------ stripe subscription status check start ------------------------
-  stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees')
+  stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees', current_user.email)
   page_dict['stripe_subscription_status'] = stripe_subscription_obj_status
   # ------------------------ stripe subscription status check end ------------------------
   if page_dict['view_as_archive'] == False: # no user inputs should be accepted since this test is closed.
@@ -968,7 +968,7 @@ def employees_account_function(url_redirect_code=None):
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
   # ------------------------ stripe subscription status check start ------------------------
-  stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees')
+  stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees', current_user.email)
   page_dict['stripe_subscription_status'] = stripe_subscription_obj_status
   # ------------------------ stripe subscription status check end ------------------------
   # ------------------------ get current plan from stripe start ------------------------
@@ -1132,7 +1132,7 @@ def employees_feature_function(url_redirect_code=None, url_feature_request_code=
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
   # ------------------------ stripe subscription status check start ------------------------
-  stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees')
+  stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees', current_user.email)
   page_dict['stripe_subscription_status'] = stripe_subscription_obj_status
   # ------------------------ stripe subscription status check end ------------------------
   # ------------------------ non subscribed users should not see this page start ------------------------
