@@ -133,35 +133,6 @@ def employees_signup_function(url_redirect_code=None):
       except:
         pass
       # ------------------------ email self end ------------------------
-      # ------------------------ send email start ------------------------
-      try:
-        guessed_name = breakup_email_function(ui_email)
-        output_to_email = ui_email
-        output_subject = f"Share With Team"
-        output_body = f"<p>Hi {guessed_name},</p>\
-                        <p>Thank you for creating an account with triviafy's automated team building tool.</p>\
-                        <p>Your team members have to <i>create an account <a href='https://triviafy.com/employees/signup'>here</a></i> in order to participate in the same team building activities as you. Simply 'Forward' this email to your team now.</p>\
-                        <p style='margin:0;'>Best,</p>\
-                        <p style='margin:0;'>Triviafy Support Team</p>"
-        send_email_template_function(output_to_email, output_subject, output_body)
-      except:
-        pass
-      # ------------------------ send email end ------------------------
-      # ------------------------ insert email to db start ------------------------
-      try:
-        new_row = EmployeesEmailSentObj(
-          id = create_uuid_function('email_'),
-          created_timestamp = create_timestamp_function(),
-          from_user_id_fk = 'New signup',
-          to_email = output_to_email,
-          subject = output_subject,
-          body = output_body
-        )
-        db.session.add(new_row)
-        db.session.commit()
-      except:
-        pass
-      # ------------------------ insert email to db end ------------------------
       localhost_print_function(' ------------------------ employees_signup_function END ------------------------ ')
       return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
     # ------------------------ post method hit #2 - full sign up end ------------------------
