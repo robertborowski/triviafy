@@ -195,8 +195,6 @@ def candidates_login_page_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@candidates_auth.route('/logout')
-@candidates_auth.route('/logout/')
 @candidates_auth.route('/candidates/logout')
 @candidates_auth.route('/candidates/logout/')
 @login_required

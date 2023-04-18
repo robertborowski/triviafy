@@ -198,7 +198,10 @@ def employees_login_page_function(url_redirect_code=None):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
+@employees_auth.route('/logout')
+@employees_auth.route('/logout/')
 @employees_auth.route('/employees/logout')
+@employees_auth.route('/employees/logout/')
 @login_required
 def employees_logout_function():
   localhost_print_function(' ------------------------ employees_logout_function start ------------------------ ')
