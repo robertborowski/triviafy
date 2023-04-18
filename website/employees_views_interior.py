@@ -176,24 +176,24 @@ def verify_email_function(url_redirect_code=None):
                         <p style='margin:0;'>Triviafy Support Team</p>"
       # ------------------------ production end ------------------------
       send_email_template_function(output_to_email, output_subject, output_body)
+      # ------------------------ insert email to db start ------------------------
+      try:
+        new_row_email = EmployeesEmailSentObj(
+          id = create_uuid_function('email_'),
+          created_timestamp = create_timestamp_function(),
+          from_user_id_fk = current_user.id,
+          to_email = output_to_email,
+          subject = output_subject,
+          body = output_body
+        )
+        db.session.add(new_row_email)
+        db.session.commit()
+      except:
+        pass
+      # ------------------------ insert email to db end ------------------------
     except:
       pass
     # ------------------------ send email end ------------------------
-    # ------------------------ insert email to db start ------------------------
-    try:
-      new_row_email = EmployeesEmailSentObj(
-        id = create_uuid_function('email_'),
-        created_timestamp = create_timestamp_function(),
-        from_user_id_fk = current_user.id,
-        to_email = output_to_email,
-        subject = output_subject,
-        body = output_body
-      )
-      db.session.add(new_row_email)
-      db.session.commit()
-    except:
-      pass
-    # ------------------------ insert email to db end ------------------------
     pass
   # ------------------------ resend email end ------------------------
   localhost_print_function(' ------------------------ verify_email_function end ------------------------ ')
@@ -410,24 +410,24 @@ def login_dashboard_page_function(url_redirect_code=None):
                       <p style='margin:0;'>Best,</p>\
                       <p style='margin:0;'>Triviafy Support Team</p>"
       send_email_template_function(output_to_email, output_subject, output_body)
+      # ------------------------ insert email to db start ------------------------
+      try:
+        new_row = EmployeesEmailSentObj(
+          id = create_uuid_function('email_'),
+          created_timestamp = create_timestamp_function(),
+          from_user_id_fk = current_user.id,
+          to_email = output_to_email,
+          subject = output_subject,
+          body = output_body
+        )
+        db.session.add(new_row)
+        db.session.commit()
+      except:
+        pass
+      # ------------------------ insert email to db end ------------------------
     except:
       pass
     # ------------------------ send email end ------------------------
-    # ------------------------ insert email to db start ------------------------
-    try:
-      new_row = EmployeesEmailSentObj(
-        id = create_uuid_function('email_'),
-        created_timestamp = create_timestamp_function(),
-        from_user_id_fk = 'New signup',
-        to_email = output_to_email,
-        subject = output_subject,
-        body = output_body
-      )
-      db.session.add(new_row)
-      db.session.commit()
-    except:
-      pass
-    # ------------------------ insert email to db end ------------------------
   # ------------------------ check if share with team email has been sent end ------------------------
   # ------------------------ auto set cookie start ------------------------
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
