@@ -304,4 +304,14 @@ class EmployeesFeatureRequestObj(db.Model):
   fk_group_id = db.Column(db.String(150))
   feature_requested = db.Column(db.String(150))
 # ------------------------ individual model end ------------------------
+
+# ------------------------ individual model start ------------------------
+class EmployeesUserFeedbackObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  fk_user_id = db.Column(db.String(150))
+  fk_email = db.Column(db.String(150))
+  question = db.Column(db.String(150))
+  response = db.Column(db.String(150))
+# ------------------------ individual model end ------------------------
 # ------------------------ employees models end ------------------------
