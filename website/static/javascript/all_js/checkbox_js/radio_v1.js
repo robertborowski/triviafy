@@ -16,7 +16,6 @@ document.addEventListener('click', function() {
         i_label.classList.add('custom-bg-white');
         i_label.classList.remove('custom-color-white');
         i_label.classList.add('custom-color-primary');
-        i_label.classList.add('custom-trigger-next-1');
         // Submit buttons - appear
         submitButtonTop.classList.remove('uiSearchItemInvisible');
         submitButtonTop.classList.add('uiSearchItemVisible');
@@ -26,7 +25,6 @@ document.addEventListener('click', function() {
         i_label.classList.remove('custom-bg-white');
         i_label.classList.add('custom-color-white');
         i_label.classList.remove('custom-color-primary');
-        i_label.classList.remove('custom-trigger-next-1');
       }
     }
   }
