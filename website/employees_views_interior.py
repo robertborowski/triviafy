@@ -1502,6 +1502,7 @@ def employees_feedback_primary_function(url_redirect_code=None, url_question_id=
   page_dict['activities_list'] = activities_list
   page_dict['activities_list_index'] = activities_list_index
   # ------------------------ get current activities end ------------------------
+  page_dict['feedback_step'] = '1'
   # ------------------------ submission start ------------------------
   if request.method == 'POST':
     ui_answer = request.form.get('ui_selection_radio')

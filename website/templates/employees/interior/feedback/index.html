@@ -7,9 +7,17 @@
 
 {% block contentBodyExceptNavbarAndFooter %}
 <div class="custom-bg-primary-darker">
-  <div class="progress" role="progressbar" aria-label="Success striped example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-    <div class="progress-bar progress-bar-striped bg-success" style="width: 33%"></div>
-  </div>
+  <!-- ------------------------------------- progress bar start ------------------------------------- -->
+  {% if page_dict_to_html['feedback_step'] == '1' %}
+    <div class="progress" role="progressbar" aria-label="Success striped example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+      <div class="progress-bar progress-bar-striped bg-success" style="width: 25%"></div>
+    </div>
+  {% elif page_dict_to_html['feedback_step'] == '2' %}
+    <div class="progress" role="progressbar" aria-label="Success striped example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+      <div class="progress-bar progress-bar-striped bg-success" style="width: 50%"></div>
+    </div>
+  {% endif %}
+  <!-- ------------------------------------- progress bar end ------------------------------------- -->
   <!-- ------------------------------------- entire page start ------------------------------------- -->
   <div class="container-fluid custom-bg-primary-gradient-1 custom-pt-3">
     <!-- ------------------------------------- title start ------------------------------------- -->
