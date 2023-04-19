@@ -306,7 +306,7 @@ class EmployeesFeatureRequestObj(db.Model):
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
-class EmployeesUserFeedbackObj(db.Model):
+class EmployeesFeedbackObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
   created_timestamp = db.Column(db.DateTime(timezone=True))
   fk_user_id = db.Column(db.String(150))

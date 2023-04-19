@@ -63,6 +63,9 @@
 .custom-bg-green-2 {
   background-color: rgb(153, 179, 154);
 }
+.custom-bg-green-warning {
+  background-color: #ffc107;
+}
 .custom-bg-dark-1 {
   background-color: rgb(10, 0, 28);
 }
@@ -139,6 +142,9 @@
 }
 .custom-color-white {
   color: white;
+}
+.custom-color-black {
+  color: rgb(0, 0, 0);
 }
 .custom-color-grey-1 {
   color: rgb(126 121 130);
@@ -571,6 +577,9 @@
 }
 .custom-p-7 {
   padding: 15px;
+}
+.custom-p-8 {
+  padding: 5px;
 }
 .custom-pb-1 {
   padding-bottom: 150px;

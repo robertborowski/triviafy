@@ -17,7 +17,7 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v4, browser_response_set_cookie_function_v5
-from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, EmployeesTestsGradedObj, UserObj, EmployeesCapacityOptionsObj, EmployeesEmailSentObj, StripeCheckoutSessionObj, EmployeesGroupQuestionsUsedObj, EmployeesFeatureRequestObj
+from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, EmployeesTestsGradedObj, UserObj, EmployeesCapacityOptionsObj, EmployeesEmailSentObj, StripeCheckoutSessionObj, EmployeesGroupQuestionsUsedObj, EmployeesFeatureRequestObj, EmployeesFeedbackObj
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function, question_choices_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
 from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function, convert_timestamp_to_month_day_string_function
@@ -36,6 +36,7 @@ from website.backend.candidates.test_backend import get_test_winner
 from website.backend.candidates.test_backend import first_user_first_quiz_check_function
 from website.backend.candidates.aws_manipulation import candidates_change_uploaded_image_filename_function, candidates_user_upload_image_checks_aws_s3_function
 from website.backend.candidates.string_manipulation import breakup_email_function
+from website.backend.candidates.lists import get_team_building_activities_list_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -219,6 +220,11 @@ def login_dashboard_page_function(url_redirect_code=None):
   if current_user.verified_email == False:
     return redirect(url_for('employees_views_interior.verify_email_function', url_redirect_code='s8'))
   # ------------------------ check if email verified end ------------------------
+  # ------------------------ check if feedback given start ------------------------
+  user_feedback_obj = EmployeesFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='primary_product_choice').first()
+  if user_feedback_obj == None or user_feedback_obj == []:
+    return redirect(url_for('employees_views_interior.employees_feedback_primary_function'))
+  # ------------------------ check if feedback given end ------------------------
   # ------------------------ for setting cookie start ------------------------
   template_location_url = 'employees/interior/dashboard/index.html'
   # ------------------------ for setting cookie end ------------------------
@@ -1478,4 +1484,45 @@ def employees_preview_question_function(url_redirect_code=None, url_question_id=
     return redirect(url_for('employees_views_interior.employees_questions_function'))
   localhost_print_function(' ------------------------ employees_preview_question_function END ------------------------ ')
   return render_template('employees/interior/create_question/preview/index.html', page_dict_to_html=page_dict)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@employees_views_interior.route('/employees/feedback/primary', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/feedback/primary/', methods=['GET', 'POST'])
+@login_required
+def employees_feedback_primary_function(url_redirect_code=None, url_question_id=None):
+  localhost_print_function(' ------------------------ employees_feedback_primary_function START ------------------------ ')
+  # ------------------------ page dict start ------------------------
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ page dict end ------------------------
+  # ------------------------ get current activities start ------------------------
+  activities_list, activities_list_index = get_team_building_activities_list_function()
+  page_dict['activities_list'] = activities_list
+  page_dict['activities_list_index'] = activities_list_index
+  # ------------------------ get current activities end ------------------------
+  # ------------------------ submission start ------------------------
+  if request.method == 'POST':
+    ui_answer = request.form.get('ui_selection_radio')
+    # ------------------------ invalid start ------------------------
+    if ui_answer not in activities_list:
+      return redirect(url_for('employees_views_interior.employees_feedback_primary_function'))
+    # ------------------------ invalid end ------------------------
+    # ------------------------ insert to db start ------------------------
+    new_row = EmployeesFeedbackObj(
+      id = create_uuid_function('feedback_'),
+      created_timestamp = create_timestamp_function(),
+      fk_user_id = current_user.id,
+      fk_email = current_user.email,
+      question = 'primary_product_choice',
+      response = ui_answer
+    )
+    db.session.add(new_row)
+    db.session.commit()
+    # ------------------------ insert to db end ------------------------
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+  # ------------------------ submission end ------------------------
+  localhost_print_function(' ------------------------ employees_feedback_primary_function END ------------------------ ')
+  return render_template('employees/interior/feedback/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
