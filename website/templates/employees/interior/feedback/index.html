@@ -23,7 +23,11 @@
     <!-- ------------------------------------- title start ------------------------------------- -->
     <div class="container mx-auto custom-pb-2">
       <div class="text-center">
-        <h2 class="custom-color-white">Which activity are you most excited about?</h2>
+        {% if page_dict_to_html['feedback_request'] == 'primary' %}
+          <h2 class="custom-color-white">Which activity are you most excited about?</h2>
+        {% elif page_dict_to_html['feedback_request'] == 'secondary' %}
+          <h2 class="custom-color-white">Which activity are you 2nd most excited about?</h2>
+        {% endif %}
       </div>
     </div>
     <!-- ------------------------------------- title end ------------------------------------- -->

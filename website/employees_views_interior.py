@@ -221,9 +221,14 @@ def login_dashboard_page_function(url_redirect_code=None):
     return redirect(url_for('employees_views_interior.verify_email_function', url_redirect_code='s8'))
   # ------------------------ check if email verified end ------------------------
   # ------------------------ check if feedback given start ------------------------
-  user_feedback_obj = EmployeesFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='primary_product_choice').first()
-  if user_feedback_obj == None or user_feedback_obj == []:
+  # primary
+  feedback_primary_obj = EmployeesFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='primary_product_choice').first()
+  if feedback_primary_obj == None or feedback_primary_obj == []:
     return redirect(url_for('employees_views_interior.employees_feedback_primary_function'))
+  # secondary
+  feedback_secondary_obj = EmployeesFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='secondary_product_choice').first()
+  if feedback_secondary_obj == None or feedback_secondary_obj == []:
+    return redirect(url_for('employees_views_interior.employees_feedback_secondary_function'))
   # ------------------------ check if feedback given end ------------------------
   # ------------------------ for setting cookie start ------------------------
   template_location_url = 'employees/interior/dashboard/index.html'
@@ -1490,8 +1495,13 @@ def employees_preview_question_function(url_redirect_code=None, url_question_id=
 @employees_views_interior.route('/employees/feedback/primary', methods=['GET', 'POST'])
 @employees_views_interior.route('/employees/feedback/primary/', methods=['GET', 'POST'])
 @login_required
-def employees_feedback_primary_function(url_redirect_code=None, url_question_id=None):
+def employees_feedback_primary_function(url_redirect_code=None):
   localhost_print_function(' ------------------------ employees_feedback_primary_function START ------------------------ ')
+  # ------------------------ check if already answered start ------------------------
+  feedback_primary_obj = EmployeesFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='primary_product_choice').first()
+  if feedback_primary_obj != None and feedback_primary_obj != []:
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+  # ------------------------ check if already answered end ------------------------
   # ------------------------ page dict start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
   page_dict = {}
@@ -1503,6 +1513,7 @@ def employees_feedback_primary_function(url_redirect_code=None, url_question_id=
   page_dict['activities_list_index'] = activities_list_index
   # ------------------------ get current activities end ------------------------
   page_dict['feedback_step'] = '1'
+  page_dict['feedback_request'] = 'primary'
   # ------------------------ submission start ------------------------
   if request.method == 'POST':
     ui_answer = request.form.get('ui_selection_radio')
@@ -1525,5 +1536,58 @@ def employees_feedback_primary_function(url_redirect_code=None, url_question_id=
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ submission end ------------------------
   localhost_print_function(' ------------------------ employees_feedback_primary_function END ------------------------ ')
+  return render_template('employees/interior/feedback/index.html', page_dict_to_html=page_dict)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@employees_views_interior.route('/employees/feedback/secondary', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/feedback/secondary/', methods=['GET', 'POST'])
+@login_required
+def employees_feedback_secondary_function(url_redirect_code=None, value_to_remove=None):
+  localhost_print_function(' ------------------------ employees_feedback_secondary_function START ------------------------ ')
+  # ------------------------ check if already answered start ------------------------
+  feedback_secondary_obj = EmployeesFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='secondary_product_choice').first()
+  if feedback_secondary_obj != None and feedback_secondary_obj != []:
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+  # ------------------------ check if already answered end ------------------------
+  # ------------------------ page dict start ------------------------
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ page dict end ------------------------
+  # ------------------------ get current activities start ------------------------
+  activities_list, activities_list_index = get_team_building_activities_list_function()
+  # ------------------------ remove primary from selection start ------------------------
+  feedback_primary_obj = EmployeesFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='primary_product_choice').first()
+  activities_list.remove(feedback_primary_obj.response)
+  activities_list_index.pop()
+  # ------------------------ remove primary from selection end ------------------------
+  page_dict['activities_list'] = activities_list
+  page_dict['activities_list_index'] = activities_list_index
+  # ------------------------ get current activities end ------------------------
+  page_dict['feedback_step'] = '2'
+  page_dict['feedback_request'] = 'secondary'
+  # ------------------------ submission start ------------------------
+  if request.method == 'POST':
+    ui_answer = request.form.get('ui_selection_radio')
+    # ------------------------ invalid start ------------------------
+    if ui_answer not in activities_list:
+      return redirect(url_for('employees_views_interior.employees_feedback_secondary_function'))
+    # ------------------------ invalid end ------------------------
+    # ------------------------ insert to db start ------------------------
+    new_row = EmployeesFeedbackObj(
+      id = create_uuid_function('feedback_'),
+      created_timestamp = create_timestamp_function(),
+      fk_user_id = current_user.id,
+      fk_email = current_user.email,
+      question = 'secondary_product_choice',
+      response = ui_answer
+    )
+    db.session.add(new_row)
+    db.session.commit()
+    # ------------------------ insert to db end ------------------------
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+  # ------------------------ submission end ------------------------
+  localhost_print_function(' ------------------------ employees_feedback_secondary_function END ------------------------ ')
   return render_template('employees/interior/feedback/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
