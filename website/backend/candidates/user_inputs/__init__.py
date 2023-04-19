@@ -486,7 +486,7 @@ def alert_message_default_function_v2(redirect_var=None):
     }
   elif redirect_var == 's8':
     alert_message_dict = {
-      'message':'A verification link has been successfully sent to your email. Please check your spam folder and mark Triviafy as "Not Spam',
+      'message':'A verification link has been successfully sent to your email. Please check your spam folder and mark Triviafy as "Not Spam".',
       'type':'success'
     }
   elif redirect_var == 's9':

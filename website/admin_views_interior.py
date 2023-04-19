@@ -172,6 +172,7 @@ def admin_delete_page_function(url_redirect_code=None):
           for i_group_obj in db_group_obj:
             db_group_dict = arr_of_dict_all_columns_single_item_function(i_group_obj)
             group_to_delete = db_group_dict['public_group_id']
+            EmployeesEmailSentObj.query.filter_by(to_email=user_to_delete).delete()
             EmployeesFeatureRequestObj.query.filter_by(fk_group_id=group_to_delete).delete()
             EmployeesGroupQuestionsUsedObj.query.filter_by(fk_group_id=group_to_delete).delete()
             EmployeesGroupSettingsObj.query.filter_by(fk_group_id=group_to_delete).delete()
