@@ -17,13 +17,13 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v4, browser_response_set_cookie_function_v5
-from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, EmployeesTestsGradedObj, UserObj, EmployeesCapacityOptionsObj, EmployeesEmailSentObj, StripeCheckoutSessionObj, EmployeesGroupQuestionsUsedObj, EmployeesFeatureRequestObj, EmployeesFeedbackObj
+from website.models import EmployeesGroupsObj, EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, EmployeesTestsGradedObj, UserObj, EmployeesCapacityOptionsObj, EmployeesEmailSentObj, StripeCheckoutSessionObj, EmployeesGroupQuestionsUsedObj, EmployeesFeatureRequestObj, EmployeesFeedbackObj, EmployeesBirthdayInfoObj
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function, question_choices_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
 from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function, convert_timestamp_to_month_day_string_function
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.string_manipulation import all_employee_question_categories_sorted_function
-from website.backend.candidates.user_inputs import sanitize_char_count_1_function, sanitize_create_question_options_function, sanitize_create_question_categories_function, sanitize_create_question_question_function, sanitize_create_question_option_e_function, sanitize_create_question_answer_function
+from website.backend.candidates.user_inputs import sanitize_char_count_1_function, sanitize_create_question_options_function, sanitize_create_question_categories_function, sanitize_create_question_question_function, sanitize_create_question_option_e_function, sanitize_create_question_answer_function, get_special_characters_function
 from website.backend.candidates.send_emails import send_email_template_function
 import os
 from website.backend.candidates.quiz import create_quiz_function, grade_quiz_function, get_next_quiz_open_function
@@ -230,9 +230,9 @@ def login_dashboard_page_function(url_redirect_code=None):
   if feedback_secondary_obj == None or feedback_secondary_obj == []:
     return redirect(url_for('employees_views_interior.employees_feedback_secondary_function'))
   # birthday
-  # feedback_birthday_obj = EmployeesFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='birthday_choice').first()
-  # if feedback_birthday_obj == None or feedback_birthday_obj == []:
-  #   return redirect(url_for('employees_views_interior.employees_feedback_birthday_function'))
+  feedback_birthday_obj = EmployeesFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='birthday_choice').first()
+  if feedback_birthday_obj == None or feedback_birthday_obj == []:
+    return redirect(url_for('employees_views_interior.employees_feedback_birthday_function'))
   # ------------------------ check if feedback given end ------------------------
   # ------------------------ for setting cookie start ------------------------
   template_location_url = 'employees/interior/dashboard/index.html'
@@ -1599,6 +1599,7 @@ def employees_feedback_secondary_function(url_redirect_code=None, value_to_remov
 # ------------------------ individual route start ------------------------
 @employees_views_interior.route('/employees/feedback/birthday', methods=['GET', 'POST'])
 @employees_views_interior.route('/employees/feedback/birthday/', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/feedback/birthday/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
 def employees_feedback_birthday_function(url_redirect_code=None):
   localhost_print_function(' ------------------------ employees_feedback_birthday_function START ------------------------ ')
@@ -1622,18 +1623,69 @@ def employees_feedback_birthday_function(url_redirect_code=None):
   page_dict['favorite_questions_arr_index'] = favorite_questions_arr_index
   # ------------------------ get questions end ------------------------
   # ------------------------ get month days dict start ------------------------
-  months_arr, month_day_dict = get_month_days_function()
+  months_arr, days_arr, month_day_dict = get_month_days_function()
   page_dict['months_arr'] = months_arr
-  page_dict['month_day_dict'] = month_day_dict
+  page_dict['days_arr'] = days_arr
   # ------------------------ get month days dict end ------------------------
   # ------------------------ submission start ------------------------
   if request.method == 'POST':
-    ui_birhday_question = request.form.get('ui_birhday_question')
-    ui_birhday_answer = request.form.get('ui_birthday_answer')
-    localhost_print_function(' ------------- 0 ------------- ')
-    localhost_print_function(f"ui_birhday_question | type: {type(ui_birhday_question)} | {ui_birhday_question}")
-    localhost_print_function(f"ui_birhday_answer | type: {type(ui_birhday_answer)} | {ui_birhday_answer}")
-    localhost_print_function(' ------------- 0 ------------- ')
+    # ------------------------ get user inputs start ------------------------
+    ui_birthday_question = request.form.get('ui_birthday_question')
+    ui_birthday_answer = request.form.get('ui_birthday_answer')
+    ui_birthday_month = request.form.get('ui_birthday_month')
+    ui_birthday_day = request.form.get('ui_birthday_day')
+    # ------------------------ get user inputs end ------------------------
+    # ------------------------ sanatize inputs start ------------------------
+    # question
+    if ui_birthday_question not in favorite_questions_arr:
+      return redirect(url_for('employees_views_interior.employees_feedback_birthday_function', url_redirect_code='e17'))
+    # answer
+    if len(ui_birthday_answer) == 0 or len(ui_birthday_answer) > 100:
+      return redirect(url_for('employees_views_interior.employees_feedback_birthday_function', url_redirect_code='e19'))
+    special_characters_arr = get_special_characters_function()
+    for i in ui_birthday_answer:
+      if i in special_characters_arr:
+        return redirect(url_for('employees_views_interior.employees_feedback_birthday_function', url_redirect_code='e18'))
+    # birth month
+    if int(ui_birthday_month) not in months_arr:
+      return redirect(url_for('employees_views_interior.employees_feedback_birthday_function', url_redirect_code='e20'))
+    # birth day
+    allowed_days_arr = month_day_dict[str(ui_birthday_month)]
+    if int(ui_birthday_day) not in allowed_days_arr:
+      return redirect(url_for('employees_views_interior.employees_feedback_birthday_function', url_redirect_code='e21'))
+    # ------------------------ sanatize inputs end ------------------------
+    try:
+      new_birthday_row_id = create_uuid_function('birthday_')
+      # ------------------------ insert to db start ------------------------
+      new_row = EmployeesBirthdayInfoObj(
+        id = new_birthday_row_id,
+        created_timestamp = create_timestamp_function(),
+        fk_user_id = current_user.id,
+        question = ui_birthday_question,
+        answer = ui_birthday_answer,
+        birth_month = int(ui_birthday_month),
+        birth_day = int(ui_birthday_day)
+      )
+      db.session.add(new_row)
+      db.session.commit()
+      # ------------------------ insert to db end ------------------------
+      try:
+        # ------------------------ insert to db start ------------------------
+        new_row = EmployeesFeedbackObj(
+          id = create_uuid_function('feedback_'),
+          created_timestamp = create_timestamp_function(),
+          fk_user_id = current_user.id,
+          fk_email = current_user.email,
+          question = 'birthday_choice',
+          response = new_birthday_row_id
+        )
+        db.session.add(new_row)
+        db.session.commit()
+        # ------------------------ insert to db end ------------------------
+      except:
+        pass
+    except:
+      pass
     return redirect(url_for('employees_views_interior.employees_feedback_birthday_function'))
   # ------------------------ submission end ------------------------
   localhost_print_function(' ------------------------ employees_feedback_birthday_function END ------------------------ ')

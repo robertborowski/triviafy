@@ -314,4 +314,15 @@ class EmployeesFeedbackObj(db.Model):
   question = db.Column(db.String(150))
   response = db.Column(db.String(150))
 # ------------------------ individual model end ------------------------
+
+# ------------------------ individual model start ------------------------
+class EmployeesBirthdayInfoObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  fk_user_id = db.Column(db.String(150))
+  question = db.Column(db.String(150))
+  answer = db.Column(db.String(150))
+  birth_month = db.Column(db.Integer)
+  birth_day = db.Column(db.Integer)
+# ------------------------ individual model end ------------------------
 # ------------------------ employees models end ------------------------

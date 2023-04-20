@@ -22,6 +22,13 @@
     </div>
   {% endif %}
   <!-- ------------------------------------- progress bar end ------------------------------------- -->
+  <!-- ----------------------------------- start ----------------------------------- -->
+  {% if page_dict_to_html['alert_message_dict']['message'] != '' %}
+  <div class="alert alert-{{ page_dict_to_html['alert_message_dict']['type'] }} mx-auto text-center container-fluid custom-width-6 custom-m-0" role="alert">
+    {{ page_dict_to_html['alert_message_dict']['message'] }}
+  </div>
+  {% endif %}
+  <!-- ----------------------------------- end ----------------------------------- -->
   <!-- ------------------------------------- entire page start ------------------------------------- -->
   <div class="container-fluid custom-bg-primary-gradient-1 custom-pt-3">
     <!-- ------------------------------------- title start ------------------------------------- -->
@@ -38,67 +45,119 @@
     </div>
     <!-- ------------------------------------- title end ------------------------------------- -->
 
-    <!-- ------------------------------------- section - primary and secondary selection start ------------------------------------- -->
-    <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
-      <div class="text-center">
-        <button type="submit" class="btn btn-lg btn-success custom-mb-6 custom-width-8 custom-ptb-8 custom-br-1 uiSearchItemInvisible" id="submit-button-top">Continue <i class="fa-solid fa-arrow-right"></i></button>
-      </div>
-      <div class="custom-width-8 mx-auto">
-        {% for i in page_dict_to_html['activities_list_index'] %}
-        <div class="custom-display-flex custom-fw-1">
-          <input type="radio" class="btn-check" id="uiFeedbackSelection{{ i }}" name="ui_selection_radio" value="{{ page_dict_to_html['activities_list'][i] }}" autocomplete="off" required>
-          {% if page_dict_to_html['activities_list'][i] == 'Trivia' %}
-            <label class="custom-mb-6 custom-border-white-opacity-1 custom-br-1 custom-width-6 custom-ptb-8 custom-hover-1 custom-color-white" for="uiFeedbackSelection{{ i }}"><span class="custom-ml-2">{{ page_dict_to_html['activities_list'][i] }} <span class="custom-br-1 custom-size-3 custom-p-8 custom-bg-warning custom-ml-3 custom-color-black fst-italic">Most popular</span></label>
-          {% elif page_dict_to_html['activities_list'][i] == 'Colleague birthday trivia' %}
-            <label class="custom-mb-6 custom-border-white-opacity-1 custom-br-1 custom-width-6 custom-ptb-8 custom-hover-1 custom-color-white" for="uiFeedbackSelection{{ i }}"><span class="custom-ml-2">{{ page_dict_to_html['activities_list'][i] }} <span class="custom-br-1 custom-size-3 custom-p-8 custom-bg-info custom-ml-3 custom-color-white fst-italic">Fan favorite</span></label>
-          {% else %}
-            <label class="custom-mb-6 custom-border-white-opacity-1 custom-br-1 custom-width-6 custom-ptb-8 custom-hover-1 custom-color-white" for="uiFeedbackSelection{{ i }}"><span class="custom-ml-2">{{ page_dict_to_html['activities_list'][i] }}</span></label>
-          {% endif %}
+    {% if page_dict_to_html['feedback_request'] == 'primary' or page_dict_to_html['feedback_request'] == 'secondary' %}
+      <!-- ------------------------------------- section - primary and secondary selection start ------------------------------------- -->
+      <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+        <div class="text-center">
+          <button type="submit" class="btn btn-lg btn-success custom-mb-6 custom-width-8 custom-ptb-8 custom-br-1 uiSearchItemInvisible" id="submit-button-top">Continue <i class="fa-solid fa-arrow-right"></i></button>
         </div>
-        {% endfor %}
-      </div>
-      <div class="text-center">
-        <button type="submit" class="btn btn-lg btn-success custom-mb-6 custom-width-8 custom-ptb-8 custom-br-1 uiSearchItemInvisible" id="submit-button-botttom">Continue <i class="fa-solid fa-arrow-right"></i></button>
-      </div>
-    </form>
-    <!-- ------------------------------------- section - primary and secondary selection end ------------------------------------- -->
-
-    <!-- ------------------------------------- section - birthday start ------------------------------------- -->
-    <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
-      <div class="mx-auto custom-width-1 custom-pb-2">
-        <p class="custom-m-0 custom-color-white custom-opacity-2 custom-header-5"><span class="custom-ml-4">On</span> your birthday, we will automatically generate a personalized trivia question based on your answer below. The question will be sent via email to your colleagues, and they can submit their answers towards the team leaderboard. Good luck!</p>
-      </div>
-      <div class="mx-auto custom-width-1">
-        <!-- ------------------------------------- dropdown question start ------------------------------------- -->
-        <div class="dropdown custom-pb-2">
-          <button class="btn btn-warning dropdown-toggle btn-lg custom-width-6 custom-tal custom-ptb-8" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="id-birthday-question">
-            What is your favorite __________ ?
-          </button>
-          <ul class="dropdown-menu custom-width-6">
-            {% for i in page_dict_to_html['favorite_questions_arr_index'] %}
-              <li>
-                <input type="radio" class="btn-check" id="ui_birhday_question_{{ i }}" name="ui_birhday_question" autocomplete="off" value="{{ page_dict_to_html['favorite_questions_arr'][i] }}" onclick="previewFavoriteSelection(this)" required>
-                <label class="dropdown-item" for="ui_birhday_question_{{ i }}">{{ page_dict_to_html['favorite_questions_arr'][i] }}</label>
-              </li>
-            {% endfor %}
-          </ul>
+        <div class="custom-width-8 mx-auto">
+          {% for i in page_dict_to_html['activities_list_index'] %}
+          <div class="custom-display-flex custom-fw-1">
+            <input type="radio" class="btn-check" id="uiFeedbackSelection{{ i }}" name="ui_selection_radio" value="{{ page_dict_to_html['activities_list'][i] }}" autocomplete="off" required>
+            {% if page_dict_to_html['activities_list'][i] == 'Trivia' %}
+              <label class="custom-mb-6 custom-border-white-opacity-1 custom-br-1 custom-width-6 custom-ptb-8 custom-hover-1 custom-color-white" for="uiFeedbackSelection{{ i }}"><span class="custom-ml-2">{{ page_dict_to_html['activities_list'][i] }} <span class="custom-br-1 custom-size-3 custom-p-8 custom-bg-warning custom-ml-3 custom-color-black fst-italic">Most popular</span></label>
+            {% elif page_dict_to_html['activities_list'][i] == 'Colleague birthday trivia' %}
+              <label class="custom-mb-6 custom-border-white-opacity-1 custom-br-1 custom-width-6 custom-ptb-8 custom-hover-1 custom-color-white" for="uiFeedbackSelection{{ i }}"><span class="custom-ml-2">{{ page_dict_to_html['activities_list'][i] }} <span class="custom-br-1 custom-size-3 custom-p-8 custom-bg-info custom-ml-3 custom-color-white fst-italic">Fan favorite</span></label>
+            {% else %}
+              <label class="custom-mb-6 custom-border-white-opacity-1 custom-br-1 custom-width-6 custom-ptb-8 custom-hover-1 custom-color-white" for="uiFeedbackSelection{{ i }}"><span class="custom-ml-2">{{ page_dict_to_html['activities_list'][i] }}</span></label>
+            {% endif %}
+          </div>
+          {% endfor %}
         </div>
-        <!-- ------------------------------------- dropdown question end ------------------------------------- -->
-        <!-- ------------------------------------- answer start ------------------------------------- -->
-        <div class="custom-pb-2">
-          <div class="form-floating">
-            <textarea class="form-control" id="ui_birthday_answer" name="ui_birthday_answer" placeholder="Your answer" onkeyup="CountCharsBirthdayAnswer(this);" pattern="{1,100}" required></textarea>
-            <label for="ui_birthday_answer">Your answer</label>
-            <p id="id-countCharsBirthdayAnswer" class="custom-size-3 custom-color-light-1 fst-italic custom-mt-2 custom-ml-2"></p>
+        <div class="text-center">
+          <button type="submit" class="btn btn-lg btn-success custom-mb-6 custom-width-8 custom-ptb-8 custom-br-1 uiSearchItemInvisible" id="submit-button-botttom">Continue <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </form>
+      <!-- ------------------------------------- section - primary and secondary selection end ------------------------------------- -->
+    
+    {% elif page_dict_to_html['feedback_request'] == 'birthday' %}
+      <!-- ------------------------------------- section - birthday start ------------------------------------- -->
+      <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+        <div class="mx-auto custom-width-1 custom-pb-3">
+          <p class="custom-m-0 custom-color-white custom-opacity-2 custom-header-5"><span class="custom-ml-4">On</span> your birthday, we will automatically generate a personalized trivia question based on your answer below. The question will be sent via email to your colleagues, and they can submit their answers towards your team's leaderboard. Good luck!</p>
+        </div>
+        <div class="mx-auto custom-width-1">
+          <!-- ------------------------------------- dropdown question start ------------------------------------- -->
+          <div class="dropdown custom-pb-2">
+            <span class="custom-color-white custom-header-4 custom-mr-1">What is your favorite </span>
+            <button class="btn btn-warning dropdown-toggle custom-tal" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="id-birthday-question">
+              __________ ?
+            </button>
+            <ul class="dropdown-menu custom-width-6">
+              {% for i in page_dict_to_html['favorite_questions_arr_index'] %}
+                <li>
+                  <input type="radio" class="btn-check" id="ui_birthday_question_{{ i }}" name="ui_birthday_question" autocomplete="off" value="{{ page_dict_to_html['favorite_questions_arr'][i] }}" onclick="previewFavoriteSelection(this)" required>
+                  <label class="dropdown-item" for="ui_birthday_question_{{ i }}">{{ page_dict_to_html['favorite_questions_arr'][i] }}</label>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+          <!-- ------------------------------------- dropdown question end ------------------------------------- -->
+          <!-- ------------------------------------- answer start ------------------------------------- -->
+          <div class="custom-pb-3">
+            <div class="form-floating">
+              <textarea class="form-control" id="ui_birthday_answer" name="ui_birthday_answer" placeholder="Your answer" onkeyup="CountCharsBirthdayAnswer(this);" pattern="{1,100}" required></textarea>
+              <label for="ui_birthday_answer">Your answer</label>
+              <p id="id-countCharsBirthdayAnswer" class="custom-size-3 custom-color-light-1 fst-italic custom-mt-2 custom-ml-2"></p>
+            </div>
+          </div>
+          <!-- ------------------------------------- answer end ------------------------------------- -->
+          <!-- ------------------------------------- birthday start ------------------------------------- -->
+          <div class="text-center custom-pb-6">
+            <p class="custom-m-0 custom-color-white custom-opacity-2 custom-header-5">Select your birthday month + day. Your age is your privacy. <i class="fa-solid fa-lock"></i></p>
+          </div>
+          <div class="custom-display-flex custom-fw-1 custom-jc-1 custom-pb-3">
+            <!-- ------------------------------------- month dropdown start ------------------------------------- -->
+            <div class="dropdown custom-pb-2">
+              <button class="btn btn-warning dropdown-toggle custom-tal custom-ptb-8" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="id-birthday-month">
+                Month
+              </button>
+              <ul class="dropdown-menu custom-width-6">
+                {% for i in page_dict_to_html['months_arr'] %}
+                  <li>
+                    <input type="radio" class="btn-check" id="ui_birthday_month_{{ i }}" name="ui_birthday_month" autocomplete="off" value="{{ i }}" onclick="previewBirthdayMonthSelection(this)" required>
+                    <label class="dropdown-item" for="ui_birthday_month_{{ i }}">{{ i }}</label>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+            <div>
+              <p class="custom-color-white custom-header-7 custom-opacity-2">/</p>
+            </div>
+            <!-- ------------------------------------- month dropdown end ------------------------------------- -->
+            <!-- ------------------------------------- day dropdown start ------------------------------------- -->
+            <div class="dropdown custom-pb-2">
+              <button class="btn btn-warning dropdown-toggle custom-tal custom-ptb-8" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="id-birthday-day">
+                Day
+              </button>
+              <ul class="dropdown-menu custom-width-6">
+                {% for i in page_dict_to_html['days_arr'] %}
+                  <li>
+                    <input type="radio" class="btn-check" id="ui_birthday_day_{{ i }}" name="ui_birthday_day" autocomplete="off" value="{{ i }}" onclick="previewBirthdayDaySelection(this)" required>
+                    <label class="dropdown-item" for="ui_birthday_day_{{ i }}">{{ i }}</label>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+            <div>
+              <p class="custom-color-white custom-header-7 custom-opacity-2">/</p>
+            </div>
+            <!-- ------------------------------------- day dropdown end ------------------------------------- -->
+            <!-- ------------------------------------- year blurred start ------------------------------------- -->
+            <div data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="We respect your privacy and do not require you to provide your age.">
+              <p class="btn btn-warning dropdown-toggle custom-tal custom-ptb-8 custom-blur-1">YYYY</p>
+            </div>
+            <!-- ------------------------------------- year blurred end ------------------------------------- -->
+          </div>
+          <!-- ------------------------------------- birthday end ------------------------------------- -->
+          <div class="mx-auto custom-width-1">
+            <button type="submit" class="btn btn-lg btn-success custom-width-6 custom-ptb-8 custom-br-1">Continue <i class="fa-solid fa-arrow-right"></i></button>
           </div>
         </div>
-        <!-- ------------------------------------- answer end ------------------------------------- -->
-        <div class="mx-auto custom-width-1">
-          <button type="submit" class="btn btn-lg btn-success custom-width-6 custom-ptb-8 custom-br-1">Continue <i class="fa-solid fa-arrow-right"></i></button>
-        </div>
-      </div>
-    </form>
-    <!-- ------------------------------------- section - birthday end ------------------------------------- -->
+      </form>
+      <!-- ------------------------------------- section - birthday end ------------------------------------- -->
+    {% endif %}
   </div>
   <!-- ------------------------------------- entire page end ------------------------------------- -->
 </div>

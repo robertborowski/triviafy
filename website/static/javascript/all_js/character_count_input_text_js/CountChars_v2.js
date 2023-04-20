@@ -3,8 +3,8 @@ function CountCharsBirthdayAnswer(obj){
   var strLength = obj.value.length;
   
   if(strLength > maxLength){
-    document.getElementById("id-countCharsBirthdayAnswer").innerHTML = '<span style="color: red;">'+strLength+' out of '+maxLength+' characters</span>';
+    document.getElementById("id-countCharsBirthdayAnswer").innerHTML = '<span style="color: red;">'+strLength+' out of '+maxLength+' characters. Please avoid using special characters in your response.</span>';
   }else{
-    document.getElementById("id-countCharsBirthdayAnswer").innerHTML = '<span style="color:white;opacity:75%;">'+strLength+' out of '+maxLength+' characters';
+    document.getElementById("id-countCharsBirthdayAnswer").innerHTML = '<span style="color:white;opacity:75%;">'+strLength+' out of '+maxLength+' characters. Please avoid using special characters in your response.';
   }
 }

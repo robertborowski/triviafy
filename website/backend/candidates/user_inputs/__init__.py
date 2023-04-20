@@ -349,6 +349,12 @@ def sanitize_letters_numbers_spaces_only_function(user_input):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
+def get_special_characters_function():
+  special_characters_arr = [':',';','<','>','@','|','~','`','%','^','[',']','{','}','(',')']
+  return special_characters_arr
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
 def alert_message_default_function():
   # localhost_print_function('=========================================== alert_message_default_function START ===========================================')
   alert_message_page = ''
@@ -445,6 +451,31 @@ def alert_message_default_function_v2(redirect_var=None):
   elif redirect_var == 'e16':
     alert_message_dict = {
       'message':'Invalid question ID.',
+      'type':'danger'
+    }
+  elif redirect_var == 'e17':
+    alert_message_dict = {
+      'message':'Please select valid question.',
+      'type':'danger'
+    }
+  elif redirect_var == 'e18':
+    alert_message_dict = {
+      'message':'Please avoid using special characters in your answer.',
+      'type':'danger'
+    }
+  elif redirect_var == 'e19':
+    alert_message_dict = {
+      'message':'Please shorten your response.',
+      'type':'danger'
+    }
+  elif redirect_var == 'e20':
+    alert_message_dict = {
+      'message':'Invalid month.',
+      'type':'danger'
+    }
+  elif redirect_var == 'e21':
+    alert_message_dict = {
+      'message':'Invalid month/day combination.',
       'type':'danger'
     }
   # ------------------------ errors end ------------------------

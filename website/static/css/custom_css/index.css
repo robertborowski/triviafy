@@ -112,6 +112,11 @@
   background-color: rgb(111 66 193 / 10%);
 }
 /* ------------------- background end ------------------- */
+/* ------------------- blur start ------------------- */
+.custom-blur-1 {
+  filter: blur(5px);
+}
+/* ------------------- blur end ------------------- */
 /* ------------------- bottom start ------------------- */
 .custom-bottom-1 {
   position: absolute;
