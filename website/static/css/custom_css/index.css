@@ -393,6 +393,9 @@
 .custom-opacity-1 {
   opacity: 0.50;
 }
+.custom-opacity-2 {
+  opacity: 0.75;
+}
 /* ------------------- img end ------------------- */
 /* ------------------- index start ------------------- */
 .custom-index-1 {
@@ -541,6 +544,9 @@
 }
 .custom-ml-3 {
   margin-left: 10px;
+}
+.custom-ml-4 {
+  margin-left: 15px;
 }
 .custom-mlt-1 {
   margin-left: 7px;

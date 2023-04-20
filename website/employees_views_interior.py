@@ -36,7 +36,7 @@ from website.backend.candidates.test_backend import get_test_winner
 from website.backend.candidates.test_backend import first_user_first_quiz_check_function
 from website.backend.candidates.aws_manipulation import candidates_change_uploaded_image_filename_function, candidates_user_upload_image_checks_aws_s3_function
 from website.backend.candidates.string_manipulation import breakup_email_function
-from website.backend.candidates.lists import get_team_building_activities_list_function
+from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -229,6 +229,10 @@ def login_dashboard_page_function(url_redirect_code=None):
   feedback_secondary_obj = EmployeesFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='secondary_product_choice').first()
   if feedback_secondary_obj == None or feedback_secondary_obj == []:
     return redirect(url_for('employees_views_interior.employees_feedback_secondary_function'))
+  # birthday
+  # feedback_birthday_obj = EmployeesFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='birthday_choice').first()
+  # if feedback_birthday_obj == None or feedback_birthday_obj == []:
+  #   return redirect(url_for('employees_views_interior.employees_feedback_birthday_function'))
   # ------------------------ check if feedback given end ------------------------
   # ------------------------ for setting cookie start ------------------------
   template_location_url = 'employees/interior/dashboard/index.html'
@@ -1589,5 +1593,49 @@ def employees_feedback_secondary_function(url_redirect_code=None, value_to_remov
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ submission end ------------------------
   localhost_print_function(' ------------------------ employees_feedback_secondary_function END ------------------------ ')
+  return render_template('employees/interior/feedback/index.html', page_dict_to_html=page_dict)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@employees_views_interior.route('/employees/feedback/birthday', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/feedback/birthday/', methods=['GET', 'POST'])
+@login_required
+def employees_feedback_birthday_function(url_redirect_code=None):
+  localhost_print_function(' ------------------------ employees_feedback_birthday_function START ------------------------ ')
+  # ------------------------ check if already answered start ------------------------
+  feedback_birthday_obj = EmployeesFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='birthday_choice').first()
+  if feedback_birthday_obj != None and feedback_birthday_obj != []:
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+  # ------------------------ check if already answered end ------------------------
+  # ------------------------ page dict start ------------------------
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ page dict end ------------------------
+  # ------------------------ set variables start ------------------------
+  page_dict['feedback_step'] = '3'
+  page_dict['feedback_request'] = 'birthday'
+  # ------------------------ set variables end ------------------------
+  # ------------------------ get questions start ------------------------
+  favorite_questions_arr, favorite_questions_arr_index = get_favorite_questions_function()
+  page_dict['favorite_questions_arr'] = favorite_questions_arr
+  page_dict['favorite_questions_arr_index'] = favorite_questions_arr_index
+  # ------------------------ get questions end ------------------------
+  # ------------------------ get month days dict start ------------------------
+  months_arr, month_day_dict = get_month_days_function()
+  page_dict['months_arr'] = months_arr
+  page_dict['month_day_dict'] = month_day_dict
+  # ------------------------ get month days dict end ------------------------
+  # ------------------------ submission start ------------------------
+  if request.method == 'POST':
+    ui_birhday_question = request.form.get('ui_birhday_question')
+    ui_birhday_answer = request.form.get('ui_birthday_answer')
+    localhost_print_function(' ------------- 0 ------------- ')
+    localhost_print_function(f"ui_birhday_question | type: {type(ui_birhday_question)} | {ui_birhday_question}")
+    localhost_print_function(f"ui_birhday_answer | type: {type(ui_birhday_answer)} | {ui_birhday_answer}")
+    localhost_print_function(' ------------- 0 ------------- ')
+    return redirect(url_for('employees_views_interior.employees_feedback_birthday_function'))
+  # ------------------------ submission end ------------------------
+  localhost_print_function(' ------------------------ employees_feedback_birthday_function END ------------------------ ')
   return render_template('employees/interior/feedback/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------

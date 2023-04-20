@@ -16,6 +16,10 @@
     <div class="progress" role="progressbar" aria-label="Success striped example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
       <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width: 50%"></div>
     </div>
+  {% elif page_dict_to_html['feedback_step'] == '3' %}
+    <div class="progress" role="progressbar" aria-label="Success striped example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+      <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width: 75%"></div>
+    </div>
   {% endif %}
   <!-- ------------------------------------- progress bar end ------------------------------------- -->
   <!-- ------------------------------------- entire page start ------------------------------------- -->
@@ -27,11 +31,14 @@
           <h2 class="custom-color-white">Which activity are you most excited about?</h2>
         {% elif page_dict_to_html['feedback_request'] == 'secondary' %}
           <h2 class="custom-color-white">Which activity are you 2nd most excited about?</h2>
+        {% elif page_dict_to_html['feedback_request'] == 'birthday' %}
+          <h2 class="custom-color-white">Colleague birthday trivia is a fan favorite! &#129395; &#127881;</h2>
         {% endif %}
       </div>
     </div>
     <!-- ------------------------------------- title end ------------------------------------- -->
-    <!-- ------------------------------------- selection start ------------------------------------- -->
+
+    <!-- ------------------------------------- section - primary and secondary selection start ------------------------------------- -->
     <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
       <div class="text-center">
         <button type="submit" class="btn btn-lg btn-success custom-mb-6 custom-width-8 custom-ptb-8 custom-br-1 uiSearchItemInvisible" id="submit-button-top">Continue <i class="fa-solid fa-arrow-right"></i></button>
@@ -54,7 +61,44 @@
         <button type="submit" class="btn btn-lg btn-success custom-mb-6 custom-width-8 custom-ptb-8 custom-br-1 uiSearchItemInvisible" id="submit-button-botttom">Continue <i class="fa-solid fa-arrow-right"></i></button>
       </div>
     </form>
-    <!-- ------------------------------------- selection end ------------------------------------- -->
+    <!-- ------------------------------------- section - primary and secondary selection end ------------------------------------- -->
+
+    <!-- ------------------------------------- section - birthday start ------------------------------------- -->
+    <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+      <div class="mx-auto custom-width-1 custom-pb-2">
+        <p class="custom-m-0 custom-color-white custom-opacity-2 custom-header-5"><span class="custom-ml-4">On</span> your birthday, we will automatically generate a personalized trivia question based on your answer below. The question will be sent via email to your colleagues, and they can submit their answers towards the team leaderboard. Good luck!</p>
+      </div>
+      <div class="mx-auto custom-width-1">
+        <!-- ------------------------------------- dropdown question start ------------------------------------- -->
+        <div class="dropdown custom-pb-2">
+          <button class="btn btn-warning dropdown-toggle btn-lg custom-width-6 custom-tal custom-ptb-8" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="id-birthday-question">
+            What is your favorite __________ ?
+          </button>
+          <ul class="dropdown-menu custom-width-6">
+            {% for i in page_dict_to_html['favorite_questions_arr_index'] %}
+              <li>
+                <input type="radio" class="btn-check" id="ui_birhday_question_{{ i }}" name="ui_birhday_question" autocomplete="off" value="{{ page_dict_to_html['favorite_questions_arr'][i] }}" onclick="previewFavoriteSelection(this)" required>
+                <label class="dropdown-item" for="ui_birhday_question_{{ i }}">{{ page_dict_to_html['favorite_questions_arr'][i] }}</label>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <!-- ------------------------------------- dropdown question end ------------------------------------- -->
+        <!-- ------------------------------------- answer start ------------------------------------- -->
+        <div class="custom-pb-2">
+          <div class="form-floating">
+            <textarea class="form-control" id="ui_birthday_answer" name="ui_birthday_answer" placeholder="Your answer" onkeyup="CountCharsBirthdayAnswer(this);" pattern="{1,100}" required></textarea>
+            <label for="ui_birthday_answer">Your answer</label>
+            <p id="id-countCharsBirthdayAnswer" class="custom-size-3 custom-color-light-1 fst-italic custom-mt-2 custom-ml-2"></p>
+          </div>
+        </div>
+        <!-- ------------------------------------- answer end ------------------------------------- -->
+        <div class="mx-auto custom-width-1">
+          <button type="submit" class="btn btn-lg btn-success custom-width-6 custom-ptb-8 custom-br-1">Continue <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+    </form>
+    <!-- ------------------------------------- section - birthday end ------------------------------------- -->
   </div>
   <!-- ------------------------------------- entire page end ------------------------------------- -->
 </div>
