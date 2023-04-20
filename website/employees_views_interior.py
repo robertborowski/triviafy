@@ -1686,8 +1686,41 @@ def employees_feedback_birthday_function(url_redirect_code=None):
         pass
     except:
       pass
-    return redirect(url_for('employees_views_interior.employees_feedback_birthday_function'))
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ submission end ------------------------
   localhost_print_function(' ------------------------ employees_feedback_birthday_function END ------------------------ ')
   return render_template('employees/interior/feedback/index.html', page_dict_to_html=page_dict)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@employees_views_interior.route('/employees/feedback/birthday/skip', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/feedback/birthday/skip/', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/feedback/birthday/skip/<url_redirect_code>', methods=['GET', 'POST'])
+@login_required
+def employees_feedback_birthday_skip_function(url_redirect_code=None):
+  localhost_print_function(' ------------------------ employees_feedback_birthday_skip_function START ------------------------ ')
+  # ------------------------ check if already answered start ------------------------
+  feedback_birthday_obj = EmployeesFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='birthday_choice').first()
+  if feedback_birthday_obj != None and feedback_birthday_obj != []:
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+  # ------------------------ check if already answered end ------------------------
+  # ------------------------ skip logic start ------------------------
+  try:
+    # ------------------------ insert to db start ------------------------
+    new_row = EmployeesFeedbackObj(
+      id = create_uuid_function('feedback_'),
+      created_timestamp = create_timestamp_function(),
+      fk_user_id = current_user.id,
+      fk_email = current_user.email,
+      question = 'birthday_choice',
+      response = 'feedback skipped'
+    )
+    db.session.add(new_row)
+    db.session.commit()
+    # ------------------------ insert to db end ------------------------
+  except:
+    pass
+  # ------------------------ skip logic end ------------------------
+  localhost_print_function(' ------------------------ employees_feedback_birthday_skip_function END ------------------------ ')
+  return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
 # ------------------------ individual route end ------------------------
