@@ -51,7 +51,7 @@
         {% elif page_dict_to_html['feedback_request'] == 'birthday' %}
           <h2 class="custom-color-white">Colleague birthday trivia is a fan favorite! &#129395; &#127881;</h2>
         {% elif page_dict_to_html['feedback_request'] == 'marketing' %}
-          <h2 class="custom-color-white">How did you hear about triviafy?</h2>
+          <h2 class="custom-color-white">Finally, how did you hear about triviafy?</h2>
         {% endif %}
       </div>
     </div>
@@ -115,7 +115,7 @@
             <button class="btn btn-warning dropdown-toggle custom-tal" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="id-birthday-question">
               __________ ?
             </button>
-            <ul class="dropdown-menu custom-width-6">
+            <ul class="dropdown-menu">
               {% for i in page_dict_to_html['favorite_questions_arr_index'] %}
                 <li>
                   <input type="radio" class="btn-check" id="ui_birthday_question_{{ i }}" name="ui_birthday_question" autocomplete="off" value="{{ page_dict_to_html['favorite_questions_arr'][i] }}" onclick="previewFavoriteSelection(this)" required>
