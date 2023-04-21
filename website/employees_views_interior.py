@@ -36,7 +36,7 @@ from website.backend.candidates.test_backend import get_test_winner
 from website.backend.candidates.test_backend import first_user_first_quiz_check_function
 from website.backend.candidates.aws_manipulation import candidates_change_uploaded_image_filename_function, candidates_user_upload_image_checks_aws_s3_function
 from website.backend.candidates.string_manipulation import breakup_email_function
-from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function
+from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function, get_marketing_list_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -233,6 +233,10 @@ def login_dashboard_page_function(url_redirect_code=None):
   feedback_birthday_obj = EmployeesFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='birthday_choice').first()
   if feedback_birthday_obj == None or feedback_birthday_obj == []:
     return redirect(url_for('employees_views_interior.employees_feedback_birthday_function'))
+  # how did you hear about triviafy?
+  feedback_marketing_obj = EmployeesFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='marketing_choice').first()
+  if feedback_marketing_obj == None or feedback_marketing_obj == []:
+    return redirect(url_for('employees_views_interior.employees_feedback_marketing_function'))
   # ------------------------ check if feedback given end ------------------------
   # ------------------------ for setting cookie start ------------------------
   template_location_url = 'employees/interior/dashboard/index.html'
@@ -1498,6 +1502,8 @@ def employees_preview_question_function(url_redirect_code=None, url_question_id=
 # ------------------------ individual route start ------------------------
 @employees_views_interior.route('/employees/feedback/primary', methods=['GET', 'POST'])
 @employees_views_interior.route('/employees/feedback/primary/', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/feedback/primary/<url_redirect_code>', methods=['GET', 'POST'])
+
 @login_required
 def employees_feedback_primary_function(url_redirect_code=None):
   localhost_print_function(' ------------------------ employees_feedback_primary_function START ------------------------ ')
@@ -1546,6 +1552,8 @@ def employees_feedback_primary_function(url_redirect_code=None):
 # ------------------------ individual route start ------------------------
 @employees_views_interior.route('/employees/feedback/secondary', methods=['GET', 'POST'])
 @employees_views_interior.route('/employees/feedback/secondary/', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/feedback/secondary/<url_redirect_code>', methods=['GET', 'POST'])
+
 @login_required
 def employees_feedback_secondary_function(url_redirect_code=None, value_to_remove=None):
   localhost_print_function(' ------------------------ employees_feedback_secondary_function START ------------------------ ')
@@ -1723,4 +1731,53 @@ def employees_feedback_birthday_skip_function(url_redirect_code=None):
   # ------------------------ skip logic end ------------------------
   localhost_print_function(' ------------------------ employees_feedback_birthday_skip_function END ------------------------ ')
   return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@employees_views_interior.route('/employees/feedback/marketing', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/feedback/marketing/', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/feedback/marketing/<url_redirect_code>', methods=['GET', 'POST'])
+@login_required
+def employees_feedback_marketing_function(url_redirect_code=None):
+  localhost_print_function(' ------------------------ employees_feedback_marketing_function START ------------------------ ')
+  # ------------------------ check if already answered start ------------------------
+  feedback_marketing_obj = EmployeesFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='marketing_choice').first()
+  if feedback_marketing_obj != None and feedback_marketing_obj != []:
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+  # ------------------------ check if already answered end ------------------------
+  # ------------------------ page dict start ------------------------
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ page dict end ------------------------
+  # ------------------------ get current activities start ------------------------
+  marketing_list, marketing_list_index = get_marketing_list_function()
+  page_dict['marketing_list'] = marketing_list
+  page_dict['marketing_list_index'] = marketing_list_index
+  # ------------------------ get current activities end ------------------------
+  page_dict['feedback_step'] = '4'
+  page_dict['feedback_request'] = 'marketing'
+  # ------------------------ submission start ------------------------
+  if request.method == 'POST':
+    ui_answer = request.form.get('ui_selection_radio')
+    # ------------------------ invalid start ------------------------
+    if ui_answer not in marketing_list:
+      return redirect(url_for('employees_views_interior.employees_feedback_marketing_function'))
+    # ------------------------ invalid end ------------------------
+    # ------------------------ insert to db start ------------------------
+    new_row = EmployeesFeedbackObj(
+      id = create_uuid_function('feedback_'),
+      created_timestamp = create_timestamp_function(),
+      fk_user_id = current_user.id,
+      fk_email = current_user.email,
+      question = 'marketing_choice',
+      response = ui_answer
+    )
+    db.session.add(new_row)
+    db.session.commit()
+    # ------------------------ insert to db end ------------------------
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+  # ------------------------ submission end ------------------------
+  localhost_print_function(' ------------------------ employees_feedback_marketing_function END ------------------------ ')
+  return render_template('employees/interior/feedback/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
