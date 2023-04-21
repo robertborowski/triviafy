@@ -221,6 +221,9 @@ def login_dashboard_page_function(url_redirect_code=None):
     return redirect(url_for('employees_views_interior.verify_email_function', url_redirect_code='s8'))
   # ------------------------ check if email verified end ------------------------
   # ------------------------ check if feedback given start ------------------------
+  # name
+  if current_user.name == None or current_user.name == '':
+    return redirect(url_for('employees_views_interior.employees_feedback_name_function'))
   # primary
   feedback_primary_obj = EmployeesFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='primary_product_choice').first()
   if feedback_primary_obj == None or feedback_primary_obj == []:
@@ -1779,5 +1782,46 @@ def employees_feedback_marketing_function(url_redirect_code=None):
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ submission end ------------------------
   localhost_print_function(' ------------------------ employees_feedback_marketing_function END ------------------------ ')
+  return render_template('employees/interior/feedback/index.html', page_dict_to_html=page_dict)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@employees_views_interior.route('/employees/feedback/name', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/feedback/name/', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/feedback/name/<url_redirect_code>', methods=['GET', 'POST'])
+@login_required
+def employees_feedback_name_function(url_redirect_code=None):
+  localhost_print_function(' ------------------------ employees_feedback_name_function START ------------------------ ')
+  # ------------------------ check if already answered start ------------------------
+  if current_user.name != None and current_user.name != '':
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+  # ------------------------ check if already answered end ------------------------
+  # ------------------------ page dict start ------------------------
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ page dict end ------------------------
+  page_dict['feedback_step'] = '0'
+  page_dict['feedback_request'] = 'name'
+  # ------------------------ submission start ------------------------
+  if request.method == 'POST':
+    # ------------------------ get user inputs start ------------------------
+    ui_name = request.form.get('ui_name')
+    # ------------------------ get user inputs end ------------------------
+    # ------------------------ sanatize inputs start ------------------------
+    if len(ui_name) <= 1 or len(ui_name) > 20:
+      return redirect(url_for('employees_views_interior.employees_feedback_name_function', url_redirect_code='e19'))
+    special_characters_arr = get_special_characters_function()
+    for i in ui_name:
+      if i in special_characters_arr:
+        return redirect(url_for('employees_views_interior.employees_feedback_name_function', url_redirect_code='e18'))
+    # ------------------------ sanatize inputs end ------------------------
+    # ------------------------ update db start ------------------------
+    current_user.name = ui_name
+    db.session.commit()
+    # ------------------------ update db end ------------------------
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+  # ------------------------ submission end ------------------------
+  localhost_print_function(' ------------------------ employees_feedback_name_function END ------------------------ ')
   return render_template('employees/interior/feedback/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
