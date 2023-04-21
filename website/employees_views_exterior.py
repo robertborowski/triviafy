@@ -28,6 +28,7 @@ redis_connection = redis_connect_to_database_function()
 # ------------------------ connect to redis end ------------------------
 
 # ------------------------ individual route start ------------------------
+@employees_views_exterior.route('/')
 @employees_views_exterior.route('/employees')
 @employees_views_exterior.route('/employees/')
 def landing_page_function():
