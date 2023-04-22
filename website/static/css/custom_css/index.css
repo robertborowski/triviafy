@@ -75,9 +75,6 @@
 .custom-bg-blue-1 {
   background-color: rgb(231 241 255);
 }
-.custom-bg-color-2 {
-  background-color: rgb(246 247 255);
-}
 .custom-bg-grey-1 {
   background-color: rgb(244, 244, 244);
 }
@@ -110,6 +107,15 @@
 }
 .custom-bg-color-1 {
   background-color: rgb(111 66 193 / 10%);
+}
+.custom-bg-color-2 {
+  background-color: rgb(246 247 255);
+}
+.custom-bg-color-3 {
+  background-color: rgb(224 224 224);
+}
+.custom-bg-color-5 {
+  background-color: rgb(255 236 198);
 }
 /* ------------------- background end ------------------- */
 /* ------------------- blur start ------------------- */
@@ -157,6 +163,9 @@
 .custom-color-grey-1 {
   color: rgb(126 121 130);
 }
+.custom-color-grey-2 {
+  color: rgb(100, 100, 100);
+}
 .custom-color-3 {
   color: rgb(89 92 135);
 }
@@ -174,6 +183,7 @@
 .custom-border-6-light {border: 1px solid var(--custom-color-2-light);}
 .custom-border-7 {border: 2px solid rgb(220 223 233);}
 .custom-border-8 {border: 1px solid rgb(220 223 233);}
+.custom-border-9 {border: 1px solid rgb(0 0 0 / 10%);}
 .custom-border-see-through {border: 1px solid rgba(255, 255, 255, 0);}
 .custom-border-white-opacity-1 {border: 1px solid rgba(255, 255, 255, 0.200);}
 .custom-br-1 {
@@ -452,6 +462,9 @@
 .custom-line-1 {
   line-height: 40px;
 }
+.custom-line-2 {
+  line-height: 30px;
+}
 /* ------------------- list style end ------------------- */
 /* ------------------- margin start ------------------- */
 .custom-m-0 {
@@ -594,6 +607,9 @@
 }
 .custom-p-8 {
   padding: 5px;
+}
+.custom-p-9 {
+  padding: 5px 10px;
 }
 .custom-pb-1 {
   padding-bottom: 150px;

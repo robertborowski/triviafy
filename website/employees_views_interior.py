@@ -451,6 +451,16 @@ def login_dashboard_page_function(url_redirect_code=None):
       pass
     # ------------------------ send email end ------------------------
   # ------------------------ check if share with team email has been sent end ------------------------
+  # ------------------------ assign to dict start ------------------------
+  db_group_settings_dict = arr_of_dict_all_columns_single_item_function(db_group_settings_obj)
+  page_dict['db_group_settings_dict'] = db_group_settings_dict
+  # ------------------------ assign to dict end ------------------------
+  localhost_print_function(' ------------- 0 ------------- ')
+  localhost_print_function(f"page_dict | type: {type(page_dict)}")
+  for k, v in page_dict.items():
+    localhost_print_function(f"k: {k} | v: {v}")
+    localhost_print_function(f" ")
+  localhost_print_function(' ------------- 0 ------------- ')
   # ------------------------ auto set cookie start ------------------------
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
   if get_cookie_value_from_browser != None:
@@ -1796,6 +1806,9 @@ def employees_feedback_name_function(url_redirect_code=None):
   if current_user.name != None and current_user.name != '':
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ check if already answered end ------------------------
+  # ------------------------ for setting cookie start ------------------------
+  template_location_url = 'employees/interior/feedback/index.html'
+  # ------------------------ for setting cookie end ------------------------
   # ------------------------ page dict start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
   page_dict = {}
@@ -1823,5 +1836,14 @@ def employees_feedback_name_function(url_redirect_code=None):
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ submission end ------------------------
   localhost_print_function(' ------------------------ employees_feedback_name_function END ------------------------ ')
-  return render_template('employees/interior/feedback/index.html', page_dict_to_html=page_dict)
+  # ------------------------ auto set cookie start ------------------------
+  get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
+  if get_cookie_value_from_browser != None:
+    redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
+    return render_template(template_location_url, page_dict_to_html=page_dict)
+  else:
+    browser_response = browser_response_set_cookie_function_v5(current_user, template_location_url, page_dict)
+    localhost_print_function(' ------------------------ employees_feedback_name_function END ------------------------ ')
+    return browser_response
+  # ------------------------ auto set cookie end ------------------------
 # ------------------------ individual route end ------------------------
