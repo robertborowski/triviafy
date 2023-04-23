@@ -17,57 +17,8 @@ def get_dropdowns_trivia_function():
       'title_short': 'Candence',
       'title_long': 'Candence',
       'dropdown_arr': quiz_cadence_arr,
-      'type': 'secondary'
-    }
-    # ------------------------ individual dropdown end ------------------------
-    # ------------------------ individual dropdown start ------------------------
-    , 'radio_start_day': {
-      'id': 'id-radio_start_day',
-      'name': 'radio_start_day',
-      'title_short': 'Start day',
-      'title_long': 'Start day',
-      'dropdown_arr': weekdays_arr,
-      'type': 'success'
-    }
-    # ------------------------ individual dropdown end ------------------------
-    # ------------------------ individual dropdown start ------------------------
-    , 'radio_start_time': {
-      'id': 'id-radio_start_time',
-      'name': 'radio_start_time',
-      'title_short': 'Start time',
-      'title_long': 'Start time',
-      'dropdown_arr': times_arr,
-      'type': 'success'
-    }
-    # ------------------------ individual dropdown end ------------------------
-    # ------------------------ individual dropdown start ------------------------
-    , 'radio_end_day': {
-      'id': 'id-radio_end_day',
-      'name': 'radio_end_day',
-      'title_short': 'End day',
-      'title_long': 'End day',
-      'dropdown_arr': weekdays_arr,
-      'type': 'danger'
-    }
-    # ------------------------ individual dropdown end ------------------------
-    # ------------------------ individual dropdown start ------------------------
-    , 'radio_end_time': {
-      'id': 'id-radio_end_time',
-      'name': 'radio_end_time',
-      'title_short': 'End time',
-      'title_long': 'End time',
-      'dropdown_arr': times_arr,
-      'type': 'danger'
-    }
-    # ------------------------ individual dropdown end ------------------------
-    # ------------------------ individual dropdown start ------------------------
-    , 'radio_timezone': {
-      'id': 'id-radio_timezone',
-      'name': 'radio_timezone',
-      'title_short': 'Time zone',
-      'title_long': 'Time zone',
-      'dropdown_arr': timezone_arr,
-      'type': 'secondary'
+      'type': 'secondary',
+      'db_col_name': 'cadence'
     }
     # ------------------------ individual dropdown end ------------------------
     # ------------------------ individual questions start ------------------------
@@ -77,7 +28,8 @@ def get_dropdowns_trivia_function():
       'title_short': 'Questions per contest',
       'title_long': 'Questions per contest',
       'dropdown_arr': question_num_arr,
-      'type': 'secondary'
+      'type': 'secondary',
+      'db_col_name': 'total_questions'
     }
     # ------------------------ individual questions end ------------------------
     # ------------------------ individual questions start ------------------------
@@ -87,9 +39,65 @@ def get_dropdowns_trivia_function():
       'title_short': 'Question type',
       'title_long': 'Question type',
       'dropdown_arr': question_type_arr,
-      'type': 'secondary'
+      'type': 'secondary',
+      'db_col_name': 'question_type'
     }
     # ------------------------ individual questions end ------------------------
+    # ------------------------ individual dropdown start ------------------------
+    , 'radio_start_day': {
+      'id': 'id-radio_start_day',
+      'name': 'radio_start_day',
+      'title_short': 'Start day',
+      'title_long': 'Start day',
+      'dropdown_arr': weekdays_arr,
+      'type': 'success',
+      'db_col_name': 'start_day'
+    }
+    # ------------------------ individual dropdown end ------------------------
+    # ------------------------ individual dropdown start ------------------------
+    , 'radio_start_time': {
+      'id': 'id-radio_start_time',
+      'name': 'radio_start_time',
+      'title_short': 'Start time',
+      'title_long': 'Start time',
+      'dropdown_arr': times_arr,
+      'type': 'success',
+      'db_col_name': 'start_time'
+    }
+    # ------------------------ individual dropdown end ------------------------
+    # ------------------------ individual dropdown start ------------------------
+    , 'radio_end_day': {
+      'id': 'id-radio_end_day',
+      'name': 'radio_end_day',
+      'title_short': 'End day',
+      'title_long': 'End day',
+      'dropdown_arr': weekdays_arr,
+      'type': 'danger',
+      'db_col_name': 'end_day'
+    }
+    # ------------------------ individual dropdown end ------------------------
+    # ------------------------ individual dropdown start ------------------------
+    , 'radio_end_time': {
+      'id': 'id-radio_end_time',
+      'name': 'radio_end_time',
+      'title_short': 'End time',
+      'title_long': 'End time',
+      'dropdown_arr': times_arr,
+      'type': 'danger',
+      'db_col_name': 'end_time'
+    }
+    # ------------------------ individual dropdown end ------------------------
+    # ------------------------ individual dropdown start ------------------------
+    , 'radio_timezone': {
+      'id': 'id-radio_timezone',
+      'name': 'radio_timezone',
+      'title_short': 'Time zone',
+      'title_long': 'Time zone',
+      'dropdown_arr': timezone_arr,
+      'type': 'secondary',
+      'db_col_name': 'timezone'
+    }
+    # ------------------------ individual dropdown end ------------------------
   }
   return dropdown_trivia_dict
 # ------------------------ individual function end ------------------------

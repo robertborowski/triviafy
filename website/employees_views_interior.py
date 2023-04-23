@@ -574,14 +574,14 @@ def employees_schedule_function(url_redirect_code=None):
     ui_selected_categories = []
     try:
       # ------------------------ get ui start ------------------------
-      ui_start_day = request.form.get('radioStartDay')
-      ui_start_time = request.form.get('radioStartTime')
-      ui_end_day = request.form.get('radioEndDay')
-      ui_end_time = request.form.get('radioEndTime')
-      ui_timezone = request.form.get('radioTimeZone')
-      ui_cadence = request.form.get('radioCadence')
-      ui_total_questions = request.form.get('radioTotalQuestions')
-      ui_question_type = request.form.get('radioQuestionType')
+      ui_start_day = request.form.get('radio_start_day')
+      ui_start_time = request.form.get('radio_start_time')
+      ui_end_day = request.form.get('radio_end_day')
+      ui_end_time = request.form.get('radio_end_time')
+      ui_timezone = request.form.get('radio_timezone')
+      ui_cadence = request.form.get('radio_candence')
+      ui_total_questions = request.form.get('radio_total_questions')
+      ui_question_type = request.form.get('radio_question_type')
       ui_select_all_categories = request.form.get('flexSwitchCheckDefault_02')
       ui_selected_categories = request.form.getlist('uiSelectedCategories')
       # ------------------------ get ui end ------------------------

@@ -46,7 +46,11 @@
                 <ul class="dropdown-menu">
                   {% for j in range(v['dropdown_arr']|length) %}
                     <li>
-                      <input type="radio" class="btn-check" id="{{ v['id'] }}_{{ j }}" name="{{ v['name'] }}" autocomplete="off" value="{{ v['dropdown_arr'][j] }}" onclick="previewFavoriteSelection(this)" required>
+                      {% if v['dropdown_arr'][j] == page_dict_to_html['db_group_settings_dict'][v['db_col_name']] %}
+                        <input type="radio" class="btn-check" id="{{ v['id'] }}_{{ j }}" name="{{ v['name'] }}" value="{{ v['dropdown_arr'][j] }}" checked required>
+                      {% else %}
+                        <input type="radio" class="btn-check" id="{{ v['id'] }}_{{ j }}" name="{{ v['name'] }}" value="{{ v['dropdown_arr'][j] }}" required>
+                      {% endif %}
                       <label class="dropdown-item" for="{{ v['id'] }}_{{ j }}">{{ v['dropdown_arr'][j] }}</label>
                     </li>
                   {% endfor %}
