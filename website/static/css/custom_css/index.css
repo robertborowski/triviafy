@@ -114,6 +114,9 @@
 .custom-bg-color-3 {
   background-color: rgb(224 224 224);
 }
+.custom-bg-color-4 {
+  background-color: rgb(198, 255, 215);
+}
 .custom-bg-color-5 {
   background-color: rgb(255 236 198);
 }
@@ -171,6 +174,12 @@
 }
 .custom-color-4 {
   color: rgb(54 21 117 / 75%);
+}
+.custom-color-5 {
+  color: rgb(0 110 7 / 75%);
+}
+.custom-color-6 {
+  color: rgb(114 70 0 / 75%);
 }
 /* ------------------- color end ------------------- */
 /* ------------------- border start ------------------- */
