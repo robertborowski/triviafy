@@ -13,6 +13,15 @@ def get_arr_associated_index_function(input_arr):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
+def make_arr_dict_function(arr, arr_index):
+  dict_one = {
+    'arr': arr,
+    'arr_index': arr_index
+  }
+  return dict_one
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
 def get_team_building_activities_list_function():
   activities_list = [
     'Trivia',
@@ -84,5 +93,21 @@ def get_favorite_questions_function():
   ]
   questions_arr_index = get_arr_associated_index_function(questions_arr)
   return questions_arr, questions_arr_index
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def get_trivia_dropdowns_function():
+  arr = [
+    'radio_start_day',
+    'radio_start_time',
+    'radio_end_day',
+    'radio_timezone',
+    'radio_candence',
+    'radio_total_questions',
+    'radio_question_type'
+  ]
+  arr_index = get_arr_associated_index_function(arr)
+  dict_one = make_arr_dict_function(arr, arr_index)
+  return dict_one
 # ------------------------ individual function end ------------------------
 localhost_print_function('=========================================== lists __init__ END ===========================================')

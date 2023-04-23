@@ -36,7 +36,7 @@ from website.backend.candidates.test_backend import get_test_winner
 from website.backend.candidates.test_backend import first_user_first_quiz_check_function
 from website.backend.candidates.aws_manipulation import candidates_change_uploaded_image_filename_function, candidates_user_upload_image_checks_aws_s3_function
 from website.backend.candidates.string_manipulation import breakup_email_function
-from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function, get_marketing_list_function
+from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function, get_marketing_list_function, get_trivia_dropdowns_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -542,6 +542,9 @@ def employees_schedule_function(url_redirect_code=None):
   page_dict = {}
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
+  # ------------------------ assign to dict start ------------------------
+  page_dict['activity_type'] = 'trivia'
+  # ------------------------ assign to dict end ------------------------
   # ------------------------ get current group settings start ------------------------
   user_group_id = EmployeesGroupsObj.query.filter_by(fk_company_name=current_user.company_name).order_by(EmployeesGroupsObj.created_timestamp.desc()).first()
   db_group_settings_obj = EmployeesGroupSettingsObj.query.filter_by(fk_group_id=user_group_id.public_group_id).order_by(EmployeesGroupSettingsObj.created_timestamp.desc()).first()
@@ -549,6 +552,7 @@ def employees_schedule_function(url_redirect_code=None):
   page_dict['db_group_settings_dict'] = db_group_settings_dict
   page_dict['weekdays'], page_dict['times'], page_dict['timezones'] = days_times_timezone_arr_function()
   page_dict['quiz_cadence_arr'], page_dict['question_num_arr'], page_dict['question_type_arr'] = question_choices_function()
+  page_dict['settings_dropdowns_dict'] = get_trivia_dropdowns_function()
   # ------------------------ get current group settings end ------------------------
   # ------------------------ pull/create latest test start ------------------------
   db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=user_group_id.public_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
