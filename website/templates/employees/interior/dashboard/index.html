@@ -114,7 +114,10 @@
 <!-- ------------------------------------- new dashboard start ------------------------------------- -->
 <div class="container custom-pt-3 custom-pb-2">
   <h2>New dashboard</h2>
-  <p>All activity notifications will be sent to your team's email. Please make sure to check your spam folder and mark <a href="mailto:support@triviafy.com">support@triviafy.com</a> as not spam.</p>
+  <div class="custom-border-9 custom-br-1 custom-p-1">
+    <p class="custom-m-0 custom-color-grey-2"><i class="fa-regular fa-calendar-check"></i><span class="custom-ml-1"> Activities</span> are asynchronous, allowing colleagues to conveniently submit their answers at their own pace and on their own schedule.</p>
+    <p class="custom-m-0 custom-color-grey-2"><i class="fa-regular fa-bell"></i><span class="custom-ml-1">Activity</span> notifications will be sent via email. Please check your email's spam folder and mark <a href="mailto:support@triviafy.com">support@triviafy.com</a> as not spam.</p>
+  </div>
 </div>
 <div class="container">
   <div class="accordion" id="accordionExample">
@@ -135,7 +138,7 @@
             <p class="custom-line-2 custom-m-0"><span class="custom-br-1 custom-p-9 custom-bg-color-3 custom-color-grey-2 custom-mr-1">Description</span> Automated trivia contests.</p>
           </div>
           <div class="custom-border-9 custom-br-1 custom-p-1 custom-mb-6">
-            <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-5 custom-color-grey-2 custom-mr-1">Cadence</span> {{ page_dict_to_html['db_group_settings_dict']['cadence'] }}, {{ page_dict_to_html['db_group_settings_dict']['total_questions'] }} trivia questions. Starts {{ page_dict_to_html['db_group_settings_dict']['start_day'] }}'s at {{ page_dict_to_html['db_group_settings_dict']['start_time'] }} and ends {{ page_dict_to_html['db_group_settings_dict']['end_day'] }}'s at {{ page_dict_to_html['db_group_settings_dict']['end_time'] }}, {{ page_dict_to_html['db_group_settings_dict']['timezone'] }}. <span class="custom-ml-1"><a href="/employees/schedule" class="custom-a-2"><i class="fa-solid fa-pen-to-square" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit settings"></i></a></span></p>
+            <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-5 custom-color-grey-2 custom-mr-1">Cadence</span> {{ page_dict_to_html['db_group_settings_dict']['total_questions'] }} trivia questions, sent {{ page_dict_to_html['db_group_settings_dict']['cadence'].lower() }}. Activity opens {{ page_dict_to_html['db_group_settings_dict']['start_day'] }}'s at {{ page_dict_to_html['db_group_settings_dict']['start_time'] }} and closes {{ page_dict_to_html['db_group_settings_dict']['end_day'] }}'s at {{ page_dict_to_html['db_group_settings_dict']['end_time'] }}, {{ page_dict_to_html['db_group_settings_dict']['timezone'] }}. <span class="custom-ml-1"><a href="/employees/schedule" class="custom-a-2"><i class="fa-solid fa-pen-to-square" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit settings"></i></a></span></p>
             {% if page_dict_to_html['db_group_settings_dict']['categories'] == 'all_categories' %}
               <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-5 custom-color-grey-2 custom-mr-1">Categories</span> All categories <span class="custom-ml-1"><a href="/employees/schedule" class="custom-a-2"><i class="fa-solid fa-pen-to-square" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit settings"></i></a></span></p>
             {% else %}
