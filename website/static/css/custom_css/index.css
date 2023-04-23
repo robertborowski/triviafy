@@ -366,6 +366,12 @@
   min-height: 350px;
 }
 /* ------------------- height end ------------------- */
+/* ------------------- highlight start ------------------- */
+.custom-highlight-1 {
+  color: var(--custom-color-primary);
+  background-color: white;
+}
+/* ------------------- highlight end ------------------- */
 /* ------------------- hover start ------------------- */
 .custom-hover-1 {
   cursor: pointer;

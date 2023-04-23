@@ -97,18 +97,18 @@
               <!-- ------------------------------------- select categories start ------------------------------------- -->
               <div class="custom-p-4 text-center">
                 {% for i in page_dict_to_html['all_categories_arr'] %}
-                {% if i in page_dict_to_html['db_group_settings_dict']['categories'] %}
-                <input type="checkbox" class="btn-check" id="uiSelectedCategories_{{ i }}" name="uiSelectedCategories" value="{{ i }}" checked>
-                {% else %}
-                <input type="checkbox" class="btn-check" id="uiSelectedCategories_{{ i }}" name="uiSelectedCategories" value="{{ i }}">
-                {% endif %}
-                <label class="btn btn-outline-secondary custom-m-1 custom-width-5 custom-ptb-1 uiSearchItem" for="uiSelectedCategories_{{ i }}">{{ i }}</label>
+                  {% if i in page_dict_to_html['db_group_settings_dict']['categories'] %}
+                    <input type="checkbox" class="btn-check" id="uiSelectedCategories_{{ i }}" name="uiSelectedCategories" value="{{ i }}" onclick="highlightCheckboxV1(this)" checked>
+                  {% else %}
+                    <input type="checkbox" class="btn-check" id="uiSelectedCategories_{{ i }}" name="uiSelectedCategories" value="{{ i }}" onclick="highlightCheckboxV1(this)">
+                  {% endif %}
+                  <label class="custom-border-white-opacity-1 custom-br-1 custom-hover-1 custom-color-white custom-m-1 custom-width-5 custom-ptb-1 uiSearchItem" for="uiSelectedCategories_{{ i }}">{{ i }}</label>
                 {% endfor %}
               </div>
               <!-- ------------------------------------- select categories end ------------------------------------- -->
               <!-- ------------------------------------- request categories start ------------------------------------- -->
               <div class="container custom-mt-1 text-center custom-mb-1">
-                <a href="/employees/request" class="btn btn-outline-secondary btn-lg"><i class="fa-regular fa-closed-captioning"></i> Request custom categories</a>
+                <a href="/employees/request" class="btn btn-outline-secondary btn-lg custom-width-10"><i class="fa-regular fa-closed-captioning"></i> Request custom categories</a>
               </div>
               <!-- ------------------------------------- request categories end ------------------------------------- -->
             </div>
