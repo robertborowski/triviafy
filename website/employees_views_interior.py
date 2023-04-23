@@ -452,7 +452,11 @@ def login_dashboard_page_function(url_redirect_code=None):
     # ------------------------ send email end ------------------------
   # ------------------------ check if share with team email has been sent end ------------------------
   # ------------------------ assign to dict start ------------------------
+  db_group_settings_obj = EmployeesGroupSettingsObj.query.filter_by(fk_group_id=company_group_id).first()
   db_group_settings_dict = arr_of_dict_all_columns_single_item_function(db_group_settings_obj)
+  # categories fix
+  categories_edit = db_group_settings_dict['categories'].replace(',',', ')
+  db_group_settings_dict['categories'] = categories_edit
   page_dict['db_group_settings_dict'] = db_group_settings_dict
   # ------------------------ assign to dict end ------------------------
   localhost_print_function(' ------------- 0 ------------- ')
