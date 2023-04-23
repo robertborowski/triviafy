@@ -461,6 +461,9 @@
 .uiSearchItemVisible {
   display:inline-block;
 }
+.uiSearchItemVisible2 {
+  display:block;
+}
 .uiSearchItemInvisible {
   display: none;
 }

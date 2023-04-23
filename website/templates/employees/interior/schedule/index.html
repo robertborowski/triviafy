@@ -7,15 +7,15 @@
 
 {% block contentBodyExceptNavbarAndFooter %}
 <div class="custom-bg-primary-darker">
-  <!-- ----------------------------------- start ----------------------------------- -->
-  {% if page_dict_to_html['alert_message_dict']['message'] != '' %}
-  <div class="alert alert-{{ page_dict_to_html['alert_message_dict']['type'] }} mx-auto text-center container-fluid custom-width-6 custom-m-0" role="alert">
-    {{ page_dict_to_html['alert_message_dict']['message'] }}
-  </div>
-  {% endif %}
-  <!-- ----------------------------------- end ----------------------------------- -->
   <!-- ------------------------------------- entire page start ------------------------------------- -->
   <div class="container-fluid custom-bg-primary-gradient-1 custom-pt-3">
+    <!-- ----------------------------------- start ----------------------------------- -->
+    {% if page_dict_to_html['alert_message_dict']['message'] != '' %}
+    <div class="alert alert-{{ page_dict_to_html['alert_message_dict']['type'] }} mx-auto text-center container" role="alert">
+      {{ page_dict_to_html['alert_message_dict']['message'] }}
+    </div>
+    {% endif %}
+    <!-- ----------------------------------- end ----------------------------------- -->
     <!-- ------------------------------------- title start ------------------------------------- -->
     <div class="container mx-auto custom-pb-2">
       <div class="text-center">
@@ -29,42 +29,98 @@
     {% if page_dict_to_html['activity_type'] == 'trivia' %}
       <!-- ------------------------------------- section - primary and secondary selection start ------------------------------------- -->
       <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
-        <!-- ------------------------------------- submit start ------------------------------------- -->
-        <div class="text-center">
-          <button type="submit" class="btn btn-lg btn-success custom-mb-6 custom-width-8 custom-ptb-8 custom-br-1 uiSearchItemInvisible" id="submit-button-top">Continue <i class="fa-solid fa-arrow-right"></i></button>
-        </div>
-        <!-- ------------------------------------- submit end ------------------------------------- -->
-        <div class="container custom-border-white-opacity-1 custom-br-1 custom-width-4">
-          <!-- ------------------------------------- dynamic dropdown v1 start ------------------------------------- -->
-          <div class="dropdown custom-p-2">
-            {% for k, v in page_dict_to_html['dropdowns_dict'].items() %}
-              <div class="custom-display-flex custom-fw-1 custom-mb-6">
-                <span class="custom-color-white custom-header-4">{{ v['title_long'] }} </span>
-                <button class="btn btn-{{ v['type'] }} dropdown-toggle custom-tal custom-ml-3" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="{{ v['id'] }}">
-                  __________
-                </button>
-                <ul class="dropdown-menu">
-                  {% for j in range(v['dropdown_arr']|length) %}
-                    <li>
-                      {% if v['dropdown_arr'][j] == page_dict_to_html['db_group_settings_dict'][v['db_col_name']] %}
-                        <input type="radio" class="btn-check" id="{{ v['id'] }}_{{ j }}" name="{{ v['name'] }}" value="{{ v['dropdown_arr'][j] }}" checked required>
-                      {% else %}
-                        <input type="radio" class="btn-check" id="{{ v['id'] }}_{{ j }}" name="{{ v['name'] }}" value="{{ v['dropdown_arr'][j] }}" required>
-                      {% endif %}
-                      <label class="dropdown-item" for="{{ v['id'] }}_{{ j }}">{{ v['dropdown_arr'][j] }}</label>
-                    </li>
-                  {% endfor %}
-                </ul>
-              </div>
-            {% endfor %}
+        <!-- ------------------------------------- part 1 form start ------------------------------------- -->
+        <div class="uiSearchItemVisible2" id="id-form_part_1">
+          <div class="container custom-border-white-opacity-1 custom-br-1 custom-width-4">
+            <!-- ------------------------------------- dynamic dropdown v1 start ------------------------------------- -->
+            <div class="dropdown custom-p-2">
+              {% for k, v in page_dict_to_html['dropdowns_dict'].items() %}
+                <div class="custom-display-flex custom-fw-1 custom-mb-6">
+                  <span class="custom-color-white custom-header-4">{{ v['title_long'] }} </span>
+                  <button class="btn btn-{{ v['type'] }} dropdown-toggle custom-tal custom-ml-3" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="{{ v['id'] }}">
+                    __________
+                  </button>
+                  <ul class="dropdown-menu">
+                    {% for j in range(v['dropdown_arr']|length) %}
+                      <li>
+                        {% if v['dropdown_arr'][j] == page_dict_to_html['db_group_settings_dict'][v['db_col_name']] %}
+                          <input type="radio" class="btn-check" id="{{ v['id'] }}_{{ j }}" name="{{ v['name'] }}" value="{{ v['dropdown_arr'][j] }}" checked required>
+                        {% else %}
+                          <input type="radio" class="btn-check" id="{{ v['id'] }}_{{ j }}" name="{{ v['name'] }}" value="{{ v['dropdown_arr'][j] }}" required>
+                        {% endif %}
+                        <label class="dropdown-item" for="{{ v['id'] }}_{{ j }}">{{ v['dropdown_arr'][j] }}</label>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              {% endfor %}
+            </div>
+            <!-- ------------------------------------- dynamic dropdown v1 end ------------------------------------- -->
           </div>
-          <!-- ------------------------------------- dynamic dropdown v1 end ------------------------------------- -->
+        </div>
+        <!-- ------------------------------------- flow button start ------------------------------------- -->
+        <div class="text-center custom-width-4 mx-auto custom-mt-3 uiSearchItemVisible2" id="id-flow_continue_1">
+          <p class="btn btn-lg btn-success custom-width-6 custom-ptb-8 custom-br-1">Continue <i class="fa-solid fa-arrow-right"></i></p>
+        </div>
+        <!-- ------------------------------------- flow button end ------------------------------------- -->
+        <!-- ------------------------------------- part 1 form end ------------------------------------- -->
+        <!-- ------------------------------------- part 2 form start ------------------------------------- -->
+        <div class="uiSearchItemInvisible" id="id-form_part_2">
+          <div class="container custom-br-1">
+            <!-- ------------------------------------- select all start ------------------------------------- -->
+            <div class="custom-ptb-6">
+              <div class="mx-auto">
+                <div class="custom-p-2 custom-width-10 mx-auto custom-br-1 custom-bg-white">
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" name="flexSwitchCheckDefault_02" id="flexSwitchCheckDefault_02" value="all_categories">
+                    <label class="form-check-label custom-color-primary custom-tal" for="flexSwitchCheckDefault_02">Select all triviafy categories</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- ------------------------------------- select all end ------------------------------------- -->
+            <!-- ------------------------------------- categories start ------------------------------------- -->
+            <div id="uiSelectAllBlock" class="custom-width-6">
+              <!-- ------------------------------------- search categories start ------------------------------------- -->
+              <div class="mx-auto custom-width-14">
+                <div class="custom-width-10 mx-auto">
+                  <label for="uiSearch" class="form-label custom-color-white custom-opacity-2">Search for the categories you want</label>
+                  <input type="text" class="form-control custom-search-bar-1" id="uiSearch" name="uiSearch" placeholder="Search for category">
+                </div>
+              </div>
+              <!-- ------------------------------------- search categories end ------------------------------------- -->
+              <!-- ------------------------------------- submit start ------------------------------------- -->
+              <div class="text-center custom-width-4 mx-auto custom-mt-3">
+                <button type="submit" class="btn btn-lg btn-success custom-width-10 custom-ptb-8 custom-br-1" id="submit-button-botttom">Submit <i class="fa-solid fa-check"></i></button>
+              </div>
+              <!-- ------------------------------------- submit end ------------------------------------- -->
+              <!-- ------------------------------------- select categories start ------------------------------------- -->
+              <div class="custom-p-4 text-center">
+                {% for i in page_dict_to_html['all_categories_arr'] %}
+                {% if i in page_dict_to_html['db_group_settings_dict']['categories'] %}
+                <input type="checkbox" class="btn-check" id="uiSelectedCategories_{{ i }}" name="uiSelectedCategories" value="{{ i }}" checked>
+                {% else %}
+                <input type="checkbox" class="btn-check" id="uiSelectedCategories_{{ i }}" name="uiSelectedCategories" value="{{ i }}">
+                {% endif %}
+                <label class="btn btn-outline-secondary custom-m-1 custom-width-5 custom-ptb-1 uiSearchItem" for="uiSelectedCategories_{{ i }}">{{ i }}</label>
+                {% endfor %}
+              </div>
+              <!-- ------------------------------------- select categories end ------------------------------------- -->
+              <!-- ------------------------------------- request categories start ------------------------------------- -->
+              <div class="container custom-mt-1 text-center custom-mb-1">
+                <a href="/employees/request" class="btn btn-outline-secondary btn-lg"><i class="fa-regular fa-closed-captioning"></i> Request custom categories</a>
+              </div>
+              <!-- ------------------------------------- request categories end ------------------------------------- -->
+            </div>
+            <!-- ------------------------------------- categories end ------------------------------------- -->
+          </div>
         </div>
         <!-- ------------------------------------- submit start ------------------------------------- -->
-        <div class="text-center">
-          <button type="submit" class="btn btn-lg btn-success custom-mb-6 custom-width-8 custom-ptb-8 custom-br-1 uiSearchItemInvisible" id="submit-button-botttom">Continue <i class="fa-solid fa-arrow-right"></i></button>
+        <div class="text-center custom-width-10 mx-auto uiSearchItemInvisible" id="id-flow_submit_1">
+          <button type="submit" class="btn btn-lg btn-success custom-width-6 custom-ptb-8 custom-br-1" id="submit-button-botttom">Submit <i class="fa-solid fa-check"></i></button>
         </div>
         <!-- ------------------------------------- submit end ------------------------------------- -->
+        <!-- ------------------------------------- part 2 form end ------------------------------------- -->
       </form>
       <!-- ------------------------------------- section - primary and secondary selection end ------------------------------------- -->
     {% endif %}
