@@ -1,5 +1,7 @@
 # ------------------------ imports start ------------------------
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
+from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function
+from website.backend.candidates.autogeneration import question_choices_function
 # ------------------------ imports end ------------------------
 
 localhost_print_function('=========================================== lists __init__ START ===========================================')
@@ -93,21 +95,5 @@ def get_favorite_questions_function():
   ]
   questions_arr_index = get_arr_associated_index_function(questions_arr)
   return questions_arr, questions_arr_index
-# ------------------------ individual function end ------------------------
-
-# ------------------------ individual function start ------------------------
-def get_trivia_dropdowns_function():
-  arr = [
-    'radio_start_day',
-    'radio_start_time',
-    'radio_end_day',
-    'radio_timezone',
-    'radio_candence',
-    'radio_total_questions',
-    'radio_question_type'
-  ]
-  arr_index = get_arr_associated_index_function(arr)
-  dict_one = make_arr_dict_function(arr, arr_index)
-  return dict_one
 # ------------------------ individual function end ------------------------
 localhost_print_function('=========================================== lists __init__ END ===========================================')
