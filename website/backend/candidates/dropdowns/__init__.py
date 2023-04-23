@@ -11,12 +11,23 @@ def get_dropdowns_trivia_function():
   quiz_cadence_arr, question_num_arr, question_type_arr = question_choices_function()
   dropdown_trivia_dict = {
     # ------------------------ individual dropdown start ------------------------
-    'radio_start_day': {
+    'radio_candence': {
+      'id': 'id-radio_candence',
+      'name': 'radio_candence',
+      'title_short': 'Candence',
+      'title_long': 'Candence',
+      'dropdown_arr': quiz_cadence_arr,
+      'type': 'secondary'
+    }
+    # ------------------------ individual dropdown end ------------------------
+    # ------------------------ individual dropdown start ------------------------
+    , 'radio_start_day': {
       'id': 'id-radio_start_day',
       'name': 'radio_start_day',
       'title_short': 'Start day',
-      'title_long': 'Team trivia should open on',
-      'dropdown_arr': weekdays_arr
+      'title_long': 'Start day',
+      'dropdown_arr': weekdays_arr,
+      'type': 'success'
     }
     # ------------------------ individual dropdown end ------------------------
     # ------------------------ individual dropdown start ------------------------
@@ -24,8 +35,9 @@ def get_dropdowns_trivia_function():
       'id': 'id-radio_start_time',
       'name': 'radio_start_time',
       'title_short': 'Start time',
-      'title_long': 'Open at',
-      'dropdown_arr': times_arr
+      'title_long': 'Start time',
+      'dropdown_arr': times_arr,
+      'type': 'success'
     }
     # ------------------------ individual dropdown end ------------------------
     # ------------------------ individual dropdown start ------------------------
@@ -33,8 +45,9 @@ def get_dropdowns_trivia_function():
       'id': 'id-radio_end_day',
       'name': 'radio_end_day',
       'title_short': 'End day',
-      'title_long': 'Close at',
-      'dropdown_arr': weekdays_arr
+      'title_long': 'End day',
+      'dropdown_arr': weekdays_arr,
+      'type': 'danger'
     }
     # ------------------------ individual dropdown end ------------------------
     # ------------------------ individual dropdown start ------------------------
@@ -42,35 +55,29 @@ def get_dropdowns_trivia_function():
       'id': 'id-radio_end_time',
       'name': 'radio_end_time',
       'title_short': 'End time',
-      'title_long': 'Closes time at',
-      'dropdown_arr': times_arr
+      'title_long': 'End time',
+      'dropdown_arr': times_arr,
+      'type': 'danger'
     }
     # ------------------------ individual dropdown end ------------------------
     # ------------------------ individual dropdown start ------------------------
     , 'radio_timezone': {
       'id': 'id-radio_timezone',
       'name': 'radio_timezone',
-      'title_short': 'timezone',
-      'title_long': 'timezoneeee',
-      'dropdown_arr': timezone_arr
-    }
-    # ------------------------ individual dropdown end ------------------------
-    # ------------------------ individual dropdown start ------------------------
-    , 'radio_candence': {
-      'id': 'id-radio_candence',
-      'name': 'radio_candence',
-      'title_short': 'candence',
-      'title_long': 'cadenceeee',
-      'dropdown_arr': quiz_cadence_arr
+      'title_short': 'Time zone',
+      'title_long': 'Time zone',
+      'dropdown_arr': timezone_arr,
+      'type': 'secondary'
     }
     # ------------------------ individual dropdown end ------------------------
     # ------------------------ individual questions start ------------------------
     , 'radio_total_questions': {
       'id': 'id-radio_total_questions',
       'name': 'radio_total_questions',
-      'title_short': 'total questions',
-      'title_long': 'totttall questions',
-      'dropdown_arr': question_num_arr
+      'title_short': 'Questions per contest',
+      'title_long': 'Questions per contest',
+      'dropdown_arr': question_num_arr,
+      'type': 'secondary'
     }
     # ------------------------ individual questions end ------------------------
     # ------------------------ individual questions start ------------------------
@@ -78,8 +85,9 @@ def get_dropdowns_trivia_function():
       'id': 'id-radio_question_type',
       'name': 'radio_question_type',
       'title_short': 'Question type',
-      'title_long': 'question typee',
-      'dropdown_arr': question_type_arr
+      'title_long': 'Question type',
+      'dropdown_arr': question_type_arr,
+      'type': 'secondary'
     }
     # ------------------------ individual questions end ------------------------
   }

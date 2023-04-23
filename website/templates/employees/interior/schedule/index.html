@@ -29,32 +29,38 @@
     {% if page_dict_to_html['activity_type'] == 'trivia' %}
       <!-- ------------------------------------- section - primary and secondary selection start ------------------------------------- -->
       <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+        <!-- ------------------------------------- submit start ------------------------------------- -->
         <div class="text-center">
           <button type="submit" class="btn btn-lg btn-success custom-mb-6 custom-width-8 custom-ptb-8 custom-br-1 uiSearchItemInvisible" id="submit-button-top">Continue <i class="fa-solid fa-arrow-right"></i></button>
         </div>
-        <div class="custom-width-8 mx-auto">
+        <!-- ------------------------------------- submit end ------------------------------------- -->
+        <div class="container custom-border-white-opacity-1 custom-br-1 custom-width-4">
           <!-- ------------------------------------- dynamic dropdown v1 start ------------------------------------- -->
-          <div class="dropdown custom-pb-2">
+          <div class="dropdown custom-p-2">
             {% for k, v in page_dict_to_html['dropdowns_dict'].items() %}
-              <span class="custom-color-white custom-header-4 custom-mr-1">{{ v['title_long'] }} </span>
-              <button class="btn btn-warning dropdown-toggle custom-tal" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="{{ v['id'] }}">
-                __________
-              </button>
-              <ul class="dropdown-menu">
-                {% for j in range(v['dropdown_arr']|length) %}
-                  <li>
-                    <input type="radio" class="btn-check" id="{{ v['id'] }}_{{ j }}" name="{{ v['name'] }}" autocomplete="off" value="{{ v['dropdown_arr'][j] }}" onclick="previewFavoriteSelection(this)" required>
-                    <label class="dropdown-item" for="{{ v['id'] }}_{{ j }}">{{ v['dropdown_arr'][j] }}</label>
-                  </li>
-                {% endfor %}
-              </ul>
+              <div class="custom-display-flex custom-fw-1 custom-mb-6">
+                <span class="custom-color-white custom-header-4">{{ v['title_long'] }} </span>
+                <button class="btn btn-{{ v['type'] }} dropdown-toggle custom-tal custom-ml-3" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="{{ v['id'] }}">
+                  __________
+                </button>
+                <ul class="dropdown-menu">
+                  {% for j in range(v['dropdown_arr']|length) %}
+                    <li>
+                      <input type="radio" class="btn-check" id="{{ v['id'] }}_{{ j }}" name="{{ v['name'] }}" autocomplete="off" value="{{ v['dropdown_arr'][j] }}" onclick="previewFavoriteSelection(this)" required>
+                      <label class="dropdown-item" for="{{ v['id'] }}_{{ j }}">{{ v['dropdown_arr'][j] }}</label>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
             {% endfor %}
           </div>
           <!-- ------------------------------------- dynamic dropdown v1 end ------------------------------------- -->
         </div>
+        <!-- ------------------------------------- submit start ------------------------------------- -->
         <div class="text-center">
           <button type="submit" class="btn btn-lg btn-success custom-mb-6 custom-width-8 custom-ptb-8 custom-br-1 uiSearchItemInvisible" id="submit-button-botttom">Continue <i class="fa-solid fa-arrow-right"></i></button>
         </div>
+        <!-- ------------------------------------- submit end ------------------------------------- -->
       </form>
       <!-- ------------------------------------- section - primary and secondary selection end ------------------------------------- -->
     {% endif %}
