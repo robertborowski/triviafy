@@ -432,6 +432,13 @@
 .custom-opacity-1 {
   opacity: 0.50;
 }
+.custom-opacity-1-hover {
+  opacity: 0.50;
+}
+.custom-opacity-1-hover:hover {
+  opacity: 1;
+  transition: 0.3s;
+}
 .custom-opacity-2 {
   opacity: 0.75;
 }

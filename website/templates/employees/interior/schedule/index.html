@@ -22,6 +22,28 @@
         {% if page_dict_to_html['activity_type'] == 'trivia' %}
           <h2 class="custom-color-white">Trivia Settings</h2>
         {% endif %}
+        <!-- ------------------------------------- expands start ------------------------------------- -->
+        <div>
+          <div class="text-center">
+            <span class="custom-color-white custom-opacity-1-hover custom-hover-1 uiSelectAllBlockVisible" id="id-flow_show_details_1">Show activity details <i class="fa-solid fa-caret-down custom-ml-1"></i></span>
+            <span class="custom-color-white custom-opacity-1-hover custom-hover-1 uiSelectAllBlockInvisible" id="id-flow_hide_details_1">Hide activity details <i class="fa-solid fa-caret-up custom-ml-1"></i></span>
+          </div>
+          <div class="custom-tal custom-mt-2 uiSelectAllBlockInvisible" id="id-activity_details_1">
+            {% if page_dict_to_html['activity_type'] == 'trivia' %}
+              <!-- ------------------------------------- description start ------------------------------------- -->
+              <div class="custom-border-9 custom-br-1 custom-p-1 custom-mb-6 custom-bg-color-7">
+                <h3 class="custom-ml-1 custom-mb-6">Activity details</h3>
+                <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-3 custom-color-grey-2 custom-mr-1">Description</span> Automated trivia contests.</p>
+                <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-3 custom-color-grey-2 custom-mr-1">Participation</span> Activities are asynchronous, allowing colleagues to conveniently submit their answers at their own pace and on their own schedule.</p>
+                <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-3 custom-color-grey-2 custom-mr-1">Grading</span> All colleagues' answers will be graded and revealed upon activity close time.</p>
+                <p class="custom-line-2 custom-m-0"><span class="custom-br-1 custom-p-9 custom-bg-color-3 custom-color-grey-2 custom-mr-1">Notifications</span> Activity notifications will be sent via email. Please check your email's spam folder and mark <a href="mailto:support@triviafy.com">support@triviafy.com</a> as not spam.</p>
+              </div>
+              <!-- ------------------------------------- description end ------------------------------------- -->
+            {% elif page_dict_to_html['activity_type'] == 'picture_quiz' %}
+            {% endif %}
+          </div>
+        </div>
+        <!-- ------------------------------------- expands end ------------------------------------- -->
       </div>
     </div>
     <!-- ------------------------------------- title end ------------------------------------- -->
