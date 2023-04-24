@@ -62,7 +62,9 @@
                 {% endif %}
               {% endif %}
             {% endif %}
-            <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Activity close</span> {{ page_dict_to_html['ending_time_string'] }}</p>
+            {% if 'ending_time_string' in page_dict_to_html %}
+              <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Activity close</span> {{ page_dict_to_html['ending_time_string'] }}</p>
+            {% endif %}
             <!-- ------------------------------------- latest test logic end ------------------------------------- -->
           </div>
           <!-- ------------------------------------- latest activity end ------------------------------------- -->
