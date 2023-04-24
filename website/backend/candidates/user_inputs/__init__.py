@@ -478,6 +478,11 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':'Invalid month/day combination.',
       'type':'danger'
     }
+  elif redirect_var == 'e22':
+    alert_message_dict = {
+      'message':'Prveious team trivia contest discarded.',
+      'type':'danger'
+    }
   # ------------------------ errors end ------------------------
   # ------------------------ success start ------------------------
   elif redirect_var == 's1':
@@ -492,7 +497,7 @@ def alert_message_default_function_v2(redirect_var=None):
     }
   elif redirect_var == 's3':
     alert_message_dict = {
-      'message':'Quiz successfully created!',
+      'message':'Team trivia contest created, submit your activity answers now!',
       'type':'success'
     }
   elif redirect_var == 's4':

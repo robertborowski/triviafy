@@ -738,7 +738,7 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
       EmployeesTestsGradedObj.query.filter_by(fk_test_id=check_latest_test_obj.id).delete()
       EmployeesGroupQuestionsUsedObj.query.filter_by(fk_test_id=check_latest_test_obj.id).delete()
       db.session.commit()
-      return redirect(url_for('employees_views_interior.employees_schedule_function'))
+      return redirect(url_for('employees_views_interior.employees_schedule_function', url_redirect_code='e22'))
   # ------------------------ first user first quiz delete logic end ------------------------
   # ------------------------ on initial page load - redirect to first unanswered question start ------------------------
   # ------------------------ pull latest graded start ------------------------

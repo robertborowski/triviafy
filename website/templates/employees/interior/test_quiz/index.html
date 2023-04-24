@@ -62,14 +62,6 @@
     <!-- ------------------------------------- navbar end ------------------------------------- -->
     <!-- ------------------------------------- entire page start ------------------------------------- -->
     <div class="container-fluid custom-bg-primary-gradient-1 custom-pt-1">
-      <!-- ------------------------------------- first user first quiz discard option start ------------------------------------- -->
-      {% if page_dict_to_html['first_user_first_quiz_can_replace'] == true %}
-      <div class="container custom-tal custom-mb-4">
-        <a href="/employees/t/fufq_remove" class="btn btn-danger btn-sm">Select different categories</a>
-      </div>
-      {% else %}
-      {% endif %}
-      <!-- ------------------------------------- first user first quiz discard option end ------------------------------------- -->
       <!-- ------------------------------------- question start ------------------------------------- -->
       <div class="container border shadow custom-br-1 custom-bg-white custom-display-flex custom-fw-1">
         <!-- ----------------------------------- errors start ----------------------------------- -->
@@ -219,6 +211,14 @@
     {% endfor %}
   </div>
   <!-- ------------------------------------- question progress end ------------------------------------- -->
+  <!-- ------------------------------------- first user first quiz discard option start ------------------------------------- -->
+  {% if page_dict_to_html['first_user_first_quiz_can_replace'] == true %}
+  <div class="text-center custom-mt-5">
+    <a href="/employees/t/fufq_remove" class="btn btn-secondary btn-lg">Discard quiz, select new categories</a>
+  </div>
+  {% else %}
+  {% endif %}
+  <!-- ------------------------------------- first user first quiz discard option end ------------------------------------- -->
 </div>
 <!-- ----------------------------------- shape divider start ----------------------------------- -->
 <div class="custom-shape-divider-bottom-1672276706 custom-bg-primary-darker">
