@@ -1,12 +1,4 @@
-{% if page_dict_to_html['first_test_exists'] == false %}
-  {% extends "employees/aaa_base/base2_interior2.html" %}
-{% else %}
-    {% if page_dict_to_html['ui_latest_test_completed'] == false %}
-      {% extends "employees/aaa_base/base2_interior2.html" %}
-    {% else %}
-      {% extends "employees/aaa_base/base2_interior.html" %}
-    {% endif %}
-{% endif %}
+{% extends "employees/aaa_base/base2_interior.html" %}
 <!-- head tag block content -->
 {% block title %}
   <title>Dashboard - Triviafy</title>
@@ -20,99 +12,15 @@
 {% endif %}
 <!-- ----------------------------------- end ----------------------------------- -->
 <!-- ----------------------------------- start ----------------------------------- -->
-{% if page_dict_to_html['current_total_company_users'] < page_dict_to_html['desired_min_total_company_users'] %}
+<!-- {% if page_dict_to_html['current_total_company_users'] < page_dict_to_html['desired_min_total_company_users'] %}
   <div class="alert alert-info mx-auto text-center container custom-mt-1" role="alert">
     Enjoy <span class="custom-underline-1 fst-italic">4 free weeks</span> of our automated team trivia tool by simply having <span class="custom-underline-1 fst-italic">4 members of your team <a href="/employees/signup" target="_blank">sign up for Triviafy</a></span>. Don't miss out on this exclusive offer!
     <p class="custom-mt-1">You currently need <span class="fst-italic">{{ page_dict_to_html['desired_min_total_company_users'] - page_dict_to_html['current_total_company_users'] }} more</span> team members to join triviafy in order to take advantage of <span class="fst-italic">4 free weeks!</span></p>
   </div>
-{% endif %}
+{% endif %} -->
 <!-- ----------------------------------- end ----------------------------------- -->
-{% if page_dict_to_html['first_test_exists'] == false %}
-  <div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
-    <div>
-      <h2 class="custom-header-mobile-1">Automated team trivia <span class="custom-size-4 fst-italic custom-color-grey-1 custom-wrap-1">Loved by 100's of virtual & hybrid teams.</span></h2>
-    </div>
-  </div>
-  <div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
-    <div class="text-center">
-      <p class="custom-header-4">Welcome! Please confirm your team's personalized categories.</p>
-      <a href="/employees/schedule" class="btn btn-lg btn-primary">Confirm <i class="fa-solid fa-arrow-right"></i></a>
-    </div>
-  </div>
-{% endif %}
-{% if page_dict_to_html['first_test_exists'] == true %}
-  <div class="container custom-display-flex custom-pt-6 custom-jc-2 custom-pb-6">
-    <div> 
-      <h2 class="custom-header-mobile-1">Automated team trivia <span class="custom-size-4 fst-italic custom-color-grey-1 custom-wrap-1">Loved by 100's of virtual & hybrid teams.</span></h2>
-    </div>
-  </div>
-  <div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
-    <div class="text-center">
-      {% if page_dict_to_html['latest_test_is_closed'] == false %}
-        <div class="custom-width-14 mx-auto custom-tal">
-          <p class="custom-header-4 text-center">Status <span class="fst-italic btn btn-warning" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Your team: Complete contest by {{ page_dict_to_html['ending_time_string'] }}. Your team's winner will be announced by email.">Open</span></p>
-        </div>
-        <div class="custom-width-14 mx-auto shadow custom-br-3 custom-p-2 custom-bg-gradient-1">
-          {% if page_dict_to_html['ui_latest_test_completed'] == true %}
-            <a href="/employees/t/" class="btn btn-lg btn-success custom-width-6 custom-mt-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Quiz closes: {{ page_dict_to_html['ending_time_string'] }}">Review my answers <i class="fa-solid fa-arrow-right"></i></a>
-            <button class="btn btn-outline-success btn-lg custom-mb-1-mobile custom-width-6 custom-mt-1" id="demo" onclick="copyToClipboard(document.getElementById('demo').innerHTML)">Share this quiz with your team <i class="fa-solid fa-up-right-from-square"></i></button>
-            <script>function copyToClipboard(text) {window.prompt("Automated trivia contests for work. Share below link with your team and everyone will be routed to the same trivia contest. (Copy link: CTRL + C)", 'https://triviafy.com/dashboard');}</script>
-          {% else %}
-            <a href="/employees/t/" class="btn btn-lg btn-success" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Complete by: {{ page_dict_to_html['ending_time_string'] }}">&#127881; Start quiz <i class="fa-solid fa-arrow-right"></i></a>
-          {% endif %}
-        </div>
-      {% endif %}
-      {% if page_dict_to_html['latest_test_is_closed'] == true %}
-        <div class="custom-width-14 mx-auto custom-tal">
-          <p class="custom-header-4 text-center">Status <span class="fst-italic btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Next quiz opens: {{ page_dict_to_html['next_quiz_open_string'] }}. You will be notified by email.">Closed</span></p>
-        </div>
-        <div class="custom-width-14 mx-auto shadow custom-br-3 custom-p-2 custom-bg-gradient-1">
-          {% if page_dict_to_html['latest_test_winner'] == '' %}
-            <p class="custom-header-4">No winner, no one on your team participated.</p>
-          {% else %}
-            <p class="custom-header-2">Latest Winner</p>
-            <p class="custom-header-4"><span class="btn btn-success btn-lg custom-width-6 custom-mt-1">&#127881; {{ page_dict_to_html['latest_test_winner'] }}</span></p>
-            <p class="custom-header-4"><span class="btn btn-success btn-lg custom-width-6">Score: {{ page_dict_to_html['latest_test_winner_score'] }}%</span></p>
-          {% endif %}
-          <div class="custom-mt-1">
-            <a href="/employees/t/" class="btn btn-outline-primary custom-width-6 custom-mt-1">View all team responses <i class="fa-solid fa-arrow-right"></i></a>
-            <button class="btn btn-outline-primary custom-mb-1-mobile custom-width-6 custom-mt-1" id="demo" onclick="copyToClipboard(document.getElementById('demo').innerHTML)">Share this quiz with your team <i class="fa-solid fa-up-right-from-square"></i></button>
-            <script>function copyToClipboard(text) {window.prompt("Automated trivia contests for work. Share below link with your team and everyone will be routed to the same trivia contest. (Copy link: CTRL + C)", 'https://triviafy.com/dashboard');}</script>
-          </div>
-        </div>
-      {% endif %}
-    </div>
-  </div>
-  <div class="container">
-    <p class="custom-mt-1 text-center custom-size-3 fst-italic custom-bg-tan-2 custom-color-grey-1 shadow-sm custom-p-1 custom-br-1">FAQ: How do I share this trivia contest with my team? <a href="/employees/signup" target="_blank">Team members can create an account here</a> and they will be automatically routed to the same quiz as you!</p>
-  </div>
-  {% if page_dict_to_html['ui_latest_test_completed'] == false %}
-  {% else %}
-    <div class="container custom-mt-5 custom-pb-6">
-      <h2 class="custom-header-mobile-1">More team fun!</h2>
-    </div>
-    <div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
-      <a href="/employees/archive" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto"><i class="fa-regular fa-folder-open"></i> Archive</a>
-      <a href="/employees/leaderboard" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1"><i class="fa-solid fa-ranking-star"></i> Leaderboard</a>
-      {% if page_dict_to_html['stripe_subscription_status'] == 'active' %}
-        <a href="/employees/questions" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1"><i class="fa-solid fa-screwdriver-wrench"></i> Custom questions</a>
-        <a href="/employees/feature/access_employee_surveys" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1"><i class="fa-solid fa-square-poll-vertical"></i> Employee surveys</a>
-        <a href="/employees/feature/access_ice_breakers" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1"><i class="fa-solid fa-ice-cream"></i> Ice breakers</a>
-        <a href="/employees/feature/access_personality_tests" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1"><i class="fa-solid fa-user"></i> Personality tests</a>
-        <a href="/employees/feature/access_pre_employment_testing" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1"><i class="fa-solid fa-check-to-slot"></i> Pre employee testing</a>
-      {% else %}
-        <a href="/employees/account" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Subscription required"><i class="fa-solid fa-screwdriver-wrench"></i> Custom questions</a>
-        <a href="/employees/account" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Subscription required"><i class="fa-solid fa-square-poll-vertical"></i> Employee surveys</a>
-        <a href="/employees/account" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Subscription required"><i class="fa-solid fa-ice-cream"></i> Ice breakers</a>
-        <a href="/employees/account" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Subscription required"><i class="fa-solid fa-user"></i> Personality tests</a>
-        <a href="/employees/account" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Subscription required"><i class="fa-solid fa-check-to-slot"></i> Pre employee testing</a>
-      {% endif %}
-      <a href="/employees/schedule" class="btn btn-outline-secondary btn-lg custom-width-18-mobile custom-display-block mx-auto custom-mt-1"><i class="fa-solid fa-gear"></i> Settings</a>
-    </div>
-  {% endif %}
-{% endif %}
 <!-- ------------------------------------- new dashboard start ------------------------------------- -->
-<div class="container custom-pt-3 custom-pb-2">
+<div class="container custom-pt-1 custom-pb-2">
   <h2>Activities</h2>
 </div>
 <div class="container">
@@ -130,15 +38,33 @@
       </h2>
       <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
         <div class="accordion-body">
-          <!-- ------------------------------------- description start ------------------------------------- -->
-          <div class="custom-border-9 custom-br-1 custom-p-1 custom-mb-6 custom-bg-color-7">
-            <h3 class="custom-ml-1 custom-mb-6">Activity details</h3>
-            <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-3 custom-color-grey-2 custom-mr-1">Description</span> Automated trivia contests.</p>
-            <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-3 custom-color-grey-2 custom-mr-1">Participation</span> Activities are asynchronous, allowing colleagues to conveniently submit their answers at their own pace and on their own schedule.</p>
-            <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-3 custom-color-grey-2 custom-mr-1">Grading</span> All colleagues' answers will be graded and revealed upon activity close time.</p>
-            <p class="custom-line-2 custom-m-0"><span class="custom-br-1 custom-p-9 custom-bg-color-3 custom-color-grey-2 custom-mr-1">Notifications</span> Activity notifications will be sent via email. Please check your email's spam folder and mark <a href="mailto:support@triviafy.com">support@triviafy.com</a> as not spam.</p>
+          <!-- ------------------------------------- latest activity start ------------------------------------- -->
+          <div class="custom-border-9 custom-br-1 custom-p-1 custom-mb-6 custom-bg-color-8">
+            <h3 class="custom-ml-1 custom-mb-6">Activity status & participation</h3>
+            <!-- ------------------------------------- latest test logic start ------------------------------------- -->
+            {% if page_dict_to_html['first_test_exists'] == false %}
+              <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status</span> Welcome! Please confirm your team's personalized settings. <a href="/employees/schedule" class="btn btn-success">Get started <i class="fa-solid fa-arrow-right"></i></a></p>
+            {% endif %}
+            {% if page_dict_to_html['first_test_exists'] == true %}
+              {% if page_dict_to_html['latest_test_is_closed'] == false %}
+                  {% if page_dict_to_html['ui_latest_test_completed'] == true %}
+                    <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status</span> <a href="/employees/t" class="btn btn-success">Review my answers <i class="fa-solid fa-arrow-right"></i></a></p>
+                  {% else %}
+                    <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status</span> Your team's trivia activity is now open! <a href="/employees/t" class="btn btn-success custom-ml-1">Submit your answers <i class="fa-solid fa-arrow-right"></i></a></p>
+                  {% endif %}
+              {% endif %}
+              {% if page_dict_to_html['latest_test_is_closed'] == true %}
+                {% if page_dict_to_html['latest_test_winner'] == '' %}
+                  <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status</span> Closed, no one on your team participated.</p>
+                {% else %}
+                  <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status</span> <span class="btn btn-success custom-mr-1">&#127881; Winner: {{ page_dict_to_html['latest_test_winner'] }} | Score: {{ page_dict_to_html['latest_test_winner_score'] }}%</span></p>
+                  <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Review</span> <a href="/employees/t/" class="custom-a-2">View all team responses</a> | <a href="/employees/leaderboard" class="custom-a-2">Leaderboard</a></p>
+                {% endif %}
+              {% endif %}
+            {% endif %}
+            <!-- ------------------------------------- latest test logic end ------------------------------------- -->
           </div>
-          <!-- ------------------------------------- description end ------------------------------------- -->
+          <!-- ------------------------------------- latest activity end ------------------------------------- -->
           <!-- ------------------------------------- settings start ------------------------------------- -->
           <div class="custom-border-9 custom-br-1 custom-p-1 custom-mb-6 custom-bg-color-6">
             <h3 class="custom-ml-1 custom-mb-6">Activity settings</h3>
@@ -149,21 +75,26 @@
               <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-5 custom-color-6 custom-mr-1">Categories</span> {{ page_dict_to_html['db_group_settings_dict']['categories'] }} <span class="custom-ml-1"><a href="/employees/schedule" class="custom-a-2"><i class="fa-solid fa-pen-to-square" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit settings"></i></a></span></p>
             {% endif %}
             {% if page_dict_to_html['db_group_settings_dict']['question_type'] == 'Mixed' %}
-              <p class="custom-line-2 custom-m-0"><span class="custom-br-1 custom-p-9 custom-bg-color-5 custom-color-6 custom-mr-1">Question type</span> Per every five questions, the first four will be 'multiple choice', and the last one will be 'fill in the blank'. <span class="custom-ml-1"><a href="/employees/schedule" class="custom-a-2"><i class="fa-solid fa-pen-to-square" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit settings"></i></a></span></p>
+              <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-5 custom-color-6 custom-mr-1">Question type</span> Per every five questions, the first four will be 'multiple choice', and the last one will be 'fill in the blank'. <span class="custom-ml-1"><a href="/employees/schedule" class="custom-a-2"><i class="fa-solid fa-pen-to-square" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit settings"></i></a></span></p>
             {% else %}
-              <p class="custom-line-2 custom-m-0"><span class="custom-br-1 custom-p-9 custom-bg-color-5 custom-color-6 custom-mr-1">Question type</span> {{ page_dict_to_html['db_group_settings_dict']['question_type'] }} <span class="custom-ml-1"><a href="/employees/schedule" class="custom-a-2"><i class="fa-solid fa-pen-to-square" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit settings"></i></a></span></p>
+              <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-5 custom-color-6 custom-mr-1">Question type</span> {{ page_dict_to_html['db_group_settings_dict']['question_type'] }} <span class="custom-ml-1"><a href="/employees/schedule" class="custom-a-2"><i class="fa-solid fa-pen-to-square" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit settings"></i></a></span></p>
+            {% endif %}
+            {% if page_dict_to_html['stripe_subscription_status'] == 'active' %}
+              <p class="custom-line-2 custom-m-0"><span class="custom-br-1 custom-p-9 custom-bg-color-5 custom-color-6 custom-mr-1">Create custom questions</span> <a href="/employees/questions" class="custom-a-2">Create custom questions</a></p>
+            {% else %}
+              <p class="custom-line-2 custom-m-0"><span class="custom-br-1 custom-p-9 custom-bg-color-5 custom-color-6 custom-mr-1">Create custom questions</span> <a href="/employees/account" class="custom-a-2 fst-italic custom-opacity-2">Subscription required</a></p>
             {% endif %}
           </div>
           <!-- ------------------------------------- settings end ------------------------------------- -->
-          <!-- ------------------------------------- latest activity start ------------------------------------- -->
-          <div class="custom-border-9 custom-br-1 custom-p-1 custom-mb-6 custom-bg-color-8">
-            <h3 class="custom-ml-1 custom-mb-6">Activity status & participation</h3>
-            {% if page_dict_to_html['first_test_exists'] == false %}
-              <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status</span> Welcome! Please confirm your team's personalized settings to get started. <a href="/employees/schedule" class="btn btn-success">Confirm settings <i class="fa-solid fa-arrow-right"></i></a></p>
-            {% else %}
-            {% endif %}
+          <!-- ------------------------------------- description start ------------------------------------- -->
+          <div class="custom-border-9 custom-br-1 custom-p-1 custom-mb-6 custom-bg-color-7">
+            <h3 class="custom-ml-1 custom-mb-6">Activity details</h3>
+            <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-3 custom-color-grey-2 custom-mr-1">Description</span> Automated trivia contests.</p>
+            <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-3 custom-color-grey-2 custom-mr-1">Participation</span> Activities are asynchronous, allowing colleagues to conveniently submit their answers at their own pace and on their own schedule.</p>
+            <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-3 custom-color-grey-2 custom-mr-1">Grading</span> All colleagues' answers will be graded and revealed upon activity close time.</p>
+            <p class="custom-line-2 custom-m-0"><span class="custom-br-1 custom-p-9 custom-bg-color-3 custom-color-grey-2 custom-mr-1">Notifications</span> Activity notifications will be sent via email. Please check your email's spam folder and mark <a href="mailto:support@triviafy.com">support@triviafy.com</a> as not spam.</p>
           </div>
-          <!-- ------------------------------------- latest activity end ------------------------------------- -->
+          <!-- ------------------------------------- description end ------------------------------------- -->
         </div>
       </div>
     </div>
