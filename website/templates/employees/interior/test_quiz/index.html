@@ -208,11 +208,17 @@
     </div>
   <!-- ------------------------------------- entire page end ------------------------------------- -->
   </form>
-  <!-- ------------------------------------- signature start ------------------------------------- -->
-  <div class="text-center custom-mt-5">
-    <img src="/static/images/candidates/logo/logo_wide_v3_white_com.png" alt="powered by triviafy logo" class="custom-img-size-10">
+  <!-- ------------------------------------- question progress start ------------------------------------- -->
+  <div class="container custom-display-flex custom-jc-1 custom-fw-1 custom-mt-3">
+    {% for i in page_dict_to_html['test_total_questions_arr'] %}
+      {% if i == page_dict_to_html['current_question_number'] %}
+        <a href="/employees/t/{{ page_dict_to_html['url_test_id'] }}/{{ i }}"><span class="btn btn-primary">{{ i }}</span></a>
+      {% else %}
+        <a href="/employees/t/{{ page_dict_to_html['url_test_id'] }}/{{ i }}"><span class="btn btn-outline-primary">{{ i }}</span></a>
+      {% endif %}
+    {% endfor %}
   </div>
-  <!-- ------------------------------------- signature end ------------------------------------- -->
+  <!-- ------------------------------------- question progress end ------------------------------------- -->
 </div>
 <!-- ----------------------------------- shape divider start ----------------------------------- -->
 <div class="custom-shape-divider-bottom-1672276706 custom-bg-primary-darker">
@@ -221,4 +227,9 @@
   </svg>
 </div>
 <!-- ----------------------------------- shape divider end ----------------------------------- -->
+<!-- ------------------------------------- signature start ------------------------------------- -->
+<div class="text-center custom-mb-1">
+  <img src="/static/images/candidates/logo/logo_wide_v3_black2.png" alt="powered by triviafy logo" class="custom-img-size-10">
+</div>
+<!-- ------------------------------------- signature end ------------------------------------- -->
 {% endblock %}

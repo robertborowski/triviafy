@@ -1,7 +1,5 @@
 # ------------------------ imports start ------------------------
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
-from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function
-from website.backend.candidates.autogeneration import question_choices_function
 # ------------------------ imports end ------------------------
 
 localhost_print_function('=========================================== lists __init__ START ===========================================')

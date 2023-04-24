@@ -460,12 +460,6 @@ def login_dashboard_page_function(url_redirect_code=None):
   db_group_settings_dict['categories'] = categories_edit
   page_dict['db_group_settings_dict'] = db_group_settings_dict
   # ------------------------ assign to dict end ------------------------
-  localhost_print_function(' ------------- 0 ------------- ')
-  localhost_print_function(f"page_dict | type: {type(page_dict)}")
-  for k, v in page_dict.items():
-    localhost_print_function(f"k: {k} | v: {v}")
-    localhost_print_function(f" ")
-  localhost_print_function(' ------------- 0 ------------- ')
   # ------------------------ auto set cookie start ------------------------
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
   if get_cookie_value_from_browser != None:
@@ -802,6 +796,10 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
   # ------------------------ question order logic end ------------------------
   # ------------------------ test variables start ------------------------
   page_dict['test_total_questions'] = db_tests_obj.total_questions
+  test_total_questions_arr = []
+  for i in range(int(db_tests_obj.total_questions)):
+    test_total_questions_arr.append(str(i+1))
+  page_dict['test_total_questions_arr'] = test_total_questions_arr
   page_dict['url_test_id'] = url_test_id
   # ------------------------ test variables end ------------------------
   # ------------------------ contains image check start ------------------------
@@ -909,18 +907,13 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
       else:
         return redirect(url_for('employees_views_interior.employees_test_id_function', url_test_id=url_test_id, url_question_number=str(int(url_question_number)+1)))
     # ------------------------ ui post end ------------------------
+  localhost_print_function(' ------------- 0 ------------- ')
+  localhost_print_function(f"page_dict | type: {type(page_dict)}")
+  for k, v in page_dict.items():
+    localhost_print_function(f"k: {k} | v: {v}")
+  localhost_print_function(' ------------- 0 ------------- ')
   localhost_print_function(' ------------------------ employees_test_id_function end ------------------------ ')
-  # return render_template('employees/interior/test_quiz/index.html', page_dict_to_html=page_dict)
-  # ------------------------ auto set cookie start ------------------------
-  get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
-  if get_cookie_value_from_browser != None:
-    redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
-    return render_template(template_location_url, page_dict_to_html=page_dict)
-  else:
-    browser_response = browser_response_set_cookie_function_v5(current_user, template_location_url, page_dict)
-    localhost_print_function(' ------------------------ employees_test_id_function end ------------------------ ')
-    return browser_response
-  # ------------------------ auto set cookie end ------------------------
+  return render_template('employees/interior/test_quiz/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
