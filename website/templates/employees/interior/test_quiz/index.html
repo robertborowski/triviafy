@@ -204,7 +204,13 @@
   <div class="container custom-display-flex custom-jc-1 custom-fw-1 custom-mt-3">
     {% for i in page_dict_to_html['test_total_questions_arr'] %}
       {% if i == page_dict_to_html['current_question_number'] %}
-        <a href="/employees/t/{{ page_dict_to_html['url_test_id'] }}/{{ i }}"><span class="btn btn-primary">{{ i }}</span></a>
+        <div>
+          <p><a href="/employees/t/{{ page_dict_to_html['url_test_id'] }}/{{ i }}"><span class="btn btn-primary">{{ i }}</span></a></p>
+          {% if page_dict_to_html['first_user_first_quiz_can_replace'] == true %}
+            <a href="/employees/t/{{ page_dict_to_html['url_test_id'] }}/{{ i }}"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Replace this question"><span class="btn btn-danger"><i class="fa-solid fa-x"></i></span></a>
+          {% else %}
+          {% endif %}
+        </div>
       {% else %}
         <a href="/employees/t/{{ page_dict_to_html['url_test_id'] }}/{{ i }}"><span class="btn btn-outline-primary">{{ i }}</span></a>
       {% endif %}
@@ -213,8 +219,8 @@
   <!-- ------------------------------------- question progress end ------------------------------------- -->
   <!-- ------------------------------------- first user first quiz discard option start ------------------------------------- -->
   {% if page_dict_to_html['first_user_first_quiz_can_replace'] == true %}
-  <div class="text-center custom-mt-5">
-    <a href="/employees/t/fufq_remove" class="btn btn-secondary btn-lg">Discard quiz, select new categories</a>
+  <div class="text-center custom-mt-3">
+    <a href="/employees/t/fufq_remove" class="btn btn-outline-danger">Discard quiz, select new categories</a>
   </div>
   {% else %}
   {% endif %}
