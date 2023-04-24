@@ -203,6 +203,17 @@ class EmployeesGroupsObj(db.Model):
   fk_user_id = db.Column(db.String(150))
   public_group_id = db.Column(db.String(150))
   status = db.Column(db.String(150))
+  # ------------------------ products auto on/off start ------------------------
+  trivia = db.Column(db.Boolean, default=True)
+  picture_quiz = db.Column(db.Boolean, default=False)
+  birthday_questions = db.Column(db.Boolean, default=False)
+  icebreakers = db.Column(db.Boolean, default=False)
+  surveys = db.Column(db.Boolean, default=False)
+  personality_test = db.Column(db.Boolean, default=False)
+  this_or_that = db.Column(db.Boolean, default=False)
+  most_likely_to = db.Column(db.Boolean, default=False)
+  giftcard = db.Column(db.Boolean, default=False)
+  # ------------------------ products auto on/off end ------------------------
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------

@@ -270,7 +270,16 @@ def login_dashboard_page_function(url_redirect_code=None):
         fk_company_name = current_user.company_name,
         fk_user_id = current_user.id,
         public_group_id = company_group_id,
-        status = 'active'
+        status = 'active',
+        trivia = True,
+        picture_quiz = False,
+        birthday_questions = False,
+        icebreakers = False,
+        surveys = False,
+        personality_test = False,
+        this_or_that = False,
+        most_likely_to = False,
+        giftcard = False
       )
       db.session.add(new_row)
       db.session.commit()
