@@ -204,10 +204,10 @@
   <div class="container custom-display-flex custom-jc-1 custom-fw-1 custom-mt-3">
     {% for i in page_dict_to_html['test_total_questions_arr'] %}
       {% if i == page_dict_to_html['current_question_number'] %}
-        <div>
+        <div class="text-center">
           <p><a href="/employees/t/{{ page_dict_to_html['url_test_id'] }}/{{ i }}"><span class="btn btn-primary">{{ i }}</span></a></p>
           {% if page_dict_to_html['first_user_first_quiz_can_replace'] == true %}
-            <a href="/employees/t/{{ page_dict_to_html['url_test_id'] }}/{{ i }}"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Replace this question"><span class="btn btn-danger"><i class="fa-solid fa-x"></i></span></a>
+            <a href="/employees/t/replace/{{ page_dict_to_html['url_test_id'] }}/{{ i }}"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Replace this question"><span class="btn btn-danger"><i class="fa-solid fa-x"></i></span></a>
           {% else %}
           {% endif %}
         </div>

@@ -134,6 +134,19 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
                     LIMIT {additional_input};",
       'input_args': {}
     },
+    'select_v6': {
+      'raw_query': f"SELECT \
+                      id \
+                    FROM \
+                      created_questions_obj \
+                    WHERE \
+                      status = TRUE AND product='employees' \
+                      AND id NOT IN (SELECT fk_question_id FROM employees_group_questions_used_obj WHERE fk_group_id='{additional_input2}') \
+                    ORDER BY \
+                      RANDOM() \
+                    LIMIT {additional_input};",
+      'input_args': {}
+    },
     'select_one_question_for_x_categories_v1': {
       'raw_query': f"SELECT \
                       id \

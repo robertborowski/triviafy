@@ -425,4 +425,20 @@ def grade_quiz_function(ui_answer, url_test_id, total_questions, url_question_nu
   localhost_print_function(' ------------------------ grade_quiz_function end ------------------------ ')
   return True
 # ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def pull_question_function(group_id, categories):
+  localhost_print_function(' ------------------------ pull_question_function start ------------------------ ')
+  # ------------------------ pull based on categories start ------------------------
+  where_clause_arr = prepare_where_clause_function(categories)
+  query_result_arr_of_dicts = select_general_function('select_all_questions_for_x_categories_v4', where_clause_arr[0], 1, group_id)
+  # ------------------------ pull based on categories end ------------------------
+  # ------------------------ pull any start ------------------------
+  if query_result_arr_of_dicts == []:
+    query_result_arr_of_dicts = select_general_function('select_v6', 1, group_id)
+  # ------------------------ pull any end ------------------------
+  new_question_id = query_result_arr_of_dicts[0]['id']
+  localhost_print_function(' ------------------------ pull_question_function end ------------------------ ')
+  return new_question_id
+# ------------------------ individual function end ------------------------
 localhost_print_function(' ------------------------ quiz __init__ end ------------------------ ')

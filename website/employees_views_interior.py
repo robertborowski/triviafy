@@ -26,7 +26,7 @@ from website.backend.candidates.string_manipulation import all_employee_question
 from website.backend.candidates.user_inputs import sanitize_char_count_1_function, sanitize_create_question_options_function, sanitize_create_question_categories_function, sanitize_create_question_question_function, sanitize_create_question_option_e_function, sanitize_create_question_answer_function, get_special_characters_function
 from website.backend.candidates.send_emails import send_email_template_function
 import os
-from website.backend.candidates.quiz import create_quiz_function, grade_quiz_function, get_next_quiz_open_function
+from website.backend.candidates.quiz import create_quiz_function, grade_quiz_function, get_next_quiz_open_function, pull_question_function
 import json
 from datetime import datetime
 from website.backend.candidates.stripe import check_stripe_subscription_status_function_v2, convert_current_period_end_function
@@ -702,6 +702,50 @@ def employees_schedule_function(url_redirect_code=None):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
+@employees_views_interior.route('/employees/t/replace/<url_test_id>/<url_question_number>', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/t/replace/<url_test_id>/<url_question_number>/', methods=['GET', 'POST'])
+@login_required
+def employees_test_id_replace_question_function(url_test_id=None, url_question_number=None):
+  localhost_print_function(' ------------------------ employees_test_id_replace_question_function START ------------------------ ')
+  # ------------------------ redirect start ------------------------
+  if url_test_id == None or url_test_id == '' or url_question_number == None or url_question_number == '':
+    return redirect(url_for('employees_views_interior.employees_test_id_function'))
+  # ------------------------ redirect end ------------------------
+  # ------------------------ get group latest test start ------------------------
+  user_group_id = EmployeesGroupsObj.query.filter_by(fk_company_name=current_user.company_name).order_by(EmployeesGroupsObj.created_timestamp.desc()).first()
+  db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=user_group_id.public_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
+  db_tests_dict = arr_of_dict_all_columns_single_item_function(db_tests_obj)
+  # ------------------------ get group latest test end ------------------------
+  # ------------------------ identify question to replace start ------------------------
+  question_ids_str_current = db_tests_dict['question_ids']
+  question_ids_str_current_arr = question_ids_str_current.split(',')
+  question_id_to_replace = question_ids_str_current_arr[int(url_question_number)-1]
+  # ------------------------ identify question to replace end ------------------------
+  # ------------------------ get new question never asked before start ------------------------
+  categories = db_tests_dict['categories']
+  new_question_id = pull_question_function(user_group_id.public_group_id, categories)
+  # ------------------------ get new question never asked before end ------------------------
+  # ------------------------ replace id in test table start ------------------------
+  question_ids_str_replaced = question_ids_str_current.replace(question_id_to_replace, new_question_id)
+  try:
+    db_tests_obj.question_ids = question_ids_str_replaced
+    db.session.commit()
+  except:
+    pass
+  # ------------------------ replace id in test table end ------------------------
+  # ------------------------ replace id in question asked table start ------------------------
+  db_question_used_obj = EmployeesGroupQuestionsUsedObj.query.filter_by(fk_group_id=user_group_id.public_group_id, fk_test_id=db_tests_obj.id, fk_question_id=question_id_to_replace).first()
+  try:
+    db_question_used_obj.fk_question_id = new_question_id
+    db.session.commit()
+  except:
+    pass
+  # ------------------------ replace id in question asked table end ------------------------
+  localhost_print_function(' ------------------------ employees_test_id_replace_question_function end ------------------------ ')
+  return redirect(url_for('employees_views_interior.employees_test_id_function', url_test_id=url_test_id, url_question_number=url_question_number, url_redirect_code='e23'))
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
 @employees_views_interior.route('/employees/t', methods=['GET', 'POST'])
 @employees_views_interior.route('/employees/t/', methods=['GET', 'POST'])
 @employees_views_interior.route('/employees/t/<url_test_id>', methods=['GET', 'POST'])
@@ -711,6 +755,7 @@ def employees_schedule_function(url_redirect_code=None):
 @employees_views_interior.route('/employees/t/<url_test_id>/<url_question_number>/<url_initial_page_load>', methods=['GET', 'POST'])
 @employees_views_interior.route('/employees/t/<url_test_id>/<url_question_number>/<url_initial_page_load>/', methods=['GET', 'POST'])
 @employees_views_interior.route('/employees/t/<url_test_id>/<url_question_number>/<url_initial_page_load>/<url_redirect_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/t/<url_test_id>/<url_question_number>/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
 def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_question_number='1', url_initial_page_load=None):
   localhost_print_function(' ------------------------ employees_test_id_function START ------------------------ ')
@@ -916,11 +961,6 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
       else:
         return redirect(url_for('employees_views_interior.employees_test_id_function', url_test_id=url_test_id, url_question_number=str(int(url_question_number)+1)))
     # ------------------------ ui post end ------------------------
-  localhost_print_function(' ------------- 0 ------------- ')
-  localhost_print_function(f"page_dict | type: {type(page_dict)}")
-  for k, v in page_dict.items():
-    localhost_print_function(f"k: {k} | v: {v}")
-  localhost_print_function(' ------------- 0 ------------- ')
   localhost_print_function(' ------------------------ employees_test_id_function end ------------------------ ')
   return render_template('employees/interior/test_quiz/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------

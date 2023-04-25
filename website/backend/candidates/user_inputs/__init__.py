@@ -483,6 +483,11 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':'Prveious team trivia contest discarded.',
       'type':'danger'
     }
+  elif redirect_var == 'e23':
+    alert_message_dict = {
+      'message':'Question replaced.',
+      'type':'danger'
+    }
   # ------------------------ errors end ------------------------
   # ------------------------ success start ------------------------
   elif redirect_var == 's1':
