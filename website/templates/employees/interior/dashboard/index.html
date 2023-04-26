@@ -65,6 +65,11 @@
             {% if 'ending_time_string' in page_dict_to_html %}
               <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Activity close</span> {{ page_dict_to_html['ending_time_string'] }}</p>
             {% endif %}
+            {% if page_dict_to_html['stripe_subscription_status'] == 'active' %}
+              <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Create custom questions</span> <a href="/employees/questions" class="custom-a-2">Create custom questions</a></p>
+            {% else %}
+              <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Create custom questions</span> <a href="/employees/account" class="custom-a-2 fst-italic custom-opacity-2">Subscription required</a></p>
+            {% endif %}
             <!-- ------------------------------------- latest test logic end ------------------------------------- -->
           </div>
           <!-- ------------------------------------- latest activity end ------------------------------------- -->
@@ -82,11 +87,6 @@
             {% else %}
               <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-5 custom-color-6 custom-mr-1">Question type</span> {{ page_dict_to_html['db_group_settings_dict']['question_type'] }} <span class="custom-ml-1"><a href="/employees/schedule" class="custom-a-2"><i class="fa-solid fa-pen-to-square" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit settings"></i></a></span></p>
             {% endif %}
-            {% if page_dict_to_html['stripe_subscription_status'] == 'active' %}
-              <p class="custom-line-2 custom-m-0"><span class="custom-br-1 custom-p-9 custom-bg-color-5 custom-color-6 custom-mr-1">Create custom questions</span> <a href="/employees/questions" class="custom-a-2">Create custom questions</a></p>
-            {% else %}
-              <p class="custom-line-2 custom-m-0"><span class="custom-br-1 custom-p-9 custom-bg-color-5 custom-color-6 custom-mr-1">Create custom questions</span> <a href="/employees/account" class="custom-a-2 fst-italic custom-opacity-2">Subscription required</a></p>
-            {% endif %}
           </div>
           <!-- ------------------------------------- settings end ------------------------------------- -->
           <!-- ------------------------------------- description start ------------------------------------- -->
@@ -95,7 +95,7 @@
             <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-3 custom-color-grey-2 custom-mr-1">Description</span> Automated trivia contests.</p>
             <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-3 custom-color-grey-2 custom-mr-1">Participation</span> Activities are asynchronous, allowing colleagues to conveniently submit their answers at their own pace and on their own schedule.</p>
             <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-3 custom-color-grey-2 custom-mr-1">Grading</span> All colleagues' answers will be graded and revealed upon activity close time.</p>
-            <p class="custom-line-2 custom-m-0"><span class="custom-br-1 custom-p-9 custom-bg-color-3 custom-color-grey-2 custom-mr-1">Notifications</span> Activity notifications will be sent via email. Please check your email's spam folder and mark <a href="mailto:support@triviafy.com">support@triviafy.com</a> as not spam.</p>
+            <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-3 custom-color-grey-2 custom-mr-1">Notifications</span> Activity notifications will be sent via email. Please check your email's spam folder and mark <a href="mailto:support@triviafy.com">support@triviafy.com</a> as not spam.</p>
           </div>
           <!-- ------------------------------------- description end ------------------------------------- -->
         </div>
