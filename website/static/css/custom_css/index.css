@@ -96,11 +96,17 @@
 .custom-bg-primary-darker {
   background-color: var(--custom-color-primary-darker);
 }
+.custom-bg-for-gradient-2 {
+  background-color: rgb(25, 135, 84);
+}
 .custom-bg-primary-gradient-1 {
   background: linear-gradient(to bottom, var(--custom-color-primary), var(--custom-color-primary-darker));
 }
 .custom-bg-gradient-1 {
   background: linear-gradient(to top, rgb(255 255 255), rgb(194 230 201 / 23%));
+}
+.custom-bg-gradient-2 {
+  background: linear-gradient(to bottom, var(--custom-color-primary), rgb(176, 64, 64), rgb(25, 135, 84));
 }
 .custom-bg-see-through {
   background-color: rgba(255, 255, 255, 0);
@@ -197,6 +203,9 @@
 }
 .custom-color-7 {
   color: rgb(23, 32, 91);
+}
+.custom-color-8 {
+  color: rgb(237, 237, 237);
 }
 /* ------------------- color end ------------------- */
 /* ------------------- border start ------------------- */
@@ -767,9 +776,6 @@
 .custom-shape-divider-top-1672276628 .shape-fill {
   fill: #FFFFFF;
 }
-.custom-shape-divider-top-1672276628 .shape-fill-custom-1 {
-  fill: var(--custom-color-primary-darker);
-}
 
 .custom-shape-divider-bottom-1672276706 {
   position: relative;
@@ -890,6 +896,43 @@
       width: calc(135% + 1.3px);
       height: 100px;
   }
+}
+
+.custom-shape-divider-top-1682593749 {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+}
+.custom-shape-divider-top-1682593749 svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 100px;
+}
+.custom-shape-divider-top-1682593749 .shape-fill {
+  fill: #FFFFFF;
+}
+
+.custom-shape-divider-bottom-1682593815 {
+  position: relative;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+.custom-shape-divider-bottom-1682593815 svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 100px;
+}
+.custom-shape-divider-bottom-1682593815 .shape-fill {
+  fill: #FFFFFF;
 }
 /* ------------------- shape divider end ------------------- */
 /* ------------------- tag start ------------------- */
