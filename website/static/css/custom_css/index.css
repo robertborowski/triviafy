@@ -185,7 +185,7 @@
   --custom-color-12: rgb(181 196 217);
   --custom-color-13: rgb(242, 244, 248);
   --custom-color-13-darker: rgb(195, 220, 236);
-  --custom-color-14: rgb(115 145 139);
+  --custom-color-14: rgb(240, 249, 255);
 }
 .custom-color-light-1 {
   color: var(--custom-color-1);
@@ -472,6 +472,9 @@
 }
 .custom-img-size-12 {
   max-height: 100px;
+}
+.custom-img-size-13 {
+  max-height: 200px;
 }
 .custom-img-resize-1:hover {
   transform: scale(1.05);
