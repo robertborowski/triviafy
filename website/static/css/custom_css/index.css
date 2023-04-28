@@ -111,6 +111,12 @@
 .custom-bg-gradient-2 {
   background: linear-gradient(to bottom, var(--custom-color-primary-lighter), var(--custom-color-10), var(--custom-color-9));
 }
+.custom-bg-gradient-3 {
+  background: linear-gradient(to bottom, var(--custom-color-11), var(--custom-color-11-darker));
+}
+.custom-bg-gradient-13 {
+  background: linear-gradient(to bottom, var(--custom-color-13), var(--custom-color-13-darker));
+}
 .custom-bg-see-through {
   background-color: rgba(255, 255, 255, 0);
 }
@@ -137,6 +143,12 @@
 }
 .custom-bg-color-8 {
   background-color: rgb(234 255 234);
+}
+.custom-bg-color-11 {
+  background-color: var(--custom-color-11);
+}
+.custom-bg-color-11-darker {
+  background-color: var(--custom-color-11-darker);
 }
 .custom-back-img-1 {
   background-image: url(https://triviafy-create-question-image-uploads.s3.us-east-2.amazonaws.com/custom_shape_1.png);
@@ -173,6 +185,11 @@
   --custom-color-primary-darker: rgb(44 26 77);
   --custom-color-9: rgb(232 255 235);
   --custom-color-10: rgb(255 213 213);
+  --custom-color-11: rgb(76 76 76);
+  --custom-color-11-darker: rgb(34, 34, 34);
+  --custom-color-12: rgb(181 196 217);
+  --custom-color-13: rgb(242 250 255);
+  --custom-color-13-darker: rgb(195, 220, 236);
 }
 .custom-color-light-1 {
   color: var(--custom-color-1);
@@ -216,6 +233,9 @@
 .custom-color-9 {
   color: var(--custom-color-9);
 }
+.custom-color-12 {
+  color: var(--custom-color-12);
+}
 /* ------------------- color end ------------------- */
 /* ------------------- border start ------------------- */
 .custom-border-1 {border: 1px solid black;}
@@ -228,6 +248,7 @@
 .custom-border-7 {border: 2px solid rgb(220 223 233);}
 .custom-border-8 {border: 1px solid rgb(220 223 233);}
 .custom-border-9 {border: 1px solid rgb(0 0 0 / 10%);}
+.custom-border-10 {border: 5px solid var(--custom-color-12);}
 .custom-border-see-through {border: 1px solid rgba(255, 255, 255, 0);}
 .custom-border-white-opacity-1 {border: 1px solid rgba(255, 255, 255, 0.200);}
 .custom-br-1 {
@@ -346,6 +367,9 @@
 }
 .custom-header-7 {
   font-size: 50px;
+}
+.custom-header-8 {
+  font-size: 150px;
 }
 .custom-header-white {
   color: white;
@@ -942,6 +966,46 @@
 }
 .custom-shape-divider-bottom-1682593815 .shape-fill {
   fill: #FFFFFF;
+}
+
+.custom-shape-divider-bottom-1682633731 {
+  position: relative;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+}
+.custom-shape-divider-bottom-1682633731 svg {
+  position: relative;
+  display: block;
+  width: calc(300% + 1.3px);
+  height: 174px;
+}
+.custom-shape-divider-bottom-1682633731 .shape-fill {
+  /* fill: #FFFFFF; */
+  fill: var(--custom-color-11);
+}
+
+.custom-shape-divider-bottom-168263373-b {
+  position: relative;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+}
+.custom-shape-divider-bottom-168263373-b svg {
+  position: relative;
+  display: block;
+  width: calc(300% + 1.3px);
+  height: 174px;
+}
+.custom-shape-divider-bottom-168263373-b .shape-fill {
+  fill: #FFFFFF;
+  /* fill: var(--custom-color-11); */
 }
 /* ------------------- shape divider end ------------------- */
 /* ------------------- tag start ------------------- */
