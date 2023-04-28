@@ -144,6 +144,9 @@
 .custom-bg-color-13 {
   background-color: var(--custom-color-13);
 }
+.custom-bg-color-14 {
+  background-color: var(--custom-color-14);
+}
 .custom-back-img-1 {
   background-image: url(https://triviafy-create-question-image-uploads.s3.us-east-2.amazonaws.com/custom_shape_1.png);
   background-repeat: no-repeat;
@@ -182,6 +185,7 @@
   --custom-color-12: rgb(181 196 217);
   --custom-color-13: rgb(242, 244, 248);
   --custom-color-13-darker: rgb(195, 220, 236);
+  --custom-color-14: rgb(115 145 139);
 }
 .custom-color-light-1 {
   color: var(--custom-color-1);
@@ -253,6 +257,9 @@
 }
 .custom-br-4 {
   border-radius: 6px;
+}
+.custom-br-5 {
+  border-radius: 500px;
 }
 .custom-brl-1 {
   border-radius: 15px 0px 0px 15px !important;
@@ -979,6 +986,43 @@
   height: 174px;
 }
 .custom-shape-divider-bottom-1682633731 .shape-fill {
+  fill: #FFFFFF;
+}
+
+.custom-shape-divider-top-1682682943 {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+}
+.custom-shape-divider-top-1682682943 svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 100px;
+}
+.custom-shape-divider-top-1682682943 .shape-fill {
+  fill: #FFFFFF;
+}
+
+.custom-shape-divider-bottom-1682683019 {
+  position: relative;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+.custom-shape-divider-bottom-1682683019 svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 100px;
+}
+.custom-shape-divider-bottom-1682683019 .shape-fill {
   fill: #FFFFFF;
 }
 /* ------------------- shape divider end ------------------- */
