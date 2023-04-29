@@ -152,6 +152,10 @@
   background-repeat: no-repeat;
   height: 700px;
 }
+.custom-back-img-2 {
+  background-image: url(https://triviafypublicobjects.s3.us-east-2.amazonaws.com/triviafy_pattern.jpg);
+  height: 600px;
+}
 /* ------------------- background end ------------------- */
 /* ------------------- blur start ------------------- */
 .custom-blur-1 {
@@ -309,6 +313,9 @@
 .custom-fw-2-mobile {
   flex-wrap: nowrap;
 }
+.custom-f-align-1 {
+  align-items: center;
+}
 /* ------------------- flex end ------------------- */
 /* ------------------- google start ------------------- */
 .custom-google-font-1 {
@@ -409,6 +416,9 @@
 }
 .custom-height-9 {
   height: 750px;
+}
+.custom-height-90 {
+  height: 90%;
 }
 .custom-min-height-1 {
   min-height: 350px;
@@ -570,6 +580,12 @@
 .custom-m-3 {
   margin: 5px;
 }
+.custom-m-25 {
+  margin: 25px;
+}
+.custom-m-50 {
+  margin: 50px;
+}
 .custom-mb-1 {
   margin-bottom: 50px;
 }
@@ -590,6 +606,9 @@
 }
 .custom-mb-7 {
   margin-bottom: 3px;
+}
+.custom-mb-25 {
+  margin-bottom: 25px;
 }
 .custom-mt-1 {
   margin-top: 25px;
@@ -703,6 +722,9 @@
 .custom-p-9 {
   padding: 5px 10px;
 }
+.custom-p-100 {
+  padding: 100px;
+}
 .custom-pb-1 {
   padding-bottom: 150px;
 }
@@ -719,6 +741,9 @@
   padding-bottom: 200px;
 }
 .custom-pb-6 {
+  padding-bottom: 25px;
+}
+.custom-pb-25 {
   padding-bottom: 25px;
 }
 .custom-pb-100 {
@@ -1214,6 +1239,12 @@
 .custom-width-21 {
   width: 300px;
   max-width: 90%;
+}
+.custom-width-95 {
+  width: 95%;
+}
+.custom-width-100 {
+  width: 100%;
 }
 .custom-width-500 {
   width: 500px;
