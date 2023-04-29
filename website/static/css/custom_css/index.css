@@ -366,6 +366,9 @@
 .custom-header-7 {
   font-size: 50px;
 }
+.custom-size-18 {
+  font-size: 20px;
+}
 .custom-header-white {
   color: white;
 }
@@ -718,6 +721,9 @@
 .custom-pb-6 {
   padding-bottom: 25px;
 }
+.custom-pb-100 {
+  padding-bottom: 100px;
+}
 .custom-ptb-1 {
   padding-top: 10px;
   padding-bottom: 10px;
@@ -770,6 +776,18 @@
 }
 .custom-pt-7 {
   padding-top: 15px;
+}
+.custom-pt-25 {
+  padding-top: 25px;
+}
+.custom-pt-50 {
+  padding-top: 50px;
+}
+.custom-pt-100 {
+  padding-top: 100px;
+}
+.custom-pt-150 {
+  padding-top: 150px;
 }
 /* ------------------- padding end ------------------- */
 /* ------------------- position start ------------------- */
@@ -1195,6 +1213,10 @@
 }
 .custom-width-21 {
   width: 300px;
+  max-width: 90%;
+}
+.custom-width-500 {
+  width: 500px;
   max-width: 90%;
 }
 .custom-wh-1 {
