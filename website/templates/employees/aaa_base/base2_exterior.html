@@ -31,13 +31,8 @@
   <!-- ------------------------------------- navbar end ------------------------------------- -->
   {% block contentBodyExceptNavbarAndFooter %}
   {% endblock %}
-  <!-- ------------------------------------- footer start ------------------------------------- -->
-  <!-- <div class="custom-shape-divider-top-1672341955 custom-bg-dark-1">
-    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-        <path d="M600,112.77C268.63,112.77,0,65.52,0,7.23V120H1200V7.23C1200,65.52,931.37,112.77,600,112.77Z" class="shape-fill"></path>
-    </svg>
-  </div> -->
-  <div class="containter-fluid custom-bg-dark-1">
+  <!-- ------------------------------------- footer v1 start ------------------------------------- -->
+  <!-- <div class="containter-fluid custom-bg-dark-1">
     <footer class="container">
       <div class="text-center custom-pt-100">
         <h2 class="custom-header-1 custom-color-light-1">Resources</h2>
@@ -70,7 +65,38 @@
         </div>
       </div>
     </footer>
+  </div> -->
+  <!-- ------------------------------------- footer v1 end ------------------------------------- -->
+  <!-- ------------------------------------- footer v2 start ------------------------------------- -->
+  <div class="containter-fluid custom-bg-dark-1 custom-color-white">
+    <footer class="container">
+      <div class="custom-display-flex custom-fw-1 custom-jc-around custom-pt-100 custom-pb-100">
+        <!-- ------------------------------------- side 1 start ------------------------------------- -->
+        <div class="custom-width-11-mobile">
+          <div class="custom-width-10 mx-auto">
+            <h2 class="custom-header-45">Start using Triviafy with your team <img src="https://triviafypublicobjects.s3.us-east-2.amazonaws.com/official_logo.png" alt="triviafy logo" class="custom-img-size-50"></h2>
+            <form action="{{ url_for('employees_auth.employees_signup_function') }}" method="post" enctype="multipart/form-data" class="custom-display-flex custom-width-1 custom-pt-4" onsubmit="return clickSubmitButtonOnce()">
+              <label for="uiEmailVarious" class="form-label"></label>
+              <input type="email" class="form-control custom-mr-2 custom-p-3" id="uiEmailVarious" name="uiEmailVarious" aria-describedby="emailHelp" placeholder="Work email" required>
+              <button type="submit" class="btn btn-primary text-nowrap">Get Started</button>
+            </form>
+            <div class="custom-display-flex custom-fw-1 custom-jc-around custom-mt-50">
+              <a href="https://www.producthunt.com/posts/triviafy-fe00eda0-76f2-48cb-b6a6-8a734233011e" target="_blank"><img src="https://triviafypublicobjects.s3.us-east-2.amazonaws.com/product_hunt.png" alt="triviafy logo" class="custom-img-size-50 custom-border-1"></a>
+              <a href="https://www.g2.com/products/triviafy/reviews" target="_blank"><img src="https://triviafypublicobjects.s3.us-east-2.amazonaws.com/g2.png" alt="triviafy logo" class="custom-img-size-50 custom-border-1 custom-br-1"></a>
+            </div>
+          </div>
+        </div>
+        <!-- ------------------------------------- side 1 end ------------------------------------- -->
+        <!-- ------------------------------------- side 2 start ------------------------------------- -->
+        <div class="custom-border-2 custom-width-11-mobile">
+          <div class="custom-border-2 custom-width-10 mx-auto">
+            right
+          </div>
+        </div>
+        <!-- ------------------------------------- side 2 end ------------------------------------- -->
+      </div>
+    </footer>
   </div>
-  <!-- ------------------------------------- footer end ------------------------------------- -->
+  <!-- ------------------------------------- footer v2 end ------------------------------------- -->
 </body>
 {% endblock %}

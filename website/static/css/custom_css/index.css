@@ -70,7 +70,7 @@
   background-color: #077bff;
 }
 .custom-bg-dark-1 {
-  background-color: rgb(10, 0, 28);
+  background-color: rgb(7 19 61);
 }
 .custom-bg-blue-1 {
   background-color: rgb(231 241 255);
@@ -184,6 +184,7 @@
   --custom-color-primary: rgb(111, 66, 193);
   --custom-color-primary-lighter: rgb(230 217 255);
   --custom-color-primary-darker: rgb(44 26 77);
+  --custom-color-8: rgb(237, 237, 237);
   --custom-color-9: rgb(232 255 235);
   --custom-color-10: rgb(255 213 213);
   --custom-color-12: rgb(181 196 217);
@@ -228,7 +229,7 @@
   color: rgb(23, 32, 91);
 }
 .custom-color-8 {
-  color: rgb(237, 237, 237);
+  color: var(--custom-color-8);
 }
 .custom-color-9 {
   color: var(--custom-color-9);
@@ -373,6 +374,15 @@
 .custom-header-7 {
   font-size: 50px;
 }
+.custom-header-40 {
+  font-size: 40px;
+}
+.custom-header-45 {
+  font-size: 45px;
+}
+.custom-header-50 {
+  font-size: 50px;
+}
 .custom-header-60 {
   font-size: 60px;
 }
@@ -473,6 +483,12 @@
 .custom-img-size-10 {
   max-height: 60px;
 }
+.custom-img-size-50 {
+  max-height: 50px;
+}
+.custom-img-size-75 {
+  max-height: 75px;
+}
 .custom-img-opacity-1 {
   opacity: 0.20;
 }
@@ -534,6 +550,9 @@
   justify-content: center;
 }
 .custom-jc-4 {
+  justify-content: space-around;
+}
+.custom-jc-around {
   justify-content: space-around;
 }
 /* ------------------- justify end ------------------- */
@@ -636,6 +655,9 @@
 }
 .custom-mt-7 {
   margin-top: 300px;
+}
+.custom-mt-50 {
+  margin-top: 50px;
 }
 .custom-mt-100 {
   margin-top: 100px;
@@ -760,6 +782,9 @@
 }
 .custom-pb-25 {
   padding-bottom: 25px;
+}
+.custom-pb-50 {
+  padding-bottom: 50px;
 }
 .custom-pb-100 {
   padding-bottom: 100px;
