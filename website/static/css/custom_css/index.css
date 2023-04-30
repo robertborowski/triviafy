@@ -450,7 +450,7 @@
   height: 300px;
 }
 .custom-height-9 {
-  height: 750px;
+  height: 800px;
 }
 .custom-height-90 {
   height: 90%;
@@ -719,6 +719,9 @@
 }
 .custom-mt-negative-10 {
   margin-top: -10px;
+}
+.custom-mt-negative-15 {
+  margin-top: -15px;
 }
 .custom-mt-negative-20 {
   margin-top: -20px;
