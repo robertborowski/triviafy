@@ -74,9 +74,11 @@
       font-size: 10px;
     }
     /* ------------------- header end ------------------- */
+    /* ------------------- justify content start ------------------- */
     .custom-jc-between-mobile-center {
       justify-content: center;
     }
+    /* ------------------- justify content end ------------------- */
     /* ------------------- margin start ------------------- */
     .custom-m-1-mobile {
       margin: 5px;
@@ -120,6 +122,9 @@
     }
     .custom-width-18-mobile {
       max-width: 90%;
+    }
+    .custom-width-250-mobile {
+      width: 90%;
     }
     /* ------------------- width end ------------------- */
   }

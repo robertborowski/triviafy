@@ -1342,6 +1342,9 @@
   width: 200px;
   max-width: 90%;
 }
+.custom-width-250-mobile {
+  width: 250px;
+}
 .custom-width-500 {
   width: 500px;
   max-width: 90%;
