@@ -65,6 +65,24 @@ def employees_pricing_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
+@employees_views_exterior.route('/employees/privacy')
+@employees_views_exterior.route('/employees/privacy/')
+def employees_privacy_function():
+  localhost_print_function(' ------------------------ employees_privacy_function start ------------------------ ')
+  localhost_print_function(' ------------------------ employees_privacy_function end ------------------------ ')
+  return render_template('employees/exterior/privacy/index.html')
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@employees_views_exterior.route('/employees/tos')
+@employees_views_exterior.route('/employees/tos/')
+def employees_tos_function():
+  localhost_print_function(' ------------------------ employees_tos_function start ------------------------ ')
+  localhost_print_function(' ------------------------ employees_tos_function end ------------------------ ')
+  return render_template('employees/exterior/tos/index.html')
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
 @employees_views_exterior.route('/employees/blog', methods=['GET', 'POST'])
 @employees_views_exterior.route('/employees/blog/', methods=['GET', 'POST'])
 def employees_blog_page_function():

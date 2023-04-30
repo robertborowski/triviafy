@@ -1,0 +1,41 @@
+{% extends "employees/aaa_base/base2_exterior.html" %}
+
+{% block title %}
+    <title>Privacy Policy - Triviafy</title>
+    <meta name="description" content="Automated employee engagement team building activities for your team. Team trivia, icebreakers, surveys, and personality tests.">
+    <meta name="og:description" content="Automated employee engagement team building activities for your team. Team trivia, icebreakers, surveys, and personality tests.">
+{% endblock %}
+
+{% block contentBodyExceptNavbarAndFooter %}
+<!-- ----------------------------------- start ----------------------------------- -->
+<div class="container text-center custom-pt-6 custom-pb-6">
+  <h1 class="custom-header-7 custom-color-primary fw-bold">Pricing</h1>
+  <h2><a href="/employees/signup" class="custom-header-5 fw-bold custom-a-2">Start your 14 day free trial now <i class="fa-solid fa-arrow-right"></i></a></h2>
+</div>
+<!-- ----------------------------------- end ----------------------------------- -->
+
+<!-- ----------------------------------- start ----------------------------------- -->
+<div class="container custom-pb-2">
+  <div class="custom-width-10 mx-auto custom-p-1">
+    <div class="custom-display-flex custom-jc-1">
+      <!-- ----------------------------------- start ----------------------------------- -->
+      <div class="custom-br-1 custom-img-opacity-3" id="flexRadioSelectMonthly">
+        <label class="list-group-item d-flex custom-p-7 custom-width-19 custom-jc-3 custom-hover-1">
+          <input class="form-check-input custom-input-1" type="radio" name="flexRadioCadence" id="flexRadioMonthly" value="monthly">
+          <span class="custom-ml-3-negative">Monthly</span>
+        </label>
+      </div>
+      <!-- ----------------------------------- end ----------------------------------- -->
+      <!-- ----------------------------------- start ----------------------------------- -->
+      <div class="custom-br-1 custom-bg-color-1 fw-bold custom-color-4" id="flexRadioSelectYearly">
+        <label class="list-group-item d-flex custom-p-7 custom-width-19 custom-jc-3 custom-hover-1">
+          <input class="form-check-input custom-input-1" type="radio" name="flexRadioCadence" id="flexRadioYearly" value="yearly" checked>
+          <span class="custom-ml-3-negative">Yearly</span>
+        </label>
+      </div>
+      <!-- ----------------------------------- end ----------------------------------- -->
+    </div>
+  </div>
+</div>
+<!-- ----------------------------------- end ----------------------------------- -->
+{% endblock %}

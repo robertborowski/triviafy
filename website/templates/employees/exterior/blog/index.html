@@ -94,49 +94,4 @@
   <!-- ------------------------------------- individual blog post end ------------------------------------- -->
 </div>
 <!-- ----------------------------------- end ----------------------------------- -->
-
-<!-- ----------------------------------- start ----------------------------------- -->
-<div class="container text-center custom-pt-3">
-  <div class="custom-width-1 mx-auto shadow custom-br-1 custom-p-4 custom-bg-color-2 custom-border-7">
-    <h2 class="custom-color-3">Privacy & Security <i class="fa-solid fa-lock"></i></h2>
-    <div class="custom-tal custom-pt-4">
-      <p class="custom-color-3 custom-img-opacity-2"><span class="custom-ml-4">We</span> prioritize the privacy and security of your data by adhering to the latest and most effective industry standards for data protection. We also provide you with the flexibility to request the removal of your team's data at any time.</p>
-    </div>
-  </div>
-</div>
-<!-- ----------------------------------- end ----------------------------------- -->
-
-<!-- ----------------------------------- start ----------------------------------- -->
-<div class="container-fluid">
-  <div class="container text-center custom-pt-3">
-    <h2 class="custom-mb-1 custom-header-1">Companies that love team building activities!</h2>
-  </div>
-  <div class="container custom-display-flex custom-fw-1 custom-jc-1 custom-mb-3">
-    <img src="/static/images/candidates/logos_companies/datadog.png" alt="pre employment testing datadog" class="custom-img-size-6 custom-m-2">
-    <img src="/static/images/candidates/logos_companies/intuit.png" alt="pre employment testing intuit" class="custom-img-size-6 custom-m-2">
-    <img src="/static/images/candidates/logos_companies/shopify.png" alt="pre employment testing shopify" class="custom-img-size-6 custom-m-2">
-    <img src="/static/images/candidates/logos_companies/slack.png" alt="pre employment testing slack" class="custom-img-size-6 custom-m-2">
-    <img src="/static/images/candidates/logos_companies/surveymonkey.png" alt="pre employment testing surveymonkey" class="custom-img-size-6 custom-m-2">
-  </div>
-</div>
-<!-- ----------------------------------- end ----------------------------------- -->
-
-<!-- ----------------------------------- start ----------------------------------- -->
-<div class="container-fluid custom-pb-1">
-  <div class="container custom-bg-colorful-1 custom-br-1 shadow custom-width-3">
-    <div class="container text-center custom-pt-3">
-      <h2 class="custom-header-1">Start team trivia <span class="fst-italic">today!</span></h2>
-      <h2 class="custom-header-4">Send your first triviafy test in less than 60 seconds.</h2>
-    </div>
-    <form action="{{ url_for('employees_auth.employees_signup_function') }}" method="post" enctype="multipart/form-data" class="custom-display-flex custom-width-1 mx-auto custom-pt-4" onsubmit="return clickSubmitButtonOnce()">
-      <label for="uiEmailVarious" class="form-label"></label>
-      <input type="email" class="form-control custom-mr-2 custom-p-3" id="uiEmailVarious" name="uiEmailVarious" aria-describedby="emailHelp" placeholder="Work email" required>
-      <button type="submit" class="btn btn-primary text-nowrap">Get Started</button>
-    </form>
-    <div class="text-center custom-mt-2 custom-pb-3">
-      <p class="custom-size-4 custom-color-light-1">(No credit card required.)</p>
-    </div>
-  </div>
-</div>
-<!-- ----------------------------------- end ----------------------------------- -->
 {% endblock %}
