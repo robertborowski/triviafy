@@ -74,6 +74,9 @@
       font-size: 10px;
     }
     /* ------------------- header end ------------------- */
+    .custom-jc-between-mobile-center {
+      justify-content: center;
+    }
     /* ------------------- margin start ------------------- */
     .custom-m-1-mobile {
       margin: 5px;

@@ -580,8 +580,14 @@
 .custom-jc-between {
   justify-content: space-between;
 }
+.custom-jc-between-mobile-center {
+  justify-content: space-between;
+}
 .custom-jc-evenly {
   justify-content: space-evenly;
+}
+.custom-jc-center {
+  justify-content: center;
 }
 /* ------------------- justify end ------------------- */
 /* ------------------- jQuery start ------------------- */
