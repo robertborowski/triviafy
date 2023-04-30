@@ -681,6 +681,9 @@
 .custom-mb-50 {
   margin-bottom: 50px;
 }
+.custom-mb-100 {
+  margin-bottom: 100px;
+}
 .custom-mt-1 {
   margin-top: 25px;
 }
@@ -713,6 +716,12 @@
 }
 .custom-mt-negative-1 {
   margin-top: -20px;
+}
+.custom-mt-negative-20 {
+  margin-top: -20px;
+}
+.custom-mt-negative-25 {
+  margin-top: -25px;
 }
 .custom-mt-negative-2 {
   margin-top: -7px;
@@ -755,6 +764,9 @@
 }
 .custom-ml-4 {
   margin-left: 15px;
+}
+.custom-ml-10 {
+  margin-left: 10px;
 }
 .custom-ml-50 {
   margin-left: 50px;
@@ -902,6 +914,9 @@
 }
 .custom-pt-100 {
   padding-top: 100px;
+}
+.custom-pt-200 {
+  padding-top: 200px;
 }
 .custom-pt-150 {
   padding-top: 150px;
