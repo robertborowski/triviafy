@@ -151,6 +151,12 @@
 .custom-bg-color-14 {
   background-color: var(--custom-color-14);
 }
+.custom-bg-color-15 {
+  background-color: var(--custom-color-15);
+}
+.custom-bg-color-16 {
+  background-color: var(--custom-color-16);
+}
 .custom-back-img-1 {
   background-image: url(https://triviafy-create-question-image-uploads.s3.us-east-2.amazonaws.com/custom_shape_1.png);
   background-repeat: no-repeat;
@@ -195,6 +201,9 @@
   --custom-color-13: rgb(242, 244, 248);
   --custom-color-13-darker: rgb(195, 220, 236);
   --custom-color-14: rgb(240, 249, 255);
+  --custom-color-15: rgb(240, 249, 255);
+  --custom-color-16: rgb(212, 238, 255);
+  --custom-color-17: rgb(97, 127, 145);
 }
 .custom-color-light-1 {
   color: var(--custom-color-1);
@@ -240,6 +249,9 @@
 }
 .custom-color-12 {
   color: var(--custom-color-12);
+}
+.custom-color-17 {
+  color: var(--custom-color-17);
 }
 /* ------------------- color end ------------------- */
 /* ------------------- border start ------------------- */
