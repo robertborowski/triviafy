@@ -19,6 +19,11 @@
       </button>
       <div class="collapse navbar-collapse" id="toggleMobileMenu">
         <ul class="navbar-nav ms-auto text-center">
+          <li>
+            <button class="btn btn-outline-primary btn-sm custom-mb-negative-15 shadow" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Invite team & colleagues" id="demo" onclick="copyToClipboard(document.getElementById('demo').innerHTML)">Team <i class="fa-solid fa-up-right-from-square"></i></button>
+            <script>function copyToClipboard(text) {window.prompt("Share below link with your team and everyone will be routed to the same activities. (Copy link: CTRL + C)", 'https://triviafy.com/dashboard');}</script>
+            <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+            </li>
           <li><a href="/employees/dashboard" class="nav-link mx-2 custom-my-1-mobile">Dashboard</a></li>
           <li><a href="/employees/account" class="nav-link mx-2 custom-my-1-mobile">Account</a></li>
         </ul>

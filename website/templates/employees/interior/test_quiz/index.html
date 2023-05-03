@@ -11,7 +11,7 @@
     <div class="container-fluid fixed-top custom-bg-primary custom-pt-4">
       <nav class="container navbar navbar-expand-md navbar-light custom-display-flex custom-jc-2">
         <div>
-          <button class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Share this triviafy quiz with my coworkers" id="demo" onclick="copyToClipboard(document.getElementById('demo').innerHTML)">{{ page_dict_to_html['user_company_name'] }} <i class="fa-solid fa-up-right-from-square"></i></button>
+          <button class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Invite team & colleagues" id="demo" onclick="copyToClipboard(document.getElementById('demo').innerHTML)">{{ page_dict_to_html['user_company_name'] }} <i class="fa-solid fa-up-right-from-square"></i></button>
           <script>function copyToClipboard(text) {window.prompt("Share below link with your team and everyone will be routed to the same activities. (Copy link: CTRL + C)", 'https://triviafy.com/dashboard');}</script>
           <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
         </div>

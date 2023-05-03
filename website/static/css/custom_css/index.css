@@ -693,6 +693,9 @@
 .custom-mb-100 {
   margin-bottom: 100px;
 }
+.custom-mb-negative-15 {
+  margin-bottom: -15px;
+}
 .custom-mt-1 {
   margin-top: 25px;
 }
