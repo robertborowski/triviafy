@@ -203,9 +203,9 @@ def verify_email_function(url_redirect_code=None):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_interior.route('/dashboard')
-@employees_views_interior.route('/employees/dashboard')
-@employees_views_interior.route('/employees/dashboard/<url_redirect_code>')
+@employees_views_interior.route('/dashboard', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/dashboard', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/dashboard/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
 def login_dashboard_page_function(url_redirect_code=None):
   localhost_print_function(' ------------------------ login_dashboard_page_function START ------------------------ ')
