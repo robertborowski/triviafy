@@ -403,15 +403,13 @@ def admin_analytics_page_function(url_redirect_code=None):
         # ------------------------ send email start ------------------------
         guessed_name = breakup_email_function(i_email)
         output_to_email = i_email
-        output_subject = f"We Help You Maximize Your Visibility, Get Recognition, and Get Ahead! {todays_date_str}"
+        output_subject = f"Your Job, Your Recognition {todays_date_str}"
         output_body = f"<p>Hi {guessed_name},</p>\
-                        <p>Unleash your inner strengths and connect with your co-workers through 4 weeks of FREE team building trivia, designed to showcase your unique personality within your company.</p>\
-                        <p>Transform your team-building activities with Triviafy - the exciting weekly trivia contest that injects fun into your department's routine and fosters better communication among team members.</p>\
-                        <ul>Success stories for your team:</ul>\
-                        <li>""Remote employees who feel connected to their colleagues are 50% less likely to quit their jobs."" - Harvard Business Review</li>\
-                        <li>""71% of remote workers believe that virtual team building activities have a positive impact on their job satisfaction."" - Owl Labs</li>\
-                        <li>""Virtual team building activities can reduce employee turnover by up to 30%."" - Gallup</li>\
-                        <p>Boost your team's spirits and camaraderie with Triviafy's customized trivia contests - get started in less than 60 seconds at <a href='https://triviafy.com/employees'>triviafy.com</a>!</p>\
+                        <p>As someone who is always looking for new and exciting ways to build strong teams and advance your career, I want to introduce you to Triviafy - the leading team building software platform that is taking the corporate world by storm.</p>\
+                        <p>By signing up for Triviafy, you'll gain access to a vast array of team-building activities that will help you engage with your colleagues, build stronger relationships, and ultimately, advance your career. With features such as trivia games, picture quizzes, icebreakers, birthday games, personality tests, employee surveys, and daily questionnaires, Triviafy provides a unique and fun way to bond with your team. The best part is that all team-building activities are asynchronous!</p>\
+                        <p>But that's not all. By using Triviafy, you'll also get exposure within your company and increase your chances of getting that promotion you've been working towards. With higher employee engagement metrics and improved collaboration, your managers will see you as a standout performer and someone who is committed to the success of the team.</p>\
+                        <p>Don't just take my word for it - give Triviafy a try and see for yourself how it can help you achieve your career goals. Sign up today and start building stronger relationships with your colleagues while advancing your career.</p>\
+                        <p>Thank you for considering Triviafy.</p>\
                         <p style='margin:0;'>Best,</p>\
                         <p style='margin:0;'>Triviafy Support Team</p>\
                         <p style='margin:0;font-size:9px;'>Reply 'stop' to unsubscribe.</p>"
@@ -445,15 +443,13 @@ def admin_analytics_page_function(url_redirect_code=None):
         # ------------------------ send email start ------------------------
         guessed_name = breakup_email_function(i_email)
         output_to_email = i_email
-        output_subject = f"We Help You Maximize Your Visibility, Get Recognition, and Get Ahead! {todays_date_str}"
+        output_subject = f"Your Job, Your Recognition {todays_date_str}"
         output_body = f"<p>Hi {guessed_name},</p>\
-                        <p>Unleash your inner strengths and connect with your co-workers through 4 weeks of FREE team building trivia, designed to showcase your unique personality within your company.</p>\
-                        <p>Transform your team-building activities with Triviafy - the exciting weekly trivia contest that injects fun into your department's routine and fosters better communication among team members.</p>\
-                        <ul>Success stories for your team:</ul>\
-                        <li>""Remote employees who feel connected to their colleagues are 50% less likely to quit their jobs."" - Harvard Business Review</li>\
-                        <li>""71% of remote workers believe that virtual team building activities have a positive impact on their job satisfaction."" - Owl Labs</li>\
-                        <li>""Virtual team building activities can reduce employee turnover by up to 30%."" - Gallup</li>\
-                        <p>Boost your team's spirits and camaraderie with Triviafy's customized trivia contests - get started in less than 60 seconds at <a href='https://triviafy.com/employees'>triviafy.com</a>!</p>\
+                        <p>As someone who is always looking for new and exciting ways to build strong teams and advance your career, I want to introduce you to Triviafy - the leading team building software platform that is taking the corporate world by storm.</p>\
+                        <p>By signing up for Triviafy, you'll gain access to a vast array of team-building activities that will help you engage with your colleagues, build stronger relationships, and ultimately, advance your career. With features such as trivia games, picture quizzes, icebreakers, birthday games, personality tests, employee surveys, and daily questionnaires, Triviafy provides a unique and fun way to bond with your team. The best part is that all team-building activities are asynchronous!</p>\
+                        <p>But that's not all. By using Triviafy, you'll also get exposure within your company and increase your chances of getting that promotion you've been working towards. With higher employee engagement metrics and improved collaboration, your managers will see you as a standout performer and someone who is committed to the success of the team.</p>\
+                        <p>Don't just take my word for it - give Triviafy a try and see for yourself how it can help you achieve your career goals. Sign up today and start building stronger relationships with your colleagues while advancing your career.</p>\
+                        <p>Thank you for considering Triviafy.</p>\
                         <p style='margin:0;'>Best,</p>\
                         <p style='margin:0;'>Triviafy Support Team</p>\
                         <p style='margin:0;font-size:9px;'>Reply 'stop' to unsubscribe.</p>"
@@ -487,15 +483,13 @@ def admin_analytics_page_function(url_redirect_code=None):
         # ------------------------ send email start ------------------------
         guessed_name = breakup_email_function(i_email)
         output_to_email = i_email
-        output_subject = f"We Help You Maximize Your Visibility, Get Recognition, and Get Ahead! {todays_date_str}"
+        output_subject = f"Your Job, Your Recognition {todays_date_str}"
         output_body = f"<p>Hi {guessed_name},</p>\
-                        <p>Unleash your inner strengths and connect with your co-workers through 4 weeks of FREE team building trivia, designed to showcase your unique personality within your company.</p>\
-                        <p>Transform your team-building activities with Triviafy - the exciting weekly trivia contest that injects fun into your department's routine and fosters better communication among team members.</p>\
-                        <ul>Success stories for your team:</ul>\
-                        <li>""Remote employees who feel connected to their colleagues are 50% less likely to quit their jobs."" - Harvard Business Review</li>\
-                        <li>""71% of remote workers believe that virtual team building activities have a positive impact on their job satisfaction."" - Owl Labs</li>\
-                        <li>""Virtual team building activities can reduce employee turnover by up to 30%."" - Gallup</li>\
-                        <p>Boost your team's spirits and camaraderie with Triviafy's customized trivia contests - get started in less than 60 seconds at <a href='https://triviafy.com/employees'>triviafy.com</a>!</p>\
+                        <p>As someone who is always looking for new and exciting ways to build strong teams and advance your career, I want to introduce you to Triviafy - the leading team building software platform that is taking the corporate world by storm.</p>\
+                        <p>By signing up for Triviafy, you'll gain access to a vast array of team-building activities that will help you engage with your colleagues, build stronger relationships, and ultimately, advance your career. With features such as trivia games, picture quizzes, icebreakers, birthday games, personality tests, employee surveys, and daily questionnaires, Triviafy provides a unique and fun way to bond with your team. The best part is that all team-building activities are asynchronous!</p>\
+                        <p>But that's not all. By using Triviafy, you'll also get exposure within your company and increase your chances of getting that promotion you've been working towards. With higher employee engagement metrics and improved collaboration, your managers will see you as a standout performer and someone who is committed to the success of the team.</p>\
+                        <p>Don't just take my word for it - give Triviafy a try and see for yourself how it can help you achieve your career goals. Sign up today and start building stronger relationships with your colleagues while advancing your career.</p>\
+                        <p>Thank you for considering Triviafy.</p>\
                         <p style='margin:0;'>Best,</p>\
                         <p style='margin:0;'>Triviafy Support Team</p>\
                         <p style='margin:0;font-size:9px;'>Reply 'stop' to unsubscribe.</p>"
