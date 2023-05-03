@@ -12,9 +12,27 @@
 {% endif %}
 <!-- ----------------------------------- end ----------------------------------- -->
 <!-- ------------------------------------- new dashboard start ------------------------------------- -->
-<div class="container custom-pt-1 custom-pb-2">
+<div class="container custom-pt-50">
   <h2>Activities</h2>
 </div>
+<!-- ------------------------------------- expands start ------------------------------------- -->
+<div class="container custom-pb-25">
+  <div>
+    <span class="custom-opacity-1-hover custom-hover-1 uiSelectAllBlockVisible" id="id-flow_show_details_1">Show activity details <i class="fa-solid fa-caret-down custom-ml-1"></i></span>
+    <span class="custom-opacity-1-hover custom-hover-1 uiSelectAllBlockInvisible" id="id-flow_hide_details_1">Hide activity details <i class="fa-solid fa-caret-up custom-ml-1"></i></span>
+  </div>
+  <div class="custom-mt-10 custom-width-100 uiSelectAllBlockInvisible" id="id-activity_details_1">
+    <!-- ------------------------------------- description start ------------------------------------- -->
+    <div class="custom-border-9 custom-br-1 custom-p-1 custom-mb-6 shadow custom-bg-color-7">
+      <h3 class="custom-ml-1 custom-mb-25">Details</h3>
+      <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-3 custom-color-grey-2 custom-mr-1">Participation</span> Activities are asynchronous, allowing colleagues to conveniently submit their answers at their own pace and on their own schedule.</p>
+      <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-3 custom-color-grey-2 custom-mr-1">Grading</span> All colleagues' answers will be graded and revealed upon activity close time.</p>
+      <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-3 custom-color-grey-2 custom-mr-1">Notifications</span> Activity notifications will be sent via email. Please check your email's spam folder and mark <a href="mailto:support@triviafy.com">support@triviafy.com</a> as not spam.</p>
+    </div>
+    <!-- ------------------------------------- description end ------------------------------------- -->
+  </div>
+</div>
+<!-- ------------------------------------- expands end ------------------------------------- -->
 <div class="container">
   <div class="accordion" id="accordionExample">
     <!-- ------------------------------------- accordion item start ------------------------------------- -->
@@ -32,7 +50,7 @@
         <div class="accordion-body">
           <!-- ------------------------------------- latest activity start ------------------------------------- -->
           <div class="custom-border-9 custom-br-1 custom-p-1 custom-mb-6 custom-bg-color-8">
-            <h3 class="custom-ml-1 custom-mb-6">Activity status & participation</h3>
+            <h3 class="custom-ml-1 custom-mb-6">Status & participation</h3>
             <!-- ------------------------------------- latest test logic start ------------------------------------- -->
             {% if page_dict_to_html['first_test_exists'] == false %}
               <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status</span> Welcome! Please confirm your team's personalized settings. <a href="/employees/schedule" class="btn btn-success">Get started <i class="fa-solid fa-arrow-right"></i></a></p>
@@ -65,18 +83,9 @@
             <!-- ------------------------------------- latest test logic end ------------------------------------- -->
           </div>
           <!-- ------------------------------------- latest activity end ------------------------------------- -->
-          <!-- ------------------------------------- description start ------------------------------------- -->
-          <div class="custom-border-9 custom-br-1 custom-p-1 custom-mb-6 custom-bg-color-7">
-            <h3 class="custom-ml-1 custom-mb-6">Activity details</h3>
-            <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-3 custom-color-grey-2 custom-mr-1">Description</span> Automated trivia contests.</p>
-            <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-3 custom-color-grey-2 custom-mr-1">Participation</span> Activities are asynchronous, allowing colleagues to conveniently submit their answers at their own pace and on their own schedule.</p>
-            <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-3 custom-color-grey-2 custom-mr-1">Grading</span> All colleagues' answers will be graded and revealed upon activity close time.</p>
-            <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-3 custom-color-grey-2 custom-mr-1">Notifications</span> Activity notifications will be sent via email. Please check your email's spam folder and mark <a href="mailto:support@triviafy.com">support@triviafy.com</a> as not spam.</p>
-          </div>
-          <!-- ------------------------------------- description end ------------------------------------- -->
           <!-- ------------------------------------- settings start ------------------------------------- -->
           <div class="custom-border-9 custom-br-1 custom-p-1 custom-mb-6 custom-bg-color-6">
-            <h3 class="custom-ml-1 custom-mb-6">Activity settings</h3>
+            <h3 class="custom-ml-1 custom-mb-6">Settings</h3>
             <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-5 custom-color-6 custom-mr-1">Cadence</span> {{ page_dict_to_html['db_group_settings_dict']['total_questions'] }} trivia questions, sent {{ page_dict_to_html['db_group_settings_dict']['cadence'].lower() }}. Activity opens {{ page_dict_to_html['db_group_settings_dict']['start_day'] }}'s at {{ page_dict_to_html['db_group_settings_dict']['start_time'] }} and closes {{ page_dict_to_html['db_group_settings_dict']['end_day'] }}'s at {{ page_dict_to_html['db_group_settings_dict']['end_time'] }}, {{ page_dict_to_html['db_group_settings_dict']['timezone'] }}. <span class="custom-ml-1"><a href="/employees/schedule" class="custom-a-2"><i class="fa-solid fa-pen-to-square" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit settings"></i></a></span></p>
             {% if page_dict_to_html['db_group_settings_dict']['categories'] == 'all_categories' %}
               <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-5 custom-color-6 custom-mr-1">Categories</span> All categories <span class="custom-ml-1"><a href="/employees/schedule" class="custom-a-2"><i class="fa-solid fa-pen-to-square" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit settings"></i></a></span></p>
@@ -91,13 +100,13 @@
           </div>
           <!-- ------------------------------------- settings end ------------------------------------- -->
           <!-- ------------------------------------- features start ------------------------------------- -->
-          <!-- <div class="custom-border-9 custom-br-1 custom-p-1 custom-mb-6 custom-bg-color-15">
-            <h3 class="custom-ml-1 custom-mb-6">Activity resources</h3>
+          <div class="custom-border-9 custom-br-1 custom-p-1 custom-mb-6 custom-bg-color-15">
+            <h3 class="custom-ml-1 custom-mb-6">Resources</h3>
             <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-16 custom-color-17 custom-mr-1">Description</span> Automated trivia contests.</p>
             <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-16 custom-color-17 custom-mr-1">Participation</span> Activities are asynchronous, allowing colleagues to conveniently submit their answers at their own pace and on their own schedule.</p>
             <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-16 custom-color-17 custom-mr-1">Grading</span> All colleagues' answers will be graded and revealed upon activity close time.</p>
             <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-16 custom-color-17 custom-mr-1">Notifications</span> Activity notifications will be sent via email. Please check your email's spam folder and mark <a href="mailto:support@triviafy.com">support@triviafy.com</a> as not spam.</p>
-          </div> -->
+          </div>
           <!-- ------------------------------------- features end ------------------------------------- -->
         </div>
       </div>
