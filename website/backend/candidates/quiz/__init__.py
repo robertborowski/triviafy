@@ -46,10 +46,21 @@ def build_question_type_arr_function(input_type, input_total_questions):
   #       question_types_arr.append(options_arr[0])
   # ------------------------ method 1 end ------------------------
   # ------------------------ method 2 start ------------------------
-  if input_total_questions == 10:
-    question_types_arr = ['Multiple choice','Multiple choice','Multiple choice','Multiple choice','Multiple choice','Multiple choice','Multiple choice','Multiple choice','Fill in the blank','Fill in the blank']
-  if input_total_questions == 5:
-    question_types_arr = ['Multiple choice','Multiple choice','Multiple choice','Multiple choice','Fill in the blank']
+  if input_type == 'Multiple choice':
+    if input_total_questions == 10:
+      question_types_arr = ['Multiple choice','Multiple choice','Multiple choice','Multiple choice','Multiple choice','Multiple choice','Multiple choice','Multiple choice','Multiple choice','Multiple choice']
+    elif input_total_questions == 5:
+      question_types_arr = ['Multiple choice','Multiple choice','Multiple choice','Multiple choice','Multiple choice']
+  elif input_type == 'Fill in the blank':
+    if input_total_questions == 10:
+      question_types_arr = ['Fill in the blank','Fill in the blank','Fill in the blank','Fill in the blank','Fill in the blank','Fill in the blank','Fill in the blank','Fill in the blank','Fill in the blank','Fill in the blank']
+    elif input_total_questions == 5:
+      question_types_arr = ['Fill in the blank','Fill in the blank','Fill in the blank','Fill in the blank','Fill in the blank']
+  elif input_type == 'Mixed':
+    if input_total_questions == 10:
+      question_types_arr = ['Multiple choice','Multiple choice','Multiple choice','Multiple choice','Multiple choice','Multiple choice','Multiple choice','Multiple choice','Fill in the blank','Fill in the blank']
+    elif input_total_questions == 5:
+      question_types_arr = ['Multiple choice','Multiple choice','Multiple choice','Multiple choice','Fill in the blank']
   # ------------------------ method 2 end ------------------------
   question_types_str = ','.join(question_types_arr)
   localhost_print_function(' ------------------------ build_question_type_arr_function end ------------------------ ')

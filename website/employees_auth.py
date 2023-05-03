@@ -93,9 +93,7 @@ def employees_signup_function(url_redirect_code=None):
     else:
       # ------------------------ infer company name start ------------------------
       email_arr1 = ui_email.split('@')
-      email_desired1 = email_arr1[1]
-      email_arr2 = email_desired1.split('.')
-      company_name_from_email = email_arr2[0].lower()
+      company_name_from_email = email_arr1[1].lower()
       # ------------------------ infer company name end ------------------------
       # ------------------------ create new user in db start ------------------------
       new_row = UserObj(
