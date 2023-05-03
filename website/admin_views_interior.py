@@ -403,7 +403,7 @@ def admin_analytics_page_function(url_redirect_code=None):
         # ------------------------ send email start ------------------------
         guessed_name = breakup_email_function(i_email)
         output_to_email = i_email
-        output_subject = f"Your Job, Your Recognition {todays_date_str}"
+        output_subject = f"Your Recognition {todays_date_str}"
         output_body = f"<p>Hi {guessed_name},</p>\
                         <p>As someone who is always looking for new and exciting ways to build strong teams and advance your career, I want to introduce you to Triviafy - the leading team building software platform that is taking the corporate world by storm.</p>\
                         <p>With Triviafy, you'll gain access to a vast array of team-building activities that will help you engage with your colleagues, build stronger relationships, and ultimately, advance your career. With features such as trivia games, picture quizzes, icebreakers, birthday games, personality tests, employee surveys, and daily questionnaires, Triviafy provides a unique and fun way to bond with your team. The best part is that all team-building activities are asynchronous!</p>\
@@ -443,7 +443,7 @@ def admin_analytics_page_function(url_redirect_code=None):
         # ------------------------ send email start ------------------------
         guessed_name = breakup_email_function(i_email)
         output_to_email = i_email
-        output_subject = f"Your Job, Your Recognition {todays_date_str}"
+        output_subject = f"Your Recognition {todays_date_str}"
         output_body = f"<p>Hi {guessed_name},</p>\
                         <p>As someone who is always looking for new and exciting ways to build strong teams and advance your career, I want to introduce you to Triviafy - the leading team building software platform that is taking the corporate world by storm.</p>\
                         <p>With Triviafy, you'll gain access to a vast array of team-building activities that will help you engage with your colleagues, build stronger relationships, and ultimately, advance your career. With features such as trivia games, picture quizzes, icebreakers, birthday games, personality tests, employee surveys, and daily questionnaires, Triviafy provides a unique and fun way to bond with your team. The best part is that all team-building activities are asynchronous!</p>\
@@ -483,7 +483,7 @@ def admin_analytics_page_function(url_redirect_code=None):
         # ------------------------ send email start ------------------------
         guessed_name = breakup_email_function(i_email)
         output_to_email = i_email
-        output_subject = f"Your Job, Your Recognition {todays_date_str}"
+        output_subject = f"Your Recognition {todays_date_str}"
         output_body = f"<p>Hi {guessed_name},</p>\
                         <p>As someone who is always looking for new and exciting ways to build strong teams and advance your career, I want to introduce you to Triviafy - the leading team building software platform that is taking the corporate world by storm.</p>\
                         <p>With Triviafy, you'll gain access to a vast array of team-building activities that will help you engage with your colleagues, build stronger relationships, and ultimately, advance your career. With features such as trivia games, picture quizzes, icebreakers, birthday games, personality tests, employee surveys, and daily questionnaires, Triviafy provides a unique and fun way to bond with your team. The best part is that all team-building activities are asynchronous!</p>\
