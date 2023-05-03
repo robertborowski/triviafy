@@ -23,11 +23,16 @@
   </div>
   <div class="custom-mt-10 custom-width-100 uiSelectAllBlockInvisible" id="id-activity_details_1">
     <!-- ------------------------------------- description start ------------------------------------- -->
-    <div class="custom-border-9 custom-br-1 custom-p-1 custom-mb-6 shadow custom-bg-color-7">
+    <div class="custom-border-9 custom-br-1 custom-p-1 custom-mb-6 shadow custom-bg-white">
       <h3 class="custom-ml-1 custom-mb-25">Details</h3>
       <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-3 custom-color-grey-2 custom-mr-1">Participation</span> Activities are asynchronous, allowing colleagues to conveniently submit their answers at their own pace and on their own schedule.</p>
       <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-3 custom-color-grey-2 custom-mr-1">Grading</span> All colleagues' answers will be graded and revealed upon activity close time.</p>
       <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-3 custom-color-grey-2 custom-mr-1">Notifications</span> Activity notifications will be sent via email. Please check your email's spam folder and mark <a href="mailto:support@triviafy.com">support@triviafy.com</a> as not spam.</p>
+      <div class="text-center custom-pb-25">
+        <button class="btn btn-warning btn-lg custom-width-100 shadow-sm" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Share this triviafy quiz with my coworkers" id="demo" onclick="copyToClipboard(document.getElementById('demo').innerHTML)">Share with team <i class="fa-solid fa-up-right-from-square"></i></button>
+        <script>function copyToClipboard(text) {window.prompt("Share below link with your team and everyone will be routed to the same activities. (Copy link: CTRL + C)", 'https://triviafy.com/dashboard');}</script>
+        <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+      </div>
     </div>
     <!-- ------------------------------------- description end ------------------------------------- -->
   </div>
@@ -119,7 +124,7 @@
       </h2>
       <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
         <div class="accordion-body">
-          <div class="text-center custom-p-4 custom-bg-color-7 custom-br-1">
+          <div class="text-center custom-p-4 custom-bg-white custom-br-1">
             <a href="/employees/account" class="custom-a-2">Subscription required <i class="fa-solid fa-eye-slash"></i></a>
           </div>
         </div>
