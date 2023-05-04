@@ -908,6 +908,7 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
           i_question_number = i_dict['question_number']
           if int(i_question_number) == int(url_question_number):
             i_ui_answer = i_dict['ui_answer']
+            i_ui_answer_is_correct = i_dict['ui_answer_is_correct']
             # ------------------------ capitalize mcq answer start ------------------------
             if len(i_ui_answer) == 1:
               i_ui_answer = i_ui_answer.upper()
@@ -919,7 +920,7 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
             if len(i_email) > 15:
               i_email = i_email[0:15]
             # ------------------------ shorten email end ------------------------
-            teammate_answers_tuple.append((i_email, i_ui_answer))
+            teammate_answers_tuple.append((i_email, i_ui_answer, i_ui_answer_is_correct))
             break
       page_dict['teammate_answers_tuple'] = teammate_answers_tuple
       # ------------------------ get teammate answers end ------------------------

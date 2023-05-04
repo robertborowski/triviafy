@@ -202,14 +202,16 @@
           </div>
           <!-- ------------------------------------- coworker answers start ------------------------------------- -->
           {% if page_dict_to_html['view_as_archive'] == true %}
-          <div class="custom-mt-3">
             <div>
               <p>Team responses</p>
             </div>
             {% for i_tuple in page_dict_to_html['teammate_answers_tuple'] %}
-            <p><span class="btn btn-secondary">{{ i_tuple[0] }}</span> <span class="btn btn-outline-secondary">{{ i_tuple[1] }}</span></p>
+              {% if i_tuple[2] == true %}
+                <p><span class="btn btn-success"><i class="fa-solid fa-check"></i> {{ i_tuple[0] }}</span> <span class="btn btn-outline-success">{{ i_tuple[1] }}</span></p>
+              {% else %}
+                <p><span class="btn btn-danger"><i class="fa-solid fa-xmark"></i> {{ i_tuple[0] }}</span> <span class="btn btn-outline-danger">{{ i_tuple[1] }}</span></p>
+              {% endif %}
             {% endfor %}
-          </div>
           {% else %}
           {% endif %}
           <!-- ------------------------------------- coworker answers end ------------------------------------- -->
