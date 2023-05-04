@@ -752,7 +752,7 @@ def employees_test_id_replace_question_function(url_test_id=None, url_question_n
         if current_question_id == question_id_to_replace:
           tracking_ids_arr_of_dicts.pop(i)
           break
-      db_test_graded_obj.test_obj = json.dumps(tracking_ids_arr_of_dicts)
+      i_obj.test_obj = json.dumps(tracking_ids_arr_of_dicts)
       db.session.commit()
   except:
     pass
