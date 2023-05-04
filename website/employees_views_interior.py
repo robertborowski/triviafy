@@ -742,16 +742,20 @@ def employees_test_id_replace_question_function(url_test_id=None, url_question_n
     pass
   # ------------------------ replace id in question asked table end ------------------------
   # ------------------------ check if old question graded/remove start ------------------------
-  db_test_graded_obj = EmployeesTestsGradedObj.query.filter_by(fk_group_id=user_group_id.public_group_id, fk_test_id=db_tests_obj.id, fk_user_id=current_user.id).first()
-  db_test_graded_dict = arr_of_dict_all_columns_single_item_function(db_test_graded_obj)
-  tracking_ids_arr_of_dicts = json.loads(db_test_graded_dict['test_obj'])
-  for i in range(len(tracking_ids_arr_of_dicts)):
-    current_question_id = tracking_ids_arr_of_dicts[i]['id']
-    if current_question_id == question_id_to_replace:
-      tracking_ids_arr_of_dicts.pop(i)
-      break
-  db_test_graded_obj.test_obj = json.dumps(tracking_ids_arr_of_dicts)
-  db.session.commit()
+  try:
+    db_test_graded_obj = EmployeesTestsGradedObj.query.filter_by(fk_group_id=user_group_id.public_group_id, fk_test_id=db_tests_obj.id).all()
+    for i_obj in db_test_graded_obj:
+      db_test_graded_dict = arr_of_dict_all_columns_single_item_function(i_obj)
+      tracking_ids_arr_of_dicts = json.loads(db_test_graded_dict['test_obj'])
+      for i in range(len(tracking_ids_arr_of_dicts)):
+        current_question_id = tracking_ids_arr_of_dicts[i]['id']
+        if current_question_id == question_id_to_replace:
+          tracking_ids_arr_of_dicts.pop(i)
+          break
+      db_test_graded_obj.test_obj = json.dumps(tracking_ids_arr_of_dicts)
+      db.session.commit()
+  except:
+    pass
   # ------------------------ check if old question graded/remove end ------------------------
   localhost_print_function(' ------------------------ employees_test_id_replace_question_function end ------------------------ ')
   return redirect(url_for('employees_views_interior.employees_test_id_function', url_test_id=url_test_id, url_question_number=url_question_number, url_redirect_code='e23'))

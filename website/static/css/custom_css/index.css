@@ -856,6 +856,12 @@
 .custom-p-9 {
   padding: 5px 10px;
 }
+.custom-p-10 {
+  padding: 10px;
+}
+.custom-p-15 {
+  padding: 15px;
+}
 .custom-p-100 {
   padding: 100px;
 }
