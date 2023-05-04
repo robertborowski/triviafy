@@ -67,7 +67,7 @@
         {% for i in page_dict_to_html['test_total_questions_arr'] %}
           {% if i == page_dict_to_html['current_question_number'] %}
             <div class="text-center">
-              {% if page_dict_to_html['first_user_first_quiz_can_replace'] == true %}
+              {% if page_dict_to_html['first_user_latest_quiz_can_replace'] == true and page_dict_to_html['view_as_archive'] == false %}
                 <a href="/employees/t/replace/{{ page_dict_to_html['url_test_id'] }}/{{ i }}"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Replace this question"><span class="btn btn-danger custom-mb-10"><i class="fa-solid fa-x"></i></span></a>
               {% else %}
               {% endif %}
@@ -211,7 +211,7 @@
           {% endif %}
           <!-- ------------------------------------- coworker answers end ------------------------------------- -->
           <!-- ------------------------------------- first user first quiz discard option start ------------------------------------- -->
-          {% if page_dict_to_html['first_user_first_quiz_can_replace'] == true %}
+          {% if page_dict_to_html['first_user_latest_quiz_can_replace'] == true and page_dict_to_html['view_as_archive'] == false %}
           <div class="text-center">
             <a href="/employees/t/fufq_remove" class="btn btn-outline-danger btn-sm">Delete this entire quiz and select new categories</a>
           </div>

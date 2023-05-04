@@ -75,4 +75,21 @@ def first_user_first_quiz_check_function(company_name):
   localhost_print_function(' ------------------------ first_user_first_quiz_check_function end ------------------------ ')
   return check_first_user_first_quiz_can_replace
 # ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def first_user_latest_quiz_check_function(company_name):
+  localhost_print_function(' ------------------------ first_user_latest_quiz_check_function start ------------------------ ')
+  check_first_user_latest_quiz_can_replace = False
+  # ------------------------ latest objs start ------------------------
+  user_group_id = EmployeesGroupsObj.query.filter_by(fk_company_name=company_name).order_by(EmployeesGroupsObj.created_timestamp.desc()).first()
+  user_test_obj = EmployeesTestsObj.query.filter_by(fk_group_id=user_group_id.public_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
+  user_test_graded_obj = EmployeesTestsGradedObj.query.filter_by(fk_group_id=user_group_id.public_group_id, fk_test_id=user_test_obj.id, status='complete').all()
+  # ------------------------ latest objs end ------------------------
+  # ------------------------ check if none completed yet start ------------------------
+  if user_test_graded_obj == None or user_test_graded_obj == []:
+    check_first_user_latest_quiz_can_replace = True
+  # ------------------------ check if none completed yet end ------------------------
+  localhost_print_function(' ------------------------ first_user_latest_quiz_check_function end ------------------------ ')
+  return check_first_user_latest_quiz_can_replace
+# ------------------------ individual function end ------------------------
 localhost_print_function('=========================================== test_backend __init__ END ===========================================')

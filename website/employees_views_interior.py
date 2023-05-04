@@ -33,7 +33,7 @@ from website.backend.candidates.stripe import check_stripe_subscription_status_f
 import stripe
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
 from website.backend.candidates.test_backend import get_test_winner
-from website.backend.candidates.test_backend import first_user_first_quiz_check_function
+from website.backend.candidates.test_backend import first_user_first_quiz_check_function, first_user_latest_quiz_check_function
 from website.backend.candidates.aws_manipulation import candidates_change_uploaded_image_filename_function, candidates_user_upload_image_checks_aws_s3_function
 from website.backend.candidates.string_manipulation import breakup_email_function
 from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function, get_marketing_list_function
@@ -775,9 +775,9 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
       return redirect(url_for('employees_views_interior.employees_test_id_function', url_test_id=db_tests_obj.id, url_question_number='1', url_initial_page_load='init'))
   # ------------------------ redirect to latest test id end ------------------------
   # ------------------------ first user first quiz delete logic start ------------------------
-  page_dict['first_user_first_quiz_can_replace'] = first_user_first_quiz_check_function(current_user.company_name)
+  page_dict['first_user_latest_quiz_can_replace'] = first_user_latest_quiz_check_function(current_user.company_name)
   if url_test_id == 'fufq_remove':
-    if page_dict['first_user_first_quiz_can_replace'] == True:
+    if page_dict['first_user_latest_quiz_can_replace'] == True:
       check_latest_test_obj = EmployeesTestsObj.query.filter_by(fk_group_id=user_group_id.public_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
       EmployeesTestsObj.query.filter_by(id=check_latest_test_obj.id).delete()
       EmployeesTestsGradedObj.query.filter_by(fk_test_id=check_latest_test_obj.id).delete()
