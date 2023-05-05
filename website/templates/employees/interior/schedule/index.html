@@ -19,7 +19,7 @@
     <!-- ------------------------------------- title start ------------------------------------- -->
     <div class="container mx-auto custom-pb-25">
       <div class="text-center">
-        {% if page_dict_to_html['activity_type'] == 'trivia' %}
+        {% if page_dict_to_html['activity_type'] == 'activity_trivia' %}
           <h2 class="custom-color-white">Trivia Settings</h2>
         {% endif %}
         <!-- ------------------------------------- expands start ------------------------------------- -->
@@ -29,7 +29,7 @@
             <span class="custom-color-white custom-opacity-1-hover custom-hover-1 uiSelectAllBlockInvisible" id="id-flow_hide_details_1">Hide activity details <i class="fa-solid fa-caret-up custom-ml-1"></i></span>
           </div>
           <div class="custom-tal custom-mt-2 uiSelectAllBlockInvisible" id="id-activity_details_1">
-            {% if page_dict_to_html['activity_type'] == 'trivia' %}
+            {% if page_dict_to_html['activity_type'] == 'activity_trivia' %}
               <!-- ------------------------------------- description start ------------------------------------- -->
               <div class="custom-border-9 custom-br-1 custom-p-1 custom-mb-6 shadow custom-bg-white">
                 <h3 class="custom-ml-1 custom-mb-25">Details</h3>
@@ -43,7 +43,7 @@
                 </div>
               </div>
               <!-- ------------------------------------- description end ------------------------------------- -->
-            {% elif page_dict_to_html['activity_type'] == 'picture_quiz' %}
+            {% elif page_dict_to_html['activity_type'] == 'activity_picture_quiz' %}
             {% endif %}
           </div>
         </div>
@@ -52,7 +52,7 @@
     </div>
     <!-- ------------------------------------- title end ------------------------------------- -->
 
-    {% if page_dict_to_html['activity_type'] == 'trivia' %}
+    {% if page_dict_to_html['activity_type'] == 'activity_trivia' %}
       <!-- ------------------------------------- section - primary and secondary selection start ------------------------------------- -->
       <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
         <!-- ------------------------------------- part 1 form start ------------------------------------- -->
