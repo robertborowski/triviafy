@@ -1,7 +1,7 @@
 # ------------------------ imports start ------------------------
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 import re
-from website.models import UserObj, EmployeesTestsGradedObj, EmployeesTestsObj, EmployeesGroupsObj
+from website.models import UserObj, EmployeesTestsGradedObj, EmployeesTestsObj, GroupsObj
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 # ------------------------ imports end ------------------------
 
@@ -54,7 +54,7 @@ def first_user_first_quiz_check_function(company_name):
   localhost_print_function(' ------------------------ first_user_first_quiz_check_function start ------------------------ ')
   check_first_user_first_quiz_can_replace = False
   try:
-    user_group_id = EmployeesGroupsObj.query.filter_by(fk_company_name=company_name).order_by(EmployeesGroupsObj.created_timestamp.desc()).first()
+    user_group_id = GroupsObj.query.filter_by(fk_company_name=company_name).order_by(GroupsObj.created_timestamp.desc()).first()
     fufq_check_test_count_obj = EmployeesTestsObj.query.filter_by(fk_group_id=user_group_id.public_group_id).all()
     if len(fufq_check_test_count_obj) == 1:
       fufq_check_test_graded_count_obj = EmployeesTestsGradedObj.query.filter_by(fk_group_id=user_group_id.public_group_id).all()
@@ -81,7 +81,7 @@ def first_user_latest_quiz_check_function(company_name):
   localhost_print_function(' ------------------------ first_user_latest_quiz_check_function start ------------------------ ')
   check_first_user_latest_quiz_can_replace = False
   # ------------------------ latest objs start ------------------------
-  user_group_id = EmployeesGroupsObj.query.filter_by(fk_company_name=company_name).order_by(EmployeesGroupsObj.created_timestamp.desc()).first()
+  user_group_id = GroupsObj.query.filter_by(fk_company_name=company_name).order_by(GroupsObj.created_timestamp.desc()).first()
   user_test_obj = EmployeesTestsObj.query.filter_by(fk_group_id=user_group_id.public_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
   user_test_graded_obj = EmployeesTestsGradedObj.query.filter_by(fk_group_id=user_group_id.public_group_id, fk_test_id=user_test_obj.id, status='complete').all()
   # ------------------------ latest objs end ------------------------
