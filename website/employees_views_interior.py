@@ -37,6 +37,7 @@ from website.backend.candidates.test_backend import first_user_first_quiz_check_
 from website.backend.candidates.aws_manipulation import candidates_change_uploaded_image_filename_function, candidates_user_upload_image_checks_aws_s3_function
 from website.backend.candidates.string_manipulation import breakup_email_function
 from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function, get_marketing_list_function
+from website.backend.candidates.pull_create_logic import pull_create_group_obj_function
 from website.backend.candidates.dropdowns import get_dropdowns_trivia_function
 # ------------------------ imports end ------------------------
 
@@ -252,42 +253,7 @@ def login_dashboard_page_function(url_redirect_code=None):
   page_dict = {}
   # ------------------------ page dict end ------------------------
   # ------------------------ pull/create group id start ------------------------
-  company_group_id = None
-  db_groups_obj = EmployeesGroupsObj.query.filter_by(fk_company_name=current_user.company_name).first()
-  if db_groups_obj == None or db_groups_obj == []:
-    company_group_id = generate_random_length_uuid_function(6)
-    # ------------------------ while loop if generated group id already exists start ------------------------
-    group_id_exists_check = EmployeesGroupsObj.query.filter_by(public_group_id=company_group_id).first()
-    while group_id_exists_check != None:
-      company_group_id = generate_random_length_uuid_function(6)
-      group_id_exists_check = EmployeesGroupsObj.query.filter_by(public_group_id=company_group_id).first()
-    # ------------------------ while loop if generated group id already exists end ------------------------
-    # ------------------------ insert to db start ------------------------
-    try:
-      new_row = EmployeesGroupsObj(
-        id = create_uuid_function('group_'),
-        created_timestamp = create_timestamp_function(),
-        fk_company_name = current_user.company_name,
-        fk_user_id = current_user.id,
-        public_group_id = company_group_id,
-        status = 'active',
-        trivia = True,
-        picture_quiz = False,
-        birthday_questions = False,
-        icebreakers = False,
-        surveys = False,
-        personality_test = False,
-        this_or_that = False,
-        most_likely_to = False,
-        giftcard = False
-      )
-      db.session.add(new_row)
-      db.session.commit()
-    except:
-      pass
-    # ------------------------ insert to db end ------------------------
-  else:
-    company_group_id = db_groups_obj.public_group_id
+  company_group_id = pull_create_group_obj_function(current_user)
   # ------------------------ pull/create group id end ------------------------
   # ------------------------ pull/create group settings start ------------------------
   db_group_settings_obj = EmployeesGroupSettingsObj.query.filter_by(fk_group_id=company_group_id).first()
