@@ -469,6 +469,10 @@ def login_dashboard_page_function(url_redirect_code=None):
   db_group_settings_dict['categories'] = categories_edit
   page_dict['db_group_settings_dict'] = db_group_settings_dict
   # ------------------------ assign to dict end ------------------------
+  # ------------------------ if post start ------------------------
+  if request.method == 'POST':
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+  # ------------------------ if post end ------------------------
   # ------------------------ auto set cookie start ------------------------
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
   if get_cookie_value_from_browser != None:
