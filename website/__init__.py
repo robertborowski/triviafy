@@ -18,7 +18,6 @@ localhost_print_function('=========================================== website __
 # Result: No SQL is needed to create, maintain, and query the db! ORM: Object Relational Mapping 
 # and you can connect it directly to Postgres
 db = SQLAlchemy()
-# DB_NAME = 'triviafy_candidates_sqlalchemy_database.db'
 DB_NAME = os.environ.get('HEROKU_POSTGRESQL_PURPLE_URL')
 # ------------------------ define/initialize a new db sql_alchemy function end ------------------------
 
@@ -58,7 +57,7 @@ def create_app_function():
   def not_found(e):
     # localhost_print_function('exception hit create_app_function')
     # localhost_print_function('=========================================== create_app_function END ===========================================')
-    return render_template("candidates/exterior/error_404/index.html")
+    return render_template("employees/exterior/error_404/index.html")
   # ------------------------ Handleing Error Messages END ------------------------
   # ------------------------ stripe api environment start ------------------------
   stripe.api_key = os.environ.get('STRIPE_API_KEY')  # PRODUCTION
@@ -66,10 +65,6 @@ def create_app_function():
   # ------------------------ stripe api environment end ------------------------
   # ------------------------ views/auths/routes imports start ------------------------
   from .admin_views_interior import admin_views_interior
-  
-  from .candidates_auth import candidates_auth
-  from .candidates_views_exterior import candidates_views_exterior
-  from .candidates_views_interior import candidates_views_interior
 
   from .employees_auth import employees_auth
   from .employees_views_exterior import employees_views_exterior
@@ -77,10 +72,6 @@ def create_app_function():
   # ------------------------ views/auths/routes imports end ------------------------
   # ------------------------ views/auths/routes register blueprints start ------------------------
   app.register_blueprint(admin_views_interior, url_prefix='/')
-
-  app.register_blueprint(candidates_auth, url_prefix='/')
-  app.register_blueprint(candidates_views_exterior, url_prefix='/')
-  app.register_blueprint(candidates_views_interior, url_prefix='/')
   
   app.register_blueprint(employees_auth, url_prefix='/')
   app.register_blueprint(employees_views_exterior, url_prefix='/')
@@ -92,7 +83,6 @@ def create_app_function():
   # ------------------------ import models before creating db for first time end ------------------------
   # ------------------------ login manager start ------------------------
   login_manager = LoginManager()
-  # login_manager.login_view = 'candidates_auth.candidates_login_page_function'   # where does the person go if they are not logged in -> auth.login route
   login_manager.login_view = 'employees_auth.employees_signup_function'   # where does the person go if they are not logged in -> auth.login route
   login_manager.init_app(app)
   # ------------------------ function start ------------------------
