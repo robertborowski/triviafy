@@ -38,6 +38,7 @@ from website.backend.candidates.aws_manipulation import candidates_change_upload
 from website.backend.candidates.string_manipulation import breakup_email_function
 from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function, get_marketing_list_function
 from website.backend.candidates.dropdowns import get_dropdowns_trivia_function
+from website.backend.candidates.pull_create_logic import pull_create_group_obj_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -251,6 +252,9 @@ def login_dashboard_page_function(url_redirect_code=None):
   # ------------------------ page dict start ------------------------
   page_dict = {}
   # ------------------------ page dict end ------------------------
+  # ------------------------ pull/create group start ------------------------
+  db_group_obj = pull_create_group_obj_function(current_user)
+  # ------------------------ pull/create group end ------------------------
   # ------------------------ pull/create group settings start ------------------------
   db_group_settings_obj = EmployeesGroupSettingsObj.query.filter_by(fk_group_id=current_user.group_id).first()
   if db_group_settings_obj == None or db_group_settings_obj == []:

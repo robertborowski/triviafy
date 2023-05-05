@@ -10,47 +10,6 @@ from website import db
 
 localhost_print_function('=========================================== pull_create_logic __init__ start ===========================================')
 # ------------------------ individual function start ------------------------
-def pull_create_group_obj_function(current_user):
-  company_group_id = None
-  db_groups_obj = GroupsObj.query.filter_by(fk_company_name=current_user.company_name).first()
-  if db_groups_obj == None or db_groups_obj == []:
-    company_group_id = generate_random_length_uuid_function(6)
-    # ------------------------ while loop if generated group id already exists start ------------------------
-    group_id_exists_check = GroupsObj.query.filter_by(public_group_id=company_group_id).first()
-    while group_id_exists_check != None:
-      company_group_id = generate_random_length_uuid_function(6)
-      group_id_exists_check = GroupsObj.query.filter_by(public_group_id=company_group_id).first()
-    # ------------------------ while loop if generated group id already exists end ------------------------
-    # ------------------------ insert to db start ------------------------
-    try:
-      new_row = GroupsObj(
-        id = create_uuid_function('group_'),
-        created_timestamp = create_timestamp_function(),
-        fk_company_name = current_user.company_name,
-        fk_user_id = current_user.id,
-        public_group_id = company_group_id,
-        status = 'active',
-        trivia = True,
-        picture_quiz = False,
-        birthday_questions = False,
-        icebreakers = False,
-        surveys = False,
-        personality_test = False,
-        this_or_that = False,
-        most_likely_to = False,
-        giftcard = False
-      )
-      db.session.add(new_row)
-      db.session.commit()
-    except:
-      pass
-    # ------------------------ insert to db end ------------------------
-  else:
-    company_group_id = db_groups_obj.public_group_id
-  return company_group_id
-# ------------------------ individual function end ------------------------
-
-# ------------------------ individual function start ------------------------
 def pull_create_group_id_function(current_user):
   # ------------------------ if team member with group id exists start ------------------------
   db_all_users_obj = UserObj.query.filter_by(company_name=current_user.company_name).all()
@@ -68,5 +27,37 @@ def pull_create_group_id_function(current_user):
   # ------------------------ while loop if generated group id already exists end ------------------------
   # ------------------------ if no group id exists end ------------------------
   return company_group_id
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def pull_create_group_obj_function(current_user):
+  db_group_obj = GroupsObj.query.filter_by(public_group_id=current_user.group_id).first()
+  if db_group_obj == None or db_group_obj == []:
+    # ------------------------ insert to db start ------------------------
+    try:
+      new_row = GroupsObj(
+        id = create_uuid_function('group_'),
+        created_timestamp = create_timestamp_function(),
+        fk_company_name = current_user.company_name,
+        fk_user_id = current_user.id,
+        public_group_id = current_user.group_id,
+        status = 'active',
+        trivia = True,
+        picture_quiz = False,
+        birthday_questions = False,
+        icebreakers = False,
+        surveys = False,
+        personality_test = False,
+        this_or_that = False,
+        most_likely_to = False,
+        giftcard = False
+      )
+      db.session.add(new_row)
+      db.session.commit()
+    except:
+      pass
+    db_group_obj = GroupsObj.query.filter_by(public_group_id=current_user.group_id).first()
+    # ------------------------ insert to db end ------------------------
+  return db_group_obj
 # ------------------------ individual function end ------------------------
 localhost_print_function('=========================================== pull_create_logic __init__ end ===========================================')
