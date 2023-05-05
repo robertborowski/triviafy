@@ -47,6 +47,9 @@ def pull_create_group_obj_function(current_user):
     except:
       pass
     # ------------------------ insert to db end ------------------------
+    # ------------------------ assign to user start ------------------------
+    
+    # ------------------------ assign to user end ------------------------
   else:
     company_group_id = db_groups_obj.public_group_id
   # ------------------------ pull/create group id end ------------------------
