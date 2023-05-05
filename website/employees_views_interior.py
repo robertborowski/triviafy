@@ -252,18 +252,15 @@ def login_dashboard_page_function(url_redirect_code=None):
   # ------------------------ page dict start ------------------------
   page_dict = {}
   # ------------------------ page dict end ------------------------
-  # ------------------------ pull/create group id start ------------------------
-  company_group_id = pull_create_group_obj_function(current_user)
-  # ------------------------ pull/create group id end ------------------------
   # ------------------------ pull/create group settings start ------------------------
-  db_group_settings_obj = EmployeesGroupSettingsObj.query.filter_by(fk_group_id=company_group_id).first()
+  db_group_settings_obj = EmployeesGroupSettingsObj.query.filter_by(fk_group_id=current_user.group_id).first()
   if db_group_settings_obj == None or db_group_settings_obj == []:
     # ------------------------ insert to db start ------------------------
     try:
       new_row = EmployeesGroupSettingsObj(
         id = create_uuid_function('gset_'),
         created_timestamp = create_timestamp_function(),
-        fk_group_id = company_group_id,
+        fk_group_id = current_user.group_id,
         fk_user_id = current_user.id,
         timezone = 'EST',
         start_day = 'Monday',
@@ -286,7 +283,7 @@ def login_dashboard_page_function(url_redirect_code=None):
   # ------------------------ ensure all historical tests are closed start ------------------------
   current_datetime_str = datetime.now().strftime("%m/%d/%Y %H:%M:%S")   # str
   current_datetime_datetime = datetime.strptime(current_datetime_str, "%m/%d/%Y %H:%M:%S")  # datetime
-  db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=company_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).all()
+  db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=current_user.group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).all()
   try:
     historical_tests_were_closed = False
     for i in db_tests_obj:
@@ -307,7 +304,7 @@ def login_dashboard_page_function(url_redirect_code=None):
     pass
   # ------------------------ ensure all historical tests are closed end ------------------------
   # ------------------------ delete all historical closed tests with 'No participation' start ------------------------
-  db_historical_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=company_group_id, status='Closed').order_by(EmployeesTestsObj.created_timestamp.desc()).all()
+  db_historical_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=current_user.group_id, status='Closed').order_by(EmployeesTestsObj.created_timestamp.desc()).all()
   try:
     if db_historical_tests_obj != None and db_historical_tests_obj != []:
       historical_tests_were_deleted = False
@@ -333,7 +330,7 @@ def login_dashboard_page_function(url_redirect_code=None):
     pass
   # ------------------------ delete all historical closed tests with 'No participation' end ------------------------
   # ------------------------ pull/create latest test start ------------------------
-  db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=company_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
+  db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=current_user.group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
   first_test_exists = False
   if db_tests_obj == None or db_tests_obj == []:
     pass
@@ -343,7 +340,7 @@ def login_dashboard_page_function(url_redirect_code=None):
     create_quiz_status = create_quiz_function(db_group_settings_obj.fk_group_id)
     # ------------------------ create latest test end ------------------------
     # ------------------------ latest test info start ------------------------
-    db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=company_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
+    db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=current_user.group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
     start_month_day_str = convert_timestamp_to_month_day_string_function(db_tests_obj.start_timestamp)
     end_month_day_str = convert_timestamp_to_month_day_string_function(db_tests_obj.end_timestamp)
     page_dict['full_time_string'] = start_month_day_str + ', ' + db_tests_obj.start_time + ' - ' + end_month_day_str + ', ' + db_tests_obj.end_time + ' ' + db_tests_obj.timezone
@@ -371,7 +368,7 @@ def login_dashboard_page_function(url_redirect_code=None):
   page_dict['latest_test_is_closed'] = False
   page_dict['latest_test_winner'] = ''
   page_dict['latest_test_winner_score'] = float(0)
-  db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=company_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
+  db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=current_user.group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
   try:
     db_tests_dict = arr_of_dict_all_columns_single_item_function(db_tests_obj)
     if db_tests_dict['status'] == 'Closed':
@@ -380,7 +377,7 @@ def login_dashboard_page_function(url_redirect_code=None):
     page_dict['latest_test_winner'], page_dict['latest_test_winner_score'] = get_test_winner(db_tests_dict['id'])
     # ------------------------ winner end ------------------------
     # ------------------------ if latest closed then pull next quiz open datetime start ------------------------
-    page_dict['next_quiz_open_string'] = get_next_quiz_open_function(company_group_id)
+    page_dict['next_quiz_open_string'] = get_next_quiz_open_function(current_user.group_id)
     # ------------------------ if latest closed then pull next quiz open datetime end ------------------------
   except:
     pass
@@ -428,7 +425,7 @@ def login_dashboard_page_function(url_redirect_code=None):
     # ------------------------ send email end ------------------------
   # ------------------------ check if share with team email has been sent end ------------------------
   # ------------------------ assign to dict start ------------------------
-  db_group_settings_obj = EmployeesGroupSettingsObj.query.filter_by(fk_group_id=company_group_id).first()
+  db_group_settings_obj = EmployeesGroupSettingsObj.query.filter_by(fk_group_id=current_user.group_id).first()
   db_group_settings_dict = arr_of_dict_all_columns_single_item_function(db_group_settings_obj)
   # categories fix
   categories_edit = db_group_settings_dict['categories'].replace(',',', ')
