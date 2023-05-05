@@ -21,7 +21,7 @@ from website.backend.candidates.send_emails import send_email_template_function
 import os
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from .models import UserObj, CollectEmailObj, ScrapedEmailsObj
-from website.backend.candidates.pull_create_logic import pull_create_group_obj_function
+from website.backend.candidates.pull_create_logic import pull_create_group_id_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -122,13 +122,11 @@ def employees_signup_function(url_redirect_code=None):
       # ------------------------ keep user logged in start ------------------------
       login_user(new_row, remember=True)
       # ------------------------ keep user logged in end ------------------------
-      # ------------------------ pull/create group id start ------------------------
-      company_group_id = pull_create_group_obj_function(current_user)
-      # ------------------------ pull/create group id end ------------------------
-      # ------------------------ assign group id start ------------------------
-      current_user.group_id = company_group_id
-      db.session.commit()
-      # ------------------------ assign group id end ------------------------
+      # ------------------------ pull/create + assign group id start ------------------------
+      if current_user.group_id == None or current_user.group_id == '':
+        current_user.group_id = pull_create_group_id_function(current_user)
+        db.session.commit()
+      # ------------------------ pull/create + assign group id end ------------------------
       # ------------------------ email self start ------------------------
       try:
         output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')

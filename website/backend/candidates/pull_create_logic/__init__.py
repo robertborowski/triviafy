@@ -2,7 +2,7 @@
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
-from website.models import GroupsObj
+from website.models import GroupsObj, UserObj
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function
 from website import db
 # ------------------------ imports end ------------------------
@@ -47,6 +47,26 @@ def pull_create_group_obj_function(current_user):
     # ------------------------ insert to db end ------------------------
   else:
     company_group_id = db_groups_obj.public_group_id
+  return company_group_id
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def pull_create_group_id_function(current_user):
+  # ------------------------ if team member with group id exists start ------------------------
+  db_all_users_obj = UserObj.query.filter_by(company_name=current_user.company_name).all()
+  for i_user_obj in db_all_users_obj:
+    if i_user_obj.group_id != None and i_user_obj.group_id != '':
+      return i_user_obj.group_id
+  # ------------------------ if team member with group id exists end ------------------------
+  # ------------------------ if no group id exists start ------------------------
+  company_group_id = generate_random_length_uuid_function(6)
+  # ------------------------ while loop if generated group id already exists start ------------------------
+  group_id_exists_check = GroupsObj.query.filter_by(public_group_id=company_group_id).first()
+  while group_id_exists_check != None:
+    company_group_id = generate_random_length_uuid_function(6)
+    group_id_exists_check = GroupsObj.query.filter_by(public_group_id=company_group_id).first()
+  # ------------------------ while loop if generated group id already exists end ------------------------
+  # ------------------------ if no group id exists end ------------------------
   return company_group_id
 # ------------------------ individual function end ------------------------
 localhost_print_function('=========================================== pull_create_logic __init__ end ===========================================')

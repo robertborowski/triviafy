@@ -37,7 +37,6 @@ from website.backend.candidates.test_backend import first_user_first_quiz_check_
 from website.backend.candidates.aws_manipulation import candidates_change_uploaded_image_filename_function, candidates_user_upload_image_checks_aws_s3_function
 from website.backend.candidates.string_manipulation import breakup_email_function
 from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function, get_marketing_list_function
-from website.backend.candidates.pull_create_logic import pull_create_group_obj_function
 from website.backend.candidates.dropdowns import get_dropdowns_trivia_function
 # ------------------------ imports end ------------------------
 
