@@ -43,6 +43,9 @@
   color: white;
   text-decoration: underline;
 }
+.custom-a-none, .custom-a-none:hover,.custom-a-none:visited {
+  text-decoration: none;
+}
 .custom-a-white, .custom-a-white:visited, .custom-a-white:hover {
   color: white;
   text-decoration: none;
@@ -131,16 +134,16 @@
   background-color: rgb(220 220 220);
 }
 .custom-bg-color-4 {
-  background-color: rgb(188 255 208);
+  background-color: rgb(207 255 222);
 }
 .custom-bg-color-5 {
   background-color: rgb(255 236 198);
 }
 .custom-bg-color-6 {
-  background-color: rgb(255 247 240);
+  background-color: rgb(255 250 245);
 }
 .custom-bg-color-8 {
-  background-color: rgb(234 255 234);
+  background-color: rgb(241 255 241);
 }
 .custom-bg-color-13 {
   background-color: var(--custom-color-13);
@@ -198,7 +201,7 @@
   --custom-color-13: rgb(242, 244, 248);
   --custom-color-13-darker: rgb(195, 220, 236);
   --custom-color-14: rgb(240, 249, 255);
-  --custom-color-15: rgb(240, 249, 255);
+  --custom-color-15: rgb(245 251 255);
   --custom-color-16: rgb(212, 238, 255);
   --custom-color-17: rgb(97, 127, 145);
 }
@@ -230,7 +233,7 @@
   color: rgb(54 21 117 / 75%);
 }
 .custom-color-5 {
-  color: rgb(0 110 7 / 75%);
+  color: rgb(0 82 5 / 75%);
 }
 .custom-color-6 {
   color: rgb(114 70 0 / 75%);
