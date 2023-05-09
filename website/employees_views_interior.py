@@ -38,7 +38,7 @@ from website.backend.candidates.aws_manipulation import candidates_change_upload
 from website.backend.candidates.string_manipulation import breakup_email_function
 from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function, get_marketing_list_function
 from website.backend.candidates.dropdowns import get_dropdowns_trivia_function
-from website.backend.candidates.pull_create_logic import pull_create_group_obj_function
+from website.backend.candidates.pull_create_logic import pull_create_group_obj_function, pull_create_activity_settings_a_obj_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -255,34 +255,9 @@ def login_dashboard_page_function(url_redirect_code=None):
   # ------------------------ pull/create group start ------------------------
   db_group_obj = pull_create_group_obj_function(current_user)
   # ------------------------ pull/create group end ------------------------
-  # ------------------------ pull/create group settings start ------------------------
-  db_group_settings_obj = ActivitySettingsAObj.query.filter_by(fk_group_id=current_user.group_id).first()
-  if db_group_settings_obj == None or db_group_settings_obj == []:
-    # ------------------------ insert to db start ------------------------
-    try:
-      new_row = ActivitySettingsAObj(
-        id = create_uuid_function('gset_'),
-        created_timestamp = create_timestamp_function(),
-        fk_group_id = current_user.group_id,
-        fk_user_id = current_user.id,
-        timezone = 'EST',
-        start_day = 'Monday',
-        start_time = '12 PM',
-        end_day = 'Thursday',
-        end_time = '1 PM',
-        cadence = 'Weekly',
-        total_questions = 10,
-        question_type = 'Mixed',
-        categories = 'all_categories'
-      )
-      db.session.add(new_row)
-      db.session.commit()
-    except:
-      pass
-    # ------------------------ insert to db end ------------------------
-  else:
-    pass
-  # ------------------------ pull/create group settings end ------------------------
+  # ------------------------ pull/create group settings activities start ------------------------
+  db_group_settings_obj = pull_create_activity_settings_a_obj_function(current_user, 'trivia')
+  # ------------------------ pull/create group settings activities end ------------------------
   # ------------------------ ensure all historical tests are closed start ------------------------
   current_datetime_str = datetime.now().strftime("%m/%d/%Y %H:%M:%S")   # str
   current_datetime_datetime = datetime.strptime(current_datetime_str, "%m/%d/%Y %H:%M:%S")  # datetime
