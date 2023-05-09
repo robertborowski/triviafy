@@ -197,7 +197,7 @@ class CandidatesAssessmentGradedObj(db.Model):
 
 # ------------------------ employees models start ------------------------
 # ------------------------ individual model start ------------------------
-class GroupsObj(db.Model):
+class GroupObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
   created_timestamp = db.Column(db.DateTime(timezone=True))
   fk_company_name = db.Column(db.String(150))

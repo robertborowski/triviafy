@@ -2,7 +2,7 @@
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
-from website.models import GroupsObj, UserObj
+from website.models import GroupObj, UserObj
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function
 from website import db
 # ------------------------ imports end ------------------------
@@ -20,10 +20,10 @@ def pull_create_group_id_function(current_user):
   # ------------------------ if no group id exists start ------------------------
   company_group_id = generate_random_length_uuid_function(6)
   # ------------------------ while loop if generated group id already exists start ------------------------
-  group_id_exists_check = GroupsObj.query.filter_by(public_group_id=company_group_id).first()
+  group_id_exists_check = GroupObj.query.filter_by(public_group_id=company_group_id).first()
   while group_id_exists_check != None:
     company_group_id = generate_random_length_uuid_function(6)
-    group_id_exists_check = GroupsObj.query.filter_by(public_group_id=company_group_id).first()
+    group_id_exists_check = GroupObj.query.filter_by(public_group_id=company_group_id).first()
   # ------------------------ while loop if generated group id already exists end ------------------------
   # ------------------------ if no group id exists end ------------------------
   return company_group_id
@@ -31,11 +31,11 @@ def pull_create_group_id_function(current_user):
 
 # ------------------------ individual function start ------------------------
 def pull_create_group_obj_function(current_user):
-  db_group_obj = GroupsObj.query.filter_by(public_group_id=current_user.group_id).first()
+  db_group_obj = GroupObj.query.filter_by(public_group_id=current_user.group_id).first()
   if db_group_obj == None or db_group_obj == []:
     # ------------------------ insert to db start ------------------------
     try:
-      new_row = GroupsObj(
+      new_row = GroupObj(
         id = create_uuid_function('group_'),
         created_timestamp = create_timestamp_function(),
         fk_company_name = current_user.company_name,
@@ -56,7 +56,7 @@ def pull_create_group_obj_function(current_user):
       db.session.commit()
     except:
       pass
-    db_group_obj = GroupsObj.query.filter_by(public_group_id=current_user.group_id).first()
+    db_group_obj = GroupObj.query.filter_by(public_group_id=current_user.group_id).first()
     # ------------------------ insert to db end ------------------------
   return db_group_obj
 # ------------------------ individual function end ------------------------

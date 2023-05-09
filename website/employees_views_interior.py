@@ -17,7 +17,7 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v4, browser_response_set_cookie_function_v5
-from website.models import GroupsObj, EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, EmployeesTestsGradedObj, UserObj, EmployeesCapacityOptionsObj, EmployeesEmailSentObj, StripeCheckoutSessionObj, EmployeesGroupQuestionsUsedObj, EmployeesFeatureRequestObj, EmployeesFeedbackObj, EmployeesBirthdayInfoObj
+from website.models import GroupObj, EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, EmployeesTestsGradedObj, UserObj, EmployeesCapacityOptionsObj, EmployeesEmailSentObj, StripeCheckoutSessionObj, EmployeesGroupQuestionsUsedObj, EmployeesFeatureRequestObj, EmployeesFeedbackObj, EmployeesBirthdayInfoObj
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function, question_choices_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
 from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function, convert_timestamp_to_month_day_string_function
@@ -463,7 +463,7 @@ def employees_categories_request_function(url_redirect_code=None):
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
   # ------------------------ pull/create latest test start ------------------------
-  user_group_id = GroupsObj.query.filter_by(fk_company_name=current_user.company_name).order_by(GroupsObj.created_timestamp.desc()).first()
+  user_group_id = GroupObj.query.filter_by(fk_company_name=current_user.company_name).order_by(GroupObj.created_timestamp.desc()).first()
   db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=user_group_id.public_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
   first_test_exists = False
   if db_tests_obj == None or db_tests_obj == []:
@@ -520,7 +520,7 @@ def employees_schedule_function(url_redirect_code=None):
   page_dict['activity_type'] = 'activity_trivia'
   # ------------------------ assign to dict end ------------------------
   # ------------------------ get current group settings start ------------------------
-  user_group_id = GroupsObj.query.filter_by(fk_company_name=current_user.company_name).order_by(GroupsObj.created_timestamp.desc()).first()
+  user_group_id = GroupObj.query.filter_by(fk_company_name=current_user.company_name).order_by(GroupObj.created_timestamp.desc()).first()
   db_group_settings_obj = EmployeesGroupSettingsObj.query.filter_by(fk_group_id=user_group_id.public_group_id).order_by(EmployeesGroupSettingsObj.created_timestamp.desc()).first()
   db_group_settings_dict = arr_of_dict_all_columns_single_item_function(db_group_settings_obj)
   page_dict['db_group_settings_dict'] = db_group_settings_dict
@@ -682,7 +682,7 @@ def employees_test_id_replace_question_function(url_test_id=None, url_question_n
     return redirect(url_for('employees_views_interior.employees_test_id_function'))
   # ------------------------ redirect end ------------------------
   # ------------------------ get group latest test start ------------------------
-  user_group_id = GroupsObj.query.filter_by(fk_company_name=current_user.company_name).order_by(GroupsObj.created_timestamp.desc()).first()
+  user_group_id = GroupObj.query.filter_by(fk_company_name=current_user.company_name).order_by(GroupObj.created_timestamp.desc()).first()
   db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=user_group_id.public_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
   db_tests_dict = arr_of_dict_all_columns_single_item_function(db_tests_obj)
   # ------------------------ get group latest test end ------------------------
@@ -752,7 +752,7 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
   # ------------------------ redirect to latest test id start ------------------------
-  user_group_id = GroupsObj.query.filter_by(fk_company_name=current_user.company_name).order_by(GroupsObj.created_timestamp.desc()).first()
+  user_group_id = GroupObj.query.filter_by(fk_company_name=current_user.company_name).order_by(GroupObj.created_timestamp.desc()).first()
   if url_test_id == None:
     db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=user_group_id.public_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
     if db_tests_obj == None or db_tests_obj == []:
@@ -964,7 +964,7 @@ def employees_test_archive_function(url_redirect_code=None):
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
   # ------------------------ get current group start ------------------------
-  db_group_obj = GroupsObj.query.filter_by(fk_company_name=current_user.company_name).first()
+  db_group_obj = GroupObj.query.filter_by(fk_company_name=current_user.company_name).first()
   # ------------------------ get current group end ------------------------
   # ------------------------ pull all tests for group start ------------------------
   db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=db_group_obj.public_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).all()
@@ -1023,7 +1023,7 @@ def employees_leaderboard_function(url_redirect_code=None):
     users_arr_of_dicts.append(i_dict)
   # ------------------------ get current users from company end ------------------------
   # ------------------------ pull all tests for group start ------------------------
-  db_group_obj = GroupsObj.query.filter_by(fk_company_name=current_user.company_name).first()
+  db_group_obj = GroupObj.query.filter_by(fk_company_name=current_user.company_name).first()
   db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=db_group_obj.public_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).all()
   # ------------------------ pull all tests for group end ------------------------
   # ------------------------ pull test winner start ------------------------
@@ -1287,7 +1287,7 @@ def employees_feature_function(url_redirect_code=None, url_feature_request_code=
       if db_feature_requested_obj == None or db_feature_requested_obj == []:
         # ------------------------ insert email to db start ------------------------
         try:
-          db_groups_obj = GroupsObj.query.filter_by(fk_company_name=current_user.company_name).first()
+          db_groups_obj = GroupObj.query.filter_by(fk_company_name=current_user.company_name).first()
           new_row = EmployeesFeatureRequestObj(
             id = create_uuid_function('feature_'),
             created_timestamp = create_timestamp_function(),
@@ -1328,7 +1328,7 @@ def employees_questions_function(url_redirect_code=None):
   if page_dict['stripe_subscription_status'] != 'active':
     return redirect(url_for('employees_views_interior.employees_account_function', url_redirect_code='e14'))
   # ------------------------ redirect if not subscribed end ------------------------
-  db_groups_obj = GroupsObj.query.filter_by(fk_company_name=current_user.company_name).first()
+  db_groups_obj = GroupObj.query.filter_by(fk_company_name=current_user.company_name).first()
   # ------------------------ delete all in progress questions start ------------------------
   db_drafted_questions_obj = CreatedQuestionsObj.query.filter_by(fk_group_id=db_groups_obj.public_group_id,submission='draft').first()
   if db_drafted_questions_obj != None and db_drafted_questions_obj != []:
@@ -1453,7 +1453,7 @@ def employees_create_question_v3_function(url_redirect_code=None):
     # ------------------------ ui uploaded image end ------------------------
     # ------------------------ add to db start ------------------------
     try:
-      db_groups_obj = GroupsObj.query.filter_by(fk_company_name=current_user.company_name).first()
+      db_groups_obj = GroupObj.query.filter_by(fk_company_name=current_user.company_name).first()
       # ------------------------ append answers start ------------------------
       concat_ui_answer = ui_answer.upper() + ', ' + ui_answer_fitb.lower()
       # ------------------------ append answers end ------------------------

@@ -36,7 +36,6 @@ redis_connection = redis_connect_to_database_function()
 @employees_auth.route('/employees/signup/', methods=['GET', 'POST'])
 @employees_auth.route('/employees/signup/<url_redirect_code>', methods=['GET', 'POST'])
 def employees_signup_function(url_redirect_code=None):
-  localhost_print_function(' ------------------------ employees_signup_function start ------------------------ ')
   # ------------------------ redirect codes start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
   # ------------------------ redirect codes end ------------------------
@@ -47,7 +46,6 @@ def employees_signup_function(url_redirect_code=None):
       # ------------------------ sanitize/check user input email start ------------------------
       ui_email_cleaned = sanitize_email_function(ui_email, 'true')
       if ui_email_cleaned == False:
-        localhost_print_function(' ------------------------ employees_signup_function end ------------------------ ')
         return redirect(url_for('employees_auth.employees_signup_function', url_redirect_code='e1'))
       # ------------------------ sanitize/check user input email end ------------------------
       # ------------------------ check if email already exists in db start ------------------------
@@ -64,7 +62,6 @@ def employees_signup_function(url_redirect_code=None):
         db.session.add(new_row)
         db.session.commit()
       # ------------------------ create new signup in db end ------------------------
-      localhost_print_function(' ------------------------ employees_signup_function END ------------------------ ')
       return render_template('employees/exterior/signup/index.html', alert_message_dict_to_html=alert_message_dict, redirect_var_email=ui_email)
     # ------------------------ post method hit #1 - quick sign up end ------------------------
     # ------------------------ post method hit #2 - full sign up start ------------------------
@@ -74,20 +71,17 @@ def employees_signup_function(url_redirect_code=None):
     # ------------------------ sanitize/check user input email start ------------------------
     ui_email_cleaned = sanitize_email_function(ui_email, 'true')
     if ui_email_cleaned == False:
-      localhost_print_function(' ------------------------ employees_signup_function end ------------------------ ')
       return redirect(url_for('employees_auth.employees_signup_function', url_redirect_code='e1'))
     # ------------------------ sanitize/check user input email end ------------------------
     # ------------------------ sanitize/check user input password start ------------------------
     ui_password_cleaned = sanitize_password_function(ui_password)
     if ui_password_cleaned == False:
-      localhost_print_function(' ------------------------ employees_signup_function end ------------------------ ')
       return redirect(url_for('employees_auth.employees_signup_function', url_redirect_code='e2'))
     # ------------------------ sanitize/check user input password end ------------------------
     # ------------------------ sanitize/check user inputs end ------------------------
     # ------------------------ check if user email already exists in db start ------------------------
     user_exists = UserObj.query.filter_by(email=ui_email).first()
     if user_exists != None and user_exists != []:
-      localhost_print_function(' ------------------------ employees_signup_function END ------------------------ ')
       return redirect(url_for('employees_auth.employees_signup_function', url_redirect_code='e3'))
     # ------------------------ check if user email already exists in db start ------------------------
     else:
@@ -136,10 +130,8 @@ def employees_signup_function(url_redirect_code=None):
       except:
         pass
       # ------------------------ email self end ------------------------
-      localhost_print_function(' ------------------------ employees_signup_function END ------------------------ ')
       return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
     # ------------------------ post method hit #2 - full sign up end ------------------------
-  localhost_print_function(' ------------------------ employees_signup_function END ------------------------ ')
   return render_template('employees/exterior/signup/index.html', alert_message_dict_to_html=alert_message_dict)
 # ------------------------ individual route end ------------------------
 

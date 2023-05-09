@@ -14,7 +14,7 @@ from flask_login import login_required, current_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
-from website.models import EmployeesGroupQuestionsUsedObj, EmployeesGroupSettingsObj, GroupsObj, EmployeesTestsGradedObj, EmployeesTestsObj, UserObj, CandidatesAssessmentGradedObj, CandidatesAssessmentsCreatedObj, CandidatesScheduleObj, CandidatesUploadedCandidatesObj, StripeCheckoutSessionObj, DeletedEmailsObj, EmployeesEmailSentObj, CollectEmailObj, EmployeesFeatureRequestObj, ScrapedEmailsObj, EmployeesFeedbackObj, EmployeesBirthdayInfoObj
+from website.models import EmployeesGroupQuestionsUsedObj, EmployeesGroupSettingsObj, GroupObj, EmployeesTestsGradedObj, EmployeesTestsObj, UserObj, CandidatesAssessmentGradedObj, CandidatesAssessmentsCreatedObj, CandidatesScheduleObj, CandidatesUploadedCandidatesObj, StripeCheckoutSessionObj, DeletedEmailsObj, EmployeesEmailSentObj, CollectEmailObj, EmployeesFeatureRequestObj, ScrapedEmailsObj, EmployeesFeedbackObj, EmployeesBirthdayInfoObj
 import os
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from website.backend.candidates.sql_statements.sql_statements_select_general_v1_jobs import select_general_v1_jobs_function
@@ -118,7 +118,7 @@ def admin_delete_page_function(url_redirect_code=None):
       EmployeesFeatureRequestObj.query.filter_by(fk_group_id=group_to_delete).delete()
       EmployeesGroupQuestionsUsedObj.query.filter_by(fk_group_id=group_to_delete).delete()
       EmployeesGroupSettingsObj.query.filter_by(fk_group_id=group_to_delete).delete()
-      GroupsObj.query.filter_by(public_group_id=group_to_delete).delete()
+      GroupObj.query.filter_by(public_group_id=group_to_delete).delete()
       EmployeesTestsGradedObj.query.filter_by(fk_group_id=group_to_delete).delete()
       EmployeesTestsObj.query.filter_by(fk_group_id=group_to_delete).delete()
       db.session.commit()
@@ -168,7 +168,7 @@ def admin_delete_page_function(url_redirect_code=None):
       if len(db_all_users_obj) == 1:
         # ------------------------ if user is the only one from company start ------------------------
         try:
-          db_group_obj = GroupsObj.query.filter_by(fk_company_name=db_users_dict['company_name']).all()
+          db_group_obj = GroupObj.query.filter_by(fk_company_name=db_users_dict['company_name']).all()
           for i_group_obj in db_group_obj:
             db_group_dict = arr_of_dict_all_columns_single_item_function(i_group_obj)
             group_to_delete = db_group_dict['public_group_id']
@@ -178,7 +178,7 @@ def admin_delete_page_function(url_redirect_code=None):
             EmployeesFeedbackObj.query.filter_by(fk_email=user_to_delete).delete()
             EmployeesGroupQuestionsUsedObj.query.filter_by(fk_group_id=group_to_delete).delete()
             EmployeesGroupSettingsObj.query.filter_by(fk_group_id=group_to_delete).delete()
-            GroupsObj.query.filter_by(public_group_id=group_to_delete).delete()
+            GroupObj.query.filter_by(public_group_id=group_to_delete).delete()
             EmployeesTestsGradedObj.query.filter_by(fk_group_id=group_to_delete).delete()
             EmployeesTestsObj.query.filter_by(fk_group_id=group_to_delete).delete()
         except:
@@ -187,7 +187,7 @@ def admin_delete_page_function(url_redirect_code=None):
       # ------------------------ delete from employees tables end ------------------------
       elif len(db_all_users_obj) > 1:
         try:
-          db_group_obj = GroupsObj.query.filter_by(fk_company_name=db_users_dict['company_name']).all()
+          db_group_obj = GroupObj.query.filter_by(fk_company_name=db_users_dict['company_name']).all()
           for i_group_obj in db_group_obj:
             db_group_dict = arr_of_dict_all_columns_single_item_function(i_group_obj)
             group_to_delete = db_group_dict['public_group_id']
@@ -273,7 +273,7 @@ def admin_analytics_page_function(url_redirect_code=None):
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
   master_arr_of_dicts_01 = []
-  db_groups_obj = GroupsObj.query.all()
+  db_groups_obj = GroupObj.query.all()
   # ------------------------ loop groups start ------------------------
   for i_group_obj in db_groups_obj:
     # ------------------------ new i_dict start ------------------------
@@ -321,7 +321,7 @@ def admin_analytics_page_function(url_redirect_code=None):
   candidate_only_emails_arr = []
   db_users_obj = UserObj.query.all()
   for i_obj in db_users_obj:
-    db_group_obj = GroupsObj.query.filter_by(fk_company_name=i_obj.company_name).first()
+    db_group_obj = GroupObj.query.filter_by(fk_company_name=i_obj.company_name).first()
     if db_group_obj == None or db_group_obj == []:
       if i_obj.email not in candidate_only_emails_arr:
         candidate_only_emails_arr.append(i_obj.email)
