@@ -2,11 +2,9 @@
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 # ------------------------ imports end ------------------------
 
-localhost_print_function(' ------------------------ insert_queries employees __init__ start ------------------------ ')
 # ------------------------ individual function start ------------------------
 def insert_manual_function(postgres_connection, postgres_cursor, tag_query_to_use, additional_input_arr=None):
   if additional_input_arr != None:
-    localhost_print_function(' ------------------------ insert_manual_function end ------------------------ ')
     # ------------------------ generic pull start ------------------------
     try:
       input_0 = additional_input_arr[0]
@@ -28,7 +26,5 @@ def insert_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
     # ------------------------ insert queries end ------------------------
     postgres_cursor.execute(insert_queries_dict[tag_query_to_use]['query'], insert_queries_dict[tag_query_to_use]['new_row'])
     postgres_connection.commit()
-    localhost_print_function(' ------------------------ insert_manual_function end ------------------------ ')
     return True
 # ------------------------ individual function end ------------------------
-localhost_print_function(' ------------------------ insert_queries employees __init__ end ------------------------ ')

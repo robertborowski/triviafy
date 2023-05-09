@@ -4,10 +4,6 @@ import psycopg2
 from psycopg2 import Error, extras
 # ------------------------ imports end ------------------------
 
-
-localhost_print_function('=========================================== sql_statements_select __init__ START ===========================================')
-
-
 # ------------------------ individual function start ------------------------
 def delete_general_v1_jobs_function(postgres_connection, postgres_cursor, tag_query_to_use, additional_input=None):
   # ------------------------ cursor dict start ------------------------
@@ -36,6 +32,4 @@ def delete_general_v1_jobs_function(postgres_connection, postgres_cursor, tag_qu
   return True
   # ------------------------ Query Result END ------------------------
   # ------------------------ Query Result END ------------------------
-
 # ------------------------ individual function end ------------------------
-localhost_print_function('=========================================== sql_statements_select __init__ END ===========================================')

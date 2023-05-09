@@ -4,11 +4,8 @@ from website import db
 from flask_login import current_user
 # ------------------------ imports end ------------------------
 
-localhost_print_function('=========================================== sql_statements_select __init__ START ===========================================')
-
 # ------------------------ individual function start ------------------------
 def select_general_function(tag_query_to_use, additional_input=None, additional_input2=None, additional_input3=None):
-  localhost_print_function('=========================================== select_general_function START ===========================================')
   try:
     current_user_id_defined_var = current_user.id
   except:
@@ -184,7 +181,5 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
     result_dict = dict(i_row) # convert to dict keyed by column names
     result_arr_of_dicts.append(result_dict)
   # ------------------------ existing result end ------------------------
-  localhost_print_function('=========================================== select_general_function START ===========================================')
   return result_arr_of_dicts
 # ------------------------ individual function end ------------------------
-localhost_print_function('=========================================== sql_statements_select __init__ END ===========================================')

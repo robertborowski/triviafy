@@ -5,11 +5,8 @@ from website.models import UserObj, EmployeesTestsGradedObj, EmployeesTestsObj, 
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 # ------------------------ imports end ------------------------
 
-
-localhost_print_function('=========================================== test_backend __init__ START ===========================================')
 # ------------------------ individual function start ------------------------
 def get_test_winner(input_test_id, result_id=False):
-  localhost_print_function(' ------------------------ get_test_winner start ------------------------ ')
   # ------------------------ check if test is closed start ------------------------
   db_tests_obj = EmployeesTestsObj.query.filter_by(id=input_test_id).first()
   if db_tests_obj.status == 'Closed':
@@ -39,19 +36,15 @@ def get_test_winner(input_test_id, result_id=False):
     # ------------------------ pull winner end ------------------------
     # ------------------------ specific call start ------------------------
     if result_id == True:
-      localhost_print_function(' ------------------------ get_test_winner end ------------------------ ')
       return current_max_final_score_user_id, latest_test_winner_score
     # ------------------------ specific call end ------------------------
-    localhost_print_function(' ------------------------ get_test_winner end ------------------------ ')
     return latest_test_winner, latest_test_winner_score
   else:
-    localhost_print_function(' ------------------------ get_test_winner end ------------------------ ')
     return 'Quiz not yet closed', 'Quiz not yet closed'
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def first_user_first_quiz_check_function(company_name):
-  localhost_print_function(' ------------------------ first_user_first_quiz_check_function start ------------------------ ')
   check_first_user_first_quiz_can_replace = False
   try:
     user_group_id = GroupObj.query.filter_by(fk_company_name=company_name).order_by(GroupObj.created_timestamp.desc()).first()
@@ -72,13 +65,11 @@ def first_user_first_quiz_check_function(company_name):
       # ------------------------ check if at least 1 person from team already completed end ------------------------
   except:
     pass
-  localhost_print_function(' ------------------------ first_user_first_quiz_check_function end ------------------------ ')
   return check_first_user_first_quiz_can_replace
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def first_user_latest_quiz_check_function(company_name):
-  localhost_print_function(' ------------------------ first_user_latest_quiz_check_function start ------------------------ ')
   check_first_user_latest_quiz_can_replace = False
   # ------------------------ latest objs start ------------------------
   user_group_id = GroupObj.query.filter_by(fk_company_name=company_name).order_by(GroupObj.created_timestamp.desc()).first()
@@ -89,7 +80,5 @@ def first_user_latest_quiz_check_function(company_name):
   if user_test_graded_obj == None or user_test_graded_obj == []:
     check_first_user_latest_quiz_can_replace = True
   # ------------------------ check if none completed yet end ------------------------
-  localhost_print_function(' ------------------------ first_user_latest_quiz_check_function end ------------------------ ')
   return check_first_user_latest_quiz_can_replace
 # ------------------------ individual function end ------------------------
-localhost_print_function('=========================================== test_backend __init__ END ===========================================')

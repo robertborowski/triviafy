@@ -16,9 +16,6 @@ import json
 from website.backend.candidates.send_emails import send_email_template_function
 # ------------------------ imports end ------------------------
 
-
-localhost_print_function(' ------------------------ quiz __init__ start ------------------------ ')
-
 # ------------------------ Set Timezone START ------------------------
 # Set the timezone of the application when user creates account is will be in US/Easterm time
 os.environ['TZ'] = 'US/Eastern'
@@ -27,7 +24,6 @@ time.tzset()
 
 # ------------------------ individual function start ------------------------
 def build_question_type_arr_function(input_type, input_total_questions):
-  localhost_print_function(' ------------------------ build_question_type_arr_function start ------------------------ ')
   input_total_questions = int(input_total_questions)
   options_arr = ['Fill in the blank', 'Multiple choice', 'Mixed']
   question_types_arr = []
@@ -63,13 +59,11 @@ def build_question_type_arr_function(input_type, input_total_questions):
       question_types_arr = ['Multiple choice','Multiple choice','Multiple choice','Multiple choice','Fill in the blank']
   # ------------------------ method 2 end ------------------------
   question_types_str = ','.join(question_types_arr)
-  localhost_print_function(' ------------------------ build_question_type_arr_function end ------------------------ ')
   return question_types_str
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def get_next_quiz_open_function(company_group_id):
-  localhost_print_function(' ------------------------ get_next_quiz_open_function start ------------------------ ')
   # ------------------------ get group settings start ------------------------
   db_group_settings_obj = EmployeesGroupSettingsObj.query.filter_by(fk_group_id=company_group_id).order_by(EmployeesGroupSettingsObj.created_timestamp.desc()).first()
   db_group_settings_dict = arr_of_dict_all_columns_single_item_function(db_group_settings_obj)
@@ -92,13 +86,11 @@ def get_next_quiz_open_function(company_group_id):
   next_quiz_open_start_date = should_be_dates_of_week_arr[weekday_dict[db_group_settings_dict['start_day']]]
   final_str = db_group_settings_dict['start_day'] + ' ' + next_quiz_open_start_date.strftime('%m/%d') + ', ' + db_group_settings_dict['start_time'] + ' ' + db_group_settings_dict['timezone']
   # ------------------------ get next quiz open end ------------------------
-  localhost_print_function(' ------------------------ get_next_quiz_open_function end ------------------------ ')
   return final_str
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def compare_candence_vs_previous_quiz_function(db_group_settings_dict, db_tests_obj):
-  localhost_print_function(' ------------------------ compare_candence_vs_previous_quiz_function start ------------------------ ')
   # ------------------------ desired start ------------------------
   desired_start_day = db_group_settings_dict['start_day']
   desired_cadence = db_group_settings_dict['cadence']
@@ -131,13 +123,11 @@ def compare_candence_vs_previous_quiz_function(db_group_settings_dict, db_tests_
       if todays_date in should_be_dates_of_week_arr or todays_date >= max(should_be_dates_of_week_arr):
         return True
   # ------------------------ latest test checks end ------------------------
-  localhost_print_function(' ------------------------ compare_candence_vs_previous_quiz_function end ------------------------ ')
   return False
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def create_quiz_function(group_id, immediate=False):
-  localhost_print_function(' ------------------------ create_quiz_function start ------------------------ ')
   # ------------------------ Set Timezone START ------------------------
   # Set the timezone of the application when user creates account is will be in US/Easterm time
   os.environ['TZ'] = 'US/Eastern'
@@ -269,13 +259,11 @@ def create_quiz_function(group_id, immediate=False):
         pass
     # ------------------------ insert to db end ------------------------
   # ------------------------ create quiz end ------------------------
-  localhost_print_function(' ------------------------ create_quiz_function end ------------------------ ')
   return True
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def grade_quiz_function(ui_answer, url_test_id, total_questions, url_question_number, db_question_dict, current_user_id, public_group_id):
-  localhost_print_function(' ------------------------ grade_quiz_function start ------------------------ ')
   ui_answer_is_correct = False
   ui_answer_fitb_accuracy_score = 0
   # ------------------------ append to dict start ------------------------
@@ -433,13 +421,11 @@ def grade_quiz_function(ui_answer, url_test_id, total_questions, url_question_nu
     # ------------------------ email self end ------------------------
   db.session.commit()
   # ------------------------ update db end ------------------------
-  localhost_print_function(' ------------------------ grade_quiz_function end ------------------------ ')
   return True
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def pull_question_function(group_id, categories):
-  localhost_print_function(' ------------------------ pull_question_function start ------------------------ ')
   # ------------------------ pull based on categories start ------------------------
   where_clause_arr = prepare_where_clause_function(categories)
   query_result_arr_of_dicts = select_general_function('select_all_questions_for_x_categories_v4', where_clause_arr[0], 1, group_id)
@@ -449,7 +435,5 @@ def pull_question_function(group_id, categories):
     query_result_arr_of_dicts = select_general_function('select_v6', 1, group_id)
   # ------------------------ pull any end ------------------------
   new_question_id = query_result_arr_of_dicts[0]['id']
-  localhost_print_function(' ------------------------ pull_question_function end ------------------------ ')
   return new_question_id
 # ------------------------ individual function end ------------------------
-localhost_print_function(' ------------------------ quiz __init__ end ------------------------ ')

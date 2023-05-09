@@ -7,8 +7,6 @@ from website.backend.candidates.autogeneration import generate_random_length_uui
 from website import db
 # ------------------------ imports end ------------------------
 
-
-localhost_print_function('=========================================== pull_create_logic __init__ start ===========================================')
 # ------------------------ individual function start ------------------------
 def pull_create_group_id_function(current_user):
   # ------------------------ if team member with group id exists start ------------------------
@@ -60,4 +58,3 @@ def pull_create_group_obj_function(current_user):
     # ------------------------ insert to db end ------------------------
   return db_group_obj
 # ------------------------ individual function end ------------------------
-localhost_print_function('=========================================== pull_create_logic __init__ end ===========================================')

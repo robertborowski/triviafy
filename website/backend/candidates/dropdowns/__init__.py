@@ -4,7 +4,6 @@ from website.backend.candidates.datetime_manipulation import days_times_timezone
 from website.backend.candidates.autogeneration import question_choices_function
 # ------------------------ imports end ------------------------
 
-localhost_print_function('=========================================== dropdowns __init__ START ===========================================')
 # ------------------------ individual function start ------------------------
 def get_dropdowns_trivia_function():
   weekdays_arr, times_arr, timezone_arr = days_times_timezone_arr_function()
@@ -101,4 +100,3 @@ def get_dropdowns_trivia_function():
   }
   return dropdown_trivia_dict
 # ------------------------ individual function end ------------------------
-localhost_print_function('=========================================== dropdowns __init__ END ===========================================')

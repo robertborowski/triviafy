@@ -2,7 +2,6 @@
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 # ------------------------ imports end ------------------------
 
-localhost_print_function('=========================================== lists __init__ START ===========================================')
 # ------------------------ individual function start ------------------------
 def get_arr_associated_index_function(input_arr):
   arr_index = []
@@ -94,4 +93,3 @@ def get_favorite_questions_function():
   questions_arr_index = get_arr_associated_index_function(questions_arr)
   return questions_arr, questions_arr_index
 # ------------------------ individual function end ------------------------
-localhost_print_function('=========================================== lists __init__ END ===========================================')

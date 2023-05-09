@@ -4,7 +4,6 @@ import psycopg2
 from psycopg2 import Error, extras
 # ------------------------ imports end ------------------------
 
-localhost_print_function(' ------------------------ select_queries employees __init__ start ------------------------ ')
 # ------------------------ individual function start ------------------------
 def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_use, additional_input=None, additional_input2=None, additional_input3=None):
   # localhost_print_function(' ------------------------ select_manual_function start ------------------------ ')
@@ -112,4 +111,3 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
   # localhost_print_function(' ------------------------ select_manual_function end ------------------------ ')
   return result_arr_dicts
 # ------------------------ individual function end ------------------------
-localhost_print_function(' ------------------------ select_queries employees __init__ end ------------------------ ')

@@ -3,8 +3,6 @@ from backend.utils.localhost_print_utils.localhost_print import localhost_print_
 from random import randint
 # ------------------------ imports end ------------------------
 
-
-localhost_print_function('=========================================== string_manipulation __init__ START ===========================================')
 # ------------------------ individual function start ------------------------
 def string_to_arr_function(input_str):
   # localhost_print_function('=========================================== string_to_arr_function START ===========================================')
@@ -20,7 +18,6 @@ def string_to_arr_function(input_str):
 
 # ------------------------ individual function start ------------------------
 def all_question_candidate_categories_sorted_function(query_result_arr_of_dicts):
-  localhost_print_function('=========================================== all_question_candidate_categories_sorted_function START ===========================================')
   output_arr = []
   for i_dict in query_result_arr_of_dicts:
     categories_str = i_dict['categories']
@@ -29,13 +26,11 @@ def all_question_candidate_categories_sorted_function(query_result_arr_of_dicts)
       if i_category not in output_arr:
         output_arr.append(i_category)
   output_arr = sorted(output_arr)
-  localhost_print_function('=========================================== all_question_candidate_categories_sorted_function START ===========================================')
   return output_arr
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def all_employee_question_categories_sorted_function(query_result_arr_of_dicts):
-  localhost_print_function(' ------------------------ all_employee_question_categories_sorted_function start ------------------------ ')
   output_arr = []
   for i_dict in query_result_arr_of_dicts:
     categories_str = i_dict['categories']
@@ -44,13 +39,11 @@ def all_employee_question_categories_sorted_function(query_result_arr_of_dicts):
       if i_category not in output_arr:
         output_arr.append(i_category)
   output_arr = sorted(output_arr)
-  localhost_print_function(' ------------------------ all_employee_question_categories_sorted_function end ------------------------ ')
   return output_arr
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def create_assessment_name_function(ui_desired_languages_checkboxes_str):
-  localhost_print_function('=========================================== create_assessment_name_function START ===========================================')
   name_prefix = ui_desired_languages_checkboxes_str
   if len(ui_desired_languages_checkboxes_str) > 15:
     name_prefix = ui_desired_languages_checkboxes_str[0:15]
@@ -58,7 +51,6 @@ def create_assessment_name_function(ui_desired_languages_checkboxes_str):
   # ------------------------ special characters for HTML URL start ------------------------
   name_prefix = name_prefix.replace("#", "")
   # ------------------------ special characters for HTML URL end ------------------------
-  localhost_print_function('=========================================== create_assessment_name_function START ===========================================')
   return name_prefix + str(name_suffix)
 # ------------------------ individual function end ------------------------
 
@@ -73,4 +65,3 @@ def breakup_email_function(input_email):
   # localhost_print_function(' ------------------------ breakup_email_function end ------------------------ ')
   return email_arr[0].title()
 # ------------------------ individual function end ------------------------
-localhost_print_function('=========================================== string_manipulation __init__ END ===========================================')

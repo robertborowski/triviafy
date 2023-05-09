@@ -7,10 +7,8 @@ from datetime import datetime, date
 # ------------------------ imports end ------------------------
 
 
-localhost_print_function('=========================================== dict_manipulation __init__ START ===========================================')
 # ------------------------ individual function start ------------------------
 def question_arr_of_dicts_manipulations_function(input_arr_of_dicts):
-  localhost_print_function('=========================================== dict_arr_of_dicts_question_manipulations_function START ===========================================')
   question_counter = 0
   for i_dict in input_arr_of_dicts:
     # ------------------------ question counter start ------------------------
@@ -43,13 +41,11 @@ def question_arr_of_dicts_manipulations_function(input_arr_of_dicts):
       print('Error here: question_arr_of_dicts_manipulations_function except statement...')
       return False
     # ------------------------ question categories str to arr tuple end ------------------------
-  localhost_print_function('=========================================== dict_arr_of_dicts_question_manipulations_function END ===========================================')
   return input_arr_of_dicts
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def categories_tuple_function(input_categories):
-  localhost_print_function('=========================================== dict_arr_of_dicts_question_manipulations_function START ===========================================')
   categories_arr_to_html = []
   try:
     # Assign variables
@@ -73,13 +69,11 @@ def categories_tuple_function(input_categories):
     print('Error here: question_arr_of_dicts_manipulations_function except statement...')
     return False
   # ------------------------ question categories str to arr tuple end ------------------------
-  localhost_print_function('=========================================== dict_arr_of_dicts_question_manipulations_function END ===========================================')
   return categories_arr_to_html
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def create_assessment_info_dict_function(db_assessment_obj):
-  localhost_print_function('=========================================== create_assessment_info_dict_function START ===========================================')
   # ------------------------ init dict start ------------------------
   assessment_info_dict = {}
   # ------------------------ init dict end ------------------------
@@ -98,13 +92,11 @@ def create_assessment_info_dict_function(db_assessment_obj):
   query_result_arr_of_dicts = question_arr_of_dicts_manipulations_function(query_result_arr_of_dicts)
   assessment_info_dict['questions_arr_of_dicts'] = query_result_arr_of_dicts
   # ------------------------ assign dict questions end ------------------------
-  localhost_print_function('=========================================== create_assessment_info_dict_function END ===========================================')
   return assessment_info_dict
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def create_assessment_info_dict_function_v2(db_assessment_obj, url_question_number):
-  localhost_print_function('=========================================== create_assessment_info_dict_function_v2 START ===========================================')
   # ------------------------ init dict start ------------------------
   assessment_info_dict = {}
   # ------------------------ init dict end ------------------------
@@ -125,13 +117,11 @@ def create_assessment_info_dict_function_v2(db_assessment_obj, url_question_numb
   query_result_arr_of_dicts[0]['question_counter'] = url_question_number
   assessment_info_dict['question_details_dict'] = query_result_arr_of_dicts[0]
   # ------------------------ assign dict questions end ------------------------
-  localhost_print_function('=========================================== create_assessment_info_dict_function_v2 END ===========================================')
   return assessment_info_dict
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def create_question_info_dict_function(db_question_obj):
-  localhost_print_function('=========================================== create_assessment_info_dict_function_v2 START ===========================================')
   # ------------------------ init dict start ------------------------
   question_info_dict = {}
   # ------------------------ init dict end ------------------------
@@ -141,56 +131,46 @@ def create_question_info_dict_function(db_question_obj):
   query_result_arr_of_dicts = question_arr_of_dicts_manipulations_function(query_result_arr_of_dicts)
   question_info_dict = query_result_arr_of_dicts[0]
   # ------------------------ assign dict questions end ------------------------
-  localhost_print_function('=========================================== create_assessment_info_dict_function_v2 END ===========================================')
   return question_info_dict
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def map_user_answers_to_questions_dict_function(assessment_info_dict, ui_current_answer_choice_selected, current_question_number):
-  localhost_print_function('=========================================== map_user_answers_to_questions_dict_function START ===========================================')
   for i_dict in assessment_info_dict['questions_arr_of_dicts']:
     question_counter = i_dict['question_counter']
     if question_counter == current_question_number:
       i_dict['ui_answer'] = ui_current_answer_choice_selected
-  localhost_print_function('=========================================== map_user_answers_to_questions_dict_function END ===========================================')
   return assessment_info_dict
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def backend_store_question_answers_dict_function(assessment_info_dict):
-  localhost_print_function('=========================================== backend_store_question_answers_dict_function START ===========================================')
   backend_store_question_answers_dict = {}
   for i_dict in assessment_info_dict['questions_arr_of_dicts']:
     backend_store_question_answers_dict[i_dict['id']] = i_dict['answer']
-  localhost_print_function('=========================================== backend_store_question_answers_dict_function END ===========================================')
   return backend_store_question_answers_dict
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def question_dict_clean_input_function(input_phrase):
-  # localhost_print_function('=========================================== question_dict_clean_input_function START ===========================================')
   input_phrase = input_phrase.lower()
   input_phrase = input_phrase.strip()
   input_phrase = re.sub(' +', ' ',input_phrase)
-  # localhost_print_function('=========================================== question_dict_clean_input_function END ===========================================')
   return input_phrase
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def check_two_phrase_similarity_score_function(correct_answer, ui_answer):
-  # localhost_print_function('=========================================== check_two_phrase_similarity_score_function START ===========================================')
   answer_match_score = 0
   try:
     answer_match_score = difflib.SequenceMatcher(None, correct_answer, ui_answer).ratio()*100
   except:
     pass
-  # localhost_print_function('=========================================== check_two_phrase_similarity_score_function END ===========================================')
   return answer_match_score
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def grade_assessment_answers_dict_function(assessment_info_dict):
-  localhost_print_function('=========================================== grade_assessment_answers_dict_function START ===========================================')
   # ------------------------ set variables start ------------------------
   ui_total_correct_answers = 0
   # ------------------------ set variables end ------------------------
@@ -238,13 +218,11 @@ def grade_assessment_answers_dict_function(assessment_info_dict):
   assessment_info_dict['ui_total_correct_answers'] = ui_total_correct_answers
   ui_final_score = (assessment_info_dict['ui_total_correct_answers'] / assessment_info_dict['total_questions'])
   assessment_info_dict['ui_final_score'] = ui_final_score
-  localhost_print_function('=========================================== grade_assessment_answers_dict_function END ===========================================')
   return assessment_info_dict
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def arr_of_dict_necessary_columns_function(sql_obj, desired_columns_arr):
-  localhost_print_function('=========================================== arr_of_dict_necessary_columns_function START ===========================================')
   db_obj_arr_of_dict = []
   for i_dict in sql_obj:
     current_dict = {}
@@ -252,7 +230,6 @@ def arr_of_dict_necessary_columns_function(sql_obj, desired_columns_arr):
       current_dict[i_col] = getattr(i_dict, i_col)
     db_obj_arr_of_dict.append(current_dict)
   sql_obj = db_obj_arr_of_dict
-  localhost_print_function('=========================================== arr_of_dict_necessary_columns_function END ===========================================')
   return sql_obj
 # ------------------------ individual function end ------------------------
 
@@ -269,4 +246,3 @@ def arr_of_dict_all_columns_single_item_function(sql_obj, for_json_dumps=False):
   # localhost_print_function(' ------------------------ arr_of_dict_all_columns_function END ------------------------ ')
   return current_dict
 # ------------------------ individual function end ------------------------
-localhost_print_function('=========================================== dict_manipulation __init__ END ===========================================')

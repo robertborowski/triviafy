@@ -11,10 +11,8 @@ os.environ['TZ'] = 'US/Eastern'
 time.tzset()
 # ------------------------ set timezone end ------------------------
 
-localhost_print_function('=========================================== datetime_manipulation __init__ START ===========================================')
 # ------------------------ individual function start ------------------------
 def next_x_days_function():
-  localhost_print_function('=========================================== next_x_days_function START ===========================================')
   # ------------------------ get todays date start ------------------------
   days_counter = 0
   days_counter_limit = 40
@@ -24,13 +22,11 @@ def next_x_days_function():
     days_counter += 1
     next_x_days_arr.append(current_date_str)
   # ------------------------ get todays date end ------------------------
-  localhost_print_function('=========================================== next_x_days_function END ===========================================')
   return next_x_days_arr
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def times_arr_function():
-  localhost_print_function('=========================================== next_x_days_function START ===========================================')
   # ------------------------ get todays date start ------------------------
   times_arr = [
     '12 AM',
@@ -65,13 +61,11 @@ def times_arr_function():
     'PST'
   ]
   # ------------------------ get todays date end ------------------------
-  localhost_print_function('=========================================== next_x_days_function END ===========================================')
   return times_arr, timezone_arr
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def days_times_timezone_arr_function():
-  localhost_print_function(' ------------------------ days_times_timezone_arr_function start ------------------------ ')
   # ------------------------ get todays date start ------------------------
   weekdays_arr = [
     'Monday',
@@ -113,13 +107,11 @@ def days_times_timezone_arr_function():
     'PST'
   ]
   # ------------------------ get todays date end ------------------------
-  localhost_print_function(' ------------------------ days_times_timezone_arr_function end ------------------------ ')
   return weekdays_arr, times_arr, timezone_arr
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def expired_assessment_check_function(input_timestamp):
-  localhost_print_function('=========================================== expired_assessment_check_function START ===========================================')
   # ------------------------ expire settings start ------------------------  
   expire_limit = 60 * 60
   is_expired = False
@@ -141,13 +133,11 @@ def expired_assessment_check_function(input_timestamp):
     not_open_yet = True
     is_expired = not_open_yet
   # ------------------------ compare end ------------------------
-  localhost_print_function('=========================================== expired_assessment_check_function END ===========================================')
   return is_expired, not_open_yet
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def times_dict_mapping_function():
-  localhost_print_function('=========================================== next_x_days_function START ===========================================')
   # ------------------------ get todays date start ------------------------
   time_mapping_dict = {
     '12 AM': '00:00:00',
@@ -176,13 +166,11 @@ def times_dict_mapping_function():
     '11 PM': '23:00:00'
   }
   # ------------------------ get todays date end ------------------------
-  localhost_print_function('=========================================== next_x_days_function END ===========================================')
   return time_mapping_dict
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def build_out_datetime_from_parts_function(input_date, input_time, input_timezone):
-  localhost_print_function('=========================================== expired_assessment_check_function START ===========================================')
   # Current = '10-17-2022', '7 AM', 'EST'
   # Goal = '2022-10-17 07:00:00'
   # ------------------------ fix date start ------------------------
@@ -210,13 +198,11 @@ def build_out_datetime_from_parts_function(input_date, input_time, input_timezon
   goal_str = goal_date_str + ' ' + goal_time_str
   goal_timestamp = datetime.strptime(goal_str, '%Y-%m-%d %H:%M:%S')
   # ------------------------ output manipulation end ------------------------
-  localhost_print_function('=========================================== expired_assessment_check_function END ===========================================')
   return goal_timestamp
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def get_weekday_dict_function():
-  localhost_print_function(' ------------------------ get_weekday_dict_function start ------------------------ ')
   weekday_dict = {
     0 : 'Monday',
     1 : 'Tuesday',
@@ -226,13 +212,11 @@ def get_weekday_dict_function():
     5 : 'Saturday',
     6 : 'Sunday'
   }
-  localhost_print_function(' ------------------------ get_weekday_dict_function end ------------------------ ')
   return weekday_dict
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def get_weekday_dict_function_v2():
-  localhost_print_function(' ------------------------ get_weekday_dict_function_v2 start ------------------------ ')
   weekday_dict = {
     'Monday': 0,
     'Tuesday': 1,
@@ -242,13 +226,11 @@ def get_weekday_dict_function_v2():
     'Saturday': 5,
     'Sunday': 6
   }
-  localhost_print_function(' ------------------------ get_weekday_dict_function_v2 end ------------------------ ')
   return weekday_dict
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def get_time_mapping_dict_function():
-  localhost_print_function(' ------------------------ get_time_mapping_dict_function start ------------------------ ')
   time_mapping_dict = {
     0 : '12 AM',
     1 : '1 AM',
@@ -275,33 +257,27 @@ def get_time_mapping_dict_function():
     22: '10 PM',
     23: '11 PM'
   }
-  localhost_print_function(' ------------------------ get_time_mapping_dict_function end ------------------------ ')
   return time_mapping_dict
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def get_current_weekday_function():
-  localhost_print_function(' ------------------------ get_current_weekday_function start ------------------------ ')
   weekday_dict = get_weekday_dict_function()
   weekday_num = datetime.today().weekday()
   weekday = weekday_dict[weekday_num]
-  localhost_print_function(' ------------------------ get_current_weekday_function end ------------------------ ')
   return weekday
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def get_current_hour_function():
-  localhost_print_function(' ------------------------ get_current_hour_function start ------------------------ ')
   time_mapping_dict = get_time_mapping_dict_function()
   current_hour_num = datetime.now().hour
   current_hour = time_mapping_dict[current_hour_num]
-  localhost_print_function(' ------------------------ get_current_hour_function end ------------------------ ')
   return current_hour
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def get_upcoming_date_function(goal_day_of_week, cannot_be_less_than_date=None):
-  localhost_print_function(' ------------------------ get_upcoming_date_function start ------------------------ ')
   if cannot_be_less_than_date != None:
     cannot_be_less_than_date = datetime.strptime(cannot_be_less_than_date, '%m-%d-%Y').date()
   weekday_dict = get_weekday_dict_function()
@@ -317,13 +293,11 @@ def get_upcoming_date_function(goal_day_of_week, cannot_be_less_than_date=None):
       result_date = i_date.strftime('%m-%d-%Y')
     else:
       counter += 1
-  localhost_print_function(' ------------------------ get_upcoming_date_function end ------------------------ ')
   return result_date
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def get_week_dates_function(date_var):
-  localhost_print_function(' ------------------------ get_week_dates_function start ------------------------ ')
   weekday_var = date_var.weekday()
   # ------------------------ define variables start ------------------------
   monday = 0
@@ -407,13 +381,11 @@ def get_week_dates_function(date_var):
   weekdays_arr.append(saturday)
   weekdays_arr.append(sunday)
   # ------------------------ arr append end ------------------------
-  localhost_print_function(' ------------------------ get_week_dates_function end ------------------------ ')
   return weekdays_arr
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def lookup_months_dict_function():
-  localhost_print_function(' ------------------------ lookup_months_dict_function start ------------------------ ')
   months_dict = {
     1 : 'Jan',
     2 : 'Feb',
@@ -428,20 +400,16 @@ def lookup_months_dict_function():
     11 : 'Nov',
     12 : 'Dec'
   }
-  localhost_print_function(' ------------------------ lookup_months_dict_function end ------------------------ ')
   return months_dict
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def convert_timestamp_to_month_day_string_function(input_timestamp):
-  localhost_print_function(' ------------------------ convert_timestamp_to_month_day_string_function start ------------------------ ')
   str_date = input_timestamp.date().strftime('%m-%d-%Y')
   date_parts_arr = str_date.split('-')
   date_month = int(date_parts_arr[0])
   months_dict = lookup_months_dict_function()
   month_str = months_dict[date_month]
   month_day_str = month_str + f' {int(date_parts_arr[1])}'
-  localhost_print_function(' ------------------------ convert_timestamp_to_month_day_string_function end ------------------------ ')
   return month_day_str
 # ------------------------ individual function end ------------------------
-localhost_print_function('=========================================== datetime_manipulation __init__ END ===========================================')

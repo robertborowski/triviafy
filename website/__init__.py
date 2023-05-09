@@ -9,7 +9,6 @@ from flask_login import LoginManager
 import stripe
 # ------------------------ imports end ------------------------
 
-localhost_print_function('=========================================== website __init__ START ===========================================')
 # ------------------------ define/initialize a new db sql_alchemy function start ------------------------
 # what is SQLAlchemy: https://www.youtube.com/watch?v=6k6NxFyKKQo&ab_channel=Treehouse
 # transfers data stored in a SQL database into python objects. (models.py file)
@@ -25,7 +24,6 @@ secret_key_ref = os.urandom(64)
 
 # ------------------------ __init__ function start ------------------------
 def create_app_function():
-  localhost_print_function('=========================================== create_app_function START ===========================================')
   # ------------------------ app setup start ------------------------
   # ------------------------ set timezone start ------------------------
   # Set the timezone of the application when user creates account is will be in US/Easterm time
@@ -99,7 +97,6 @@ def create_app_function():
   # ------------------------ login manager end ------------------------
   # ------------------------ app setup end ------------------------
   localhost_print_function('returning app')
-  localhost_print_function('=========================================== create_app_function END ===========================================')
   return app
 # ------------------------ __init__ function end ------------------------
 
@@ -111,7 +108,6 @@ def create_database_function(app):
   you have to restart the app from heroku. restarting the main/index .py file will 
   log everyone off from flask login manager.
   """
-  localhost_print_function('=========================================== create_database_function START ===========================================')
   if not path.exists('website/' + DB_NAME):
     # ------------------------ old - editing model tables start ------------------------
     # db.create_all(app=app)
@@ -125,6 +121,4 @@ def create_database_function(app):
   else:
     print('Database already exists!')
     pass
-  localhost_print_function('=========================================== create_database_function END ===========================================')
 # ------------------------ create_db_function end ------------------------
-localhost_print_function('=========================================== website __init__ END ===========================================')

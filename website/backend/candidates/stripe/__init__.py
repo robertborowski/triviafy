@@ -6,11 +6,8 @@ import os
 from website.models import UserObj
 # ------------------------ imports end ------------------------
 
-
-localhost_print_function('=========================================== stripe __init__ START ===========================================')
 # ------------------------ individual function start ------------------------
 def check_stripe_subscription_status_function(current_user):
-  localhost_print_function('=========================================== check_stripe_subscription_status_function START ===========================================')
   # ------------------------ stripe subscription status check start ------------------------
   fk_stripe_subscription_id = current_user.fk_stripe_subscription_id
   stripe_subscription_obj = ''
@@ -24,13 +21,11 @@ def check_stripe_subscription_status_function(current_user):
   # stripe_subscription_obj_status = 'active'
   # ------------------------ delete this, only for testing end ------------------------
   # ------------------------ stripe subscription status check end ------------------------
-  localhost_print_function('=========================================== check_stripe_subscription_status_function END ===========================================')
   return stripe_subscription_obj_status
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def check_stripe_subscription_status_function_v2(current_user, product, attempting_user=None):
-  localhost_print_function('=========================================== check_stripe_subscription_status_function_v2 START ===========================================')
   # ------------------------ stripe subscription status check start ------------------------
   if product == 'candidates':
     fk_stripe_subscription_id = current_user.fk_stripe_subscription_id
@@ -63,20 +58,16 @@ def check_stripe_subscription_status_function_v2(current_user, product, attempti
     stripe_subscription_obj_status = 'active'
   # ------------------------ only approved email end ------------------------
   # ------------------------ stripe subscription status check end ------------------------
-  localhost_print_function('=========================================== check_stripe_subscription_status_function_v2 END ===========================================')
   return stripe_subscription_obj_status
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
 def convert_current_period_end_function(stripe_subscription_obj):
-  localhost_print_function('=========================================== convert_current_period_end_function START ===========================================')
   # ------------------------ convert unix timestamp to regular start ------------------------
   stripe_current_period_end_unix = stripe_subscription_obj.current_period_end
   ts = int(stripe_current_period_end_unix)
   # stripe_current_period_end = datetime.utcfromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
   stripe_current_period_end = datetime.utcfromtimestamp(ts).strftime('%m/%d')
   # ------------------------ convert unix timestamp to regular end ------------------------
-  localhost_print_function('=========================================== convert_current_period_end_function END ===========================================')
   return stripe_current_period_end
 # ------------------------ individual function end ------------------------
-localhost_print_function('=========================================== stripe __init__ END ===========================================')
