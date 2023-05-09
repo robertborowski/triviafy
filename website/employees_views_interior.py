@@ -33,7 +33,7 @@ from website.backend.candidates.stripe import check_stripe_subscription_status_f
 import stripe
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
 from website.backend.candidates.test_backend import get_test_winner
-from website.backend.candidates.test_backend import first_user_first_quiz_check_function, first_user_latest_quiz_check_function
+from website.backend.candidates.test_backend import first_user_first_quiz_check_function, first_user_latest_quiz_check_function, close_historical_tests_function
 from website.backend.candidates.aws_manipulation import candidates_change_uploaded_image_filename_function, candidates_user_upload_image_checks_aws_s3_function
 from website.backend.candidates.string_manipulation import breakup_email_function
 from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function, get_marketing_list_function
@@ -260,6 +260,7 @@ def login_dashboard_page_function(url_redirect_code=None):
   db_group_settings_obj_picture_quiz = pull_create_activity_settings_a_obj_function(current_user, 'picture_quiz')
   # ------------------------ pull/create group settings activities end ------------------------
   # ------------------------ ensure all historical tests are closed start ------------------------
+  # close_historical_tests_function()
   current_datetime_str = datetime.now().strftime("%m/%d/%Y %H:%M:%S")   # str
   current_datetime_datetime = datetime.strptime(current_datetime_str, "%m/%d/%Y %H:%M:%S")  # datetime
   db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=current_user.group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).all()

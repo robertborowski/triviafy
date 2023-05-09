@@ -14,13 +14,14 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
           fk_company_name, \
           public_group_id \
         FROM \
-          employees_groups_obj;",
+          group_obj;",
     'select_group_settings_1':
       f"SELECT \
           * \
         FROM \
-          employees_group_settings_obj \
+          activity_settings_a_obj \
         WHERE \
+          product='trivia' AND \
           fk_group_id='{additional_input}';",
     'select_latest_test_1':
       f"SELECT \
