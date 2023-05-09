@@ -4,6 +4,7 @@ import re
 from website.models import UserObj, EmployeesTestsGradedObj, EmployeesTestsObj, GroupObj
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from datetime import datetime
+from website import db
 # ------------------------ imports end ------------------------
 
 # ------------------------ individual function start ------------------------
@@ -87,6 +88,7 @@ def first_user_latest_quiz_check_function(company_name):
 # ------------------------ individual function start ------------------------
 def close_historical_tests_function(current_user):
   # ------------------------ ensure all historical tests are closed start ------------------------
+  historical_tests_were_closed = False
   current_datetime_str = datetime.now().strftime("%m/%d/%Y %H:%M:%S")   # str
   current_datetime_datetime = datetime.strptime(current_datetime_str, "%m/%d/%Y %H:%M:%S")  # datetime
   db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=current_user.group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).all()
@@ -105,9 +107,8 @@ def close_historical_tests_function(current_user):
           historical_tests_were_closed = True
     if historical_tests_were_closed == True:
       db.session.commit()
-      return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   except:
     pass
   # ------------------------ ensure all historical tests are closed end ------------------------
-  return True
+  return historical_tests_were_closed
 # ------------------------ individual function end ------------------------

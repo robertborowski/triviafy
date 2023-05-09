@@ -256,11 +256,13 @@ def login_dashboard_page_function(url_redirect_code=None):
   db_group_obj = pull_create_group_obj_function(current_user)
   # ------------------------ pull/create group end ------------------------
   # ------------------------ pull/create group settings activities start ------------------------
-  db_group_settings_obj = pull_create_activity_settings_a_obj_function(current_user, 'trivia')
-  db_group_settings_obj_picture_quiz = pull_create_activity_settings_a_obj_function(current_user, 'picture_quiz')
+  db_activity_settings_obj_trivia = pull_create_activity_settings_a_obj_function(current_user, 'trivia')
+  db_activity_settings_obj_picture_quiz = pull_create_activity_settings_a_obj_function(current_user, 'picture_quiz')
   # ------------------------ pull/create group settings activities end ------------------------
   # ------------------------ ensure all historical tests are closed start ------------------------
-  # close_historical_tests_function()
+  # historical_tests_were_closed = close_historical_tests_function(current_user)
+  # if historical_tests_were_closed == True:
+  #   return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   current_datetime_str = datetime.now().strftime("%m/%d/%Y %H:%M:%S")   # str
   current_datetime_datetime = datetime.strptime(current_datetime_str, "%m/%d/%Y %H:%M:%S")  # datetime
   db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=current_user.group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).all()
@@ -317,7 +319,7 @@ def login_dashboard_page_function(url_redirect_code=None):
   else:
     first_test_exists = True
     # ------------------------ create latest test start ------------------------
-    create_quiz_status = create_quiz_function(db_group_settings_obj.fk_group_id)
+    create_quiz_status = create_quiz_function(db_activity_settings_obj_trivia.fk_group_id)
     # ------------------------ create latest test end ------------------------
     # ------------------------ latest test info start ------------------------
     db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=current_user.group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
@@ -405,12 +407,12 @@ def login_dashboard_page_function(url_redirect_code=None):
     # ------------------------ send email end ------------------------
   # ------------------------ check if share with team email has been sent end ------------------------
   # ------------------------ assign to dict start ------------------------
-  db_group_settings_obj = ActivitySettingsAObj.query.filter_by(fk_group_id=current_user.group_id,product='trivia').first()
-  db_group_settings_dict = arr_of_dict_all_columns_single_item_function(db_group_settings_obj)
+  db_activity_settings_obj_trivia = ActivitySettingsAObj.query.filter_by(fk_group_id=current_user.group_id,product='trivia').first()
+  db_activity_settings_dict_trivia = arr_of_dict_all_columns_single_item_function(db_activity_settings_obj_trivia)
   # categories fix
-  categories_edit = db_group_settings_dict['categories'].replace(',',', ')
-  db_group_settings_dict['categories'] = categories_edit
-  page_dict['db_group_settings_dict'] = db_group_settings_dict
+  categories_edit = db_activity_settings_dict_trivia['categories'].replace(',',', ')
+  db_activity_settings_dict_trivia['categories'] = categories_edit
+  page_dict['db_activity_settings_dict_trivia'] = db_activity_settings_dict_trivia
   # ------------------------ assign to dict end ------------------------
   # ------------------------ if post start ------------------------
   if request.method == 'POST':
