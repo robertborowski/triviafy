@@ -102,34 +102,6 @@ class ScrapedEmailsObj(db.Model):
 
 # ------------------------ candidates models start ------------------------
 # ------------------------ individual model start ------------------------
-class CandidatesCapacityOptionsObj(db.Model):
-  id = db.Column(db.String(150), primary_key=True)
-  created_timestamp = db.Column(db.DateTime(timezone=True))
-  candence = db.Column(db.String(10))
-  price = db.Column(db.Float)
-  fk_stripe_price_id = db.Column(db.String(150))
-  name = db.Column(db.String(20))
-# ------------------------ individual model end ------------------------
-
-# ------------------------ individual model start ------------------------
-class CandidatesDesiredLanguagesObj(db.Model):
-  id = db.Column(db.String(150), primary_key=True)
-  created_timestamp = db.Column(db.DateTime(timezone=True))
-  user_id_fk = db.Column(db.String(150))
-  desired_languages = db.Column(db.String(150))
-# ------------------------ individual model end ------------------------
-
-# ------------------------ individual model start ------------------------
-class CandidatesUploadedCandidatesObj(db.Model):
-  id = db.Column(db.String(150), primary_key=True)
-  created_timestamp = db.Column(db.DateTime(timezone=True))
-  user_id_fk = db.Column(db.String(150))
-  candidate_id = db.Column(db.String(150))
-  email = db.Column(db.String(150))
-  upload_type = db.Column(db.String(15))
-# ------------------------ individual model end ------------------------
-
-# ------------------------ individual model start ------------------------
 class CandidatesAssessmentsCreatedObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
   created_timestamp = db.Column(db.DateTime(timezone=True))
@@ -139,58 +111,6 @@ class CandidatesAssessmentsCreatedObj(db.Model):
   total_questions = db.Column(db.Integer)
   question_ids_arr = db.Column(db.String(3000))
   status = db.Column(db.String(15))
-# ------------------------ individual model end ------------------------
-
-# ------------------------ individual model start ------------------------
-class CandidatesRequestLanguageObj(db.Model):
-  id = db.Column(db.String(150), primary_key=True)
-  created_timestamp = db.Column(db.DateTime(timezone=True))
-  user_id_fk = db.Column(db.String(150))
-  desired_languages_str = db.Column(db.String(1000))
-  approved_to_view = db.Column(db.Boolean, default=False)
-# ------------------------ individual model end ------------------------
-
-# ------------------------ individual model start ------------------------
-class CandidatesScheduleObj(db.Model):
-  id = db.Column(db.String(150), primary_key=True)
-  created_timestamp = db.Column(db.DateTime(timezone=True))
-  user_id_fk = db.Column(db.String(150))
-  assessment_id_fk = db.Column(db.String(150))
-  assessment_name = db.Column(db.String(150))
-  candidates = db.Column(db.String(150))
-  send_date = db.Column(db.String(150))
-  send_time = db.Column(db.String(150))
-  send_timezone = db.Column(db.String(150))
-  candidate_status = db.Column(db.String(150))
-  expiring_url = db.Column(db.String(150), unique=True)
-# ------------------------ individual model end ------------------------
-
-# ------------------------ individual model start ------------------------
-class CandidatesEmailSentObj(db.Model):
-  id = db.Column(db.String(150), primary_key=True)
-  created_timestamp = db.Column(db.DateTime(timezone=True))
-  from_user_id_fk = db.Column(db.String(150))
-  to_email = db.Column(db.String(150))
-  assessment_expiring_url_fk = db.Column(db.String(150))
-  subject = db.Column(db.String(1000))
-  body = db.Column(db.String(1000))
-# ------------------------ individual model end ------------------------
-
-# ------------------------ individual model start ------------------------
-class CandidatesAssessmentGradedObj(db.Model):
-  id = db.Column(db.String(150), primary_key=True)
-  created_timestamp = db.Column(db.DateTime(timezone=True))
-  candidate_email = db.Column(db.String(150))
-  assessment_name = db.Column(db.String(150))
-  assessment_id_fk = db.Column(db.String(150))
-  created_assessment_user_id_fk = db.Column(db.String(150))
-  assessment_expiring_url_fk = db.Column(db.String(150), unique=True)
-  total_questions = db.Column(db.Integer)
-  correct_count = db.Column(db.Integer)
-  final_score = db.Column(db.Float)
-  status = db.Column(db.String(20))
-  graded_count = db.Column(db.Integer)
-  assessment_obj = db.Column(db.String(180000))
 # ------------------------ individual model end ------------------------
 # ------------------------ candidates models end ------------------------
 

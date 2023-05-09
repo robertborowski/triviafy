@@ -14,7 +14,7 @@ from flask_login import login_required, current_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
-from website.models import EmployeesGroupQuestionsUsedObj, ActivitySettingsAObj, GroupObj, EmployeesTestsGradedObj, EmployeesTestsObj, UserObj, CandidatesAssessmentGradedObj, CandidatesAssessmentsCreatedObj, CandidatesScheduleObj, CandidatesUploadedCandidatesObj, StripeCheckoutSessionObj, DeletedEmailsObj, EmployeesEmailSentObj, CollectEmailObj, EmployeesFeatureRequestObj, ScrapedEmailsObj, EmployeesFeedbackObj, EmployeesBirthdayInfoObj
+from website.models import EmployeesGroupQuestionsUsedObj, ActivitySettingsAObj, GroupObj, EmployeesTestsGradedObj, EmployeesTestsObj, UserObj, CandidatesAssessmentsCreatedObj, StripeCheckoutSessionObj, DeletedEmailsObj, EmployeesEmailSentObj, CollectEmailObj, EmployeesFeatureRequestObj, ScrapedEmailsObj, EmployeesFeedbackObj, EmployeesBirthdayInfoObj
 import os
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from website.backend.candidates.sql_statements.sql_statements_select_general_v1_jobs import select_general_v1_jobs_function
@@ -115,12 +115,12 @@ def admin_delete_page_function(url_redirect_code=None):
     # ------------------------ DeleteOneGroupAllEmployeesTables start ------------------------
     group_to_delete = request.form.get('DeleteOneGroupAllEmployeesTables')
     if group_to_delete != None:
+      ActivitySettingsAObj.query.filter_by(fk_group_id=group_to_delete).delete()
       EmployeesFeatureRequestObj.query.filter_by(fk_group_id=group_to_delete).delete()
       EmployeesGroupQuestionsUsedObj.query.filter_by(fk_group_id=group_to_delete).delete()
-      ActivitySettingsAObj.query.filter_by(fk_group_id=group_to_delete).delete()
-      GroupObj.query.filter_by(public_group_id=group_to_delete).delete()
       EmployeesTestsGradedObj.query.filter_by(fk_group_id=group_to_delete).delete()
       EmployeesTestsObj.query.filter_by(fk_group_id=group_to_delete).delete()
+      GroupObj.query.filter_by(public_group_id=group_to_delete).delete()
       db.session.commit()
       return redirect(url_for('admin_views_interior.admin_delete_page_function', url_redirect_code='w1'))
     # ------------------------ DeleteOneGroupAllEmployeesTables end ------------------------
@@ -154,15 +154,6 @@ def admin_delete_page_function(url_redirect_code=None):
       if (db_users_dict['fk_stripe_subscription_id'] != '' and db_users_dict['fk_stripe_subscription_id'] != None) or (db_users_dict['employees_fk_stripe_subscription_id'] != '' and db_users_dict['employees_fk_stripe_subscription_id'] != None):
         return redirect(url_for('admin_views_interior.admin_delete_page_function', url_redirect_code='i2'))
       # ------------------------ check if user is subscribed end ------------------------
-      # ------------------------ delete from candidates tables start ------------------------
-      try:
-        CandidatesAssessmentGradedObj.query.filter_by(created_assessment_user_id_fk=db_users_dict['id']).delete()
-        CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=db_users_dict['id']).delete()
-        CandidatesScheduleObj.query.filter_by(user_id_fk=db_users_dict['id']).delete()
-        CandidatesUploadedCandidatesObj.query.filter_by(user_id_fk=db_users_dict['id']).delete()
-      except:
-        pass
-      # ------------------------ delete from candidates tables end ------------------------
       # ------------------------ delete from employees tables start ------------------------
       db_all_users_obj = UserObj.query.filter_by(company_name=db_users_dict['company_name']).all()
       if len(db_all_users_obj) == 1:
