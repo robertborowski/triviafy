@@ -3,6 +3,7 @@ from backend.utils.localhost_print_utils.localhost_print import localhost_print_
 import re
 from website.models import UserObj, EmployeesTestsGradedObj, EmployeesTestsObj, GroupObj
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
+from datetime import datetime
 # ------------------------ imports end ------------------------
 
 # ------------------------ individual function start ------------------------
@@ -84,7 +85,7 @@ def first_user_latest_quiz_check_function(company_name):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
-def close_historical_tests_function():
+def close_historical_tests_function(current_user):
   # ------------------------ ensure all historical tests are closed start ------------------------
   current_datetime_str = datetime.now().strftime("%m/%d/%Y %H:%M:%S")   # str
   current_datetime_datetime = datetime.strptime(current_datetime_str, "%m/%d/%Y %H:%M:%S")  # datetime

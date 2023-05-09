@@ -101,6 +101,12 @@
                 {% for category_tuple in page_dict_to_html['db_question_dict']['categories'] %}
                   <span class="custom-tag-1 custom-tag-category-{{ category_tuple[1] }} custom-br-4 custom-m-3 custom-header-5 custom-wrap-1">{{ category_tuple[0] }}</span>
                 {% endfor %}
+                <!-- ------------------------------------- change categories start ------------------------------------- -->
+                {% if page_dict_to_html['first_user_latest_quiz_can_replace'] == false or page_dict_to_html['view_as_archive'] == true %}
+                  <a href="/employees/schedule" class="btn btn-outline-danger btn-sm">Edit categories</a>
+                {% else %}
+                {% endif %}
+                <!-- ------------------------------------- change categories end ------------------------------------- -->
             </div>
           </div>
           <div>
