@@ -6,24 +6,15 @@ import os
 # ------------------------ TRIVIAFY CANDIDATES END ------------------------
 # ------------------------ imports end ------------------------
 
-
-
 # ------------------------ app start ------------------------
 # ------------------------ TRIVIAFY CANDIDATES START ------------------------
-localhost_print_function(' --- app create attempt --- ')
 app = create_app_function()
-localhost_print_function(' --- app create success --- ')
 # ------------------------ TRIVIAFY CANDIDATES END ------------------------
 # ------------------------ app end ------------------------
-
-
-
-
 
 # =========================================================================================================== Run app
 # ------------------------ call app directly start ------------------------
 if __name__ == '__main__':
-  localhost_print_function('=========================================== if __name__ == "__main__": START ===========================================')
   """
   # ------------------------ youtube app configs start ------------------------
   # debug = True means that each time we make a change to our python code it will automatically rerun the webserver.
@@ -38,8 +29,6 @@ if __name__ == '__main__':
   # ------------------------ Running on localhost START ------------------------
   if server_env and server_env == 'true':
     print('RUNNING ON LOCALHOST')
-    localhost_print_function('=========================================== if __name__ == "__main__": END ===========================================')
-    localhost_print_function(' --- about to run app --- ')
     app.run(debug = True, host='0.0.0.0', port=80, use_reloader=False)
   # ------------------------ Running on localhost END ------------------------
   # ------------------------ Running on heroku server START ------------------------
@@ -47,8 +36,6 @@ if __name__ == '__main__':
     # port and run for Heroku
     print('RUNNING ON PRODUCTION')
     port = int(os.environ.get('PORT', 5000))
-    localhost_print_function('=========================================== if __name__ == "__main__": END ===========================================')
-    localhost_print_function(' --- about to run app --- ')
     app.run(host = '0.0.0.0', port = port)
   # ------------------------ Running on heroku server END ------------------------
   # ------------------------ additional configs end ------------------------
