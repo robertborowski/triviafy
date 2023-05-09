@@ -58,3 +58,35 @@ def pull_create_group_obj_function(current_user):
     # ------------------------ insert to db end ------------------------
   return db_group_obj
 # ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def pull_create_activity_settings_a_obj_function(current_user, activity_name):
+  db_group_obj = GroupObj.query.filter_by(public_group_id=current_user.group_id).first()
+  if db_group_obj == None or db_group_obj == []:
+    # ------------------------ insert to db start ------------------------
+    try:
+      new_row = GroupObj(
+        id = create_uuid_function('group_'),
+        created_timestamp = create_timestamp_function(),
+        fk_company_name = current_user.company_name,
+        fk_user_id = current_user.id,
+        public_group_id = current_user.group_id,
+        status = 'active',
+        trivia = True,
+        picture_quiz = False,
+        birthday_questions = False,
+        icebreakers = False,
+        surveys = False,
+        personality_test = False,
+        this_or_that = False,
+        most_likely_to = False,
+        giftcard = False
+      )
+      db.session.add(new_row)
+      db.session.commit()
+    except:
+      pass
+    db_group_obj = GroupObj.query.filter_by(public_group_id=current_user.group_id).first()
+    # ------------------------ insert to db end ------------------------
+  return db_group_obj
+# ------------------------ individual function end ------------------------

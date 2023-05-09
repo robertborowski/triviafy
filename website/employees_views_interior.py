@@ -17,7 +17,7 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v4, browser_response_set_cookie_function_v5
-from website.models import GroupObj, EmployeesGroupSettingsObj, EmployeesTestsObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, EmployeesTestsGradedObj, UserObj, EmployeesCapacityOptionsObj, EmployeesEmailSentObj, StripeCheckoutSessionObj, EmployeesGroupQuestionsUsedObj, EmployeesFeatureRequestObj, EmployeesFeedbackObj, EmployeesBirthdayInfoObj
+from website.models import GroupObj, ActivitySettingsAObj, EmployeesTestsObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, EmployeesTestsGradedObj, UserObj, EmployeesCapacityOptionsObj, EmployeesEmailSentObj, StripeCheckoutSessionObj, EmployeesGroupQuestionsUsedObj, EmployeesFeatureRequestObj, EmployeesFeedbackObj, EmployeesBirthdayInfoObj
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function, question_choices_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
 from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function, convert_timestamp_to_month_day_string_function
@@ -256,11 +256,11 @@ def login_dashboard_page_function(url_redirect_code=None):
   db_group_obj = pull_create_group_obj_function(current_user)
   # ------------------------ pull/create group end ------------------------
   # ------------------------ pull/create group settings start ------------------------
-  db_group_settings_obj = EmployeesGroupSettingsObj.query.filter_by(fk_group_id=current_user.group_id).first()
+  db_group_settings_obj = ActivitySettingsAObj.query.filter_by(fk_group_id=current_user.group_id).first()
   if db_group_settings_obj == None or db_group_settings_obj == []:
     # ------------------------ insert to db start ------------------------
     try:
-      new_row = EmployeesGroupSettingsObj(
+      new_row = ActivitySettingsAObj(
         id = create_uuid_function('gset_'),
         created_timestamp = create_timestamp_function(),
         fk_group_id = current_user.group_id,
@@ -428,7 +428,7 @@ def login_dashboard_page_function(url_redirect_code=None):
     # ------------------------ send email end ------------------------
   # ------------------------ check if share with team email has been sent end ------------------------
   # ------------------------ assign to dict start ------------------------
-  db_group_settings_obj = EmployeesGroupSettingsObj.query.filter_by(fk_group_id=current_user.group_id).first()
+  db_group_settings_obj = ActivitySettingsAObj.query.filter_by(fk_group_id=current_user.group_id).first()
   db_group_settings_dict = arr_of_dict_all_columns_single_item_function(db_group_settings_obj)
   # categories fix
   categories_edit = db_group_settings_dict['categories'].replace(',',', ')
@@ -521,7 +521,7 @@ def employees_schedule_function(url_redirect_code=None):
   # ------------------------ assign to dict end ------------------------
   # ------------------------ get current group settings start ------------------------
   user_group_id = GroupObj.query.filter_by(fk_company_name=current_user.company_name).order_by(GroupObj.created_timestamp.desc()).first()
-  db_group_settings_obj = EmployeesGroupSettingsObj.query.filter_by(fk_group_id=user_group_id.public_group_id).order_by(EmployeesGroupSettingsObj.created_timestamp.desc()).first()
+  db_group_settings_obj = ActivitySettingsAObj.query.filter_by(fk_group_id=user_group_id.public_group_id).order_by(ActivitySettingsAObj.created_timestamp.desc()).first()
   db_group_settings_dict = arr_of_dict_all_columns_single_item_function(db_group_settings_obj)
   page_dict['db_group_settings_dict'] = db_group_settings_dict
   page_dict['weekdays'], page_dict['times'], page_dict['timezones'] = days_times_timezone_arr_function()

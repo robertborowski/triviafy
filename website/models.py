@@ -218,7 +218,7 @@ class GroupObj(db.Model):
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
-class EmployeesGroupSettingsObj(db.Model):
+class ActivitySettingsAObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
   created_timestamp = db.Column(db.DateTime(timezone=True))
   fk_group_id = db.Column(db.String(150))
@@ -232,6 +232,7 @@ class EmployeesGroupSettingsObj(db.Model):
   total_questions = db.Column(db.Integer)
   question_type = db.Column(db.String(150))
   categories = db.Column(db.String(1000))
+  product = db.Column(db.String(150))
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
