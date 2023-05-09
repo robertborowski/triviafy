@@ -14,7 +14,7 @@ from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_f
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required, current_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
-from website.models import UserObj, CandidatesAssessmentsCreatedObj, StripeCheckoutSessionObj, CreatedQuestionsObj
+from website.models import UserObj, ZDontDeleteTableObj, StripeCheckoutSessionObj, CreatedQuestionsObj
 from website.backend.candidates.browser import browser_response_set_cookie_function, browser_response_set_cookie_function_v2
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
@@ -72,11 +72,11 @@ def login_dashboard_page_function(url_redirect_code=None):
       alert_message_type = 'danger'
   # ------------------------ redirect codes end ------------------------
   # ------------------------ delete test drafts start ------------------------
-  CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,status='draft').delete()
+  ZDontDeleteTableObj.query.filter_by(user_id_fk=current_user.id,status='draft').delete()
   db.session.commit()
   # ------------------------ delete test drafts end ------------------------
   # ------------------------ get users total assessments created start ------------------------
-  test_created_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id).all()
+  test_created_obj = ZDontDeleteTableObj.query.filter_by(user_id_fk=current_user.id).all()
   len_test_created_obj = len(test_created_obj)
   # ------------------------ redirect new users to create assessment start ------------------------
   if len_test_created_obj == 0:
@@ -489,11 +489,11 @@ def candidates_assessments_dashboard_function(url_redirect_code=None):
       alert_message_type = 'success'
   # ------------------------ valid redirect start ------------------------
   # ------------------------ delete test drafts start ------------------------
-  CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,status='draft').delete()
+  ZDontDeleteTableObj.query.filter_by(user_id_fk=current_user.id,status='draft').delete()
   db.session.commit()
   # ------------------------ delete test drafts end ------------------------
   # ------------------------ get assessments start ------------------------
-  db_tests_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id).order_by(CandidatesAssessmentsCreatedObj.assessment_name).all()
+  db_tests_obj = ZDontDeleteTableObj.query.filter_by(user_id_fk=current_user.id).order_by(ZDontDeleteTableObj.assessment_name).all()
   if db_tests_obj == None:
     localhost_print_function(' ------------------------ candidates_assessments_dashboard_function END ------------------------ ')
     return redirect(url_for('candidates_views_interior.candidates_assessment_create_new_function', step_status='1'))
@@ -540,7 +540,7 @@ def candidates_test_preview_function(url_test_id=None, url_question_number='1', 
       alert_message_type = 'success'
   # ------------------------ valid redirect start ------------------------
   # ------------------------ valid test start ------------------------
-  db_test_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id, id=url_test_id).first()
+  db_test_obj = ZDontDeleteTableObj.query.filter_by(user_id_fk=current_user.id, id=url_test_id).first()
   if db_test_obj == None or url_test_id == []:
     return redirect(url_for('candidates_views_interior.candidates_assessments_dashboard_function'))
   # ------------------------ valid test end ------------------------
@@ -612,7 +612,7 @@ def candidates_test_answered_preview_function(url_test_id=None, url_email=None, 
     return redirect(url_for('candidates_views_interior.candidates_assessments_dashboard_function'))
   # ------------------------ redirect end ------------------------
   # ------------------------ valid test start ------------------------
-  db_test_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id, id=url_test_id).first()
+  db_test_obj = ZDontDeleteTableObj.query.filter_by(user_id_fk=current_user.id, id=url_test_id).first()
   if db_test_obj == None or url_test_id == []:
     return redirect(url_for('candidates_views_interior.candidates_assessments_dashboard_function'))
   # ------------------------ valid test end ------------------------
@@ -694,7 +694,7 @@ def candidates_test_summary_function(url_test_id=None, url_redirect_code=None):
       alert_message_type = 'success'
   # ------------------------ valid redirect start ------------------------
   # ------------------------ assessment start ------------------------
-  db_test_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id, id=url_test_id).first()
+  db_test_obj = ZDontDeleteTableObj.query.filter_by(user_id_fk=current_user.id, id=url_test_id).first()
   if db_test_obj == None or db_test_obj == []:
     localhost_print_function(' ------------------------ candidates_test_summary_function END ------------------------ ')
     return redirect(url_for('candidates_views_interior.candidates_test_summary_function', url_test_id='dashboard'))
@@ -759,7 +759,7 @@ def candidates_assessment_create_new_function(step_status, url_redirect_code=Non
   # ------------------------ page dict end ------------------------
   # ------------------------ delete test drafts start ------------------------
   if step_status == '1b':
-    CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,status='draft').delete()
+    ZDontDeleteTableObj.query.filter_by(user_id_fk=current_user.id,status='draft').delete()
     db.session.commit()
   # ------------------------ delete test drafts end ------------------------
   # ------------------------ pull all categories associated with candidates start ------------------------
@@ -805,7 +805,7 @@ def candidates_assessment_create_new_function(step_status, url_redirect_code=Non
       auto_generated_assessment_name = create_assessment_name_function(ui_desired_languages_checkboxes_str)
     # ------------------------ create name based on langs end ------------------------
     # ------------------------ check if assessment name already exists for user start ------------------------
-    user_assessment_name_already_exists = CandidatesAssessmentsCreatedObj.query.filter_by(assessment_name=auto_generated_assessment_name,user_id_fk=current_user.id).first()
+    user_assessment_name_already_exists = ZDontDeleteTableObj.query.filter_by(assessment_name=auto_generated_assessment_name,user_id_fk=current_user.id).first()
     if user_assessment_name_already_exists != None:
       auto_generated_assessment_name = False
       create_assessment_error_statement = f'Assessment name "{auto_generated_assessment_name}" already exists.'
@@ -826,7 +826,7 @@ def candidates_assessment_create_new_function(step_status, url_redirect_code=Non
     # ------------------------ pull random assessment questions end ------------------------
     # ------------------------ create new assessment in db start ------------------------
     if auto_generated_assessment_name != False and ui_desired_languages_checkboxes_arr != False and ui_desired_languages_checkboxes_arr != []:
-      new_row = CandidatesAssessmentsCreatedObj(
+      new_row = ZDontDeleteTableObj(
         id=create_uuid_function('assessment_'),
         created_timestamp=create_timestamp_function(),
         user_id_fk=current_user.id,
@@ -867,7 +867,7 @@ def candidates_assessment_create_review_function(url_assessment_name):
   localhost_print_function(' ------------------------ candidates_assessment_create_review_function START ------------------------ ')
   review_assessment_error_statement = ''
   # ------------------------ pull assessment obj start ------------------------
-  db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(assessment_name=url_assessment_name,user_id_fk=current_user.id).first()
+  db_assessment_obj = ZDontDeleteTableObj.query.filter_by(assessment_name=url_assessment_name,user_id_fk=current_user.id).first()
   if db_assessment_obj == None or db_assessment_obj == []:
     return redirect(url_for('candidates_views_interior.login_dashboard_page_function'))
   assessment_name = db_assessment_obj.assessment_name
@@ -943,7 +943,7 @@ def candidates_assessment_preview_function(url_assessment_name, url_question_num
     user_company_name = user_company_name[:14] + '...'
   # ------------------------ variables end ------------------------
   # ------------------------ pull assessment obj start ------------------------
-  db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(assessment_name=url_assessment_name,user_id_fk=current_user.id).first()
+  db_assessment_obj = ZDontDeleteTableObj.query.filter_by(assessment_name=url_assessment_name,user_id_fk=current_user.id).first()
   if db_assessment_obj == None:
     localhost_print_function(' ------------------------ candidates_assessment_preview_function END ------------------------ ')
     return redirect(url_for('candidates_views_interior.candidates_assessment_invalid_function'))
@@ -1096,7 +1096,7 @@ def candidates_schedule_dashboard_function(url_redirect_code=None):
   # ------------------------ redirect codes end ------------------------
   # ------------------------ total assessments made start ------------------------  
   total_test_made = 0
-  test_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id, status='final').order_by(CandidatesAssessmentsCreatedObj.created_timestamp).all()
+  test_obj = ZDontDeleteTableObj.query.filter_by(user_id_fk=current_user.id, status='final').order_by(ZDontDeleteTableObj.created_timestamp).all()
   if test_obj == [] or test_obj == None:
     total_test_made = 0
   else:
@@ -1158,7 +1158,7 @@ def candidates_schedule_create_new_function(url_redirect_code=None):
   times_arr, timezone_arr = times_arr_function()
   # ------------------------ pull all available dates, times, timezones end ------------------------
   # ------------------------ pull tests arr of dict start ------------------------
-  db_tests_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id).order_by(CandidatesAssessmentsCreatedObj.assessment_name).all()
+  db_tests_obj = ZDontDeleteTableObj.query.filter_by(user_id_fk=current_user.id).order_by(ZDontDeleteTableObj.assessment_name).all()
   all_test_names_arr = []
   for i in db_tests_obj:
     all_test_names_arr.append(i.assessment_name)
@@ -1198,7 +1198,7 @@ def candidates_schedule_create_new_function(url_redirect_code=None):
     # ------------------------ validate ui end ------------------------
     else:
       # ------------------------ get assessment id based on name and user id fk start ------------------------
-      db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id, assessment_name=ui_test_selected).first()
+      db_assessment_obj = ZDontDeleteTableObj.query.filter_by(user_id_fk=current_user.id, assessment_name=ui_test_selected).first()
       if db_assessment_obj == None:
         localhost_print_function(' ------------------------ candidates_schedule_create_new_function END ------------------------ ')
         return redirect(url_for('candidates_views_interior.candidates_schedule_create_new_function', url_redirect_code='e2'))
@@ -1254,7 +1254,7 @@ def candidates_schedule_create_now_function_v2(url_redirect_code=None):
   # ------------------------ redirect codes end ------------------------
   current_user_email = current_user.email
   # ------------------------ pull tests arr of dict start ------------------------
-  db_tests_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id).order_by(CandidatesAssessmentsCreatedObj.assessment_name).all()
+  db_tests_obj = ZDontDeleteTableObj.query.filter_by(user_id_fk=current_user.id).order_by(ZDontDeleteTableObj.assessment_name).all()
   all_test_names_arr = []
   for i in db_tests_obj:
     all_test_names_arr.append(i.assessment_name)
@@ -1282,7 +1282,7 @@ def candidates_schedule_create_now_function_v2(url_redirect_code=None):
     # ------------------------ validate ui end ------------------------
     if ui_test_selected_check != False and ui_candidates_selected_check != False:
       # ------------------------ get assessment id based on name and user id fk start ------------------------
-      db_test_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id, assessment_name=ui_test_selected).first()
+      db_test_obj = ZDontDeleteTableObj.query.filter_by(user_id_fk=current_user.id, assessment_name=ui_test_selected).first()
       db_test_obj_assessment_id = db_test_obj.id
       # ------------------------ get assessment id based on name and user id fk end ------------------------
       # ------------------------ for each email selected start ------------------------
@@ -1467,7 +1467,7 @@ def candidates_assessment_expiring_function(url_assessment_expiring, url_questio
   db_schedule_obj_assessment_id_fk = db_schedule_obj.assessment_id_fk
   # ------------------------ pull schedule vars end ------------------------
   # ------------------------ pull assessment info start ------------------------
-  db_assessment_obj = CandidatesAssessmentsCreatedObj.query.filter_by(id=db_schedule_obj_assessment_id_fk).first()
+  db_assessment_obj = ZDontDeleteTableObj.query.filter_by(id=db_schedule_obj_assessment_id_fk).first()
   if db_assessment_obj == None:
     localhost_print_function(' ------------------------ candidates_assessment_expiring_function END ------------------------ ')
     return redirect(url_for('candidates_views_interior.candidates_assessment_invalid_function'))
@@ -1674,7 +1674,7 @@ def candidates_create_question_dashboard_function():
       db_questions_obj_arr[0]['question'] = shortened
   # ------------------------ pull from db end ------------------------
   # ------------------------ pull from db start ------------------------
-  db_test_drafts_obj_arr = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,status='draft').all()
+  db_test_drafts_obj_arr = ZDontDeleteTableObj.query.filter_by(user_id_fk=current_user.id,status='draft').all()
   db_test_drafts_obj_arr = arr_of_dict_necessary_columns_function(db_test_drafts_obj_arr, ['assessment_name', 'desired_languages_arr'])
   # ------------------------ pull from db end ------------------------
   # ------------------------ stripe subscription status check start ------------------------
@@ -1700,7 +1700,7 @@ def candidates_create_question_dashboard_function():
       # ------------------------ check valid inputs question end ------------------------
       else:
         # ------------------------ check valid inputs test start ------------------------
-        db_test_obj = CandidatesAssessmentsCreatedObj.query.filter_by(user_id_fk=current_user.id,assessment_name=ui_test_add_to).first()
+        db_test_obj = ZDontDeleteTableObj.query.filter_by(user_id_fk=current_user.id,assessment_name=ui_test_add_to).first()
         if db_test_obj == None:
           page_error_statement = 'Invalid test name submitted.'
         # ------------------------ check valid inputs test end ------------------------

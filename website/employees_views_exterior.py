@@ -12,7 +12,7 @@ from backend.utils.localhost_print_utils.localhost_print import localhost_print_
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import current_user
 from website.backend.candidates.redis import redis_connect_to_database_function
-from website.models import CreatedQuestionsObj, CandidatesAssessmentsCreatedObj, UserObj
+from website.models import CreatedQuestionsObj, ZDontDeleteTableObj, UserObj
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
 from website.backend.candidates.user_inputs import alert_message_default_function_v2, sanitize_email_function, sanitize_password_function
 from website.backend.candidates.send_emails import send_email_template_function
@@ -113,7 +113,7 @@ def employees_example_page_function(url_redirect_code=None, url_question_number=
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
   # ------------------------ redirect codes end ------------------------
   # ------------------------ pull test start ------------------------
-  db_test_obj = CandidatesAssessmentsCreatedObj.query.filter_by(id='employees_example_do_not_delete_01').first()
+  db_test_obj = ZDontDeleteTableObj.query.filter_by(id='employees_example_do_not_delete_01').first()
   db_test_obj = arr_of_dict_all_columns_single_item_function(db_test_obj)
   total_questions = int(db_test_obj['total_questions'])
   try:

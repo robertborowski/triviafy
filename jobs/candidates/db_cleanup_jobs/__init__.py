@@ -47,7 +47,7 @@ def job_candidates_remove_unsub_user_all_tables_function(postgres_connection, po
     return False
   input_remove_row_table_column_arr = [
     ['candidates_assessment_graded_obj','created_assessment_user_id_fk'],
-    ['candidates_assessments_created_obj','user_id_fk'],
+    ['z_dont_delete_table_obj','user_id_fk'],
     ['candidates_desired_languages_obj','user_id_fk'],
     ['candidates_schedule_obj','user_id_fk'],
     ['stripe_checkout_session_obj','fk_user_id'],
