@@ -93,7 +93,6 @@ def close_historical_tests_function(current_user):
   current_datetime_datetime = datetime.strptime(current_datetime_str, "%m/%d/%Y %H:%M:%S")  # datetime
   db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=current_user.group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).all()
   try:
-    historical_tests_were_closed = False
     for i in db_tests_obj:
       i_test_dict = arr_of_dict_all_columns_single_item_function(i)
       if i_test_dict['status'] == 'Closed':

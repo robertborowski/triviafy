@@ -260,30 +260,9 @@ def login_dashboard_page_function(url_redirect_code=None):
   db_activity_settings_obj_picture_quiz = pull_create_activity_settings_a_obj_function(current_user, 'picture_quiz')
   # ------------------------ pull/create group settings activities end ------------------------
   # ------------------------ ensure all historical tests are closed start ------------------------
-  # historical_tests_were_closed = close_historical_tests_function(current_user)
-  # if historical_tests_were_closed == True:
-  #   return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
-  current_datetime_str = datetime.now().strftime("%m/%d/%Y %H:%M:%S")   # str
-  current_datetime_datetime = datetime.strptime(current_datetime_str, "%m/%d/%Y %H:%M:%S")  # datetime
-  db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=current_user.group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).all()
-  try:
-    historical_tests_were_closed = False
-    for i in db_tests_obj:
-      i_test_dict = arr_of_dict_all_columns_single_item_function(i)
-      if i_test_dict['status'] == 'Closed':
-        continue
-      else:
-        i_test_end_timestamp_str = i_test_dict['end_timestamp'].strftime("%m/%d/%Y %H:%M:%S")  # str
-        i_test_end_timestamp_datetime = datetime.strptime(i_test_end_timestamp_str, "%m/%d/%Y %H:%M:%S")  # datetime
-        if current_datetime_datetime > i_test_end_timestamp_datetime:
-          i.status = 'Closed'
-          db.session.commit()
-          historical_tests_were_closed = True
-    if historical_tests_were_closed == True:
-      db.session.commit()
-      return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
-  except:
-    pass
+  historical_tests_were_closed = close_historical_tests_function(current_user)
+  if historical_tests_were_closed == True:
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ ensure all historical tests are closed end ------------------------
   # ------------------------ delete all historical closed tests with 'No participation' start ------------------------
   db_historical_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=current_user.group_id, status='Closed').order_by(EmployeesTestsObj.created_timestamp.desc()).all()
