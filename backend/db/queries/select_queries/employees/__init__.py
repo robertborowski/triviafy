@@ -19,7 +19,7 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
       f"SELECT \
           * \
         FROM \
-          activity_settings_a_obj \
+          activity_a_settings_obj \
         WHERE \
           product='trivia' AND \
           fk_group_id='{additional_input}';",

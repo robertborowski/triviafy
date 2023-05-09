@@ -4,7 +4,7 @@ import re
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
-from website.models import ActivitySettingsAObj, EmployeesTestsObj, EmployeesGroupQuestionsUsedObj, EmployeesTestsGradedObj, UserObj, EmployeesEmailSentObj
+from website.models import ActivityASettingsObj, EmployeesTestsObj, EmployeesGroupQuestionsUsedObj, EmployeesTestsGradedObj, UserObj, EmployeesEmailSentObj
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from website import db
 from website.backend.candidates.datetime_manipulation import get_current_weekday_function, get_current_hour_function, get_upcoming_date_function, build_out_datetime_from_parts_function, get_week_dates_function, get_weekday_dict_function_v2
@@ -65,7 +65,7 @@ def build_question_type_arr_function(input_type, input_total_questions):
 # ------------------------ individual function start ------------------------
 def get_next_quiz_open_function(company_group_id):
   # ------------------------ get group settings start ------------------------
-  db_group_settings_obj = ActivitySettingsAObj.query.filter_by(fk_group_id=company_group_id,product='trivia').order_by(ActivitySettingsAObj.created_timestamp.desc()).first()
+  db_group_settings_obj = ActivityASettingsObj.query.filter_by(fk_group_id=company_group_id,product='trivia').order_by(ActivityASettingsObj.created_timestamp.desc()).first()
   db_group_settings_dict = arr_of_dict_all_columns_single_item_function(db_group_settings_obj)
   # ------------------------ get group settings end ------------------------
   # ------------------------ get latest test start ------------------------
@@ -134,7 +134,7 @@ def create_quiz_function(group_id, immediate=False):
   time.tzset()
   # ------------------------ Set Timezone END ------------------------
   # ------------------------ pull group settings start ------------------------
-  db_group_settings_obj = ActivitySettingsAObj.query.filter_by(fk_group_id=group_id,product='trivia').order_by(ActivitySettingsAObj.created_timestamp.desc()).first()
+  db_group_settings_obj = ActivityASettingsObj.query.filter_by(fk_group_id=group_id,product='trivia').order_by(ActivityASettingsObj.created_timestamp.desc()).first()
   db_group_settings_dict = arr_of_dict_all_columns_single_item_function(db_group_settings_obj)
   # ------------------------ pull group settings end ------------------------
   # ------------------------ pull latest tests check start ------------------------

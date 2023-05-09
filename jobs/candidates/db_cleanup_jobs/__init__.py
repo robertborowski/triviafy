@@ -52,7 +52,7 @@ def job_candidates_remove_unsub_user_all_tables_function(postgres_connection, po
     ['candidates_schedule_obj','user_id_fk'],
     ['stripe_checkout_session_obj','fk_user_id'],
     ['candidates_uploaded_candidates_obj','user_id_fk'],
-    ['activity_settings_a_obj','fk_user_id'],
+    ['activity_a_settings_obj','fk_user_id'],
     ['group_obj','fk_user_id'],
     ['user_obj','id']
   ]

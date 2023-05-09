@@ -2,7 +2,7 @@
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
-from website.models import GroupObj, UserObj, ActivitySettingsAObj
+from website.models import GroupObj, UserObj, ActivityASettingsObj
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function
 from website import db
 # ------------------------ imports end ------------------------
@@ -60,13 +60,13 @@ def pull_create_group_obj_function(current_user):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
-def pull_create_activity_settings_a_obj_function(current_user, activity_name):
+def pull_create_activity_a_settings_obj_function(current_user, activity_name):
   # ------------------------ pull/create group settings start ------------------------
-  db_group_settings_obj = ActivitySettingsAObj.query.filter_by(fk_group_id=current_user.group_id,product=activity_name).first()
+  db_group_settings_obj = ActivityASettingsObj.query.filter_by(fk_group_id=current_user.group_id,product=activity_name).first()
   if db_group_settings_obj == None or db_group_settings_obj == []:
     # ------------------------ insert to db start ------------------------
     try:
-      new_row = ActivitySettingsAObj(
+      new_row = ActivityASettingsObj(
         id = create_uuid_function('gset_'),
         created_timestamp = create_timestamp_function(),
         fk_group_id = current_user.group_id,
@@ -86,7 +86,7 @@ def pull_create_activity_settings_a_obj_function(current_user, activity_name):
       db.session.commit()
     except:
       pass
-    db_group_settings_obj = ActivitySettingsAObj.query.filter_by(fk_group_id=current_user.group_id,product=activity_name).first()
+    db_group_settings_obj = ActivityASettingsObj.query.filter_by(fk_group_id=current_user.group_id,product=activity_name).first()
     # ------------------------ insert to db end ------------------------
   # ------------------------ pull/create group settings end ------------------------
   return db_group_settings_obj

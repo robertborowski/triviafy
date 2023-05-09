@@ -17,7 +17,7 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v4, browser_response_set_cookie_function_v5
-from website.models import GroupObj, ActivitySettingsAObj, EmployeesTestsObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, EmployeesTestsGradedObj, UserObj, EmployeesCapacityOptionsObj, EmployeesEmailSentObj, StripeCheckoutSessionObj, EmployeesGroupQuestionsUsedObj, EmployeesFeatureRequestObj, EmployeesFeedbackObj, EmployeesBirthdayInfoObj
+from website.models import GroupObj, ActivityASettingsObj, EmployeesTestsObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, EmployeesTestsGradedObj, UserObj, EmployeesCapacityOptionsObj, EmployeesEmailSentObj, StripeCheckoutSessionObj, EmployeesGroupQuestionsUsedObj, EmployeesFeatureRequestObj, EmployeesFeedbackObj, EmployeesBirthdayInfoObj
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function, question_choices_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
 from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function, convert_timestamp_to_month_day_string_function
@@ -38,7 +38,7 @@ from website.backend.candidates.aws_manipulation import candidates_change_upload
 from website.backend.candidates.string_manipulation import breakup_email_function
 from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function, get_marketing_list_function
 from website.backend.candidates.dropdowns import get_dropdowns_trivia_function
-from website.backend.candidates.pull_create_logic import pull_create_group_obj_function, pull_create_activity_settings_a_obj_function
+from website.backend.candidates.pull_create_logic import pull_create_group_obj_function, pull_create_activity_a_settings_obj_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -256,8 +256,8 @@ def login_dashboard_page_function(url_redirect_code=None):
   db_group_obj = pull_create_group_obj_function(current_user)
   # ------------------------ pull/create group end ------------------------
   # ------------------------ pull/create group settings activities start ------------------------
-  db_activity_settings_obj_trivia = pull_create_activity_settings_a_obj_function(current_user, 'trivia')
-  db_activity_settings_obj_picture_quiz = pull_create_activity_settings_a_obj_function(current_user, 'picture_quiz')
+  db_activity_settings_obj_trivia = pull_create_activity_a_settings_obj_function(current_user, 'trivia')
+  db_activity_settings_obj_picture_quiz = pull_create_activity_a_settings_obj_function(current_user, 'picture_quiz')
   # ------------------------ pull/create group settings activities end ------------------------
   # ------------------------ ensure all historical tests are closed start ------------------------
   historical_tests_were_closed = close_historical_tests_function(current_user)
@@ -386,7 +386,7 @@ def login_dashboard_page_function(url_redirect_code=None):
     # ------------------------ send email end ------------------------
   # ------------------------ check if share with team email has been sent end ------------------------
   # ------------------------ assign to dict start ------------------------
-  db_activity_settings_obj_trivia = ActivitySettingsAObj.query.filter_by(fk_group_id=current_user.group_id,product='trivia').first()
+  db_activity_settings_obj_trivia = ActivityASettingsObj.query.filter_by(fk_group_id=current_user.group_id,product='trivia').first()
   db_activity_settings_dict_trivia = arr_of_dict_all_columns_single_item_function(db_activity_settings_obj_trivia)
   # categories fix
   categories_edit = db_activity_settings_dict_trivia['categories'].replace(',',', ')
@@ -479,7 +479,7 @@ def employees_schedule_function(url_redirect_code=None):
   # ------------------------ assign to dict end ------------------------
   # ------------------------ get current group settings start ------------------------
   user_group_id = GroupObj.query.filter_by(fk_company_name=current_user.company_name).order_by(GroupObj.created_timestamp.desc()).first()
-  db_group_settings_obj = ActivitySettingsAObj.query.filter_by(fk_group_id=user_group_id.public_group_id,product='trivia').order_by(ActivitySettingsAObj.created_timestamp.desc()).first()
+  db_group_settings_obj = ActivityASettingsObj.query.filter_by(fk_group_id=user_group_id.public_group_id,product='trivia').order_by(ActivityASettingsObj.created_timestamp.desc()).first()
   db_group_settings_dict = arr_of_dict_all_columns_single_item_function(db_group_settings_obj)
   page_dict['db_group_settings_dict'] = db_group_settings_dict
   page_dict['weekdays'], page_dict['times'], page_dict['timezones'] = days_times_timezone_arr_function()
