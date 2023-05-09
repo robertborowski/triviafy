@@ -65,7 +65,7 @@ def build_question_type_arr_function(input_type, input_total_questions):
 # ------------------------ individual function start ------------------------
 def get_next_quiz_open_function(company_group_id):
   # ------------------------ get group settings start ------------------------
-  db_group_settings_obj = ActivitySettingsAObj.query.filter_by(fk_group_id=company_group_id).order_by(ActivitySettingsAObj.created_timestamp.desc()).first()
+  db_group_settings_obj = ActivitySettingsAObj.query.filter_by(fk_group_id=company_group_id,product='trivia').order_by(ActivitySettingsAObj.created_timestamp.desc()).first()
   db_group_settings_dict = arr_of_dict_all_columns_single_item_function(db_group_settings_obj)
   # ------------------------ get group settings end ------------------------
   # ------------------------ get latest test start ------------------------
@@ -134,7 +134,7 @@ def create_quiz_function(group_id, immediate=False):
   time.tzset()
   # ------------------------ Set Timezone END ------------------------
   # ------------------------ pull group settings start ------------------------
-  db_group_settings_obj = ActivitySettingsAObj.query.filter_by(fk_group_id=group_id).order_by(ActivitySettingsAObj.created_timestamp.desc()).first()
+  db_group_settings_obj = ActivitySettingsAObj.query.filter_by(fk_group_id=group_id,product='trivia').order_by(ActivitySettingsAObj.created_timestamp.desc()).first()
   db_group_settings_dict = arr_of_dict_all_columns_single_item_function(db_group_settings_obj)
   # ------------------------ pull group settings end ------------------------
   # ------------------------ pull latest tests check start ------------------------

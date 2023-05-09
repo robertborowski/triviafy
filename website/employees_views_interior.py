@@ -257,6 +257,7 @@ def login_dashboard_page_function(url_redirect_code=None):
   # ------------------------ pull/create group end ------------------------
   # ------------------------ pull/create group settings activities start ------------------------
   db_group_settings_obj = pull_create_activity_settings_a_obj_function(current_user, 'trivia')
+  db_group_settings_obj_picture_quiz = pull_create_activity_settings_a_obj_function(current_user, 'picture_quiz')
   # ------------------------ pull/create group settings activities end ------------------------
   # ------------------------ ensure all historical tests are closed start ------------------------
   current_datetime_str = datetime.now().strftime("%m/%d/%Y %H:%M:%S")   # str
@@ -403,7 +404,7 @@ def login_dashboard_page_function(url_redirect_code=None):
     # ------------------------ send email end ------------------------
   # ------------------------ check if share with team email has been sent end ------------------------
   # ------------------------ assign to dict start ------------------------
-  db_group_settings_obj = ActivitySettingsAObj.query.filter_by(fk_group_id=current_user.group_id).first()
+  db_group_settings_obj = ActivitySettingsAObj.query.filter_by(fk_group_id=current_user.group_id,product='trivia').first()
   db_group_settings_dict = arr_of_dict_all_columns_single_item_function(db_group_settings_obj)
   # categories fix
   categories_edit = db_group_settings_dict['categories'].replace(',',', ')
@@ -496,7 +497,7 @@ def employees_schedule_function(url_redirect_code=None):
   # ------------------------ assign to dict end ------------------------
   # ------------------------ get current group settings start ------------------------
   user_group_id = GroupObj.query.filter_by(fk_company_name=current_user.company_name).order_by(GroupObj.created_timestamp.desc()).first()
-  db_group_settings_obj = ActivitySettingsAObj.query.filter_by(fk_group_id=user_group_id.public_group_id).order_by(ActivitySettingsAObj.created_timestamp.desc()).first()
+  db_group_settings_obj = ActivitySettingsAObj.query.filter_by(fk_group_id=user_group_id.public_group_id,product='trivia').order_by(ActivitySettingsAObj.created_timestamp.desc()).first()
   db_group_settings_dict = arr_of_dict_all_columns_single_item_function(db_group_settings_obj)
   page_dict['db_group_settings_dict'] = db_group_settings_dict
   page_dict['weekdays'], page_dict['times'], page_dict['timezones'] = days_times_timezone_arr_function()
