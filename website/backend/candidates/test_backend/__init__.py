@@ -86,12 +86,12 @@ def first_user_latest_quiz_check_function(company_name):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
-def close_historical_tests_function(current_user):
+def close_historical_activity_a_tests_function(current_user, activity_name):
   # ------------------------ ensure all historical tests are closed start ------------------------
-  historical_tests_were_closed = False
+  historical_activity_a_tests_were_closed = False
   current_datetime_str = datetime.now().strftime("%m/%d/%Y %H:%M:%S")   # str
   current_datetime_datetime = datetime.strptime(current_datetime_str, "%m/%d/%Y %H:%M:%S")  # datetime
-  db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).all()
+  db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id,product=activity_name).order_by(ActivityATestObj.created_timestamp.desc()).all()
   try:
     for i in db_tests_obj:
       i_test_dict = arr_of_dict_all_columns_single_item_function(i)
@@ -103,11 +103,11 @@ def close_historical_tests_function(current_user):
         if current_datetime_datetime > i_test_end_timestamp_datetime:
           i.status = 'Closed'
           db.session.commit()
-          historical_tests_were_closed = True
-    if historical_tests_were_closed == True:
+          historical_activity_a_tests_were_closed = True
+    if historical_activity_a_tests_were_closed == True:
       db.session.commit()
   except:
     pass
   # ------------------------ ensure all historical tests are closed end ------------------------
-  return historical_tests_were_closed
+  return historical_activity_a_tests_were_closed
 # ------------------------ individual function end ------------------------
