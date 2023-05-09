@@ -17,7 +17,7 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v4, browser_response_set_cookie_function_v5
-from website.models import GroupObj, ActivityASettingsObj, EmployeesTestsObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, EmployeesTestsGradedObj, UserObj, EmployeesCapacityOptionsObj, EmployeesEmailSentObj, StripeCheckoutSessionObj, EmployeesGroupQuestionsUsedObj, EmployeesFeatureRequestObj, EmployeesFeedbackObj, EmployeesBirthdayInfoObj
+from website.models import GroupObj, ActivityASettingsObj, ActivityATestObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, EmployeesTestsGradedObj, UserObj, EmployeesCapacityOptionsObj, EmployeesEmailSentObj, StripeCheckoutSessionObj, EmployeesGroupQuestionsUsedObj, EmployeesFeatureRequestObj, EmployeesFeedbackObj, EmployeesBirthdayInfoObj
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function, question_choices_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
 from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function, convert_timestamp_to_month_day_string_function
@@ -265,7 +265,7 @@ def login_dashboard_page_function(url_redirect_code=None):
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ ensure all historical tests are closed end ------------------------
   # ------------------------ delete all historical closed tests with 'No participation' start ------------------------
-  db_historical_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=current_user.group_id, status='Closed').order_by(EmployeesTestsObj.created_timestamp.desc()).all()
+  db_historical_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id, status='Closed',product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).all()
   try:
     if db_historical_tests_obj != None and db_historical_tests_obj != []:
       historical_tests_were_deleted = False
@@ -278,7 +278,7 @@ def login_dashboard_page_function(url_redirect_code=None):
         if page_dict['latest_test_winner'] == 'No participation':
           EmployeesGroupQuestionsUsedObj.query.filter_by(fk_test_id=i_historical_test_dict['id']).delete()
           EmployeesTestsGradedObj.query.filter_by(fk_test_id=i_historical_test_dict['id']).delete()
-          EmployeesTestsObj.query.filter_by(id=i_historical_test_dict['id']).delete()
+          ActivityATestObj.query.filter_by(id=i_historical_test_dict['id'],product='trivia').delete()
           historical_tests_were_deleted = True
           db.session.commit()
         # ------------------------ delete histoical no participation end ------------------------
@@ -291,7 +291,7 @@ def login_dashboard_page_function(url_redirect_code=None):
     pass
   # ------------------------ delete all historical closed tests with 'No participation' end ------------------------
   # ------------------------ pull/create latest test start ------------------------
-  db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=current_user.group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
+  db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).first()
   first_test_exists = False
   if db_tests_obj == None or db_tests_obj == []:
     pass
@@ -301,7 +301,7 @@ def login_dashboard_page_function(url_redirect_code=None):
     create_quiz_status = create_quiz_function(db_activity_settings_obj_trivia.fk_group_id)
     # ------------------------ create latest test end ------------------------
     # ------------------------ latest test info start ------------------------
-    db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=current_user.group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
+    db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).first()
     start_month_day_str = convert_timestamp_to_month_day_string_function(db_tests_obj.start_timestamp)
     end_month_day_str = convert_timestamp_to_month_day_string_function(db_tests_obj.end_timestamp)
     page_dict['full_time_string'] = start_month_day_str + ', ' + db_tests_obj.start_time + ' - ' + end_month_day_str + ', ' + db_tests_obj.end_time + ' ' + db_tests_obj.timezone
@@ -329,7 +329,7 @@ def login_dashboard_page_function(url_redirect_code=None):
   page_dict['latest_test_is_closed'] = False
   page_dict['latest_test_winner'] = ''
   page_dict['latest_test_winner_score'] = float(0)
-  db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=current_user.group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
+  db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).first()
   try:
     db_tests_dict = arr_of_dict_all_columns_single_item_function(db_tests_obj)
     if db_tests_dict['status'] == 'Closed':
@@ -422,7 +422,7 @@ def employees_categories_request_function(url_redirect_code=None):
   # ------------------------ page dict end ------------------------
   # ------------------------ pull/create latest test start ------------------------
   user_group_id = GroupObj.query.filter_by(fk_company_name=current_user.company_name).order_by(GroupObj.created_timestamp.desc()).first()
-  db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=user_group_id.public_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
+  db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=user_group_id.public_group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).first()
   first_test_exists = False
   if db_tests_obj == None or db_tests_obj == []:
     pass
@@ -487,7 +487,7 @@ def employees_schedule_function(url_redirect_code=None):
   page_dict['dropdowns_dict'] = get_dropdowns_trivia_function()
   # ------------------------ get current group settings end ------------------------
   # ------------------------ pull/create latest test start ------------------------
-  db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=user_group_id.public_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
+  db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=user_group_id.public_group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).first()
   first_test_exists = False
   if db_tests_obj == None or db_tests_obj == []:
     pass
@@ -641,7 +641,7 @@ def employees_test_id_replace_question_function(url_test_id=None, url_question_n
   # ------------------------ redirect end ------------------------
   # ------------------------ get group latest test start ------------------------
   user_group_id = GroupObj.query.filter_by(fk_company_name=current_user.company_name).order_by(GroupObj.created_timestamp.desc()).first()
-  db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=user_group_id.public_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
+  db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=user_group_id.public_group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).first()
   db_tests_dict = arr_of_dict_all_columns_single_item_function(db_tests_obj)
   # ------------------------ get group latest test end ------------------------
   # ------------------------ identify question to replace start ------------------------
@@ -712,7 +712,7 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
   # ------------------------ redirect to latest test id start ------------------------
   user_group_id = GroupObj.query.filter_by(fk_company_name=current_user.company_name).order_by(GroupObj.created_timestamp.desc()).first()
   if url_test_id == None:
-    db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=user_group_id.public_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
+    db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=user_group_id.public_group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).first()
     if db_tests_obj == None or db_tests_obj == []:
       return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
     else:
@@ -722,8 +722,8 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
   page_dict['first_user_latest_quiz_can_replace'] = first_user_latest_quiz_check_function(current_user.company_name)
   if url_test_id == 'fufq_remove':
     if page_dict['first_user_latest_quiz_can_replace'] == True:
-      check_latest_test_obj = EmployeesTestsObj.query.filter_by(fk_group_id=user_group_id.public_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
-      EmployeesTestsObj.query.filter_by(id=check_latest_test_obj.id).delete()
+      check_latest_test_obj = ActivityATestObj.query.filter_by(fk_group_id=user_group_id.public_group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).first()
+      ActivityATestObj.query.filter_by(id=check_latest_test_obj.id,product='trivia').delete()
       EmployeesTestsGradedObj.query.filter_by(fk_test_id=check_latest_test_obj.id).delete()
       EmployeesGroupQuestionsUsedObj.query.filter_by(fk_test_id=check_latest_test_obj.id).delete()
       db.session.commit()
@@ -750,7 +750,7 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
   # ------------------------ on initial page load - redirect to first unanswered question end ------------------------
   # ------------------------ pull test id start ------------------------
   test_id = url_test_id
-  db_tests_obj = EmployeesTestsObj.query.filter_by(id=test_id).first()
+  db_tests_obj = ActivityATestObj.query.filter_by(id=test_id,product='trivia').first()
   if db_tests_obj == None or db_tests_obj == []:
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ pull test id end ------------------------
@@ -925,7 +925,7 @@ def employees_test_archive_function(url_redirect_code=None):
   db_group_obj = GroupObj.query.filter_by(fk_company_name=current_user.company_name).first()
   # ------------------------ get current group end ------------------------
   # ------------------------ pull all tests for group start ------------------------
-  db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=db_group_obj.public_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).all()
+  db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=db_group_obj.public_group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).all()
   # ------------------------ pull all tests for group end ------------------------
   # ------------------------ turn sql obj into arr of dicts start ------------------------
   tests_arr_of_dicts = []
@@ -969,7 +969,7 @@ def employees_leaderboard_function(url_redirect_code=None):
     db_test_grading_obj = EmployeesTestsGradedObj.query.filter_by(fk_user_id=user_id).all()
     for j in db_test_grading_obj:
       # ------------------------ check if test is closed start ------------------------
-      db_tests_obj = EmployeesTestsObj.query.filter_by(id=j.fk_test_id).first()
+      db_tests_obj = ActivityATestObj.query.filter_by(id=j.fk_test_id,product='trivia').first()
       if db_tests_obj.status == 'Closed':
         total_correct += int(j.correct_count)
       # ------------------------ check if test is closed end ------------------------
@@ -982,7 +982,7 @@ def employees_leaderboard_function(url_redirect_code=None):
   # ------------------------ get current users from company end ------------------------
   # ------------------------ pull all tests for group start ------------------------
   db_group_obj = GroupObj.query.filter_by(fk_company_name=current_user.company_name).first()
-  db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=db_group_obj.public_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).all()
+  db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=db_group_obj.public_group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).all()
   # ------------------------ pull all tests for group end ------------------------
   # ------------------------ pull test winner start ------------------------
   for i in db_tests_obj:

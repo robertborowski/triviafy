@@ -156,7 +156,7 @@ class ActivityASettingsObj(db.Model):
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
-class EmployeesTestsObj(db.Model):
+class ActivityATestObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
   created_timestamp = db.Column(db.DateTime(timezone=True))
   fk_group_id = db.Column(db.String(150))
@@ -174,6 +174,7 @@ class EmployeesTestsObj(db.Model):
   question_ids = db.Column(db.String(3000))
   question_types_order = db.Column(db.String(500))
   status = db.Column(db.String(150))
+  product = db.Column(db.String(150))
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------

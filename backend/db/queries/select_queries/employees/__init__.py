@@ -27,7 +27,7 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
       f"SELECT \
           * \
         FROM \
-          employees_tests_obj \
+          activity_a_test_obj \
         WHERE \
           fk_group_id='{additional_input}' \
         ORDER BY \

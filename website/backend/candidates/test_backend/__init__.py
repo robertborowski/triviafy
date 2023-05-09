@@ -1,7 +1,7 @@
 # ------------------------ imports start ------------------------
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 import re
-from website.models import UserObj, EmployeesTestsGradedObj, EmployeesTestsObj, GroupObj
+from website.models import UserObj, EmployeesTestsGradedObj, ActivityATestObj, GroupObj
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from datetime import datetime
 from website import db
@@ -10,7 +10,7 @@ from website import db
 # ------------------------ individual function start ------------------------
 def get_test_winner(input_test_id, result_id=False):
   # ------------------------ check if test is closed start ------------------------
-  db_tests_obj = EmployeesTestsObj.query.filter_by(id=input_test_id).first()
+  db_tests_obj = ActivityATestObj.query.filter_by(id=input_test_id,product='trivia').first()
   if db_tests_obj.status == 'Closed':
     # ------------------------ check if test is closed end ------------------------
     # ------------------------ assign variables start ------------------------
@@ -50,7 +50,7 @@ def first_user_first_quiz_check_function(company_name):
   check_first_user_first_quiz_can_replace = False
   try:
     user_group_id = GroupObj.query.filter_by(fk_company_name=company_name).order_by(GroupObj.created_timestamp.desc()).first()
-    fufq_check_test_count_obj = EmployeesTestsObj.query.filter_by(fk_group_id=user_group_id.public_group_id).all()
+    fufq_check_test_count_obj = ActivityATestObj.query.filter_by(fk_group_id=user_group_id.public_group_id,product='trivia').all()
     if len(fufq_check_test_count_obj) == 1:
       fufq_check_test_graded_count_obj = EmployeesTestsGradedObj.query.filter_by(fk_group_id=user_group_id.public_group_id).all()
       # ------------------------ check if none start ------------------------
@@ -75,7 +75,7 @@ def first_user_latest_quiz_check_function(company_name):
   check_first_user_latest_quiz_can_replace = False
   # ------------------------ latest objs start ------------------------
   user_group_id = GroupObj.query.filter_by(fk_company_name=company_name).order_by(GroupObj.created_timestamp.desc()).first()
-  user_test_obj = EmployeesTestsObj.query.filter_by(fk_group_id=user_group_id.public_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
+  user_test_obj = ActivityATestObj.query.filter_by(fk_group_id=user_group_id.public_group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).first()
   user_test_graded_obj = EmployeesTestsGradedObj.query.filter_by(fk_group_id=user_group_id.public_group_id, fk_test_id=user_test_obj.id, status='complete').all()
   # ------------------------ latest objs end ------------------------
   # ------------------------ check if none completed yet start ------------------------
@@ -91,7 +91,7 @@ def close_historical_tests_function(current_user):
   historical_tests_were_closed = False
   current_datetime_str = datetime.now().strftime("%m/%d/%Y %H:%M:%S")   # str
   current_datetime_datetime = datetime.strptime(current_datetime_str, "%m/%d/%Y %H:%M:%S")  # datetime
-  db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=current_user.group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).all()
+  db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).all()
   try:
     for i in db_tests_obj:
       i_test_dict = arr_of_dict_all_columns_single_item_function(i)

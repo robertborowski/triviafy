@@ -4,7 +4,7 @@ import re
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
-from website.models import ActivityASettingsObj, EmployeesTestsObj, EmployeesGroupQuestionsUsedObj, EmployeesTestsGradedObj, UserObj, EmployeesEmailSentObj
+from website.models import ActivityASettingsObj, ActivityATestObj, EmployeesGroupQuestionsUsedObj, EmployeesTestsGradedObj, UserObj, EmployeesEmailSentObj
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from website import db
 from website.backend.candidates.datetime_manipulation import get_current_weekday_function, get_current_hour_function, get_upcoming_date_function, build_out_datetime_from_parts_function, get_week_dates_function, get_weekday_dict_function_v2
@@ -69,7 +69,7 @@ def get_next_quiz_open_function(company_group_id):
   db_group_settings_dict = arr_of_dict_all_columns_single_item_function(db_group_settings_obj)
   # ------------------------ get group settings end ------------------------
   # ------------------------ get latest test start ------------------------
-  db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=company_group_id).order_by(EmployeesTestsObj.created_timestamp.desc()).first()
+  db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=company_group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).first()
   db_tests_dict = arr_of_dict_all_columns_single_item_function(db_tests_obj)
   # ------------------------ get latest test end ------------------------
   # ------------------------ get next quiz open start ------------------------
@@ -139,7 +139,7 @@ def create_quiz_function(group_id, immediate=False):
   # ------------------------ pull group settings end ------------------------
   # ------------------------ pull latest tests check start ------------------------
   correct_cadence = False
-  db_tests_obj = EmployeesTestsObj.query.filter_by(fk_group_id=db_group_settings_dict['fk_group_id']).order_by(EmployeesTestsObj.created_timestamp.desc()).all()
+  db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=db_group_settings_dict['fk_group_id'],product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).all()
   if db_tests_obj == None or db_tests_obj == []:
     correct_cadence = True
   else:
@@ -219,7 +219,7 @@ def create_quiz_function(group_id, immediate=False):
     # ------------------------ insert to db start ------------------------
     new_test_id = create_uuid_function('test_')
     try:
-      new_row = EmployeesTestsObj(
+      new_row = ActivityATestObj(
         id = new_test_id,
         created_timestamp = create_timestamp_function(),
         fk_group_id = db_group_settings_dict['fk_group_id'],
@@ -236,7 +236,8 @@ def create_quiz_function(group_id, immediate=False):
         categories = db_group_settings_dict['categories'],
         question_ids = final_uuids_str,
         question_types_order = question_types_str,
-        status = 'Open'
+        status = 'Open',
+        product = 'trivia'
       )
       db.session.add(new_row)
       db.session.commit()
