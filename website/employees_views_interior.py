@@ -17,7 +17,7 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v4, browser_response_set_cookie_function_v5
-from website.models import GroupObj, ActivityASettingsObj, ActivityATestObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, ActivityATestGradedObj, UserObj, StripePaymentOptionsObj, EmployeesEmailSentObj, StripeCheckoutSessionObj, ActivityAGroupQuestionsUsedObj, EmployeesFeatureRequestObj, UserSignupFeedbackObj, EmployeesBirthdayInfoObj
+from website.models import GroupObj, ActivityASettingsObj, ActivityATestObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, ActivityATestGradedObj, UserObj, StripePaymentOptionsObj, EmployeesEmailSentObj, StripeCheckoutSessionObj, ActivityAGroupQuestionsUsedObj, EmployeesFeatureRequestObj, UserSignupFeedbackObj, UserBirthdayObj
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function, question_choices_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
 from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function, convert_timestamp_to_month_day_string_function
@@ -1653,7 +1653,7 @@ def employees_feedback_birthday_function(url_redirect_code=None):
     try:
       new_birthday_row_id = create_uuid_function('birthday_')
       # ------------------------ insert to db start ------------------------
-      new_row = EmployeesBirthdayInfoObj(
+      new_row = UserBirthdayObj(
         id = new_birthday_row_id,
         created_timestamp = create_timestamp_function(),
         fk_user_id = current_user.id,
