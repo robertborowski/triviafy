@@ -126,9 +126,9 @@ def delete_historical_activity_a_tests_no_participation_function(current_user, a
         # ------------------------ winner end ------------------------
         # ------------------------ delete histoical no participation start ------------------------
         if page_dict['latest_test_winner'] == 'No participation':
-          ActivityAGroupQuestionsUsedObj.query.filter_by(fk_test_id=i_historical_test_dict['id'],product=activity_name).delete()
-          ActivityATestGradedObj.query.filter_by(fk_test_id=i_historical_test_dict['id'],product=activity_name).delete()
-          ActivityATestObj.query.filter_by(id=i_historical_test_dict['id'],product=activity_name).delete()
+          ActivityAGroupQuestionsUsedObj.query.filter_by(fk_test_id=i_historical_test_dict['id']).delete()
+          ActivityATestGradedObj.query.filter_by(fk_test_id=i_historical_test_dict['id']).delete()
+          ActivityATestObj.query.filter_by(id=i_historical_test_dict['id']).delete()
           historical_activity_a_tests_were_deleted = True
           db.session.commit()
         # ------------------------ delete histoical no participation end ------------------------
