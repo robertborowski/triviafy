@@ -17,7 +17,7 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v4, browser_response_set_cookie_function_v5
-from website.models import GroupObj, ActivityASettingsObj, ActivityATestObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, ActivityATestGradedObj, UserObj, EmployeesCapacityOptionsObj, EmployeesEmailSentObj, StripeCheckoutSessionObj, EmployeesGroupQuestionsUsedObj, EmployeesFeatureRequestObj, EmployeesFeedbackObj, EmployeesBirthdayInfoObj
+from website.models import GroupObj, ActivityASettingsObj, ActivityATestObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, ActivityATestGradedObj, UserObj, EmployeesCapacityOptionsObj, EmployeesEmailSentObj, StripeCheckoutSessionObj, ActivityAGroupQuestionsUsedObj, EmployeesFeatureRequestObj, EmployeesFeedbackObj, EmployeesBirthdayInfoObj
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function, question_choices_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
 from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function, convert_timestamp_to_month_day_string_function
@@ -641,7 +641,7 @@ def employees_test_id_replace_question_function(url_test_id=None, url_question_n
     pass
   # ------------------------ replace id in test table end ------------------------
   # ------------------------ replace id in question asked table start ------------------------
-  db_question_used_obj = EmployeesGroupQuestionsUsedObj.query.filter_by(fk_group_id=user_group_id.public_group_id, fk_test_id=db_tests_obj.id, fk_question_id=question_id_to_replace).first()
+  db_question_used_obj = ActivityAGroupQuestionsUsedObj.query.filter_by(fk_group_id=user_group_id.public_group_id, fk_test_id=db_tests_obj.id, fk_question_id=question_id_to_replace,product='trivia').first()
   try:
     db_question_used_obj.fk_question_id = new_question_id
     db.session.commit()
@@ -704,7 +704,7 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
       check_latest_test_obj = ActivityATestObj.query.filter_by(fk_group_id=user_group_id.public_group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).first()
       ActivityATestObj.query.filter_by(id=check_latest_test_obj.id,product='trivia').delete()
       ActivityATestGradedObj.query.filter_by(fk_test_id=check_latest_test_obj.id,product='trivia').delete()
-      EmployeesGroupQuestionsUsedObj.query.filter_by(fk_test_id=check_latest_test_obj.id).delete()
+      ActivityAGroupQuestionsUsedObj.query.filter_by(fk_test_id=check_latest_test_obj.id,product='trivia').delete()
       db.session.commit()
       return redirect(url_for('employees_views_interior.employees_schedule_function', url_redirect_code='e22'))
   # ------------------------ first user first quiz delete logic end ------------------------
@@ -1284,7 +1284,7 @@ def employees_questions_function(url_redirect_code=None):
     # ------------------------ append creator email end ------------------------
     # ------------------------ append asked status start ------------------------
     i_dict['question_used_status'] = 'Include in future quiz'
-    db_used_obj = EmployeesGroupQuestionsUsedObj.query.filter_by(fk_question_id=i_dict['id'], fk_group_id=db_groups_obj.public_group_id).first()
+    db_used_obj = ActivityAGroupQuestionsUsedObj.query.filter_by(fk_question_id=i_dict['id'], fk_group_id=db_groups_obj.public_group_id,product='trivia').first()
     if db_used_obj != None and db_used_obj != []:
       i_dict['question_used_status'] = 'Included in past quiz'
     # ------------------------ append asked status end ------------------------

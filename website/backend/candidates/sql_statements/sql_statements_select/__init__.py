@@ -112,7 +112,7 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
                     WHERE \
                       status = TRUE AND product='employees' \
                       AND ({additional_input}) \
-                      AND id NOT IN (SELECT fk_question_id FROM employees_group_questions_used_obj WHERE fk_group_id='{additional_input3}') \
+                      AND id NOT IN (SELECT fk_question_id FROM activity_a_group_questions_used_obj WHERE fk_group_id='{additional_input3}') \
                     ORDER BY \
                       RANDOM() \
                     LIMIT {additional_input2};",
@@ -125,7 +125,7 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
                       created_questions_obj \
                     WHERE \
                       status = TRUE AND product='employees' \
-                      AND id NOT IN (SELECT fk_question_id FROM employees_group_questions_used_obj WHERE fk_group_id='{additional_input2}') {additional_input3} \
+                      AND id NOT IN (SELECT fk_question_id FROM activity_a_group_questions_used_obj WHERE fk_group_id='{additional_input2}') {additional_input3} \
                     ORDER BY \
                       RANDOM() \
                     LIMIT {additional_input};",
@@ -138,7 +138,7 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
                       created_questions_obj \
                     WHERE \
                       status = TRUE AND product='employees' \
-                      AND id NOT IN (SELECT fk_question_id FROM employees_group_questions_used_obj WHERE fk_group_id='{additional_input2}') \
+                      AND id NOT IN (SELECT fk_question_id FROM activity_a_group_questions_used_obj WHERE fk_group_id='{additional_input2}') \
                     ORDER BY \
                       RANDOM() \
                     LIMIT {additional_input};",

@@ -4,7 +4,7 @@ import re
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
-from website.models import ActivityASettingsObj, ActivityATestObj, EmployeesGroupQuestionsUsedObj, ActivityATestGradedObj, UserObj, EmployeesEmailSentObj
+from website.models import ActivityASettingsObj, ActivityATestObj, ActivityAGroupQuestionsUsedObj, ActivityATestGradedObj, UserObj, EmployeesEmailSentObj
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from website import db
 from website.backend.candidates.datetime_manipulation import get_current_weekday_function, get_current_hour_function, get_upcoming_date_function, build_out_datetime_from_parts_function, get_week_dates_function, get_weekday_dict_function_v2
@@ -247,12 +247,13 @@ def create_quiz_function(group_id, immediate=False):
     # ------------------------ insert to db start ------------------------
     for i in final_uuids_arr:
       try:
-        new_row = EmployeesGroupQuestionsUsedObj(
+        new_row = ActivityAGroupQuestionsUsedObj(
           id = create_uuid_function('used_'),
           created_timestamp = create_timestamp_function(),
           fk_group_id = db_group_settings_dict['fk_group_id'],
           fk_question_id = i,
-          fk_test_id = new_test_id
+          fk_test_id = new_test_id,
+          product = 'trivia'
         )
         db.session.add(new_row)
         db.session.commit()

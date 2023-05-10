@@ -14,7 +14,7 @@ from flask_login import login_required, current_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
-from website.models import EmployeesGroupQuestionsUsedObj, ActivityASettingsObj, GroupObj, ActivityATestGradedObj, ActivityATestObj, UserObj, ZDontDeleteTableObj, StripeCheckoutSessionObj, DeletedEmailsObj, EmployeesEmailSentObj, CollectEmailObj, EmployeesFeatureRequestObj, ScrapedEmailsObj, EmployeesFeedbackObj, EmployeesBirthdayInfoObj
+from website.models import ActivityAGroupQuestionsUsedObj, ActivityASettingsObj, GroupObj, ActivityATestGradedObj, ActivityATestObj, UserObj, ZDontDeleteTableObj, StripeCheckoutSessionObj, DeletedEmailsObj, EmployeesEmailSentObj, CollectEmailObj, EmployeesFeatureRequestObj, ScrapedEmailsObj, EmployeesFeedbackObj, EmployeesBirthdayInfoObj
 import os
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from website.backend.candidates.sql_statements.sql_statements_select_general_v1_jobs import select_general_v1_jobs_function
@@ -117,7 +117,7 @@ def admin_delete_page_function(url_redirect_code=None):
     if group_to_delete != None:
       ActivityASettingsObj.query.filter_by(fk_group_id=group_to_delete).delete()
       EmployeesFeatureRequestObj.query.filter_by(fk_group_id=group_to_delete).delete()
-      EmployeesGroupQuestionsUsedObj.query.filter_by(fk_group_id=group_to_delete).delete()
+      ActivityAGroupQuestionsUsedObj.query.filter_by(fk_group_id=group_to_delete).delete()
       ActivityATestGradedObj.query.filter_by(fk_group_id=group_to_delete).delete()
       ActivityATestObj.query.filter_by(fk_group_id=group_to_delete).delete()
       GroupObj.query.filter_by(public_group_id=group_to_delete).delete()
@@ -167,7 +167,7 @@ def admin_delete_page_function(url_redirect_code=None):
             EmployeesEmailSentObj.query.filter_by(to_email=user_to_delete).delete()
             EmployeesFeatureRequestObj.query.filter_by(fk_group_id=group_to_delete).delete()
             EmployeesFeedbackObj.query.filter_by(fk_email=user_to_delete).delete()
-            EmployeesGroupQuestionsUsedObj.query.filter_by(fk_group_id=group_to_delete).delete()
+            ActivityAGroupQuestionsUsedObj.query.filter_by(fk_group_id=group_to_delete).delete()
             ActivityASettingsObj.query.filter_by(fk_group_id=group_to_delete).delete()
             GroupObj.query.filter_by(public_group_id=group_to_delete).delete()
             ActivityATestGradedObj.query.filter_by(fk_group_id=group_to_delete).delete()

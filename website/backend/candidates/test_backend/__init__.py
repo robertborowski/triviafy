@@ -1,7 +1,7 @@
 # ------------------------ imports start ------------------------
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 import re
-from website.models import UserObj, ActivityATestGradedObj, ActivityATestObj, GroupObj, EmployeesGroupQuestionsUsedObj
+from website.models import UserObj, ActivityATestGradedObj, ActivityATestObj, GroupObj, ActivityAGroupQuestionsUsedObj
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from datetime import datetime
 from website import db
@@ -126,7 +126,7 @@ def delete_historical_activity_a_tests_no_participation_function(current_user, a
         # ------------------------ winner end ------------------------
         # ------------------------ delete histoical no participation start ------------------------
         if page_dict['latest_test_winner'] == 'No participation':
-          EmployeesGroupQuestionsUsedObj.query.filter_by(fk_test_id=i_historical_test_dict['id']).delete()
+          ActivityAGroupQuestionsUsedObj.query.filter_by(fk_test_id=i_historical_test_dict['id'],product='trivia').delete()
           ActivityATestGradedObj.query.filter_by(fk_test_id=i_historical_test_dict['id'],product='trivia').delete()
           ActivityATestObj.query.filter_by(id=i_historical_test_dict['id'],product='trivia').delete()
           historical_activity_a_tests_were_deleted = True
