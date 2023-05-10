@@ -10,7 +10,7 @@ from website import db
 # ------------------------ individual function start ------------------------
 def get_test_winner(input_test_id, result_id=False):
   # ------------------------ check if test is closed start ------------------------
-  db_tests_obj = ActivityATestObj.query.filter_by(id=input_test_id,product='trivia').first()
+  db_tests_obj = ActivityATestObj.query.filter_by(id=input_test_id).first()
   if db_tests_obj.status == 'Closed':
     # ------------------------ check if test is closed end ------------------------
     # ------------------------ assign variables start ------------------------
@@ -20,7 +20,7 @@ def get_test_winner(input_test_id, result_id=False):
     latest_test_winner = 'No participation'
     # ------------------------ assign variables end ------------------------
     # ------------------------ pull winner start ------------------------
-    db_test_grading_obj = ActivityATestGradedObj.query.filter_by(fk_test_id=input_test_id, status='complete',product='trivia').order_by(ActivityATestGradedObj.created_timestamp.asc()).all()
+    db_test_grading_obj = ActivityATestGradedObj.query.filter_by(fk_test_id=input_test_id, status='complete').order_by(ActivityATestGradedObj.created_timestamp.asc()).all()
     for i_obj in db_test_grading_obj:
       i_dict = arr_of_dict_all_columns_single_item_function(i_obj)
       i_final_score = float(i_dict['final_score'])
@@ -126,9 +126,9 @@ def delete_historical_activity_a_tests_no_participation_function(current_user, a
         # ------------------------ winner end ------------------------
         # ------------------------ delete histoical no participation start ------------------------
         if page_dict['latest_test_winner'] == 'No participation':
-          ActivityAGroupQuestionsUsedObj.query.filter_by(fk_test_id=i_historical_test_dict['id'],product='trivia').delete()
-          ActivityATestGradedObj.query.filter_by(fk_test_id=i_historical_test_dict['id'],product='trivia').delete()
-          ActivityATestObj.query.filter_by(id=i_historical_test_dict['id'],product='trivia').delete()
+          ActivityAGroupQuestionsUsedObj.query.filter_by(fk_test_id=i_historical_test_dict['id'],product=activity_name).delete()
+          ActivityATestGradedObj.query.filter_by(fk_test_id=i_historical_test_dict['id'],product=activity_name).delete()
+          ActivityATestObj.query.filter_by(id=i_historical_test_dict['id'],product=activity_name).delete()
           historical_activity_a_tests_were_deleted = True
           db.session.commit()
         # ------------------------ delete histoical no participation end ------------------------
