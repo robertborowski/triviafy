@@ -4,7 +4,7 @@ import re
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
-from website.models import ActivityASettingsObj, ActivityATestObj, ActivityAGroupQuestionsUsedObj, ActivityATestGradedObj, UserObj, EmployeesEmailSentObj
+from website.models import ActivityASettingsObj, ActivityATestObj, ActivityAGroupQuestionsUsedObj, ActivityATestGradedObj, UserObj, EmailSentObj
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from website import db
 from website.backend.candidates.datetime_manipulation import get_current_weekday_function, get_current_hour_function, get_upcoming_date_function, build_out_datetime_from_parts_function, get_week_dates_function, get_weekday_dict_function_v2
@@ -386,7 +386,7 @@ def grade_quiz_function(ui_answer, url_test_id, total_questions, url_question_nu
     try:
       db_user_obj = UserObj.query.filter_by(id=current_user_id).first()
       output_subject = f'Employees Test Graded | {db_user_obj.email} | {url_test_id}'
-      db_email_sent_obj = EmployeesEmailSentObj.query.filter_by(subject=output_subject).first()
+      db_email_sent_obj = EmailSentObj.query.filter_by(subject=output_subject).first()
       if db_email_sent_obj == None or db_email_sent_obj == []:
         output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
         # ------------------------ get str of all answers start ------------------------
@@ -404,7 +404,7 @@ def grade_quiz_function(ui_answer, url_test_id, total_questions, url_question_nu
         send_email_template_function(output_to_email, output_subject, output_body)
         # ------------------------ insert email to db start ------------------------
         try:
-          new_row_email = EmployeesEmailSentObj(
+          new_row_email = EmailSentObj(
             id = create_uuid_function('self_'),
             created_timestamp = create_timestamp_function(),
             from_user_id_fk = 'notifications',

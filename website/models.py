@@ -223,7 +223,7 @@ class StripePaymentOptionsObj(db.Model):
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
-class EmployeesEmailSentObj(db.Model):
+class EmailSentObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
   created_timestamp = db.Column(db.DateTime(timezone=True))
   from_user_id_fk = db.Column(db.String(150))

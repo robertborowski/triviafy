@@ -54,7 +54,7 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
       f"SELECT \
           * \
         FROM \
-          employees_email_sent_obj \
+          email_sent_obj \
         WHERE \
           to_email='{additional_input}' AND \
           subject='{additional_input2}';",

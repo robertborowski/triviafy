@@ -19,7 +19,7 @@ def insert_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
     # ------------------------ insert queries start ------------------------
     insert_queries_dict = {
       'insert_email_1': {
-        'query': "INSERT INTO employees_email_sent_obj(id,created_timestamp,from_user_id_fk,to_email,subject,body) VALUES(%s,%s,%s,%s,%s,%s);",
+        'query': "INSERT INTO email_sent_obj(id,created_timestamp,from_user_id_fk,to_email,subject,body) VALUES(%s,%s,%s,%s,%s,%s);",
         'new_row': (input_0, input_1, input_2, input_3, input_4, input_5)
       }
     }

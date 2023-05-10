@@ -14,7 +14,7 @@ from flask_login import login_required, current_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
-from website.models import ActivityAGroupQuestionsUsedObj, ActivityASettingsObj, GroupObj, ActivityATestGradedObj, ActivityATestObj, UserObj, ZDontDeleteTableObj, StripeCheckoutSessionObj, EmailDeletedObj, EmployeesEmailSentObj, EmailCollectObj, EmployeesFeatureRequestObj, EmailScrapedObj, UserSignupFeedbackObj, UserBirthdayObj
+from website.models import ActivityAGroupQuestionsUsedObj, ActivityASettingsObj, GroupObj, ActivityATestGradedObj, ActivityATestObj, UserObj, ZDontDeleteTableObj, StripeCheckoutSessionObj, EmailDeletedObj, EmailSentObj, EmailCollectObj, EmployeesFeatureRequestObj, EmailScrapedObj, UserSignupFeedbackObj, UserBirthdayObj
 import os
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from website.backend.candidates.sql_statements.sql_statements_select_general_v1_jobs import select_general_v1_jobs_function
@@ -164,7 +164,7 @@ def admin_delete_page_function(url_redirect_code=None):
             db_group_dict = arr_of_dict_all_columns_single_item_function(i_group_obj)
             group_to_delete = db_group_dict['public_group_id']
             UserBirthdayObj.query.filter_by(fk_user_id=db_users_dict['id']).delete()
-            EmployeesEmailSentObj.query.filter_by(to_email=user_to_delete).delete()
+            EmailSentObj.query.filter_by(to_email=user_to_delete).delete()
             EmployeesFeatureRequestObj.query.filter_by(fk_group_id=group_to_delete).delete()
             UserSignupFeedbackObj.query.filter_by(fk_email=user_to_delete).delete()
             ActivityAGroupQuestionsUsedObj.query.filter_by(fk_group_id=group_to_delete).delete()
@@ -183,7 +183,7 @@ def admin_delete_page_function(url_redirect_code=None):
             db_group_dict = arr_of_dict_all_columns_single_item_function(i_group_obj)
             group_to_delete = db_group_dict['public_group_id']
             UserBirthdayObj.query.filter_by(fk_user_id=db_users_dict['id']).delete()
-            EmployeesEmailSentObj.query.filter_by(to_email=user_to_delete).delete()
+            EmailSentObj.query.filter_by(to_email=user_to_delete).delete()
             UserSignupFeedbackObj.query.filter_by(fk_email=user_to_delete).delete()
             ActivityATestGradedObj.query.filter_by(fk_user_id=db_users_dict['id']).delete()
         except:
@@ -364,7 +364,7 @@ def admin_analytics_page_function(url_redirect_code=None):
             output_subject = f"Action Required: {todays_date_str}"
             output_body = f"Hi {guessed_name},\n\nYour team's latest trivia contest https://triviafy.com/employees/dashboard \n\nBest,\nTriviafy Support Team\nReply 'stop' to unsubscribe."
             # ------------------------ check if email+subject already sent today start ------------------------
-            db_email_sent_obj = EmployeesEmailSentObj.query.filter_by(to_email=output_to_email, subject=output_subject).first()
+            db_email_sent_obj = EmailSentObj.query.filter_by(to_email=output_to_email, subject=output_subject).first()
             if db_email_sent_obj != None and db_email_sent_obj != []:
               localhost_print_function(f'email already sent to this {output_to_email} - {output_subject}')
               continue
@@ -373,7 +373,7 @@ def admin_analytics_page_function(url_redirect_code=None):
               send_email_template_function(output_to_email, output_subject, output_body)
               # ------------------------ send email end ------------------------
               # ------------------------ insert email to db start ------------------------
-              new_row = EmployeesEmailSentObj(
+              new_row = EmailSentObj(
                 id = create_uuid_function('progress_'),
                 created_timestamp = create_timestamp_function(),
                 from_user_id_fk = current_user.id,
@@ -405,7 +405,7 @@ def admin_analytics_page_function(url_redirect_code=None):
                         <p style='margin:0;'>Triviafy Support Team</p>\
                         <p style='margin:0;font-size:9px;'>Reply 'stop' to unsubscribe.</p>"
         # ------------------------ check if email+subject already sent today start ------------------------
-        db_email_sent_obj = EmployeesEmailSentObj.query.filter_by(to_email=output_to_email, subject=output_subject).first()
+        db_email_sent_obj = EmailSentObj.query.filter_by(to_email=output_to_email, subject=output_subject).first()
         if db_email_sent_obj != None and db_email_sent_obj != []:
           localhost_print_function(f'email already sent to this {output_to_email} - {output_subject}')
           continue
@@ -414,7 +414,7 @@ def admin_analytics_page_function(url_redirect_code=None):
           send_email_template_function(output_to_email, output_subject, output_body)
           # ------------------------ send email end ------------------------
           # ------------------------ insert email to db start ------------------------
-          new_row = EmployeesEmailSentObj(
+          new_row = EmailSentObj(
             id = create_uuid_function('progress_'),
             created_timestamp = create_timestamp_function(),
             from_user_id_fk = current_user.id,
@@ -445,7 +445,7 @@ def admin_analytics_page_function(url_redirect_code=None):
                         <p style='margin:0;'>Triviafy Support Team</p>\
                         <p style='margin:0;font-size:9px;'>Reply 'stop' to unsubscribe.</p>"
         # ------------------------ check if email+subject already sent today start ------------------------
-        db_email_sent_obj = EmployeesEmailSentObj.query.filter_by(to_email=output_to_email, subject=output_subject).first()
+        db_email_sent_obj = EmailSentObj.query.filter_by(to_email=output_to_email, subject=output_subject).first()
         if db_email_sent_obj != None and db_email_sent_obj != []:
           localhost_print_function(f'email already sent to this {output_to_email} - {output_subject}')
           continue
@@ -454,7 +454,7 @@ def admin_analytics_page_function(url_redirect_code=None):
           send_email_template_function(output_to_email, output_subject, output_body)
           # ------------------------ send email end ------------------------
           # ------------------------ insert email to db start ------------------------
-          new_row = EmployeesEmailSentObj(
+          new_row = EmailSentObj(
             id = create_uuid_function('collected_'),
             created_timestamp = create_timestamp_function(),
             from_user_id_fk = current_user.id,
@@ -485,7 +485,7 @@ def admin_analytics_page_function(url_redirect_code=None):
                         <p style='margin:0;'>Triviafy Support Team</p>\
                         <p style='margin:0;font-size:9px;'>Reply 'stop' to unsubscribe.</p>"
         # ------------------------ check if email+subject already sent today start ------------------------
-        db_email_sent_obj = EmployeesEmailSentObj.query.filter_by(to_email=output_to_email, subject=output_subject).first()
+        db_email_sent_obj = EmailSentObj.query.filter_by(to_email=output_to_email, subject=output_subject).first()
         if db_email_sent_obj != None and db_email_sent_obj != []:
           localhost_print_function(f'email already sent to this {output_to_email} - {output_subject}')
           continue
@@ -494,7 +494,7 @@ def admin_analytics_page_function(url_redirect_code=None):
           send_email_template_function(output_to_email, output_subject, output_body)
           # ------------------------ send email end ------------------------
           # ------------------------ insert email to db start ------------------------
-          new_row = EmployeesEmailSentObj(
+          new_row = EmailSentObj(
             id = create_uuid_function('collected_'),
             created_timestamp = create_timestamp_function(),
             from_user_id_fk = current_user.id,
