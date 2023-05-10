@@ -178,7 +178,7 @@ class ActivityATestObj(db.Model):
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
-class EmployeesTestsGradedObj(db.Model):
+class ActivityATestGradedObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
   created_timestamp = db.Column(db.DateTime(timezone=True))
   fk_group_id = db.Column(db.String(150))
@@ -190,6 +190,7 @@ class EmployeesTestsGradedObj(db.Model):
   status = db.Column(db.String(20))
   graded_count = db.Column(db.Integer)
   test_obj = db.Column(db.String(180000))
+  product = db.Column(db.String(150))
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------

@@ -14,7 +14,7 @@ from flask_login import login_required, current_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
-from website.models import EmployeesGroupQuestionsUsedObj, ActivityASettingsObj, GroupObj, EmployeesTestsGradedObj, ActivityATestObj, UserObj, ZDontDeleteTableObj, StripeCheckoutSessionObj, DeletedEmailsObj, EmployeesEmailSentObj, CollectEmailObj, EmployeesFeatureRequestObj, ScrapedEmailsObj, EmployeesFeedbackObj, EmployeesBirthdayInfoObj
+from website.models import EmployeesGroupQuestionsUsedObj, ActivityASettingsObj, GroupObj, ActivityATestGradedObj, ActivityATestObj, UserObj, ZDontDeleteTableObj, StripeCheckoutSessionObj, DeletedEmailsObj, EmployeesEmailSentObj, CollectEmailObj, EmployeesFeatureRequestObj, ScrapedEmailsObj, EmployeesFeedbackObj, EmployeesBirthdayInfoObj
 import os
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from website.backend.candidates.sql_statements.sql_statements_select_general_v1_jobs import select_general_v1_jobs_function
@@ -118,7 +118,7 @@ def admin_delete_page_function(url_redirect_code=None):
       ActivityASettingsObj.query.filter_by(fk_group_id=group_to_delete).delete()
       EmployeesFeatureRequestObj.query.filter_by(fk_group_id=group_to_delete).delete()
       EmployeesGroupQuestionsUsedObj.query.filter_by(fk_group_id=group_to_delete).delete()
-      EmployeesTestsGradedObj.query.filter_by(fk_group_id=group_to_delete).delete()
+      ActivityATestGradedObj.query.filter_by(fk_group_id=group_to_delete).delete()
       ActivityATestObj.query.filter_by(fk_group_id=group_to_delete).delete()
       GroupObj.query.filter_by(public_group_id=group_to_delete).delete()
       db.session.commit()
@@ -138,7 +138,7 @@ def admin_delete_page_function(url_redirect_code=None):
       except:
         return redirect(url_for('admin_views_interior.admin_delete_page_function', url_redirect_code='e10'))
       EmployeesFeatureRequestObj.query.filter_by(fk_user_id=db_users_dict['id']).delete()
-      EmployeesTestsGradedObj.query.filter_by(fk_user_id=db_users_dict['id']).delete()
+      ActivityATestGradedObj.query.filter_by(fk_user_id=db_users_dict['id']).delete()
       db.session.commit()
       return redirect(url_for('admin_views_interior.admin_delete_page_function', url_redirect_code='w1'))
     # ------------------------ DeleteOneUserInAllGroupsAllEmployeesTables end ------------------------
@@ -170,7 +170,7 @@ def admin_delete_page_function(url_redirect_code=None):
             EmployeesGroupQuestionsUsedObj.query.filter_by(fk_group_id=group_to_delete).delete()
             ActivityASettingsObj.query.filter_by(fk_group_id=group_to_delete).delete()
             GroupObj.query.filter_by(public_group_id=group_to_delete).delete()
-            EmployeesTestsGradedObj.query.filter_by(fk_group_id=group_to_delete).delete()
+            ActivityATestGradedObj.query.filter_by(fk_group_id=group_to_delete).delete()
             ActivityATestObj.query.filter_by(fk_group_id=group_to_delete).delete()
         except:
           pass
@@ -185,7 +185,7 @@ def admin_delete_page_function(url_redirect_code=None):
             EmployeesBirthdayInfoObj.query.filter_by(fk_user_id=db_users_dict['id']).delete()
             EmployeesEmailSentObj.query.filter_by(to_email=user_to_delete).delete()
             EmployeesFeedbackObj.query.filter_by(fk_email=user_to_delete).delete()
-            EmployeesTestsGradedObj.query.filter_by(fk_user_id=db_users_dict['id']).delete()
+            ActivityATestGradedObj.query.filter_by(fk_user_id=db_users_dict['id']).delete()
         except:
           pass
       # ------------------------ delete from user table start ------------------------
@@ -287,7 +287,7 @@ def admin_analytics_page_function(url_redirect_code=None):
       i_dict['latest_test_id'] = db_latest_test_obj.id
       # ------------------------ latest test graded start ------------------------
       try:
-        db_latest_test_graded_obj = EmployeesTestsGradedObj.query.filter_by(fk_group_id=i_group_dict['public_group_id'], status='complete').all()
+        db_latest_test_graded_obj = ActivityATestGradedObj.query.filter_by(fk_group_id=i_group_dict['public_group_id'], status='complete',product='trivia').all()
         i_dict['latest_test_participation'] = len(db_latest_test_graded_obj)
         if int(i_dict['latest_test_participation']) > 0:
           if int(i_dict['latest_test_participation']) == int(i_dict['total_users_with_same_company_name']):

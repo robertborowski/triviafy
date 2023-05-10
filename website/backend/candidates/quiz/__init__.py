@@ -4,7 +4,7 @@ import re
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
-from website.models import ActivityASettingsObj, ActivityATestObj, EmployeesGroupQuestionsUsedObj, EmployeesTestsGradedObj, UserObj, EmployeesEmailSentObj
+from website.models import ActivityASettingsObj, ActivityATestObj, EmployeesGroupQuestionsUsedObj, ActivityATestGradedObj, UserObj, EmployeesEmailSentObj
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from website import db
 from website.backend.candidates.datetime_manipulation import get_current_weekday_function, get_current_hour_function, get_upcoming_date_function, build_out_datetime_from_parts_function, get_week_dates_function, get_weekday_dict_function_v2
@@ -323,12 +323,12 @@ def grade_quiz_function(ui_answer, url_test_id, total_questions, url_question_nu
   db_question_arr_of_dict.append(db_question_dict)
   # ------------------------ append to dict end ------------------------
   # ------------------------ pull/create grading obj start ------------------------
-  db_test_grading_obj = EmployeesTestsGradedObj.query.filter_by(fk_test_id=url_test_id, fk_user_id=current_user_id).first()
+  db_test_grading_obj = ActivityATestGradedObj.query.filter_by(fk_test_id=url_test_id, fk_user_id=current_user_id,product='trivia').first()
   if db_test_grading_obj == None or db_test_grading_obj == []:
     # ------------------------ insert to db start ------------------------
     new_test_id = create_uuid_function('testg_')
     try:
-      new_row = EmployeesTestsGradedObj(
+      new_row = ActivityATestGradedObj(
         id = new_test_id,
         created_timestamp = create_timestamp_function(),
         fk_group_id = public_group_id,
@@ -339,14 +339,15 @@ def grade_quiz_function(ui_answer, url_test_id, total_questions, url_question_nu
         final_score = int(0),
         status = 'wip',
         graded_count = int(0),
-        test_obj = json.dumps(db_question_arr_of_dict)
+        test_obj = json.dumps(db_question_arr_of_dict),
+        product = 'trivia'
       )
       db.session.add(new_row)
       db.session.commit()
     except:
       pass
     # ------------------------ insert to db end ------------------------
-    db_test_grading_obj = EmployeesTestsGradedObj.query.filter_by(fk_test_id=url_test_id, fk_user_id=current_user_id).first()
+    db_test_grading_obj = ActivityATestGradedObj.query.filter_by(fk_test_id=url_test_id, fk_user_id=current_user_id,product='trivia').first()
   # ------------------------ pull/create grading obj end ------------------------
   # ------------------------ update master dict start ------------------------
   db_test_grading_dict = arr_of_dict_all_columns_single_item_function(db_test_grading_obj, for_json_dumps=True)

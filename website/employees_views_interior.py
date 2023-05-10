@@ -17,7 +17,7 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v4, browser_response_set_cookie_function_v5
-from website.models import GroupObj, ActivityASettingsObj, ActivityATestObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, EmployeesTestsGradedObj, UserObj, EmployeesCapacityOptionsObj, EmployeesEmailSentObj, StripeCheckoutSessionObj, EmployeesGroupQuestionsUsedObj, EmployeesFeatureRequestObj, EmployeesFeedbackObj, EmployeesBirthdayInfoObj
+from website.models import GroupObj, ActivityASettingsObj, ActivityATestObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, ActivityATestGradedObj, UserObj, EmployeesCapacityOptionsObj, EmployeesEmailSentObj, StripeCheckoutSessionObj, EmployeesGroupQuestionsUsedObj, EmployeesFeatureRequestObj, EmployeesFeedbackObj, EmployeesBirthdayInfoObj
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function, question_choices_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
 from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function, convert_timestamp_to_month_day_string_function
@@ -33,7 +33,7 @@ from website.backend.candidates.stripe import check_stripe_subscription_status_f
 import stripe
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
 from website.backend.candidates.test_backend import get_test_winner
-from website.backend.candidates.test_backend import first_user_first_quiz_check_function, first_user_latest_quiz_check_function, close_historical_activity_a_tests_function
+from website.backend.candidates.test_backend import first_user_first_quiz_check_function, first_user_latest_quiz_check_function, close_historical_activity_a_tests_function, delete_historical_activity_a_tests_no_participation_function
 from website.backend.candidates.aws_manipulation import candidates_change_uploaded_image_filename_function, candidates_user_upload_image_checks_aws_s3_function
 from website.backend.candidates.string_manipulation import breakup_email_function
 from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function, get_marketing_list_function
@@ -265,30 +265,9 @@ def login_dashboard_page_function(url_redirect_code=None):
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ ensure all historical tests are closed end ------------------------
   # ------------------------ delete all historical closed tests with 'No participation' start ------------------------
-  db_historical_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id, status='Closed',product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).all()
-  try:
-    if db_historical_tests_obj != None and db_historical_tests_obj != []:
-      historical_tests_were_deleted = False
-      for i_historical_test_obj in db_historical_tests_obj:
-        i_historical_test_dict = arr_of_dict_all_columns_single_item_function(i_historical_test_obj)
-        # ------------------------ winner start ------------------------
-        page_dict['latest_test_winner'], page_dict['latest_test_winner_score'] = get_test_winner(i_historical_test_dict['id'])
-        # ------------------------ winner end ------------------------
-        # ------------------------ delete histoical no participation start ------------------------
-        if page_dict['latest_test_winner'] == 'No participation':
-          EmployeesGroupQuestionsUsedObj.query.filter_by(fk_test_id=i_historical_test_dict['id']).delete()
-          EmployeesTestsGradedObj.query.filter_by(fk_test_id=i_historical_test_dict['id']).delete()
-          ActivityATestObj.query.filter_by(id=i_historical_test_dict['id'],product='trivia').delete()
-          historical_tests_were_deleted = True
-          db.session.commit()
-        # ------------------------ delete histoical no participation end ------------------------
-      # ------------------------ redirect start ------------------------
-      if historical_tests_were_deleted == True:
-        db.session.commit()
-        return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
-      # ------------------------ redirect end ------------------------
-  except:
-    pass
+  historical_activity_a_tests_were_deleted = delete_historical_activity_a_tests_no_participation_function(current_user, 'trivia', page_dict)
+  if historical_activity_a_tests_were_deleted == True:
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ delete all historical closed tests with 'No participation' end ------------------------
   # ------------------------ pull/create latest test start ------------------------
   db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).first()
@@ -312,7 +291,7 @@ def login_dashboard_page_function(url_redirect_code=None):
   # ------------------------ pull latest graded start ------------------------
   ui_latest_test_completed = False
   try:
-    db_test_grading_obj = EmployeesTestsGradedObj.query.filter_by(fk_test_id=db_tests_obj.id, fk_user_id=current_user.id).first()
+    db_test_grading_obj = ActivityATestGradedObj.query.filter_by(fk_test_id=db_tests_obj.id, fk_user_id=current_user.id,product='trivia').first()
     # ------------------------ auto route to latest quiz start ------------------------
     # if (db_test_grading_obj == None or db_test_grading_obj == []) and db_tests_obj.status == 'Open':
     #   return redirect(url_for('employees_views_interior.employees_test_id_function'))
@@ -671,7 +650,7 @@ def employees_test_id_replace_question_function(url_test_id=None, url_question_n
   # ------------------------ replace id in question asked table end ------------------------
   # ------------------------ check if old question graded/remove start ------------------------
   try:
-    db_test_graded_obj = EmployeesTestsGradedObj.query.filter_by(fk_group_id=user_group_id.public_group_id, fk_test_id=db_tests_obj.id).all()
+    db_test_graded_obj = ActivityATestGradedObj.query.filter_by(fk_group_id=user_group_id.public_group_id, fk_test_id=db_tests_obj.id,product='trivia').all()
     for i_obj in db_test_graded_obj:
       db_test_graded_dict = arr_of_dict_all_columns_single_item_function(i_obj)
       tracking_ids_arr_of_dicts = json.loads(db_test_graded_dict['test_obj'])
@@ -724,7 +703,7 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
     if page_dict['first_user_latest_quiz_can_replace'] == True:
       check_latest_test_obj = ActivityATestObj.query.filter_by(fk_group_id=user_group_id.public_group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).first()
       ActivityATestObj.query.filter_by(id=check_latest_test_obj.id,product='trivia').delete()
-      EmployeesTestsGradedObj.query.filter_by(fk_test_id=check_latest_test_obj.id).delete()
+      ActivityATestGradedObj.query.filter_by(fk_test_id=check_latest_test_obj.id,product='trivia').delete()
       EmployeesGroupQuestionsUsedObj.query.filter_by(fk_test_id=check_latest_test_obj.id).delete()
       db.session.commit()
       return redirect(url_for('employees_views_interior.employees_schedule_function', url_redirect_code='e22'))
@@ -732,7 +711,7 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
   # ------------------------ on initial page load - redirect to first unanswered question start ------------------------
   # ------------------------ pull latest graded start ------------------------
   if url_initial_page_load == 'init':
-    db_test_grading_obj = EmployeesTestsGradedObj.query.filter_by(fk_test_id=url_test_id, fk_user_id=current_user.id, status='wip').first()
+    db_test_grading_obj = ActivityATestGradedObj.query.filter_by(fk_test_id=url_test_id, fk_user_id=current_user.id, status='wip',product='trivia').first()
     try:
       db_test_grading_dict = arr_of_dict_all_columns_single_item_function(db_test_grading_obj)
       # ------------------------ pull latest graded end ------------------------
@@ -810,7 +789,7 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
   page_dict['db_question_dict']['redirect_ui_answer'] = ''
   page_dict['latest_test_completed'] = False
   try:
-    db_test_grading_obj = EmployeesTestsGradedObj.query.filter_by(fk_test_id=url_test_id, fk_user_id=current_user.id).first()
+    db_test_grading_obj = ActivityATestGradedObj.query.filter_by(fk_test_id=url_test_id, fk_user_id=current_user.id,product='trivia').first()
     db_test_grading_dict = arr_of_dict_all_columns_single_item_function(db_test_grading_obj)
     master_answer_arr_of_dict = json.loads(db_test_grading_dict['test_obj'])
     for i in master_answer_arr_of_dict:
@@ -828,7 +807,7 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
       page_dict['view_as_archive'] = True
       # ------------------------ get teammate answers start ------------------------
       teammate_answers_tuple = []
-      db_test_grading_obj = EmployeesTestsGradedObj.query.filter_by(fk_test_id=url_test_id).all()
+      db_test_grading_obj = ActivityATestGradedObj.query.filter_by(fk_test_id=url_test_id,product='trivia').all()
       for i_obj in db_test_grading_obj:
         db_user_obj = UserObj.query.filter_by(id=i_obj.fk_user_id).first()
         users_master_test_results_arr_of_dict = json.loads(i_obj.test_obj)
@@ -891,7 +870,7 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
       # ------------------------ user input end ------------------------
       if page_dict['next_question_number'] == 'submit':
         # ------------------------ pull latest graded start ------------------------
-        db_test_grading_obj = EmployeesTestsGradedObj.query.filter_by(fk_test_id=url_test_id, fk_user_id=current_user.id).first()
+        db_test_grading_obj = ActivityATestGradedObj.query.filter_by(fk_test_id=url_test_id, fk_user_id=current_user.id,product='trivia').first()
         db_test_grading_dict = arr_of_dict_all_columns_single_item_function(db_test_grading_obj)
         # ------------------------ pull latest graded end ------------------------
         if db_test_grading_dict['total_questions'] == db_test_grading_dict['graded_count']:
@@ -966,7 +945,7 @@ def employees_leaderboard_function(url_redirect_code=None):
     user_email = i.email
     # ------------------------ get total correct start ------------------------
     total_correct = int(0)
-    db_test_grading_obj = EmployeesTestsGradedObj.query.filter_by(fk_user_id=user_id).all()
+    db_test_grading_obj = ActivityATestGradedObj.query.filter_by(fk_user_id=user_id,product='trivia').all()
     for j in db_test_grading_obj:
       # ------------------------ check if test is closed start ------------------------
       db_tests_obj = ActivityATestObj.query.filter_by(id=j.fk_test_id,product='trivia').first()

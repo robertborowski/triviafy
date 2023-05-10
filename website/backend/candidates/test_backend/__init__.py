@@ -1,7 +1,7 @@
 # ------------------------ imports start ------------------------
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 import re
-from website.models import UserObj, EmployeesTestsGradedObj, ActivityATestObj, GroupObj
+from website.models import UserObj, ActivityATestGradedObj, ActivityATestObj, GroupObj, EmployeesGroupQuestionsUsedObj
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from datetime import datetime
 from website import db
@@ -20,7 +20,7 @@ def get_test_winner(input_test_id, result_id=False):
     latest_test_winner = 'No participation'
     # ------------------------ assign variables end ------------------------
     # ------------------------ pull winner start ------------------------
-    db_test_grading_obj = EmployeesTestsGradedObj.query.filter_by(fk_test_id=input_test_id, status='complete').order_by(EmployeesTestsGradedObj.created_timestamp.asc()).all()
+    db_test_grading_obj = ActivityATestGradedObj.query.filter_by(fk_test_id=input_test_id, status='complete',product='trivia').order_by(ActivityATestGradedObj.created_timestamp.asc()).all()
     for i_obj in db_test_grading_obj:
       i_dict = arr_of_dict_all_columns_single_item_function(i_obj)
       i_final_score = float(i_dict['final_score'])
@@ -52,7 +52,7 @@ def first_user_first_quiz_check_function(company_name):
     user_group_id = GroupObj.query.filter_by(fk_company_name=company_name).order_by(GroupObj.created_timestamp.desc()).first()
     fufq_check_test_count_obj = ActivityATestObj.query.filter_by(fk_group_id=user_group_id.public_group_id,product='trivia').all()
     if len(fufq_check_test_count_obj) == 1:
-      fufq_check_test_graded_count_obj = EmployeesTestsGradedObj.query.filter_by(fk_group_id=user_group_id.public_group_id).all()
+      fufq_check_test_graded_count_obj = ActivityATestGradedObj.query.filter_by(fk_group_id=user_group_id.public_group_id,product='trivia').all()
       # ------------------------ check if none start ------------------------
       if fufq_check_test_graded_count_obj == None or fufq_check_test_graded_count_obj == []:
         check_first_user_first_quiz_can_replace = True
@@ -76,7 +76,7 @@ def first_user_latest_quiz_check_function(company_name):
   # ------------------------ latest objs start ------------------------
   user_group_id = GroupObj.query.filter_by(fk_company_name=company_name).order_by(GroupObj.created_timestamp.desc()).first()
   user_test_obj = ActivityATestObj.query.filter_by(fk_group_id=user_group_id.public_group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).first()
-  user_test_graded_obj = EmployeesTestsGradedObj.query.filter_by(fk_group_id=user_group_id.public_group_id, fk_test_id=user_test_obj.id, status='complete').all()
+  user_test_graded_obj = ActivityATestGradedObj.query.filter_by(fk_group_id=user_group_id.public_group_id, fk_test_id=user_test_obj.id, status='complete',product='trivia').all()
   # ------------------------ latest objs end ------------------------
   # ------------------------ check if none completed yet start ------------------------
   if user_test_graded_obj == None or user_test_graded_obj == []:
@@ -110,4 +110,34 @@ def close_historical_activity_a_tests_function(current_user, activity_name):
     pass
   # ------------------------ ensure all historical tests are closed end ------------------------
   return historical_activity_a_tests_were_closed
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def delete_historical_activity_a_tests_no_participation_function(current_user, activity_name, page_dict):
+  # ------------------------ delete all historical closed tests with 'No participation' start ------------------------
+  historical_activity_a_tests_were_deleted = False
+  db_historical_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id, status='Closed',product=activity_name).order_by(ActivityATestObj.created_timestamp.desc()).all()
+  try:
+    if db_historical_tests_obj != None and db_historical_tests_obj != []:
+      for i_historical_test_obj in db_historical_tests_obj:
+        i_historical_test_dict = arr_of_dict_all_columns_single_item_function(i_historical_test_obj)
+        # ------------------------ winner start ------------------------
+        page_dict['latest_test_winner'], page_dict['latest_test_winner_score'] = get_test_winner(i_historical_test_dict['id'])
+        # ------------------------ winner end ------------------------
+        # ------------------------ delete histoical no participation start ------------------------
+        if page_dict['latest_test_winner'] == 'No participation':
+          EmployeesGroupQuestionsUsedObj.query.filter_by(fk_test_id=i_historical_test_dict['id']).delete()
+          ActivityATestGradedObj.query.filter_by(fk_test_id=i_historical_test_dict['id'],product='trivia').delete()
+          ActivityATestObj.query.filter_by(id=i_historical_test_dict['id'],product='trivia').delete()
+          historical_activity_a_tests_were_deleted = True
+          db.session.commit()
+        # ------------------------ delete histoical no participation end ------------------------
+      # ------------------------ redirect start ------------------------
+      if historical_activity_a_tests_were_deleted == True:
+        db.session.commit()
+      # ------------------------ redirect end ------------------------
+  except:
+    pass
+  # ------------------------ delete all historical closed tests with 'No participation' end ------------------------
+  return historical_activity_a_tests_were_deleted
 # ------------------------ individual function end ------------------------

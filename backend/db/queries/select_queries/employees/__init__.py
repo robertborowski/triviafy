@@ -45,7 +45,7 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
       f"SELECT \
           created_timestamp, fk_group_id, fk_user_id, fk_test_id, total_questions, correct_count, final_score, status, graded_count \
         FROM \
-          employees_tests_graded_obj \
+          activity_a_test_graded_obj \
         WHERE \
           fk_user_id='{additional_input}' AND \
           fk_test_id='{additional_input2}' AND \
@@ -64,7 +64,7 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
           fk_user_id, \
           created_timestamp \
         FROM \
-          employees_tests_graded_obj \
+          activity_a_test_graded_obj \
         WHERE \
           fk_test_id='{additional_input}' \
         GROUP BY \
