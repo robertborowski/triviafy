@@ -48,7 +48,7 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
       'input_args': {}
     },
     'select_all_capacity_options_employees': {
-      'raw_query': 'SELECT id FROM employees_capacity_options_obj',
+      'raw_query': 'SELECT id FROM stripe_payment_options_obj',
       'input_args': {}
     },
     'select_if_desired_languages_captured': {

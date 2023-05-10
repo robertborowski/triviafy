@@ -17,7 +17,7 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v4, browser_response_set_cookie_function_v5
-from website.models import GroupObj, ActivityASettingsObj, ActivityATestObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, ActivityATestGradedObj, UserObj, EmployeesCapacityOptionsObj, EmployeesEmailSentObj, StripeCheckoutSessionObj, ActivityAGroupQuestionsUsedObj, EmployeesFeatureRequestObj, EmployeesFeedbackObj, EmployeesBirthdayInfoObj
+from website.models import GroupObj, ActivityASettingsObj, ActivityATestObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, ActivityATestGradedObj, UserObj, StripePaymentOptionsObj, EmployeesEmailSentObj, StripeCheckoutSessionObj, ActivityAGroupQuestionsUsedObj, EmployeesFeatureRequestObj, EmployeesFeedbackObj, EmployeesBirthdayInfoObj
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function, question_choices_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
 from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function, convert_timestamp_to_month_day_string_function
@@ -1052,7 +1052,7 @@ def employees_account_function(url_redirect_code=None):
       stripe_subscription_obj = stripe.Subscription.retrieve(current_user.employees_fk_stripe_subscription_id)
       stripe_current_period_end = convert_current_period_end_function(stripe_subscription_obj)
       stripe_subscription_current_price_id = stripe_subscription_obj.plan.id
-      db_capacity_obj = EmployeesCapacityOptionsObj.query.filter_by(fk_stripe_price_id=stripe_subscription_current_price_id).first()
+      db_capacity_obj = StripePaymentOptionsObj.query.filter_by(fk_stripe_price_id=stripe_subscription_current_price_id).first()
       current_plan_type = db_capacity_obj.name
     except:
       current_plan_type = 'Free'
@@ -1118,7 +1118,7 @@ def employees_account_function(url_redirect_code=None):
     # ------------------------ valid input check end ------------------------
     if ui_subscription_selected != None:
       # ------------------------ db get price id start ------------------------
-      db_capacity_obj = EmployeesCapacityOptionsObj.query.filter_by(id=ui_subscription_selected).first()
+      db_capacity_obj = StripePaymentOptionsObj.query.filter_by(id=ui_subscription_selected).first()
       server_env = os.environ.get('TESTING', 'false')
       fk_stripe_price_id = ''
       if server_env == 'true':

@@ -212,7 +212,7 @@ class EmployeesDesiredCategoriesObj(db.Model):
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
-class EmployeesCapacityOptionsObj(db.Model):
+class StripePaymentOptionsObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
   created_timestamp = db.Column(db.DateTime(timezone=True))
   candence = db.Column(db.String(10))
