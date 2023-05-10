@@ -81,7 +81,8 @@ def create_app_function():
   # ------------------------ import models before creating db for first time end ------------------------
   # ------------------------ login manager start ------------------------
   login_manager = LoginManager()
-  login_manager.login_view = 'employees_auth.employees_signup_function'   # where does the person go if they are not logged in -> auth.login route
+  # login_manager.login_view = 'employees_auth.employees_signup_function'   # where does the person go if they are not logged in -> auth.login route
+  login_manager.login_view = 'employees_auth.employees_login_page_function'   # where does the person go if they are not logged in -> auth.login route
   login_manager.init_app(app)
   # ------------------------ function start ------------------------
   @login_manager.user_loader

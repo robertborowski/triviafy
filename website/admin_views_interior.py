@@ -14,7 +14,7 @@ from flask_login import login_required, current_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
-from website.models import ActivityAGroupQuestionsUsedObj, ActivityASettingsObj, GroupObj, ActivityATestGradedObj, ActivityATestObj, UserObj, ZDontDeleteTableObj, StripeCheckoutSessionObj, DeletedEmailsObj, EmployeesEmailSentObj, CollectEmailObj, EmployeesFeatureRequestObj, ScrapedEmailsObj, UserSignupFeedbackObj, UserBirthdayObj
+from website.models import ActivityAGroupQuestionsUsedObj, ActivityASettingsObj, GroupObj, ActivityATestGradedObj, ActivityATestObj, UserObj, ZDontDeleteTableObj, StripeCheckoutSessionObj, DeletedEmailsObj, EmployeesEmailSentObj, EmailCollectObj, EmployeesFeatureRequestObj, ScrapedEmailsObj, UserSignupFeedbackObj, UserBirthdayObj
 import os
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from website.backend.candidates.sql_statements.sql_statements_select_general_v1_jobs import select_general_v1_jobs_function
@@ -65,7 +65,7 @@ def admin_dashboard_page_function(url_redirect_code=None):
       return redirect(url_for('admin_views_interior.admin_dashboard_page_function', url_redirect_code='e3'))
     # ------------------------ check if user alread exists end ------------------------
     # ------------------------ check if collected email alread exists start ------------------------
-    db_collected_obj = CollectEmailObj.query.filter_by(email=ui_email).first()
+    db_collected_obj = EmailCollectObj.query.filter_by(email=ui_email).first()
     if db_collected_obj != None and db_collected_obj != []:
       return redirect(url_for('admin_views_interior.admin_dashboard_page_function', url_redirect_code='e3'))
     # ------------------------ check if collected email alread exists end ------------------------
@@ -321,7 +321,7 @@ def admin_analytics_page_function(url_redirect_code=None):
   # ------------------------ candidate_only_emails_arr end ------------------------
   # ------------------------ landing_collect_emails_arr start ------------------------
   landing_collect_emails_arr = []
-  db_collected_obj = CollectEmailObj.query.filter_by(unsubscribed=False).all()
+  db_collected_obj = EmailCollectObj.query.filter_by(unsubscribed=False).all()
   for i_obj in db_collected_obj:
     landing_collect_emails_arr.append(i_obj.email)
   page_dict['landing_collect_emails_arr'] = landing_collect_emails_arr

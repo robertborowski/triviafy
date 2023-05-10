@@ -20,7 +20,7 @@ from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_f
 from website.backend.candidates.send_emails import send_email_template_function
 import os
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
-from .models import UserObj, CollectEmailObj, ScrapedEmailsObj
+from .models import UserObj, EmailCollectObj, ScrapedEmailsObj
 from website.backend.candidates.pull_create_logic import pull_create_group_id_function
 # ------------------------ imports end ------------------------
 
@@ -49,11 +49,11 @@ def employees_signup_function(url_redirect_code=None):
         return redirect(url_for('employees_auth.employees_signup_function', url_redirect_code='e1'))
       # ------------------------ sanitize/check user input email end ------------------------
       # ------------------------ check if email already exists in db start ------------------------
-      email_exists = CollectEmailObj.query.filter_by(email=ui_email).first()
+      email_exists = EmailCollectObj.query.filter_by(email=ui_email).first()
       # ------------------------ check if email already exists in db end ------------------------
       # ------------------------ create new signup in db start ------------------------
       if email_exists == None or email_exists == []:
-        new_row = CollectEmailObj(
+        new_row = EmailCollectObj(
           id=create_uuid_function('collect_email_'),
           created_timestamp=create_timestamp_function(),
           email=ui_email.lower(),
@@ -101,7 +101,7 @@ def employees_signup_function(url_redirect_code=None):
       db.session.add(new_row)
       # ------------------------ remove from landing page collected start ------------------------
       try:
-        CollectEmailObj.query.filter_by(email=ui_email.lower()).delete()
+        EmailCollectObj.query.filter_by(email=ui_email.lower()).delete()
       except:
         pass
       # ------------------------ remove from landing page collected end ------------------------
