@@ -5,7 +5,7 @@ from flask_login import current_user
 # ------------------------ imports end ------------------------
 
 # ------------------------ individual function start ------------------------
-def select_general_function(tag_query_to_use, additional_input=None, additional_input2=None, additional_input3=None):
+def select_general_function(tag_query_to_use, additional_input=None, additional_input2=None, additional_input3=None, additional_input4=None):
   try:
     current_user_id_defined_var = current_user.id
   except:
@@ -126,6 +126,33 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
                     WHERE \
                       status = TRUE AND product='employees' \
                       AND id NOT IN (SELECT fk_question_id FROM activity_a_group_questions_used_obj WHERE fk_group_id='{additional_input2}') {additional_input3} \
+                    ORDER BY \
+                      RANDOM() \
+                    LIMIT {additional_input};",
+      'input_args': {}
+    },
+    'select_all_questions_for_x_categories_v6': {
+      'raw_query': f"SELECT \
+                      id \
+                    FROM \
+                      activity_a_created_questions_obj \
+                    WHERE \
+                      status = TRUE AND product LIKE '%{additional_input4}%' \
+                      AND ({additional_input}) \
+                      AND id NOT IN (SELECT fk_question_id FROM activity_a_group_questions_used_obj WHERE product='{additional_input4}' AND fk_group_id='{additional_input3}') \
+                    ORDER BY \
+                      RANDOM() \
+                    LIMIT {additional_input2};",
+      'input_args': {}
+    },
+    'select_all_questions_for_x_categories_v7': {
+      'raw_query': f"SELECT \
+                      id \
+                    FROM \
+                      activity_a_created_questions_obj \
+                    WHERE \
+                      status = TRUE AND product LIKE '%{additional_input4}%' \
+                      AND id NOT IN (SELECT fk_question_id FROM activity_a_group_questions_used_obj WHERE product='{additional_input4}' AND fk_group_id='{additional_input2}') {additional_input3} \
                     ORDER BY \
                       RANDOM() \
                     LIMIT {additional_input};",

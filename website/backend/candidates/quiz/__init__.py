@@ -265,6 +265,144 @@ def create_quiz_function(group_id, immediate=False):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
+def create_quiz_function_v2(group_id, activity_name, immediate=False):
+  # ------------------------ Set Timezone START ------------------------
+  # Set the timezone of the application when user creates account is will be in US/Easterm time
+  os.environ['TZ'] = 'US/Eastern'
+  time.tzset()
+  # ------------------------ Set Timezone END ------------------------
+  # ------------------------ pull group settings start ------------------------
+  db_group_settings_obj = ActivityASettingsObj.query.filter_by(fk_group_id=group_id,product=activity_name).order_by(ActivityASettingsObj.created_timestamp.desc()).first()
+  db_group_settings_dict = arr_of_dict_all_columns_single_item_function(db_group_settings_obj)
+  # ------------------------ pull group settings end ------------------------
+  # ------------------------ pull latest tests check start ------------------------
+  correct_cadence = False
+  db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=group_id,product=activity_name).order_by(ActivityATestObj.created_timestamp.desc()).all()
+  if db_tests_obj == None or db_tests_obj == []:
+    correct_cadence = True
+  else:
+    # ------------------------ update correct_cadence based on previous two quizzes start ------------------------
+    quiz_to_be_made_check = compare_candence_vs_previous_quiz_function(db_group_settings_dict, db_tests_obj)
+    if quiz_to_be_made_check == True:
+      correct_cadence = True
+    # ------------------------ update correct_cadence based on previous two quizzes end ------------------------
+  # ------------------------ pull latest tests check end ------------------------
+  # ------------------------ create quiz start ------------------------
+  if correct_cadence == True:
+    # ------------------------ if quiz to be made immediately (first quiz) start ------------------------
+    if immediate == True:
+      db_group_settings_dict['start_day'] = get_current_weekday_function()
+      db_group_settings_dict['start_time'] = get_current_hour_function()  # will return current hour in EST
+      # ------------------------ construct start/end timestamps start ------------------------
+      start_date_str = get_upcoming_date_function(db_group_settings_dict['start_day'])
+      end_date_str = get_upcoming_date_function(db_group_settings_dict['end_day'], start_date_str)
+      start_timestamp_created = build_out_datetime_from_parts_function(start_date_str, db_group_settings_dict['start_time'], 'EST')
+      end_timestamp_created = build_out_datetime_from_parts_function(end_date_str, db_group_settings_dict['end_time'], db_group_settings_dict['timezone'])    # converted to EST for job runs
+      if end_timestamp_created <= start_timestamp_created:
+        return 'false_end_time'
+      # ------------------------ construct start/end timestamps end ------------------------
+      # ------------------------ if quiz to be made immediately (first quiz) end ------------------------
+    else:
+      # ------------------------ get this weeks dates start ------------------------
+      todays_date = date.today()
+      latest_test_dates_of_week_arr = get_week_dates_function(todays_date)
+      # ------------------------ get this weeks dates end ------------------------
+      # ------------------------ assign start ------------------------
+      weekday_dict = get_weekday_dict_function_v2()
+      start_date_str = latest_test_dates_of_week_arr[weekday_dict[db_group_settings_dict['start_day']]].strftime('%m-%d-%Y')
+      end_date_str = latest_test_dates_of_week_arr[weekday_dict[db_group_settings_dict['end_day']]].strftime('%m-%d-%Y')
+      # ------------------------ assign end ------------------------
+      start_timestamp_created = build_out_datetime_from_parts_function(start_date_str, db_group_settings_dict['start_time'], db_group_settings_dict['timezone'])
+      end_timestamp_created = build_out_datetime_from_parts_function(end_date_str, db_group_settings_dict['end_time'], db_group_settings_dict['timezone'])    # converted to EST for job runs
+      if end_timestamp_created <= start_timestamp_created:
+        return 'false_end_time'
+      # ------------------------ catch example: If my test is set to end on Thrusday's but for the newest test I log on Friday, the end would be yesterday start ------------------------
+      current_datetime = datetime.now()
+      if end_timestamp_created <= current_datetime:
+        end_date_str_exception_1 = get_upcoming_date_function(db_group_settings_dict['end_day'], end_date_str)
+        end_timestamp_created = build_out_datetime_from_parts_function(end_date_str_exception_1, db_group_settings_dict['end_time'], db_group_settings_dict['timezone'])    # converted to EST for job runs
+      # ------------------------ catch example: If my test is set to end on Thrusday's but for the newest test I log on Friday, the end would be yesterday end ------------------------
+    # ------------------------ pull question id's start ------------------------
+    final_uuids_arr = []
+    where_clause_str = None
+    where_clause_arr = prepare_where_clause_function(db_group_settings_dict['categories'])
+    where_clause_str = where_clause_arr[0]
+    query_result_arr_of_dicts = select_general_function('select_all_questions_for_x_categories_v6', where_clause_str, db_group_settings_dict['total_questions'], db_group_settings_dict['fk_group_id'], activity_name)
+    for i in query_result_arr_of_dicts:
+      final_uuids_arr.append(i['id'])
+    remainder_questions_needed = db_group_settings_dict['total_questions'] - len(query_result_arr_of_dicts)
+    if remainder_questions_needed > 0:
+      # ------------------------ exclude wip id's start ------------------------
+      exclude_where_clause = '/* AND id NOT IN () */'
+      wip_question_ids_arr = []
+      for i in query_result_arr_of_dicts:
+        i_id = "'" + i['id'] + "'"
+        wip_question_ids_arr.append(i_id)
+      if len(wip_question_ids_arr) == 0:
+        pass
+      else:
+        in_string = ','.join(wip_question_ids_arr)
+        exclude_where_clause = 'AND id NOT IN (' + in_string + ')'
+      # ------------------------ exclude wip id's end ------------------------
+      # ------------------------ second pull if remainder start ------------------------
+      query_result_arr_of_dicts_remainder = select_general_function('select_all_questions_for_x_categories_v7', remainder_questions_needed, db_group_settings_dict['fk_group_id'], exclude_where_clause, activity_name)
+      for i in query_result_arr_of_dicts_remainder:
+        final_uuids_arr.append(i['id'])
+      # ------------------------ second pull if remainder end ------------------------
+    final_uuids_str = ','.join(final_uuids_arr)
+    # ------------------------ pull question id's end ------------------------
+    # ------------------------ question type order start ------------------------
+    question_types_str = build_question_type_arr_function(db_group_settings_dict['question_type'], db_group_settings_dict['total_questions'])
+    # ------------------------ question type order end ------------------------
+    # ------------------------ insert to db start ------------------------
+    new_test_id = create_uuid_function('test_')
+    try:
+      new_row = ActivityATestObj(
+        id = new_test_id,
+        created_timestamp = create_timestamp_function(),
+        fk_group_id = db_group_settings_dict['fk_group_id'],
+        timezone = db_group_settings_dict['timezone'],
+        start_day = db_group_settings_dict['start_day'],
+        start_time = db_group_settings_dict['start_time'],
+        start_timestamp = start_timestamp_created,
+        end_day = db_group_settings_dict['end_day'],
+        end_time = db_group_settings_dict['end_time'],
+        end_timestamp = end_timestamp_created,
+        cadence = db_group_settings_dict['cadence'],
+        total_questions = db_group_settings_dict['total_questions'],
+        question_type = db_group_settings_dict['question_type'],
+        categories = db_group_settings_dict['categories'],
+        question_ids = final_uuids_str,
+        question_types_order = question_types_str,
+        status = 'Open',
+        product = activity_name
+      )
+      db.session.add(new_row)
+      db.session.commit()
+    except:
+      pass
+    # ------------------------ insert to db end ------------------------
+    # ------------------------ insert to db start ------------------------
+    for i in final_uuids_arr:
+      try:
+        new_row = ActivityAGroupQuestionsUsedObj(
+          id = create_uuid_function('used_'),
+          created_timestamp = create_timestamp_function(),
+          fk_group_id = db_group_settings_dict['fk_group_id'],
+          fk_question_id = i,
+          fk_test_id = new_test_id,
+          product = activity_name
+        )
+        db.session.add(new_row)
+        db.session.commit()
+      except:
+        pass
+    # ------------------------ insert to db end ------------------------
+  # ------------------------ create quiz end ------------------------
+  return True
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
 def grade_quiz_function(ui_answer, url_test_id, total_questions, url_question_number, db_question_dict, current_user_id, public_group_id):
   ui_answer_is_correct = False
   ui_answer_fitb_accuracy_score = 0

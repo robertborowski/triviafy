@@ -5,6 +5,8 @@ from website.models import UserObj, ActivityATestGradedObj, ActivityATestObj, Gr
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from datetime import datetime
 from website import db
+from website.backend.candidates.quiz import create_quiz_function_v2
+from website.backend.candidates.datetime_manipulation import convert_timestamp_to_month_day_string_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ individual function start ------------------------
@@ -140,4 +142,28 @@ def delete_historical_activity_a_tests_no_participation_function(current_user, a
     pass
   # ------------------------ delete all historical closed tests with 'No participation' end ------------------------
   return historical_activity_a_tests_were_deleted, page_dict
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def pull_create_latest_activity_a_test_function(current_user, activity_name, page_dict):
+  # ------------------------ pull/create latest test start ------------------------
+  first_test_exists = False
+  db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id,product=activity_name).order_by(ActivityATestObj.created_timestamp.desc()).first()
+  if db_tests_obj == None or db_tests_obj == []:
+    pass
+  else:
+    first_test_exists = True
+    # ------------------------ create latest test start ------------------------
+    create_quiz_status = create_quiz_function_v2(group_id=current_user.group_id, activity_name=activity_name)
+    # ------------------------ create latest test end ------------------------
+    # ------------------------ latest test info start ------------------------
+    db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id,product=activity_name).order_by(ActivityATestObj.created_timestamp.desc()).first()
+    start_month_day_str = convert_timestamp_to_month_day_string_function(db_tests_obj.start_timestamp)
+    end_month_day_str = convert_timestamp_to_month_day_string_function(db_tests_obj.end_timestamp)
+    page_dict['full_time_string'] = start_month_day_str + ', ' + db_tests_obj.start_time + ' - ' + end_month_day_str + ', ' + db_tests_obj.end_time + ' ' + db_tests_obj.timezone
+    page_dict['ending_time_string'] = end_month_day_str + ', ' + db_tests_obj.end_time + ' ' + db_tests_obj.timezone
+    # ------------------------ latest test info end ------------------------
+  page_dict['first_test_exists'] = first_test_exists
+  # ------------------------ pull/create latest test end ------------------------
+  return db_tests_obj, page_dict
 # ------------------------ individual function end ------------------------

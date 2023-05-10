@@ -32,8 +32,7 @@ from datetime import datetime
 from website.backend.candidates.stripe import check_stripe_subscription_status_function_v2, convert_current_period_end_function
 import stripe
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
-from website.backend.candidates.test_backend import get_test_winner
-from website.backend.candidates.test_backend import first_user_first_quiz_check_function, first_user_latest_quiz_check_function, close_historical_activity_a_tests_function, delete_historical_activity_a_tests_no_participation_function
+from website.backend.candidates.test_backend import get_test_winner, first_user_first_quiz_check_function, first_user_latest_quiz_check_function, close_historical_activity_a_tests_function, delete_historical_activity_a_tests_no_participation_function, pull_create_latest_activity_a_test_function
 from website.backend.candidates.aws_manipulation import candidates_change_uploaded_image_filename_function, candidates_user_upload_image_checks_aws_s3_function
 from website.backend.candidates.string_manipulation import breakup_email_function
 from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function, get_marketing_list_function
@@ -270,6 +269,8 @@ def login_dashboard_page_function(url_redirect_code=None):
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ delete all historical closed tests with 'No participation' end ------------------------
   # ------------------------ pull/create latest test start ------------------------
+  db_tests_obj, page_dict = pull_create_latest_activity_a_test_function(current_user, 'trivia', page_dict)
+  """
   db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).first()
   first_test_exists = False
   if db_tests_obj == None or db_tests_obj == []:
@@ -287,6 +288,7 @@ def login_dashboard_page_function(url_redirect_code=None):
     page_dict['ending_time_string'] = end_month_day_str + ', ' + db_tests_obj.end_time + ' ' + db_tests_obj.timezone
     # ------------------------ latest test info end ------------------------
   page_dict['first_test_exists'] = first_test_exists
+  """
   # ------------------------ pull/create latest test end ------------------------
   # ------------------------ pull latest graded start ------------------------
   ui_latest_test_completed = False
