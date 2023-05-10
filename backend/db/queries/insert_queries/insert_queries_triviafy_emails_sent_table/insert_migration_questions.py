@@ -8,7 +8,7 @@ def insert_migration_questions_function(postgres_connection, postgres_cursor, fi
   # localhost_print_function('=========================================== insert_migration_questions_function START ===========================================')
   
   # ------------------------ Query START ------------------------
-  postgres_insert_query = """INSERT INTO created_questions_obj(id,created_timestamp,fk_user_id,status,categories,title,difficulty,question,option_a,option_b,option_c,option_d,option_e,answer,aws_image_uuid,aws_image_url) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+  postgres_insert_query = """INSERT INTO activity_a_created_questions_obj(id,created_timestamp,fk_user_id,status,categories,title,difficulty,question,option_a,option_b,option_c,option_d,option_e,answer,aws_image_uuid,aws_image_url) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
   # ------------------------ Query END ------------------------
   
 

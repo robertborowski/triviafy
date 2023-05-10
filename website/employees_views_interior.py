@@ -17,7 +17,7 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v4, browser_response_set_cookie_function_v5
-from website.models import GroupObj, ActivityASettingsObj, ActivityATestObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, ActivityATestGradedObj, UserObj, StripePaymentOptionsObj, EmployeesEmailSentObj, StripeCheckoutSessionObj, ActivityAGroupQuestionsUsedObj, EmployeesFeatureRequestObj, UserSignupFeedbackObj, UserBirthdayObj
+from website.models import GroupObj, ActivityASettingsObj, ActivityATestObj, EmployeesDesiredCategoriesObj, ActivityACreatedQuestionsObj, ActivityATestGradedObj, UserObj, StripePaymentOptionsObj, EmployeesEmailSentObj, StripeCheckoutSessionObj, ActivityAGroupQuestionsUsedObj, EmployeesFeatureRequestObj, UserSignupFeedbackObj, UserBirthdayObj
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function, question_choices_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
 from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function, convert_timestamp_to_month_day_string_function
@@ -748,7 +748,7 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
   desired_question_id = question_ids_arr[url_question_number-1]
   # ------------------------ pull specific question id end ------------------------
   # ------------------------ pull question from db start ------------------------
-  db_question_obj = CreatedQuestionsObj.query.filter_by(id=desired_question_id).first()
+  db_question_obj = ActivityACreatedQuestionsObj.query.filter_by(id=desired_question_id).first()
   db_question_dict = arr_of_dict_all_columns_single_item_function(db_question_obj, for_json_dumps=True)
   # ------------------------ append question type start ------------------------
   question_type_order_str = db_tests_obj.question_types_order
@@ -1267,16 +1267,16 @@ def employees_questions_function(url_redirect_code=None):
   # ------------------------ redirect if not subscribed end ------------------------
   db_groups_obj = GroupObj.query.filter_by(fk_company_name=current_user.company_name).first()
   # ------------------------ delete all in progress questions start ------------------------
-  db_drafted_questions_obj = CreatedQuestionsObj.query.filter_by(fk_group_id=db_groups_obj.public_group_id,submission='draft').first()
+  db_drafted_questions_obj = ActivityACreatedQuestionsObj.query.filter_by(fk_group_id=db_groups_obj.public_group_id,submission='draft').first()
   if db_drafted_questions_obj != None and db_drafted_questions_obj != []:
-    CreatedQuestionsObj.query.filter_by(fk_group_id=db_groups_obj.public_group_id,submission='draft').delete()
+    ActivityACreatedQuestionsObj.query.filter_by(fk_group_id=db_groups_obj.public_group_id,submission='draft').delete()
     db.session.commit()
     return redirect(url_for('employees_views_interior.employees_questions_function'))
   # ------------------------ delete all in progress questions end ------------------------
   # ------------------------ pull all created questions by group start ------------------------
-  db_created_questions_obj = CreatedQuestionsObj.query.filter_by(fk_group_id=db_groups_obj.public_group_id).all()
+  db_activity_a_created_questions_obj = ActivityACreatedQuestionsObj.query.filter_by(fk_group_id=db_groups_obj.public_group_id).all()
   group_created_questions_arr_of_dicts = []
-  for i_obj in db_created_questions_obj:
+  for i_obj in db_activity_a_created_questions_obj:
     i_dict = arr_of_dict_all_columns_single_item_function(i_obj)
     # ------------------------ append creator email start ------------------------
     db_user_obj = UserObj.query.filter_by(id=i_dict['fk_user_id']).first()
@@ -1394,7 +1394,7 @@ def employees_create_question_v3_function(url_redirect_code=None):
       # ------------------------ append answers start ------------------------
       concat_ui_answer = ui_answer.upper() + ', ' + ui_answer_fitb.lower()
       # ------------------------ append answers end ------------------------
-      new_row = CreatedQuestionsObj(
+      new_row = ActivityACreatedQuestionsObj(
         id = final_id,
         created_timestamp=create_timestamp_function(),
         fk_user_id = current_user.id,
@@ -1457,7 +1457,7 @@ def employees_preview_question_function(url_redirect_code=None, url_question_id=
   page_dict['user_company_name'] = current_user.company_name
   page_dict['user_company_name'] = page_dict['user_company_name'].title()
   # ------------------------ get latest custom question start ------------------------
-  db_question_obj = CreatedQuestionsObj.query.filter_by(id=url_question_id).first()
+  db_question_obj = ActivityACreatedQuestionsObj.query.filter_by(id=url_question_id).first()
   if db_question_obj == None or db_question_obj == []:
     return redirect(url_for('employees_views_interior.employees_questions_function', url_redirect_code='e16'))
   # ------------------------ get latest custom question end ------------------------

@@ -27,7 +27,7 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
       'raw_query': f"SELECT \
                       id, categories, question, title, aws_image_url, answer, option_a, option_b, option_c, option_d \
                     FROM \
-                      created_questions_obj \
+                      activity_a_created_questions_obj \
                     WHERE \
                       id IN ({additional_input}) \
                     ORDER BY \
@@ -38,7 +38,7 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
       'raw_query': f"SELECT \
                       id, categories, question, title, aws_image_url, answer, option_a, option_b, option_c, option_d, option_e \
                     FROM \
-                      created_questions_obj \
+                      activity_a_created_questions_obj \
                     WHERE \
                       id = {additional_input};",
       'input_args': {}
@@ -60,11 +60,11 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
       'input_args': {}
     },
     'select_all_candidate_categories_chosen_v2': {
-      'raw_query': "SELECT DISTINCT q.categories FROM created_questions_obj AS q WHERE q.status=TRUE AND q.product='candidates' ORDER BY q.categories;",
+      'raw_query': "SELECT DISTINCT q.categories FROM activity_a_created_questions_obj AS q WHERE q.status=TRUE AND q.product='candidates' ORDER BY q.categories;",
       'input_args': {}
     },
     'select_all_employees_categories_v1': {
-      'raw_query': "SELECT DISTINCT q.categories FROM created_questions_obj AS q WHERE q.status=TRUE AND q.product='employees' ORDER BY q.categories;",
+      'raw_query': "SELECT DISTINCT q.categories FROM activity_a_created_questions_obj AS q WHERE q.status=TRUE AND q.product='employees' ORDER BY q.categories;",
       'input_args': {}
     },
     'select_all_questions_for_x_categories': {
@@ -83,7 +83,7 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
       'raw_query': f"SELECT \
                       id, categories, question, title, aws_image_url, answer, option_a, option_b, option_c, option_d, option_e \
                     FROM \
-                      created_questions_obj \
+                      activity_a_created_questions_obj \
                     WHERE \
                       status = TRUE AND product='candidates' \
                       AND ({additional_input}) \
@@ -95,7 +95,7 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
       'raw_query': f"SELECT \
                       id \
                     FROM \
-                      created_questions_obj \
+                      activity_a_created_questions_obj \
                     WHERE \
                       status = TRUE AND product='candidates' \
                       AND ({additional_input}) \
@@ -108,7 +108,7 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
       'raw_query': f"SELECT \
                       id \
                     FROM \
-                      created_questions_obj \
+                      activity_a_created_questions_obj \
                     WHERE \
                       status = TRUE AND product='employees' \
                       AND ({additional_input}) \
@@ -122,7 +122,7 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
       'raw_query': f"SELECT \
                       id \
                     FROM \
-                      created_questions_obj \
+                      activity_a_created_questions_obj \
                     WHERE \
                       status = TRUE AND product='employees' \
                       AND id NOT IN (SELECT fk_question_id FROM activity_a_group_questions_used_obj WHERE fk_group_id='{additional_input2}') {additional_input3} \
@@ -135,7 +135,7 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
       'raw_query': f"SELECT \
                       id \
                     FROM \
-                      created_questions_obj \
+                      activity_a_created_questions_obj \
                     WHERE \
                       status = TRUE AND product='employees' \
                       AND id NOT IN (SELECT fk_question_id FROM activity_a_group_questions_used_obj WHERE fk_group_id='{additional_input2}') \
@@ -148,7 +148,7 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
       'raw_query': f"SELECT \
                       id \
                     FROM \
-                      created_questions_obj \
+                      activity_a_created_questions_obj \
                     WHERE \
                       status = TRUE AND product='candidates' \
                       AND ({additional_input}) \
@@ -163,7 +163,7 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
       'input_args': {'val': additional_input}
     },
     'select_question_id_actually_exists_v2': {
-      'raw_query': "SELECT id FROM created_questions_obj WHERE id=:val;",
+      'raw_query': "SELECT id FROM activity_a_created_questions_obj WHERE id=:val;",
       'input_args': {'val': additional_input}
     }
   }

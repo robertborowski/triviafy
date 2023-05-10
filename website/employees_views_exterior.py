@@ -12,7 +12,7 @@ from backend.utils.localhost_print_utils.localhost_print import localhost_print_
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import current_user
 from website.backend.candidates.redis import redis_connect_to_database_function
-from website.models import CreatedQuestionsObj, ZDontDeleteTableObj, UserObj
+from website.models import ActivityACreatedQuestionsObj, ZDontDeleteTableObj, UserObj
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
 from website.backend.candidates.user_inputs import alert_message_default_function_v2, sanitize_email_function, sanitize_password_function
 from website.backend.candidates.send_emails import send_email_template_function
@@ -126,7 +126,7 @@ def employees_example_page_function(url_redirect_code=None, url_question_number=
   desired_question_str = question_ids_arr[int(url_question_number)-1]
   # ------------------------ pull test end ------------------------
   # ------------------------ pull question start ------------------------
-  db_question_obj = CreatedQuestionsObj.query.filter_by(id=desired_question_str).first()
+  db_question_obj = ActivityACreatedQuestionsObj.query.filter_by(id=desired_question_str).first()
   db_question_obj = arr_of_dict_all_columns_single_item_function(db_question_obj)
   db_question_obj['categories'] = categories_tuple_function(db_question_obj['categories'])
   # ------------------------ pull question end ------------------------

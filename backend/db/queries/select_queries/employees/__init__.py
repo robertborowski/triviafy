@@ -86,17 +86,17 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
       f"SELECT \
           categories \
         FROM \
-          created_questions_obj \
+          activity_a_created_questions_obj \
         WHERE \
           product='employees';",
     'select_letter_count_v1':
-      f"SELECT 'A' AS letter, COUNT(*) AS total_count FROM created_questions_obj WHERE product = 'employees' AND answer LIKE 'A,%' \
+      f"SELECT 'A' AS letter, COUNT(*) AS total_count FROM activity_a_created_questions_obj WHERE product = 'employees' AND answer LIKE 'A,%' \
         UNION \
-        SELECT 'B' AS letter, COUNT(*) AS total_count FROM created_questions_obj WHERE product = 'employees' AND answer LIKE 'B,%' \
+        SELECT 'B' AS letter, COUNT(*) AS total_count FROM activity_a_created_questions_obj WHERE product = 'employees' AND answer LIKE 'B,%' \
         UNION \
-        SELECT 'C' AS letter, COUNT(*) AS total_count FROM created_questions_obj WHERE product = 'employees' AND answer LIKE 'C,%' \
+        SELECT 'C' AS letter, COUNT(*) AS total_count FROM activity_a_created_questions_obj WHERE product = 'employees' AND answer LIKE 'C,%' \
         UNION \
-        SELECT 'D' AS letter, COUNT(*) AS total_count FROM created_questions_obj WHERE product = 'employees' AND answer LIKE 'D,%';"
+        SELECT 'D' AS letter, COUNT(*) AS total_count FROM activity_a_created_questions_obj WHERE product = 'employees' AND answer LIKE 'D,%';"
   }
   # ------------------------ select queries end ------------------------
   # ------------------------ cursor start ------------------------

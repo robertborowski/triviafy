@@ -14,7 +14,7 @@ from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_f
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required, current_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
-from website.models import UserObj, ZDontDeleteTableObj, StripeCheckoutSessionObj, CreatedQuestionsObj
+from website.models import UserObj, ZDontDeleteTableObj, StripeCheckoutSessionObj, ActivityACreatedQuestionsObj
 from website.backend.candidates.browser import browser_response_set_cookie_function, browser_response_set_cookie_function_v2
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
@@ -567,7 +567,7 @@ def candidates_test_preview_function(url_test_id=None, url_question_number='1', 
   desired_question_str = desired_question_arr[(int(url_question_number)-1)]
   # ------------------------ pull desired test obj end ------------------------
   # ------------------------ pull desired question obj start ------------------------
-  db_question_obj = CreatedQuestionsObj.query.filter_by(id=desired_question_str).first()
+  db_question_obj = ActivityACreatedQuestionsObj.query.filter_by(id=desired_question_str).first()
   if db_question_obj == None or db_question_obj == []:
     return redirect(url_for('candidates_views_interior.candidates_assessments_dashboard_function'))
   db_question_obj = arr_of_dict_all_columns_single_item_function(db_question_obj)
@@ -639,7 +639,7 @@ def candidates_test_answered_preview_function(url_test_id=None, url_email=None, 
   desired_question_str = desired_question_arr[(int(url_question_number)-1)]
   # ------------------------ pull desired test obj end ------------------------
   # ------------------------ pull desired question obj start ------------------------
-  db_question_obj = CreatedQuestionsObj.query.filter_by(id=desired_question_str).first()
+  db_question_obj = ActivityACreatedQuestionsObj.query.filter_by(id=desired_question_str).first()
   if db_question_obj == None or db_question_obj == []:
     return redirect(url_for('candidates_views_interior.candidates_assessments_dashboard_function'))
   db_question_obj = arr_of_dict_all_columns_single_item_function(db_question_obj)
@@ -1483,7 +1483,7 @@ def candidates_assessment_expiring_function(url_assessment_expiring, url_questio
   current_page_question_id = question_ids_arr[int(url_question_number)-1]
   # ------------------------ get desired question id end ------------------------
   # ------------------------ pull question info start ------------------------
-  db_question_obj = CreatedQuestionsObj.query.filter_by(id=current_page_question_id).first()
+  db_question_obj = ActivityACreatedQuestionsObj.query.filter_by(id=current_page_question_id).first()
   if db_question_obj == None:
     localhost_print_function(' ------------------------ candidates_assessment_expiring_function END ------------------------ ')
     return redirect(url_for('candidates_views_interior.candidates_assessment_invalid_function'))
@@ -1655,11 +1655,11 @@ def candidates_create_question_dashboard_function():
   localhost_print_function(' ------------------------ candidates_create_question_dashboard_function START ------------------------ ')
   page_error_statement = ''
   # ------------------------ delete questions still draft start ------------------------
-  db_questions_obj_arr = CreatedQuestionsObj.query.filter_by(fk_user_id=current_user.id,submission='draft',product='candidates').delete()
+  db_questions_obj_arr = ActivityACreatedQuestionsObj.query.filter_by(fk_user_id=current_user.id,submission='draft',product='candidates').delete()
   db.session.commit()
   # ------------------------ delete questions still draft end ------------------------
   # ------------------------ pull from db start ------------------------
-  db_questions_obj_arr = CreatedQuestionsObj.query.filter_by(fk_user_id=current_user.id,product='candidates').order_by(CreatedQuestionsObj.created_timestamp.desc()).all()
+  db_questions_obj_arr = ActivityACreatedQuestionsObj.query.filter_by(fk_user_id=current_user.id,product='candidates').order_by(ActivityACreatedQuestionsObj.created_timestamp.desc()).all()
   total_questions_created = 0
   if db_questions_obj_arr == []:
     pass
@@ -1692,7 +1692,7 @@ def candidates_create_question_dashboard_function():
     else:
       # ------------------------ check valid inputs question start ------------------------
       for i in ui_questions_to_add_arr:
-        db_question_obj_exists_check = CreatedQuestionsObj.query.get(i)
+        db_question_obj_exists_check = ActivityACreatedQuestionsObj.query.get(i)
         if db_question_obj_exists_check == None:
           break
       if db_question_obj_exists_check == None:
@@ -1823,7 +1823,7 @@ def candidates_create_question_function_v2():
         # ------------------------ ui uploaded image end ------------------------
         # ------------------------ add to db start ------------------------
         try:
-          insert_new_row = CreatedQuestionsObj(
+          insert_new_row = ActivityACreatedQuestionsObj(
             id=final_id,
             created_timestamp=create_timestamp_function(),
             fk_user_id = current_user.id,
@@ -1875,7 +1875,7 @@ def candidates_preview_created_question_function():
     user_company_name = user_company_name[:14] + '...'
   # ------------------------ variables end ------------------------
   # ------------------------ get latest custom question start ------------------------
-  db_question_obj = CreatedQuestionsObj.query.filter_by(fk_user_id=current_user.id,submission='draft',product='candidates').order_by(CreatedQuestionsObj.created_timestamp.desc()).first()
+  db_question_obj = ActivityACreatedQuestionsObj.query.filter_by(fk_user_id=current_user.id,submission='draft',product='candidates').order_by(ActivityACreatedQuestionsObj.created_timestamp.desc()).first()
   if db_question_obj == None:
     localhost_print_function(' ------------------------ candidates_preview_created_question_function END ------------------------ ')
     return redirect(url_for('candidates_views_interior.login_dashboard_page_function'))
