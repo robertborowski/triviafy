@@ -265,7 +265,7 @@ def login_dashboard_page_function(url_redirect_code=None):
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ ensure all historical tests are closed end ------------------------
   # ------------------------ delete all historical closed tests with 'No participation' start ------------------------
-  historical_activity_a_tests_were_deleted = delete_historical_activity_a_tests_no_participation_function(current_user, 'trivia', page_dict)
+  historical_activity_a_tests_were_deleted, page_dict = delete_historical_activity_a_tests_no_participation_function(current_user, 'trivia', page_dict)
   if historical_activity_a_tests_were_deleted == True:
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ delete all historical closed tests with 'No participation' end ------------------------

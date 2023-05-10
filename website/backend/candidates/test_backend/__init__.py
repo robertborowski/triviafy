@@ -139,5 +139,5 @@ def delete_historical_activity_a_tests_no_participation_function(current_user, a
   except:
     pass
   # ------------------------ delete all historical closed tests with 'No participation' end ------------------------
-  return historical_activity_a_tests_were_deleted
+  return historical_activity_a_tests_were_deleted, page_dict
 # ------------------------ individual function end ------------------------
