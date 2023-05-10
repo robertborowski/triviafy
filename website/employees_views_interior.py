@@ -17,7 +17,7 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v4, browser_response_set_cookie_function_v5
-from website.models import GroupObj, ActivityASettingsObj, ActivityATestObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, ActivityATestGradedObj, UserObj, StripePaymentOptionsObj, EmployeesEmailSentObj, StripeCheckoutSessionObj, ActivityAGroupQuestionsUsedObj, EmployeesFeatureRequestObj, EmployeesFeedbackObj, EmployeesBirthdayInfoObj
+from website.models import GroupObj, ActivityASettingsObj, ActivityATestObj, EmployeesDesiredCategoriesObj, CreatedQuestionsObj, ActivityATestGradedObj, UserObj, StripePaymentOptionsObj, EmployeesEmailSentObj, StripeCheckoutSessionObj, ActivityAGroupQuestionsUsedObj, EmployeesFeatureRequestObj, UserSignupFeedbackObj, EmployeesBirthdayInfoObj
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function, question_choices_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
 from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function, convert_timestamp_to_month_day_string_function
@@ -227,19 +227,19 @@ def login_dashboard_page_function(url_redirect_code=None):
   if current_user.name == None or current_user.name == '':
     return redirect(url_for('employees_views_interior.employees_feedback_name_function'))
   # primary
-  feedback_primary_obj = EmployeesFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='primary_product_choice').first()
+  feedback_primary_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='primary_product_choice').first()
   if feedback_primary_obj == None or feedback_primary_obj == []:
     return redirect(url_for('employees_views_interior.employees_feedback_primary_function'))
   # secondary
-  feedback_secondary_obj = EmployeesFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='secondary_product_choice').first()
+  feedback_secondary_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='secondary_product_choice').first()
   if feedback_secondary_obj == None or feedback_secondary_obj == []:
     return redirect(url_for('employees_views_interior.employees_feedback_secondary_function'))
   # birthday
-  feedback_birthday_obj = EmployeesFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='birthday_choice').first()
+  feedback_birthday_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='birthday_choice').first()
   if feedback_birthday_obj == None or feedback_birthday_obj == []:
     return redirect(url_for('employees_views_interior.employees_feedback_birthday_function'))
   # how did you hear about triviafy?
-  feedback_marketing_obj = EmployeesFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='marketing_choice').first()
+  feedback_marketing_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='marketing_choice').first()
   if feedback_marketing_obj == None or feedback_marketing_obj == []:
     return redirect(url_for('employees_views_interior.employees_feedback_marketing_function'))
   # ------------------------ check if feedback given end ------------------------
@@ -1496,7 +1496,7 @@ def employees_preview_question_function(url_redirect_code=None, url_question_id=
 def employees_feedback_primary_function(url_redirect_code=None):
   localhost_print_function(' ------------------------ employees_feedback_primary_function START ------------------------ ')
   # ------------------------ check if already answered start ------------------------
-  feedback_primary_obj = EmployeesFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='primary_product_choice').first()
+  feedback_primary_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='primary_product_choice').first()
   if feedback_primary_obj != None and feedback_primary_obj != []:
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ check if already answered end ------------------------
@@ -1520,7 +1520,7 @@ def employees_feedback_primary_function(url_redirect_code=None):
       return redirect(url_for('employees_views_interior.employees_feedback_primary_function'))
     # ------------------------ invalid end ------------------------
     # ------------------------ insert to db start ------------------------
-    new_row = EmployeesFeedbackObj(
+    new_row = UserSignupFeedbackObj(
       id = create_uuid_function('feedback_'),
       created_timestamp = create_timestamp_function(),
       fk_user_id = current_user.id,
@@ -1546,7 +1546,7 @@ def employees_feedback_primary_function(url_redirect_code=None):
 def employees_feedback_secondary_function(url_redirect_code=None, value_to_remove=None):
   localhost_print_function(' ------------------------ employees_feedback_secondary_function START ------------------------ ')
   # ------------------------ check if already answered start ------------------------
-  feedback_secondary_obj = EmployeesFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='secondary_product_choice').first()
+  feedback_secondary_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='secondary_product_choice').first()
   if feedback_secondary_obj != None and feedback_secondary_obj != []:
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ check if already answered end ------------------------
@@ -1558,7 +1558,7 @@ def employees_feedback_secondary_function(url_redirect_code=None, value_to_remov
   # ------------------------ get current activities start ------------------------
   activities_list, activities_list_index = get_team_building_activities_list_function()
   # ------------------------ remove primary from selection start ------------------------
-  feedback_primary_obj = EmployeesFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='primary_product_choice').first()
+  feedback_primary_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='primary_product_choice').first()
   activities_list.remove(feedback_primary_obj.response)
   activities_list_index.pop()
   # ------------------------ remove primary from selection end ------------------------
@@ -1575,7 +1575,7 @@ def employees_feedback_secondary_function(url_redirect_code=None, value_to_remov
       return redirect(url_for('employees_views_interior.employees_feedback_secondary_function'))
     # ------------------------ invalid end ------------------------
     # ------------------------ insert to db start ------------------------
-    new_row = EmployeesFeedbackObj(
+    new_row = UserSignupFeedbackObj(
       id = create_uuid_function('feedback_'),
       created_timestamp = create_timestamp_function(),
       fk_user_id = current_user.id,
@@ -1600,7 +1600,7 @@ def employees_feedback_secondary_function(url_redirect_code=None, value_to_remov
 def employees_feedback_birthday_function(url_redirect_code=None):
   localhost_print_function(' ------------------------ employees_feedback_birthday_function START ------------------------ ')
   # ------------------------ check if already answered start ------------------------
-  feedback_birthday_obj = EmployeesFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='birthday_choice').first()
+  feedback_birthday_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='birthday_choice').first()
   if feedback_birthday_obj != None and feedback_birthday_obj != []:
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ check if already answered end ------------------------
@@ -1667,7 +1667,7 @@ def employees_feedback_birthday_function(url_redirect_code=None):
       # ------------------------ insert to db end ------------------------
       try:
         # ------------------------ insert to db start ------------------------
-        new_row = EmployeesFeedbackObj(
+        new_row = UserSignupFeedbackObj(
           id = create_uuid_function('feedback_'),
           created_timestamp = create_timestamp_function(),
           fk_user_id = current_user.id,
@@ -1696,14 +1696,14 @@ def employees_feedback_birthday_function(url_redirect_code=None):
 def employees_feedback_birthday_skip_function(url_redirect_code=None):
   localhost_print_function(' ------------------------ employees_feedback_birthday_skip_function START ------------------------ ')
   # ------------------------ check if already answered start ------------------------
-  feedback_birthday_obj = EmployeesFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='birthday_choice').first()
+  feedback_birthday_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='birthday_choice').first()
   if feedback_birthday_obj != None and feedback_birthday_obj != []:
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ check if already answered end ------------------------
   # ------------------------ skip logic start ------------------------
   try:
     # ------------------------ insert to db start ------------------------
-    new_row = EmployeesFeedbackObj(
+    new_row = UserSignupFeedbackObj(
       id = create_uuid_function('feedback_'),
       created_timestamp = create_timestamp_function(),
       fk_user_id = current_user.id,
@@ -1729,7 +1729,7 @@ def employees_feedback_birthday_skip_function(url_redirect_code=None):
 def employees_feedback_marketing_function(url_redirect_code=None):
   localhost_print_function(' ------------------------ employees_feedback_marketing_function START ------------------------ ')
   # ------------------------ check if already answered start ------------------------
-  feedback_marketing_obj = EmployeesFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='marketing_choice').first()
+  feedback_marketing_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='marketing_choice').first()
   if feedback_marketing_obj != None and feedback_marketing_obj != []:
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ check if already answered end ------------------------
@@ -1753,7 +1753,7 @@ def employees_feedback_marketing_function(url_redirect_code=None):
       return redirect(url_for('employees_views_interior.employees_feedback_marketing_function'))
     # ------------------------ invalid end ------------------------
     # ------------------------ insert to db start ------------------------
-    new_row = EmployeesFeedbackObj(
+    new_row = UserSignupFeedbackObj(
       id = create_uuid_function('feedback_'),
       created_timestamp = create_timestamp_function(),
       fk_user_id = current_user.id,
