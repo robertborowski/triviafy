@@ -204,7 +204,7 @@ class ActivityAGroupQuestionsUsedObj(db.Model):
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
-class EmployeesDesiredCategoriesObj(db.Model):
+class UserDesiredCategoriesObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
   created_timestamp = db.Column(db.DateTime(timezone=True))
   user_id_fk = db.Column(db.String(150))
@@ -233,7 +233,7 @@ class EmailSentObj(db.Model):
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
-class EmployeesFeatureRequestObj(db.Model):
+class UserFeatureRequestObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
   created_timestamp = db.Column(db.DateTime(timezone=True))
   fk_user_id = db.Column(db.String(150))

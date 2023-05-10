@@ -17,7 +17,7 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v4, browser_response_set_cookie_function_v5
-from website.models import GroupObj, ActivityASettingsObj, ActivityATestObj, EmployeesDesiredCategoriesObj, ActivityACreatedQuestionsObj, ActivityATestGradedObj, UserObj, StripePaymentOptionsObj, EmailSentObj, StripeCheckoutSessionObj, ActivityAGroupQuestionsUsedObj, EmployeesFeatureRequestObj, UserSignupFeedbackObj, UserBirthdayObj
+from website.models import GroupObj, ActivityASettingsObj, ActivityATestObj, UserDesiredCategoriesObj, ActivityACreatedQuestionsObj, ActivityATestGradedObj, UserObj, StripePaymentOptionsObj, EmailSentObj, StripeCheckoutSessionObj, ActivityAGroupQuestionsUsedObj, UserFeatureRequestObj, UserSignupFeedbackObj, UserBirthdayObj
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function, question_choices_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
 from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function, convert_timestamp_to_month_day_string_function
@@ -418,7 +418,7 @@ def employees_categories_request_function(url_redirect_code=None):
       return redirect(url_for('employees_views_interior.employees_categories_request_function', url_redirect_code='e5'))
     else:
       # ------------------------ create new user in db start ------------------------
-      insert_new_row = EmployeesDesiredCategoriesObj(
+      insert_new_row = UserDesiredCategoriesObj(
         id=create_uuid_function('cat_'),
         created_timestamp=create_timestamp_function(),
         user_id_fk=current_user.id,
@@ -1220,12 +1220,12 @@ def employees_feature_function(url_redirect_code=None, url_feature_request_code=
     if ui_feature_request not in acceptable_arr:
       return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='s1'))
     if ui_feature_request in acceptable_arr:
-      db_feature_requested_obj = EmployeesFeatureRequestObj.query.filter_by(fk_user_id=current_user.id, feature_requested=ui_feature_request).first()
+      db_feature_requested_obj = UserFeatureRequestObj.query.filter_by(fk_user_id=current_user.id, feature_requested=ui_feature_request).first()
       if db_feature_requested_obj == None or db_feature_requested_obj == []:
         # ------------------------ insert email to db start ------------------------
         try:
           db_groups_obj = GroupObj.query.filter_by(fk_company_name=current_user.company_name).first()
-          new_row = EmployeesFeatureRequestObj(
+          new_row = UserFeatureRequestObj(
             id = create_uuid_function('feature_'),
             created_timestamp = create_timestamp_function(),
             fk_user_id = current_user.id,
