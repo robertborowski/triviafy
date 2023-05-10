@@ -53,7 +53,7 @@ class EmailCollectObj(db.Model):
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
-class DeletedEmailsObj(db.Model):
+class EmailDeletedObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
   created_timestamp = db.Column(db.DateTime(timezone=True))
   email = db.Column(db.String(150), primary_key=True)
@@ -92,7 +92,7 @@ class StripeCheckoutSessionObj(db.Model):
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
-class ScrapedEmailsObj(db.Model):
+class EmailScrapedObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
   created_timestamp = db.Column(db.DateTime(timezone=True))
   email = db.Column(db.String(150), unique=True)

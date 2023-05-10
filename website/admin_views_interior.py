@@ -14,7 +14,7 @@ from flask_login import login_required, current_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
-from website.models import ActivityAGroupQuestionsUsedObj, ActivityASettingsObj, GroupObj, ActivityATestGradedObj, ActivityATestObj, UserObj, ZDontDeleteTableObj, StripeCheckoutSessionObj, DeletedEmailsObj, EmployeesEmailSentObj, EmailCollectObj, EmployeesFeatureRequestObj, ScrapedEmailsObj, UserSignupFeedbackObj, UserBirthdayObj
+from website.models import ActivityAGroupQuestionsUsedObj, ActivityASettingsObj, GroupObj, ActivityATestGradedObj, ActivityATestObj, UserObj, ZDontDeleteTableObj, StripeCheckoutSessionObj, EmailDeletedObj, EmployeesEmailSentObj, EmailCollectObj, EmployeesFeatureRequestObj, EmailScrapedObj, UserSignupFeedbackObj, UserBirthdayObj
 import os
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from website.backend.candidates.sql_statements.sql_statements_select_general_v1_jobs import select_general_v1_jobs_function
@@ -70,12 +70,12 @@ def admin_dashboard_page_function(url_redirect_code=None):
       return redirect(url_for('admin_views_interior.admin_dashboard_page_function', url_redirect_code='e3'))
     # ------------------------ check if collected email alread exists end ------------------------
     # ------------------------ check if scraped email alread exists start ------------------------
-    db_scraped_obj = ScrapedEmailsObj.query.filter_by(email=ui_email).first()
+    db_scraped_obj = EmailScrapedObj.query.filter_by(email=ui_email).first()
     if db_scraped_obj != None and db_scraped_obj != []:
       return redirect(url_for('admin_views_interior.admin_dashboard_page_function', url_redirect_code='e3'))
     # ------------------------ check if scraped email alread exists end ------------------------
     # ------------------------ insert email to db start ------------------------
-    new_row = ScrapedEmailsObj(
+    new_row = EmailScrapedObj(
       id = create_uuid_function('scraped_'),
       created_timestamp = create_timestamp_function(),
       email = ui_email
@@ -193,7 +193,7 @@ def admin_delete_page_function(url_redirect_code=None):
       UserObj.query.filter_by(id=db_users_dict['id']).delete()
       # ------------------------ add unique removed email to db start ------------------------
       try:
-        new_row = DeletedEmailsObj(
+        new_row = EmailDeletedObj(
           id=create_uuid_function('removed_'),
           created_timestamp=create_timestamp_function(),
           email=user_to_delete,
@@ -329,7 +329,7 @@ def admin_analytics_page_function(url_redirect_code=None):
   # ------------------------ landing_collect_emails_arr end ------------------------
   # ------------------------ scraped_collect_emails_arr start ------------------------
   scraped_emails_arr = []
-  db_scraped_obj = ScrapedEmailsObj.query.filter_by(unsubscribed=False).all()
+  db_scraped_obj = EmailScrapedObj.query.filter_by(unsubscribed=False).all()
   for i_obj in db_scraped_obj:
     scraped_emails_arr.append(i_obj.email)
   page_dict['scraped_emails_arr'] = scraped_emails_arr

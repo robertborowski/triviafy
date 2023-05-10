@@ -20,7 +20,7 @@ from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_f
 from website.backend.candidates.send_emails import send_email_template_function
 import os
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
-from .models import UserObj, EmailCollectObj, ScrapedEmailsObj
+from .models import UserObj, EmailCollectObj, EmailScrapedObj
 from website.backend.candidates.pull_create_logic import pull_create_group_id_function
 # ------------------------ imports end ------------------------
 
@@ -107,7 +107,7 @@ def employees_signup_function(url_redirect_code=None):
       # ------------------------ remove from landing page collected end ------------------------
       # ------------------------ remove from scraped start ------------------------
       try:
-        ScrapedEmailsObj.query.filter_by(email=ui_email.lower()).delete()
+        EmailScrapedObj.query.filter_by(email=ui_email.lower()).delete()
       except:
         pass
       # ------------------------ remove from scraped end ------------------------
