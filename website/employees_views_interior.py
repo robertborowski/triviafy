@@ -269,8 +269,7 @@ def login_dashboard_page_function(url_redirect_code=None):
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ delete all historical closed tests with 'No participation' end ------------------------
   # ------------------------ pull/create latest test start ------------------------
-  db_tests_obj, page_dict = pull_create_latest_activity_a_test_function(current_user, 'trivia', page_dict)
-  """
+  # db_tests_obj, page_dict = pull_create_latest_activity_a_test_function(current_user, 'trivia', page_dict)
   db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).first()
   first_test_exists = False
   if db_tests_obj == None or db_tests_obj == []:
@@ -288,7 +287,6 @@ def login_dashboard_page_function(url_redirect_code=None):
     page_dict['ending_time_string'] = end_month_day_str + ', ' + db_tests_obj.end_time + ' ' + db_tests_obj.timezone
     # ------------------------ latest test info end ------------------------
   page_dict['first_test_exists'] = first_test_exists
-  """
   # ------------------------ pull/create latest test end ------------------------
   # ------------------------ pull latest graded start ------------------------
   ui_latest_test_completed = False

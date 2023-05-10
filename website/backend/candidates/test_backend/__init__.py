@@ -154,7 +154,7 @@ def pull_create_latest_activity_a_test_function(current_user, activity_name, pag
   else:
     first_test_exists = True
     # ------------------------ create latest test start ------------------------
-    create_quiz_status = create_quiz_function_v2(group_id=current_user.group_id, activity_name=activity_name)
+    create_quiz_status = create_quiz_function_v2(group_id=current_user.group_id)
     # ------------------------ create latest test end ------------------------
     # ------------------------ latest test info start ------------------------
     db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id,product=activity_name).order_by(ActivityATestObj.created_timestamp.desc()).first()
