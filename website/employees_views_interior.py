@@ -37,7 +37,7 @@ from website.backend.candidates.aws_manipulation import candidates_change_upload
 from website.backend.candidates.string_manipulation import breakup_email_function
 from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function, get_marketing_list_function
 from website.backend.candidates.dropdowns import get_dropdowns_trivia_function
-from website.backend.candidates.pull_create_logic import pull_create_group_obj_function, pull_create_activity_a_settings_obj_function, pull_latest_activity_a_test_obj_function
+from website.backend.candidates.pull_create_logic import pull_create_group_obj_function, pull_create_activity_a_settings_obj_function, pull_latest_activity_a_test_obj_function, pull_latest_activity_a_test_graded_obj_function
 from website.backend.candidates.quiz import create_quiz_function_v2
 # ------------------------ imports end ------------------------
 
@@ -256,7 +256,6 @@ def login_dashboard_page_function(url_redirect_code=None):
   # ------------------------ pull/create group end ------------------------
   # ------------------------ pull/create group settings activities start ------------------------
   db_activity_settings_obj_trivia = pull_create_activity_a_settings_obj_function(current_user, 'trivia')
-  db_activity_settings_obj_picture_quiz = pull_create_activity_a_settings_obj_function(current_user, 'picture_quiz')
   # ------------------------ pull/create group settings activities end ------------------------
   # ------------------------ ensure all historical tests are closed start ------------------------
   historical_activity_a_tests_were_closed = close_historical_activity_a_tests_function(current_user, 'trivia')
@@ -273,52 +272,37 @@ def login_dashboard_page_function(url_redirect_code=None):
   db_tests_obj = pull_latest_activity_a_test_obj_function(current_user, 'trivia')
   if db_tests_obj != None:
     page_dict['first_activity_exists_trivia'] = True
-  """
-  else:
-    first_activity_exists_trivia = True
-    # ------------------------ create latest test start ------------------------
-    create_quiz_status = create_quiz_function(db_activity_settings_obj_trivia.fk_group_id)
-    # ------------------------ create latest test end ------------------------
-    # ------------------------ latest test info start ------------------------
-    db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).first()
+  # ------------------------ pull latest test end ------------------------
+  # ------------------------ latest test end time info start ------------------------
+  if page_dict['first_activity_exists_trivia'] == True:
     start_month_day_str = convert_timestamp_to_month_day_string_function(db_tests_obj.start_timestamp)
     end_month_day_str = convert_timestamp_to_month_day_string_function(db_tests_obj.end_timestamp)
-    page_dict['full_time_string'] = start_month_day_str + ', ' + db_tests_obj.start_time + ' - ' + end_month_day_str + ', ' + db_tests_obj.end_time + ' ' + db_tests_obj.timezone
-    page_dict['ending_time_string'] = end_month_day_str + ', ' + db_tests_obj.end_time + ' ' + db_tests_obj.timezone
-    # ------------------------ latest test info end ------------------------
-  page_dict['first_activity_exists_trivia'] = first_activity_exists_trivia
-  """
-  # ------------------------ pull latest test end ------------------------
+    page_dict['full_time_string_trivia'] = start_month_day_str + ', ' + db_tests_obj.start_time + ' - ' + end_month_day_str + ', ' + db_tests_obj.end_time + ' ' + db_tests_obj.timezone
+    page_dict['ending_time_string_trivia'] = end_month_day_str + ', ' + db_tests_obj.end_time + ' ' + db_tests_obj.timezone
+  # ------------------------ latest test end time info end ------------------------
   # ------------------------ pull latest graded start ------------------------
-  ui_latest_test_completed = False
+  page_dict['ui_latest_test_completed_trivia'] = False
   try:
-    db_test_grading_obj = ActivityATestGradedObj.query.filter_by(fk_test_id=db_tests_obj.id, fk_user_id=current_user.id,product='trivia').first()
-    # ------------------------ auto route to latest quiz start ------------------------
-    # if (db_test_grading_obj == None or db_test_grading_obj == []) and db_tests_obj.status == 'Open':
-    #   return redirect(url_for('employees_views_interior.activity_a_contest_function'))
-    # if db_test_grading_obj.status == 'wip' and db_tests_obj.status == 'Open':
-    #   return redirect(url_for('employees_views_interior.activity_a_contest_function'))
-    # ------------------------ auto route to latest quiz end ------------------------
+    db_test_grading_obj = pull_latest_activity_a_test_graded_obj_function(db_tests_obj, current_user, 'trivia')
     if db_test_grading_obj.status == 'complete':
-      ui_latest_test_completed = True
+      page_dict['ui_latest_test_completed_trivia'] = True
   except:
     pass
-  page_dict['ui_latest_test_completed'] = ui_latest_test_completed
   # ------------------------ pull latest graded end ------------------------
   # ------------------------ if latest closed then pull winner start ------------------------
-  page_dict['latest_test_is_closed'] = False
-  page_dict['latest_test_winner'] = ''
-  page_dict['latest_test_winner_score'] = float(0)
+  page_dict['latest_test_is_closed_trivia'] = False
+  page_dict['latest_test_winner_trivia'] = ''
+  page_dict['latest_test_winner_score_trivia'] = float(0)
   db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).first()
   try:
     db_tests_dict = arr_of_dict_all_columns_single_item_function(db_tests_obj)
     if db_tests_dict['status'] == 'Closed':
-      page_dict['latest_test_is_closed'] = True
+      page_dict['latest_test_is_closed_trivia'] = True
     # ------------------------ winner start ------------------------
-    page_dict['latest_test_winner'], page_dict['latest_test_winner_score'] = get_test_winner(db_tests_dict['id'])
+    page_dict['latest_test_winner_trivia'], page_dict['latest_test_winner_score_trivia'] = get_test_winner(db_tests_dict['id'])
     # ------------------------ winner end ------------------------
     # ------------------------ if latest closed then pull next quiz open datetime start ------------------------
-    page_dict['next_quiz_open_string'] = get_next_quiz_open_function(current_user.group_id)
+    page_dict['next_quiz_open_string_trivia'] = get_next_quiz_open_function(current_user.group_id)
     # ------------------------ if latest closed then pull next quiz open datetime end ------------------------
   except:
     pass
@@ -327,11 +311,6 @@ def login_dashboard_page_function(url_redirect_code=None):
   stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees', current_user.email)
   page_dict['stripe_subscription_status'] = stripe_subscription_obj_status
   # ------------------------ stripe subscription status check end ------------------------
-  # ------------------------ total company users check start ------------------------
-  db_users_obj = UserObj.query.filter_by(company_name=current_user.company_name).all()
-  page_dict['current_total_company_users'] = len(db_users_obj)
-  page_dict['desired_min_total_company_users'] = 4
-  # ------------------------ total company users check end ------------------------
   # ------------------------ check if share with team email has been sent start ------------------------
   output_subject = f"Successfully Verified Email"
   db_email_obj = EmailSentObj.query.filter_by(to_email=current_user.email,subject=output_subject).first()

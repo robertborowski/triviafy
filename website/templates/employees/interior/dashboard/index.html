@@ -61,24 +61,24 @@
               <p class="custom-line-2"><a href="/activity/a/settings/trivia" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status</span></a> <a href="/create/activity/trivia" class="btn btn-success btn-lg">Generate first contest <i class="fa-solid fa-wand-magic-sparkles"></i></a></p>
             {% endif %}
             {% if page_dict_to_html['first_activity_exists_trivia'] == true %}
-              {% if page_dict_to_html['latest_test_is_closed'] == false %}
-                  {% if page_dict_to_html['ui_latest_test_completed'] == true %}
+              {% if page_dict_to_html['latest_test_is_closed_trivia'] == false %}
+                  {% if page_dict_to_html['ui_latest_test_completed_trivia'] == true %}
                     <p class="custom-line-2"><a href="/activity/a/trivia" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status</span></a> <a href="/activity/a/trivia" class="btn btn-success btn-lg">Review my answers <i class="fa-solid fa-arrow-right"></i></a></p>
                   {% else %}
                     <p class="custom-line-2"><a href="/activity/a/trivia" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status</span></a> Your team's trivia activity is now open! <a href="/activity/a/trivia" class="btn btn-success btn-lg custom-ml-1">Submit your answers <i class="fa-solid fa-arrow-right"></i></a></p>
                   {% endif %}
               {% endif %}
-              {% if page_dict_to_html['latest_test_is_closed'] == true %}
+              {% if page_dict_to_html['latest_test_is_closed_trivia'] == true %}
                 {% if page_dict_to_html['latest_test_winner'] == '' %}
                   <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status</span> Closed, no one on your team participated.</p>
                 {% else %}
-                  <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status</span> <span class="btn btn-success btn-lg custom-mr-1">&#127881; Winner: {{ page_dict_to_html['latest_test_winner'] }} | Score: {{ page_dict_to_html['latest_test_winner_score'] }}%</span></p>
+                  <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status</span> <span class="btn btn-success btn-lg custom-mr-1">&#127881; Winner: {{ page_dict_to_html['latest_test_winner'] }} | Score: {{ page_dict_to_html['latest_test_winner_score_trivia'] }}%</span></p>
                   <p class="custom-line-2"><a href="/activity/a/trivia/" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Review</span></a> <a href="/activity/a/trivia/" class="custom-a-2">View all team responses</a></p>
                 {% endif %}
               {% endif %}
             {% endif %}
-            {% if 'ending_time_string' in page_dict_to_html %}
-              <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Activity close</span> {{ page_dict_to_html['ending_time_string'] }}</p>
+            {% if 'ending_time_string_trivia' in page_dict_to_html %}
+              <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Activity close</span> {{ page_dict_to_html['ending_time_string_trivia'] }}</p>
             {% endif %}
             <!-- ------------------------------------- latest test logic end ------------------------------------- -->
           </div>
