@@ -474,11 +474,14 @@ def employees_categories_request_function(url_redirect_code=None):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_interior.route('/employees/schedule', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/schedule/<url_redirect_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/settings/<url_activity_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/settings/<url_activity_code>/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
-def employees_schedule_function(url_redirect_code=None):
-  localhost_print_function(' ------------------------ employees_schedule_function START ------------------------ ')
+def activity_a_settings_function(url_activity_code=None, url_redirect_code=None):
+  # ------------------------ if no activity error start ------------------------
+  if url_activity_code == None or url_activity_code == '':
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='e24'))
+  # ------------------------ if no activity error end ------------------------
   # ------------------------ page dict start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
   page_dict = {}
@@ -540,11 +543,11 @@ def employees_schedule_function(url_redirect_code=None):
       ui_question_type = 'Mixed'
       # ------------------------ defaults end ------------------------
     if ui_start_day not in page_dict['weekdays'] or ui_end_day not in page_dict['weekdays'] or ui_start_time not in page_dict['times'] or ui_end_time not in page_dict['times'] or ui_timezone not in page_dict['timezones'] or ui_cadence not in page_dict['quiz_cadence_arr'] or int(ui_total_questions) not in page_dict['question_num_arr'] or ui_question_type not in page_dict['question_type_arr']:
-      return redirect(url_for('employees_views_interior.employees_schedule_function', url_redirect_code='e6'))
+      return redirect(url_for('employees_views_interior.activity_a_settings_function', url_redirect_code='e6'))
     if ui_selected_categories != [] and ui_selected_categories != None:
       for i in ui_selected_categories:
         if i not in page_dict['all_categories_arr']:
-          return redirect(url_for('employees_views_interior.employees_schedule_function', url_redirect_code='e6'))
+          return redirect(url_for('employees_views_interior.activity_a_settings_function', url_redirect_code='e6'))
     # ------------------------ check if ui is invalid start ------------------------
     # ------------------------ if settings changed start ------------------------
     settings_change_occured = False
@@ -559,7 +562,7 @@ def employees_schedule_function(url_redirect_code=None):
     # ------------------------ if 'all_categories' not selected start ------------------------
     if ui_select_all_categories == None:
       if ui_selected_categories == [] or len(ui_selected_categories) == 0:
-        return redirect(url_for('employees_views_interior.employees_schedule_function', url_redirect_code='e7'))
+        return redirect(url_for('employees_views_interior.activity_a_settings_function', url_redirect_code='e7'))
       ui_selected_categories_str = ",".join(ui_selected_categories)
       if ui_selected_categories_str == db_group_settings_dict['categories']:
         pass
@@ -609,7 +612,7 @@ def employees_schedule_function(url_redirect_code=None):
     end_day_index = page_dict['weekdays'].index(ui_end_day)
     end_time_index = page_dict['times'].index(ui_end_time)
     if start_day_index > end_day_index or (start_day_index == end_day_index and start_time_index >= end_time_index):
-      return redirect(url_for('employees_views_interior.employees_schedule_function', url_redirect_code='e8'))
+      return redirect(url_for('employees_views_interior.activity_a_settings_function', url_redirect_code='e8'))
     # ------------------------ if new start/end day/times make sense end ------------------------
     if settings_change_occured == True:
       db.session.commit()
@@ -617,7 +620,7 @@ def employees_schedule_function(url_redirect_code=None):
       if first_activity_exists_trivia == False:
         create_quiz_status = create_quiz_function(page_dict['db_group_settings_dict']['fk_group_id'], True)
         if create_quiz_status == 'false_end_time':
-          return redirect(url_for('employees_views_interior.employees_schedule_function', url_redirect_code='e8'))
+          return redirect(url_for('employees_views_interior.activity_a_settings_function', url_redirect_code='e8'))
         if create_quiz_status == True:
           return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='s3'))
       # ------------------------ if first quiz immediate is checked - after changes end ------------------------
@@ -627,7 +630,7 @@ def employees_schedule_function(url_redirect_code=None):
     if first_activity_exists_trivia == False:
       create_quiz_status = create_quiz_function(page_dict['db_group_settings_dict']['fk_group_id'], True)
       if create_quiz_status == 'false_end_time':
-        return redirect(url_for('employees_views_interior.employees_schedule_function', url_redirect_code='e8'))
+        return redirect(url_for('employees_views_interior.activity_a_settings_function', url_redirect_code='e8'))
       if create_quiz_status == True:
         return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='s3'))
     # ------------------------ if first quiz immediate is checked - no changes to existing settings end ------------------------
@@ -635,7 +638,6 @@ def employees_schedule_function(url_redirect_code=None):
     if settings_change_occured == False:
       return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='i1'))
     # ------------------------ if no change in settings end ------------------------
-  localhost_print_function(' ------------------------ employees_schedule_function END ------------------------ ')
   return render_template('employees/interior/schedule/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
 
@@ -737,7 +739,7 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
       ActivityATestGradedObj.query.filter_by(fk_test_id=check_latest_test_obj.id,product='trivia').delete()
       ActivityAGroupQuestionsUsedObj.query.filter_by(fk_test_id=check_latest_test_obj.id,product='trivia').delete()
       db.session.commit()
-      return redirect(url_for('employees_views_interior.employees_schedule_function', url_redirect_code='e22'))
+      return redirect(url_for('employees_views_interior.activity_a_settings_function', url_redirect_code='e22'))
   # ------------------------ first user first quiz delete logic end ------------------------
   # ------------------------ on initial page load - redirect to first unanswered question start ------------------------
   # ------------------------ pull latest graded start ------------------------
