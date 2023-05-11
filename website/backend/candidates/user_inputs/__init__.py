@@ -220,41 +220,6 @@ def sanitize_check_if_str_exists_within_arr_function(user_input_str, correct_mas
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
-def validate_upload_candidate_function(db, current_user, ui_email, user_input_type):
-  post_result = ''
-  # ------------------------ ui_email start ------------------------
-  # ------------------------ sanitize/check user input email start ------------------------
-  if ui_email != None:
-    ui_email_cleaned = sanitize_email_function(ui_email)
-    if ui_email_cleaned == False and user_input_type == 'individual':
-      post_result = 'e1'
-    # ------------------------ sanitize/check user input email end ------------------------
-    if ui_email_cleaned != False:
-      # ------------------------ check if exists in db start ------------------------
-      candidate_uploaded_email_exists = CandidatesUploadedCandidatesObj.query.filter_by(user_id_fk=current_user.id).filter_by(email=ui_email_cleaned).first()
-      # ------------------------ check if exists in db end ------------------------
-      if candidate_uploaded_email_exists != None and user_input_type == 'individual':
-        post_result = f'e2'
-      if candidate_uploaded_email_exists == None:
-        # ------------------------ create new user in db start ------------------------
-        new_user = CandidatesUploadedCandidatesObj(
-          id=create_uuid_function('candup_'),
-          created_timestamp=create_timestamp_function(),
-          user_id_fk=current_user.id,
-          candidate_id=create_uuid_function('cand_'),
-          email = ui_email_cleaned,
-          upload_type = user_input_type
-        )
-        db.session.add(new_user)
-        db.session.commit()
-        # ------------------------ create new user in db end ------------------------
-  # ------------------------ ui_email end ------------------------
-  if post_result == '':
-    post_result = 'success'
-  return post_result
-# ------------------------ individual function end ------------------------
-
-# ------------------------ individual function start ------------------------
 def check_if_question_id_arr_exists_function(user_input_arr):
   for i in user_input_arr:
     sql_result = select_general_function('select_question_id_actually_exists_v2', i)
@@ -411,6 +376,11 @@ def alert_message_default_function_v2(redirect_var=None):
   elif redirect_var == 'e23':
     alert_message_dict = {
       'message':'Question replaced.',
+      'type':'danger'
+    }
+  elif redirect_var == 'e24':
+    alert_message_dict = {
+      'message':'Activity must be defined',
       'type':'danger'
     }
   # ------------------------ errors end ------------------------

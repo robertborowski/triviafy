@@ -32,12 +32,13 @@ from datetime import datetime
 from website.backend.candidates.stripe import check_stripe_subscription_status_function_v2, convert_current_period_end_function
 import stripe
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
-from website.backend.candidates.test_backend import get_test_winner, first_user_first_quiz_check_function, first_user_latest_quiz_check_function, close_historical_activity_a_tests_function, delete_historical_activity_a_tests_no_participation_function, pull_create_latest_activity_a_test_function
+from website.backend.candidates.test_backend import get_test_winner, first_user_first_quiz_check_function, first_user_latest_quiz_check_function, close_historical_activity_a_tests_function, delete_historical_activity_a_tests_no_participation_function
 from website.backend.candidates.aws_manipulation import candidates_change_uploaded_image_filename_function, candidates_user_upload_image_checks_aws_s3_function
 from website.backend.candidates.string_manipulation import breakup_email_function
 from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function, get_marketing_list_function
 from website.backend.candidates.dropdowns import get_dropdowns_trivia_function
-from website.backend.candidates.pull_create_logic import pull_create_group_obj_function, pull_create_activity_a_settings_obj_function
+from website.backend.candidates.pull_create_logic import pull_create_group_obj_function, pull_create_activity_a_settings_obj_function, pull_latest_activity_a_test_obj_function
+from website.backend.candidates.quiz import create_quiz_function_v2
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -268,14 +269,14 @@ def login_dashboard_page_function(url_redirect_code=None):
   if historical_activity_a_tests_were_deleted == True:
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ delete all historical closed tests with 'No participation' end ------------------------
-  # ------------------------ pull/create latest test start ------------------------
-  # db_tests_obj, page_dict = pull_create_latest_activity_a_test_function(current_user, 'trivia', page_dict)
-  db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).first()
-  first_test_exists = False
-  if db_tests_obj == None or db_tests_obj == []:
-    pass
+  # ------------------------ pull latest test start ------------------------
+  page_dict['first_activity_exists_trivia'] = False
+  db_tests_obj = pull_latest_activity_a_test_obj_function(current_user, 'trivia')
+  if db_tests_obj != None:
+    page_dict['first_activity_exists_trivia'] = True
+  """
   else:
-    first_test_exists = True
+    first_activity_exists_trivia = True
     # ------------------------ create latest test start ------------------------
     create_quiz_status = create_quiz_function(db_activity_settings_obj_trivia.fk_group_id)
     # ------------------------ create latest test end ------------------------
@@ -286,8 +287,9 @@ def login_dashboard_page_function(url_redirect_code=None):
     page_dict['full_time_string'] = start_month_day_str + ', ' + db_tests_obj.start_time + ' - ' + end_month_day_str + ', ' + db_tests_obj.end_time + ' ' + db_tests_obj.timezone
     page_dict['ending_time_string'] = end_month_day_str + ', ' + db_tests_obj.end_time + ' ' + db_tests_obj.timezone
     # ------------------------ latest test info end ------------------------
-  page_dict['first_test_exists'] = first_test_exists
-  # ------------------------ pull/create latest test end ------------------------
+  page_dict['first_activity_exists_trivia'] = first_activity_exists_trivia
+  """
+  # ------------------------ pull latest test end ------------------------
   # ------------------------ pull latest graded start ------------------------
   ui_latest_test_completed = False
   try:
@@ -372,6 +374,10 @@ def login_dashboard_page_function(url_redirect_code=None):
   db_activity_settings_dict_trivia['categories'] = categories_edit
   page_dict['db_activity_settings_dict_trivia'] = db_activity_settings_dict_trivia
   # ------------------------ assign to dict end ------------------------
+  localhost_print_function(' ------------- 0 - pre dashboard print start ------------- ')
+  for k,v in page_dict.items():
+    localhost_print_function(f"k: {k} | v: {v}")
+  localhost_print_function(' ------------- 0 - pre dashboard print end ------------- ')
   # ------------------------ if post start ------------------------
   if request.method == 'POST':
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
@@ -389,6 +395,31 @@ def login_dashboard_page_function(url_redirect_code=None):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
+@employees_views_interior.route('/create/activity')
+@employees_views_interior.route('/create/activity/')
+@employees_views_interior.route('/create/activity/<url_activity_code>')
+@login_required
+def create_activity_a_function(url_activity_code=None):
+  # ------------------------ if no activity error start ------------------------
+  if url_activity_code == None or url_activity_code == '':
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='e24'))
+  # ------------------------ if no activity error end ------------------------
+  # ------------------------ pull latest activity start ------------------------
+  db_tests_obj = pull_latest_activity_a_test_obj_function(current_user,url_activity_code)
+  # ------------------------ pull latest activity end ------------------------
+  # ------------------------ if none yet created then create immediately + redirect start ------------------------
+  if db_tests_obj == None:
+    create_quiz_function_v2(group_id=current_user.group_id, activity_name=url_activity_code, immediate=True)
+    return redirect(url_for('employees_views_interior.employees_test_id_function'))
+  # ------------------------ if none yet created then create immediately + redirect end ------------------------
+  else:
+    # ------------------------ cadence check to see if a test should be created start ------------------------
+    pass
+    # ------------------------ cadence check to see if a test should be created end ------------------------
+  return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
 @employees_views_interior.route('/employees/request', methods=['GET', 'POST'])
 @employees_views_interior.route('/employees/request/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
@@ -402,12 +433,12 @@ def employees_categories_request_function(url_redirect_code=None):
   # ------------------------ pull/create latest test start ------------------------
   user_group_id = GroupObj.query.filter_by(fk_company_name=current_user.company_name).order_by(GroupObj.created_timestamp.desc()).first()
   db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=user_group_id.public_group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).first()
-  first_test_exists = False
+  first_activity_exists_trivia = False
   if db_tests_obj == None or db_tests_obj == []:
     pass
   else:
-    first_test_exists = True
-  page_dict['first_test_exists'] = first_test_exists
+    first_activity_exists_trivia = True
+  page_dict['first_activity_exists_trivia'] = first_activity_exists_trivia
   # ------------------------ pull/create latest test end ------------------------
   # ------------------------ if post method hit start ------------------------
   ui_requested = ''
@@ -467,12 +498,12 @@ def employees_schedule_function(url_redirect_code=None):
   # ------------------------ get current group settings end ------------------------
   # ------------------------ pull/create latest test start ------------------------
   db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=user_group_id.public_group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).first()
-  first_test_exists = False
+  first_activity_exists_trivia = False
   if db_tests_obj == None or db_tests_obj == []:
     pass
   else:
-    first_test_exists = True
-  page_dict['first_test_exists'] = first_test_exists
+    first_activity_exists_trivia = True
+  page_dict['first_activity_exists_trivia'] = first_activity_exists_trivia
   # ------------------------ pull/create latest test end ------------------------
   # ------------------------ get all categories start ------------------------
   query_result_arr_of_dicts = select_general_function('select_all_employees_categories_v1')
@@ -583,7 +614,7 @@ def employees_schedule_function(url_redirect_code=None):
     if settings_change_occured == True:
       db.session.commit()
       # ------------------------ if first quiz immediate is checked - after changes start ------------------------
-      if first_test_exists == False:
+      if first_activity_exists_trivia == False:
         create_quiz_status = create_quiz_function(page_dict['db_group_settings_dict']['fk_group_id'], True)
         if create_quiz_status == 'false_end_time':
           return redirect(url_for('employees_views_interior.employees_schedule_function', url_redirect_code='e8'))
@@ -593,7 +624,7 @@ def employees_schedule_function(url_redirect_code=None):
       return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='s2'))
     # ------------------------ if settings changed end ------------------------
     # ------------------------ if first quiz immediate is checked - no changes to existing settings start ------------------------
-    if first_test_exists == False:
+    if first_activity_exists_trivia == False:
       create_quiz_status = create_quiz_function(page_dict['db_group_settings_dict']['fk_group_id'], True)
       if create_quiz_status == 'false_end_time':
         return redirect(url_for('employees_views_interior.employees_schedule_function', url_redirect_code='e8'))

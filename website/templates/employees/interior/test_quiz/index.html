@@ -101,12 +101,18 @@
                 {% for category_tuple in page_dict_to_html['db_question_dict']['categories'] %}
                   <span class="custom-tag-1 custom-tag-category-{{ category_tuple[1] }} custom-br-4 custom-m-3 custom-header-5 custom-wrap-1">{{ category_tuple[0] }}</span>
                 {% endfor %}
-                <!-- ------------------------------------- change categories start ------------------------------------- -->
+                <!-- ------------------------------------- discard quiz categories for new categories start ------------------------------------- -->
+                {% if page_dict_to_html['first_user_latest_quiz_can_replace'] == true and page_dict_to_html['view_as_archive'] == false %}
+                  <a href="/employees/t/fufq_remove"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete this entire quiz and select new categories. Everyone on your team can edit this test until at least one person answers all questions."><span class="btn btn-outline-danger btn-sm">Change categories</span></a>
+                {% else %}
+                {% endif %}
+                <!-- ------------------------------------- discard quiz categories for new categories end ------------------------------------- -->
+                <!-- ------------------------------------- change categories for next quiz start ------------------------------------- -->
                 {% if page_dict_to_html['first_user_latest_quiz_can_replace'] == false or page_dict_to_html['view_as_archive'] == true %}
                   <a href="/employees/schedule" class="btn btn-outline-danger btn-sm">Edit categories</a>
                 {% else %}
                 {% endif %}
-                <!-- ------------------------------------- change categories end ------------------------------------- -->
+                <!-- ------------------------------------- change categories for next quiz end ------------------------------------- -->
             </div>
           </div>
           <div>

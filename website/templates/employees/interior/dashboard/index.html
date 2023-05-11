@@ -57,10 +57,10 @@
           <div class="custom-border-9 custom-br-1 custom-p-1 custom-mb-6 custom-bg-color-8">
             <h3 class="custom-ml-1 custom-mb-6">Status & participation</h3>
             <!-- ------------------------------------- latest test logic start ------------------------------------- -->
-            {% if page_dict_to_html['first_test_exists'] == false %}
-              <p class="custom-line-2"><a href="/employees/schedule" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status</span></a> Welcome! Please confirm your team's personalized settings. <a href="/employees/schedule" class="btn btn-success btn-lg">Get started <i class="fa-solid fa-arrow-right"></i></a></p>
+            {% if page_dict_to_html['first_activity_exists_trivia'] == false %}
+              <p class="custom-line-2"><a href="/employees/schedule" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status</span></a> <a href="/create/activity/trivia" class="btn btn-success btn-lg">Generate first contest <i class="fa-solid fa-wand-magic-sparkles"></i></a></p>
             {% endif %}
-            {% if page_dict_to_html['first_test_exists'] == true %}
+            {% if page_dict_to_html['first_activity_exists_trivia'] == true %}
               {% if page_dict_to_html['latest_test_is_closed'] == false %}
                   {% if page_dict_to_html['ui_latest_test_completed'] == true %}
                     <p class="custom-line-2"><a href="/employees/t" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status</span></a> <a href="/employees/t" class="btn btn-success btn-lg">Review my answers <i class="fa-solid fa-arrow-right"></i></a></p>
