@@ -488,7 +488,7 @@ def activity_a_settings_function(url_activity_code=None, url_redirect_code=None)
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
   # ------------------------ assign to dict start ------------------------
-  page_dict['activity_type'] = 'activity_trivia'
+  page_dict['activity_type'] = 'activity_' + url_activity_code
   # ------------------------ assign to dict end ------------------------
   # ------------------------ get current group settings start ------------------------
   user_group_id = GroupObj.query.filter_by(fk_company_name=current_user.company_name).order_by(GroupObj.created_timestamp.desc()).first()
