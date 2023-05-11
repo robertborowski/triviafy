@@ -474,8 +474,8 @@ def employees_categories_request_function(url_redirect_code=None):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_interior.route('/settings/<url_activity_code>', methods=['GET', 'POST'])
-@employees_views_interior.route('/settings/<url_activity_code>/<url_redirect_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/a/settings/<url_activity_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/a/settings/<url_activity_code>/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
 def activity_a_settings_function(url_activity_code=None, url_redirect_code=None):
   # ------------------------ if no activity error start ------------------------
@@ -492,7 +492,7 @@ def activity_a_settings_function(url_activity_code=None, url_redirect_code=None)
   # ------------------------ assign to dict end ------------------------
   # ------------------------ get current group settings start ------------------------
   user_group_id = GroupObj.query.filter_by(fk_company_name=current_user.company_name).order_by(GroupObj.created_timestamp.desc()).first()
-  db_group_settings_obj = ActivityASettingsObj.query.filter_by(fk_group_id=user_group_id.public_group_id,product='trivia').order_by(ActivityASettingsObj.created_timestamp.desc()).first()
+  db_group_settings_obj = ActivityASettingsObj.query.filter_by(fk_group_id=user_group_id.public_group_id,product=url_activity_code).order_by(ActivityASettingsObj.created_timestamp.desc()).first()
   db_group_settings_dict = arr_of_dict_all_columns_single_item_function(db_group_settings_obj)
   page_dict['db_group_settings_dict'] = db_group_settings_dict
   page_dict['weekdays'], page_dict['times'], page_dict['timezones'] = days_times_timezone_arr_function()
@@ -500,7 +500,7 @@ def activity_a_settings_function(url_activity_code=None, url_redirect_code=None)
   page_dict['dropdowns_dict'] = get_dropdowns_trivia_function()
   # ------------------------ get current group settings end ------------------------
   # ------------------------ pull/create latest test start ------------------------
-  db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=user_group_id.public_group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).first()
+  db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=user_group_id.public_group_id,product=url_activity_code).order_by(ActivityATestObj.created_timestamp.desc()).first()
   first_activity_exists_trivia = False
   if db_tests_obj == None or db_tests_obj == []:
     pass
@@ -543,11 +543,11 @@ def activity_a_settings_function(url_activity_code=None, url_redirect_code=None)
       ui_question_type = 'Mixed'
       # ------------------------ defaults end ------------------------
     if ui_start_day not in page_dict['weekdays'] or ui_end_day not in page_dict['weekdays'] or ui_start_time not in page_dict['times'] or ui_end_time not in page_dict['times'] or ui_timezone not in page_dict['timezones'] or ui_cadence not in page_dict['quiz_cadence_arr'] or int(ui_total_questions) not in page_dict['question_num_arr'] or ui_question_type not in page_dict['question_type_arr']:
-      return redirect(url_for('employees_views_interior.activity_a_settings_function', url_redirect_code='e6'))
+      return redirect(url_for('employees_views_interior.activity_a_settings_function', url_activity_code=url_activity_code, url_redirect_code='e6'))
     if ui_selected_categories != [] and ui_selected_categories != None:
       for i in ui_selected_categories:
         if i not in page_dict['all_categories_arr']:
-          return redirect(url_for('employees_views_interior.activity_a_settings_function', url_redirect_code='e6'))
+          return redirect(url_for('employees_views_interior.activity_a_settings_function', url_activity_code=url_activity_code, url_redirect_code='e6'))
     # ------------------------ check if ui is invalid start ------------------------
     # ------------------------ if settings changed start ------------------------
     settings_change_occured = False
@@ -562,7 +562,7 @@ def activity_a_settings_function(url_activity_code=None, url_redirect_code=None)
     # ------------------------ if 'all_categories' not selected start ------------------------
     if ui_select_all_categories == None:
       if ui_selected_categories == [] or len(ui_selected_categories) == 0:
-        return redirect(url_for('employees_views_interior.activity_a_settings_function', url_redirect_code='e7'))
+        return redirect(url_for('employees_views_interior.activity_a_settings_function', url_activity_code=url_activity_code, url_redirect_code='e7'))
       ui_selected_categories_str = ",".join(ui_selected_categories)
       if ui_selected_categories_str == db_group_settings_dict['categories']:
         pass
@@ -612,28 +612,11 @@ def activity_a_settings_function(url_activity_code=None, url_redirect_code=None)
     end_day_index = page_dict['weekdays'].index(ui_end_day)
     end_time_index = page_dict['times'].index(ui_end_time)
     if start_day_index > end_day_index or (start_day_index == end_day_index and start_time_index >= end_time_index):
-      return redirect(url_for('employees_views_interior.activity_a_settings_function', url_redirect_code='e8'))
+      return redirect(url_for('employees_views_interior.activity_a_settings_function', url_activity_code=url_activity_code, url_redirect_code='e8'))
     # ------------------------ if new start/end day/times make sense end ------------------------
     if settings_change_occured == True:
       db.session.commit()
-      # ------------------------ if first quiz immediate is checked - after changes start ------------------------
-      if first_activity_exists_trivia == False:
-        create_quiz_status = create_quiz_function(page_dict['db_group_settings_dict']['fk_group_id'], True)
-        if create_quiz_status == 'false_end_time':
-          return redirect(url_for('employees_views_interior.activity_a_settings_function', url_redirect_code='e8'))
-        if create_quiz_status == True:
-          return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='s3'))
-      # ------------------------ if first quiz immediate is checked - after changes end ------------------------
       return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='s2'))
-    # ------------------------ if settings changed end ------------------------
-    # ------------------------ if first quiz immediate is checked - no changes to existing settings start ------------------------
-    if first_activity_exists_trivia == False:
-      create_quiz_status = create_quiz_function(page_dict['db_group_settings_dict']['fk_group_id'], True)
-      if create_quiz_status == 'false_end_time':
-        return redirect(url_for('employees_views_interior.activity_a_settings_function', url_redirect_code='e8'))
-      if create_quiz_status == True:
-        return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='s3'))
-    # ------------------------ if first quiz immediate is checked - no changes to existing settings end ------------------------
     # ------------------------ if no change in settings start ------------------------
     if settings_change_occured == False:
       return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='i1'))
