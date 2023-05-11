@@ -205,8 +205,7 @@ def verify_email_function(url_redirect_code=None):
 
 # ------------------------ individual route start ------------------------
 @employees_views_interior.route('/dashboard', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/dashboard', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/dashboard/<url_redirect_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/dashboard/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
 def login_dashboard_page_function(url_redirect_code=None):
   localhost_print_function(' ------------------------ login_dashboard_page_function START ------------------------ ')
@@ -296,9 +295,9 @@ def login_dashboard_page_function(url_redirect_code=None):
     db_test_grading_obj = ActivityATestGradedObj.query.filter_by(fk_test_id=db_tests_obj.id, fk_user_id=current_user.id,product='trivia').first()
     # ------------------------ auto route to latest quiz start ------------------------
     # if (db_test_grading_obj == None or db_test_grading_obj == []) and db_tests_obj.status == 'Open':
-    #   return redirect(url_for('employees_views_interior.employees_test_id_function'))
+    #   return redirect(url_for('employees_views_interior.activity_a_contest_function'))
     # if db_test_grading_obj.status == 'wip' and db_tests_obj.status == 'Open':
-    #   return redirect(url_for('employees_views_interior.employees_test_id_function'))
+    #   return redirect(url_for('employees_views_interior.activity_a_contest_function'))
     # ------------------------ auto route to latest quiz end ------------------------
     if db_test_grading_obj.status == 'complete':
       ui_latest_test_completed = True
@@ -410,7 +409,7 @@ def create_activity_a_function(url_activity_code=None):
   # ------------------------ if none yet created then create immediately + redirect start ------------------------
   if db_tests_obj == None:
     create_quiz_function_v2(group_id=current_user.group_id, activity_name=url_activity_code, immediate=True)
-    return redirect(url_for('employees_views_interior.employees_test_id_function'))
+    return redirect(url_for('employees_views_interior.activity_a_contest_function'))
   # ------------------------ if none yet created then create immediately + redirect end ------------------------
   else:
     # ------------------------ cadence check to see if a test should be created start ------------------------
@@ -625,14 +624,14 @@ def activity_a_settings_function(url_activity_code=None, url_redirect_code=None)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_interior.route('/employees/t/replace/<url_test_id>/<url_question_number>', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/t/replace/<url_test_id>/<url_question_number>/', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/a/trivia/replace/<url_test_id>/<url_question_number>', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/a/trivia/replace/<url_test_id>/<url_question_number>/', methods=['GET', 'POST'])
 @login_required
 def employees_test_id_replace_question_function(url_test_id=None, url_question_number=None):
   localhost_print_function(' ------------------------ employees_test_id_replace_question_function START ------------------------ ')
   # ------------------------ redirect start ------------------------
   if url_test_id == None or url_test_id == '' or url_question_number == None or url_question_number == '':
-    return redirect(url_for('employees_views_interior.employees_test_id_function'))
+    return redirect(url_for('employees_views_interior.activity_a_contest_function'))
   # ------------------------ redirect end ------------------------
   # ------------------------ get group latest test start ------------------------
   user_group_id = GroupObj.query.filter_by(fk_company_name=current_user.company_name).order_by(GroupObj.created_timestamp.desc()).first()
@@ -681,23 +680,22 @@ def employees_test_id_replace_question_function(url_test_id=None, url_question_n
     pass
   # ------------------------ check if old question graded/remove end ------------------------
   localhost_print_function(' ------------------------ employees_test_id_replace_question_function end ------------------------ ')
-  return redirect(url_for('employees_views_interior.employees_test_id_function', url_test_id=url_test_id, url_question_number=url_question_number, url_redirect_code='e23'))
+  return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=url_test_id, url_question_number=url_question_number, url_redirect_code='e23'))
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_interior.route('/employees/t', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/t/', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/t/<url_test_id>', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/t/<url_test_id>/', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/t/<url_test_id>/<url_question_number>', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/t/<url_test_id>/<url_question_number>/', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/t/<url_test_id>/<url_question_number>/<url_initial_page_load>', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/t/<url_test_id>/<url_question_number>/<url_initial_page_load>/', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/t/<url_test_id>/<url_question_number>/<url_initial_page_load>/<url_redirect_code>', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/t/<url_test_id>/<url_question_number>/<url_redirect_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/a/trivia', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/a/trivia/', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/a/trivia/<url_test_id>', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/a/trivia/<url_test_id>/', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/a/trivia/<url_test_id>/<url_question_number>', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/a/trivia/<url_test_id>/<url_question_number>/', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/a/trivia/<url_test_id>/<url_question_number>/<url_initial_page_load>', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/a/trivia/<url_test_id>/<url_question_number>/<url_initial_page_load>/', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/a/trivia/<url_test_id>/<url_question_number>/<url_initial_page_load>/<url_redirect_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/a/trivia/<url_test_id>/<url_question_number>/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
-def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_question_number='1', url_initial_page_load=None):
-  localhost_print_function(' ------------------------ employees_test_id_function START ------------------------ ')
+def activity_a_contest_function(url_redirect_code=None, url_test_id=None, url_question_number='1', url_initial_page_load=None):
   template_location_url = 'employees/interior/test_quiz/index.html'
   # ------------------------ page dict start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
@@ -711,7 +709,7 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
     if db_tests_obj == None or db_tests_obj == []:
       return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
     else:
-      return redirect(url_for('employees_views_interior.employees_test_id_function', url_test_id=db_tests_obj.id, url_question_number='1', url_initial_page_load='init'))
+      return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=db_tests_obj.id, url_question_number='1', url_initial_page_load='init'))
   # ------------------------ redirect to latest test id end ------------------------
   # ------------------------ first user first quiz delete logic start ------------------------
   page_dict['first_user_latest_quiz_can_replace'] = first_user_latest_quiz_check_function(current_user.company_name)
@@ -722,7 +720,7 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
       ActivityATestGradedObj.query.filter_by(fk_test_id=check_latest_test_obj.id,product='trivia').delete()
       ActivityAGroupQuestionsUsedObj.query.filter_by(fk_test_id=check_latest_test_obj.id,product='trivia').delete()
       db.session.commit()
-      return redirect(url_for('employees_views_interior.activity_a_settings_function', url_redirect_code='e22'))
+      return redirect(url_for('employees_views_interior.activity_a_settings_function', url_activity_code='trivia', url_redirect_code='e22'))
   # ------------------------ first user first quiz delete logic end ------------------------
   # ------------------------ on initial page load - redirect to first unanswered question start ------------------------
   # ------------------------ pull latest graded start ------------------------
@@ -738,7 +736,7 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
         if already_answered_question_number in unanswered_arr:
           unanswered_arr.remove(already_answered_question_number)
       if str(url_question_number) != unanswered_arr[0]:
-        return redirect(url_for('employees_views_interior.employees_test_id_function', url_test_id=url_test_id, url_question_number=unanswered_arr[0]))
+        return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=url_test_id, url_question_number=unanswered_arr[0]))
       # ------------------------ pull question left off on initial load only end ------------------------
     except:
       pass
@@ -754,9 +752,9 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
   try:
     url_question_number = int(url_question_number)
   except:
-    return redirect(url_for('employees_views_interior.employees_test_id_function', url_test_id=test_id, url_question_number='1'))
+    return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=test_id, url_question_number='1'))
   if url_question_number > total_questions or url_question_number < 1:
-    return redirect(url_for('employees_views_interior.employees_test_id_function', url_test_id=test_id, url_question_number='1'))
+    return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=test_id, url_question_number='1'))
   # ------------------------ validate question number end ------------------------
   # ------------------------ pull specific question id start ------------------------
   question_ids_str = db_tests_obj.question_ids
@@ -865,7 +863,7 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
         ui_answer = request.form.get('ui_answer_fitb')
         # ------------------------ validate ui start ------------------------
         if len(ui_answer) < 1 or len(ui_answer) > 280:
-          return redirect(url_for('employees_views_interior.employees_test_id_function', url_test_id=url_test_id, url_question_number=str(url_question_number), url_redirect_code='e6'))
+          return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=url_test_id, url_question_number=str(url_question_number), url_redirect_code='e6'))
         # ------------------------ validate ui end ------------------------
         # ------------------------ grade ui start ------------------------
         grade_quiz_function(ui_answer, url_test_id, db_tests_obj.total_questions, url_question_number, db_question_dict, current_user.id, user_group_id.public_group_id)
@@ -877,7 +875,7 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
         # ------------------------ validate ui start ------------------------
         allowed_answers_arr = ['a', 'b', 'c', 'd', 'e']
         if ui_answer.lower() not in allowed_answers_arr:
-          return redirect(url_for('employees_views_interior.employees_test_id_function', url_test_id=url_test_id, url_question_number=str(url_question_number), url_redirect_code='e6'))
+          return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=url_test_id, url_question_number=str(url_question_number), url_redirect_code='e6'))
         # ------------------------ validate ui start ------------------------
         # ------------------------ grade ui start ------------------------
         grade_quiz_function(ui_answer, url_test_id, db_tests_obj.total_questions, url_question_number, db_question_dict, current_user.id, user_group_id.public_group_id)
@@ -897,11 +895,10 @@ def employees_test_id_function(url_redirect_code=None, url_test_id=None, url_que
             already_answered_question_number = str(i['question_number'])
             if already_answered_question_number in unanswered_arr:
               unanswered_arr.remove(already_answered_question_number)
-          return redirect(url_for('employees_views_interior.employees_test_id_function', url_test_id=url_test_id, url_question_number=unanswered_arr[0]))
+          return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=url_test_id, url_question_number=unanswered_arr[0]))
       else:
-        return redirect(url_for('employees_views_interior.employees_test_id_function', url_test_id=url_test_id, url_question_number=str(int(url_question_number)+1)))
+        return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=url_test_id, url_question_number=str(int(url_question_number)+1)))
     # ------------------------ ui post end ------------------------
-  localhost_print_function(' ------------------------ employees_test_id_function end ------------------------ ')
   return render_template('employees/interior/test_quiz/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
 

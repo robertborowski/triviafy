@@ -32,8 +32,6 @@ redis_connection = redis_connect_to_database_function()
 @employees_views_exterior.route('/employees')
 @employees_views_exterior.route('/employees/')
 def landing_page_function():
-  localhost_print_function(' ------------------------ landing_page_function START ------------------------ ')
-  localhost_print_function(' ------------------------ landing_page_function END ------------------------ ')
   return render_template('employees/exterior/landing/index.html')
 # ------------------------ individual route end ------------------------
 
@@ -41,8 +39,6 @@ def landing_page_function():
 @employees_views_exterior.route('/employees/about')
 @employees_views_exterior.route('/employees/about/')
 def employees_about_function():
-  localhost_print_function(' ------------------------ employees_about_function START ------------------------ ')
-  localhost_print_function(' ------------------------ employees_about_function END ------------------------ ')
   return render_template('employees/exterior/about/index.html')
 # ------------------------ individual route end ------------------------
 
@@ -50,8 +46,6 @@ def employees_about_function():
 @employees_views_exterior.route('/employees/faq')
 @employees_views_exterior.route('/employees/faq/')
 def employees_faq_function():
-  localhost_print_function(' ------------------------ employees_faq_function start ------------------------ ')
-  localhost_print_function(' ------------------------ employees_faq_function end ------------------------ ')
   return render_template('employees/exterior/faq/index.html')
 # ------------------------ individual route end ------------------------
 
@@ -59,8 +53,6 @@ def employees_faq_function():
 @employees_views_exterior.route('/employees/pricing')
 @employees_views_exterior.route('/employees/pricing/')
 def employees_pricing_function():
-  localhost_print_function(' ------------------------ employees_pricing_function start ------------------------ ')
-  localhost_print_function(' ------------------------ employees_pricing_function end ------------------------ ')
   return render_template('employees/exterior/pricing/index.html')
 # ------------------------ individual route end ------------------------
 
@@ -68,17 +60,13 @@ def employees_pricing_function():
 @employees_views_exterior.route('/employees/privacy')
 @employees_views_exterior.route('/employees/privacy/')
 def employees_privacy_function():
-  localhost_print_function(' ------------------------ employees_privacy_function start ------------------------ ')
-  localhost_print_function(' ------------------------ employees_privacy_function end ------------------------ ')
   return render_template('employees/exterior/privacy/index.html')
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_exterior.route('/employees/tos')
-@employees_views_exterior.route('/employees/tos/')
-def employees_tos_function():
-  localhost_print_function(' ------------------------ employees_tos_function start ------------------------ ')
-  localhost_print_function(' ------------------------ employees_tos_function end ------------------------ ')
+@employees_views_exterior.route('/terms')
+@employees_views_exterior.route('/terms/')
+def terms_function():
   return render_template('employees/exterior/tos/index.html')
 # ------------------------ individual route end ------------------------
 
@@ -86,8 +74,6 @@ def employees_tos_function():
 @employees_views_exterior.route('/employees/blog', methods=['GET', 'POST'])
 @employees_views_exterior.route('/employees/blog/', methods=['GET', 'POST'])
 def employees_blog_page_function():
-  localhost_print_function(' ------------------------ employees_blog_page_function START ------------------------ ')
-  localhost_print_function(' ------------------------ employees_blog_page_function END ------------------------ ')
   return render_template('employees/exterior/blog/index.html')
 # ------------------------ individual route end ------------------------
 
@@ -95,10 +81,8 @@ def employees_blog_page_function():
 @employees_views_exterior.route('/employees/blog/<i_blog_post_number>', methods=['GET', 'POST'])
 @employees_views_exterior.route('/employees/blog/<i_blog_post_number>/', methods=['GET', 'POST'])
 def employees_i_blog_page_function(i_blog_post_number='0001'):
-  localhost_print_function(' ------------------------ employees_i_blog_page_function start ------------------------ ')
   current_blog_post_num = i_blog_post_number
   current_blog_post_num_full_string = f'employees/exterior/blog/i_blog/i_{current_blog_post_num}.html'
-  localhost_print_function(' ------------------------ employees_i_blog_page_function end ------------------------ ')
   return render_template(current_blog_post_num_full_string)
 # ------------------------ individual route end ------------------------
 
@@ -108,7 +92,6 @@ def employees_i_blog_page_function(i_blog_post_number='0001'):
 @employees_views_exterior.route('/example/<url_question_number>', methods=['GET', 'POST'])
 @employees_views_exterior.route('/example/<url_question_number>/', methods=['GET', 'POST'])
 def employees_example_page_function(url_redirect_code=None, url_question_number='1'):
-  localhost_print_function(' ------------------------ employees_example_page_function start ------------------------ ')
   # ------------------------ redirect codes start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
   # ------------------------ redirect codes end ------------------------
@@ -142,14 +125,12 @@ def employees_example_page_function(url_redirect_code=None, url_question_number=
   if 'amazonaws.com' in db_question_obj['aws_image_url']:
     contains_img = True
   # ------------------------ check if contains img end ------------------------
-  localhost_print_function(' ------------------------ employees_example_page_function end ------------------------ ')
   return render_template('employees/exterior/example_test/index.html', db_question_obj_to_html=db_question_obj, previous_question_number_to_html=previous_question_number, current_question_number_to_html=current_question_number, next_question_number_to_html=next_question_number, alert_message_dict_to_html=alert_message_dict, contains_img_to_html=contains_img)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
 @employees_views_exterior.route('/employees/reset', methods=['GET', 'POST'])
 def employees_forgot_password_page_function():
-  localhost_print_function(' ------------------------ employees_forgot_password_page_function START ------------------------ ')  
   forgot_password_error_statement = ''
   if request.method == 'POST':
     # ------------------------ post request sent start ------------------------
@@ -175,19 +156,16 @@ def employees_forgot_password_page_function():
       forgot_password_error_statement = 'Password reset link sent to email.'
       pass
     # ------------------------ check if user email exists in db end ------------------------
-  localhost_print_function(' ------------------------ employees_forgot_password_page_function END ------------------------ ')
   return render_template('employees/exterior/forgot_password/index.html', user=current_user, error_message_to_html = forgot_password_error_statement)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
 @employees_views_exterior.route('/employees/reset/<token>', methods=['GET', 'POST'])
 def employees_reset_forgot_password_page_function(token):
-  localhost_print_function(' ------------------------ employees_reset_forgot_password_page_function START ------------------------ ')
   reset_password_error_statement = ''
   user_obj_from_token = UserObj.verify_reset_token_function(token)
   if user_obj_from_token is None:
     reset_password_error_statement = 'That is an invalid or expired token'
-    localhost_print_function(' ------------------------ employees_reset_forgot_password_page_function END ------------------------ ')
     return render_template('employees/exterior/forgot_password/index.html', user=current_user, error_message_to_html = reset_password_error_statement)
   if request.method == 'POST':
     reset_password_error_statement = ''
@@ -215,6 +193,5 @@ def employees_reset_forgot_password_page_function(token):
       db.session.commit()
       return redirect(url_for('employees_auth.employees_login_page_function', url_redirect_code='s6'))
     # ------------------------ update db end ------------------------
-  localhost_print_function(' ------------------------ employees_reset_forgot_password_page_function END ------------------------ ')
   return render_template('employees/exterior/forgot_password/reset_forgot_password/index.html', user=current_user, error_message_to_html = reset_password_error_statement)
 # ------------------------ individual route end ------------------------
