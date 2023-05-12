@@ -124,10 +124,10 @@ def delete_historical_activity_a_tests_no_participation_function(current_user, a
       for i_historical_test_obj in db_historical_tests_obj:
         i_historical_test_dict = arr_of_dict_all_columns_single_item_function(i_historical_test_obj)
         # ------------------------ winner start ------------------------
-        page_dict['latest_test_winner_trivia'], page_dict['latest_test_winner_score_trivia'] = get_test_winner(i_historical_test_dict['id'])
+        page_dict['latest_test_winner_'+activity_name], page_dict['latest_test_winner_score_'+activity_name] = get_test_winner(i_historical_test_dict['id'])
         # ------------------------ winner end ------------------------
         # ------------------------ delete histoical no participation start ------------------------
-        if page_dict['latest_test_winner_trivia'] == 'No participation':
+        if page_dict['latest_test_winner_'+activity_name] == 'No participation':
           ActivityAGroupQuestionsUsedObj.query.filter_by(fk_test_id=i_historical_test_dict['id']).delete()
           ActivityATestGradedObj.query.filter_by(fk_test_id=i_historical_test_dict['id']).delete()
           ActivityATestObj.query.filter_by(id=i_historical_test_dict['id']).delete()

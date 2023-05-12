@@ -18,27 +18,29 @@ from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v4, browser_response_set_cookie_function_v5
 from website.models import GroupObj, ActivityASettingsObj, ActivityATestObj, UserDesiredCategoriesObj, ActivityACreatedQuestionsObj, ActivityATestGradedObj, UserObj, StripePaymentOptionsObj, EmailSentObj, StripeCheckoutSessionObj, ActivityAGroupQuestionsUsedObj, UserFeatureRequestObj, UserSignupFeedbackObj, UserBirthdayObj
-from website.backend.candidates.autogeneration import generate_random_length_uuid_function, question_choices_function
+from website.backend.candidates.autogeneration import question_choices_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
-from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function, convert_timestamp_to_month_day_string_function
+from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.string_manipulation import all_employee_question_categories_sorted_function
 from website.backend.candidates.user_inputs import sanitize_char_count_1_function, sanitize_create_question_options_function, sanitize_create_question_categories_function, sanitize_create_question_question_function, sanitize_create_question_option_e_function, sanitize_create_question_answer_function, get_special_characters_function
 from website.backend.candidates.send_emails import send_email_template_function
 import os
-from website.backend.candidates.quiz import create_quiz_function, grade_quiz_function, get_next_quiz_open_function, pull_question_function
+from website.backend.candidates.quiz import grade_quiz_function, pull_question_function
 import json
 from datetime import datetime
 from website.backend.candidates.stripe import check_stripe_subscription_status_function_v2, convert_current_period_end_function
 import stripe
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
-from website.backend.candidates.test_backend import get_test_winner, first_user_first_quiz_check_function, first_user_latest_quiz_check_function, close_historical_activity_a_tests_function, delete_historical_activity_a_tests_no_participation_function
+from website.backend.candidates.test_backend import get_test_winner, first_user_latest_quiz_check_function
 from website.backend.candidates.aws_manipulation import candidates_change_uploaded_image_filename_function, candidates_user_upload_image_checks_aws_s3_function
 from website.backend.candidates.string_manipulation import breakup_email_function
 from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function, get_marketing_list_function
 from website.backend.candidates.dropdowns import get_dropdowns_trivia_function
-from website.backend.candidates.pull_create_logic import pull_create_group_obj_function, pull_create_activity_a_settings_obj_function, pull_latest_activity_a_test_obj_function, pull_latest_activity_a_test_graded_obj_function
+from website.backend.candidates.pull_create_logic import pull_create_group_obj_function, pull_latest_activity_a_test_obj_function
 from website.backend.candidates.quiz import create_quiz_function_v2
+from website.backend.candidates.activity_supporting import activity_a_dashboard_function
+from website.backend.candidates.emailing import email_share_with_team_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -47,6 +49,89 @@ employees_views_interior = Blueprint('employees_views_interior', __name__)
 # ------------------------ connect to redis start ------------------------
 redis_connection = redis_connect_to_database_function()
 # ------------------------ connect to redis end ------------------------
+
+# ------------------------ individual route start ------------------------
+@employees_views_interior.route('/dashboard', methods=['GET', 'POST'])
+@employees_views_interior.route('/dashboard/<url_redirect_code>', methods=['GET', 'POST'])
+@login_required
+def login_dashboard_page_function(url_redirect_code=None):
+  localhost_print_function(' ------------------------ login_dashboard_page_function START ------------------------ ')
+  # ------------------------ auto redirect checks start ------------------------
+  """
+  -The code will always hit this dashboard on login or create account. BUT BEFORE setting the cookie on the browser, we are going to auto redirect
+  users this makes the UX better so they dont have to click, read, or think, just auto redirect. The downside is that you cannot set the cookie
+  unless you know for sure where the user is ending up. So the redirected page will ALSO have to include the function that sets the cookie.
+  Downside is repeating code but it is not for all pages, only for the pages that auto redirect on new account creation.
+  -These pages will require the template_location_url variable
+  """
+  # ------------------------ check if email verified start ------------------------
+  if current_user.verified_email == False:
+    return redirect(url_for('employees_views_interior.verify_email_function', url_redirect_code='s8'))
+  # ------------------------ check if email verified end ------------------------
+  # ------------------------ check if feedback given start ------------------------
+  # name
+  if current_user.name == None or current_user.name == '':
+    return redirect(url_for('employees_views_interior.employees_feedback_name_function'))
+  # primary
+  feedback_primary_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='primary_product_choice').first()
+  if feedback_primary_obj == None or feedback_primary_obj == []:
+    return redirect(url_for('employees_views_interior.employees_feedback_primary_function'))
+  # secondary
+  feedback_secondary_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='secondary_product_choice').first()
+  if feedback_secondary_obj == None or feedback_secondary_obj == []:
+    return redirect(url_for('employees_views_interior.employees_feedback_secondary_function'))
+  # birthday
+  feedback_birthday_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='birthday_choice').first()
+  if feedback_birthday_obj == None or feedback_birthday_obj == []:
+    return redirect(url_for('employees_views_interior.employees_feedback_birthday_function'))
+  # how did you hear about triviafy?
+  feedback_marketing_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='marketing_choice').first()
+  if feedback_marketing_obj == None or feedback_marketing_obj == []:
+    return redirect(url_for('employees_views_interior.employees_feedback_marketing_function'))
+  # ------------------------ check if feedback given end ------------------------
+  # ------------------------ check if share with team email has been sent start ------------------------
+  email_share_with_team_function(current_user)
+  # ------------------------ check if share with team email has been sent end ------------------------
+  # ------------------------ redirect codes start ------------------------
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  # ------------------------ redirect codes end ------------------------
+  # ------------------------ page dict start ------------------------
+  page_dict = {}
+  # ------------------------ page dict end ------------------------
+  # ------------------------ pull/create group start ------------------------
+  db_group_obj = pull_create_group_obj_function(current_user)
+  # ------------------------ pull/create group end ------------------------
+  # ------------------------ stripe subscription status check start ------------------------
+  stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees', current_user.email)
+  page_dict['stripe_subscription_status'] = stripe_subscription_obj_status
+  # ------------------------ stripe subscription status check end ------------------------
+  # ------------------------ dashboard supporting start ------------------------
+  redirect_code, page_dict = activity_a_dashboard_function(current_user, page_dict, 'trivia')
+  if redirect_code == 'dashboard':
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+  # ------------------------ dashboard supporting end ------------------------
+  # ------------------------ if post start ------------------------
+  if request.method == 'POST':
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+  # ------------------------ if post end ------------------------
+  localhost_print_function(' ------------- 0 - pre dashboard print start ------------- ')
+  for k,v in page_dict.items():
+    localhost_print_function(f"k: {k} | v: {v}")
+  localhost_print_function(' ------------- 0 - pre dashboard print end ------------- ')
+  # ------------------------ for setting cookie start ------------------------
+  template_location_url = 'employees/interior/dashboard/index.html'
+  # ------------------------ for setting cookie end ------------------------
+  # ------------------------ auto set cookie start ------------------------
+  get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
+  if get_cookie_value_from_browser != None:
+    redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
+    return render_template(template_location_url, user=current_user, alert_message_dict_to_html=alert_message_dict, page_dict_to_html=page_dict)
+  else:
+    browser_response = browser_response_set_cookie_function_v4(current_user, template_location_url, alert_message_dict, page_dict)
+    localhost_print_function(' ------------------------ login_dashboard_page_function END ------------------------ ')
+    return browser_response
+  # ------------------------ auto set cookie end ------------------------
+# ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
 @employees_views_interior.route('/employees/verify/success/<url_verification_code>')
@@ -201,175 +286,6 @@ def verify_email_function(url_redirect_code=None):
   # ------------------------ resend email end ------------------------
   localhost_print_function(' ------------------------ verify_email_function end ------------------------ ')
   return render_template('employees/interior/verify_email/index.html', page_dict_to_html=page_dict)
-# ------------------------ individual route end ------------------------
-
-# ------------------------ individual route start ------------------------
-@employees_views_interior.route('/dashboard', methods=['GET', 'POST'])
-@employees_views_interior.route('/dashboard/<url_redirect_code>', methods=['GET', 'POST'])
-@login_required
-def login_dashboard_page_function(url_redirect_code=None):
-  localhost_print_function(' ------------------------ login_dashboard_page_function START ------------------------ ')
-  # ------------------------ auto redirect checks start ------------------------
-  """
-  -The code will always hit this dashboard on login or create account. BUT BEFORE setting the cookie on the browser, we are going to auto redirect
-  users this makes the UX better so they dont have to click, read, or think, just auto redirect. The downside is that you cannot set the cookie
-  unless you know for sure where the user is ending up. So the redirected page will ALSO have to include the function that sets the cookie.
-  Downside is repeating code but it is not for all pages, only for the pages that auto redirect on new account creation.
-  -These pages will require the template_location_url variable
-  """
-  # ------------------------ check if email verified start ------------------------
-  if current_user.verified_email == False:
-    return redirect(url_for('employees_views_interior.verify_email_function', url_redirect_code='s8'))
-  # ------------------------ check if email verified end ------------------------
-  # ------------------------ check if feedback given start ------------------------
-  # name
-  if current_user.name == None or current_user.name == '':
-    return redirect(url_for('employees_views_interior.employees_feedback_name_function'))
-  # primary
-  feedback_primary_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='primary_product_choice').first()
-  if feedback_primary_obj == None or feedback_primary_obj == []:
-    return redirect(url_for('employees_views_interior.employees_feedback_primary_function'))
-  # secondary
-  feedback_secondary_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='secondary_product_choice').first()
-  if feedback_secondary_obj == None or feedback_secondary_obj == []:
-    return redirect(url_for('employees_views_interior.employees_feedback_secondary_function'))
-  # birthday
-  feedback_birthday_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='birthday_choice').first()
-  if feedback_birthday_obj == None or feedback_birthday_obj == []:
-    return redirect(url_for('employees_views_interior.employees_feedback_birthday_function'))
-  # how did you hear about triviafy?
-  feedback_marketing_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='marketing_choice').first()
-  if feedback_marketing_obj == None or feedback_marketing_obj == []:
-    return redirect(url_for('employees_views_interior.employees_feedback_marketing_function'))
-  # ------------------------ check if feedback given end ------------------------
-  # ------------------------ for setting cookie start ------------------------
-  template_location_url = 'employees/interior/dashboard/index.html'
-  # ------------------------ for setting cookie end ------------------------
-  # ------------------------ redirect codes start ------------------------
-  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
-  # ------------------------ redirect codes end ------------------------
-  # ------------------------ page dict start ------------------------
-  page_dict = {}
-  # ------------------------ page dict end ------------------------
-  # ------------------------ pull/create group start ------------------------
-  db_group_obj = pull_create_group_obj_function(current_user)
-  # ------------------------ pull/create group end ------------------------
-  # ------------------------ pull/create group settings activities start ------------------------
-  db_activity_settings_obj_trivia = pull_create_activity_a_settings_obj_function(current_user, 'trivia')
-  # ------------------------ pull/create group settings activities end ------------------------
-  # ------------------------ ensure all historical tests are closed start ------------------------
-  historical_activity_a_tests_were_closed = close_historical_activity_a_tests_function(current_user, 'trivia')
-  if historical_activity_a_tests_were_closed == True:
-    return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
-  # ------------------------ ensure all historical tests are closed end ------------------------
-  # ------------------------ delete all historical closed tests with 'No participation' start ------------------------
-  historical_activity_a_tests_were_deleted, page_dict = delete_historical_activity_a_tests_no_participation_function(current_user, 'trivia', page_dict)
-  if historical_activity_a_tests_were_deleted == True:
-    return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
-  # ------------------------ delete all historical closed tests with 'No participation' end ------------------------
-  # ------------------------ pull latest test start ------------------------
-  page_dict['first_activity_exists_trivia'] = False
-  db_tests_obj = pull_latest_activity_a_test_obj_function(current_user, 'trivia')
-  if db_tests_obj != None:
-    page_dict['first_activity_exists_trivia'] = True
-  # ------------------------ pull latest test end ------------------------
-  # ------------------------ latest test end time info start ------------------------
-  if page_dict['first_activity_exists_trivia'] == True:
-    start_month_day_str = convert_timestamp_to_month_day_string_function(db_tests_obj.start_timestamp)
-    end_month_day_str = convert_timestamp_to_month_day_string_function(db_tests_obj.end_timestamp)
-    page_dict['full_time_string_trivia'] = start_month_day_str + ', ' + db_tests_obj.start_time + ' - ' + end_month_day_str + ', ' + db_tests_obj.end_time + ' ' + db_tests_obj.timezone
-    page_dict['ending_time_string_trivia'] = end_month_day_str + ', ' + db_tests_obj.end_time + ' ' + db_tests_obj.timezone
-  # ------------------------ latest test end time info end ------------------------
-  # ------------------------ pull latest graded start ------------------------
-  page_dict['ui_latest_test_completed_trivia'] = False
-  try:
-    db_test_grading_obj = pull_latest_activity_a_test_graded_obj_function(db_tests_obj, current_user, 'trivia')
-    if db_test_grading_obj.status == 'complete':
-      page_dict['ui_latest_test_completed_trivia'] = True
-  except:
-    pass
-  # ------------------------ pull latest graded end ------------------------
-  # ------------------------ if latest closed then pull winner start ------------------------
-  page_dict['latest_test_is_closed_trivia'] = False
-  page_dict['latest_test_winner_trivia'] = ''
-  page_dict['latest_test_winner_score_trivia'] = float(0)
-  db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).first()
-  try:
-    db_tests_dict = arr_of_dict_all_columns_single_item_function(db_tests_obj)
-    if db_tests_dict['status'] == 'Closed':
-      page_dict['latest_test_is_closed_trivia'] = True
-    # ------------------------ winner start ------------------------
-    page_dict['latest_test_winner_trivia'], page_dict['latest_test_winner_score_trivia'] = get_test_winner(db_tests_dict['id'])
-    # ------------------------ winner end ------------------------
-    # ------------------------ if latest closed then pull next quiz open datetime start ------------------------
-    page_dict['next_quiz_open_string_trivia'] = get_next_quiz_open_function(current_user.group_id)
-    # ------------------------ if latest closed then pull next quiz open datetime end ------------------------
-  except:
-    pass
-  # ------------------------ if latest closed then pull winner end ------------------------
-  # ------------------------ stripe subscription status check start ------------------------
-  stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees', current_user.email)
-  page_dict['stripe_subscription_status'] = stripe_subscription_obj_status
-  # ------------------------ stripe subscription status check end ------------------------
-  # ------------------------ check if share with team email has been sent start ------------------------
-  output_subject = f"Successfully Verified Email"
-  db_email_obj = EmailSentObj.query.filter_by(to_email=current_user.email,subject=output_subject).first()
-  if db_email_obj == None or db_email_obj == []:
-    # ------------------------ send email start ------------------------
-    try:
-      guessed_name = breakup_email_function(current_user.email)
-      output_to_email = current_user.email
-      output_body = f"<p>Hi {guessed_name},</p>\
-                      <p>Thank you for creating an account with Triviafy!</p>\
-                      <p>Your team members can access the same team building activities <a href='https://triviafy.com/employees/signup'>here</a>, simply forward this email to your team.</p>\
-                      <p style='margin:0;'>Best,</p>\
-                      <p style='margin:0;'>Triviafy Support Team</p>"
-      send_email_template_function(output_to_email, output_subject, output_body)
-      # ------------------------ insert email to db start ------------------------
-      try:
-        new_row = EmailSentObj(
-          id = create_uuid_function('email_'),
-          created_timestamp = create_timestamp_function(),
-          from_user_id_fk = current_user.id,
-          to_email = output_to_email,
-          subject = output_subject,
-          body = output_body
-        )
-        db.session.add(new_row)
-        db.session.commit()
-      except:
-        pass
-      # ------------------------ insert email to db end ------------------------
-    except:
-      pass
-    # ------------------------ send email end ------------------------
-  # ------------------------ check if share with team email has been sent end ------------------------
-  # ------------------------ assign to dict start ------------------------
-  db_activity_settings_obj_trivia = ActivityASettingsObj.query.filter_by(fk_group_id=current_user.group_id,product='trivia').first()
-  db_activity_settings_dict_trivia = arr_of_dict_all_columns_single_item_function(db_activity_settings_obj_trivia)
-  # categories fix
-  categories_edit = db_activity_settings_dict_trivia['categories'].replace(',',', ')
-  db_activity_settings_dict_trivia['categories'] = categories_edit
-  page_dict['db_activity_settings_dict_trivia'] = db_activity_settings_dict_trivia
-  # ------------------------ assign to dict end ------------------------
-  localhost_print_function(' ------------- 0 - pre dashboard print start ------------- ')
-  for k,v in page_dict.items():
-    localhost_print_function(f"k: {k} | v: {v}")
-  localhost_print_function(' ------------- 0 - pre dashboard print end ------------- ')
-  # ------------------------ if post start ------------------------
-  if request.method == 'POST':
-    return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
-  # ------------------------ if post end ------------------------
-  # ------------------------ auto set cookie start ------------------------
-  get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
-  if get_cookie_value_from_browser != None:
-    redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
-    return render_template(template_location_url, user=current_user, alert_message_dict_to_html=alert_message_dict, page_dict_to_html=page_dict)
-  else:
-    browser_response = browser_response_set_cookie_function_v4(current_user, template_location_url, alert_message_dict, page_dict)
-    localhost_print_function(' ------------------------ login_dashboard_page_function END ------------------------ ')
-    return browser_response
-  # ------------------------ auto set cookie end ------------------------
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------

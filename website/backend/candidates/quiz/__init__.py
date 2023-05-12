@@ -63,13 +63,13 @@ def build_question_type_arr_function(input_type, input_total_questions):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
-def get_next_quiz_open_function(company_group_id):
+def get_next_quiz_open_function(company_group_id, activity_name):
   # ------------------------ get group settings start ------------------------
-  db_group_settings_obj = ActivityASettingsObj.query.filter_by(fk_group_id=company_group_id,product='trivia').order_by(ActivityASettingsObj.created_timestamp.desc()).first()
+  db_group_settings_obj = ActivityASettingsObj.query.filter_by(fk_group_id=company_group_id,product=activity_name).order_by(ActivityASettingsObj.created_timestamp.desc()).first()
   db_group_settings_dict = arr_of_dict_all_columns_single_item_function(db_group_settings_obj)
   # ------------------------ get group settings end ------------------------
   # ------------------------ get latest test start ------------------------
-  db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=company_group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).first()
+  db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=company_group_id,product=activity_name).order_by(ActivityATestObj.created_timestamp.desc()).first()
   db_tests_dict = arr_of_dict_all_columns_single_item_function(db_tests_obj)
   # ------------------------ get latest test end ------------------------
   # ------------------------ get next quiz open start ------------------------
