@@ -4,7 +4,7 @@ from website.backend.candidates.pull_create_logic import pull_create_activity_a_
 from website.backend.candidates.test_backend import get_test_winner, close_historical_activity_a_tests_function, delete_historical_activity_a_tests_no_participation_function
 from website.backend.candidates.datetime_manipulation import convert_timestamp_to_month_day_string_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
-from website.backend.candidates.quiz import get_next_quiz_open_function
+from website.backend.candidates.quiz import get_next_quiz_open_function, compare_candence_vs_previous_quiz_function_v2
 # ------------------------ imports end ------------------------
 
 # ------------------------ individual function start ------------------------
@@ -67,5 +67,10 @@ def activity_a_dashboard_function(current_user, page_dict, activity_name):
   except:
     pass
   # ------------------------ if latest closed then pull winner end ------------------------
+  # ------------------------ cadence check to see if a new activity should be created start ------------------------
+  page_dict['correct_cadence_generate_new_activity_'+activity_name] = False
+  if db_tests_obj != None:
+    page_dict['correct_cadence_generate_new_activity_'+activity_name] = compare_candence_vs_previous_quiz_function_v2(current_user, db_tests_obj, activity_name)
+  # ------------------------ cadence check to see if a new activity should be created end ------------------------
   return redirect_code, page_dict
 # ------------------------ individual function end ------------------------

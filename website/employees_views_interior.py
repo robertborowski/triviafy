@@ -26,7 +26,7 @@ from website.backend.candidates.string_manipulation import all_employee_question
 from website.backend.candidates.user_inputs import sanitize_char_count_1_function, sanitize_create_question_options_function, sanitize_create_question_categories_function, sanitize_create_question_question_function, sanitize_create_question_option_e_function, sanitize_create_question_answer_function, get_special_characters_function
 from website.backend.candidates.send_emails import send_email_template_function
 import os
-from website.backend.candidates.quiz import grade_quiz_function, pull_question_function
+from website.backend.candidates.quiz import grade_quiz_function, pull_question_function, create_quiz_function_v2, compare_candence_vs_previous_quiz_function_v2
 import json
 from datetime import datetime
 from website.backend.candidates.stripe import check_stripe_subscription_status_function_v2, convert_current_period_end_function
@@ -38,7 +38,6 @@ from website.backend.candidates.string_manipulation import breakup_email_functio
 from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function, get_marketing_list_function
 from website.backend.candidates.dropdowns import get_dropdowns_trivia_function
 from website.backend.candidates.pull_create_logic import pull_create_group_obj_function, pull_latest_activity_a_test_obj_function
-from website.backend.candidates.quiz import create_quiz_function_v2
 from website.backend.candidates.activity_supporting import activity_a_dashboard_function
 from website.backend.candidates.emailing import email_share_with_team_function
 # ------------------------ imports end ------------------------
@@ -307,9 +306,10 @@ def create_activity_a_function(url_activity_code=None):
     return redirect(url_for('employees_views_interior.activity_a_contest_function'))
   # ------------------------ if none yet created then create immediately + redirect end ------------------------
   else:
-    # ------------------------ cadence check to see if a test should be created start ------------------------
-    pass
-    # ------------------------ cadence check to see if a test should be created end ------------------------
+    activity_cadence_check = compare_candence_vs_previous_quiz_function_v2(current_user, db_tests_obj, url_activity_code)
+    if activity_cadence_check == True:
+      create_quiz_function_v2(group_id=current_user.group_id, activity_name=url_activity_code)
+      return redirect(url_for('employees_views_interior.activity_a_contest_function'))
   return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
 # ------------------------ individual route end ------------------------
 
@@ -515,6 +515,10 @@ def activity_a_settings_function(url_activity_code=None, url_redirect_code=None)
     if settings_change_occured == False:
       return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='i1'))
     # ------------------------ if no change in settings end ------------------------
+  localhost_print_function(' ------------- 100 ------------- ')
+  for k,v in page_dict.items():
+    localhost_print_function(f"k: {k} | v: {v}")
+  localhost_print_function(' ------------- 100 ------------- ')
   return render_template('employees/interior/schedule/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
 

@@ -14,6 +14,7 @@ from datetime import date, timedelta, datetime
 import difflib
 import json
 from website.backend.candidates.send_emails import send_email_template_function
+from website.backend.candidates.pull_create_logic import pull_create_activity_a_settings_obj_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ Set Timezone START ------------------------
@@ -103,6 +104,41 @@ def compare_candence_vs_previous_quiz_function(db_group_settings_dict, db_tests_
   # ------------------------ all tests type conversion end ------------------------
   # ------------------------ latest test checks start ------------------------
   latest_test_dict = tests_arr_of_dicts[0]
+  latest_test_start_date = latest_test_dict['start_timestamp'].date()
+  latest_test_end_date = latest_test_dict['end_timestamp'].date()
+  latest_test_dates_of_week_start_arr = get_week_dates_function(latest_test_start_date)
+  latest_test_dates_of_week_end_arr = get_week_dates_function(latest_test_end_date)
+  todays_date = date.today()
+  if todays_date in latest_test_dates_of_week_start_arr or todays_date in latest_test_dates_of_week_end_arr:
+    return False
+  else:
+    if desired_cadence == 'Weekly':
+      return True
+    if desired_cadence == 'Biweekly' or desired_cadence == 'Monthly':
+      monday_of_lastest_test_end_week = latest_test_dates_of_week_end_arr[0]    # 'datetime.date' | 2023-02-06
+      if desired_cadence == 'Biweekly':
+        should_be_this_weeks_monday = monday_of_lastest_test_end_week + timedelta(days=14)  # 'datetime.date' | 2023-02-20
+      if desired_cadence == 'Monthly':
+        should_be_this_weeks_monday = monday_of_lastest_test_end_week + timedelta(days=28)  # 'datetime.date' | 2023-02-20
+      should_be_dates_of_week_arr = get_week_dates_function(should_be_this_weeks_monday)
+      if todays_date in should_be_dates_of_week_arr or todays_date >= max(should_be_dates_of_week_arr):
+        return True
+  # ------------------------ latest test checks end ------------------------
+  return False
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def compare_candence_vs_previous_quiz_function_v2(current_user, db_tests_obj, activity_name):
+  # ------------------------ get group activity settings start ------------------------
+  db_activity_settings_obj = pull_create_activity_a_settings_obj_function(current_user, activity_name)
+  db_activity_settings_dict = arr_of_dict_all_columns_single_item_function(db_activity_settings_obj)
+  # ------------------------ get group activity settings end ------------------------
+  # ------------------------ desired start ------------------------
+  desired_start_day = db_activity_settings_dict['start_day']
+  desired_cadence = db_activity_settings_dict['cadence']
+  # ------------------------ desired end ------------------------
+  # ------------------------ latest test checks start ------------------------
+  latest_test_dict = arr_of_dict_all_columns_single_item_function(db_tests_obj)
   latest_test_start_date = latest_test_dict['start_timestamp'].date()
   latest_test_end_date = latest_test_dict['end_timestamp'].date()
   latest_test_dates_of_week_start_arr = get_week_dates_function(latest_test_start_date)
