@@ -8,9 +8,27 @@ from website import db
 # ------------------------ imports end ------------------------
 
 # ------------------------ individual function start ------------------------
+def get_all_users_company_name_function(current_user):
+  db_all_users_obj = UserObj.query.filter_by(company_name=current_user.company_name).order_by(UserObj.created_timestamp.desc()).all()
+  return db_all_users_obj
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def user_must_have_group_id_function(current_user):
+  if current_user.group_id == None or current_user.group_id == '':
+    db_all_users_obj = get_all_users_company_name_function(current_user)
+    for i_obj in db_all_users_obj:
+      if i_obj.group_id != None and i_obj.group_id != '':
+        latest_group_id = i_obj.group_id
+        current_user.group_id = latest_group_id
+        db.session.commit()
+  return True
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
 def pull_create_group_id_function(current_user):
   # ------------------------ if team member with group id exists start ------------------------
-  db_all_users_obj = UserObj.query.filter_by(company_name=current_user.company_name).all()
+  db_all_users_obj = get_all_users_company_name_function(current_user)
   for i_user_obj in db_all_users_obj:
     if i_user_obj.group_id != None and i_user_obj.group_id != '':
       return i_user_obj.group_id
@@ -32,29 +50,30 @@ def pull_create_group_obj_function(current_user):
   db_group_obj = GroupObj.query.filter_by(public_group_id=current_user.group_id).first()
   if db_group_obj == None or db_group_obj == []:
     # ------------------------ insert to db start ------------------------
-    try:
-      new_row = GroupObj(
-        id = create_uuid_function('group_'),
-        created_timestamp = create_timestamp_function(),
-        fk_company_name = current_user.company_name,
-        fk_user_id = current_user.id,
-        public_group_id = current_user.group_id,
-        status = 'active',
-        trivia = True,
-        picture_quiz = False,
-        birthday_questions = False,
-        icebreakers = False,
-        surveys = False,
-        personality_test = False,
-        this_or_that = False,
-        most_likely_to = False,
-        giftcard = False
-      )
-      db.session.add(new_row)
-      db.session.commit()
-    except:
-      pass
-    db_group_obj = GroupObj.query.filter_by(public_group_id=current_user.group_id).first()
+    if current_user.group_id != None and current_user.group_id != '':
+      try:
+        new_row = GroupObj(
+          id = create_uuid_function('group_'),
+          created_timestamp = create_timestamp_function(),
+          fk_company_name = current_user.company_name,
+          fk_user_id = current_user.id,
+          public_group_id = current_user.group_id,
+          status = 'active',
+          trivia = True,
+          picture_quiz = False,
+          birthday_questions = False,
+          icebreakers = False,
+          surveys = False,
+          personality_test = False,
+          this_or_that = False,
+          most_likely_to = False,
+          giftcard = False
+        )
+        db.session.add(new_row)
+        db.session.commit()
+      except:
+        pass
+      db_group_obj = GroupObj.query.filter_by(public_group_id=current_user.group_id).first()
     # ------------------------ insert to db end ------------------------
   return db_group_obj
 # ------------------------ individual function end ------------------------

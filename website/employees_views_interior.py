@@ -37,7 +37,7 @@ from website.backend.candidates.aws_manipulation import candidates_change_upload
 from website.backend.candidates.string_manipulation import breakup_email_function
 from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function, get_marketing_list_function
 from website.backend.candidates.dropdowns import get_dropdowns_trivia_function
-from website.backend.candidates.pull_create_logic import pull_create_group_obj_function, pull_latest_activity_a_test_obj_function
+from website.backend.candidates.pull_create_logic import pull_create_group_obj_function, pull_latest_activity_a_test_obj_function, user_must_have_group_id_function
 from website.backend.candidates.activity_supporting import activity_a_dashboard_function
 from website.backend.candidates.emailing import email_share_with_team_function
 # ------------------------ imports end ------------------------
@@ -97,6 +97,9 @@ def login_dashboard_page_function(url_redirect_code=None):
   # ------------------------ page dict start ------------------------
   page_dict = {}
   # ------------------------ page dict end ------------------------
+  # ------------------------ user must have a group id start ------------------------
+  user_must_have_group_id_function(current_user)
+  # ------------------------ user must have a group id end ------------------------
   # ------------------------ pull/create group start ------------------------
   db_group_obj = pull_create_group_obj_function(current_user)
   # ------------------------ pull/create group end ------------------------
