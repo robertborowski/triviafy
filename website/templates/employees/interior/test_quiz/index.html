@@ -103,7 +103,7 @@
                 {% endfor %}
                 <!-- ------------------------------------- discard quiz categories for new categories start ------------------------------------- -->
                 {% if page_dict_to_html['first_user_latest_quiz_can_replace'] == true and page_dict_to_html['view_as_archive'] == false %}
-                  <a href="/activity/a/trivia/fufq_remove"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete this entire quiz and select new categories. Everyone on your team can edit this test until at least one person answers all questions."><span class="btn btn-outline-danger btn-sm">Change categories</span></a>
+                  <a href="/activity/a/trivia/fufq_remove"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete this entire quiz and select new categories. Everyone on your team can edit this test until at least one person answers all questions."><span class="btn btn-danger btn-sm">Change categories</span></a>
                 {% else %}
                 {% endif %}
                 <!-- ------------------------------------- discard quiz categories for new categories end ------------------------------------- -->

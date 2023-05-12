@@ -110,7 +110,7 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
                     FROM \
                       activity_a_created_questions_obj \
                     WHERE \
-                      status = TRUE AND product='employees' \
+                      status = TRUE AND product='trivia' \
                       AND ({additional_input}) \
                       AND id NOT IN (SELECT fk_question_id FROM activity_a_group_questions_used_obj WHERE fk_group_id='{additional_input3}') \
                     ORDER BY \
@@ -124,7 +124,7 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
                     FROM \
                       activity_a_created_questions_obj \
                     WHERE \
-                      status = TRUE AND product='employees' \
+                      status = TRUE AND product='trivia' \
                       AND id NOT IN (SELECT fk_question_id FROM activity_a_group_questions_used_obj WHERE fk_group_id='{additional_input2}') {additional_input3} \
                     ORDER BY \
                       RANDOM() \
@@ -164,7 +164,7 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
                     FROM \
                       activity_a_created_questions_obj \
                     WHERE \
-                      status = TRUE AND product='employees' \
+                      status = TRUE AND product='trivia' \
                       AND id NOT IN (SELECT fk_question_id FROM activity_a_group_questions_used_obj WHERE fk_group_id='{additional_input2}') \
                     ORDER BY \
                       RANDOM() \
