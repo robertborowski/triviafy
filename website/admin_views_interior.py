@@ -14,7 +14,7 @@ from flask_login import login_required, current_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
-from website.models import ActivityAGroupQuestionsUsedObj, ActivityASettingsObj, GroupObj, ActivityATestGradedObj, ActivityATestObj, UserObj, ZDontDeleteTableObj, StripeCheckoutSessionObj, EmailDeletedObj, EmailSentObj, EmailCollectObj, UserFeatureRequestObj, EmailScrapedObj, UserSignupFeedbackObj, UserBirthdayObj
+from website.models import ActivityAGroupQuestionsUsedObj, ActivityASettingsObj, GroupObj, ActivityATestGradedObj, ActivityATestObj, UserObj, ZDontDeleteTableObj, StripeCheckoutSessionObj, EmailDeletedObj, EmailSentObj, EmailCollectObj, UserFeatureRequestObj, EmailScrapedObj, UserSignupFeedbackObj, UserBirthdayObj, UserDesiredCategoriesObj
 import os
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from website.backend.candidates.sql_statements.sql_statements_select_general_v1_jobs import select_general_v1_jobs_function
@@ -41,7 +41,6 @@ redis_connection = redis_connect_to_database_function()
 @admin_views_interior.route('/admin/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
 def admin_dashboard_page_function(url_redirect_code=None):
-  localhost_print_function(' ------------------------ admin_dashboard_page_function start ------------------------ ')
   # ------------------------ ensure correct email start ------------------------
   if current_user.email != os.environ.get('RUN_TEST_EMAIL'):
     return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='e9'))
@@ -85,7 +84,6 @@ def admin_dashboard_page_function(url_redirect_code=None):
     return redirect(url_for('admin_views_interior.admin_dashboard_page_function', url_redirect_code='s10'))
     # ------------------------ insert email to db end ------------------------
   # ------------------------ add scraped email end ------------------------
-  localhost_print_function(' ------------------------ admin_dashboard_page_function end ------------------------ ')
   return render_template('admin_page/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
 
@@ -94,7 +92,6 @@ def admin_dashboard_page_function(url_redirect_code=None):
 @admin_views_interior.route('/admin/d/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
 def admin_delete_page_function(url_redirect_code=None):
-  localhost_print_function(' ------------------------ admin_delete_page_function start ------------------------ ')
   # ------------------------ ensure correct email start ------------------------
   if current_user.email != os.environ.get('RUN_TEST_EMAIL'):
     return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='e9'))
@@ -115,12 +112,30 @@ def admin_delete_page_function(url_redirect_code=None):
     # ------------------------ DeleteOneGroupAllEmployeesTables start ------------------------
     group_to_delete = request.form.get('DeleteOneGroupAllEmployeesTables')
     if group_to_delete != None:
-      ActivityASettingsObj.query.filter_by(fk_group_id=group_to_delete).delete()
-      UserFeatureRequestObj.query.filter_by(fk_group_id=group_to_delete).delete()
-      ActivityAGroupQuestionsUsedObj.query.filter_by(fk_group_id=group_to_delete).delete()
-      ActivityATestGradedObj.query.filter_by(fk_group_id=group_to_delete).delete()
-      ActivityATestObj.query.filter_by(fk_group_id=group_to_delete).delete()
-      GroupObj.query.filter_by(public_group_id=group_to_delete).delete()
+      try:
+        ActivityAGroupQuestionsUsedObj.query.filter_by(fk_group_id=group_to_delete).delete()
+      except:
+        pass
+      try:
+        ActivityASettingsObj.query.filter_by(fk_group_id=group_to_delete).delete()
+      except:
+        pass
+      try:
+        ActivityATestGradedObj.query.filter_by(fk_group_id=group_to_delete).delete()
+      except:
+        pass
+      try:
+        ActivityATestObj.query.filter_by(fk_group_id=group_to_delete).delete()
+      except:
+        pass
+      try:
+        GroupObj.query.filter_by(public_group_id=group_to_delete).delete()
+      except:
+        pass
+      try:
+        UserFeatureRequestObj.query.filter_by(fk_group_id=group_to_delete).delete()
+      except:
+        pass
       db.session.commit()
       return redirect(url_for('admin_views_interior.admin_delete_page_function', url_redirect_code='w1'))
     # ------------------------ DeleteOneGroupAllEmployeesTables end ------------------------
@@ -159,38 +174,96 @@ def admin_delete_page_function(url_redirect_code=None):
       if len(db_all_users_obj) == 1:
         # ------------------------ if user is the only one from company start ------------------------
         try:
-          db_group_obj = GroupObj.query.filter_by(fk_company_name=db_users_dict['company_name']).all()
-          for i_group_obj in db_group_obj:
-            db_group_dict = arr_of_dict_all_columns_single_item_function(i_group_obj)
-            group_to_delete = db_group_dict['public_group_id']
-            UserBirthdayObj.query.filter_by(fk_user_id=db_users_dict['id']).delete()
-            EmailSentObj.query.filter_by(to_email=user_to_delete).delete()
-            UserFeatureRequestObj.query.filter_by(fk_group_id=group_to_delete).delete()
-            UserSignupFeedbackObj.query.filter_by(fk_email=user_to_delete).delete()
+          group_to_delete = db_users_dict['group_id']
+          try:
             ActivityAGroupQuestionsUsedObj.query.filter_by(fk_group_id=group_to_delete).delete()
+          except:
+            pass
+          try:
             ActivityASettingsObj.query.filter_by(fk_group_id=group_to_delete).delete()
-            GroupObj.query.filter_by(public_group_id=group_to_delete).delete()
+          except:
+            pass
+          try:
             ActivityATestGradedObj.query.filter_by(fk_group_id=group_to_delete).delete()
+          except:
+            pass
+          try:
             ActivityATestObj.query.filter_by(fk_group_id=group_to_delete).delete()
+          except:
+            pass
+          try:
+            EmailSentObj.query.filter_by(to_email=user_to_delete).delete()
+          except:
+            pass
+          try:
+            GroupObj.query.filter_by(public_group_id=group_to_delete).delete()
+          except:
+            pass
+          try:
+            StripeCheckoutSessionObj.query.filter_by(fk_user_id=db_users_dict['id']).delete()
+          except:
+            pass
+          try:
+            UserBirthdayObj.query.filter_by(fk_user_id=db_users_dict['id']).delete()
+          except:
+            pass
+          try:
+            UserDesiredCategoriesObj.query.filter_by(fk_user_id=db_users_dict['id']).delete()
+          except:
+            pass
+          try:
+            UserFeatureRequestObj.query.filter_by(fk_user_id=db_users_dict['id']).delete()
+          except:
+            pass
+          try:
+            UserObj.query.filter_by(id=db_users_dict['id']).delete()
+          except:
+            pass
+          try:
+            UserSignupFeedbackObj.query.filter_by(fk_email=user_to_delete).delete()
+          except:
+            pass
         except:
           pass
         # ------------------------ if user is the only one from company end ------------------------
       # ------------------------ delete from employees tables end ------------------------
       elif len(db_all_users_obj) > 1:
         try:
-          db_group_obj = GroupObj.query.filter_by(fk_company_name=db_users_dict['company_name']).all()
-          for i_group_obj in db_group_obj:
-            db_group_dict = arr_of_dict_all_columns_single_item_function(i_group_obj)
-            group_to_delete = db_group_dict['public_group_id']
-            UserBirthdayObj.query.filter_by(fk_user_id=db_users_dict['id']).delete()
-            EmailSentObj.query.filter_by(to_email=user_to_delete).delete()
-            UserSignupFeedbackObj.query.filter_by(fk_email=user_to_delete).delete()
+          try:
             ActivityATestGradedObj.query.filter_by(fk_user_id=db_users_dict['id']).delete()
+          except:
+            pass
+          try:
+            EmailSentObj.query.filter_by(to_email=user_to_delete).delete()
+          except:
+            pass
+          try:
+            StripeCheckoutSessionObj.query.filter_by(fk_user_id=db_users_dict['id']).delete()
+          except:
+            pass
+          try:
+            UserBirthdayObj.query.filter_by(fk_user_id=db_users_dict['id']).delete()
+          except:
+            pass
+          try:
+            UserDesiredCategoriesObj.query.filter_by(fk_user_id=db_users_dict['id']).delete()
+          except:
+            pass
+          try:
+            UserFeatureRequestObj.query.filter_by(fk_user_id=db_users_dict['id']).delete()
+          except:
+            pass
+          try:
+            UserObj.query.filter_by(id=db_users_dict['id']).delete()
+          except:
+            pass
+          try:
+            UserSignupFeedbackObj.query.filter_by(fk_email=user_to_delete).delete()
+          except:
+            pass
         except:
           pass
       # ------------------------ delete from user table start ------------------------
-      StripeCheckoutSessionObj.query.filter_by(fk_user_id=db_users_dict['id']).delete()
-      UserObj.query.filter_by(id=db_users_dict['id']).delete()
       # ------------------------ add unique removed email to db start ------------------------
       try:
         new_row = EmailDeletedObj(
@@ -244,7 +317,6 @@ def admin_delete_page_function(url_redirect_code=None):
       # ------------------------ delete from redis end ------------------------
       return redirect(url_for('admin_views_interior.admin_delete_page_function', url_redirect_code='w1'))
     # ------------------------ DeleteRedisDeletedCookies end ------------------------
-  localhost_print_function(' ------------------------ admin_delete_page_function end ------------------------ ')
   return render_template('admin_page/delete/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
 
@@ -253,7 +325,6 @@ def admin_delete_page_function(url_redirect_code=None):
 @admin_views_interior.route('/admin/a/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
 def admin_analytics_page_function(url_redirect_code=None):
-  localhost_print_function(' ------------------------ admin_analytics_page_function start ------------------------ ')
   # ------------------------ ensure correct email start ------------------------
   if current_user.email != os.environ.get('RUN_TEST_EMAIL'):
     return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='e9'))
@@ -508,6 +579,5 @@ def admin_analytics_page_function(url_redirect_code=None):
       return redirect(url_for('admin_views_interior.admin_analytics_page_function', url_redirect_code='s7'))
     # ------------------------ ScrapedEmailsTryProduct end ------------------------
   # ------------------------ post method end ------------------------
-  localhost_print_function(' ------------------------ admin_analytics_page_function end ------------------------ ')
   return render_template('admin_page/analytics/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
