@@ -107,10 +107,13 @@ def login_dashboard_page_function(url_redirect_code=None):
   if request.method == 'POST':
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ if post end ------------------------
-  localhost_print_function(' ------------- 0 - pre dashboard print start ------------- ')
+  localhost_print_function(' ------------- 100 - pre dashboard print start ------------- ')
+  page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
   for k,v in page_dict.items():
     localhost_print_function(f"k: {k} | v: {v}")
-  localhost_print_function(' ------------- 0 - pre dashboard print end ------------- ')
+  localhost_print_function(' --- ')
+  localhost_print_function(len(page_dict.keys()))
+  localhost_print_function(' ------------- 100 - pre dashboard print end ------------- ')
   # ------------------------ for setting cookie start ------------------------
   template_location_url = 'employees/interior/dashboard/index.html'
   # ------------------------ for setting cookie end ------------------------
