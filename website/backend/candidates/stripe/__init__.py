@@ -34,7 +34,7 @@ def check_stripe_subscription_status_function_v2(current_user, product, attempti
     # ------------------------ loop through whole team's subscription status start ------------------------
     try:
       db_user_obj = UserObj.query.filter_by(email=attempting_user).first()
-      db_users_obj = UserObj.query.filter_by(company_name=db_user_obj.company_name).all()
+      db_users_obj = UserObj.query.filter_by(group_id=db_user_obj.group_id).all()
       for i_user in db_users_obj:
         if i_user.employees_fk_stripe_subscription_id != None and i_user.employees_fk_stripe_subscription_id != '':
           fk_stripe_subscription_id = i_user.employees_fk_stripe_subscription_id
@@ -50,13 +50,10 @@ def check_stripe_subscription_status_function_v2(current_user, product, attempti
     stripe_subscription_obj_status = stripe_subscription_obj.status
   except:
     pass
-  # ------------------------ delete this, only for testing start ------------------------
-  # stripe_subscription_obj_status = 'active'
-  # ------------------------ delete this, only for testing end ------------------------
-  # ------------------------ only approved email start ------------------------
+  # ------------------------ auto subscribed email list start ------------------------
   if attempting_user == os.environ.get('RUN_TEST_EMAIL'):
     stripe_subscription_obj_status = 'active'
-  # ------------------------ only approved email end ------------------------
+  # ------------------------ auto subscribed email list end ------------------------
   # ------------------------ stripe subscription status check end ------------------------
   return stripe_subscription_obj_status
 # ------------------------ individual function end ------------------------
