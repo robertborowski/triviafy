@@ -96,7 +96,7 @@ def login_dashboard_page_function(url_redirect_code=None):
   # ------------------------ pull/create group end ------------------------
   # ------------------------ stripe subscription status check start ------------------------
   stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees', current_user.email)
-  page_dict['stripe_subscription_status'] = stripe_subscription_obj_status
+  page_dict['group_stripe_status'] = stripe_subscription_obj_status
   # ------------------------ stripe subscription status check end ------------------------
   # ------------------------ dashboard supporting start ------------------------
   redirect_code, page_dict = activity_a_dashboard_function(current_user, page_dict, 'trivia')
@@ -312,9 +312,11 @@ def create_activity_a_function(url_activity_code=None):
 
 # ------------------------ individual route start ------------------------
 @employees_views_interior.route('/employees/request', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/request/<url_redirect_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/request/<url_activity_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/request/<url_activity_code>/<url_redirect_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/request/<url_redirect_code>/<url_activity_code>', methods=['GET', 'POST'])
 @login_required
-def employees_categories_request_function(url_redirect_code=None):
+def employees_categories_request_function(url_redirect_code=None, url_activity_code=None):
   localhost_print_function(' ------------------------ employees_categories_request_function START ------------------------ ')
   # ------------------------ page dict start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
@@ -324,12 +326,12 @@ def employees_categories_request_function(url_redirect_code=None):
   # ------------------------ pull/create latest test start ------------------------
   user_group_id = GroupObj.query.filter_by(fk_company_name=current_user.company_name).order_by(GroupObj.created_timestamp.desc()).first()
   db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=user_group_id.public_group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).first()
-  first_activity_exists_trivia = False
+  first_activity_check = False
   if db_tests_obj == None or db_tests_obj == []:
     pass
   else:
-    first_activity_exists_trivia = True
-  page_dict['first_activity_exists_trivia'] = first_activity_exists_trivia
+    first_activity_check = True
+  page_dict[url_activity_code+'_first_created'] = first_activity_check
   # ------------------------ pull/create latest test end ------------------------
   # ------------------------ if post method hit start ------------------------
   ui_requested = ''
@@ -392,12 +394,12 @@ def activity_a_settings_function(url_activity_code=None, url_redirect_code=None)
   # ------------------------ get current group settings end ------------------------
   # ------------------------ pull/create latest test start ------------------------
   db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=user_group_id.public_group_id,product=url_activity_code).order_by(ActivityATestObj.created_timestamp.desc()).first()
-  first_activity_exists_trivia = False
+  first_activity_check = False
   if db_tests_obj == None or db_tests_obj == []:
     pass
   else:
-    first_activity_exists_trivia = True
-  page_dict['first_activity_exists_trivia'] = first_activity_exists_trivia
+    first_activity_check = True
+  page_dict[url_activity_code+'_first_created'] = first_activity_check
   # ------------------------ pull/create latest test end ------------------------
   # ------------------------ get all categories start ------------------------
   query_result_arr_of_dicts = select_general_function('select_all_employees_categories_v1')
@@ -746,7 +748,7 @@ def activity_a_contest_function(url_redirect_code=None, url_test_id=None, url_qu
   # ------------------------ archive logic end ------------------------
   # ------------------------ stripe subscription status check start ------------------------
   stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees', current_user.email)
-  page_dict['stripe_subscription_status'] = stripe_subscription_obj_status
+  page_dict['group_stripe_status'] = stripe_subscription_obj_status
   # ------------------------ stripe subscription status check end ------------------------
   if page_dict['view_as_archive'] == False: # no user inputs should be accepted since this test is closed.
     # ------------------------ ui post start ------------------------
@@ -949,7 +951,7 @@ def employees_account_function(url_redirect_code=None):
   # ------------------------ page dict end ------------------------
   # ------------------------ stripe subscription status check start ------------------------
   stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees', current_user.email)
-  page_dict['stripe_subscription_status'] = stripe_subscription_obj_status
+  page_dict['group_stripe_status'] = stripe_subscription_obj_status
   # ------------------------ stripe subscription status check end ------------------------
   # ------------------------ get current plan from stripe start ------------------------
   current_plan_type = 'Free'
@@ -1113,10 +1115,10 @@ def employees_feature_function(url_redirect_code=None, url_feature_request_code=
   # ------------------------ page dict end ------------------------
   # ------------------------ stripe subscription status check start ------------------------
   stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees', current_user.email)
-  page_dict['stripe_subscription_status'] = stripe_subscription_obj_status
+  page_dict['group_stripe_status'] = stripe_subscription_obj_status
   # ------------------------ stripe subscription status check end ------------------------
   # ------------------------ non subscribed users should not see this page start ------------------------
-  if page_dict['stripe_subscription_status'] != 'active' or url_feature_request_code == None:
+  if page_dict['group_stripe_status'] != 'active' or url_feature_request_code == None:
     return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='e13'))
   # ------------------------ non subscribed users should not see this page end ------------------------
   # ------------------------ set feature request start ------------------------
@@ -1168,10 +1170,10 @@ def employees_questions_function(url_redirect_code=None):
   # ------------------------ page dict end ------------------------
   # ------------------------ stripe subscription status check start ------------------------
   stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees', current_user.email)
-  page_dict['stripe_subscription_status'] = stripe_subscription_obj_status
+  page_dict['group_stripe_status'] = stripe_subscription_obj_status
   # ------------------------ stripe subscription status check end ------------------------
   # ------------------------ redirect if not subscribed start ------------------------
-  if page_dict['stripe_subscription_status'] != 'active':
+  if page_dict['group_stripe_status'] != 'active':
     return redirect(url_for('employees_views_interior.employees_account_function', url_redirect_code='e14'))
   # ------------------------ redirect if not subscribed end ------------------------
   db_groups_obj = GroupObj.query.filter_by(fk_company_name=current_user.company_name).first()
@@ -1219,10 +1221,10 @@ def employees_create_question_v3_function(url_redirect_code=None):
   # ------------------------ page dict end ------------------------
   # ------------------------ stripe subscription status check start ------------------------
   stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees', current_user.email)
-  page_dict['stripe_subscription_status'] = stripe_subscription_obj_status
+  page_dict['group_stripe_status'] = stripe_subscription_obj_status
   # ------------------------ stripe subscription status check end ------------------------
   # ------------------------ redirect if not subscribed start ------------------------
-  if page_dict['stripe_subscription_status'] != 'active':
+  if page_dict['group_stripe_status'] != 'active':
     return redirect(url_for('employees_views_interior.employees_account_function', url_redirect_code='e14'))
   # ------------------------ redirect if not subscribed end ------------------------
   page_dict['user_company_name'] = current_user.company_name
@@ -1353,10 +1355,10 @@ def employees_preview_question_function(url_redirect_code=None, url_question_id=
   # ------------------------ page dict end ------------------------
   # ------------------------ stripe subscription status check start ------------------------
   stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees', current_user.email)
-  page_dict['stripe_subscription_status'] = stripe_subscription_obj_status
+  page_dict['group_stripe_status'] = stripe_subscription_obj_status
   # ------------------------ stripe subscription status check end ------------------------
   # ------------------------ redirect if not subscribed start ------------------------
-  if page_dict['stripe_subscription_status'] != 'active':
+  if page_dict['group_stripe_status'] != 'active':
     return redirect(url_for('employees_views_interior.employees_account_function', url_redirect_code='e14'))
   # ------------------------ redirect if not subscribed end ------------------------
   # ------------------------ redirect if question id none start ------------------------

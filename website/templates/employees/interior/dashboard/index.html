@@ -57,30 +57,30 @@
           <div class="custom-border-9 custom-br-1 custom-p-1 custom-mb-6 custom-bg-color-8">
             <h3 class="custom-ml-1 custom-mb-6">Status & participation</h3>
             <!-- ------------------------------------- latest test logic start ------------------------------------- -->
-            {% if page_dict_to_html['first_activity_exists_trivia'] == false %}
+            {% if page_dict_to_html['trivia_first_created'] == false %}
               <p class="custom-line-2"><a href="/create/activity/trivia" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status</span></a> <a href="/create/activity/trivia" class="btn btn-success btn-lg">Generate first contest now <i class="fa-solid fa-wand-magic-sparkles"></i></a></p>
             {% endif %}
-            {% if page_dict_to_html['first_activity_exists_trivia'] == true %}
-              {% if page_dict_to_html['latest_test_is_closed_trivia'] == false %}
+            {% if page_dict_to_html['trivia_first_created'] == true %}
+              {% if page_dict_to_html['trivia_latest_closed'] == false %}
                   {% if page_dict_to_html['ui_latest_test_completed_trivia'] == true %}
                     <p class="custom-line-2"><a href="/activity/a/trivia" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status</span></a> <a href="/activity/a/trivia" class="btn btn-success btn-lg">Edit my answers <i class="fa-solid fa-arrow-right"></i></a></p>
                   {% else %}
                     <p class="custom-line-2"><a href="/activity/a/trivia" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status</span></a> Your team's trivia activity is now open! <a href="/activity/a/trivia" class="btn btn-success btn-lg custom-ml-1">Submit your answers <i class="fa-solid fa-arrow-right"></i></a></p>
                   {% endif %}
               {% endif %}
-              {% if page_dict_to_html['latest_test_is_closed_trivia'] == true %}
+              {% if page_dict_to_html['trivia_latest_closed'] == true %}
                 {% if page_dict_to_html['latest_test_winner'] == '' %}
                   <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status</span> Closed, no one on your team participated.</p>
                 {% else %}
-                  <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status</span> <span class="btn btn-success btn-lg custom-mr-1">&#127881; Winner: {{ page_dict_to_html['latest_test_winner'] }} | Score: {{ page_dict_to_html['latest_test_winner_score_trivia'] }}%</span></p>
+                  <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status</span> <span class="btn btn-success btn-lg custom-mr-1">&#127881; Winner: {{ page_dict_to_html['latest_test_winner'] }} | Score: {{ page_dict_to_html['trivia_latest_winner_score'] }}%</span></p>
                   <p class="custom-line-2"><a href="/activity/a/trivia/" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Review</span></a> <a href="/activity/a/trivia/" class="custom-a-2">View all team responses</a></p>
                 {% endif %}
               {% endif %}
             {% endif %}
-            {% if 'ending_time_string_trivia' in page_dict_to_html %}
-              <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Activity close</span> {{ page_dict_to_html['ending_time_string_trivia'] }}</p>
+            {% if page_dict_to_html['trivia_participation_end'] != false %}
+              <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Activity close</span> {{ page_dict_to_html['trivia_participation_end'] }}</p>
             {% endif %}
-            {% if page_dict_to_html['correct_cadence_generate_new_activity_trivia'] == true %}
+            {% if page_dict_to_html['trivia_cadence_valid'] == true %}
               <p class="custom-line-2"><a href="/create/activity/trivia" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">New contest open</span></a> <a href="/create/activity/trivia" class="btn btn-primary btn-lg">Complete next contest <i class="fa-solid fa-arrow-right"></i></a></p>
             {% endif %}
             <!-- ------------------------------------- latest test logic end ------------------------------------- -->
@@ -89,16 +89,16 @@
           <!-- ------------------------------------- settings start ------------------------------------- -->
           <div class="custom-border-9 custom-br-1 custom-p-1 custom-mb-6 custom-bg-color-6">
             <h3 class="custom-ml-1 custom-mb-6">Settings</h3>
-            <p class="custom-line-2"><a href="/activity/a/settings/trivia" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-5 custom-color-6 custom-mr-1">Cadence</span></a> <a href="/activity/a/settings/trivia" class="custom-a-2">{{ page_dict_to_html['db_activity_settings_dict_trivia']['total_questions'] }} trivia questions, sent {{ page_dict_to_html['db_activity_settings_dict_trivia']['cadence'].lower() }}. Activity opens {{ page_dict_to_html['db_activity_settings_dict_trivia']['start_day'] }}'s at {{ page_dict_to_html['db_activity_settings_dict_trivia']['start_time'] }} and closes {{ page_dict_to_html['db_activity_settings_dict_trivia']['end_day'] }}'s at {{ page_dict_to_html['db_activity_settings_dict_trivia']['end_time'] }}, {{ page_dict_to_html['db_activity_settings_dict_trivia']['timezone'] }} <span class="custom-ml-1"></a></span></p>
-            {% if page_dict_to_html['db_activity_settings_dict_trivia']['categories'] == 'all_categories' %}
+            <p class="custom-line-2"><a href="/activity/a/settings/trivia" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-5 custom-color-6 custom-mr-1">Cadence</span></a> <a href="/activity/a/settings/trivia" class="custom-a-2">{{ page_dict_to_html['trivia_settings_dict']['total_questions'] }} trivia questions, sent {{ page_dict_to_html['trivia_settings_dict']['cadence'].lower() }}. Activity opens {{ page_dict_to_html['trivia_settings_dict']['start_day'] }}'s at {{ page_dict_to_html['trivia_settings_dict']['start_time'] }} and closes {{ page_dict_to_html['trivia_settings_dict']['end_day'] }}'s at {{ page_dict_to_html['trivia_settings_dict']['end_time'] }}, {{ page_dict_to_html['trivia_settings_dict']['timezone'] }} <span class="custom-ml-1"></a></span></p>
+            {% if page_dict_to_html['trivia_settings_dict']['categories'] == 'all_categories' %}
               <p class="custom-line-2"><a href="/activity/a/settings/trivia" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-5 custom-color-6 custom-mr-1">Categories</span></a> <a href="/activity/a/settings/trivia" class="custom-a-2">All categories <span class="custom-ml-1"></a></span></p>
             {% else %}
-              <p class="custom-line-2"><a href="/activity/a/settings/trivia" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-5 custom-color-6 custom-mr-1">Categories</span></a> <a href="/activity/a/settings/trivia" class="custom-a-2">{{ page_dict_to_html['db_activity_settings_dict_trivia']['categories'] }} <span class="custom-ml-1"></a></span></p>
+              <p class="custom-line-2"><a href="/activity/a/settings/trivia" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-5 custom-color-6 custom-mr-1">Categories</span></a> <a href="/activity/a/settings/trivia" class="custom-a-2">{{ page_dict_to_html['trivia_settings_dict']['categories'] }} <span class="custom-ml-1"></a></span></p>
             {% endif %}
-            {% if page_dict_to_html['db_activity_settings_dict_trivia']['question_type'] == 'Mixed' %}
+            {% if page_dict_to_html['trivia_settings_dict']['question_type'] == 'Mixed' %}
               <p class="custom-line-2"><a href="/activity/a/settings/trivia" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-5 custom-color-6 custom-mr-1">Question type</span></a> <a href="/activity/a/settings/trivia" class="custom-a-2">Per every five questions, the first four will be 'multiple choice', and the last one will be 'fill in the blank' <span class="custom-ml-1"></a></span></p>
             {% else %}
-              <p class="custom-line-2"><a href="/activity/a/settings/trivia" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-5 custom-color-6 custom-mr-1">Question type</span></a> <a href="/activity/a/settings/trivia" class="custom-a-2">{{ page_dict_to_html['db_activity_settings_dict_trivia']['question_type'] }} <span class="custom-ml-1"></a></span></p>
+              <p class="custom-line-2"><a href="/activity/a/settings/trivia" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-5 custom-color-6 custom-mr-1">Question type</span></a> <a href="/activity/a/settings/trivia" class="custom-a-2">{{ page_dict_to_html['trivia_settings_dict']['question_type'] }} <span class="custom-ml-1"></a></span></p>
             {% endif %}
           </div>
           <!-- ------------------------------------- settings end ------------------------------------- -->
@@ -107,7 +107,7 @@
             <h3 class="custom-ml-1 custom-mb-6">Resources</h3>
             <p class="custom-line-2"><a href="/employees/archive" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-16 custom-color-17 custom-mr-1">Archive</span></a> <a href="/employees/archive" class="custom-a-2">View all trivia contests</a></p>
             <p class="custom-line-2"><a href="/employees/leaderboard" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-16 custom-color-17 custom-mr-1">Leaderboard</span></a> <a href="/employees/leaderboard" class="custom-a-2">View team leaderboard</a></p>
-            {% if page_dict_to_html['stripe_subscription_status'] == 'active' %}
+            {% if page_dict_to_html['group_stripe_status'] == 'active' %}
               <p class="custom-line-2"><a href="/employees/questions" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-16 custom-color-17 custom-mr-1">Create custom questions</span></a> <a href="/employees/questions" class="custom-a-2">Create custom questions</a></p>
             {% else %}
               <p class="custom-line-2"><a href="/employees/account" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-16 custom-color-17 custom-mr-1">Create custom questions</span></a> <a href="/employees/account" class="custom-a-2 fst-italic custom-opacity-2">Subscription required</a></p>
@@ -132,7 +132,7 @@
       <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
         <div class="accordion-body">
           <div class="text-center custom-p-4 custom-bg-color-3 custom-br-1">
-            {% if page_dict_to_html['stripe_subscription_status'] == 'active' %}
+            {% if page_dict_to_html['group_stripe_status'] == 'active' %}
               <p class="custom-m-0">Maintenance <i class="fa-solid fa-screwdriver-wrench"></i></p>
             {% else %}
               <a href="/employees/account" class="custom-a-2">Subscription required <i class="fa-solid fa-eye-slash"></i></a>
@@ -156,7 +156,7 @@
       <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
         <div class="accordion-body">
           <div class="text-center custom-p-4 custom-bg-color-3 custom-br-1">
-            {% if page_dict_to_html['stripe_subscription_status'] == 'active' %}
+            {% if page_dict_to_html['group_stripe_status'] == 'active' %}
               <p class="custom-m-0">Maintenance <i class="fa-solid fa-screwdriver-wrench"></i></p>
             {% else %}
               <a href="/employees/account" class="custom-a-2">Subscription required <i class="fa-solid fa-eye-slash"></i></a>
@@ -180,7 +180,7 @@
       <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
         <div class="accordion-body">
           <div class="text-center custom-p-4 custom-bg-color-3 custom-br-1">
-            {% if page_dict_to_html['stripe_subscription_status'] == 'active' %}
+            {% if page_dict_to_html['group_stripe_status'] == 'active' %}
               <p class="custom-m-0">Maintenance <i class="fa-solid fa-screwdriver-wrench"></i></p>
             {% else %}
               <a href="/employees/account" class="custom-a-2">Subscription required <i class="fa-solid fa-eye-slash"></i></a>
@@ -204,7 +204,7 @@
       <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
         <div class="accordion-body">
           <div class="text-center custom-p-4 custom-bg-color-3 custom-br-1">
-            {% if page_dict_to_html['stripe_subscription_status'] == 'active' %}
+            {% if page_dict_to_html['group_stripe_status'] == 'active' %}
               <p class="custom-m-0">Maintenance <i class="fa-solid fa-screwdriver-wrench"></i></p>
             {% else %}
               <a href="/employees/account" class="custom-a-2">Subscription required <i class="fa-solid fa-eye-slash"></i></a>
@@ -228,7 +228,7 @@
       <div id="collapseSix" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
         <div class="accordion-body">
           <div class="text-center custom-p-4 custom-bg-color-3 custom-br-1">
-            {% if page_dict_to_html['stripe_subscription_status'] == 'active' %}
+            {% if page_dict_to_html['group_stripe_status'] == 'active' %}
               <p class="custom-m-0">Maintenance <i class="fa-solid fa-screwdriver-wrench"></i></p>
             {% else %}
               <a href="/employees/account" class="custom-a-2">Subscription required <i class="fa-solid fa-eye-slash"></i></a>
@@ -252,7 +252,7 @@
       <div id="collapseSeven" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
         <div class="accordion-body">
           <div class="text-center custom-p-4 custom-bg-color-3 custom-br-1">
-            {% if page_dict_to_html['stripe_subscription_status'] == 'active' %}
+            {% if page_dict_to_html['group_stripe_status'] == 'active' %}
               <p class="custom-m-0">Maintenance <i class="fa-solid fa-screwdriver-wrench"></i></p>
             {% else %}
               <a href="/employees/account" class="custom-a-2">Subscription required <i class="fa-solid fa-eye-slash"></i></a>
@@ -276,7 +276,7 @@
       <div id="collapseEight" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
         <div class="accordion-body">
           <div class="text-center custom-p-4 custom-bg-color-3 custom-br-1">
-            {% if page_dict_to_html['stripe_subscription_status'] == 'active' %}
+            {% if page_dict_to_html['group_stripe_status'] == 'active' %}
               <p class="custom-m-0">Maintenance <i class="fa-solid fa-screwdriver-wrench"></i></p>
             {% else %}
               <a href="/employees/account" class="custom-a-2">Subscription required <i class="fa-solid fa-eye-slash"></i></a>
@@ -300,7 +300,7 @@
       <div id="collapseNine" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
         <div class="accordion-body">
           <div class="text-center custom-p-4 custom-bg-color-3 custom-br-1">
-            {% if page_dict_to_html['stripe_subscription_status'] == 'active' %}
+            {% if page_dict_to_html['group_stripe_status'] == 'active' %}
               <p class="custom-m-0">Maintenance <i class="fa-solid fa-screwdriver-wrench"></i></p>
             {% else %}
               <a href="/employees/account" class="custom-a-2">Subscription required <i class="fa-solid fa-eye-slash"></i></a>
@@ -324,7 +324,7 @@
       <div id="collapseTen" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
         <div class="accordion-body">
           <div class="text-center custom-p-4 custom-bg-color-3 custom-br-1">
-            {% if page_dict_to_html['stripe_subscription_status'] == 'active' %}
+            {% if page_dict_to_html['group_stripe_status'] == 'active' %}
               <p class="custom-m-0">Maintenance <i class="fa-solid fa-screwdriver-wrench"></i></p>
             {% else %}
               <a href="/employees/account" class="custom-a-2">Subscription required <i class="fa-solid fa-eye-slash"></i></a>
