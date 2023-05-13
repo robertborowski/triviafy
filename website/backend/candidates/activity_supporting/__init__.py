@@ -44,11 +44,11 @@ def activity_a_dashboard_function(current_user, page_dict, activity_name):
     page_dict[activity_name+'_participation_end'] = end_month_day_str + ', ' + db_tests_obj.end_time + ' ' + db_tests_obj.timezone
   # ------------------------ latest test end time info end ------------------------
   # ------------------------ pull latest graded start ------------------------
-  page_dict['ui_latest_test_completed_'+activity_name] = False
+  page_dict[activity_name+'_latest_completed'] = False
   try:
     db_test_grading_obj = pull_latest_activity_a_test_graded_obj_function(db_tests_obj, current_user, activity_name)
     if db_test_grading_obj.status == 'complete':
-      page_dict['ui_latest_test_completed_'+activity_name] = True
+      page_dict[activity_name+'_latest_completed'] = True
   except:
     pass
   # ------------------------ pull latest graded end ------------------------
