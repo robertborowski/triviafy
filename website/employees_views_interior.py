@@ -40,6 +40,7 @@ from website.backend.candidates.dropdowns import get_dropdowns_trivia_function
 from website.backend.candidates.pull_create_logic import pull_create_group_obj_function, pull_latest_activity_a_test_obj_function, user_must_have_group_id_function
 from website.backend.candidates.activity_supporting import activity_a_dashboard_function
 from website.backend.candidates.emailing import email_share_with_team_function
+from website.backend.candidates.onboarding import onboarding_checks_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -63,31 +64,21 @@ def login_dashboard_page_function(url_redirect_code=None):
   Downside is repeating code but it is not for all pages, only for the pages that auto redirect on new account creation.
   -These pages will require the template_location_url variable
   """
-  # ------------------------ check if email verified start ------------------------
-  if current_user.verified_email == False:
-    return redirect(url_for('employees_views_interior.verify_email_function', url_redirect_code='s8'))
-  # ------------------------ check if email verified end ------------------------
-  # ------------------------ check if feedback given start ------------------------
-  # name
-  if current_user.name == None or current_user.name == '':
+  # ------------------------ onboarding checks start ------------------------
+  onbaording_status = onboarding_checks_function(current_user)
+  if onbaording_status == 'verify':
     return redirect(url_for('employees_views_interior.employees_feedback_name_function'))
-  # primary
-  feedback_primary_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='primary_product_choice').first()
-  if feedback_primary_obj == None or feedback_primary_obj == []:
+  if onbaording_status == 'name':
+    return redirect(url_for('employees_views_interior.employees_feedback_name_function'))
+  if onbaording_status == 'primary':
     return redirect(url_for('employees_views_interior.employees_feedback_primary_function'))
-  # secondary
-  feedback_secondary_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='secondary_product_choice').first()
-  if feedback_secondary_obj == None or feedback_secondary_obj == []:
+  if onbaording_status == 'secondary':
     return redirect(url_for('employees_views_interior.employees_feedback_secondary_function'))
-  # birthday
-  feedback_birthday_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='birthday_choice').first()
-  if feedback_birthday_obj == None or feedback_birthday_obj == []:
+  if onbaording_status == 'birthday':
     return redirect(url_for('employees_views_interior.employees_feedback_birthday_function'))
-  # how did you hear about triviafy?
-  feedback_marketing_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='marketing_choice').first()
-  if feedback_marketing_obj == None or feedback_marketing_obj == []:
+  if onbaording_status == 'marketing':
     return redirect(url_for('employees_views_interior.employees_feedback_marketing_function'))
-  # ------------------------ check if feedback given end ------------------------
+  # ------------------------ onboarding checks end ------------------------
   # ------------------------ check if share with team email has been sent start ------------------------
   email_share_with_team_function(current_user)
   # ------------------------ check if share with team email has been sent end ------------------------
