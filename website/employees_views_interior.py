@@ -35,7 +35,7 @@ from website.backend.candidates.datatype_conversion_manipulation import one_col_
 from website.backend.candidates.test_backend import get_test_winner, first_user_latest_quiz_check_function
 from website.backend.candidates.aws_manipulation import candidates_change_uploaded_image_filename_function, candidates_user_upload_image_checks_aws_s3_function
 from website.backend.candidates.string_manipulation import breakup_email_function
-from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function, get_marketing_list_function
+from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function, get_marketing_list_function, get_dashboard_accordian_function
 from website.backend.candidates.dropdowns import get_dropdowns_trivia_function
 from website.backend.candidates.pull_create_logic import pull_create_group_obj_function, pull_latest_activity_a_test_obj_function, user_must_have_group_id_function
 from website.backend.candidates.activity_supporting import activity_a_dashboard_function
@@ -103,6 +103,9 @@ def login_dashboard_page_function(url_redirect_code=None):
   if redirect_code == 'dashboard':
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ dashboard supporting end ------------------------
+  # ------------------------ get collapse list start ------------------------
+  page_dict['activity_a_accordian_arr'] = get_dashboard_accordian_function()
+  # ------------------------ get collapse list end ------------------------
   # ------------------------ if post start ------------------------
   if request.method == 'POST':
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))

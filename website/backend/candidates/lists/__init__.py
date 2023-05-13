@@ -93,3 +93,9 @@ def get_favorite_questions_function():
   questions_arr_index = get_arr_associated_index_function(questions_arr)
   return questions_arr, questions_arr_index
 # ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def get_dashboard_accordian_function():
+  activity_a_accordian_arr = [["collapseOne","trivia"]]
+  return activity_a_accordian_arr
+# ------------------------ individual function end ------------------------
