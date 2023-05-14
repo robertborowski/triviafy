@@ -13,6 +13,7 @@ from website.backend.candidates.pull_create_logic import pull_create_activity_a_
 
 # ------------------------ individual function start ------------------------
 def activity_a_settings_prep_function(page_dict, url_activity_code, db_activity_settings_dict):
+  page_dict['activity_type'] = url_activity_code
   # ------------------------ page title start ------------------------
   page_dict['title'] = capitalize_all_words_function(url_activity_code)
   page_dict['title'] = page_dict['title'] + ' Settings'
