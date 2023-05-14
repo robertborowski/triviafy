@@ -46,7 +46,7 @@
       <div class="accordion-item">
         <h2 class="accordion-header">
           <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#{{ i_accordian[0] }}" aria-expanded="true" aria-controls="{{ i_accordian[0] }}">
-            {{ i_accordian[1]|capitalize }}
+            {{ i_accordian[1]|capitalize|replace("_"," ") }}
             <div class="form-check form-switch custom-ml-1">
               <input class="form-check-input" type="checkbox" role="switch" id="flexActivity{{ i_accordian[1]|capitalize }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title=" Auto stop/start team activity" checked>
               <label class="form-check-label" for="flexActivity{{ i_accordian[1]|capitalize }}"></label>
