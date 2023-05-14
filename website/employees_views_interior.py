@@ -41,6 +41,7 @@ from website.backend.candidates.pull_create_logic import pull_create_group_obj_f
 from website.backend.candidates.activity_supporting import activity_a_dashboard_function
 from website.backend.candidates.emailing import email_share_with_team_function
 from website.backend.candidates.onboarding import onboarding_checks_function
+from website.backend.candidates.pull_create_logic import pull_create_activity_a_settings_obj_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -110,16 +111,14 @@ def login_dashboard_page_function(url_redirect_code=None):
   if request.method == 'POST':
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ if post end ------------------------
-  localhost_print_function(' ------------- 100 - pre dashboard print start ------------- ')
-  page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
-  for k,v in page_dict.items():
-    localhost_print_function(f"k: {k} | v: {v}")
-  localhost_print_function(' --- ')
-  localhost_print_function(len(page_dict.keys()))
-  localhost_print_function(' ------------- 100 - pre dashboard print end ------------- ')
   # ------------------------ for setting cookie start ------------------------
   template_location_url = 'employees/interior/dashboard/index.html'
   # ------------------------ for setting cookie end ------------------------
+  localhost_print_function(' ------------- 100-dashboard start ------------- ')
+  page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
+  for k,v in page_dict.items():
+    localhost_print_function(f"k: {k} | v: {v}")
+  localhost_print_function(' ------------- 100-dashboard end ------------- ')
   # ------------------------ auto set cookie start ------------------------
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
   if get_cookie_value_from_browser != None:
@@ -370,6 +369,8 @@ def employees_categories_request_function(url_redirect_code=None, url_activity_c
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
+@employees_views_interior.route('/activity/a/settings', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/a/settings/', methods=['GET', 'POST'])
 @employees_views_interior.route('/activity/a/settings/<url_activity_code>', methods=['GET', 'POST'])
 @employees_views_interior.route('/activity/a/settings/<url_activity_code>/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
@@ -384,25 +385,23 @@ def activity_a_settings_function(url_activity_code=None, url_redirect_code=None)
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
   # ------------------------ assign to dict start ------------------------
-  page_dict['activity_type'] = 'activity_' + url_activity_code
+  page_dict['activity_type'] = url_activity_code
   # ------------------------ assign to dict end ------------------------
   # ------------------------ get current group settings start ------------------------
-  user_group_id = GroupObj.query.filter_by(fk_company_name=current_user.company_name).order_by(GroupObj.created_timestamp.desc()).first()
-  db_group_settings_obj = ActivityASettingsObj.query.filter_by(fk_group_id=user_group_id.public_group_id,product=url_activity_code).order_by(ActivityASettingsObj.created_timestamp.desc()).first()
-  db_group_settings_dict = arr_of_dict_all_columns_single_item_function(db_group_settings_obj)
-  page_dict['db_group_settings_dict'] = db_group_settings_dict
-  page_dict['weekdays'], page_dict['times'], page_dict['timezones'] = days_times_timezone_arr_function()
-  page_dict['quiz_cadence_arr'], page_dict['question_num_arr'], page_dict['question_type_arr'] = question_choices_function()
+  db_activity_settings_obj = pull_create_activity_a_settings_obj_function(current_user, url_activity_code)
+  db_activity_settings_dict = arr_of_dict_all_columns_single_item_function(db_activity_settings_obj)
+  page_dict[url_activity_code+'_settings_dict'] = db_activity_settings_dict
+  page_dict['dropdown_weekdays'], page_dict['dropdown_times'], page_dict['dropdown_timezones'] = days_times_timezone_arr_function()
+  page_dict['dropdown_cadence_arr'], page_dict['dropdown_question_num_arr'], page_dict['dropdown_question_type_arr'] = question_choices_function()
   page_dict['dropdowns_dict'] = get_dropdowns_trivia_function()
   # ------------------------ get current group settings end ------------------------
   # ------------------------ pull/create latest test start ------------------------
-  db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=user_group_id.public_group_id,product=url_activity_code).order_by(ActivityATestObj.created_timestamp.desc()).first()
+  db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id,product=url_activity_code).order_by(ActivityATestObj.created_timestamp.desc()).first()
   first_activity_check = False
   if db_tests_obj == None or db_tests_obj == []:
     pass
   else:
     first_activity_check = True
-  page_dict[url_activity_code+'_first_created'] = first_activity_check
   # ------------------------ pull/create latest test end ------------------------
   # ------------------------ get all categories start ------------------------
   query_result_arr_of_dicts = select_general_function('select_all_employees_categories_v1')
@@ -438,7 +437,7 @@ def activity_a_settings_function(url_activity_code=None, url_redirect_code=None)
       ui_total_questions = 10
       ui_question_type = 'Mixed'
       # ------------------------ defaults end ------------------------
-    if ui_start_day not in page_dict['weekdays'] or ui_end_day not in page_dict['weekdays'] or ui_start_time not in page_dict['times'] or ui_end_time not in page_dict['times'] or ui_timezone not in page_dict['timezones'] or ui_cadence not in page_dict['quiz_cadence_arr'] or int(ui_total_questions) not in page_dict['question_num_arr'] or ui_question_type not in page_dict['question_type_arr']:
+    if ui_start_day not in page_dict['dropdown_weekdays'] or ui_end_day not in page_dict['dropdown_weekdays'] or ui_start_time not in page_dict['dropdown_times'] or ui_end_time not in page_dict['dropdown_times'] or ui_timezone not in page_dict['dropdown_timezones'] or ui_cadence not in page_dict['dropdown_cadence_arr'] or int(ui_total_questions) not in page_dict['dropdown_question_num_arr'] or ui_question_type not in page_dict['dropdown_question_type_arr']:
       return redirect(url_for('employees_views_interior.activity_a_settings_function', url_activity_code=url_activity_code, url_redirect_code='e6'))
     if ui_selected_categories != [] and ui_selected_categories != None:
       for i in ui_selected_categories:
@@ -449,22 +448,22 @@ def activity_a_settings_function(url_activity_code=None, url_redirect_code=None)
     settings_change_occured = False
     # ------------------------ if 'all_categories' selected start ------------------------
     if ui_select_all_categories == 'all_categories':
-      if db_group_settings_dict['categories'] == 'all_categories':
+      if db_activity_settings_dict['categories'] == 'all_categories':
         pass
       else:
         settings_change_occured = True
-        db_group_settings_obj.categories = 'all_categories'
+        db_activity_settings_obj.categories = 'all_categories'
     # ------------------------ if 'all_categories' selected end ------------------------
     # ------------------------ if 'all_categories' not selected start ------------------------
     if ui_select_all_categories == None:
       if ui_selected_categories == [] or len(ui_selected_categories) == 0:
         return redirect(url_for('employees_views_interior.activity_a_settings_function', url_activity_code=url_activity_code, url_redirect_code='e7'))
       ui_selected_categories_str = ",".join(ui_selected_categories)
-      if ui_selected_categories_str == db_group_settings_dict['categories']:
+      if ui_selected_categories_str == db_activity_settings_dict['categories']:
         pass
       else:
         settings_change_occured = True
-        db_group_settings_obj.categories = ui_selected_categories_str
+        db_activity_settings_obj.categories = ui_selected_categories_str
         # ------------------------ email self start ------------------------
         try:
           output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
@@ -478,35 +477,35 @@ def activity_a_settings_function(url_activity_code=None, url_redirect_code=None)
           pass
         # ------------------------ email self end ------------------------
     # ------------------------ if 'all_categories' not selected end ------------------------
-    if ui_start_day != db_group_settings_dict['start_day']:
+    if ui_start_day != db_activity_settings_dict['start_day']:
       settings_change_occured = True
-      db_group_settings_obj.start_day = ui_start_day
-    if ui_start_time != db_group_settings_dict['start_time']:
+      db_activity_settings_obj.start_day = ui_start_day
+    if ui_start_time != db_activity_settings_dict['start_time']:
       settings_change_occured = True
-      db_group_settings_obj.start_time = ui_start_time
-    if ui_end_day != db_group_settings_dict['end_day']:
+      db_activity_settings_obj.start_time = ui_start_time
+    if ui_end_day != db_activity_settings_dict['end_day']:
       settings_change_occured = True
-      db_group_settings_obj.end_day = ui_end_day
-    if ui_end_time != db_group_settings_dict['end_time']:
+      db_activity_settings_obj.end_day = ui_end_day
+    if ui_end_time != db_activity_settings_dict['end_time']:
       settings_change_occured = True
-      db_group_settings_obj.end_time = ui_end_time
-    if ui_timezone != db_group_settings_dict['timezone']:
+      db_activity_settings_obj.end_time = ui_end_time
+    if ui_timezone != db_activity_settings_dict['timezone']:
       settings_change_occured = True
-      db_group_settings_obj.timezone = ui_timezone
-    if ui_cadence != db_group_settings_dict['cadence']:
+      db_activity_settings_obj.timezone = ui_timezone
+    if ui_cadence != db_activity_settings_dict['cadence']:
       settings_change_occured = True
-      db_group_settings_obj.cadence = ui_cadence
-    if int(ui_total_questions) != db_group_settings_dict['total_questions']:
+      db_activity_settings_obj.cadence = ui_cadence
+    if int(ui_total_questions) != db_activity_settings_dict['total_questions']:
       settings_change_occured = True
-      db_group_settings_obj.total_questions = ui_total_questions
-    if ui_question_type != db_group_settings_dict['question_type']:
+      db_activity_settings_obj.total_questions = ui_total_questions
+    if ui_question_type != db_activity_settings_dict['question_type']:
       settings_change_occured = True
-      db_group_settings_obj.question_type = ui_question_type
+      db_activity_settings_obj.question_type = ui_question_type
     # ------------------------ if new start/end day/times make sense start ------------------------
-    start_day_index = page_dict['weekdays'].index(ui_start_day)
-    start_time_index = page_dict['times'].index(ui_start_time)
-    end_day_index = page_dict['weekdays'].index(ui_end_day)
-    end_time_index = page_dict['times'].index(ui_end_time)
+    start_day_index = page_dict['dropdown_weekdays'].index(ui_start_day)
+    start_time_index = page_dict['dropdown_times'].index(ui_start_time)
+    end_day_index = page_dict['dropdown_weekdays'].index(ui_end_day)
+    end_time_index = page_dict['dropdown_times'].index(ui_end_time)
     if start_day_index > end_day_index or (start_day_index == end_day_index and start_time_index >= end_time_index):
       return redirect(url_for('employees_views_interior.activity_a_settings_function', url_activity_code=url_activity_code, url_redirect_code='e8'))
     # ------------------------ if new start/end day/times make sense end ------------------------
@@ -517,10 +516,11 @@ def activity_a_settings_function(url_activity_code=None, url_redirect_code=None)
     if settings_change_occured == False:
       return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='i1'))
     # ------------------------ if no change in settings end ------------------------
-  localhost_print_function(' ------------- 100 ------------- ')
+  localhost_print_function(' ------------- 100-settings start ------------- ')
+  page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
   for k,v in page_dict.items():
     localhost_print_function(f"k: {k} | v: {v}")
-  localhost_print_function(' ------------- 100 ------------- ')
+  localhost_print_function(' ------------- 100-settings end ------------- ')
   return render_template('employees/interior/schedule/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
 
