@@ -5,7 +5,7 @@ from website.backend.candidates.autogeneration import question_choices_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ individual function start ------------------------
-def get_dropdowns_trivia_function():
+def get_activity_a_dropdowns_function():
   weekdays_arr, times_arr, timezone_arr = days_times_timezone_arr_function()
   quiz_cadence_arr, question_num_arr, question_type_arr = question_choices_function()
   dropdown_trivia_dict = {

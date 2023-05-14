@@ -34,14 +34,15 @@ import stripe
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
 from website.backend.candidates.test_backend import get_test_winner, first_user_latest_quiz_check_function
 from website.backend.candidates.aws_manipulation import candidates_change_uploaded_image_filename_function, candidates_user_upload_image_checks_aws_s3_function
-from website.backend.candidates.string_manipulation import breakup_email_function
+from website.backend.candidates.string_manipulation import breakup_email_function, capitalize_all_words_function
 from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function, get_marketing_list_function, get_dashboard_accordian_function
-from website.backend.candidates.dropdowns import get_dropdowns_trivia_function
+from website.backend.candidates.dropdowns import get_activity_a_dropdowns_function
 from website.backend.candidates.pull_create_logic import pull_create_group_obj_function, pull_latest_activity_a_test_obj_function, user_must_have_group_id_function
 from website.backend.candidates.activity_supporting import activity_a_dashboard_function
 from website.backend.candidates.emailing import email_share_with_team_function
 from website.backend.candidates.onboarding import onboarding_checks_function
 from website.backend.candidates.pull_create_logic import pull_create_activity_a_settings_obj_function
+from website.backend.candidates.settings_supporting import activity_a_settings_prep_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -384,29 +385,13 @@ def activity_a_settings_function(url_activity_code=None, url_redirect_code=None)
   page_dict = {}
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
-  # ------------------------ assign to dict start ------------------------
-  page_dict['activity_type'] = url_activity_code
-  # ------------------------ assign to dict end ------------------------
   # ------------------------ get current group settings start ------------------------
   db_activity_settings_obj = pull_create_activity_a_settings_obj_function(current_user, url_activity_code)
   db_activity_settings_dict = arr_of_dict_all_columns_single_item_function(db_activity_settings_obj)
-  page_dict[url_activity_code+'_settings_dict'] = db_activity_settings_dict
-  page_dict['dropdown_weekdays'], page_dict['dropdown_times'], page_dict['dropdown_timezones'] = days_times_timezone_arr_function()
-  page_dict['dropdown_cadence_arr'], page_dict['dropdown_question_num_arr'], page_dict['dropdown_question_type_arr'] = question_choices_function()
-  page_dict['dropdowns_dict'] = get_dropdowns_trivia_function()
   # ------------------------ get current group settings end ------------------------
-  # ------------------------ pull/create latest test start ------------------------
-  db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id,product=url_activity_code).order_by(ActivityATestObj.created_timestamp.desc()).first()
-  first_activity_check = False
-  if db_tests_obj == None or db_tests_obj == []:
-    pass
-  else:
-    first_activity_check = True
-  # ------------------------ pull/create latest test end ------------------------
-  # ------------------------ get all categories start ------------------------
-  query_result_arr_of_dicts = select_general_function('select_all_employees_categories_v1')
-  page_dict['all_categories_arr'] = all_employee_question_categories_sorted_function(query_result_arr_of_dicts)
-  # ------------------------ get all categories end ------------------------
+  # ------------------------ settings prep start ------------------------
+  page_dict = activity_a_settings_prep_function(page_dict, url_activity_code, db_activity_settings_dict)
+  # ------------------------ settings prep end ------------------------
   if request.method == 'POST':
     ui_select_all_categories = request.form.get('flexSwitchCheckDefault_02')
     ui_timezone = request.form.get('radioTimeZone')

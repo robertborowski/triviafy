@@ -65,3 +65,13 @@ def breakup_email_function(input_email):
   # localhost_print_function(' ------------------------ breakup_email_function end ------------------------ ')
   return email_arr[0].title()
 # ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def capitalize_all_words_function(input_str):
+  capitalized_arr = []
+  input_arr = input_str.split('_')
+  for i in input_arr:
+    i = i.capitalize()
+    capitalized_arr.append(i)
+  return ' '.join(capitalized_arr)
+# ------------------------ individual function end ------------------------
