@@ -53,7 +53,11 @@
             </div>
           </button>
         </h2>
-        <div id="{{ i_accordian[0] }}" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+        {% if i_accordian[0] == 'collapseOne' %}
+          <div id="{{ i_accordian[0] }}" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+        {% else %}
+          <div id="{{ i_accordian[0] }}" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+        {% endif %}
           <div class="accordion-body">
             <!-- ------------------------------------- latest activity start ------------------------------------- -->
             <div class="custom-border-9 custom-br-1 custom-p-1 custom-mb-6 custom-bg-color-8">
