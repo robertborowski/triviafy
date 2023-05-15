@@ -435,6 +435,33 @@ def activity_a_settings_function(url_activity_code=None, url_redirect_code=None)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
+@employees_views_interior.route('/activity/a/settings/default')
+@employees_views_interior.route('/activity/a/settings/default/')
+@employees_views_interior.route('/activity/a/settings/default/<url_activity_code>')
+@employees_views_interior.route('/activity/a/settings/default/<url_activity_code>/')
+@login_required
+def activity_a_default_settings_function(url_activity_code=None):
+  # ------------------------ if no activity error start ------------------------
+  if url_activity_code == None or url_activity_code == '':
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='e24'))
+  # ------------------------ if no activity error end ------------------------
+  try:
+    db_activity_settings_obj = pull_create_activity_a_settings_obj_function(current_user, url_activity_code)
+    db_activity_settings_obj.timezone = 'EST'
+    db_activity_settings_obj.start_day = 'Monday'
+    db_activity_settings_obj.start_time = '12 PM'
+    db_activity_settings_obj.end_day = 'Thursday'
+    db_activity_settings_obj.end_time = '1 PM'
+    db_activity_settings_obj.cadence = 'Weekly'
+    db_activity_settings_obj.total_questions = 10
+    db_activity_settings_obj.question_type = 'Mixed'
+    db.session.commit()
+  except:
+    pass
+  return redirect(url_for('employees_views_interior.activity_a_settings_function', url_activity_code=url_activity_code, url_redirect_code='s11'))
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
 @employees_views_interior.route('/activity/a/trivia/replace/<url_test_id>/<url_question_number>', methods=['GET', 'POST'])
 @employees_views_interior.route('/activity/a/trivia/replace/<url_test_id>/<url_question_number>/', methods=['GET', 'POST'])
 @login_required
