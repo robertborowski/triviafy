@@ -1097,9 +1097,9 @@ def employees_feature_function(url_redirect_code=None, url_feature_request_code=
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_interior.route('/employees/questions', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/questions/', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/questions/<url_redirect_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/a/create/question', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/a/create/question/', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/a/create/question/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
 def employees_questions_function(url_redirect_code=None):
   localhost_print_function(' ------------------------ employees_questions_function START ------------------------ ')
@@ -1116,16 +1116,15 @@ def employees_questions_function(url_redirect_code=None):
   if page_dict['group_stripe_status'] != 'active':
     return redirect(url_for('employees_views_interior.employees_account_function', url_redirect_code='e14'))
   # ------------------------ redirect if not subscribed end ------------------------
-  db_groups_obj = GroupObj.query.filter_by(fk_company_name=current_user.company_name).first()
   # ------------------------ delete all in progress questions start ------------------------
-  db_drafted_questions_obj = ActivityACreatedQuestionsObj.query.filter_by(fk_group_id=db_groups_obj.public_group_id,submission='draft').first()
+  db_drafted_questions_obj = ActivityACreatedQuestionsObj.query.filter_by(fk_group_id=current_user.group_id,submission='draft').first()
   if db_drafted_questions_obj != None and db_drafted_questions_obj != []:
-    ActivityACreatedQuestionsObj.query.filter_by(fk_group_id=db_groups_obj.public_group_id,submission='draft').delete()
+    ActivityACreatedQuestionsObj.query.filter_by(fk_group_id=current_user.group_id,submission='draft').delete()
     db.session.commit()
     return redirect(url_for('employees_views_interior.employees_questions_function'))
   # ------------------------ delete all in progress questions end ------------------------
   # ------------------------ pull all created questions by group start ------------------------
-  db_activity_a_created_questions_obj = ActivityACreatedQuestionsObj.query.filter_by(fk_group_id=db_groups_obj.public_group_id).all()
+  db_activity_a_created_questions_obj = ActivityACreatedQuestionsObj.query.filter_by(fk_group_id=current_user.group_id).all()
   group_created_questions_arr_of_dicts = []
   for i_obj in db_activity_a_created_questions_obj:
     i_dict = arr_of_dict_all_columns_single_item_function(i_obj)
@@ -1135,7 +1134,7 @@ def employees_questions_function(url_redirect_code=None):
     # ------------------------ append creator email end ------------------------
     # ------------------------ append asked status start ------------------------
     i_dict['question_used_status'] = 'Include in future quiz'
-    db_used_obj = ActivityAGroupQuestionsUsedObj.query.filter_by(fk_question_id=i_dict['id'], fk_group_id=db_groups_obj.public_group_id,product='trivia').first()
+    db_used_obj = ActivityAGroupQuestionsUsedObj.query.filter_by(fk_question_id=i_dict['id'], fk_group_id=current_user.group_id).first()
     if db_used_obj != None and db_used_obj != []:
       i_dict['question_used_status'] = 'Included in past quiz'
     # ------------------------ append asked status end ------------------------
@@ -1262,7 +1261,7 @@ def employees_create_question_v3_function(url_redirect_code=None):
         aws_image_uuid = create_question_uploaded_image_uuid,
         aws_image_url = create_question_uploaded_image_aws_url,
         submission = 'draft',
-        product = 'employees',
+        product = 'trivia,picture_quiz',
         fk_group_id = db_groups_obj.public_group_id
       )
       db.session.add(new_row)
