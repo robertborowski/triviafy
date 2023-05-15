@@ -69,7 +69,7 @@ def login_dashboard_page_function(url_redirect_code=None):
   # ------------------------ onboarding checks start ------------------------
   onbaording_status = onboarding_checks_function(current_user)
   if onbaording_status == 'verify':
-    return redirect(url_for('employees_views_interior.employees_feedback_name_function'))
+    return redirect(url_for('employees_views_interior.verify_email_function'))
   if onbaording_status == 'name':
     return redirect(url_for('employees_views_interior.employees_feedback_name_function'))
   if onbaording_status == 'primary':
