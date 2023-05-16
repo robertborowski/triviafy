@@ -5,6 +5,7 @@ from website.backend.candidates.test_backend import get_test_winner, close_histo
 from website.backend.candidates.datetime_manipulation import convert_timestamp_to_month_day_string_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from website.backend.candidates.quiz import get_next_quiz_open_function, compare_candence_vs_previous_quiz_function_v2
+from website.backend.candidates.pull_create_logic import pull_create_group_obj_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ individual function start ------------------------
@@ -75,5 +76,10 @@ def activity_a_dashboard_function(current_user, page_dict, activity_name):
   if db_tests_obj != None:
     page_dict[activity_name+'_cadence_valid'] = compare_candence_vs_previous_quiz_function_v2(current_user, db_tests_obj, activity_name)
   # ------------------------ cadence check to see if a new activity should be created end ------------------------
+  # ------------------------ get group activity status start ------------------------
+  db_group_obj = pull_create_group_obj_function(current_user)
+  db_group_dict = arr_of_dict_all_columns_single_item_function(db_group_obj)
+  page_dict[activity_name+'_on_off_status'] = db_group_dict[activity_name]
+  # ------------------------ get group activity status end ------------------------
   return redirect_code, page_dict
 # ------------------------ individual function end ------------------------

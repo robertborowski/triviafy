@@ -105,6 +105,14 @@ def login_dashboard_page_function(url_redirect_code=None):
   if redirect_code == 'dashboard':
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ dashboard supporting end ------------------------
+  # ------------------------ subscription only activities start ------------------------
+  if page_dict['group_stripe_status'] == 'active':
+    # ------------------------ dashboard supporting start ------------------------
+    redirect_code, page_dict = activity_a_dashboard_function(current_user, page_dict, 'picture_quiz')
+    if redirect_code == 'dashboard':
+      return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+    # ------------------------ dashboard supporting end ------------------------
+  # ------------------------ subscription only activities end ------------------------
   # ------------------------ get collapse list start ------------------------
   page_dict['activity_a_accordian_arr'] = get_dashboard_accordian_function()
   # ------------------------ get collapse list end ------------------------

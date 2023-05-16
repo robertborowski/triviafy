@@ -96,6 +96,9 @@ def get_favorite_questions_function():
 
 # ------------------------ individual function start ------------------------
 def get_dashboard_accordian_function():
-  activity_a_accordian_arr = [["collapseOne","trivia"]]
+  activity_a_accordian_arr = [
+    ["collapseOne","trivia"],
+    ["collapseTwo","picture_quiz"]
+   ]
   return activity_a_accordian_arr
 # ------------------------ individual function end ------------------------

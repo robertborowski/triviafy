@@ -38,342 +38,328 @@
   </div>
 </div>
 <!-- ------------------------------------- expands end ------------------------------------- -->
-<div class="container">
-  <div class="accordion" id="accordionExample">
-    <!-- ------------------------------------- activity a items start ------------------------------------- -->
-    {% for i_accordian in page_dict_to_html['activity_a_accordian_arr'] %}
+<form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+  <div class="container">
+    <div class="accordion" id="accordionExample">
+      <!-- ------------------------------------- activity a items start ------------------------------------- -->
+      {% for i_accordian in page_dict_to_html['activity_a_accordian_arr'] %}
+        {% if i_accordian[1] != 'trivia' and page_dict_to_html['group_stripe_status'] != 'active' %}
+          <!-- ------------------------------------- accordion item start ------------------------------------- -->
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{ i_accordian[0] }}" aria-expanded="true" aria-controls="{{ i_accordian[0] }}">
+                {{ i_accordian[1]|capitalize|replace("_"," ") }}
+                <div class="form-check form-switch custom-ml-1">
+                  <input class="form-check-input" type="checkbox" role="switch" id="flexActivityPicture" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Auto stop/start team activity, save changes below" disabled>
+                  <label class="form-check-label" for="flexActivityPicture"></label>
+                </div>
+              </button>
+            </h2>
+            <div id="{{ i_accordian[0] }}" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <div class="text-center custom-p-4 custom-bg-color-3 custom-br-1">
+                  {% if page_dict_to_html['group_stripe_status'] == 'active' %}
+                    <p class="custom-m-0">Maintenance <i class="fa-solid fa-screwdriver-wrench"></i></p>
+                  {% else %}
+                    <a href="/employees/account" class="custom-a-2">Subscription required <i class="fa-solid fa-eye-slash"></i></a>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ------------------------------------- accordion item end ------------------------------------- -->
+        {% else %}
+          <!-- ------------------------------------- accordion item start ------------------------------------- -->
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#{{ i_accordian[0] }}" aria-expanded="true" aria-controls="{{ i_accordian[0] }}">
+                {{ i_accordian[1]|capitalize|replace("_"," ") }}
+                <div class="form-check form-switch custom-ml-1">
+                  {% if page_dict_to_html[i_accordian[1]+'_on_off_status'] == true %}
+                    <input class="form-check-input" type="checkbox" role="switch" id="flexActivity{{ i_accordian[1]|capitalize }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Auto stop/start team activity, save changes below" checked>
+                  {% else %}
+                    <input class="form-check-input" type="checkbox" role="switch" id="flexActivity{{ i_accordian[1]|capitalize }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Auto stop/start team activity, save changes below">
+                  {% endif %}
+                  <label class="form-check-label" for="flexActivity{{ i_accordian[1]|capitalize }}"></label>
+                </div>
+              </button>
+            </h2>
+            {% if i_accordian[0] == 'collapseOne' %}
+              <div id="{{ i_accordian[0] }}" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+            {% else %}
+              <div id="{{ i_accordian[0] }}" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+            {% endif %}
+              <div class="accordion-body">
+                <!-- ------------------------------------- latest activity start ------------------------------------- -->
+                <div class="custom-border-9 custom-br-1 custom-p-1 custom-mb-6 custom-bg-color-8">
+                  <h3 class="custom-ml-1 custom-mb-6">Status & participation</h3>
+                  <!-- ------------------------------------- latest test logic start ------------------------------------- -->
+                  {% if page_dict_to_html[i_accordian[1]+'_first_created'] == false %}
+                    <p class="custom-line-2"><a href="/create/activity/{{ i_accordian[1] }}" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status</span></a> <a href="/create/activity/{{ i_accordian[1] }}" class="btn btn-success btn-lg">Generate first activity now <i class="fa-solid fa-wand-magic-sparkles"></i></a></p>
+                  {% endif %}
+                  {% if page_dict_to_html[i_accordian[1]+'_first_created'] == true %}
+                    {% if page_dict_to_html[i_accordian[1]+'_latest_closed'] == false %}
+                        {% if page_dict_to_html[i_accordian[1]+'_latest_completed'] == true %}
+                          <p class="custom-line-2"><a href="/activity/a/{{ i_accordian[1] }}" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status</span></a> <a href="/activity/a/{{ i_accordian[1] }}" class="btn btn-success btn-lg">Edit my answers <i class="fa-solid fa-pen-to-square"></i></a></p>
+                        {% else %}
+                          <p class="custom-line-2"><a href="/activity/a/{{ i_accordian[1] }}" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status</span></a> <a href="/activity/a/{{ i_accordian[1] }}" class="btn btn-success btn-lg custom-ml-1">Submit your answers now <i class="fa-solid fa-check-to-slot"></i></a></p>
+                        {% endif %}
+                        {% if page_dict_to_html[i_accordian[1]+'_participation_end'] != false %}
+                          <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Activity closes</span> {{ page_dict_to_html[i_accordian[1]+'_participation_end'] }}</p>
+                        {% endif %}
+                    {% endif %}
+                    {% if page_dict_to_html[i_accordian[1]+'_latest_closed'] == true %}
+                      <p class="custom-line-2"><a href="/activity/a/{{ i_accordian[1] }}/" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Latest winner</span></a> <a href="/activity/a/{{ i_accordian[1] }}/"><span class="btn btn-outline-success btn-lg custom-mr-1">&#127881; Winner: {{ page_dict_to_html[i_accordian[1]+'_latest_winner'] }} | Score: {{ page_dict_to_html[i_accordian[1]+'_latest_winner_score'] }}% &#127881;</span></a></p>
+                      <p class="custom-line-2"><a href="/activity/a/{{ i_accordian[1] }}/" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Review</span></a> <a href="/activity/a/{{ i_accordian[1] }}/" class="custom-a-2">View all team responses</a></p>
+                      {% if page_dict_to_html[i_accordian[1]+'_cadence_valid'] == false %}
+                        <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Next activity opens</span> {{ page_dict_to_html[i_accordian[1]+'_next_open'] }}, you will be notified by email.</p>
+                      {% endif %}
+                      {% if page_dict_to_html[i_accordian[1]+'_cadence_valid'] == true %}
+                        <p class="custom-line-2"><a href="/create/activity/{{ i_accordian[1] }}" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status (new contest)</span></a> <a href="/create/activity/{{ i_accordian[1] }}" class="btn btn-success btn-lg">Submit your answers now <i class="fa-solid fa-check-to-slot"></i></a></p>
+                      {% endif %}
+                    {% endif %}
+                  {% endif %}
+                  <!-- ------------------------------------- latest test logic end ------------------------------------- -->
+                </div>
+                <!-- ------------------------------------- latest activity end ------------------------------------- -->
+                <!-- ------------------------------------- settings start ------------------------------------- -->
+                <div class="custom-border-9 custom-br-1 custom-p-1 custom-mb-6 custom-bg-color-6">
+                  <h3 class="custom-ml-1 custom-mb-6">Settings</h3>
+                  <p class="custom-line-2"><a href="/activity/a/settings/{{ i_accordian[1] }}" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-5 custom-color-6 custom-mr-1">Cadence</span></a> <a href="/activity/a/settings/{{ i_accordian[1] }}" class="custom-a-2">{{ page_dict_to_html[i_accordian[1]+'_settings_dict']['total_questions'] }} questions, sent {{ page_dict_to_html[i_accordian[1]+'_settings_dict']['cadence'].lower() }}. Activity opens {{ page_dict_to_html[i_accordian[1]+'_settings_dict']['start_day'] }}'s at {{ page_dict_to_html[i_accordian[1]+'_settings_dict']['start_time'] }} and closes {{ page_dict_to_html[i_accordian[1]+'_settings_dict']['end_day'] }}'s at {{ page_dict_to_html[i_accordian[1]+'_settings_dict']['end_time'] }}, {{ page_dict_to_html[i_accordian[1]+'_settings_dict']['timezone'] }} <span class="custom-ml-1"></a></span></p>
+                  {% if page_dict_to_html[i_accordian[1]+'_settings_dict']['categories'] == 'all_categories' %}
+                    <p class="custom-line-2"><a href="/activity/a/settings/{{ i_accordian[1] }}" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-5 custom-color-6 custom-mr-1">Categories</span></a> <a href="/activity/a/settings/{{ i_accordian[1] }}" class="custom-a-2">All categories <span class="custom-ml-1"></a></span></p>
+                  {% else %}
+                    <p class="custom-line-2"><a href="/activity/a/settings/{{ i_accordian[1] }}" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-5 custom-color-6 custom-mr-1">Categories</span></a> <a href="/activity/a/settings/{{ i_accordian[1] }}" class="custom-a-2">{{ page_dict_to_html[i_accordian[1]+'_settings_dict']['categories'] }} <span class="custom-ml-1"></a></span></p>
+                  {% endif %}
+                  {% if page_dict_to_html[i_accordian[1]+'_settings_dict']['question_type'] == 'Mixed' %}
+                    <p class="custom-line-2"><a href="/activity/a/settings/{{ i_accordian[1] }}" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-5 custom-color-6 custom-mr-1">Question type</span></a> <a href="/activity/a/settings/{{ i_accordian[1] }}" class="custom-a-2">Per every five questions, the first four will be 'multiple choice', and the last one will be 'fill in the blank' <span class="custom-ml-1"></a></span></p>
+                  {% else %}
+                    <p class="custom-line-2"><a href="/activity/a/settings/{{ i_accordian[1] }}" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-5 custom-color-6 custom-mr-1">Question type</span></a> <a href="/activity/a/settings/{{ i_accordian[1] }}" class="custom-a-2">{{ page_dict_to_html[i_accordian[1]+'_settings_dict']['question_type'] }} <span class="custom-ml-1"></a></span></p>
+                  {% endif %}
+                </div>
+                <!-- ------------------------------------- settings end ------------------------------------- -->
+                <!-- ------------------------------------- features start ------------------------------------- -->
+                <div class="custom-border-9 custom-br-1 custom-p-1 custom-mb-6 custom-bg-color-15">
+                  <h3 class="custom-ml-1 custom-mb-6">Resources</h3>
+                  <p class="custom-line-2"><a href="/employees/archive" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-16 custom-color-17 custom-mr-1">Archive</span></a> <a href="/employees/archive" class="custom-a-2">View archive</a></p>
+                  <p class="custom-line-2"><a href="/employees/leaderboard" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-16 custom-color-17 custom-mr-1">Leaderboard</span></a> <a href="/employees/leaderboard" class="custom-a-2">View team leaderboard</a></p>
+                  {% if page_dict_to_html['group_stripe_status'] == 'active' %}
+                    <p class="custom-line-2"><a href="/activity/a/create/question" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-16 custom-color-17 custom-mr-1">Create custom questions</span></a> <a href="/activity/a/create/question" class="custom-a-2">Create custom questions</a></p>
+                  {% else %}
+                    <p class="custom-line-2"><a href="/employees/account" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-16 custom-color-17 custom-mr-1">Create custom questions</span></a> <a href="/employees/account" class="custom-a-2 fst-italic custom-opacity-2">Subscription required</a></p>
+                  {% endif %}
+                </div>
+                <!-- ------------------------------------- features end ------------------------------------- -->
+              </div>
+            </div>
+          </div>
+          <!-- ------------------------------------- accordion item end ------------------------------------- -->
+        {% endif %}
+      {% endfor %}
+      <!-- ------------------------------------- activity a items end ------------------------------------- -->
       <!-- ------------------------------------- accordion item start ------------------------------------- -->
       <div class="accordion-item">
         <h2 class="accordion-header">
-          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#{{ i_accordian[0] }}" aria-expanded="true" aria-controls="{{ i_accordian[0] }}">
-            {{ i_accordian[1]|capitalize|replace("_"," ") }}
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+            Icebreakers
             <div class="form-check form-switch custom-ml-1">
-              <input class="form-check-input" type="checkbox" role="switch" id="flexActivity{{ i_accordian[1]|capitalize }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title=" Auto stop/start team activity" checked>
-              <label class="form-check-label" for="flexActivity{{ i_accordian[1]|capitalize }}"></label>
+              <input class="form-check-input" type="checkbox" role="switch" id="flexActivityIcebreakers" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Auto stop/start team activity, save changes below" disabled>
+              <label class="form-check-label" for="flexActivityIcebreakers"></label>
             </div>
           </button>
         </h2>
-        {% if i_accordian[0] == 'collapseOne' %}
-          <div id="{{ i_accordian[0] }}" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-        {% else %}
-          <div id="{{ i_accordian[0] }}" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-        {% endif %}
+        <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
           <div class="accordion-body">
-            <!-- ------------------------------------- latest activity start ------------------------------------- -->
-            <div class="custom-border-9 custom-br-1 custom-p-1 custom-mb-6 custom-bg-color-8">
-              <h3 class="custom-ml-1 custom-mb-6">Status & participation</h3>
-              <!-- ------------------------------------- latest test logic start ------------------------------------- -->
-              {% if page_dict_to_html[i_accordian[1]+'_first_created'] == false %}
-                <p class="custom-line-2"><a href="/create/activity/{{ i_accordian[1] }}" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status</span></a> <a href="/create/activity/{{ i_accordian[1] }}" class="btn btn-success btn-lg">Generate first activity now <i class="fa-solid fa-wand-magic-sparkles"></i></a></p>
-              {% endif %}
-              {% if page_dict_to_html[i_accordian[1]+'_first_created'] == true %}
-                {% if page_dict_to_html[i_accordian[1]+'_latest_closed'] == false %}
-                    {% if page_dict_to_html[i_accordian[1]+'_latest_completed'] == true %}
-                      <p class="custom-line-2"><a href="/activity/a/{{ i_accordian[1] }}" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status</span></a> <a href="/activity/a/{{ i_accordian[1] }}" class="btn btn-success btn-lg">Edit my answers <i class="fa-solid fa-pen-to-square"></i></a></p>
-                    {% else %}
-                      <p class="custom-line-2"><a href="/activity/a/{{ i_accordian[1] }}" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status</span></a> <a href="/activity/a/{{ i_accordian[1] }}" class="btn btn-success btn-lg custom-ml-1">Submit your answers now <i class="fa-solid fa-check-to-slot"></i></a></p>
-                    {% endif %}
-                    {% if page_dict_to_html[i_accordian[1]+'_participation_end'] != false %}
-                      <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Activity closes</span> {{ page_dict_to_html[i_accordian[1]+'_participation_end'] }}</p>
-                    {% endif %}
-                {% endif %}
-                {% if page_dict_to_html[i_accordian[1]+'_latest_closed'] == true %}
-                  <p class="custom-line-2"><a href="/activity/a/{{ i_accordian[1] }}/" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Latest winner</span></a> <a href="/activity/a/{{ i_accordian[1] }}/"><span class="btn btn-outline-success btn-lg custom-mr-1">&#127881; Winner: {{ page_dict_to_html[i_accordian[1]+'_latest_winner'] }} | Score: {{ page_dict_to_html[i_accordian[1]+'_latest_winner_score'] }}% &#127881;</span></a></p>
-                  <p class="custom-line-2"><a href="/activity/a/{{ i_accordian[1] }}/" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Review</span></a> <a href="/activity/a/{{ i_accordian[1] }}/" class="custom-a-2">View all team responses</a></p>
-                  {% if page_dict_to_html[i_accordian[1]+'_cadence_valid'] == false %}
-                    <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Next activity opens</span> {{ page_dict_to_html[i_accordian[1]+'_next_open'] }}, you will be notified by email.</p>
-                  {% endif %}
-                  {% if page_dict_to_html[i_accordian[1]+'_cadence_valid'] == true %}
-                    <p class="custom-line-2"><a href="/create/activity/{{ i_accordian[1] }}" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status (new contest)</span></a> <a href="/create/activity/{{ i_accordian[1] }}" class="btn btn-success btn-lg">Submit your answers now <i class="fa-solid fa-check-to-slot"></i></a></p>
-                  {% endif %}
-                {% endif %}
-              {% endif %}
-              <!-- ------------------------------------- latest test logic end ------------------------------------- -->
-            </div>
-            <!-- ------------------------------------- latest activity end ------------------------------------- -->
-            <!-- ------------------------------------- settings start ------------------------------------- -->
-            <div class="custom-border-9 custom-br-1 custom-p-1 custom-mb-6 custom-bg-color-6">
-              <h3 class="custom-ml-1 custom-mb-6">Settings</h3>
-              <p class="custom-line-2"><a href="/activity/a/settings/{{ i_accordian[1] }}" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-5 custom-color-6 custom-mr-1">Cadence</span></a> <a href="/activity/a/settings/{{ i_accordian[1] }}" class="custom-a-2">{{ page_dict_to_html[i_accordian[1]+'_settings_dict']['total_questions'] }} questions, sent {{ page_dict_to_html[i_accordian[1]+'_settings_dict']['cadence'].lower() }}. Activity opens {{ page_dict_to_html[i_accordian[1]+'_settings_dict']['start_day'] }}'s at {{ page_dict_to_html[i_accordian[1]+'_settings_dict']['start_time'] }} and closes {{ page_dict_to_html[i_accordian[1]+'_settings_dict']['end_day'] }}'s at {{ page_dict_to_html[i_accordian[1]+'_settings_dict']['end_time'] }}, {{ page_dict_to_html[i_accordian[1]+'_settings_dict']['timezone'] }} <span class="custom-ml-1"></a></span></p>
-              {% if page_dict_to_html[i_accordian[1]+'_settings_dict']['categories'] == 'all_categories' %}
-                <p class="custom-line-2"><a href="/activity/a/settings/{{ i_accordian[1] }}" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-5 custom-color-6 custom-mr-1">Categories</span></a> <a href="/activity/a/settings/{{ i_accordian[1] }}" class="custom-a-2">All categories <span class="custom-ml-1"></a></span></p>
-              {% else %}
-                <p class="custom-line-2"><a href="/activity/a/settings/{{ i_accordian[1] }}" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-5 custom-color-6 custom-mr-1">Categories</span></a> <a href="/activity/a/settings/{{ i_accordian[1] }}" class="custom-a-2">{{ page_dict_to_html[i_accordian[1]+'_settings_dict']['categories'] }} <span class="custom-ml-1"></a></span></p>
-              {% endif %}
-              {% if page_dict_to_html[i_accordian[1]+'_settings_dict']['question_type'] == 'Mixed' %}
-                <p class="custom-line-2"><a href="/activity/a/settings/{{ i_accordian[1] }}" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-5 custom-color-6 custom-mr-1">Question type</span></a> <a href="/activity/a/settings/{{ i_accordian[1] }}" class="custom-a-2">Per every five questions, the first four will be 'multiple choice', and the last one will be 'fill in the blank' <span class="custom-ml-1"></a></span></p>
-              {% else %}
-                <p class="custom-line-2"><a href="/activity/a/settings/{{ i_accordian[1] }}" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-5 custom-color-6 custom-mr-1">Question type</span></a> <a href="/activity/a/settings/{{ i_accordian[1] }}" class="custom-a-2">{{ page_dict_to_html[i_accordian[1]+'_settings_dict']['question_type'] }} <span class="custom-ml-1"></a></span></p>
-              {% endif %}
-            </div>
-            <!-- ------------------------------------- settings end ------------------------------------- -->
-            <!-- ------------------------------------- features start ------------------------------------- -->
-            <div class="custom-border-9 custom-br-1 custom-p-1 custom-mb-6 custom-bg-color-15">
-              <h3 class="custom-ml-1 custom-mb-6">Resources</h3>
-              <p class="custom-line-2"><a href="/employees/archive" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-16 custom-color-17 custom-mr-1">Archive</span></a> <a href="/employees/archive" class="custom-a-2">View archive</a></p>
-              <p class="custom-line-2"><a href="/employees/leaderboard" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-16 custom-color-17 custom-mr-1">Leaderboard</span></a> <a href="/employees/leaderboard" class="custom-a-2">View team leaderboard</a></p>
+            <div class="text-center custom-p-4 custom-bg-color-3 custom-br-1">
               {% if page_dict_to_html['group_stripe_status'] == 'active' %}
-                <p class="custom-line-2"><a href="/activity/a/create/question" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-16 custom-color-17 custom-mr-1">Create custom questions</span></a> <a href="/activity/a/create/question" class="custom-a-2">Create custom questions</a></p>
+                <p class="custom-m-0">Maintenance <i class="fa-solid fa-screwdriver-wrench"></i></p>
               {% else %}
-                <p class="custom-line-2"><a href="/employees/account" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-16 custom-color-17 custom-mr-1">Create custom questions</span></a> <a href="/employees/account" class="custom-a-2 fst-italic custom-opacity-2">Subscription required</a></p>
+                <a href="/employees/account" class="custom-a-2">Subscription required <i class="fa-solid fa-eye-slash"></i></a>
               {% endif %}
             </div>
-            <!-- ------------------------------------- features end ------------------------------------- -->
           </div>
         </div>
       </div>
       <!-- ------------------------------------- accordion item end ------------------------------------- -->
-    {% endfor %}
-    <!-- ------------------------------------- activity a items end ------------------------------------- -->
-    <!-- ------------------------------------- accordion item start ------------------------------------- -->
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-          Picture quiz
-          <div class="form-check form-switch custom-ml-1">
-            <input class="form-check-input" type="checkbox" role="switch" id="flexActivityPicture" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title=" Auto stop/start team activity" disabled>
-            <label class="form-check-label" for="flexActivityPicture"></label>
-          </div>
-        </button>
-      </h2>
-      <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-        <div class="accordion-body">
-          <div class="text-center custom-p-4 custom-bg-color-3 custom-br-1">
-            {% if page_dict_to_html['group_stripe_status'] == 'active' %}
-              <p class="custom-m-0">Maintenance <i class="fa-solid fa-screwdriver-wrench"></i></p>
-            {% else %}
-              <a href="/employees/account" class="custom-a-2">Subscription required <i class="fa-solid fa-eye-slash"></i></a>
-            {% endif %}
+      <!-- ------------------------------------- accordion item start ------------------------------------- -->
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+            Birthdays
+            <div class="form-check form-switch custom-ml-1">
+              <input class="form-check-input" type="checkbox" role="switch" id="flexActivityBirthdays" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Auto stop/start team activity, save changes below" disabled>
+              <label class="form-check-label" for="flexActivityBirthdays"></label>
+            </div>
+          </button>
+        </h2>
+        <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <div class="text-center custom-p-4 custom-bg-color-3 custom-br-1">
+              {% if page_dict_to_html['group_stripe_status'] == 'active' %}
+                <p class="custom-m-0">Maintenance <i class="fa-solid fa-screwdriver-wrench"></i></p>
+              {% else %}
+                <a href="/employees/account" class="custom-a-2">Subscription required <i class="fa-solid fa-eye-slash"></i></a>
+              {% endif %}
+            </div>
           </div>
         </div>
       </div>
+      <!-- ------------------------------------- accordion item end ------------------------------------- -->
+      <!-- ------------------------------------- accordion item start ------------------------------------- -->
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+            Personality tests
+            <div class="form-check form-switch custom-ml-1">
+              <input class="form-check-input" type="checkbox" role="switch" id="flexActivityPersonality" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Auto stop/start team activity, save changes below" disabled>
+              <label class="form-check-label" for="flexActivityPersonality"></label>
+            </div>
+          </button>
+        </h2>
+        <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <div class="text-center custom-p-4 custom-bg-color-3 custom-br-1">
+              {% if page_dict_to_html['group_stripe_status'] == 'active' %}
+                <p class="custom-m-0">Maintenance <i class="fa-solid fa-screwdriver-wrench"></i></p>
+              {% else %}
+                <a href="/employees/account" class="custom-a-2">Subscription required <i class="fa-solid fa-eye-slash"></i></a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ------------------------------------- accordion item end ------------------------------------- -->
+      <!-- ------------------------------------- accordion item start ------------------------------------- -->
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+            Employee surveys
+            <div class="form-check form-switch custom-ml-1">
+              <input class="form-check-input" type="checkbox" role="switch" id="flexActivitySurvey" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Auto stop/start team activity, save changes below" disabled>
+              <label class="form-check-label" for="flexActivitySurvey"></label>
+            </div>
+          </button>
+        </h2>
+        <div id="collapseSix" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <div class="text-center custom-p-4 custom-bg-color-3 custom-br-1">
+              {% if page_dict_to_html['group_stripe_status'] == 'active' %}
+                <p class="custom-m-0">Maintenance <i class="fa-solid fa-screwdriver-wrench"></i></p>
+              {% else %}
+                <a href="/employees/account" class="custom-a-2">Subscription required <i class="fa-solid fa-eye-slash"></i></a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ------------------------------------- accordion item end ------------------------------------- -->
+      <!-- ------------------------------------- accordion item start ------------------------------------- -->
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+            Most likely to
+            <div class="form-check form-switch custom-ml-1">
+              <input class="form-check-input" type="checkbox" role="switch" id="flexActivityMostLikely" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Auto stop/start team activity, save changes below" disabled>
+              <label class="form-check-label" for="flexActivityMostLikely"></label>
+            </div>
+          </button>
+        </h2>
+        <div id="collapseSeven" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <div class="text-center custom-p-4 custom-bg-color-3 custom-br-1">
+              {% if page_dict_to_html['group_stripe_status'] == 'active' %}
+                <p class="custom-m-0">Maintenance <i class="fa-solid fa-screwdriver-wrench"></i></p>
+              {% else %}
+                <a href="/employees/account" class="custom-a-2">Subscription required <i class="fa-solid fa-eye-slash"></i></a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ------------------------------------- accordion item end ------------------------------------- -->
+      <!-- ------------------------------------- accordion item start ------------------------------------- -->
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+            This or that
+            <div class="form-check form-switch custom-ml-1">
+              <input class="form-check-input" type="checkbox" role="switch" id="flexActivityThisThat" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Auto stop/start team activity, save changes below" disabled>
+              <label class="form-check-label" for="flexActivityThisThat"></label>
+            </div>
+          </button>
+        </h2>
+        <div id="collapseEight" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <div class="text-center custom-p-4 custom-bg-color-3 custom-br-1">
+              {% if page_dict_to_html['group_stripe_status'] == 'active' %}
+                <p class="custom-m-0">Maintenance <i class="fa-solid fa-screwdriver-wrench"></i></p>
+              {% else %}
+                <a href="/employees/account" class="custom-a-2">Subscription required <i class="fa-solid fa-eye-slash"></i></a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ------------------------------------- accordion item end ------------------------------------- -->
+      <!-- ------------------------------------- accordion item start ------------------------------------- -->
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
+            Question of the day
+            <div class="form-check form-switch custom-ml-1">
+              <input class="form-check-input" type="checkbox" role="switch" id="flexActivityQuestionOfTheDay" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Auto stop/start team activity, save changes below" disabled>
+              <label class="form-check-label" for="flexActivityQuestionOfTheDay"></label>
+            </div>
+          </button>
+        </h2>
+        <div id="collapseNine" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <div class="text-center custom-p-4 custom-bg-color-3 custom-br-1">
+              {% if page_dict_to_html['group_stripe_status'] == 'active' %}
+                <p class="custom-m-0">Maintenance <i class="fa-solid fa-screwdriver-wrench"></i></p>
+              {% else %}
+                <a href="/employees/account" class="custom-a-2">Subscription required <i class="fa-solid fa-eye-slash"></i></a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ------------------------------------- accordion item end ------------------------------------- -->
+      <!-- ------------------------------------- accordion item start ------------------------------------- -->
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
+            Gift card prizes
+            <div class="form-check form-switch custom-ml-1">
+              <input class="form-check-input" type="checkbox" role="switch" id="flexActivityGiftCard" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Auto stop/start team activity, save changes below" disabled>
+              <label class="form-check-label" for="flexActivityGiftCard"></label>
+            </div>
+          </button>
+        </h2>
+        <div id="collapseTen" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <div class="text-center custom-p-4 custom-bg-color-3 custom-br-1">
+              {% if page_dict_to_html['group_stripe_status'] == 'active' %}
+                <p class="custom-m-0">Maintenance <i class="fa-solid fa-screwdriver-wrench"></i></p>
+              {% else %}
+                <a href="/employees/account" class="custom-a-2">Subscription required <i class="fa-solid fa-eye-slash"></i></a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ------------------------------------- accordion item end ------------------------------------- -->
     </div>
-    <!-- ------------------------------------- accordion item end ------------------------------------- -->
-    <!-- ------------------------------------- accordion item start ------------------------------------- -->
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-          Icebreakers
-          <div class="form-check form-switch custom-ml-1">
-            <input class="form-check-input" type="checkbox" role="switch" id="flexActivityIcebreakers" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title=" Auto stop/start team activity" disabled>
-            <label class="form-check-label" for="flexActivityIcebreakers"></label>
-          </div>
-        </button>
-      </h2>
-      <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-        <div class="accordion-body">
-          <div class="text-center custom-p-4 custom-bg-color-3 custom-br-1">
-            {% if page_dict_to_html['group_stripe_status'] == 'active' %}
-              <p class="custom-m-0">Maintenance <i class="fa-solid fa-screwdriver-wrench"></i></p>
-            {% else %}
-              <a href="/employees/account" class="custom-a-2">Subscription required <i class="fa-solid fa-eye-slash"></i></a>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- ------------------------------------- accordion item end ------------------------------------- -->
-    <!-- ------------------------------------- accordion item start ------------------------------------- -->
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-          Birthdays
-          <div class="form-check form-switch custom-ml-1">
-            <input class="form-check-input" type="checkbox" role="switch" id="flexActivityBirthdays" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title=" Auto stop/start team activity" disabled>
-            <label class="form-check-label" for="flexActivityBirthdays"></label>
-          </div>
-        </button>
-      </h2>
-      <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-        <div class="accordion-body">
-          <div class="text-center custom-p-4 custom-bg-color-3 custom-br-1">
-            {% if page_dict_to_html['group_stripe_status'] == 'active' %}
-              <p class="custom-m-0">Maintenance <i class="fa-solid fa-screwdriver-wrench"></i></p>
-            {% else %}
-              <a href="/employees/account" class="custom-a-2">Subscription required <i class="fa-solid fa-eye-slash"></i></a>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- ------------------------------------- accordion item end ------------------------------------- -->
-    <!-- ------------------------------------- accordion item start ------------------------------------- -->
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-          Personality tests
-          <div class="form-check form-switch custom-ml-1">
-            <input class="form-check-input" type="checkbox" role="switch" id="flexActivityPersonality" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title=" Auto stop/start team activity" disabled>
-            <label class="form-check-label" for="flexActivityPersonality"></label>
-          </div>
-        </button>
-      </h2>
-      <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-        <div class="accordion-body">
-          <div class="text-center custom-p-4 custom-bg-color-3 custom-br-1">
-            {% if page_dict_to_html['group_stripe_status'] == 'active' %}
-              <p class="custom-m-0">Maintenance <i class="fa-solid fa-screwdriver-wrench"></i></p>
-            {% else %}
-              <a href="/employees/account" class="custom-a-2">Subscription required <i class="fa-solid fa-eye-slash"></i></a>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- ------------------------------------- accordion item end ------------------------------------- -->
-    <!-- ------------------------------------- accordion item start ------------------------------------- -->
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-          Employee surveys
-          <div class="form-check form-switch custom-ml-1">
-            <input class="form-check-input" type="checkbox" role="switch" id="flexActivitySurvey" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title=" Auto stop/start team activity" disabled>
-            <label class="form-check-label" for="flexActivitySurvey"></label>
-          </div>
-        </button>
-      </h2>
-      <div id="collapseSix" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-        <div class="accordion-body">
-          <div class="text-center custom-p-4 custom-bg-color-3 custom-br-1">
-            {% if page_dict_to_html['group_stripe_status'] == 'active' %}
-              <p class="custom-m-0">Maintenance <i class="fa-solid fa-screwdriver-wrench"></i></p>
-            {% else %}
-              <a href="/employees/account" class="custom-a-2">Subscription required <i class="fa-solid fa-eye-slash"></i></a>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- ------------------------------------- accordion item end ------------------------------------- -->
-    <!-- ------------------------------------- accordion item start ------------------------------------- -->
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
-          Most likely to
-          <div class="form-check form-switch custom-ml-1">
-            <input class="form-check-input" type="checkbox" role="switch" id="flexActivityMostLikely" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title=" Auto stop/start team activity" disabled>
-            <label class="form-check-label" for="flexActivityMostLikely"></label>
-          </div>
-        </button>
-      </h2>
-      <div id="collapseSeven" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-        <div class="accordion-body">
-          <div class="text-center custom-p-4 custom-bg-color-3 custom-br-1">
-            {% if page_dict_to_html['group_stripe_status'] == 'active' %}
-              <p class="custom-m-0">Maintenance <i class="fa-solid fa-screwdriver-wrench"></i></p>
-            {% else %}
-              <a href="/employees/account" class="custom-a-2">Subscription required <i class="fa-solid fa-eye-slash"></i></a>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- ------------------------------------- accordion item end ------------------------------------- -->
-    <!-- ------------------------------------- accordion item start ------------------------------------- -->
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
-          This or that
-          <div class="form-check form-switch custom-ml-1">
-            <input class="form-check-input" type="checkbox" role="switch" id="flexActivityThisThat" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title=" Auto stop/start team activity" disabled>
-            <label class="form-check-label" for="flexActivityThisThat"></label>
-          </div>
-        </button>
-      </h2>
-      <div id="collapseEight" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-        <div class="accordion-body">
-          <div class="text-center custom-p-4 custom-bg-color-3 custom-br-1">
-            {% if page_dict_to_html['group_stripe_status'] == 'active' %}
-              <p class="custom-m-0">Maintenance <i class="fa-solid fa-screwdriver-wrench"></i></p>
-            {% else %}
-              <a href="/employees/account" class="custom-a-2">Subscription required <i class="fa-solid fa-eye-slash"></i></a>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- ------------------------------------- accordion item end ------------------------------------- -->
-    <!-- ------------------------------------- accordion item start ------------------------------------- -->
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
-          Question of the day
-          <div class="form-check form-switch custom-ml-1">
-            <input class="form-check-input" type="checkbox" role="switch" id="flexActivityQuestionOfTheDay" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title=" Auto stop/start team activity" disabled>
-            <label class="form-check-label" for="flexActivityQuestionOfTheDay"></label>
-          </div>
-        </button>
-      </h2>
-      <div id="collapseNine" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-        <div class="accordion-body">
-          <div class="text-center custom-p-4 custom-bg-color-3 custom-br-1">
-            {% if page_dict_to_html['group_stripe_status'] == 'active' %}
-              <p class="custom-m-0">Maintenance <i class="fa-solid fa-screwdriver-wrench"></i></p>
-            {% else %}
-              <a href="/employees/account" class="custom-a-2">Subscription required <i class="fa-solid fa-eye-slash"></i></a>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- ------------------------------------- accordion item end ------------------------------------- -->
-    <!-- ------------------------------------- accordion item start ------------------------------------- -->
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
-          Gift card prizes
-          <div class="form-check form-switch custom-ml-1">
-            <input class="form-check-input" type="checkbox" role="switch" id="flexActivityGiftCard" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title=" Auto stop/start team activity" disabled>
-            <label class="form-check-label" for="flexActivityGiftCard"></label>
-          </div>
-        </button>
-      </h2>
-      <div id="collapseTen" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-        <div class="accordion-body">
-          <div class="text-center custom-p-4 custom-bg-color-3 custom-br-1">
-            {% if page_dict_to_html['group_stripe_status'] == 'active' %}
-              <p class="custom-m-0">Maintenance <i class="fa-solid fa-screwdriver-wrench"></i></p>
-            {% else %}
-              <a href="/employees/account" class="custom-a-2">Subscription required <i class="fa-solid fa-eye-slash"></i></a>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- ------------------------------------- accordion item end ------------------------------------- -->
-    <!-- ------------------------------------- accordion item start ------------------------------------- -->
-    <!-- <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-          Accordion Item #2
-        </button>
-      </h2>
-      <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-        <div class="accordion-body">
-          <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-        </div>
-      </div>
-    </div> -->
-    <!-- ------------------------------------- accordion item end ------------------------------------- -->
-    <!-- ------------------------------------- accordion item start ------------------------------------- -->
-    <!-- <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-          Accordion Item #3
-        </button>
-      </h2>
-      <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-        <div class="accordion-body">
-          <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-        </div>
-      </div>
-    </div> -->
-    <!-- ------------------------------------- accordion item end ------------------------------------- -->
   </div>
-</div>
+  <!-- ------------------------------------- save changes start ------------------------------------- -->
+  <div class="container text-center custom-mt-25">
+    <button type="submit" class="btn btn-primary btn-lg custom-width-100">Save changes</button>
+  </div>
+  <!-- ------------------------------------- save changes end ------------------------------------- -->
+</form>
 <!-- ------------------------------------- new dashboard start ------------------------------------- -->
 <!-- ------------------------------------- signature start ------------------------------------- -->
-<div class="custom-width-15 mx-auto custom-mt-100">
+<div class="custom-width-15 mx-auto custom-mt-75">
   <a href="/dashboard" class="navbar-brand">
     <img src="https://triviafypublicobjects.s3.us-east-2.amazonaws.com/official_logo.png" alt="triviafy logo" class="custom-img-size-1 custom-mt-negative-1">
     <span class="fw-bold custom-header-1">Triviafy<spa class="custom-header-4">.com</span></span>
