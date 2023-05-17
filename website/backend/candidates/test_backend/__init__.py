@@ -73,12 +73,11 @@ def first_user_first_quiz_check_function(company_name):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
-def first_user_latest_quiz_check_function(company_name):
+def first_user_latest_quiz_check_function(current_user, url_activity_code):
   check_first_user_latest_quiz_can_replace = False
   # ------------------------ latest objs start ------------------------
-  user_group_id = GroupObj.query.filter_by(fk_company_name=company_name).order_by(GroupObj.created_timestamp.desc()).first()
-  user_test_obj = ActivityATestObj.query.filter_by(fk_group_id=user_group_id.public_group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).first()
-  user_test_graded_obj = ActivityATestGradedObj.query.filter_by(fk_group_id=user_group_id.public_group_id, fk_test_id=user_test_obj.id, status='complete',product='trivia').all()
+  user_test_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id,product=url_activity_code).order_by(ActivityATestObj.created_timestamp.desc()).first()
+  user_test_graded_obj = ActivityATestGradedObj.query.filter_by(fk_group_id=current_user.group_id, fk_test_id=user_test_obj.id, status='complete',product=url_activity_code).all()
   # ------------------------ latest objs end ------------------------
   # ------------------------ check if none completed yet start ------------------------
   if user_test_graded_obj == None or user_test_graded_obj == []:

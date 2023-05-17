@@ -38,7 +38,7 @@ from website.backend.candidates.string_manipulation import breakup_email_functio
 from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function, get_marketing_list_function, get_dashboard_accordian_function
 from website.backend.candidates.dropdowns import get_activity_a_dropdowns_function
 from website.backend.candidates.pull_create_logic import pull_create_group_obj_function, pull_latest_activity_a_test_obj_function, user_must_have_group_id_function
-from website.backend.candidates.activity_supporting import activity_a_dashboard_function
+from website.backend.candidates.activity_supporting import activity_a_dashboard_function, activity_a_live_function
 from website.backend.candidates.emailing import email_share_with_team_function
 from website.backend.candidates.onboarding import onboarding_checks_function
 from website.backend.candidates.pull_create_logic import pull_create_activity_a_settings_obj_function
@@ -311,13 +311,13 @@ def create_activity_a_function(url_activity_code=None):
   # ------------------------ if none yet created then create immediately + redirect start ------------------------
   if db_tests_obj == None:
     create_quiz_function_v2(group_id=current_user.group_id, activity_name=url_activity_code, immediate=True)
-    return redirect(url_for('employees_views_interior.activity_a_contest_function'))
+    return redirect(url_for('employees_views_interior.activity_a_contest_function', url_activity_code=url_activity_code))
   # ------------------------ if none yet created then create immediately + redirect end ------------------------
   else:
     activity_cadence_check = compare_candence_vs_previous_quiz_function_v2(current_user, db_tests_obj, url_activity_code)
     if activity_cadence_check == True:
       create_quiz_function_v2(group_id=current_user.group_id, activity_name=url_activity_code)
-      return redirect(url_for('employees_views_interior.activity_a_contest_function'))
+      return redirect(url_for('employees_views_interior.activity_a_contest_function', url_activity_code=url_activity_code))
   return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
 # ------------------------ individual route end ------------------------
 
@@ -470,18 +470,17 @@ def activity_a_default_settings_function(url_activity_code=None):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_interior.route('/activity/a/trivia/replace/<url_test_id>/<url_question_number>', methods=['GET', 'POST'])
-@employees_views_interior.route('/activity/a/trivia/replace/<url_test_id>/<url_question_number>/', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/a/<url_activity_code>/replace/<url_test_id>/<url_question_number>', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/a/<url_activity_code>/replace/<url_test_id>/<url_question_number>/', methods=['GET', 'POST'])
 @login_required
-def employees_test_id_replace_question_function(url_test_id=None, url_question_number=None):
+def employees_test_id_replace_question_function(url_activity_code=None, url_test_id=None, url_question_number=None):
   localhost_print_function(' ------------------------ employees_test_id_replace_question_function START ------------------------ ')
   # ------------------------ redirect start ------------------------
-  if url_test_id == None or url_test_id == '' or url_question_number == None or url_question_number == '':
+  if url_activity_code == None or url_test_id == None or url_test_id == '' or url_question_number == None or url_question_number == '':
     return redirect(url_for('employees_views_interior.activity_a_contest_function'))
   # ------------------------ redirect end ------------------------
   # ------------------------ get group latest test start ------------------------
-  user_group_id = GroupObj.query.filter_by(fk_company_name=current_user.company_name).order_by(GroupObj.created_timestamp.desc()).first()
-  db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=user_group_id.public_group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).first()
+  db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id,product=url_activity_code).order_by(ActivityATestObj.created_timestamp.desc()).first()
   db_tests_dict = arr_of_dict_all_columns_single_item_function(db_tests_obj)
   # ------------------------ get group latest test end ------------------------
   # ------------------------ identify question to replace start ------------------------
@@ -491,7 +490,7 @@ def employees_test_id_replace_question_function(url_test_id=None, url_question_n
   # ------------------------ identify question to replace end ------------------------
   # ------------------------ get new question never asked before start ------------------------
   categories = db_tests_dict['categories']
-  new_question_id = pull_question_function(user_group_id.public_group_id, categories)
+  new_question_id = pull_question_function(current_user.group_id, categories, url_activity_code)
   # ------------------------ get new question never asked before end ------------------------
   # ------------------------ replace id in test table start ------------------------
   question_ids_str_replaced = question_ids_str_current.replace(question_id_to_replace, new_question_id)
@@ -502,7 +501,7 @@ def employees_test_id_replace_question_function(url_test_id=None, url_question_n
     pass
   # ------------------------ replace id in test table end ------------------------
   # ------------------------ replace id in question asked table start ------------------------
-  db_question_used_obj = ActivityAGroupQuestionsUsedObj.query.filter_by(fk_group_id=user_group_id.public_group_id, fk_test_id=db_tests_obj.id, fk_question_id=question_id_to_replace,product='trivia').first()
+  db_question_used_obj = ActivityAGroupQuestionsUsedObj.query.filter_by(fk_group_id=current_user.group_id, fk_test_id=db_tests_obj.id, fk_question_id=question_id_to_replace,product=url_activity_code).first()
   try:
     db_question_used_obj.fk_question_id = new_question_id
     db.session.commit()
@@ -511,7 +510,7 @@ def employees_test_id_replace_question_function(url_test_id=None, url_question_n
   # ------------------------ replace id in question asked table end ------------------------
   # ------------------------ check if old question graded/remove start ------------------------
   try:
-    db_test_graded_obj = ActivityATestGradedObj.query.filter_by(fk_group_id=user_group_id.public_group_id, fk_test_id=db_tests_obj.id,product='trivia').all()
+    db_test_graded_obj = ActivityATestGradedObj.query.filter_by(fk_group_id=current_user.group_id, fk_test_id=db_tests_obj.id,product=url_activity_code).all()
     for i_obj in db_test_graded_obj:
       db_test_graded_dict = arr_of_dict_all_columns_single_item_function(i_obj)
       tracking_ids_arr_of_dicts = json.loads(db_test_graded_dict['test_obj'])
@@ -526,184 +525,51 @@ def employees_test_id_replace_question_function(url_test_id=None, url_question_n
     pass
   # ------------------------ check if old question graded/remove end ------------------------
   localhost_print_function(' ------------------------ employees_test_id_replace_question_function end ------------------------ ')
-  return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=url_test_id, url_question_number=url_question_number, url_redirect_code='e23'))
+  return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=url_test_id, url_question_number=url_question_number, url_redirect_code='e23', url_activity_code=url_activity_code))
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_interior.route('/activity/a/trivia', methods=['GET', 'POST'])
-@employees_views_interior.route('/activity/a/trivia/', methods=['GET', 'POST'])
-@employees_views_interior.route('/activity/a/trivia/<url_test_id>', methods=['GET', 'POST'])
-@employees_views_interior.route('/activity/a/trivia/<url_test_id>/', methods=['GET', 'POST'])
-@employees_views_interior.route('/activity/a/trivia/<url_test_id>/<url_question_number>', methods=['GET', 'POST'])
-@employees_views_interior.route('/activity/a/trivia/<url_test_id>/<url_question_number>/', methods=['GET', 'POST'])
-@employees_views_interior.route('/activity/a/trivia/<url_test_id>/<url_question_number>/<url_initial_page_load>', methods=['GET', 'POST'])
-@employees_views_interior.route('/activity/a/trivia/<url_test_id>/<url_question_number>/<url_initial_page_load>/', methods=['GET', 'POST'])
-@employees_views_interior.route('/activity/a/trivia/<url_test_id>/<url_question_number>/<url_initial_page_load>/<url_redirect_code>', methods=['GET', 'POST'])
-@employees_views_interior.route('/activity/a/trivia/<url_test_id>/<url_question_number>/<url_redirect_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/a/<url_activity_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/a/<url_activity_code>/', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/a/<url_activity_code>/<url_test_id>', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/a/<url_activity_code>/<url_test_id>/', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/a/<url_activity_code>/<url_test_id>/<url_question_number>', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/a/<url_activity_code>/<url_test_id>/<url_question_number>/', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/a/<url_activity_code>/<url_test_id>/<url_question_number>/<url_initial_page_load>', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/a/<url_activity_code>/<url_test_id>/<url_question_number>/<url_initial_page_load>/', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/a/<url_activity_code>/<url_test_id>/<url_question_number>/<url_initial_page_load>/<url_redirect_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/a/<url_activity_code>/<url_test_id>/<url_question_number>/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
-def activity_a_contest_function(url_redirect_code=None, url_test_id=None, url_question_number='1', url_initial_page_load=None):
-  template_location_url = 'employees/interior/test_quiz/index.html'
+def activity_a_contest_function(url_redirect_code=None, url_test_id=None, url_question_number='1', url_initial_page_load=None, url_activity_code=None):
   # ------------------------ page dict start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
   page_dict = {}
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
-  # ------------------------ redirect to latest test id start ------------------------
-  user_group_id = GroupObj.query.filter_by(fk_company_name=current_user.company_name).order_by(GroupObj.created_timestamp.desc()).first()
-  if url_test_id == None:
-    db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=user_group_id.public_group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).first()
-    if db_tests_obj == None or db_tests_obj == []:
-      return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
-    else:
-      return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=db_tests_obj.id, url_question_number='1', url_initial_page_load='init'))
-  # ------------------------ redirect to latest test id end ------------------------
-  # ------------------------ first user first quiz delete logic start ------------------------
-  page_dict['first_user_latest_quiz_can_replace'] = first_user_latest_quiz_check_function(current_user.company_name)
-  if url_test_id == 'fufq_remove':
-    if page_dict['first_user_latest_quiz_can_replace'] == True:
-      check_latest_test_obj = ActivityATestObj.query.filter_by(fk_group_id=user_group_id.public_group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).first()
-      ActivityATestObj.query.filter_by(id=check_latest_test_obj.id,product='trivia').delete()
-      ActivityATestGradedObj.query.filter_by(fk_test_id=check_latest_test_obj.id,product='trivia').delete()
-      ActivityAGroupQuestionsUsedObj.query.filter_by(fk_test_id=check_latest_test_obj.id,product='trivia').delete()
-      db.session.commit()
-      return redirect(url_for('employees_views_interior.activity_a_settings_function', url_activity_code='trivia', url_redirect_code='e22'))
-  # ------------------------ first user first quiz delete logic end ------------------------
-  # ------------------------ on initial page load - redirect to first unanswered question start ------------------------
-  # ------------------------ pull latest graded start ------------------------
-  if url_initial_page_load == 'init':
-    db_test_grading_obj = ActivityATestGradedObj.query.filter_by(fk_test_id=url_test_id, fk_user_id=current_user.id, status='wip',product='trivia').first()
-    try:
-      db_test_grading_dict = arr_of_dict_all_columns_single_item_function(db_test_grading_obj)
-      # ------------------------ pull latest graded end ------------------------
-      # ------------------------ pull question left off on initial load only start ------------------------
-      unanswered_arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
-      for i in json.loads(db_test_grading_dict['test_obj']):
-        already_answered_question_number = str(i['question_number'])
-        if already_answered_question_number in unanswered_arr:
-          unanswered_arr.remove(already_answered_question_number)
-      if str(url_question_number) != unanswered_arr[0]:
-        return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=url_test_id, url_question_number=unanswered_arr[0]))
-      # ------------------------ pull question left off on initial load only end ------------------------
-    except:
-      pass
-  # ------------------------ on initial page load - redirect to first unanswered question end ------------------------
-  # ------------------------ pull test id start ------------------------
-  test_id = url_test_id
-  db_tests_obj = ActivityATestObj.query.filter_by(id=test_id,product='trivia').first()
-  if db_tests_obj == None or db_tests_obj == []:
-    return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
-  # ------------------------ pull test id end ------------------------
-  # ------------------------ validate question number start ------------------------
-  total_questions = int(db_tests_obj.total_questions)
-  try:
-    url_question_number = int(url_question_number)
-  except:
-    return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=test_id, url_question_number='1'))
-  if url_question_number > total_questions or url_question_number < 1:
-    return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=test_id, url_question_number='1'))
-  # ------------------------ validate question number end ------------------------
-  # ------------------------ pull specific question id start ------------------------
-  question_ids_str = db_tests_obj.question_ids
-  question_ids_arr = question_ids_str.split(',')
-  desired_question_id = question_ids_arr[url_question_number-1]
-  # ------------------------ pull specific question id end ------------------------
-  # ------------------------ pull question from db start ------------------------
-  db_question_obj = ActivityACreatedQuestionsObj.query.filter_by(id=desired_question_id).first()
-  db_question_dict = arr_of_dict_all_columns_single_item_function(db_question_obj, for_json_dumps=True)
-  # ------------------------ append question type start ------------------------
-  question_type_order_str = db_tests_obj.question_types_order
-  question_type_order_arr = question_type_order_str.split(',')
-  desired_question_type = question_type_order_arr[url_question_number-1]
-  db_question_dict['desired_question_type'] = desired_question_type
-  # ------------------------ append question type end ------------------------
-  page_dict['db_question_dict'] = db_question_dict
-  # ------------------------ pull question from db end ------------------------
-  # ------------------------ fix categories presentation start ------------------------
-  page_dict['db_question_dict']['categories'] = categories_tuple_function(page_dict['db_question_dict']['categories'])
-  # ------------------------ fix categories presentation end ------------------------
-  # ------------------------ pull user info start ------------------------
-  page_dict['user_company_name'] = current_user.company_name
-  # ------------------------ pull user info end ------------------------
-  # ------------------------ question order logic start ------------------------
-  page_dict['current_question_number'] = str(int(url_question_number))
-  page_dict['next_question_number'] = str(int(url_question_number) + 1)
-  page_dict['previous_question_number'] = str(int(url_question_number) - 1)
-  if int(db_tests_obj.total_questions) == int(url_question_number):
-    page_dict['next_question_number'] = 'submit'
-  # ------------------------ question order logic end ------------------------
-  # ------------------------ test variables start ------------------------
-  page_dict['test_total_questions'] = db_tests_obj.total_questions
-  test_total_questions_arr = []
-  for i in range(int(db_tests_obj.total_questions)):
-    test_total_questions_arr.append(str(i+1))
-  page_dict['test_total_questions_arr'] = test_total_questions_arr
-  page_dict['url_test_id'] = url_test_id
-  # ------------------------ test variables end ------------------------
-  # ------------------------ contains image check start ------------------------
-  contains_img = False
-  if 'amazonaws.com' in page_dict['db_question_dict']['aws_image_url']:
-    contains_img = True
-  page_dict['question_contains_image'] = contains_img
-  # ------------------------ contains image check end ------------------------
-  # ------------------------ redirect variables start ------------------------
-  page_dict['db_question_dict']['redirect_ui_answer'] = ''
-  page_dict['latest_test_completed'] = False
-  try:
-    db_test_grading_obj = ActivityATestGradedObj.query.filter_by(fk_test_id=url_test_id, fk_user_id=current_user.id,product='trivia').first()
-    db_test_grading_dict = arr_of_dict_all_columns_single_item_function(db_test_grading_obj)
-    master_answer_arr_of_dict = json.loads(db_test_grading_dict['test_obj'])
-    for i in master_answer_arr_of_dict:
-      if int(i['question_number']) == int(url_question_number):
-        page_dict['db_question_dict']['redirect_ui_answer'] = i['ui_answer']
-    if db_test_grading_dict['status'] == 'complete':
-      page_dict['latest_test_completed'] = True
-  except:
-    pass
-  # ------------------------ redirect variables end ------------------------
-  # ------------------------ archive logic start ------------------------
-  page_dict['view_as_archive'] = False
-  try:
-    if db_tests_obj.status == 'Closed':
-      page_dict['view_as_archive'] = True
-      # ------------------------ get teammate answers start ------------------------
-      teammate_answers_tuple = []
-      db_test_grading_obj = ActivityATestGradedObj.query.filter_by(fk_test_id=url_test_id,product='trivia').all()
-      for i_obj in db_test_grading_obj:
-        db_user_obj = UserObj.query.filter_by(id=i_obj.fk_user_id).first()
-        users_master_test_results_arr_of_dict = json.loads(i_obj.test_obj)
-        for i_dict in users_master_test_results_arr_of_dict:
-          i_question_number = i_dict['question_number']
-          if int(i_question_number) == int(url_question_number):
-            i_ui_answer = i_dict['ui_answer']
-            i_ui_answer_is_correct = i_dict['ui_answer_is_correct']
-            # ------------------------ capitalize mcq answer start ------------------------
-            if len(i_ui_answer) == 1:
-              i_ui_answer = i_ui_answer.upper()
-            # ------------------------ capitalize mcq answer end ------------------------
-            # ------------------------ shorten email start ------------------------
-            i_email = db_user_obj.email
-            i_email_arr = i_email.split('@')
-            i_email = i_email_arr[0]
-            if len(i_email) > 15:
-              i_email = i_email[0:15]
-            # ------------------------ shorten email end ------------------------
-            teammate_answers_tuple.append((i_email, i_ui_answer, i_ui_answer_is_correct))
-            break
-      page_dict['teammate_answers_tuple'] = teammate_answers_tuple
-      # ------------------------ get teammate answers end ------------------------
-  except:
-    pass
-  # ------------------------ archive logic end ------------------------
   # ------------------------ stripe subscription status check start ------------------------
   stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees', current_user.email)
   page_dict['group_stripe_status'] = stripe_subscription_obj_status
   # ------------------------ stripe subscription status check end ------------------------
+  # ------------------------ activity a live start ------------------------
+  page_dict, function_result = activity_a_live_function(page_dict, current_user, url_test_id, url_question_number, url_initial_page_load, url_activity_code)
+  if function_result == 'no_activity':
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+  if function_result == 'init_activity':
+    return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=page_dict['latest_test_id'], url_question_number='1', url_initial_page_load='init', url_activity_code=url_activity_code))
+  if function_result == 'replace_activity':
+    return redirect(url_for('employees_views_interior.activity_a_settings_function', url_redirect_code='e22', url_activity_code=url_activity_code))
+  if function_result == 'redirect_earliest_unanswered':
+    return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=url_test_id, url_question_number=page_dict['earliest_unanswered_question_number'], url_activity_code=url_activity_code))
+  if function_result == 'redirect_earliest_unanswered':
+    return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=page_dict['latest_test_id'], url_question_number='1'))
+  # ------------------------ activity a live end ------------------------
   if page_dict['view_as_archive'] == False: # no user inputs should be accepted since this test is closed.
     # ------------------------ ui post start ------------------------
     if request.method == 'POST':
       # ------------------------ user input start ------------------------
       ui_answer = ''
       ui_answer_is_correct = False
+      db_tests_obj = ActivityATestObj.query.filter_by(id=url_test_id).first()
       # ------------------------ user input - fill in the blank start ------------------------
       if page_dict['db_question_dict']['desired_question_type'] == 'Fill in the blank':
         ui_answer = request.form.get('ui_answer_fitb')
@@ -712,7 +578,7 @@ def activity_a_contest_function(url_redirect_code=None, url_test_id=None, url_qu
           return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=url_test_id, url_question_number=str(url_question_number), url_redirect_code='e6'))
         # ------------------------ validate ui end ------------------------
         # ------------------------ grade ui start ------------------------
-        grade_quiz_function(ui_answer, url_test_id, db_tests_obj.total_questions, url_question_number, db_question_dict, current_user.id, user_group_id.public_group_id)
+        grade_quiz_function(ui_answer, url_test_id, db_tests_obj.total_questions, url_question_number, page_dict['db_question_dict'], current_user.id, current_user.group_id, url_activity_code)
         # ------------------------ grade ui end ------------------------
       # ------------------------ user input - fill in the blank end ------------------------
       # ------------------------ user input - multiple choice start ------------------------
@@ -724,13 +590,13 @@ def activity_a_contest_function(url_redirect_code=None, url_test_id=None, url_qu
           return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=url_test_id, url_question_number=str(url_question_number), url_redirect_code='e6'))
         # ------------------------ validate ui start ------------------------
         # ------------------------ grade ui start ------------------------
-        grade_quiz_function(ui_answer, url_test_id, db_tests_obj.total_questions, url_question_number, db_question_dict, current_user.id, user_group_id.public_group_id)
+        grade_quiz_function(ui_answer, url_test_id, db_tests_obj.total_questions, url_question_number, page_dict['db_question_dict'], current_user.id, current_user.group_id, url_activity_code)
         # ------------------------ grade ui end ------------------------
       # ------------------------ user input - multiple choice end ------------------------
       # ------------------------ user input end ------------------------
       if page_dict['next_question_number'] == 'submit':
         # ------------------------ pull latest graded start ------------------------
-        db_test_grading_obj = ActivityATestGradedObj.query.filter_by(fk_test_id=url_test_id, fk_user_id=current_user.id,product='trivia').first()
+        db_test_grading_obj = ActivityATestGradedObj.query.filter_by(fk_test_id=url_test_id, fk_user_id=current_user.id,product=url_activity_code).first()
         db_test_grading_dict = arr_of_dict_all_columns_single_item_function(db_test_grading_obj)
         # ------------------------ pull latest graded end ------------------------
         if db_test_grading_dict['total_questions'] == db_test_grading_dict['graded_count']:
@@ -743,8 +609,13 @@ def activity_a_contest_function(url_redirect_code=None, url_test_id=None, url_qu
               unanswered_arr.remove(already_answered_question_number)
           return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=url_test_id, url_question_number=unanswered_arr[0]))
       else:
-        return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=url_test_id, url_question_number=str(int(url_question_number)+1)))
+        return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=url_test_id, url_question_number=str(int(url_question_number)+1), url_activity_code=url_activity_code))
     # ------------------------ ui post end ------------------------
+    localhost_print_function(' ------------- 100-activity start ------------- ')
+    page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
+    for k,v in page_dict.items():
+      localhost_print_function(f"k: {k} | v: {v}")
+    localhost_print_function(' ------------- 100-activity end ------------- ')
   return render_template('employees/interior/test_quiz/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
 

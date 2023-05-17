@@ -27,12 +27,12 @@
 
             {% if page_dict_to_html['current_question_number'] == '1' %}
             {% else %}
-            <a href="/activity/a/trivia/{{ page_dict_to_html['url_test_id'] }}/{{ page_dict_to_html['previous_question_number'] }}" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Back</a>
+            <a href="/activity/a/{{ page_dict_to_html['activity_type'] }}/{{ page_dict_to_html['url_test_id'] }}/{{ page_dict_to_html['previous_question_number'] }}" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Back</a>
             {% endif %}
             {% if page_dict_to_html['next_question_number'] == 'submit' %}
             <a href="/dashboard" class="btn btn-success custom-ml-3">Exit <i class="fa-solid fa-check"></i></a>
             {% else %}
-            <a href="/activity/a/trivia/{{ page_dict_to_html['url_test_id'] }}/{{ page_dict_to_html['next_question_number'] }}" class="btn btn-success custom-ml-3">Next <i class="fa-solid fa-arrow-right"></i></a>
+            <a href="/activity/a/{{ page_dict_to_html['activity_type'] }}/{{ page_dict_to_html['url_test_id'] }}/{{ page_dict_to_html['next_question_number'] }}" class="btn btn-success custom-ml-3">Submit <i class="fa-solid fa-arrow-right"></i></a>
             {% endif %}
           </div>
           <!-- ------------------------------------- feature view: archive end ------------------------------------- -->
@@ -47,12 +47,12 @@
             
             {% if page_dict_to_html['current_question_number'] == '1' %}
             {% else %}
-            <a href="/activity/a/trivia/{{ page_dict_to_html['url_test_id'] }}/{{ page_dict_to_html['previous_question_number'] }}" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Back</a>
+            <a href="/activity/a/{{ page_dict_to_html['activity_type'] }}/{{ page_dict_to_html['url_test_id'] }}/{{ page_dict_to_html['previous_question_number'] }}" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Back</a>
             {% endif %}
             {% if page_dict_to_html['next_question_number'] == 'submit' %}
             <button type="submit" class="btn btn-success custom-ml-3">Submit <i class="fa-solid fa-check"></i></button>
             {% else %}
-            <button type="submit" class="btn btn-success custom-ml-3">Next <i class="fa-solid fa-arrow-right"></i></button>
+            <button type="submit" class="btn btn-success custom-ml-3">Submit <i class="fa-solid fa-arrow-right"></i></button>
             {% endif %}
           </div>
         {% endif %}
@@ -67,17 +67,17 @@
         {% for i in page_dict_to_html['test_total_questions_arr'] %}
           {% if i == page_dict_to_html['current_question_number'] %}
             <div class="text-center">
-              <p><a href="/activity/a/trivia/{{ page_dict_to_html['url_test_id'] }}/{{ i }}"><span class="btn btn-warning btn-sm">{{ i }}</span></a></p>
+              <p><a href="/activity/a/{{ page_dict_to_html['activity_type'] }}/{{ page_dict_to_html['url_test_id'] }}/{{ i }}"><span class="btn btn-warning btn-sm">{{ i }}</span></a></p>
               {% if page_dict_to_html['first_user_latest_quiz_can_replace'] == true and page_dict_to_html['view_as_archive'] == false %}
                 <div class="custom-bg-white custom-br-1 custom-p-15 custom-mb-10" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Everyone on your team can edit this test until at least one person answers all questions.">
-                  <a href="/activity/a/trivia/replace/{{ page_dict_to_html['url_test_id'] }}/{{ i }}" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Replace this question"><span class="btn btn-danger btn-sm"><i class="fa-solid fa-x"></i></span></a>
-                  <a href="/activity/a/trivia/fufq_remove"  data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Delete this entire quiz and select new categories"><span class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></span></a>
+                  <a href="/activity/a/{{ page_dict_to_html['activity_type'] }}/replace/{{ page_dict_to_html['url_test_id'] }}/{{ i }}" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Replace this question"><span class="btn btn-danger btn-sm"><i class="fa-solid fa-x"></i></span></a>
+                  <a href="/activity/a/{{ page_dict_to_html['activity_type'] }}/fufq_remove"  data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Delete this entire quiz and select new categories"><span class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></span></a>
                 </div>
               {% else %}
               {% endif %}
             </div>
           {% else %}
-            <a href="/activity/a/trivia/{{ page_dict_to_html['url_test_id'] }}/{{ i }}"><span class="btn btn-outline-warning btn-sm">{{ i }}</span></a>
+            <a href="/activity/a/{{ page_dict_to_html['activity_type'] }}/{{ page_dict_to_html['url_test_id'] }}/{{ i }}"><span class="btn btn-outline-warning btn-sm">{{ i }}</span></a>
           {% endif %}
         {% endfor %}
       </div>
@@ -103,13 +103,13 @@
                 {% endfor %}
                 <!-- ------------------------------------- discard quiz categories for new categories start ------------------------------------- -->
                 {% if page_dict_to_html['first_user_latest_quiz_can_replace'] == true and page_dict_to_html['view_as_archive'] == false %}
-                  <a href="/activity/a/trivia/fufq_remove"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete this entire quiz and select new categories. Everyone on your team can edit this test until at least one person answers all questions."><span class="btn btn-danger btn-sm">Change categories</span></a>
+                  <a href="/activity/a/{{ page_dict_to_html['activity_type'] }}/fufq_remove"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete this entire quiz and select new categories. Everyone on your team can edit this test until at least one person answers all questions."><span class="btn btn-danger btn-sm">Change categories</span></a>
                 {% else %}
                 {% endif %}
                 <!-- ------------------------------------- discard quiz categories for new categories end ------------------------------------- -->
                 <!-- ------------------------------------- change categories for next quiz start ------------------------------------- -->
                 {% if page_dict_to_html['first_user_latest_quiz_can_replace'] == false or page_dict_to_html['view_as_archive'] == true %}
-                  <a href="/activity/a/settings/trivia" class="btn btn-outline-danger btn-sm">Edit categories for next contest</a>
+                  <a href="/activity/a/settings/{{ page_dict_to_html['activity_type'] }}" class="btn btn-outline-danger btn-sm">Edit categories for next contest</a>
                 {% else %}
                 {% endif %}
                 <!-- ------------------------------------- change categories for next quiz end ------------------------------------- -->

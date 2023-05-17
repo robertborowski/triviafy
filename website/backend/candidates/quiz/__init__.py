@@ -427,7 +427,7 @@ def create_quiz_function_v2(group_id, activity_name, immediate=False):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
-def grade_quiz_function(ui_answer, url_test_id, total_questions, url_question_number, db_question_dict, current_user_id, public_group_id):
+def grade_quiz_function(ui_answer, url_test_id, total_questions, url_question_number, db_question_dict, current_user_id, public_group_id, url_activity_code):
   ui_answer_is_correct = False
   ui_answer_fitb_accuracy_score = 0
   # ------------------------ append to dict start ------------------------
@@ -486,7 +486,7 @@ def grade_quiz_function(ui_answer, url_test_id, total_questions, url_question_nu
   db_question_arr_of_dict.append(db_question_dict)
   # ------------------------ append to dict end ------------------------
   # ------------------------ pull/create grading obj start ------------------------
-  db_test_grading_obj = ActivityATestGradedObj.query.filter_by(fk_test_id=url_test_id, fk_user_id=current_user_id,product='trivia').first()
+  db_test_grading_obj = ActivityATestGradedObj.query.filter_by(fk_test_id=url_test_id, fk_user_id=current_user_id,product=url_activity_code).first()
   if db_test_grading_obj == None or db_test_grading_obj == []:
     # ------------------------ insert to db start ------------------------
     new_test_id = create_uuid_function('testg_')
@@ -503,14 +503,14 @@ def grade_quiz_function(ui_answer, url_test_id, total_questions, url_question_nu
         status = 'wip',
         graded_count = int(0),
         test_obj = json.dumps(db_question_arr_of_dict),
-        product = 'trivia'
+        product = url_activity_code
       )
       db.session.add(new_row)
       db.session.commit()
     except:
       pass
     # ------------------------ insert to db end ------------------------
-    db_test_grading_obj = ActivityATestGradedObj.query.filter_by(fk_test_id=url_test_id, fk_user_id=current_user_id,product='trivia').first()
+    db_test_grading_obj = ActivityATestGradedObj.query.filter_by(fk_test_id=url_test_id, fk_user_id=current_user_id,product=url_activity_code).first()
   # ------------------------ pull/create grading obj end ------------------------
   # ------------------------ update master dict start ------------------------
   db_test_grading_dict = arr_of_dict_all_columns_single_item_function(db_test_grading_obj, for_json_dumps=True)
@@ -590,14 +590,14 @@ def grade_quiz_function(ui_answer, url_test_id, total_questions, url_question_nu
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
-def pull_question_function(group_id, categories):
+def pull_question_function(group_id, categories, url_activity_code):
   # ------------------------ pull based on categories start ------------------------
   where_clause_arr = prepare_where_clause_function(categories)
-  query_result_arr_of_dicts = select_general_function('select_all_questions_for_x_categories_v4', where_clause_arr[0], 1, group_id)
+  query_result_arr_of_dicts = select_general_function('select_all_questions_for_x_categories_v4', where_clause_arr[0], 1, group_id, url_activity_code)
   # ------------------------ pull based on categories end ------------------------
   # ------------------------ pull any start ------------------------
   if query_result_arr_of_dicts == []:
-    query_result_arr_of_dicts = select_general_function('select_v6', 1, group_id)
+    query_result_arr_of_dicts = select_general_function('select_v6', 1, group_id, url_activity_code)
   # ------------------------ pull any end ------------------------
   new_question_id = query_result_arr_of_dicts[0]['id']
   return new_question_id
