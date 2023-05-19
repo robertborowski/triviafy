@@ -38,7 +38,7 @@ from website.backend.candidates.string_manipulation import breakup_email_functio
 from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function, get_marketing_list_function, get_dashboard_accordian_function
 from website.backend.candidates.dropdowns import get_activity_a_dropdowns_function
 from website.backend.candidates.pull_create_logic import pull_create_group_obj_function, pull_latest_activity_a_test_obj_function, user_must_have_group_id_function, pull_create_activity_a_settings_obj_function, pull_group_obj_function
-from website.backend.candidates.activity_supporting import activity_a_dashboard_function, activity_a_live_function
+from website.backend.candidates.activity_supporting import activity_a_dashboard_function, activity_a_live_function, turn_activity_auto_on_function
 from website.backend.candidates.emailing import email_share_with_team_function
 from website.backend.candidates.onboarding import onboarding_checks_function
 from website.backend.candidates.settings_supporting import activity_a_settings_prep_function, activity_a_settings_post_function
@@ -328,6 +328,9 @@ def create_activity_a_function(url_activity_code=None):
   if url_activity_code == None or url_activity_code == '':
     return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='e24'))
   # ------------------------ if no activity error end ------------------------
+  # ------------------------ turn on auto start stop start ------------------------
+  turn_activity_auto_on_function(current_user,url_activity_code)
+  # ------------------------ turn on auto start stop end ------------------------
   # ------------------------ pull latest activity start ------------------------
   db_tests_obj = pull_latest_activity_a_test_obj_function(current_user,url_activity_code)
   # ------------------------ pull latest activity end ------------------------

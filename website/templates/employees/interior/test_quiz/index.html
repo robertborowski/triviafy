@@ -60,39 +60,19 @@
     </div>
     <div class="custom-filler-5"></div>
     <!-- ------------------------------------- navbar end ------------------------------------- -->
+    <!-- ----------------------------------- errors start ----------------------------------- -->
+    <div class="container-fluid custom-p-0">
+      {% if page_dict_to_html['alert_message_dict']['message'] != '' %}
+      <div class="alert alert-{{ page_dict_to_html['alert_message_dict']['type'] }} text-center custom-m-0 custom-plr-0" role="alert">
+        {{ page_dict_to_html['alert_message_dict']['message'] }}
+      </div>
+      {% endif %}
+    </div>
+    <!-- ----------------------------------- errors end ----------------------------------- -->
     <!-- ------------------------------------- entire page start ------------------------------------- -->
     <div class="container-fluid custom-bg-primary-gradient-1 custom-pt-1">
-      <!-- ------------------------------------- question progress start ------------------------------------- -->
-      <div class="container custom-display-flex custom-jc-1 custom-fw-1">
-        {% for i in page_dict_to_html['test_total_questions_arr'] %}
-          {% if i == page_dict_to_html['current_question_number'] %}
-            <div class="text-center">
-              <p><a href="/activity/a/{{ page_dict_to_html['activity_type'] }}/{{ page_dict_to_html['url_test_id'] }}/{{ i }}"><span class="btn btn-warning btn-sm">{{ i }}</span></a></p>
-              {% if page_dict_to_html['first_user_latest_quiz_can_replace'] == true and page_dict_to_html['view_as_archive'] == false %}
-                <div class="custom-bg-white custom-br-1 custom-p-15 custom-mb-10" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Everyone on your team can edit this test until at least one person answers all questions.">
-                  <a href="/activity/a/{{ page_dict_to_html['activity_type'] }}/replace/{{ page_dict_to_html['url_test_id'] }}/{{ i }}" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Replace this question"><span class="btn btn-danger btn-sm"><i class="fa-solid fa-x"></i></span></a>
-                  <a href="/activity/a/{{ page_dict_to_html['activity_type'] }}/fufq_remove"  data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Delete this entire quiz and select new categories"><span class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></span></a>
-                </div>
-              {% else %}
-              {% endif %}
-            </div>
-          {% else %}
-            <a href="/activity/a/{{ page_dict_to_html['activity_type'] }}/{{ page_dict_to_html['url_test_id'] }}/{{ i }}"><span class="btn btn-outline-warning btn-sm">{{ i }}</span></a>
-          {% endif %}
-        {% endfor %}
-      </div>
-      <!-- ------------------------------------- question progress end ------------------------------------- -->
       <!-- ------------------------------------- question start ------------------------------------- -->
       <div class="container border shadow custom-br-1 custom-bg-white custom-display-flex custom-fw-1">
-        <!-- ----------------------------------- errors start ----------------------------------- -->
-        <div class="custom-width-6">
-          {% if page_dict_to_html['alert_message_dict']['message'] != '' %}
-          <div class="alert alert-{{ page_dict_to_html['alert_message_dict']['type'] }} mx-auto text-center container custom-mt-1" role="alert">
-            {{ page_dict_to_html['alert_message_dict']['message'] }}
-          </div>
-          {% endif %}
-        </div>
-        <!-- ----------------------------------- errors end ----------------------------------- -->
         <!-- ----------------------------------- question left side start ----------------------------------- -->
         <div class="custom-width-11-mobile custom-p-5">
           <div class="custom-display-flex custom-mb-6">
@@ -103,7 +83,7 @@
                 {% endfor %}
                 <!-- ------------------------------------- discard quiz categories for new categories start ------------------------------------- -->
                 {% if page_dict_to_html['first_user_latest_quiz_can_replace'] == true and page_dict_to_html['view_as_archive'] == false %}
-                  <a href="/activity/a/{{ page_dict_to_html['activity_type'] }}/fufq_remove"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete this entire quiz and select new categories. Everyone on your team can edit this test until at least one person answers all questions."><span class="btn btn-danger btn-sm">Change categories</span></a>
+                  <a href="/activity/a/{{ page_dict_to_html['activity_type'] }}/fufq_remove"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete this entire activity and select new categories. Everyone on your team can edit this activity until at least one person answers all questions."><span class="btn btn-outline-danger btn-sm">Change categories</span></a>
                 {% else %}
                 {% endif %}
                 <!-- ------------------------------------- discard quiz categories for new categories end ------------------------------------- -->
@@ -120,9 +100,16 @@
               <p class="custom-header-6 custom-p-1 custom-br-1"><i class="fa-solid fa-circle-question"></i> {{ page_dict_to_html['db_question_dict']['question'] }}</p>
             </div>
             {% if page_dict_to_html['question_contains_image'] == true %}
-            <div class="text-center">
+            <div class="text-center shadow">
               <img src="{{ page_dict_to_html['db_question_dict']['aws_image_url'] }}" alt="" class="custom-img-size-11 custom-br-1 shadow">
             </div>
+            {% else %}
+            {% endif %}
+            {% if page_dict_to_html['first_user_latest_quiz_can_replace'] == true and page_dict_to_html['view_as_archive'] == false %}
+              <div class="custom-bg-grey-1 custom-mt-25 shadow-sm custom-br-1 custom-p-15 custom-display-flex custom-fw-1 custom-jc-around" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Everyone on your team can edit this activity until at least one person answers all questions.">
+                <a href="/activity/a/{{ page_dict_to_html['activity_type'] }}/replace/{{ page_dict_to_html['url_test_id'] }}/{{ page_dict_to_html['current_question_number'] }}"><span class="btn btn-danger btn-sm">Replace question <i class="fa-solid fa-x"></i></span></a>
+                <a href="/activity/a/{{ page_dict_to_html['activity_type'] }}/fufq_remove"><span class="btn btn-outline-danger btn-sm">Discard activity <i class="fa-solid fa-trash"></i></span></a>
+              </div>
             {% else %}
             {% endif %}
           </div>
@@ -229,6 +216,19 @@
           <!-- ------------------------------------- coworker answers end ------------------------------------- -->
         </div>
         <!-- ----------------------------------- question right side end ----------------------------------- -->
+        <!-- ------------------------------------- question progress start ------------------------------------- -->
+        <div class="container custom-display-flex custom-jc-1 custom-fw-1">
+          {% for i in page_dict_to_html['test_total_questions_arr'] %}
+            {% if i == page_dict_to_html['current_question_number'] %}
+              <div class="text-center">
+                <p><a href="/activity/a/{{ page_dict_to_html['activity_type'] }}/{{ page_dict_to_html['url_test_id'] }}/{{ i }}"><span class="btn btn-success btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Click 'Submit' to save your answer">{{ i }}</span></a></p>
+              </div>
+            {% else %}
+              <a href="/activity/a/{{ page_dict_to_html['activity_type'] }}/{{ page_dict_to_html['url_test_id'] }}/{{ i }}"><span class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Click 'Submit' to save your answer">{{ i }}</span></a>
+            {% endif %}
+          {% endfor %}
+        </div>
+        <!-- ------------------------------------- question progress end ------------------------------------- -->
       </div>
       <!-- ------------------------------------- question end ------------------------------------- -->
     </div>

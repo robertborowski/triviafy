@@ -835,6 +835,10 @@
 .custom-p-0 {
   padding: 0 0 0 0;
 }
+.custom-plr-0 {
+  padding-left: 0;
+  padding-right: 0;
+}
 .custom-p-1 {
   padding: 10px;
 }

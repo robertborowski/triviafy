@@ -10,6 +10,7 @@ from website.models import ActivityATestObj, ActivityATestGradedObj, ActivityAGr
 from website import db
 from website.backend.candidates.test_backend import get_test_winner, first_user_latest_quiz_check_function
 import json
+from website.backend.candidates.pull_create_logic import pull_group_obj_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ individual function start ------------------------
@@ -239,4 +240,22 @@ def activity_a_live_function(page_dict, current_user, url_test_id, url_question_
     pass
   # ------------------------ archive logic end ------------------------
   return page_dict, True
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def turn_activity_auto_on_function(current_user, url_activity_code):
+  # ------------------------ turn on auto start stop start ------------------------
+  try:
+    on_off_change_occured = False
+    db_group_obj = pull_group_obj_function(current_user)
+    if url_activity_code in db_group_obj.__table__.columns:
+      if getattr(db_group_obj, url_activity_code) != True:
+        setattr(db_group_obj, url_activity_code, True)
+        on_off_change_occured = True
+    if on_off_change_occured == True:
+      db.session.commit()
+  except:
+    pass
+  # ------------------------ turn on auto start stop end ------------------------
+  return True
 # ------------------------ individual function end ------------------------
