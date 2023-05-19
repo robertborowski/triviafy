@@ -25,19 +25,21 @@
   <table id="candidates-datatable-id" class="table table-striped" style="width:100%">
     <thead>
       <tr>
-        <th>Triviafy</th>
+        <th>Number</th>
+        <th>Activity</th>
         <th>Winner</th>
         <th>Result</th>
-        <th>View test</th>
+        <th>View activity</th>
       </tr>
     </thead>
     <tbody>
       {% for i in page_dict_to_html['tests_arr_of_dicts'] %}
       <tr>
         <td>{{ i['test_number'] }}</td>
+        <td>{{ i['product']|capitalize|replace("_"," ") }}</td>
         <td>{{ i['test_winner'] }}</td>
         <td>{{ i['test_winner_score'] }}</td>
-        <td><a href="/activity/a/trivia/{{ i['id'] }}/1" class="custom-a-2 fw-bolder">View test</a></td>
+        <td><a href="/activity/a/trivia/{{ i['id'] }}/1" class="custom-a-2 fw-bolder">View activity</a></td>
       </tr>
       {% endfor %}
     </tbody>

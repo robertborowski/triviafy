@@ -646,21 +646,17 @@ def activity_a_contest_function(url_redirect_code=None, url_test_id=None, url_qu
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_interior.route('/employees/archive')
-@employees_views_interior.route('/employees/archive/<url_redirect_code>')
+@employees_views_interior.route('/archive')
+@employees_views_interior.route('/archive/<url_redirect_code>')
 @login_required
-def employees_test_archive_function(url_redirect_code=None):
-  localhost_print_function(' ------------------------ employees_test_archive_function start ------------------------ ')
+def activity_archive_function(url_redirect_code=None):
   # ------------------------ page dict start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
   page_dict = {}
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
-  # ------------------------ get current group start ------------------------
-  db_group_obj = GroupObj.query.filter_by(fk_company_name=current_user.company_name).first()
-  # ------------------------ get current group end ------------------------
   # ------------------------ pull all tests for group start ------------------------
-  db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=db_group_obj.public_group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).all()
+  db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id).order_by(ActivityATestObj.created_timestamp.desc()).all()
   # ------------------------ pull all tests for group end ------------------------
   # ------------------------ turn sql obj into arr of dicts start ------------------------
   tests_arr_of_dicts = []
@@ -675,9 +671,14 @@ def employees_test_archive_function(url_redirect_code=None):
     i['test_number'] = current_test
     i['test_winner'], i['test_winner_score'] = get_test_winner(i['id'])
     current_test -= 1
+    
   page_dict['tests_arr_of_dicts'] = tests_arr_of_dicts
   # ------------------------ loop through tests and assign variables per test end ------------------------
-  localhost_print_function(' ------------------------ employees_test_archive_function end ------------------------ ')
+  localhost_print_function(' ------------- 100-archive start ------------- ')
+  page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
+  for k,v in page_dict.items():
+    localhost_print_function(f"k: {k} | v: {v}")
+  localhost_print_function(' ------------- 100-archive end ------------- ')
   return render_template('employees/interior/test_archive/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
 
