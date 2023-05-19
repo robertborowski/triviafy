@@ -15,6 +15,19 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
           public_group_id \
         FROM \
           group_obj;",
+    'select_groups_2':
+      f"SELECT \
+          DISTINCT company_name, \
+          group_id \
+        FROM \
+          user_obj \
+        ORDER BY \
+          company_name;",
+    'select_groups_3':
+      f"SELECT \
+          * \
+        FROM \
+          group_obj;",
     'select_group_settings_1':
       f"SELECT \
           * \
@@ -22,6 +35,14 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
           activity_a_settings_obj \
         WHERE \
           product='trivia' AND \
+          fk_group_id='{additional_input}';",
+    'select_group_settings_2':
+      f"SELECT \
+          * \
+        FROM \
+          activity_a_settings_obj \
+        WHERE \
+          product='{additional_input2}' AND \
           fk_group_id='{additional_input}';",
     'select_latest_test_1':
       f"SELECT \
@@ -33,6 +54,17 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
         ORDER BY \
           created_timestamp DESC \
         LIMIT 1;",
+    'select_latest_test_2':
+      f"SELECT \
+          * \
+        FROM \
+          activity_a_test_obj \
+        WHERE \
+          fk_group_id='{additional_input}' \
+          AND product='{additional_input2}' \
+        ORDER BY \
+          created_timestamp DESC \
+        LIMIT 1;",
     'select_user_emails_1':
       f"SELECT \
           id, \
@@ -41,6 +73,14 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
           user_obj \
         WHERE \
           company_name='{additional_input}';",
+    'select_user_emails_2':
+      f"SELECT \
+          id, \
+          email \
+        FROM \
+          user_obj \
+        WHERE \
+          group_id='{additional_input}';",
     'select_test_graded_1':
       f"SELECT \
           created_timestamp, fk_group_id, fk_user_id, fk_test_id, total_questions, correct_count, final_score, status, graded_count \
@@ -66,7 +106,8 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
         FROM \
           activity_a_test_graded_obj \
         WHERE \
-          fk_test_id='{additional_input}' \
+          fk_test_id='{additional_input}' AND \
+          status='complete' \
         GROUP BY \
           fk_user_id, \
           created_timestamp \
