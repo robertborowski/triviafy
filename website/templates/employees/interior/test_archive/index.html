@@ -16,9 +16,9 @@
   <div>
     <h2 class="custom-header-2-mobile">Archive</h2>
   </div>
-  <!-- <div>
-    <a href="/candidates/schedule" class="btn btn-outline-secondary">Send test</a>
-  </div> -->
+  <div>
+    <a href="/leaderboard" class="btn btn-outline-primary btn-sm">See leaderboard <i class="fa-solid fa-arrow-right"></i></a>
+  </div>
 </div>
 <div class="container border shadow custom-br-1 custom-bg-white custom-ptb-6">
   <!-- ----------------------------------- start ----------------------------------- -->
@@ -39,7 +39,7 @@
         <td>{{ i['product']|capitalize|replace("_"," ") }}</td>
         <td>{{ i['test_winner'] }}</td>
         <td>{{ i['test_winner_score'] }}</td>
-        <td><a href="/activity/a/trivia/{{ i['id'] }}/1" class="custom-a-2 fw-bolder">View activity</a></td>
+        <td><a href="/activity/a/{{ i['product'] }}/{{ i['id'] }}/1" class="custom-a-2 fw-bolder">View activity</a></td>
       </tr>
       {% endfor %}
     </tbody>

@@ -683,11 +683,10 @@ def activity_archive_function(url_redirect_code=None):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_interior.route('/employees/leaderboard')
-@employees_views_interior.route('/employees/leaderboard/<url_redirect_code>')
+@employees_views_interior.route('/leaderboard')
+@employees_views_interior.route('/leaderboard/<url_redirect_code>')
 @login_required
-def employees_leaderboard_function(url_redirect_code=None):
-  localhost_print_function(' ------------------------ employees_leaderboard_function start ------------------------ ')
+def group_leaderboard_function(url_redirect_code=None):
   # ------------------------ page dict start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
   page_dict = {}
@@ -695,17 +694,17 @@ def employees_leaderboard_function(url_redirect_code=None):
   # ------------------------ page dict end ------------------------
   # ------------------------ get current users from company start ------------------------
   users_arr_of_dicts = []
-  db_users_obj = UserObj.query.filter_by(company_name=current_user.company_name).order_by(UserObj.email.asc()).all()
+  db_users_obj = UserObj.query.filter_by(group_id=current_user.group_id).order_by(UserObj.email.asc()).all()
   for i in db_users_obj:
     i_dict = {}
     user_id = i.id
     user_email = i.email
     # ------------------------ get total correct start ------------------------
     total_correct = int(0)
-    db_test_grading_obj = ActivityATestGradedObj.query.filter_by(fk_user_id=user_id,product='trivia').all()
+    db_test_grading_obj = ActivityATestGradedObj.query.filter_by(fk_user_id=user_id).all()
     for j in db_test_grading_obj:
       # ------------------------ check if test is closed start ------------------------
-      db_tests_obj = ActivityATestObj.query.filter_by(id=j.fk_test_id,product='trivia').first()
+      db_tests_obj = ActivityATestObj.query.filter_by(id=j.fk_test_id).first()
       if db_tests_obj.status == 'Closed':
         total_correct += int(j.correct_count)
       # ------------------------ check if test is closed end ------------------------
@@ -717,8 +716,7 @@ def employees_leaderboard_function(url_redirect_code=None):
     users_arr_of_dicts.append(i_dict)
   # ------------------------ get current users from company end ------------------------
   # ------------------------ pull all tests for group start ------------------------
-  db_group_obj = GroupObj.query.filter_by(fk_company_name=current_user.company_name).first()
-  db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=db_group_obj.public_group_id,product='trivia').order_by(ActivityATestObj.created_timestamp.desc()).all()
+  db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id).order_by(ActivityATestObj.created_timestamp.desc()).all()
   # ------------------------ pull all tests for group end ------------------------
   # ------------------------ pull test winner start ------------------------
   for i in db_tests_obj:
@@ -729,7 +727,6 @@ def employees_leaderboard_function(url_redirect_code=None):
         break
   # ------------------------ pull test winner end ------------------------
   page_dict['users_arr_of_dicts'] = users_arr_of_dicts
-  localhost_print_function(' ------------------------ employees_leaderboard_function end ------------------------ ')
   return render_template('employees/interior/leaderboard/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
 
