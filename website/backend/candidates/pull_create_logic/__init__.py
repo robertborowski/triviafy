@@ -79,6 +79,12 @@ def pull_create_group_obj_function(current_user):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
+def pull_group_obj_function(current_user):
+  db_group_obj = GroupObj.query.filter_by(public_group_id=current_user.group_id).first()
+  return db_group_obj
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
 def pull_create_activity_a_settings_obj_function(current_user, activity_name):
   # ------------------------ pull/create group settings start ------------------------
   db_group_settings_obj = ActivityASettingsObj.query.filter_by(fk_group_id=current_user.group_id,product=activity_name).first()

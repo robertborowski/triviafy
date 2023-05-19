@@ -37,11 +37,10 @@ from website.backend.candidates.aws_manipulation import candidates_change_upload
 from website.backend.candidates.string_manipulation import breakup_email_function, capitalize_all_words_function
 from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function, get_marketing_list_function, get_dashboard_accordian_function
 from website.backend.candidates.dropdowns import get_activity_a_dropdowns_function
-from website.backend.candidates.pull_create_logic import pull_create_group_obj_function, pull_latest_activity_a_test_obj_function, user_must_have_group_id_function
+from website.backend.candidates.pull_create_logic import pull_create_group_obj_function, pull_latest_activity_a_test_obj_function, user_must_have_group_id_function, pull_create_activity_a_settings_obj_function, pull_group_obj_function
 from website.backend.candidates.activity_supporting import activity_a_dashboard_function, activity_a_live_function
 from website.backend.candidates.emailing import email_share_with_team_function
 from website.backend.candidates.onboarding import onboarding_checks_function
-from website.backend.candidates.pull_create_logic import pull_create_activity_a_settings_obj_function
 from website.backend.candidates.settings_supporting import activity_a_settings_prep_function, activity_a_settings_post_function
 # ------------------------ imports end ------------------------
 
@@ -118,6 +117,30 @@ def login_dashboard_page_function(url_redirect_code=None):
   # ------------------------ get collapse list end ------------------------
   # ------------------------ if post start ------------------------
   if request.method == 'POST':
+    try:
+      # ------------------------ pull and assign to dict start ------------------------
+      on_off_dict = {}
+      for i_index in range(len(page_dict['activity_a_accordian_arr'])):
+        i_activity = page_dict['activity_a_accordian_arr'][i_index][1]
+        i_activity_html = i_activity.capitalize()
+        on_off_dict[i_activity] = request.form.get('flexActivity'+i_activity_html)
+      # ------------------------ pull and assign to dict end ------------------------
+      db_group_obj = pull_group_obj_function(current_user)
+      # ------------------------ update db start ------------------------
+      on_off_change_occured = False
+      for k,v in on_off_dict.items():
+        if k in db_group_obj.__table__.columns:
+          if v == 'on' and getattr(db_group_obj, k) != True:
+            setattr(db_group_obj, k, True)
+            on_off_change_occured = True
+          elif v == None and getattr(db_group_obj, k) != False:
+            setattr(db_group_obj, k, False)
+            on_off_change_occured = True
+      if on_off_change_occured == True:
+        db.session.commit()
+    except:
+      pass
+    # ------------------------ update db end ------------------------
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ if post end ------------------------
   # ------------------------ for setting cookie start ------------------------
