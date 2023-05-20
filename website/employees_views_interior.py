@@ -35,7 +35,7 @@ from website.backend.candidates.datatype_conversion_manipulation import one_col_
 from website.backend.candidates.test_backend import get_test_winner, first_user_latest_quiz_check_function
 from website.backend.candidates.aws_manipulation import candidates_change_uploaded_image_filename_function, candidates_user_upload_image_checks_aws_s3_function
 from website.backend.candidates.string_manipulation import breakup_email_function, capitalize_all_words_function
-from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function, get_marketing_list_function, get_dashboard_accordian_function
+from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function, get_marketing_list_function, get_dashboard_accordian_function, get_activity_a_products_function
 from website.backend.candidates.dropdowns import get_activity_a_dropdowns_function
 from website.backend.candidates.pull_create_logic import pull_create_group_obj_function, pull_latest_activity_a_test_obj_function, user_must_have_group_id_function, pull_create_activity_a_settings_obj_function, pull_group_obj_function, get_total_activity_closed_count_function
 from website.backend.candidates.activity_supporting import activity_a_dashboard_function, activity_a_live_function, turn_activity_auto_on_function
@@ -1054,12 +1054,11 @@ def employees_questions_function(url_redirect_code=None):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_interior.route('/employees/questions/v3', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/questions/v3/', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/questions/v3/<url_redirect_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/custom/question', methods=['GET', 'POST'])
+@employees_views_interior.route('/custom/question/', methods=['GET', 'POST'])
+@employees_views_interior.route('/custom/question/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
 def employees_create_question_v3_function(url_redirect_code=None):
-  localhost_print_function(' ------------------------ employees_create_question_v3_function START ------------------------ ')
   # ------------------------ page dict start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
   page_dict = {}
@@ -1074,6 +1073,9 @@ def employees_create_question_v3_function(url_redirect_code=None):
     return redirect(url_for('employees_views_interior.account_function', url_redirect_code='e14'))
   # ------------------------ redirect if not subscribed end ------------------------
   page_dict['user_company_name'] = current_user.company_name
+  # ------------------------ get products start ------------------------
+  page_dict['products_list'] = get_activity_a_products_function()
+  # ------------------------ get products end ------------------------
   # ------------------------ post start ------------------------
   if request.method == 'POST':
     # ------------------------ get user inputs start ------------------------
@@ -1087,6 +1089,7 @@ def employees_create_question_v3_function(url_redirect_code=None):
     ui_option_e = request.form.get('ui_create_question_option_e')       # str
     ui_answer = request.form.get('ui_create_question_answer')           # str
     ui_answer_fitb = request.form.get('ui_create_question_answer_fitb')      # str
+    ui_products_selected = request.form.getlist('ui_products_selected')   # list of str
     # ------------------------ get user inputs end ------------------------
     # ------------------------ sanitize user inputs start ------------------------
     if ui_option_e == None or ui_option_e.strip() == '':
@@ -1108,6 +1111,18 @@ def employees_create_question_v3_function(url_redirect_code=None):
       return redirect(url_for('employees_views_interior.employees_create_question_v3_function', url_redirect_code='e15'))
     if ui_title_checked == False or ui_categories_checked == False or ui_question_checked == False or ui_option_a_checked == False or ui_option_b_checked == False or ui_option_c_checked == False or ui_option_d_checked == False or ui_option_e_checked == False or ui_answer_checked == False or ui_answer_fitb_checked == False :
       return redirect(url_for('employees_views_interior.employees_create_question_v3_function', url_redirect_code='e15'))
+    # ------------------------ error catch check end ------------------------
+    # ------------------------ error catch check start ------------------------
+    if ui_products_selected == None or ui_products_selected == []:
+      return redirect(url_for('employees_views_interior.employees_create_question_v3_function', url_redirect_code='e15'))
+    for i_product in ui_products_selected:
+      if i_product not in page_dict['products_list']:
+        return redirect(url_for('employees_views_interior.employees_create_question_v3_function', url_redirect_code='e15'))
+    final_products_str = ''
+    if len(ui_products_selected) == 1:
+      final_products_str = ui_products_selected[0]
+    if len(ui_products_selected) > 1:
+      final_products_str = ','.join(ui_products_selected)
     # ------------------------ error catch check end ------------------------
     # ------------------------ define variable for insert start ------------------------
     final_id = create_uuid_function('questionid_')
@@ -1168,7 +1183,7 @@ def employees_create_question_v3_function(url_redirect_code=None):
         aws_image_uuid = create_question_uploaded_image_uuid,
         aws_image_url = create_question_uploaded_image_aws_url,
         submission = 'draft',
-        product = 'trivia,picture_quiz',
+        product = final_products_str,
         fk_group_id = db_groups_obj.public_group_id
       )
       db.session.add(new_row)
@@ -1181,7 +1196,6 @@ def employees_create_question_v3_function(url_redirect_code=None):
     return redirect(url_for('employees_views_interior.employees_preview_question_function', url_question_id=final_id))
     # ------------------------ redirect end ------------------------
   # ------------------------ post end ------------------------
-  localhost_print_function(' ------------------------ employees_create_question_v3_function END ------------------------ ')
   return render_template('employees/interior/create_question/v3/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
 
