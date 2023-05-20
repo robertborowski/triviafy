@@ -132,3 +132,14 @@ def pull_latest_activity_a_test_graded_obj_function(db_tests_obj, current_user, 
     db_test_grading_obj = None
   return db_test_grading_obj
 # ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def get_total_activity_closed_count_function(current_user):
+  total_count = 0
+  try:
+    db_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id,status='Closed').all()
+    total_count = len(db_obj)
+  except:
+    pass
+  return total_count
+# ------------------------ individual function end ------------------------

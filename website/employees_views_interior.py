@@ -37,7 +37,7 @@ from website.backend.candidates.aws_manipulation import candidates_change_upload
 from website.backend.candidates.string_manipulation import breakup_email_function, capitalize_all_words_function
 from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function, get_marketing_list_function, get_dashboard_accordian_function
 from website.backend.candidates.dropdowns import get_activity_a_dropdowns_function
-from website.backend.candidates.pull_create_logic import pull_create_group_obj_function, pull_latest_activity_a_test_obj_function, user_must_have_group_id_function, pull_create_activity_a_settings_obj_function, pull_group_obj_function
+from website.backend.candidates.pull_create_logic import pull_create_group_obj_function, pull_latest_activity_a_test_obj_function, user_must_have_group_id_function, pull_create_activity_a_settings_obj_function, pull_group_obj_function, get_total_activity_closed_count_function
 from website.backend.candidates.activity_supporting import activity_a_dashboard_function, activity_a_live_function, turn_activity_auto_on_function
 from website.backend.candidates.emailing import email_share_with_team_function
 from website.backend.candidates.onboarding import onboarding_checks_function
@@ -99,6 +99,12 @@ def login_dashboard_page_function(url_redirect_code=None):
   stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees', current_user.email)
   page_dict['group_stripe_status'] = stripe_subscription_obj_status
   # ------------------------ stripe subscription status check end ------------------------
+  # ------------------------ free trial over redirect start ------------------------
+  if page_dict['group_stripe_status'] != 'active':
+    total_closed_count = get_total_activity_closed_count_function(current_user)
+    if total_closed_count >= 3:
+      return redirect(url_for('employees_views_interior.account_function', url_redirect_code='e25'))
+  # ------------------------ free trial over redirect end ------------------------
   # ------------------------ dashboard supporting start ------------------------
   redirect_code, page_dict = activity_a_dashboard_function(current_user, page_dict, 'trivia')
   if redirect_code == 'dashboard':
@@ -777,16 +783,15 @@ def employees_subscription_success_function():
     pass
   # ------------------------ email self end ------------------------
   localhost_print_function(' ------------------------ employees_subscription_success_function end ------------------------ ')
-  return redirect(url_for('employees_views_interior.employees_account_function', url_redirect_code='s5'))
+  return redirect(url_for('employees_views_interior.account_function', url_redirect_code='s5'))
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_interior.route('/employees/account', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/account/', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/account/<url_redirect_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/account', methods=['GET', 'POST'])
+@employees_views_interior.route('/account/', methods=['GET', 'POST'])
+@employees_views_interior.route('/account/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
-def employees_account_function(url_redirect_code=None):
-  localhost_print_function(' ------------------------ employees_account_function START ------------------------ ')
+def account_function(url_redirect_code=None):
   # ------------------------ page dict start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
   page_dict = {}
@@ -824,7 +829,7 @@ def employees_account_function(url_redirect_code=None):
     if ui_message != None and ui_message != '' and ui_message != []:
       ui_message = sanitize_create_question_options_function(ui_message)
       if ui_message == False:
-        return redirect(url_for('employees_views_interior.employees_account_function', url_redirect_code='e6'))
+        return redirect(url_for('employees_views_interior.account_function', url_redirect_code='e6'))
       else:
         # ------------------------ email self start ------------------------
         try:
@@ -850,7 +855,7 @@ def employees_account_function(url_redirect_code=None):
         except:
           pass
         # ------------------------ insert email to db end ------------------------
-        return redirect(url_for('employees_views_interior.employees_account_function', url_redirect_code='s1'))
+        return redirect(url_for('employees_views_interior.account_function', url_redirect_code='s1'))
     # ------------------------ post uiMessage end ------------------------
     # ------------------------ post uiSubscriptionSelected start ------------------------
     # ------------------------ delete all previous checkout drafts start ------------------------
@@ -894,7 +899,7 @@ def employees_account_function(url_redirect_code=None):
             ],
             mode='subscription',
             success_url='http://127.0.0.1:80/employees/subscription/success',
-            cancel_url='http://127.0.0.1:80/employees/account',
+            cancel_url='http://127.0.0.1:80/account',
             metadata={
               'fk_user_id': current_user.id
             }
@@ -911,7 +916,7 @@ def employees_account_function(url_redirect_code=None):
             ],
             mode='subscription',
             success_url='https://triviafy.com/employees/subscription/success',
-            cancel_url='https://triviafy.com/employees/account',
+            cancel_url='https://triviafy.com/account',
             metadata={
               'fk_user_id': current_user.id
             }
@@ -938,7 +943,6 @@ def employees_account_function(url_redirect_code=None):
       # ------------------------ this line of code is needed to actually redirec to stripe checkout page end ------------------------
     # ------------------------ post uiSubscriptionSelected end ------------------------
   # ------------------------ post end ------------------------
-  localhost_print_function(' ------------------------ employees_account_function END ------------------------ ')
   return render_template('employees/interior/account/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
 
@@ -1017,7 +1021,7 @@ def employees_questions_function(url_redirect_code=None):
   # ------------------------ stripe subscription status check end ------------------------
   # ------------------------ redirect if not subscribed start ------------------------
   if page_dict['group_stripe_status'] != 'active':
-    return redirect(url_for('employees_views_interior.employees_account_function', url_redirect_code='e14'))
+    return redirect(url_for('employees_views_interior.account_function', url_redirect_code='e14'))
   # ------------------------ redirect if not subscribed end ------------------------
   # ------------------------ delete all in progress questions start ------------------------
   db_drafted_questions_obj = ActivityACreatedQuestionsObj.query.filter_by(fk_group_id=current_user.group_id,submission='draft').first()
@@ -1067,7 +1071,7 @@ def employees_create_question_v3_function(url_redirect_code=None):
   # ------------------------ stripe subscription status check end ------------------------
   # ------------------------ redirect if not subscribed start ------------------------
   if page_dict['group_stripe_status'] != 'active':
-    return redirect(url_for('employees_views_interior.employees_account_function', url_redirect_code='e14'))
+    return redirect(url_for('employees_views_interior.account_function', url_redirect_code='e14'))
   # ------------------------ redirect if not subscribed end ------------------------
   page_dict['user_company_name'] = current_user.company_name
   # ------------------------ post start ------------------------
@@ -1201,7 +1205,7 @@ def employees_preview_question_function(url_redirect_code=None, url_question_id=
   # ------------------------ stripe subscription status check end ------------------------
   # ------------------------ redirect if not subscribed start ------------------------
   if page_dict['group_stripe_status'] != 'active':
-    return redirect(url_for('employees_views_interior.employees_account_function', url_redirect_code='e14'))
+    return redirect(url_for('employees_views_interior.account_function', url_redirect_code='e14'))
   # ------------------------ redirect if not subscribed end ------------------------
   # ------------------------ redirect if question id none start ------------------------
   if url_question_id == None:

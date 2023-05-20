@@ -51,8 +51,8 @@ def check_stripe_subscription_status_function_v2(current_user, product, attempti
   except:
     pass
   # ------------------------ auto subscribed email list start ------------------------
-  if attempting_user == os.environ.get('RUN_TEST_EMAIL'):
-    stripe_subscription_obj_status = 'active'
+  # if attempting_user == os.environ.get('RUN_TEST_EMAIL'):
+  #   stripe_subscription_obj_status = 'active'
   # ------------------------ auto subscribed email list end ------------------------
   # ------------------------ stripe subscription status check end ------------------------
   return stripe_subscription_obj_status
