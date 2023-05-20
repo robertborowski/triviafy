@@ -102,7 +102,7 @@ def login_dashboard_page_function(url_redirect_code=None):
   # ------------------------ free trial over redirect start ------------------------
   if page_dict['group_stripe_status'] != 'active':
     total_closed_count = get_total_activity_closed_count_function(current_user)
-    if total_closed_count >= 3:
+    if total_closed_count >= 2:
       return redirect(url_for('employees_views_interior.account_function', url_redirect_code='e25'))
   # ------------------------ free trial over redirect end ------------------------
   # ------------------------ dashboard supporting start ------------------------
