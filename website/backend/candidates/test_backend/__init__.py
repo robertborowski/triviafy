@@ -1,7 +1,7 @@
 # ------------------------ imports start ------------------------
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 import re
-from website.models import UserObj, ActivityATestGradedObj, ActivityATestObj, GroupObj, ActivityAGroupQuestionsUsedObj
+from website.models import UserObj, ActivityATestGradedObj, ActivityATestObj, GroupObj, ActivityAGroupQuestionsUsedObj, ActivityBTestObj
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from datetime import datetime
 from website import db
@@ -87,12 +87,16 @@ def first_user_latest_quiz_check_function(current_user, url_activity_code):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
-def close_historical_activity_a_tests_function(current_user, activity_name):
+def close_historical_activity_tests_function(current_user, activity_name, activity_type):
   # ------------------------ ensure all historical tests are closed start ------------------------
-  historical_activity_a_tests_were_closed = False
+  historical_activity_tests_were_closed = False
   current_datetime_str = datetime.now().strftime("%m/%d/%Y %H:%M:%S")   # str
   current_datetime_datetime = datetime.strptime(current_datetime_str, "%m/%d/%Y %H:%M:%S")  # datetime
-  db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id,product=activity_name).order_by(ActivityATestObj.created_timestamp.desc()).all()
+  db_tests_obj = None
+  if activity_type == 'activity_type_a':
+    db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id,product=activity_name).order_by(ActivityATestObj.created_timestamp.desc()).all()
+  elif activity_type == 'activity_type_b':
+    db_tests_obj = ActivityBTestObj.query.filter_by(fk_group_id=current_user.group_id,product=activity_name).order_by(ActivityBTestObj.created_timestamp.desc()).all()
   try:
     for i in db_tests_obj:
       i_test_dict = arr_of_dict_all_columns_single_item_function(i)
@@ -104,13 +108,13 @@ def close_historical_activity_a_tests_function(current_user, activity_name):
         if current_datetime_datetime > i_test_end_timestamp_datetime:
           i.status = 'Closed'
           db.session.commit()
-          historical_activity_a_tests_were_closed = True
-    if historical_activity_a_tests_were_closed == True:
+          historical_activity_tests_were_closed = True
+    if historical_activity_tests_were_closed == True:
       db.session.commit()
   except:
     pass
   # ------------------------ ensure all historical tests are closed end ------------------------
-  return historical_activity_a_tests_were_closed
+  return historical_activity_tests_were_closed
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------

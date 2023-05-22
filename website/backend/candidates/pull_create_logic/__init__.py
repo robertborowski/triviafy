@@ -85,65 +85,73 @@ def pull_group_obj_function(current_user):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
-def pull_create_activity_a_settings_obj_function(current_user, activity_name):
+def pull_create_activity_settings_obj_function(current_user, activity_name, activity_type):
+  # ------------------------ variables start ------------------------
+  default_settings_dict = {
+    'timezone': 'EST',
+    'start_day': 'Monday',
+    'start_time': '12 PM',
+    'end_day': 'Thursday',
+    'end_time': '1 PM',
+    'cadence': 'Weekly'
+  }
+  # ------------------------ variables end ------------------------
+  db_group_settings_obj = None
   # ------------------------ pull/create group settings start ------------------------
-  db_group_settings_obj = ActivityASettingsObj.query.filter_by(fk_group_id=current_user.group_id,product=activity_name).first()
-  if db_group_settings_obj == None or db_group_settings_obj == []:
-    # ------------------------ insert to db start ------------------------
-    try:
-      new_row = ActivityASettingsObj(
-        id = create_uuid_function('gset_'),
-        created_timestamp = create_timestamp_function(),
-        fk_group_id = current_user.group_id,
-        fk_user_id = current_user.id,
-        timezone = 'EST',
-        start_day = 'Monday',
-        start_time = '12 PM',
-        end_day = 'Thursday',
-        end_time = '1 PM',
-        cadence = 'Weekly',
-        total_questions = 10,
-        question_type = 'Mixed',
-        categories = 'all_categories',
-        product = activity_name
-      )
-      db.session.add(new_row)
-      db.session.commit()
-    except:
-      pass
+  if activity_type == 'activity_type_a':
     db_group_settings_obj = ActivityASettingsObj.query.filter_by(fk_group_id=current_user.group_id,product=activity_name).first()
-    # ------------------------ insert to db end ------------------------
+    if db_group_settings_obj == None or db_group_settings_obj == []:
+      # ------------------------ insert to db start ------------------------
+      try:
+        new_row = ActivityASettingsObj(
+          id = create_uuid_function('gset_'),
+          created_timestamp = create_timestamp_function(),
+          fk_group_id = current_user.group_id,
+          fk_user_id = current_user.id,
+          timezone = default_settings_dict['timezone'],
+          start_day = default_settings_dict['start_day'],
+          start_time = default_settings_dict['start_time'],
+          end_day = default_settings_dict['end_day'],
+          end_time = default_settings_dict['end_time'],
+          cadence = default_settings_dict['cadence'],
+          total_questions = 10,
+          question_type = 'Mixed',
+          categories = 'all_categories',
+          product = activity_name
+        )
+        db.session.add(new_row)
+        db.session.commit()
+      except:
+        pass
+      db_group_settings_obj = ActivityASettingsObj.query.filter_by(fk_group_id=current_user.group_id,product=activity_name).first()
+      # ------------------------ insert to db end ------------------------
   # ------------------------ pull/create group settings end ------------------------
-  return db_group_settings_obj
-# ------------------------ individual function end ------------------------
-
-# ------------------------ individual function start ------------------------
-def pull_create_activity_b_settings_obj_function(current_user, activity_name):
-  # ------------------------ pull/create group settings start ------------------------
-  db_group_settings_obj = ActivityBSettingsObj.query.filter_by(fk_group_id=current_user.group_id,product=activity_name).first()
-  if db_group_settings_obj == None or db_group_settings_obj == []:
-    # ------------------------ insert to db start ------------------------
-    try:
-      new_row = ActivityBSettingsObj(
-        id = create_uuid_function('gset_'),
-        created_timestamp = create_timestamp_function(),
-        fk_group_id = current_user.group_id,
-        fk_user_id = current_user.id,
-        timezone = 'EST',
-        start_day = 'Monday',
-        start_time = '12 PM',
-        end_day = 'Thursday',
-        end_time = '1 PM',
-        cadence = 'Weekly',
-        product = activity_name
-      )
-      db.session.add(new_row)
-      db.session.commit()
-    except:
-      pass
+  elif activity_type == 'activity_type_b':
+    # ------------------------ pull/create group settings start ------------------------
     db_group_settings_obj = ActivityBSettingsObj.query.filter_by(fk_group_id=current_user.group_id,product=activity_name).first()
-    # ------------------------ insert to db end ------------------------
-  # ------------------------ pull/create group settings end ------------------------
+    if db_group_settings_obj == None or db_group_settings_obj == []:
+      # ------------------------ insert to db start ------------------------
+      try:
+        new_row = ActivityBSettingsObj(
+          id = create_uuid_function('gset_'),
+          created_timestamp = create_timestamp_function(),
+          fk_group_id = current_user.group_id,
+          fk_user_id = current_user.id,
+          timezone = default_settings_dict['timezone'],
+          start_day = default_settings_dict['start_day'],
+          start_time = default_settings_dict['start_time'],
+          end_day = default_settings_dict['end_day'],
+          end_time = default_settings_dict['end_time'],
+          cadence = default_settings_dict['cadence'],
+          product = activity_name
+        )
+        db.session.add(new_row)
+        db.session.commit()
+      except:
+        pass
+      db_group_settings_obj = ActivityBSettingsObj.query.filter_by(fk_group_id=current_user.group_id,product=activity_name).first()
+      # ------------------------ insert to db end ------------------------
+    # ------------------------ pull/create group settings end ------------------------
   return db_group_settings_obj
 # ------------------------ individual function end ------------------------
 

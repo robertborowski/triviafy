@@ -14,7 +14,7 @@ from flask_login import login_required, current_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
-from website.models import ActivityAGroupQuestionsUsedObj, ActivityASettingsObj, GroupObj, ActivityATestGradedObj, ActivityATestObj, UserObj, ZDontDeleteTableObj, StripeCheckoutSessionObj, EmailDeletedObj, EmailSentObj, EmailCollectObj, UserFeatureRequestObj, EmailScrapedObj, UserSignupFeedbackObj, UserBirthdayObj, UserDesiredCategoriesObj
+from website.models import ActivityAGroupQuestionsUsedObj, ActivityASettingsObj, GroupObj, ActivityATestGradedObj, ActivityATestObj, UserObj, ZDontDeleteTableObj, StripeCheckoutSessionObj, EmailDeletedObj, EmailSentObj, EmailCollectObj, UserFeatureRequestObj, EmailScrapedObj, UserSignupFeedbackObj, UserBirthdayObj, UserDesiredCategoriesObj, ActivityBGroupQuestionsUsedObj, ActivityBSettingsObj, ActivityBTestGradedObj, ActivityBTestObj
 import os
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from website.backend.candidates.sql_statements.sql_statements_select_general_v1_jobs import select_general_v1_jobs_function
@@ -126,6 +126,22 @@ def admin_delete_page_function(url_redirect_code=None):
         pass
       try:
         ActivityATestObj.query.filter_by(fk_group_id=group_to_delete).delete()
+      except:
+        pass
+      try:
+        ActivityBGroupQuestionsUsedObj.query.filter_by(fk_group_id=group_to_delete).delete()
+      except:
+        pass
+      try:
+        ActivityBSettingsObj.query.filter_by(fk_group_id=group_to_delete).delete()
+      except:
+        pass
+      try:
+        ActivityBTestGradedObj.query.filter_by(fk_group_id=group_to_delete).delete()
+      except:
+        pass
+      try:
+        ActivityBTestObj.query.filter_by(fk_group_id=group_to_delete).delete()
       except:
         pass
       try:

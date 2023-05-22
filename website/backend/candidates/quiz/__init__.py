@@ -14,7 +14,7 @@ from datetime import date, timedelta, datetime
 import difflib
 import json
 from website.backend.candidates.send_emails import send_email_template_function
-from website.backend.candidates.pull_create_logic import pull_create_activity_a_settings_obj_function
+from website.backend.candidates.pull_create_logic import pull_create_activity_settings_obj_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ Set Timezone START ------------------------
@@ -130,7 +130,7 @@ def compare_candence_vs_previous_quiz_function(db_group_settings_dict, db_tests_
 # ------------------------ individual function start ------------------------
 def compare_candence_vs_previous_quiz_function_v2(current_user, db_tests_obj, activity_name):
   # ------------------------ get group activity settings start ------------------------
-  db_activity_settings_obj = pull_create_activity_a_settings_obj_function(current_user, activity_name)
+  db_activity_settings_obj = pull_create_activity_settings_obj_function(current_user, activity_name, 'activity_type_a')
   db_activity_settings_dict = arr_of_dict_all_columns_single_item_function(db_activity_settings_obj)
   # ------------------------ get group activity settings end ------------------------
   # ------------------------ desired start ------------------------

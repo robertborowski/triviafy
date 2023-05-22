@@ -36,8 +36,8 @@ from website.backend.candidates.test_backend import get_test_winner, first_user_
 from website.backend.candidates.aws_manipulation import candidates_change_uploaded_image_filename_function, candidates_user_upload_image_checks_aws_s3_function
 from website.backend.candidates.string_manipulation import breakup_email_function, capitalize_all_words_function
 from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function, get_marketing_list_function, get_dashboard_accordian_function, get_activity_a_products_function
-from website.backend.candidates.pull_create_logic import pull_create_group_obj_function, pull_latest_activity_a_test_obj_function, user_must_have_group_id_function, pull_create_activity_a_settings_obj_function, pull_group_obj_function, get_total_activity_closed_count_function
-from website.backend.candidates.activity_supporting import activity_a_dashboard_function, activity_a_live_function, turn_activity_auto_on_function, activity_b_dashboard_function
+from website.backend.candidates.pull_create_logic import pull_create_group_obj_function, pull_latest_activity_a_test_obj_function, user_must_have_group_id_function, pull_create_activity_settings_obj_function, pull_group_obj_function, get_total_activity_closed_count_function
+from website.backend.candidates.activity_supporting import activity_dashboard_function, activity_a_live_function, turn_activity_auto_on_function
 from website.backend.candidates.emailing import email_share_with_team_function
 from website.backend.candidates.onboarding import onboarding_checks_function
 from website.backend.candidates.settings_supporting import activity_a_settings_prep_function, activity_a_settings_post_function
@@ -105,19 +105,19 @@ def login_dashboard_page_function(url_redirect_code=None):
       return redirect(url_for('employees_views_interior.account_function', url_redirect_code='e25'))
   # ------------------------ free trial over redirect end ------------------------
   # ------------------------ dashboard supporting start ------------------------
-  redirect_code, page_dict = activity_a_dashboard_function(current_user, page_dict, 'trivia')
+  redirect_code, page_dict = activity_dashboard_function(current_user, page_dict, 'trivia', 'activity_type_a')
   if redirect_code == 'dashboard':
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ dashboard supporting end ------------------------
   # ------------------------ subscription only activities start ------------------------
   if page_dict['group_stripe_status'] == 'active':
     # ------------------------ dashboard supporting start ------------------------
-    redirect_code, page_dict = activity_a_dashboard_function(current_user, page_dict, 'picture_quiz')
+    redirect_code, page_dict = activity_dashboard_function(current_user, page_dict, 'picture_quiz', 'activity_type_a')
     if redirect_code == 'dashboard':
       return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
     # ------------------------ dashboard supporting end ------------------------
     # ------------------------ dashboard supporting start ------------------------
-    redirect_code, page_dict = activity_b_dashboard_function(current_user, page_dict, 'icebreakers')
+    redirect_code, page_dict = activity_dashboard_function(current_user, page_dict, 'icebreakers', 'activity_type_b')
     if redirect_code == 'dashboard':
       return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
     # ------------------------ dashboard supporting end ------------------------
@@ -430,7 +430,7 @@ def activity_a_settings_function(url_activity_code=None, url_redirect_code=None)
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
   # ------------------------ get current group settings start ------------------------
-  db_activity_settings_obj = pull_create_activity_a_settings_obj_function(current_user, url_activity_code)
+  db_activity_settings_obj = pull_create_activity_settings_obj_function(current_user, url_activity_code, 'activity_type_a')
   db_activity_settings_dict = arr_of_dict_all_columns_single_item_function(db_activity_settings_obj)
   # ------------------------ get current group settings end ------------------------
   # ------------------------ settings prep start ------------------------
@@ -490,7 +490,7 @@ def activity_a_default_settings_function(url_activity_code=None):
     return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='e24'))
   # ------------------------ if no activity error end ------------------------
   try:
-    db_activity_settings_obj = pull_create_activity_a_settings_obj_function(current_user, url_activity_code)
+    db_activity_settings_obj = pull_create_activity_settings_obj_function(current_user, url_activity_code, 'activity_type_a')
     db_activity_settings_obj.timezone = 'EST'
     db_activity_settings_obj.start_day = 'Monday'
     db_activity_settings_obj.start_time = '12 PM'
