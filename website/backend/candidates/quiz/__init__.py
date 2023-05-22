@@ -128,9 +128,9 @@ def compare_candence_vs_previous_quiz_function(db_group_settings_dict, db_tests_
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
-def compare_candence_vs_previous_quiz_function_v2(current_user, db_tests_obj, activity_name):
+def compare_candence_vs_previous_quiz_function_v2(current_user, db_tests_obj, activity_name, activity_type):
   # ------------------------ get group activity settings start ------------------------
-  db_activity_settings_obj = pull_create_activity_settings_obj_function(current_user, activity_name, 'activity_type_a')
+  db_activity_settings_obj = pull_create_activity_settings_obj_function(current_user, activity_name, activity_type)
   db_activity_settings_dict = arr_of_dict_all_columns_single_item_function(db_activity_settings_obj)
   # ------------------------ get group activity settings end ------------------------
   # ------------------------ desired start ------------------------

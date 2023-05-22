@@ -118,12 +118,17 @@ def close_historical_activity_tests_function(current_user, activity_name, activi
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
-def delete_historical_activity_a_tests_no_participation_function(current_user, activity_name, page_dict):
+def delete_historical_activity_tests_no_participation_function(current_user, activity_name, page_dict, activity_type):
   # ------------------------ delete all historical closed tests with 'No participation' start ------------------------
-  historical_activity_a_tests_were_deleted = False
-  db_historical_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id, status='Closed',product=activity_name).order_by(ActivityATestObj.created_timestamp.desc()).all()
+  historical_activity_tests_were_deleted = False
+  db_historical_tests_obj = None
+  if activity_type == 'activity_type_a':
+    db_historical_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id, status='Closed',product=activity_name).order_by(ActivityATestObj.created_timestamp.desc()).all()
+  if activity_type == 'activity_type_b':
+    db_historical_tests_obj = ActivityBTestObj.query.filter_by(fk_group_id=current_user.group_id, status='Closed',product=activity_name).order_by(ActivityBTestObj.created_timestamp.desc()).all()
   try:
-    if db_historical_tests_obj != None and db_historical_tests_obj != []:
+    # ------------------------ activity a start ------------------------
+    if db_historical_tests_obj != None and db_historical_tests_obj != [] and activity_type == 'activity_type_a':
       for i_historical_test_obj in db_historical_tests_obj:
         i_historical_test_dict = arr_of_dict_all_columns_single_item_function(i_historical_test_obj)
         # ------------------------ winner start ------------------------
@@ -134,15 +139,20 @@ def delete_historical_activity_a_tests_no_participation_function(current_user, a
           ActivityAGroupQuestionsUsedObj.query.filter_by(fk_test_id=i_historical_test_dict['id']).delete()
           ActivityATestGradedObj.query.filter_by(fk_test_id=i_historical_test_dict['id']).delete()
           ActivityATestObj.query.filter_by(id=i_historical_test_dict['id']).delete()
-          historical_activity_a_tests_were_deleted = True
+          historical_activity_tests_were_deleted = True
           db.session.commit()
         # ------------------------ delete histoical no participation end ------------------------
       # ------------------------ redirect start ------------------------
-      if historical_activity_a_tests_were_deleted == True:
+      if historical_activity_tests_were_deleted == True:
         db.session.commit()
       # ------------------------ redirect end ------------------------
+    # ------------------------ activity a end ------------------------
+    # ------------------------ activity b start ------------------------
+    elif db_historical_tests_obj != None and db_historical_tests_obj != [] and activity_type == 'activity_type_b':
+      pass
+    # ------------------------ activity b end ------------------------
   except:
     pass
   # ------------------------ delete all historical closed tests with 'No participation' end ------------------------
-  return historical_activity_a_tests_were_deleted, page_dict
+  return historical_activity_tests_were_deleted, page_dict
 # ------------------------ individual function end ------------------------

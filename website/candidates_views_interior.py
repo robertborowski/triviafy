@@ -51,7 +51,6 @@ redis_connection = redis_connect_to_database_function()
 @candidates_views_interior.route('/candidates/dashboard')
 @login_required
 def login_dashboard_page_function(url_redirect_code=None):
-  localhost_print_function(' ------------------------ login_dashboard_page_function START ------------------------ ')
   # ------------------------ auto redirect checks start ------------------------
   """
   -The code will always hit this dashboard on login or create account. BUT BEFORE setting the cookie on the browser, we are going to auto redirect
