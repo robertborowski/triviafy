@@ -36,9 +36,8 @@ from website.backend.candidates.test_backend import get_test_winner, first_user_
 from website.backend.candidates.aws_manipulation import candidates_change_uploaded_image_filename_function, candidates_user_upload_image_checks_aws_s3_function
 from website.backend.candidates.string_manipulation import breakup_email_function, capitalize_all_words_function
 from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function, get_marketing_list_function, get_dashboard_accordian_function, get_activity_a_products_function
-from website.backend.candidates.dropdowns import get_activity_a_dropdowns_function
 from website.backend.candidates.pull_create_logic import pull_create_group_obj_function, pull_latest_activity_a_test_obj_function, user_must_have_group_id_function, pull_create_activity_a_settings_obj_function, pull_group_obj_function, get_total_activity_closed_count_function
-from website.backend.candidates.activity_supporting import activity_a_dashboard_function, activity_a_live_function, turn_activity_auto_on_function
+from website.backend.candidates.activity_supporting import activity_a_dashboard_function, activity_a_live_function, turn_activity_auto_on_function, activity_b_dashboard_function
 from website.backend.candidates.emailing import email_share_with_team_function
 from website.backend.candidates.onboarding import onboarding_checks_function
 from website.backend.candidates.settings_supporting import activity_a_settings_prep_function, activity_a_settings_post_function
@@ -114,6 +113,11 @@ def login_dashboard_page_function(url_redirect_code=None):
   if page_dict['group_stripe_status'] == 'active':
     # ------------------------ dashboard supporting start ------------------------
     redirect_code, page_dict = activity_a_dashboard_function(current_user, page_dict, 'picture_quiz')
+    if redirect_code == 'dashboard':
+      return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+    # ------------------------ dashboard supporting end ------------------------
+    # ------------------------ dashboard supporting start ------------------------
+    redirect_code, page_dict = activity_b_dashboard_function(current_user, page_dict, 'icebreakers')
     if redirect_code == 'dashboard':
       return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
     # ------------------------ dashboard supporting end ------------------------

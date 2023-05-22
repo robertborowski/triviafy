@@ -140,7 +140,6 @@ def employees_signup_function(url_redirect_code=None):
 @employees_auth.route('/employees/login/', methods=['GET', 'POST'])
 @employees_auth.route('/employees/login/<url_redirect_code>', methods=['GET', 'POST'])
 def employees_login_page_function(url_redirect_code=None):
-  localhost_print_function(' ------------------------ employees_login_page_function start ------------------------ ')
   # ------------------------ redirect codes start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
   # ------------------------ redirect codes end ------------------------
@@ -168,7 +167,6 @@ def employees_login_page_function(url_redirect_code=None):
     # ------------------------ sanitize/check user input email start ------------------------
     ui_email_cleaned = sanitize_email_function(ui_email)
     if ui_email_cleaned == False:
-      localhost_print_function(' ------------------------ employees_login_page_function end ------------------------ ')
       return redirect(url_for('employees_auth.employees_login_page_function', url_redirect_code='e1'))
     # ------------------------ sanitize/check user input email end ------------------------
     # ------------------------ sanitize/check user input password start ------------------------
@@ -188,7 +186,6 @@ def employees_login_page_function(url_redirect_code=None):
     else:
       return redirect(url_for('employees_auth.employees_login_page_function', url_redirect_code='e4'))
     # ------------------------ post method hit #1 - regular login end ------------------------
-  localhost_print_function(' ------------------------ employees_login_page_function end ------------------------ ')
   return render_template('employees/exterior/login/index.html', alert_message_dict_to_html=alert_message_dict)
 # ------------------------ individual route end ------------------------
 
@@ -199,7 +196,6 @@ def employees_login_page_function(url_redirect_code=None):
 @employees_auth.route('/employees/logout/')
 @login_required
 def employees_logout_function():
-  localhost_print_function(' ------------------------ employees_logout_function start ------------------------ ')
   logout_user()
   # ------------------------ auto sign in with cookie start ------------------------
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
@@ -210,6 +206,5 @@ def employees_logout_function():
     except:
       pass
   # ------------------------ auto sign in with cookie end ------------------------
-  localhost_print_function(' ------------------------ employees_logout_function end ------------------------ ')
   return redirect(url_for('employees_auth.employees_login_page_function'))
 # ------------------------ individual route end ------------------------

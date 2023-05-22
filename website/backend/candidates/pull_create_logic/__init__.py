@@ -2,7 +2,7 @@
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
-from website.models import GroupObj, UserObj, ActivityASettingsObj, ActivityATestObj, ActivityATestGradedObj
+from website.models import GroupObj, UserObj, ActivityASettingsObj, ActivityATestObj, ActivityATestGradedObj, ActivityBSettingsObj
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function
 from website import db
 # ------------------------ imports end ------------------------
@@ -112,6 +112,36 @@ def pull_create_activity_a_settings_obj_function(current_user, activity_name):
     except:
       pass
     db_group_settings_obj = ActivityASettingsObj.query.filter_by(fk_group_id=current_user.group_id,product=activity_name).first()
+    # ------------------------ insert to db end ------------------------
+  # ------------------------ pull/create group settings end ------------------------
+  return db_group_settings_obj
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def pull_create_activity_b_settings_obj_function(current_user, activity_name):
+  # ------------------------ pull/create group settings start ------------------------
+  db_group_settings_obj = ActivityBSettingsObj.query.filter_by(fk_group_id=current_user.group_id,product=activity_name).first()
+  if db_group_settings_obj == None or db_group_settings_obj == []:
+    # ------------------------ insert to db start ------------------------
+    try:
+      new_row = ActivityBSettingsObj(
+        id = create_uuid_function('gset_'),
+        created_timestamp = create_timestamp_function(),
+        fk_group_id = current_user.group_id,
+        fk_user_id = current_user.id,
+        timezone = 'EST',
+        start_day = 'Monday',
+        start_time = '12 PM',
+        end_day = 'Thursday',
+        end_time = '1 PM',
+        cadence = 'Weekly',
+        product = activity_name
+      )
+      db.session.add(new_row)
+      db.session.commit()
+    except:
+      pass
+    db_group_settings_obj = ActivityBSettingsObj.query.filter_by(fk_group_id=current_user.group_id,product=activity_name).first()
     # ------------------------ insert to db end ------------------------
   # ------------------------ pull/create group settings end ------------------------
   return db_group_settings_obj

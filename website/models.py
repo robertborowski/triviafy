@@ -156,6 +156,21 @@ class ActivityASettingsObj(db.Model):
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
+class ActivityBSettingsObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  fk_group_id = db.Column(db.String(150))
+  fk_user_id = db.Column(db.String(150))
+  timezone = db.Column(db.String(150))
+  start_day = db.Column(db.String(150))
+  start_time = db.Column(db.String(150))
+  end_day = db.Column(db.String(150))
+  end_time = db.Column(db.String(150))
+  cadence = db.Column(db.String(150))
+  product = db.Column(db.String(150))
+# ------------------------ individual model end ------------------------
+
+# ------------------------ individual model start ------------------------
 class ActivityATestObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
   created_timestamp = db.Column(db.DateTime(timezone=True))
@@ -178,6 +193,24 @@ class ActivityATestObj(db.Model):
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
+class ActivityBTestObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  fk_group_id = db.Column(db.String(150))
+  timezone = db.Column(db.String(150))
+  start_day = db.Column(db.String(150))
+  start_time = db.Column(db.String(150))
+  start_timestamp = db.Column(db.DateTime(timezone=True))
+  end_day = db.Column(db.String(150))
+  end_time = db.Column(db.String(150))
+  end_timestamp = db.Column(db.DateTime(timezone=True))
+  cadence = db.Column(db.String(150))
+  fk_question_id = db.Column(db.String(150))
+  status = db.Column(db.String(150))
+  product = db.Column(db.String(150))
+# ------------------------ individual model end ------------------------
+
+# ------------------------ individual model start ------------------------
 class ActivityATestGradedObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
   created_timestamp = db.Column(db.DateTime(timezone=True))
@@ -194,7 +227,29 @@ class ActivityATestGradedObj(db.Model):
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
+class ActivityBTestGradedObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  fk_group_id = db.Column(db.String(150))
+  fk_user_id = db.Column(db.String(150))
+  fk_test_id = db.Column(db.String(150))
+  status = db.Column(db.String(20))
+  test_obj = db.Column(db.String(1000))
+  product = db.Column(db.String(150))
+# ------------------------ individual model end ------------------------
+
+# ------------------------ individual model start ------------------------
 class ActivityAGroupQuestionsUsedObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  fk_group_id = db.Column(db.String(150))
+  fk_question_id = db.Column(db.String(150))
+  fk_test_id = db.Column(db.String(150))
+  product = db.Column(db.String(150))
+# ------------------------ individual model end ------------------------
+
+# ------------------------ individual model start ------------------------
+class ActivityBGroupQuestionsUsedObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
   created_timestamp = db.Column(db.DateTime(timezone=True))
   fk_group_id = db.Column(db.String(150))
