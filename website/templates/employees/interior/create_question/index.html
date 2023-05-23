@@ -16,7 +16,11 @@
   {% if page_dict_to_html['total_group_created_questions_arr_of_dicts'] == 0 %}
   {% else %}
     <div>
-      <a href="/custom/question" class="btn btn-primary">Create +</a>
+      {% if page_dict_to_html['url_activity_type'] == 'activity_type_a' %}
+        <a href="/custom/question" class="btn btn-primary">Create +</a>
+      {% elif page_dict_to_html['url_activity_type'] == 'activity_type_b' %}
+        <a href="/activity/create/question/{{ page_dict_to_html['url_activity_type'] }}/draft" class="btn btn-primary">Create +</a>
+      {% endif %}
     </div>
   {% endif %}
 </div>
@@ -25,7 +29,11 @@
     {% if page_dict_to_html['total_group_created_questions_arr_of_dicts'] == 0 %}
       <div class="text-center custom-ptb-5">
         <p class="fst-italic custom-color-light-1 custom-header-5">Your group has not created any questions yet.</p>
-        <a href="/custom/question" class="btn btn-primary btn-lg">Create +</a>
+        {% if page_dict_to_html['url_activity_type'] == 'activity_type_a' %}
+          <a href="/custom/question" class="btn btn-primary btn-lg">Create +</a>
+        {% elif page_dict_to_html['url_activity_type'] == 'activity_type_b' %}
+          <a href="/activity/create/question/{{ page_dict_to_html['url_activity_type'] }}/draft" class="btn btn-primary btn-lg">Create +</a>
+        {% endif %}
       </div>
     {% else %}
       <div class="custom-ptb-6">

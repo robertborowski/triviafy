@@ -1,0 +1,66 @@
+{% extends "employees/aaa_base/base2_primary.html" %}
+
+<!-- head tag block content -->
+{% block title %}
+  <title>Create Question - Triviafy</title>
+{% endblock %}
+
+{% block contentBodyExceptNavbarAndFooter %}
+<div class="custom-bg-primary-darker">
+  <!-- ----------------------------------- start ----------------------------------- -->
+  {% if page_dict_to_html['alert_message_dict']['message'] != '' %}
+  <div class="alert alert-{{ page_dict_to_html['alert_message_dict']['type'] }} mx-auto text-center container-fluid custom-width-6 custom-m-0" role="alert">
+    {{ page_dict_to_html['alert_message_dict']['message'] }}
+  </div>
+  {% endif %}
+  <!-- ----------------------------------- end ----------------------------------- -->
+  <!-- ------------------------------------- entire page start ------------------------------------- -->
+  <div class="container-fluid custom-bg-primary-gradient-1 custom-pt-3">
+    <!-- ------------------------------------- title start ------------------------------------- -->
+    <div class="container mx-auto custom-pb-2">
+      <div class="text-center">
+        <h2 class="custom-color-white">Custom Question</h2>
+      </div>
+    </div>
+    <!-- ------------------------------------- title end ------------------------------------- -->
+    <!-- ------------------------------------- section - name start ------------------------------------- -->
+    <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+      <div class="mx-auto custom-width-1">
+        <!-- ------------------------------------- answer start ------------------------------------- -->
+        <div class="custom-pb-2">
+          <div class="form-floating">
+            <textarea class="form-control" id="ui_name" name="ui_name" placeholder="Your name" onkeyup="CountCharsNameAnswer(this);" pattern="{1,20}" required></textarea>
+            <label for="ui_name">Your name</label>
+            <p id="id-countCharsNameAnswer" class="custom-size-3 custom-color-light-1 fst-italic custom-mt-2 custom-ml-2"></p>
+          </div>
+        </div>
+        <!-- ------------------------------------- answer end ------------------------------------- -->
+      </div>
+      <div class="mx-auto custom-width-1">
+        <button type="submit" class="btn btn-lg btn-success custom-mb-6 custom-width-6 custom-ptb-8 custom-br-1" id="submit-button-botttom">Continue <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+    </form>
+    <!-- ------------------------------------- section - name end ------------------------------------- -->
+  </div>
+  <!-- ------------------------------------- entire page end ------------------------------------- -->
+</div>
+<!-- ----------------------------------- shape divider start ----------------------------------- -->
+<div class="custom-shape-divider-bottom-1672276706 custom-bg-primary-darker">
+  <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+      <path d="M1200 0L0 0 598.97 114.72 1200 0z" class="shape-fill"></path>
+  </svg>
+</div>
+<!-- ----------------------------------- shape divider end ----------------------------------- -->
+
+<!-- ------------------------------------- signature start ------------------------------------- -->
+<div class="custom-width-15 mx-auto custom-pb-100">
+  <a href="/dashboard" class="navbar-brand">
+    <img src="https://triviafypublicobjects.s3.us-east-2.amazonaws.com/official_logo.png" alt="triviafy logo" class="custom-img-size-1 custom-mt-negative-1">
+    <span class="fw-bold custom-header-1">Triviafy<spa class="custom-header-4">.com</span></span>
+    <div class="text-center">
+      <p class="custom-m-0">Team building software</p>
+    </div>
+  </a>
+</div>
+<!-- ------------------------------------- signature end ------------------------------------- -->
+{% endblock %}

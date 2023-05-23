@@ -1014,7 +1014,6 @@ def employees_feature_function(url_redirect_code=None, url_feature_request_code=
 @employees_views_interior.route('/activity/create/question/<url_activity_type>/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
 def employees_questions_function(url_redirect_code=None, url_activity_type=None):
-  localhost_print_function(' ------------------------ employees_questions_function START ------------------------ ')
   # ------------------------ page dict start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
   page_dict = {}
@@ -1072,8 +1071,45 @@ def employees_questions_function(url_redirect_code=None, url_activity_type=None)
   page_dict['group_created_questions_arr_of_dicts'] = group_created_questions_arr_of_dicts
   page_dict['total_group_created_questions_arr_of_dicts'] = len(group_created_questions_arr_of_dicts)
   # ------------------------ pull all created questions by group end ------------------------
-  localhost_print_function(' ------------------------ employees_questions_function END ------------------------ ')
+  # ------------------------ for setting cookie end ------------------------
+  localhost_print_function(' ------------- 100-create question dashboard start ------------- ')
+  page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
+  for k,v in page_dict.items():
+    localhost_print_function(f"k: {k} | v: {v}")
+  localhost_print_function(' ------------- 100-create question dashboard end ------------- ')
   return render_template('employees/interior/create_question/index.html', page_dict_to_html=page_dict)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@employees_views_interior.route('/activity/create/question/<url_activity_type>/draft', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/create/question/<url_activity_type>/draft/', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/create/question/<url_activity_type>/draft/<url_redirect_code>', methods=['GET', 'POST'])
+@login_required
+def employees_question_draft_function(url_redirect_code=None, url_activity_type=None):
+  # ------------------------ page dict start ------------------------
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ page dict end ------------------------
+  # ------------------------ variables start ------------------------
+  if url_activity_type == None:
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+  page_dict['url_activity_type'] = url_activity_type
+  # ------------------------ variables end ------------------------
+  # ------------------------ stripe subscription status check start ------------------------
+  stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees', current_user.email)
+  page_dict['group_stripe_status'] = stripe_subscription_obj_status
+  # ------------------------ stripe subscription status check end ------------------------
+  # ------------------------ redirect if not subscribed start ------------------------
+  if page_dict['group_stripe_status'] != 'active':
+    return redirect(url_for('employees_views_interior.account_function', url_redirect_code='e14'))
+  # ------------------------ redirect if not subscribed end ------------------------
+  localhost_print_function(' ------------- 100-create question creation start ------------- ')
+  page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
+  for k,v in page_dict.items():
+    localhost_print_function(f"k: {k} | v: {v}")
+  localhost_print_function(' ------------- 100-create question creation end ------------- ')
+  return render_template('employees/interior/create_question/activity_b/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -1285,7 +1321,6 @@ def employees_preview_question_function(url_redirect_code=None, url_question_id=
 @employees_views_interior.route('/employees/feedback/primary', methods=['GET', 'POST'])
 @employees_views_interior.route('/employees/feedback/primary/', methods=['GET', 'POST'])
 @employees_views_interior.route('/employees/feedback/primary/<url_redirect_code>', methods=['GET', 'POST'])
-
 @login_required
 def employees_feedback_primary_function(url_redirect_code=None):
   localhost_print_function(' ------------------------ employees_feedback_primary_function START ------------------------ ')
