@@ -1046,6 +1046,7 @@ def employees_questions_function(url_redirect_code=None, url_activity_type=None)
     return redirect(url_for('employees_views_interior.employees_questions_function'))
   # ------------------------ delete all in progress questions end ------------------------
   # ------------------------ pull all created questions by group start ------------------------
+  db_activity_created_questions_obj = None
   if page_dict['url_activity_type'] == 'activity_type_a':
     db_activity_created_questions_obj = ActivityACreatedQuestionsObj.query.filter_by(fk_group_id=current_user.group_id).all()
   if page_dict['url_activity_type'] == 'activity_type_b':
