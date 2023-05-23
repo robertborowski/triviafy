@@ -35,7 +35,7 @@ from website.backend.candidates.datatype_conversion_manipulation import one_col_
 from website.backend.candidates.test_backend import get_test_winner, first_user_latest_quiz_check_function
 from website.backend.candidates.aws_manipulation import candidates_change_uploaded_image_filename_function, candidates_user_upload_image_checks_aws_s3_function
 from website.backend.candidates.string_manipulation import breakup_email_function, capitalize_all_words_function
-from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function, get_marketing_list_function, get_dashboard_accordian_function, get_activity_a_products_function
+from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function, get_marketing_list_function, get_dashboard_accordian_function, get_activity_a_products_function, get_activity_b_products_function
 from website.backend.candidates.pull_create_logic import pull_create_group_obj_function, pull_latest_activity_test_obj_function, user_must_have_group_id_function, pull_create_activity_settings_obj_function, pull_group_obj_function, get_total_activity_closed_count_function
 from website.backend.candidates.activity_supporting import activity_dashboard_function, activity_a_live_function, turn_activity_auto_on_function
 from website.backend.candidates.emailing import email_share_with_team_function
@@ -1034,13 +1034,9 @@ def employees_questions_function(url_redirect_code=None, url_activity_type=None)
   db_drafted_questions_obj = None
   if page_dict['url_activity_type'] == 'activity_type_a':
     db_drafted_questions_obj = ActivityACreatedQuestionsObj.query.filter_by(fk_group_id=current_user.group_id,submission='draft').first()
-  if page_dict['url_activity_type'] == 'activity_type_b':
-    db_drafted_questions_obj = ActivityBCreatedQuestionsObj.query.filter_by(fk_group_id=current_user.group_id,submission='draft').first()
   if db_drafted_questions_obj != None and db_drafted_questions_obj != []:
     if page_dict['url_activity_type'] == 'activity_type_a':
       ActivityACreatedQuestionsObj.query.filter_by(fk_group_id=current_user.group_id,submission='draft').delete()
-    if page_dict['url_activity_type'] == 'activity_type_b':
-      ActivityBCreatedQuestionsObj.query.filter_by(fk_group_id=current_user.group_id,submission='draft').delete()
     db.session.commit()
     return redirect(url_for('employees_views_interior.employees_questions_function'))
   # ------------------------ delete all in progress questions end ------------------------
@@ -1104,6 +1100,50 @@ def employees_question_draft_function(url_redirect_code=None, url_activity_type=
   if page_dict['group_stripe_status'] != 'active':
     return redirect(url_for('employees_views_interior.account_function', url_redirect_code='e14'))
   # ------------------------ redirect if not subscribed end ------------------------
+  # ------------------------ get products start ------------------------
+  page_dict['products_list'] = get_activity_b_products_function()
+  # ------------------------ get products end ------------------------
+  # ------------------------ submission start ------------------------
+  if request.method == 'POST':
+    # ------------------------ get user inputs start ------------------------
+    ui_custom_question = request.form.get('ui_custom_question')
+    ui_products_selected = request.form.getlist('ui_products_selected')   # list of str
+    # ------------------------ get user inputs end ------------------------
+    # ------------------------ sanatize inputs start ------------------------
+    if len(ui_custom_question) <= 1 or len(ui_custom_question) > 150:
+      return redirect(url_for('employees_views_interior.employees_question_draft_function', url_redirect_code='e19'))
+    special_characters_arr = get_special_characters_function()
+    for i in ui_custom_question:
+      if i in special_characters_arr:
+        return redirect(url_for('employees_views_interior.employees_question_draft_function', url_redirect_code='e18'))
+    # ------------------------ sanatize inputs end ------------------------
+    # ------------------------ error catch check start ------------------------
+    if ui_products_selected == None or ui_products_selected == []:
+      return redirect(url_for('employees_views_interior.employees_question_draft_function', url_redirect_code='e15'))
+    for i_product in ui_products_selected:
+      if i_product not in page_dict['products_list']:
+        return redirect(url_for('employees_views_interior.employees_question_draft_function', url_redirect_code='e15'))
+    final_products_str = ''
+    if len(ui_products_selected) == 1:
+      final_products_str = ui_products_selected[0]
+    if len(ui_products_selected) > 1:
+      final_products_str = ','.join(ui_products_selected)
+    # ------------------------ error catch check end ------------------------
+    # ------------------------ insert to db start ------------------------
+    new_row = ActivityBCreatedQuestionsObj(
+      id = create_uuid_function('custq_'),
+      created_timestamp = create_timestamp_function(),
+      fk_user_id = current_user.id,
+      fk_group_id = current_user.group_id,
+      question = ui_custom_question,
+      product = final_products_str,
+      status = False
+    )
+    db.session.add(new_row)
+    db.session.commit()
+    # ------------------------ insert to db end ------------------------
+    return redirect(url_for('employees_views_interior.employees_questions_function', url_activity_type=page_dict['url_activity_type']))
+  # ------------------------ submission end ------------------------
   localhost_print_function(' ------------- 100-create question creation start ------------- ')
   page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
   for k,v in page_dict.items():

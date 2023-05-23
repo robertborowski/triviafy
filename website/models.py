@@ -90,7 +90,6 @@ class ActivityBCreatedQuestionsObj(db.Model):
   fk_group_id = db.Column(db.String(150))
   question = db.Column(db.String(1000))
   product = db.Column(db.String(50))
-  submission = db.Column(db.String(20))
   status = db.Column(db.Boolean, default=False)
 # ------------------------ individual model end ------------------------
 

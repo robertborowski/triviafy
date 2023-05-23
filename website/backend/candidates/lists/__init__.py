@@ -111,3 +111,9 @@ def get_activity_a_products_function():
   activity_a_products_list = ["trivia","picture_quiz"]
   return activity_a_products_list
 # ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def get_activity_b_products_function():
+  activity_products_list = ["icebreakers"]
+  return activity_products_list
+# ------------------------ individual function end ------------------------
