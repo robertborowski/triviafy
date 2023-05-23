@@ -59,7 +59,11 @@
                 <td>{{ i['question'] }}</td>
               {% endif %}
               <td>{{ i['question_used_status'] }}</td>
-              <td><a href="/employees/questions/preview/{{ i['id'] }}" class="custom-a-2 fw-bolder">View</a></td>
+              {% if page_dict_to_html['url_activity_type'] == 'activity_type_a' %}
+                <td><a href="/employees/questions/preview/{{ i['id'] }}" class="custom-a-2 fw-bolder">View</a></td>
+              {% elif page_dict_to_html['url_activity_type'] == 'activity_type_b' %}
+                <td><a href="/activity/create/question/{{ page_dict_to_html['url_activity_type'] }}/view/{{ i['id'] }}" class="custom-a-2 fw-bolder">View</a></td>
+              {% endif %}  
             </tr>
             {% endfor %}
           </tbody>

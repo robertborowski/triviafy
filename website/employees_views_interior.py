@@ -159,6 +159,7 @@ def login_dashboard_page_function(url_redirect_code=None):
   page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
   for k,v in page_dict.items():
     localhost_print_function(f"k: {k} | v: {v}")
+    pass
   localhost_print_function(' ------------- 100-dashboard end ------------- ')
   # ------------------------ auto set cookie start ------------------------
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
@@ -473,6 +474,7 @@ def activity_a_settings_function(url_activity_code=None, url_redirect_code=None)
   page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
   for k,v in page_dict.items():
     localhost_print_function(f"k: {k} | v: {v}")
+    pass
   localhost_print_function(' ------------- 100-settings end ------------- ')
   return render_template('employees/interior/schedule/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
@@ -650,6 +652,7 @@ def activity_a_contest_function(url_redirect_code=None, url_test_id=None, url_qu
     page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
     for k,v in page_dict.items():
       localhost_print_function(f"k: {k} | v: {v}")
+      pass
     localhost_print_function(' ------------- 100-activity end ------------- ')
   return render_template('employees/interior/test_quiz/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
@@ -687,6 +690,7 @@ def activity_archive_function(url_redirect_code=None):
   page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
   for k,v in page_dict.items():
     localhost_print_function(f"k: {k} | v: {v}")
+    pass
   localhost_print_function(' ------------- 100-archive end ------------- ')
   return render_template('employees/interior/test_archive/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
@@ -1063,6 +1067,10 @@ def employees_questions_function(url_redirect_code=None, url_activity_type=None)
     if db_used_obj != None and db_used_obj != []:
       i_dict['question_used_status'] = 'Included in past quiz'
     # ------------------------ append asked status end ------------------------
+    # ------------------------ shorten question start ------------------------
+    if page_dict['url_activity_type'] == 'activity_type_b':
+      i_dict['question'] = i_dict['question'][:30]+'...'
+    # ------------------------ shorten question end ------------------------
     group_created_questions_arr_of_dicts.append(i_dict)
   page_dict['group_created_questions_arr_of_dicts'] = group_created_questions_arr_of_dicts
   page_dict['total_group_created_questions_arr_of_dicts'] = len(group_created_questions_arr_of_dicts)
@@ -1072,6 +1080,7 @@ def employees_questions_function(url_redirect_code=None, url_activity_type=None)
   page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
   for k,v in page_dict.items():
     localhost_print_function(f"k: {k} | v: {v}")
+    pass
   localhost_print_function(' ------------- 100-create question dashboard end ------------- ')
   return render_template('employees/interior/create_question/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
@@ -1103,6 +1112,8 @@ def employees_question_draft_function(url_redirect_code=None, url_activity_type=
   # ------------------------ get products start ------------------------
   page_dict['products_list'] = get_activity_b_products_function()
   # ------------------------ get products end ------------------------
+  page_dict['is_submission'] = True
+  page_dict['is_view'] = False
   # ------------------------ submission start ------------------------
   if request.method == 'POST':
     # ------------------------ get user inputs start ------------------------
@@ -1148,7 +1159,51 @@ def employees_question_draft_function(url_redirect_code=None, url_activity_type=
   page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
   for k,v in page_dict.items():
     localhost_print_function(f"k: {k} | v: {v}")
+    pass
   localhost_print_function(' ------------- 100-create question creation end ------------- ')
+  return render_template('employees/interior/create_question/activity_b/index.html', page_dict_to_html=page_dict)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@employees_views_interior.route('/activity/create/question/<url_activity_type>/view/<url_question_id>', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/create/question/<url_activity_type>/view/<url_question_id>/', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/create/question/<url_activity_type>/view/<url_question_id>/<url_redirect_code>', methods=['GET', 'POST'])
+@login_required
+def employees_question_view_function(url_redirect_code=None, url_activity_type=None, url_question_id=None):
+  # ------------------------ page dict start ------------------------
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ page dict end ------------------------
+  # ------------------------ variables start ------------------------
+  if url_activity_type == None or url_question_id ==None:
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+  page_dict['url_activity_type'] = url_activity_type
+  page_dict['url_question_id'] = url_question_id
+  # ------------------------ variables end ------------------------
+  # ------------------------ stripe subscription status check start ------------------------
+  stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees', current_user.email)
+  page_dict['group_stripe_status'] = stripe_subscription_obj_status
+  # ------------------------ stripe subscription status check end ------------------------
+  # ------------------------ redirect if not subscribed start ------------------------
+  if page_dict['group_stripe_status'] != 'active':
+    return redirect(url_for('employees_views_interior.account_function', url_redirect_code='e14'))
+  # ------------------------ redirect if not subscribed end ------------------------
+  # ------------------------ get question obj start ------------------------
+  page_dict['is_submission'] = False
+  page_dict['is_view'] = True
+  if page_dict['url_activity_type'] == 'activity_type_b':
+    db_question_obj = ActivityBCreatedQuestionsObj.query.filter_by(id=page_dict['url_question_id']).first()
+    if db_question_obj == None or db_question_obj == []:
+      return redirect(url_for('employees_views_interior.employees_question_view_function', url_redirect_code='e16'))
+    page_dict['question_info_dict'] = arr_of_dict_all_columns_single_item_function(db_question_obj)
+  # ------------------------ get question obj end ------------------------
+  localhost_print_function(' ------------- 100-create question view start ------------- ')
+  page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
+  for k,v in page_dict.items():
+    localhost_print_function(f"k: {k} | v: {v}")
+    pass
+  localhost_print_function(' ------------- 100-create question view end ------------- ')
   return render_template('employees/interior/create_question/activity_b/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
 

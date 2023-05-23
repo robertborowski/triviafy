@@ -23,35 +23,48 @@
       </div>
     </div>
     <!-- ------------------------------------- title end ------------------------------------- -->
-    <!-- ------------------------------------- section - name start ------------------------------------- -->
-    <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
-      <div class="mx-auto custom-width-1">
-        <!-- ------------------------------------- answer start ------------------------------------- -->
-        <div class="custom-pb-25">
-          <div class="form-floating">
-            <textarea class="form-control" id="ui_custom_question" name="ui_custom_question" placeholder="Your name" onkeyup="CountCharsCustomQuestion(this);" pattern="{1,150}" required></textarea>
-            <label for="ui_custom_question">Custom question</label>
-            <p id="id-countCharsCustomQuestion" class="custom-size-3 custom-color-light-1 fst-italic custom-mt-2 custom-ml-2"></p>
+    {% if page_dict_to_html['is_submission'] == true %}
+      <!-- ------------------------------------- section start ------------------------------------- -->
+      <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+        <div class="mx-auto custom-width-1">
+          <!-- ------------------------------------- question start ------------------------------------- -->
+          <div class="custom-pb-25">
+            <div class="form-floating">
+              <textarea class="form-control" id="ui_custom_question" name="ui_custom_question" placeholder="Your name" onkeyup="CountCharsCustomQuestion(this);" pattern="{1,150}" required></textarea>
+              <label for="ui_custom_question">Custom question</label>
+              <p id="id-countCharsCustomQuestion" class="custom-size-3 custom-color-light-1 fst-italic custom-mt-2 custom-ml-2"></p>
+            </div>
           </div>
+          <!-- ------------------------------------- question end ------------------------------------- -->
+          <!-- ------------------------------------- product selection start ------------------------------------- -->
+          <div class="custom-pb-25 custom-color-white text-center">
+            <!-- <p>For product(s)*</p> -->
+            {% for i in page_dict_to_html['products_list'] %}
+              <label class="list-group-item d-flex gap-2">
+                <input class="form-check-input flex-shrink-0" type="checkbox" name="ui_products_selected" value="{{ i }}" checked>
+                <span>{{ i }}</span>
+              </label>
+            {% endfor %}
+          </div>
+          <!-- ------------------------------------- product selection end ------------------------------------- -->
         </div>
-        <!-- ------------------------------------- answer end ------------------------------------- -->
-        <!-- ------------------------------------- product selection start ------------------------------------- -->
-        <div class="custom-pb-25 custom-color-white text-center">
-          <!-- <p>For product(s)*</p> -->
-          {% for i in page_dict_to_html['products_list'] %}
-            <label class="list-group-item d-flex gap-2">
-              <input class="form-check-input flex-shrink-0" type="checkbox" name="ui_products_selected" value="{{ i }}" checked>
-              <span>{{ i }}</span>
-            </label>
-          {% endfor %}
+        <div class="mx-auto custom-width-1">
+          <button type="submit" class="btn btn-lg btn-success custom-mb-6 custom-width-6 custom-ptb-8 custom-br-1" id="submit-button-botttom">Submit <i class="fa-solid fa-check"></i></button>
         </div>
-        <!-- ------------------------------------- product selection end ------------------------------------- -->
+      </form>
+      <!-- ------------------------------------- section end ------------------------------------- -->
+    {% elif page_dict_to_html['is_view'] == true %}
+      <!-- ------------------------------------- section start ------------------------------------- -->
+      <div class="container">
+        <div class="custom-br-1 custom-p-25 custom-bg-white custom-width-1 mx-auto">
+          <p class="custom-m-0 custom-header-20">{{ page_dict_to_html['question_info_dict']['question'] }}</p>
+        </div>
+        <div class="custom-width-1 custom-mt-50 mx-auto">
+          <a href="/activity/create/question/{{ page_dict_to_html['url_activity_type'] }}" class="custom-width-6 btn btn-secondary btn-lg"><i class="fa-solid fa-arrow-left"></i> Back</a>
+        </div>
       </div>
-      <div class="mx-auto custom-width-1">
-        <button type="submit" class="btn btn-lg btn-success custom-mb-6 custom-width-6 custom-ptb-8 custom-br-1" id="submit-button-botttom">Submit <i class="fa-solid fa-check"></i></button>
-      </div>
-    </form>
-    <!-- ------------------------------------- section - name end ------------------------------------- -->
+      <!-- ------------------------------------- section end ------------------------------------- -->
+    {% endif %}
   </div>
   <!-- ------------------------------------- entire page end ------------------------------------- -->
 </div>
