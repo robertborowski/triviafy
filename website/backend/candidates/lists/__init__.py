@@ -100,7 +100,10 @@ def get_dashboard_accordian_function():
     ["collapseOne","trivia"],
     ["collapseTwo","picture_quiz"]
    ]
-  return activity_a_accordian_arr
+  activity_b_accordian_arr = [
+    ["collapseThree","icebreakers"]
+   ]
+  return activity_a_accordian_arr, activity_b_accordian_arr
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------

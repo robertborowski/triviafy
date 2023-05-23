@@ -83,6 +83,18 @@ class ActivityACreatedQuestionsObj(db.Model):
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
+class ActivityBCreatedQuestionsObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  fk_user_id = db.Column(db.String(150))
+  fk_group_id = db.Column(db.String(150))
+  question = db.Column(db.String(1000))
+  product = db.Column(db.String(50))
+  submission = db.Column(db.String(20))
+  status = db.Column(db.Boolean, default=False)
+# ------------------------ individual model end ------------------------
+
+# ------------------------ individual model start ------------------------
 class StripeCheckoutSessionObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
   created_timestamp = db.Column(db.DateTime(timezone=True))

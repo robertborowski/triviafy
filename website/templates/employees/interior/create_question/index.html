@@ -45,7 +45,11 @@
             <tr>
               <td>{{ i['created_by_email'] }}</td>
               <td>{{ i['created_timestamp'] }}</td>
-              <td>{{ i['title'] }}</td>
+              {% if page_dict_to_html['url_activity_type'] == 'activity_type_a' %}
+                <td>{{ i['title'] }}</td>
+              {% elif page_dict_to_html['url_activity_type'] == 'activity_type_b' %}
+                <td>{{ i['question'] }}</td>
+              {% endif %}
               <td>{{ i['question_used_status'] }}</td>
               <td><a href="/employees/questions/preview/{{ i['id'] }}" class="custom-a-2 fw-bolder">View</a></td>
             </tr>

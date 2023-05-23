@@ -17,7 +17,7 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v4, browser_response_set_cookie_function_v5
-from website.models import GroupObj, ActivityASettingsObj, ActivityATestObj, UserDesiredCategoriesObj, ActivityACreatedQuestionsObj, ActivityATestGradedObj, UserObj, StripePaymentOptionsObj, EmailSentObj, StripeCheckoutSessionObj, ActivityAGroupQuestionsUsedObj, UserFeatureRequestObj, UserSignupFeedbackObj, UserBirthdayObj
+from website.models import GroupObj, ActivityASettingsObj, ActivityATestObj, UserDesiredCategoriesObj, ActivityACreatedQuestionsObj, ActivityATestGradedObj, UserObj, StripePaymentOptionsObj, EmailSentObj, StripeCheckoutSessionObj, ActivityAGroupQuestionsUsedObj, UserFeatureRequestObj, UserSignupFeedbackObj, UserBirthdayObj, ActivityBCreatedQuestionsObj, ActivityBGroupQuestionsUsedObj
 from website.backend.candidates.autogeneration import question_choices_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
 from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function
@@ -122,7 +122,7 @@ def login_dashboard_page_function(url_redirect_code=None):
     # ------------------------ dashboard supporting end ------------------------
   # ------------------------ subscription only activities end ------------------------
   # ------------------------ get collapse list start ------------------------
-  page_dict['activity_a_accordian_arr'] = get_dashboard_accordian_function()
+  page_dict['activity_a_accordian_arr'], page_dict['activity_b_accordian_arr'] = get_dashboard_accordian_function()
   # ------------------------ get collapse list end ------------------------
   # ------------------------ if post start ------------------------
   if request.method == 'POST':
@@ -1007,17 +1007,22 @@ def employees_feature_function(url_redirect_code=None, url_feature_request_code=
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_interior.route('/activity/a/create/question', methods=['GET', 'POST'])
-@employees_views_interior.route('/activity/a/create/question/', methods=['GET', 'POST'])
-@employees_views_interior.route('/activity/a/create/question/<url_redirect_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/create/question', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/create/question/', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/create/question/<url_activity_type>', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/create/question/<url_activity_type>/', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/create/question/<url_activity_type>/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
-def employees_questions_function(url_redirect_code=None):
+def employees_questions_function(url_redirect_code=None, url_activity_type=None):
   localhost_print_function(' ------------------------ employees_questions_function START ------------------------ ')
   # ------------------------ page dict start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
   page_dict = {}
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
+  # ------------------------ variables start ------------------------
+  page_dict['url_activity_type'] = url_activity_type
+  # ------------------------ variables end ------------------------
   # ------------------------ stripe subscription status check start ------------------------
   stripe_subscription_obj_status = check_stripe_subscription_status_function_v2(current_user, 'employees', current_user.email)
   page_dict['group_stripe_status'] = stripe_subscription_obj_status
@@ -1027,16 +1032,26 @@ def employees_questions_function(url_redirect_code=None):
     return redirect(url_for('employees_views_interior.account_function', url_redirect_code='e14'))
   # ------------------------ redirect if not subscribed end ------------------------
   # ------------------------ delete all in progress questions start ------------------------
-  db_drafted_questions_obj = ActivityACreatedQuestionsObj.query.filter_by(fk_group_id=current_user.group_id,submission='draft').first()
+  db_drafted_questions_obj = None
+  if page_dict['url_activity_type'] == 'activity_type_a':
+    db_drafted_questions_obj = ActivityACreatedQuestionsObj.query.filter_by(fk_group_id=current_user.group_id,submission='draft').first()
+  if page_dict['url_activity_type'] == 'activity_type_b':
+    db_drafted_questions_obj = ActivityBCreatedQuestionsObj.query.filter_by(fk_group_id=current_user.group_id,submission='draft').first()
   if db_drafted_questions_obj != None and db_drafted_questions_obj != []:
-    ActivityACreatedQuestionsObj.query.filter_by(fk_group_id=current_user.group_id,submission='draft').delete()
+    if page_dict['url_activity_type'] == 'activity_type_a':
+      ActivityACreatedQuestionsObj.query.filter_by(fk_group_id=current_user.group_id,submission='draft').delete()
+    if page_dict['url_activity_type'] == 'activity_type_b':
+      ActivityBCreatedQuestionsObj.query.filter_by(fk_group_id=current_user.group_id,submission='draft').delete()
     db.session.commit()
     return redirect(url_for('employees_views_interior.employees_questions_function'))
   # ------------------------ delete all in progress questions end ------------------------
   # ------------------------ pull all created questions by group start ------------------------
-  db_activity_a_created_questions_obj = ActivityACreatedQuestionsObj.query.filter_by(fk_group_id=current_user.group_id).all()
+  if page_dict['url_activity_type'] == 'activity_type_a':
+    db_activity_created_questions_obj = ActivityACreatedQuestionsObj.query.filter_by(fk_group_id=current_user.group_id).all()
+  if page_dict['url_activity_type'] == 'activity_type_b':
+    db_activity_created_questions_obj = ActivityBCreatedQuestionsObj.query.filter_by(fk_group_id=current_user.group_id).all()
   group_created_questions_arr_of_dicts = []
-  for i_obj in db_activity_a_created_questions_obj:
+  for i_obj in db_activity_created_questions_obj:
     i_dict = arr_of_dict_all_columns_single_item_function(i_obj)
     # ------------------------ append creator email start ------------------------
     db_user_obj = UserObj.query.filter_by(id=i_dict['fk_user_id']).first()
@@ -1044,7 +1059,11 @@ def employees_questions_function(url_redirect_code=None):
     # ------------------------ append creator email end ------------------------
     # ------------------------ append asked status start ------------------------
     i_dict['question_used_status'] = 'Include in future quiz'
-    db_used_obj = ActivityAGroupQuestionsUsedObj.query.filter_by(fk_question_id=i_dict['id'], fk_group_id=current_user.group_id).first()
+    db_used_obj = None
+    if page_dict['url_activity_type'] == 'activity_type_a':
+      db_used_obj = ActivityAGroupQuestionsUsedObj.query.filter_by(fk_question_id=i_dict['id'], fk_group_id=current_user.group_id).first()
+    if page_dict['url_activity_type'] == 'activity_type_b':
+      db_used_obj = ActivityBGroupQuestionsUsedObj.query.filter_by(fk_question_id=i_dict['id'], fk_group_id=current_user.group_id).first()
     if db_used_obj != None and db_used_obj != []:
       i_dict['question_used_status'] = 'Included in past quiz'
     # ------------------------ append asked status end ------------------------
