@@ -40,7 +40,7 @@ from website.backend.candidates.pull_create_logic import pull_create_group_obj_f
 from website.backend.candidates.activity_supporting import activity_dashboard_function, activity_a_live_function, turn_activity_auto_on_function
 from website.backend.candidates.emailing import email_share_with_team_function
 from website.backend.candidates.onboarding import onboarding_checks_function
-from website.backend.candidates.settings_supporting import activity_a_settings_prep_function, activity_a_settings_post_function
+from website.backend.candidates.settings_supporting import activity_settings_prep_function, activity_settings_post_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -414,14 +414,14 @@ def employees_categories_request_function(url_redirect_code=None, url_activity_c
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_interior.route('/activity/a/settings', methods=['GET', 'POST'])
-@employees_views_interior.route('/activity/a/settings/', methods=['GET', 'POST'])
-@employees_views_interior.route('/activity/a/settings/<url_activity_code>', methods=['GET', 'POST'])
-@employees_views_interior.route('/activity/a/settings/<url_activity_code>/<url_redirect_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/settings/<url_activity_type>', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/settings/<url_activity_type>/', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/settings/<url_activity_type>/<url_activity_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/settings/<url_activity_type>/<url_activity_code>/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
-def activity_a_settings_function(url_activity_code=None, url_redirect_code=None):
+def activity_settings_function(url_activity_code=None, url_redirect_code=None, url_activity_type=None):
   # ------------------------ if no activity error start ------------------------
-  if url_activity_code == None or url_activity_code == '':
+  if url_activity_code == None or url_activity_code == '' or url_activity_type == None or url_activity_type == '':
     return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='e24'))
   # ------------------------ if no activity error end ------------------------
   # ------------------------ page dict start ------------------------
@@ -429,16 +429,17 @@ def activity_a_settings_function(url_activity_code=None, url_redirect_code=None)
   page_dict = {}
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
+  # ------------------------ activity type start ------------------------
+  page_dict['url_activity_type'] = url_activity_type
+  # ------------------------ activity type end ------------------------
   # ------------------------ get current group settings start ------------------------
-  db_activity_settings_obj = pull_create_activity_settings_obj_function(current_user, url_activity_code, 'activity_type_a')
+  db_activity_settings_obj = pull_create_activity_settings_obj_function(current_user, url_activity_code, url_activity_type)
   db_activity_settings_dict = arr_of_dict_all_columns_single_item_function(db_activity_settings_obj)
   # ------------------------ get current group settings end ------------------------
   # ------------------------ settings prep start ------------------------
-  page_dict = activity_a_settings_prep_function(page_dict, url_activity_code, db_activity_settings_dict)
+  page_dict = activity_settings_prep_function(page_dict, url_activity_code, db_activity_settings_dict, url_activity_type)
   # ------------------------ settings prep end ------------------------
   if request.method == 'POST':
-    ui_select_all_categories = request.form.get('flexSwitchCheckDefault_02')
-    ui_timezone = request.form.get('radioTimeZone')
     ui_selected_categories = []
     try:
       # ------------------------ get ui start ------------------------
@@ -456,15 +457,15 @@ def activity_a_settings_function(url_activity_code=None, url_redirect_code=None)
     except:
       pass
     # ------------------------ settings post start ------------------------
-    post_result, page_dict = activity_a_settings_post_function(page_dict, url_activity_code, db_activity_settings_obj, db_activity_settings_dict, ui_start_day, ui_start_time, ui_end_day, ui_end_time, ui_timezone, ui_cadence, ui_total_questions, ui_question_type, ui_select_all_categories, ui_selected_categories)
+    post_result, page_dict = activity_settings_post_function(page_dict, url_activity_code, url_activity_type, db_activity_settings_obj, db_activity_settings_dict, ui_start_day, ui_start_time, ui_end_day, ui_end_time, ui_timezone, ui_cadence, ui_total_questions, ui_question_type, ui_select_all_categories, ui_selected_categories)
     if post_result == 'dropdown_error':
-      return redirect(url_for('employees_views_interior.activity_a_settings_function', url_activity_code=url_activity_code, url_redirect_code='e6'))
+      return redirect(url_for('employees_views_interior.activity_settings_function', url_activity_code=url_activity_code, url_redirect_code='e6'))
     if post_result == 'category_error':
-      return redirect(url_for('employees_views_interior.activity_a_settings_function', url_activity_code=url_activity_code, url_redirect_code='e6'))
+      return redirect(url_for('employees_views_interior.activity_settings_function', url_activity_code=url_activity_code, url_redirect_code='e6'))
     if post_result == 'select_error':
-      return redirect(url_for('employees_views_interior.activity_a_settings_function', url_activity_code=url_activity_code, url_redirect_code='e7'))
+      return redirect(url_for('employees_views_interior.activity_settings_function', url_activity_code=url_activity_code, url_redirect_code='e7'))
     if post_result == 'overlap_error':
-      return redirect(url_for('employees_views_interior.activity_a_settings_function', url_activity_code=url_activity_code, url_redirect_code='e8'))
+      return redirect(url_for('employees_views_interior.activity_settings_function', url_activity_code=url_activity_code, url_redirect_code='e8'))
     if post_result == 'success_code':
       return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='s2'))
     if post_result == 'no_change':
@@ -480,30 +481,33 @@ def activity_a_settings_function(url_activity_code=None, url_redirect_code=None)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_interior.route('/activity/a/settings/default')
-@employees_views_interior.route('/activity/a/settings/default/')
-@employees_views_interior.route('/activity/a/settings/default/<url_activity_code>')
-@employees_views_interior.route('/activity/a/settings/default/<url_activity_code>/')
+@employees_views_interior.route('/activity/settings/default')
+@employees_views_interior.route('/activity/settings/default/')
+@employees_views_interior.route('/activity/settings/default/<url_activity_type>')
+@employees_views_interior.route('/activity/settings/default/<url_activity_type>/')
+@employees_views_interior.route('/activity/settings/default/<url_activity_type>/<url_activity_code>')
+@employees_views_interior.route('/activity/settings/default/<url_activity_type>/<url_activity_code>/')
 @login_required
-def activity_a_default_settings_function(url_activity_code=None):
+def activity_default_settings_function(url_activity_code=None, url_activity_type=None):
   # ------------------------ if no activity error start ------------------------
-  if url_activity_code == None or url_activity_code == '':
+  if url_activity_code == None or url_activity_code == '' or url_activity_type == None or url_activity_type == '':
     return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='e24'))
   # ------------------------ if no activity error end ------------------------
   try:
-    db_activity_settings_obj = pull_create_activity_settings_obj_function(current_user, url_activity_code, 'activity_type_a')
+    db_activity_settings_obj = pull_create_activity_settings_obj_function(current_user, url_activity_code, url_activity_type)
     db_activity_settings_obj.timezone = 'EST'
     db_activity_settings_obj.start_day = 'Monday'
     db_activity_settings_obj.start_time = '12 PM'
     db_activity_settings_obj.end_day = 'Thursday'
     db_activity_settings_obj.end_time = '1 PM'
     db_activity_settings_obj.cadence = 'Weekly'
-    db_activity_settings_obj.total_questions = 10
-    db_activity_settings_obj.question_type = 'Mixed'
+    if url_activity_type == 'activity_type_a':
+      db_activity_settings_obj.total_questions = 10
+      db_activity_settings_obj.question_type = 'Mixed'
     db.session.commit()
   except:
     pass
-  return redirect(url_for('employees_views_interior.activity_a_settings_function', url_activity_code=url_activity_code, url_redirect_code='s11'))
+  return redirect(url_for('employees_views_interior.activity_settings_function', url_activity_code=url_activity_code, url_activity_type=url_activity_type, url_redirect_code='s11'))
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -594,7 +598,7 @@ def activity_a_contest_function(url_redirect_code=None, url_test_id=None, url_qu
   if function_result == 'init_activity':
     return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=page_dict['latest_test_id'], url_question_number='1', url_initial_page_load='init', url_activity_code=url_activity_code))
   if function_result == 'replace_activity':
-    return redirect(url_for('employees_views_interior.activity_a_settings_function', url_redirect_code='e22', url_activity_code=url_activity_code))
+    return redirect(url_for('employees_views_interior.activity_settings_function', url_redirect_code='e22', url_activity_code=url_activity_code))
   if function_result == 'redirect_earliest_unanswered':
     return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=url_test_id, url_question_number=page_dict['earliest_unanswered_question_number'], url_activity_code=url_activity_code))
   if function_result == 'redirect_earliest_unanswered':

@@ -55,38 +55,47 @@
           <!-- ------------------------------------- dynamic dropdown v1 start ------------------------------------- -->
           <div class="dropdown custom-p-2">
             {% for k, v in page_dict_to_html['dropdowns_dict'].items() %}
-              <div class="custom-display-flex custom-fw-1 custom-mb-6">
-                <span class="custom-color-white custom-header-4">{{ v['title_long'] }} </span>
-                <button class="btn btn-{{ v['type'] }} dropdown-toggle custom-tal custom-ml-3" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="{{ v['id'] }}">
-                  __________
-                </button>
-                <ul class="dropdown-menu">
-                  {% for j in range(v['dropdown_arr']|length) %}
-                    <li>
-                      {% if v['dropdown_arr'][j] == page_dict_to_html['settings_dict'][v['db_col_name']] %}
-                        <input type="radio" class="btn-check" id="{{ v['id'] }}_{{ j }}" name="{{ v['name'] }}" value="{{ v['dropdown_arr'][j] }}" checked required>
-                      {% else %}
-                        <input type="radio" class="btn-check" id="{{ v['id'] }}_{{ j }}" name="{{ v['name'] }}" value="{{ v['dropdown_arr'][j] }}" required>
-                      {% endif %}
-                      <label class="dropdown-item" for="{{ v['id'] }}_{{ j }}">{{ v['dropdown_arr'][j] }}</label>
-                    </li>
-                  {% endfor %}
-                </ul>
-              </div>
+              {% if page_dict_to_html['url_activity_type'] == 'activity_type_b' and (v['title_long'] == 'Questions per contest' or v['title_long'] == 'Question type') %}
+              {% else %}
+                <div class="custom-display-flex custom-fw-1 custom-mb-6">
+                  <span class="custom-color-white custom-header-4">{{ v['title_long'] }} </span>
+                  <button class="btn btn-{{ v['type'] }} dropdown-toggle custom-tal custom-ml-3" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="{{ v['id'] }}">
+                    __________
+                  </button>
+                  <ul class="dropdown-menu">
+                    {% for j in range(v['dropdown_arr']|length) %}
+                      <li>
+                        {% if v['dropdown_arr'][j] == page_dict_to_html['settings_dict'][v['db_col_name']] %}
+                          <input type="radio" class="btn-check" id="{{ v['id'] }}_{{ j }}" name="{{ v['name'] }}" value="{{ v['dropdown_arr'][j] }}" checked required>
+                        {% else %}
+                          <input type="radio" class="btn-check" id="{{ v['id'] }}_{{ j }}" name="{{ v['name'] }}" value="{{ v['dropdown_arr'][j] }}" required>
+                        {% endif %}
+                        <label class="dropdown-item" for="{{ v['id'] }}_{{ j }}">{{ v['dropdown_arr'][j] }}</label>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              {% endif %}
             {% endfor %}
           </div>
           <!-- ------------------------------------- dynamic dropdown v1 end ------------------------------------- -->
           <!-- ------------------------------------- reset default timeframe start ------------------------------------- -->
           <div class="text-center custom-mb-25 custom-mt-negative-25">
-            <a href="/activity/a/settings/default/{{ page_dict_to_html['activity_type'] }}" class="custom-a-5 custom-opacity-1-hover">Reset to default settings</a>
+            <a href="/activity/settings/default/{{ page_dict_to_html['url_activity_type'] }}/{{ page_dict_to_html['url_activity_code'] }}" class="custom-a-5 custom-opacity-1-hover">Reset to default settings</a>
           </div>
           <!-- ------------------------------------- reset default timeframe end ------------------------------------- -->
         </div>
       </div>
       <!-- ------------------------------------- flow button start ------------------------------------- -->
-      <div class="text-center custom-width-4 mx-auto custom-mt-3 uiSearchItemVisible2" id="id-flow_continue_1">
-        <p class="btn btn-lg btn-success custom-width-6 custom-ptb-8 custom-br-1">Continue <i class="fa-solid fa-arrow-right"></i></p>
+      {% if page_dict_to_html['url_activity_type'] == 'activity_type_a' %}
+        <div class="text-center custom-width-4 mx-auto custom-mt-3 uiSearchItemVisible2" id="id-flow_continue_1">
+          <p class="btn btn-lg btn-success custom-width-6 custom-ptb-8 custom-br-1">Continue <i class="fa-solid fa-arrow-right"></i></p>
+        </div>
+      {% else %}
+      <div class="text-center custom-width-4 mx-auto custom-mt-3">
+        <button type="submit" class="btn btn-lg btn-success custom-width-6 custom-ptb-8 custom-br-1" id="submit-button-botttom">Submit <i class="fa-solid fa-check"></i></button>
       </div>
+      {% endif %}
       <!-- ------------------------------------- flow button end ------------------------------------- -->
       <!-- ------------------------------------- part 1 form end ------------------------------------- -->
       <!-- ------------------------------------- part 2 form start ------------------------------------- -->
