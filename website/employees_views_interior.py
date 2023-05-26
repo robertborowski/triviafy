@@ -26,7 +26,7 @@ from website.backend.candidates.string_manipulation import all_employee_question
 from website.backend.candidates.user_inputs import sanitize_char_count_1_function, sanitize_create_question_options_function, sanitize_create_question_categories_function, sanitize_create_question_question_function, sanitize_create_question_option_e_function, sanitize_create_question_answer_function, get_special_characters_function
 from website.backend.candidates.send_emails import send_email_template_function
 import os
-from website.backend.candidates.quiz import grade_quiz_function, pull_question_function, create_quiz_function_v2, compare_candence_vs_previous_quiz_function_v2
+from website.backend.candidates.quiz import grade_quiz_function, pull_question_function, create_activity_function, compare_candence_vs_previous_quiz_function_v2
 import json
 from datetime import datetime
 from website.backend.candidates.stripe import check_stripe_subscription_status_function_v2, convert_current_period_end_function
@@ -331,28 +331,31 @@ def verify_email_function(url_redirect_code=None):
 # ------------------------ individual route start ------------------------
 @employees_views_interior.route('/create/activity')
 @employees_views_interior.route('/create/activity/')
-@employees_views_interior.route('/create/activity/<url_activity_code>')
+@employees_views_interior.route('/create/activity/<url_activity_type>')
+@employees_views_interior.route('/create/activity/<url_activity_type>/')
+@employees_views_interior.route('/create/activity/<url_activity_type>/<url_activity_code>')
+@employees_views_interior.route('/create/activity/<url_activity_type>/<url_activity_code>/')
 @login_required
-def create_activity_a_function(url_activity_code=None):
+def create_new_activity_function(url_activity_code=None, url_activity_type=None):
   # ------------------------ if no activity error start ------------------------
-  if url_activity_code == None or url_activity_code == '':
+  if url_activity_code == None or url_activity_code == '' or url_activity_type == None or url_activity_type == '':
     return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='e24'))
   # ------------------------ if no activity error end ------------------------
   # ------------------------ turn on auto start stop start ------------------------
   turn_activity_auto_on_function(current_user,url_activity_code)
   # ------------------------ turn on auto start stop end ------------------------
   # ------------------------ pull latest activity start ------------------------
-  db_tests_obj = pull_latest_activity_test_obj_function(current_user,url_activity_code, 'activity_type_a')
+  db_tests_obj = pull_latest_activity_test_obj_function(current_user,url_activity_code, url_activity_type)
   # ------------------------ pull latest activity end ------------------------
   # ------------------------ if none yet created then create immediately + redirect start ------------------------
   if db_tests_obj == None:
-    create_quiz_function_v2(group_id=current_user.group_id, activity_name=url_activity_code, immediate=True)
+    create_activity_function(current_user=current_user, activity_code=url_activity_code, activity_type=url_activity_type, immediate=True)
     return redirect(url_for('employees_views_interior.activity_a_contest_function', url_activity_code=url_activity_code))
   # ------------------------ if none yet created then create immediately + redirect end ------------------------
   else:
-    activity_cadence_check = compare_candence_vs_previous_quiz_function_v2(current_user, db_tests_obj, url_activity_code, 'activity_type_a')
+    activity_cadence_check = compare_candence_vs_previous_quiz_function_v2(current_user, db_tests_obj, url_activity_code, url_activity_type)
     if activity_cadence_check == True:
-      create_quiz_function_v2(group_id=current_user.group_id, activity_name=url_activity_code)
+      create_activity_function(current_user=current_user, activity_code=url_activity_code, activity_type=url_activity_type)
       return redirect(url_for('employees_views_interior.activity_a_contest_function', url_activity_code=url_activity_code))
   return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
 # ------------------------ individual route end ------------------------
@@ -598,7 +601,7 @@ def activity_a_contest_function(url_redirect_code=None, url_test_id=None, url_qu
   if function_result == 'init_activity':
     return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=page_dict['latest_test_id'], url_question_number='1', url_initial_page_load='init', url_activity_code=url_activity_code))
   if function_result == 'replace_activity':
-    return redirect(url_for('employees_views_interior.activity_settings_function', url_redirect_code='e22', url_activity_code=url_activity_code))
+    return redirect(url_for('employees_views_interior.activity_settings_function', url_redirect_code='e22', url_activity_code=url_activity_code, url_activity_type='activity_type_a'))
   if function_result == 'redirect_earliest_unanswered':
     return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=url_test_id, url_question_number=page_dict['earliest_unanswered_question_number'], url_activity_code=url_activity_code))
   if function_result == 'redirect_earliest_unanswered':

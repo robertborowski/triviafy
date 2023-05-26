@@ -5,8 +5,6 @@ from website.models import UserObj, ActivityATestGradedObj, ActivityATestObj, Gr
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from datetime import datetime
 from website import db
-from website.backend.candidates.quiz import create_quiz_function_v2
-from website.backend.candidates.datetime_manipulation import convert_timestamp_to_month_day_string_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ individual function start ------------------------

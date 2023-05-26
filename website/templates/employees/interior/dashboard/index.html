@@ -95,7 +95,7 @@
                   <h3 class="custom-ml-1 custom-mb-6">Status & participation</h3>
                   <!-- ------------------------------------- latest test logic start ------------------------------------- -->
                   {% if page_dict_to_html[i_accordian[1]+'_first_created'] == false %}
-                    <p class="custom-line-2"><a href="/create/activity/{{ i_accordian[1] }}" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status</span></a> <a href="/create/activity/{{ i_accordian[1] }}" class="btn btn-success btn-lg">Generate first activity now <i class="fa-solid fa-wand-magic-sparkles"></i></a></p>
+                    <p class="custom-line-2"><a href="/create/activity/activity_type_a/{{ i_accordian[1] }}" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status</span></a> <a href="/create/activity/activity_type_a/{{ i_accordian[1] }}" class="btn btn-success btn-lg">Generate first activity now <i class="fa-solid fa-wand-magic-sparkles"></i></a></p>
                   {% endif %}
                   {% if page_dict_to_html[i_accordian[1]+'_first_created'] == true %}
                     {% if page_dict_to_html[i_accordian[1]+'_latest_closed'] == false %}
@@ -115,7 +115,7 @@
                         <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Next activity opens</span> {{ page_dict_to_html[i_accordian[1]+'_next_open'] }}, you will be notified by email.</p>
                       {% endif %}
                       {% if page_dict_to_html[i_accordian[1]+'_cadence_valid'] == true %}
-                        <p class="custom-line-2"><a href="/create/activity/{{ i_accordian[1] }}" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status (new contest)</span></a> <a href="/create/activity/{{ i_accordian[1] }}" class="btn btn-success btn-lg">Submit your answers now <i class="fa-solid fa-check-to-slot"></i></a></p>
+                        <p class="custom-line-2"><a href="/create/activity/activity_type_a/{{ i_accordian[1] }}" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status (new contest)</span></a> <a href="/create/activity/activity_type_a/{{ i_accordian[1] }}" class="btn btn-success btn-lg">Submit your answers now <i class="fa-solid fa-check-to-slot"></i></a></p>
                       {% endif %}
                     {% endif %}
                   {% endif %}
@@ -211,7 +211,7 @@
                   <h3 class="custom-ml-1 custom-mb-6">Status & participation</h3>
                   <!-- ------------------------------------- latest test logic start ------------------------------------- -->
                   {% if page_dict_to_html[i_accordian[1]+'_first_created'] == false %}
-                    <p class="custom-line-2"><a href="/create/activity/{{ i_accordian[1] }}" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status</span></a> <a href="/create/activity/{{ i_accordian[1] }}" class="btn btn-success btn-lg">Generate first activity now <i class="fa-solid fa-wand-magic-sparkles"></i></a></p>
+                    <p class="custom-line-2"><a href="/create/activity/activity_type_b/{{ i_accordian[1] }}" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status</span></a> <a href="/create/activity/activity_type_b/{{ i_accordian[1] }}" class="btn btn-success btn-lg">Generate first activity now <i class="fa-solid fa-wand-magic-sparkles"></i></a></p>
                   {% endif %}
                   {% if page_dict_to_html[i_accordian[1]+'_first_created'] == true %}
                     {% if page_dict_to_html[i_accordian[1]+'_latest_closed'] == false %}
@@ -231,7 +231,7 @@
                         <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Next activity opens</span> {{ page_dict_to_html[i_accordian[1]+'_next_open'] }}, you will be notified by email.</p>
                       {% endif %}
                       {% if page_dict_to_html[i_accordian[1]+'_cadence_valid'] == true %}
-                        <p class="custom-line-2"><a href="/create/activity/{{ i_accordian[1] }}" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status (new contest)</span></a> <a href="/create/activity/{{ i_accordian[1] }}" class="btn btn-success btn-lg">Submit your answers now <i class="fa-solid fa-check-to-slot"></i></a></p>
+                        <p class="custom-line-2"><a href="/create/activity/activity_type_b/{{ i_accordian[1] }}" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Current status (new contest)</span></a> <a href="/create/activity/activity_type_b/{{ i_accordian[1] }}" class="btn btn-success btn-lg">Submit your answers now <i class="fa-solid fa-check-to-slot"></i></a></p>
                       {% endif %}
                     {% endif %}
                   {% endif %}

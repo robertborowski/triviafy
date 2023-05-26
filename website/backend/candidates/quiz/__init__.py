@@ -4,7 +4,7 @@ import re
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
-from website.models import ActivityASettingsObj, ActivityATestObj, ActivityAGroupQuestionsUsedObj, ActivityATestGradedObj, UserObj, EmailSentObj
+from website.models import ActivityASettingsObj, ActivityATestObj, ActivityAGroupQuestionsUsedObj, ActivityATestGradedObj, UserObj, EmailSentObj, ActivityBTestObj, ActivityBGroupQuestionsUsedObj
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from website import db
 from website.backend.candidates.datetime_manipulation import get_current_weekday_function, get_current_hour_function, get_upcoming_date_function, build_out_datetime_from_parts_function, get_week_dates_function, get_weekday_dict_function_v2
@@ -301,14 +301,14 @@ def create_quiz_function(group_id, immediate=False):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
-def create_quiz_function_v2(group_id, activity_name, immediate=False):
+def create_activity_function(current_user, activity_code, activity_type, immediate=False):
   # ------------------------ Set Timezone START ------------------------
   # Set the timezone of the application when user creates account is will be in US/Easterm time
   os.environ['TZ'] = 'US/Eastern'
   time.tzset()
   # ------------------------ Set Timezone END ------------------------
   # ------------------------ pull group settings start ------------------------
-  db_group_settings_obj = ActivityASettingsObj.query.filter_by(fk_group_id=group_id,product=activity_name).order_by(ActivityASettingsObj.created_timestamp.desc()).first()
+  db_group_settings_obj = pull_create_activity_settings_obj_function(current_user, activity_code, activity_type)
   db_group_settings_dict = arr_of_dict_all_columns_single_item_function(db_group_settings_obj)
   # ------------------------ pull group settings end ------------------------
   # ------------------------ setup timeframe start ------------------------
@@ -346,82 +346,131 @@ def create_quiz_function_v2(group_id, activity_name, immediate=False):
       end_timestamp_created = build_out_datetime_from_parts_function(end_date_str_exception_1, db_group_settings_dict['end_time'], db_group_settings_dict['timezone'])    # converted to EST for job runs
     # ------------------------ catch example: If my test is set to end on Thrusday's but for the newest test I log on Friday, the end would be yesterday end ------------------------
   # ------------------------ setup timeframe end ------------------------
-  # ------------------------ pull question id's start ------------------------
-  final_uuids_arr = []
-  where_clause_str = None
-  where_clause_arr = prepare_where_clause_function(db_group_settings_dict['categories'])
-  where_clause_str = where_clause_arr[0]
-  query_result_arr_of_dicts = select_general_function('select_all_questions_for_x_categories_v6', where_clause_str, db_group_settings_dict['total_questions'], db_group_settings_dict['fk_group_id'], activity_name)
-  for i in query_result_arr_of_dicts:
-    final_uuids_arr.append(i['id'])
-  remainder_questions_needed = db_group_settings_dict['total_questions'] - len(query_result_arr_of_dicts)
-  if remainder_questions_needed > 0:
-    # ------------------------ exclude wip id's start ------------------------
-    exclude_where_clause = '/* AND id NOT IN () */'
-    wip_question_ids_arr = []
+  # ------------------------ activity_type_a start ------------------------
+  if activity_type == 'activity_type_a':
+    # ------------------------ pull question id's start ------------------------
+    final_uuids_arr = []
+    where_clause_str = None
+    where_clause_arr = prepare_where_clause_function(db_group_settings_dict['categories'])
+    where_clause_str = where_clause_arr[0]
+    query_result_arr_of_dicts = select_general_function('select_all_questions_for_x_categories_v6', where_clause_str, db_group_settings_dict['total_questions'], db_group_settings_dict['fk_group_id'], activity_code)
     for i in query_result_arr_of_dicts:
-      i_id = "'" + i['id'] + "'"
-      wip_question_ids_arr.append(i_id)
-    if len(wip_question_ids_arr) == 0:
-      pass
-    else:
-      in_string = ','.join(wip_question_ids_arr)
-      exclude_where_clause = 'AND id NOT IN (' + in_string + ')'
-    # ------------------------ exclude wip id's end ------------------------
-    # ------------------------ second pull if remainder start ------------------------
-    query_result_arr_of_dicts_remainder = select_general_function('select_all_questions_for_x_categories_v7', remainder_questions_needed, db_group_settings_dict['fk_group_id'], exclude_where_clause, activity_name)
-    for i in query_result_arr_of_dicts_remainder:
       final_uuids_arr.append(i['id'])
-    # ------------------------ second pull if remainder end ------------------------
-  final_uuids_str = ','.join(final_uuids_arr)
-  # ------------------------ pull question id's end ------------------------
-  # ------------------------ question type order start ------------------------
-  question_types_str = build_question_type_arr_function(db_group_settings_dict['question_type'], db_group_settings_dict['total_questions'])
-  # ------------------------ question type order end ------------------------
-  # ------------------------ insert to db start ------------------------
-  new_test_id = create_uuid_function('test_')
-  try:
-    new_row = ActivityATestObj(
-      id = new_test_id,
-      created_timestamp = create_timestamp_function(),
-      fk_group_id = db_group_settings_dict['fk_group_id'],
-      timezone = db_group_settings_dict['timezone'],
-      start_day = db_group_settings_dict['start_day'],
-      start_time = db_group_settings_dict['start_time'],
-      start_timestamp = start_timestamp_created,
-      end_day = db_group_settings_dict['end_day'],
-      end_time = db_group_settings_dict['end_time'],
-      end_timestamp = end_timestamp_created,
-      cadence = db_group_settings_dict['cadence'],
-      total_questions = db_group_settings_dict['total_questions'],
-      question_type = db_group_settings_dict['question_type'],
-      categories = db_group_settings_dict['categories'],
-      question_ids = final_uuids_str,
-      question_types_order = question_types_str,
-      status = 'Open',
-      product = activity_name
-    )
-    db.session.add(new_row)
-    db.session.commit()
-  except:
-    pass
-  # ------------------------ insert to db end ------------------------
-  # ------------------------ insert to db start ------------------------
-  for i in final_uuids_arr:
+    remainder_questions_needed = db_group_settings_dict['total_questions'] - len(query_result_arr_of_dicts)
+    if remainder_questions_needed > 0:
+      # ------------------------ exclude wip id's start ------------------------
+      exclude_where_clause = '/* AND id NOT IN () */'
+      wip_question_ids_arr = []
+      for i in query_result_arr_of_dicts:
+        i_id = "'" + i['id'] + "'"
+        wip_question_ids_arr.append(i_id)
+      if len(wip_question_ids_arr) == 0:
+        pass
+      else:
+        in_string = ','.join(wip_question_ids_arr)
+        exclude_where_clause = 'AND id NOT IN (' + in_string + ')'
+      # ------------------------ exclude wip id's end ------------------------
+      # ------------------------ second pull if remainder start ------------------------
+      query_result_arr_of_dicts_remainder = select_general_function('select_all_questions_for_x_categories_v7', remainder_questions_needed, db_group_settings_dict['fk_group_id'], exclude_where_clause, activity_code)
+      for i in query_result_arr_of_dicts_remainder:
+        final_uuids_arr.append(i['id'])
+      # ------------------------ second pull if remainder end ------------------------
+    final_uuids_str = ','.join(final_uuids_arr)
+    # ------------------------ pull question id's end ------------------------
+    # ------------------------ question type order start ------------------------
+    question_types_str = build_question_type_arr_function(db_group_settings_dict['question_type'], db_group_settings_dict['total_questions'])
+    # ------------------------ question type order end ------------------------
+    # ------------------------ insert to db start ------------------------
+    new_test_id = create_uuid_function('test_')
     try:
-      new_row = ActivityAGroupQuestionsUsedObj(
-        id = create_uuid_function('used_'),
+      new_row = ActivityATestObj(
+        id = new_test_id,
         created_timestamp = create_timestamp_function(),
         fk_group_id = db_group_settings_dict['fk_group_id'],
-        fk_question_id = i,
-        fk_test_id = new_test_id,
-        product = activity_name
+        timezone = db_group_settings_dict['timezone'],
+        start_day = db_group_settings_dict['start_day'],
+        start_time = db_group_settings_dict['start_time'],
+        start_timestamp = start_timestamp_created,
+        end_day = db_group_settings_dict['end_day'],
+        end_time = db_group_settings_dict['end_time'],
+        end_timestamp = end_timestamp_created,
+        cadence = db_group_settings_dict['cadence'],
+        total_questions = db_group_settings_dict['total_questions'],
+        question_type = db_group_settings_dict['question_type'],
+        categories = db_group_settings_dict['categories'],
+        question_ids = final_uuids_str,
+        question_types_order = question_types_str,
+        status = 'Open',
+        product = activity_code
       )
       db.session.add(new_row)
       db.session.commit()
     except:
       pass
-  # ------------------------ insert to db end ------------------------
+    # ------------------------ insert to db end ------------------------
+    # ------------------------ insert to db start ------------------------
+    for i in final_uuids_arr:
+      try:
+        new_row = ActivityAGroupQuestionsUsedObj(
+          id = create_uuid_function('used_'),
+          created_timestamp = create_timestamp_function(),
+          fk_group_id = db_group_settings_dict['fk_group_id'],
+          fk_question_id = i,
+          fk_test_id = new_test_id,
+          product = activity_code
+        )
+        db.session.add(new_row)
+        db.session.commit()
+      except:
+        pass
+    # ------------------------ insert to db end ------------------------
+  # ------------------------ activity_type_a end ------------------------
+  # ------------------------ activity_type_b start ------------------------
+  elif activity_type == 'activity_type_b':
+    # ------------------------ get new question id start ------------------------
+    query_result_arr_of_dicts = select_general_function('select_v7', activity_code, db_group_settings_dict['fk_group_id'])
+    question_id = query_result_arr_of_dicts[0]['id']
+    # ------------------------ get new question id end ------------------------
+    # ------------------------ insert to db start ------------------------
+    new_test_id = create_uuid_function('test_')
+    try:
+      new_row = ActivityBTestObj(
+        id = new_test_id,
+        created_timestamp = create_timestamp_function(),
+        fk_group_id = db_group_settings_dict['fk_group_id'],
+        timezone = db_group_settings_dict['timezone'],
+        start_day = db_group_settings_dict['start_day'],
+        start_time = db_group_settings_dict['start_time'],
+        start_timestamp = start_timestamp_created,
+        end_day = db_group_settings_dict['end_day'],
+        end_time = db_group_settings_dict['end_time'],
+        end_timestamp = end_timestamp_created,
+        cadence = db_group_settings_dict['cadence'],
+        fk_question_id = question_id,
+        status = 'Open',
+        product = activity_code
+      )
+      db.session.add(new_row)
+      db.session.commit()
+    except:
+      pass
+    # ------------------------ insert to db end ------------------------
+    # ------------------------ insert to db start ------------------------
+    try:
+      new_row = ActivityBGroupQuestionsUsedObj(
+        id = create_uuid_function('used_'),
+        created_timestamp = create_timestamp_function(),
+        fk_group_id = db_group_settings_dict['fk_group_id'],
+        fk_question_id = question_id,
+        fk_test_id = new_test_id,
+        product = activity_code
+      )
+      db.session.add(new_row)
+      db.session.commit()
+    except:
+      pass
+    # ------------------------ insert to db end ------------------------
+  # ------------------------ activity_type_b end ------------------------
   # ------------------------ create quiz end ------------------------
   return True
 # ------------------------ individual function end ------------------------

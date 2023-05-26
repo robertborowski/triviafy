@@ -89,7 +89,7 @@
                 <!-- ------------------------------------- discard quiz categories for new categories end ------------------------------------- -->
                 <!-- ------------------------------------- change categories for next quiz start ------------------------------------- -->
                 {% if page_dict_to_html['first_user_latest_quiz_can_replace'] == false or page_dict_to_html['view_as_archive'] == true %}
-                  <a href="/activity/a/settings/{{ page_dict_to_html['activity_type'] }}" class="btn btn-outline-danger btn-sm">Edit categories for next contest</a>
+                  <a href="/activity/settings/activity_type_a/{{ page_dict_to_html['activity_type'] }}" class="btn btn-outline-danger btn-sm">Edit categories for next contest</a>
                 {% else %}
                 {% endif %}
                 <!-- ------------------------------------- change categories for next quiz end ------------------------------------- -->
@@ -98,18 +98,18 @@
           <div>
             <div class="custom-mb-6 shadow custom-bg-green-1">
               <p class="custom-header-6 custom-p-1 custom-br-1"><i class="fa-solid fa-circle-question"></i> {{ page_dict_to_html['db_question_dict']['question'] }}</p>
+              {% if page_dict_to_html['first_user_latest_quiz_can_replace'] == true and page_dict_to_html['view_as_archive'] == false %}
+                <div class="shadow-sm custom-br-1 custom-pb-15 custom-display-flex custom-fw-1 custom-jc-around" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Everyone on your team can edit this activity until at least one person answers all questions.">
+                  <a href="/activity/a/{{ page_dict_to_html['activity_type'] }}/replace/{{ page_dict_to_html['url_test_id'] }}/{{ page_dict_to_html['current_question_number'] }}"><span class="btn btn-danger btn-sm">Replace question <i class="fa-solid fa-x"></i></span></a>
+                  <a href="/activity/a/{{ page_dict_to_html['activity_type'] }}/fufq_remove"><span class="btn btn-outline-danger btn-sm">Discard activity <i class="fa-solid fa-trash"></i></span></a>
+                </div>
+              {% else %}
+              {% endif %}
             </div>
             {% if page_dict_to_html['question_contains_image'] == true %}
             <div class="text-center">
               <img src="{{ page_dict_to_html['db_question_dict']['aws_image_url'] }}" alt="" class="custom-img-size-11 custom-br-1 shadow">
             </div>
-            {% else %}
-            {% endif %}
-            {% if page_dict_to_html['first_user_latest_quiz_can_replace'] == true and page_dict_to_html['view_as_archive'] == false %}
-              <div class="custom-bg-grey-1 custom-mt-25 shadow-sm custom-br-1 custom-p-15 custom-display-flex custom-fw-1 custom-jc-around" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Everyone on your team can edit this activity until at least one person answers all questions.">
-                <a href="/activity/a/{{ page_dict_to_html['activity_type'] }}/replace/{{ page_dict_to_html['url_test_id'] }}/{{ page_dict_to_html['current_question_number'] }}"><span class="btn btn-danger btn-sm">Replace question <i class="fa-solid fa-x"></i></span></a>
-                <a href="/activity/a/{{ page_dict_to_html['activity_type'] }}/fufq_remove"><span class="btn btn-outline-danger btn-sm">Discard activity <i class="fa-solid fa-trash"></i></span></a>
-              </div>
             {% else %}
             {% endif %}
           </div>
