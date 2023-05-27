@@ -585,7 +585,7 @@ def employees_test_id_replace_question_function(url_activity_code=None, url_test
 @employees_views_interior.route('/activity/<url_activity_type>/<url_activity_code>/<url_test_id>/<url_question_number>/<url_redirect_code>', methods=['GET', 'POST'])
 @employees_views_interior.route('/activity/<url_activity_type>/<url_activity_code>/<url_test_id>/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
-def activity_contest_function(url_redirect_code=None, url_test_id=None, url_question_number='1', url_initial_page_load=None, url_activity_code=None, url_activity_type=None):
+def activity_contest_function(url_redirect_code=None, url_test_id=None, url_question_number=None, url_initial_page_load=None, url_activity_code=None, url_activity_type=None):
   # ------------------------ page dict start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
   page_dict = {}
