@@ -225,6 +225,18 @@ def activity_live_function(page_dict, current_user, url_test_id, url_question_nu
       pass
     # ------------------------ redirect variables end ------------------------
   # ------------------------ additional activity_type_a logic end ------------------------
+  # ------------------------ additional activity_type_b logic start ------------------------
+  elif url_activity_type == 'activity_type_b':
+    # ------------------------ get users latest response start ------------------------
+    page_dict['users_latest_response'] = None
+    try:
+      db_test_grading_obj = ActivityBTestGradedObj.query.filter_by(fk_test_id=url_test_id, fk_user_id=current_user.id).first()
+      if db_test_grading_obj != None and db_test_grading_obj != '':
+        page_dict['users_latest_response'] = db_test_grading_obj.test_obj
+    except:
+      pass
+    # ------------------------ get users latest response end ------------------------
+  # ------------------------ additional activity_type_b logic end ------------------------
   # ------------------------ archive logic start ------------------------
   page_dict['view_as_archive'] = False
   try:

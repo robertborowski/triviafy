@@ -17,7 +17,7 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v4, browser_response_set_cookie_function_v5
-from website.models import GroupObj, ActivityASettingsObj, ActivityATestObj, UserDesiredCategoriesObj, ActivityACreatedQuestionsObj, ActivityATestGradedObj, UserObj, StripePaymentOptionsObj, EmailSentObj, StripeCheckoutSessionObj, ActivityAGroupQuestionsUsedObj, UserFeatureRequestObj, UserSignupFeedbackObj, UserBirthdayObj, ActivityBCreatedQuestionsObj, ActivityBGroupQuestionsUsedObj
+from website.models import GroupObj, ActivityASettingsObj, ActivityATestObj, UserDesiredCategoriesObj, ActivityACreatedQuestionsObj, ActivityATestGradedObj, UserObj, StripePaymentOptionsObj, EmailSentObj, StripeCheckoutSessionObj, ActivityAGroupQuestionsUsedObj, UserFeatureRequestObj, UserSignupFeedbackObj, UserBirthdayObj, ActivityBCreatedQuestionsObj, ActivityBGroupQuestionsUsedObj, ActivityBTestGradedObj
 from website.backend.candidates.autogeneration import question_choices_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
 from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function
@@ -583,6 +583,7 @@ def employees_test_id_replace_question_function(url_activity_code=None, url_test
 @employees_views_interior.route('/activity/<url_activity_type>/<url_activity_code>/<url_test_id>/<url_question_number>/<url_initial_page_load>/', methods=['GET', 'POST'])
 @employees_views_interior.route('/activity/<url_activity_type>/<url_activity_code>/<url_test_id>/<url_question_number>/<url_initial_page_load>/<url_redirect_code>', methods=['GET', 'POST'])
 @employees_views_interior.route('/activity/<url_activity_type>/<url_activity_code>/<url_test_id>/<url_question_number>/<url_redirect_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/<url_activity_type>/<url_activity_code>/<url_test_id>/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
 def activity_contest_function(url_redirect_code=None, url_test_id=None, url_question_number='1', url_initial_page_load=None, url_activity_code=None, url_activity_type=None):
   # ------------------------ page dict start ------------------------
@@ -610,50 +611,94 @@ def activity_contest_function(url_redirect_code=None, url_test_id=None, url_ques
   if page_dict['view_as_archive'] == False: # no user inputs should be accepted since this test is closed.
     # ------------------------ ui post start ------------------------
     if request.method == 'POST':
-      # ------------------------ user input start ------------------------
-      ui_answer = ''
-      ui_answer_is_correct = False
-      db_tests_obj = ActivityATestObj.query.filter_by(id=url_test_id).first()
-      # ------------------------ user input - fill in the blank start ------------------------
-      if page_dict['db_question_dict']['desired_question_type'] == 'Fill in the blank':
-        ui_answer = request.form.get('ui_answer_fitb')
-        # ------------------------ validate ui start ------------------------
-        if len(ui_answer) < 1 or len(ui_answer) > 280:
-          return redirect(url_for('employees_views_interior.activity_contest_function', url_test_id=url_test_id, url_question_number=str(url_question_number), url_redirect_code='e6', url_activity_type=url_activity_type))
-        # ------------------------ validate ui end ------------------------
-        # ------------------------ grade ui start ------------------------
-        grade_quiz_function(ui_answer, url_test_id, db_tests_obj.total_questions, url_question_number, page_dict['db_question_dict'], current_user.id, current_user.group_id, url_activity_code)
-        # ------------------------ grade ui end ------------------------
-      # ------------------------ user input - fill in the blank end ------------------------
-      # ------------------------ user input - multiple choice start ------------------------
-      if page_dict['db_question_dict']['desired_question_type'] == 'Multiple choice':
-        ui_answer = request.form.get('ui_answer_mcq')
-        # ------------------------ validate ui start ------------------------
-        allowed_answers_arr = ['a', 'b', 'c', 'd', 'e']
-        if ui_answer.lower() not in allowed_answers_arr:
-          return redirect(url_for('employees_views_interior.activity_contest_function', url_test_id=url_test_id, url_question_number=str(url_question_number), url_redirect_code='e6', url_activity_type=url_activity_type))
-        # ------------------------ validate ui start ------------------------
-        # ------------------------ grade ui start ------------------------
-        grade_quiz_function(ui_answer, url_test_id, db_tests_obj.total_questions, url_question_number, page_dict['db_question_dict'], current_user.id, current_user.group_id, url_activity_code)
-        # ------------------------ grade ui end ------------------------
-      # ------------------------ user input - multiple choice end ------------------------
-      # ------------------------ user input end ------------------------
-      if page_dict['next_question_number'] == 'submit':
-        # ------------------------ pull latest graded start ------------------------
-        db_test_grading_obj = ActivityATestGradedObj.query.filter_by(fk_test_id=url_test_id, fk_user_id=current_user.id,product=url_activity_code).first()
-        db_test_grading_dict = arr_of_dict_all_columns_single_item_function(db_test_grading_obj)
-        # ------------------------ pull latest graded end ------------------------
-        if db_test_grading_dict['total_questions'] == db_test_grading_dict['graded_count']:
-          return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='s4'))
+      # ------------------------ activity_type_a start ------------------------
+      if url_activity_type == 'activity_type_a':
+        # ------------------------ user input start ------------------------
+        ui_answer = ''
+        ui_answer_is_correct = False
+        db_tests_obj = ActivityATestObj.query.filter_by(id=url_test_id).first()
+        # ------------------------ user input - fill in the blank start ------------------------
+        if page_dict['db_question_dict']['desired_question_type'] == 'Fill in the blank':
+          ui_answer = request.form.get('ui_answer_fitb')
+          # ------------------------ validate ui start ------------------------
+          if len(ui_answer) < 1 or len(ui_answer) > 280:
+            return redirect(url_for('employees_views_interior.activity_contest_function', url_test_id=url_test_id, url_question_number=str(url_question_number), url_redirect_code='e6', url_activity_type=url_activity_type))
+          # ------------------------ validate ui end ------------------------
+          # ------------------------ grade ui start ------------------------
+          grade_quiz_function(ui_answer, url_test_id, db_tests_obj.total_questions, url_question_number, page_dict['db_question_dict'], current_user.id, current_user.group_id, url_activity_code)
+          # ------------------------ grade ui end ------------------------
+        # ------------------------ user input - fill in the blank end ------------------------
+        # ------------------------ user input - multiple choice start ------------------------
+        if page_dict['db_question_dict']['desired_question_type'] == 'Multiple choice':
+          ui_answer = request.form.get('ui_answer_mcq')
+          # ------------------------ validate ui start ------------------------
+          allowed_answers_arr = ['a', 'b', 'c', 'd', 'e']
+          if ui_answer.lower() not in allowed_answers_arr:
+            return redirect(url_for('employees_views_interior.activity_contest_function', url_test_id=url_test_id, url_question_number=str(url_question_number), url_redirect_code='e6', url_activity_type=url_activity_type))
+          # ------------------------ validate ui start ------------------------
+          # ------------------------ grade ui start ------------------------
+          grade_quiz_function(ui_answer, url_test_id, db_tests_obj.total_questions, url_question_number, page_dict['db_question_dict'], current_user.id, current_user.group_id, url_activity_code)
+          # ------------------------ grade ui end ------------------------
+        # ------------------------ user input - multiple choice end ------------------------
+        # ------------------------ user input end ------------------------
+        if page_dict['next_question_number'] == 'submit':
+          # ------------------------ pull latest graded start ------------------------
+          db_test_grading_obj = ActivityATestGradedObj.query.filter_by(fk_test_id=url_test_id, fk_user_id=current_user.id,product=url_activity_code).first()
+          db_test_grading_dict = arr_of_dict_all_columns_single_item_function(db_test_grading_obj)
+          # ------------------------ pull latest graded end ------------------------
+          if db_test_grading_dict['total_questions'] == db_test_grading_dict['graded_count']:
+            return redirect(url_for('employees_views_interior.login_dashboard_page_function', url_redirect_code='s4'))
+          else:
+            unanswered_arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+            for i in json.loads(db_test_grading_dict['test_obj']):
+              already_answered_question_number = str(i['question_number'])
+              if already_answered_question_number in unanswered_arr:
+                unanswered_arr.remove(already_answered_question_number)
+            return redirect(url_for('employees_views_interior.activity_contest_function', url_test_id=url_test_id, url_question_number=unanswered_arr[0], url_activity_type=url_activity_type))
         else:
-          unanswered_arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
-          for i in json.loads(db_test_grading_dict['test_obj']):
-            already_answered_question_number = str(i['question_number'])
-            if already_answered_question_number in unanswered_arr:
-              unanswered_arr.remove(already_answered_question_number)
-          return redirect(url_for('employees_views_interior.activity_contest_function', url_test_id=url_test_id, url_question_number=unanswered_arr[0], url_activity_type=url_activity_type))
-      else:
-        return redirect(url_for('employees_views_interior.activity_contest_function', url_test_id=url_test_id, url_question_number=str(int(url_question_number)+1), url_activity_code=url_activity_code, url_activity_type=url_activity_type))
+          return redirect(url_for('employees_views_interior.activity_contest_function', url_test_id=url_test_id, url_question_number=str(int(url_question_number)+1), url_activity_code=url_activity_code, url_activity_type=url_activity_type))
+      # ------------------------ activity_type_a end ------------------------
+      # ------------------------ activity_type_b start ------------------------
+      if url_activity_type == 'activity_type_b':
+        # ------------------------ get user inputs start ------------------------
+        ui_answer = request.form.get('ui_answer')
+        # ------------------------ get user inputs end ------------------------
+        # ------------------------ sanatize inputs start ------------------------
+        if len(ui_answer) < 1 or len(ui_answer) > 500:
+          return redirect(url_for('employees_views_interior.activity_contest_function', url_redirect_code='e19', url_test_id=url_test_id, url_activity_code=url_activity_code, url_activity_type=url_activity_type))
+        special_characters_arr = get_special_characters_function()
+        for i in ui_answer:
+          if i in special_characters_arr:
+            return redirect(url_for('employees_views_interior.activity_contest_function', url_redirect_code='e18', url_test_id=url_test_id, url_activity_code=url_activity_code, url_activity_type=url_activity_type))
+        # ------------------------ sanatize inputs end ------------------------
+        # ------------------------ pull latest answer if exists + replace start ------------------------
+        db_test_grading_obj = ActivityBTestGradedObj.query.filter_by(fk_test_id=url_test_id, fk_user_id=current_user.id).first()
+        if db_test_grading_obj != None and db_test_grading_obj != '':
+          db_test_grading_obj.test_obj = ui_answer
+          db.session.commit()
+        # ------------------------ pull latest answer if exists + replace end ------------------------
+        # ------------------------ insert to db start ------------------------
+        if db_test_grading_obj == None or db_test_grading_obj == '':
+          # ------------------------ insert to db start ------------------------
+          try:
+            new_row = ActivityBTestGradedObj(
+              id = create_uuid_function('testg_'),
+              created_timestamp = create_timestamp_function(),
+              fk_group_id = current_user.group_id,
+              fk_user_id = current_user.id,
+              fk_test_id = url_test_id,
+              status = 'complete',
+              test_obj = ui_answer,
+              product = url_activity_code
+            )
+            db.session.add(new_row)
+            db.session.commit()
+          except:
+            pass
+          # ------------------------ insert to db end ------------------------
+        # ------------------------ insert to db end ------------------------
+        return redirect(url_for('employees_views_interior.activity_contest_function', url_redirect_code='s12', url_test_id=url_test_id, url_activity_code=url_activity_code, url_activity_type=url_activity_type))
+      # ------------------------ activity_type_b end ------------------------
     # ------------------------ ui post end ------------------------
     localhost_print_function(' ------------- 100-activity start ------------- ')
     page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
