@@ -59,8 +59,8 @@ def activity_dashboard_function(current_user, page_dict, activity_name, activity
     pass
   # ------------------------ pull latest graded end ------------------------
   # ------------------------ if latest closed then pull winner start ------------------------
+  page_dict[activity_name+'_latest_closed'] = False
   if activity_type == 'activity_type_a':
-    page_dict[activity_name+'_latest_closed'] = False
     page_dict[activity_name+'_latest_winner'] = ''
     page_dict[activity_name+'_latest_winner_score'] = float(0)
     page_dict[activity_name+'_next_open'] = False
