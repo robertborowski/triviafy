@@ -6,7 +6,7 @@ from website.backend.candidates.datetime_manipulation import convert_timestamp_t
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
 from website.backend.candidates.quiz import get_next_quiz_open_function, compare_candence_vs_previous_quiz_function_v2
 from website.backend.candidates.pull_create_logic import pull_create_group_obj_function
-from website.models import ActivityATestObj, ActivityATestGradedObj, ActivityAGroupQuestionsUsedObj, ActivityACreatedQuestionsObj, UserObj, ActivityBTestObj, ActivityBTestGradedObj, ActivityBGroupQuestionsUsedObj
+from website.models import ActivityATestObj, ActivityATestGradedObj, ActivityAGroupQuestionsUsedObj, ActivityACreatedQuestionsObj, UserObj, ActivityBTestObj, ActivityBTestGradedObj, ActivityBGroupQuestionsUsedObj, ActivityBCreatedQuestionsObj
 from website import db
 from website.backend.candidates.test_backend import get_test_winner, first_user_latest_quiz_check_function
 import json
@@ -151,6 +151,13 @@ def activity_live_function(page_dict, current_user, url_test_id, url_question_nu
   if db_tests_obj == None or db_tests_obj == []:
     return page_dict, 'no_activity'
   # ------------------------ pull test obj end ------------------------
+  # ------------------------ activity_type_b start ------------------------
+  if url_activity_type == 'activity_type_b':
+    page_dict['latest_question_id'] = db_tests_obj.fk_question_id
+    db_question_obj = ActivityBCreatedQuestionsObj.query.filter_by(id=page_dict['latest_question_id']).first()
+    db_question_dict = arr_of_dict_all_columns_single_item_function(db_question_obj, for_json_dumps=True)
+    page_dict['db_question_dict'] = db_question_dict
+  # ------------------------ activity_type_b end ------------------------
   # ------------------------ additional activity_type_a logic start ------------------------
   if url_activity_type == 'activity_type_a':
     # ------------------------ validate question number start ------------------------
