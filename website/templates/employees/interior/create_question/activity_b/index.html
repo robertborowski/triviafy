@@ -55,12 +55,12 @@
       <!-- ------------------------------------- section end ------------------------------------- -->
     {% elif page_dict_to_html['is_view'] == true %}
       <!-- ------------------------------------- section start ------------------------------------- -->
-      <div class="container">
-        <div class="custom-br-1 custom-p-25 custom-bg-white custom-width-1 mx-auto">
-          <p class="custom-m-0 custom-header-20">{{ page_dict_to_html['question_info_dict']['question'] }}</p>
+      <div class="container custom-width-1 mx-auto">
+        <div class="custom-br-1 custom-p-25 custom-bg-green-1">
+          <p class="custom-m-0 custom-header-40 fw-bolder"><i class="fa-solid fa-arrow-right"></i> {{ page_dict_to_html['question_info_dict']['question'] }}</p>
         </div>
         <div class="custom-width-1 custom-mt-50 mx-auto">
-          <a href="/activity/create/question/{{ page_dict_to_html['url_activity_type'] }}" class="custom-width-6 btn btn-secondary btn-lg"><i class="fa-solid fa-arrow-left"></i> Back</a>
+          <a href="/activity/create/question/{{ page_dict_to_html['url_activity_type'] }}" class="custom-width-6 btn btn-success btn-lg"><i class="fa-solid fa-arrow-left"></i> Back</a>
         </div>
       </div>
       <!-- ------------------------------------- section end ------------------------------------- -->

@@ -83,7 +83,7 @@
                 {% endfor %}
                 <!-- ------------------------------------- discard quiz categories for new categories start ------------------------------------- -->
                 {% if page_dict_to_html['first_user_latest_quiz_can_replace'] == true and page_dict_to_html['view_as_archive'] == false %}
-                  <a href="/activity/{{ page_dict_to_html['url_activity_type'] }}/{{ page_dict_to_html['url_activity_code'] }}/fufq_remove"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete this entire activity and select new categories. Everyone on your team can edit this activity until at least one person answers all questions."><span class="btn btn-outline-danger btn-sm">Change categories</span></a>
+                  <a href="/activity/{{ page_dict_to_html['url_activity_type'] }}/{{ page_dict_to_html['url_activity_code'] }}/fufq_remove" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete this entire activity and select new categories. Everyone on your team can edit this activity until at least one person answers all questions."><span class="btn btn-outline-danger btn-sm">Change categories</span></a>
                 {% else %}
                 {% endif %}
                 <!-- ------------------------------------- discard quiz categories for new categories end ------------------------------------- -->

@@ -217,6 +217,10 @@
 .custom-color-white {
   color: white;
 }
+.custom-color-white-opacity-75 {
+  color: white;
+  opacity: 0.75;
+}
 .custom-color-black {
   color: rgb(0, 0, 0);
 }
@@ -266,6 +270,7 @@
 .custom-border-8 {border: 1px solid rgb(220 223 233);}
 .custom-border-9 {border: 1px solid rgb(0 0 0 / 10%);}
 .custom-border-see-through {border: 1px solid rgba(255, 255, 255, 0);}
+.custom-border-white {border: 1px solid rgb(255, 255, 255);}
 .custom-border-white-opacity-1 {border: 1px solid rgba(255, 255, 255, 0.200);}
 .custom-br-1 {
   border-radius: 15px;

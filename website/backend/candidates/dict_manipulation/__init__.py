@@ -246,3 +246,14 @@ def arr_of_dict_all_columns_single_item_function(sql_obj, for_json_dumps=False):
   # localhost_print_function(' ------------------------ arr_of_dict_all_columns_function END ------------------------ ')
   return current_dict
 # ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def construct_time_presentation_function(obj, start_end, version):
+  if start_end == 'end':
+    if version == 'v1':
+      end_timestamp = obj.end_timestamp
+      end_day = obj.end_day
+      end_time = obj.end_time
+      return str(end_timestamp.strftime("%m/%d/%Y")) + ", " + end_day + "'s at " + end_time
+  return True
+# ------------------------ individual function end ------------------------
