@@ -1,7 +1,7 @@
 # ------------------------ imports start ------------------------
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 import re
-from website.models import UserObj, ActivityATestGradedObj, ActivityATestObj, GroupObj, ActivityAGroupQuestionsUsedObj, ActivityBTestObj
+from website.models import UserObj, ActivityATestGradedObj, ActivityATestObj, GroupObj, ActivityAGroupQuestionsUsedObj, ActivityBTestObj, ActivityBTestGradedObj
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from datetime import datetime
 from website import db
@@ -71,11 +71,14 @@ def first_user_first_quiz_check_function(company_name):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
-def first_user_latest_quiz_check_function(current_user, url_activity_code):
+def first_user_latest_quiz_check_function(current_user, db_tests_obj, url_activity_code, url_activity_type):
   check_first_user_latest_quiz_can_replace = False
   # ------------------------ latest objs start ------------------------
-  user_test_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id,product=url_activity_code).order_by(ActivityATestObj.created_timestamp.desc()).first()
-  user_test_graded_obj = ActivityATestGradedObj.query.filter_by(fk_group_id=current_user.group_id, fk_test_id=user_test_obj.id, status='complete',product=url_activity_code).all()
+  user_test_graded_obj = None
+  if url_activity_type == 'activity_type_a':
+    user_test_graded_obj = ActivityATestGradedObj.query.filter_by(fk_group_id=current_user.group_id, fk_test_id=db_tests_obj.id, status='complete',product=url_activity_code).all()
+  if url_activity_type == 'activity_type_b':
+    user_test_graded_obj = ActivityBTestGradedObj.query.filter_by(fk_group_id=current_user.group_id, fk_test_id=db_tests_obj.id, status='complete',product=url_activity_code).all()
   # ------------------------ latest objs end ------------------------
   # ------------------------ check if none completed yet start ------------------------
   if user_test_graded_obj == None or user_test_graded_obj == []:
