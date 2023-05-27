@@ -39,7 +39,7 @@
         <td>{{ i['product']|capitalize|replace("_"," ") }}</td>
         <td>{{ i['test_winner'] }}</td>
         <td>{{ i['test_winner_score'] }}</td>
-        <td><a href="/activity/a/{{ i['product'] }}/{{ i['id'] }}/1" class="custom-a-2 fw-bolder">View activity</a></td>
+        <td><a href="/activity/activity_type_a/{{ i['product'] }}/{{ i['id'] }}/1" class="custom-a-2 fw-bolder">View activity</a></td>
       </tr>
       {% endfor %}
     </tbody>

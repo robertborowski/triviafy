@@ -37,7 +37,7 @@ from website.backend.candidates.aws_manipulation import candidates_change_upload
 from website.backend.candidates.string_manipulation import breakup_email_function, capitalize_all_words_function
 from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function, get_marketing_list_function, get_dashboard_accordian_function, get_activity_a_products_function, get_activity_b_products_function
 from website.backend.candidates.pull_create_logic import pull_create_group_obj_function, pull_latest_activity_test_obj_function, user_must_have_group_id_function, pull_create_activity_settings_obj_function, pull_group_obj_function, get_total_activity_closed_count_function
-from website.backend.candidates.activity_supporting import activity_dashboard_function, activity_a_live_function, turn_activity_auto_on_function
+from website.backend.candidates.activity_supporting import activity_dashboard_function, activity_live_function, turn_activity_auto_on_function
 from website.backend.candidates.emailing import email_share_with_team_function
 from website.backend.candidates.onboarding import onboarding_checks_function
 from website.backend.candidates.settings_supporting import activity_settings_prep_function, activity_settings_post_function
@@ -350,13 +350,13 @@ def create_new_activity_function(url_activity_code=None, url_activity_type=None)
   # ------------------------ if none yet created then create immediately + redirect start ------------------------
   if db_tests_obj == None:
     create_activity_function(current_user=current_user, activity_code=url_activity_code, activity_type=url_activity_type, immediate=True)
-    return redirect(url_for('employees_views_interior.activity_a_contest_function', url_activity_code=url_activity_code))
+    return redirect(url_for('employees_views_interior.activity_contest_function', url_activity_code=url_activity_code, url_activity_type=url_activity_type))
   # ------------------------ if none yet created then create immediately + redirect end ------------------------
   else:
     activity_cadence_check = compare_candence_vs_previous_quiz_function_v2(current_user, db_tests_obj, url_activity_code, url_activity_type)
     if activity_cadence_check == True:
       create_activity_function(current_user=current_user, activity_code=url_activity_code, activity_type=url_activity_type)
-      return redirect(url_for('employees_views_interior.activity_a_contest_function', url_activity_code=url_activity_code))
+      return redirect(url_for('employees_views_interior.activity_contest_function', url_activity_code=url_activity_code, url_activity_type=url_activity_type))
   return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
 # ------------------------ individual route end ------------------------
 
@@ -514,14 +514,14 @@ def activity_default_settings_function(url_activity_code=None, url_activity_type
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_interior.route('/activity/a/<url_activity_code>/replace/<url_test_id>/<url_question_number>', methods=['GET', 'POST'])
-@employees_views_interior.route('/activity/a/<url_activity_code>/replace/<url_test_id>/<url_question_number>/', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/<url_activity_type>/<url_activity_code>/replace/<url_test_id>/<url_question_number>', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/<url_activity_type>/<url_activity_code>/replace/<url_test_id>/<url_question_number>/', methods=['GET', 'POST'])
 @login_required
-def employees_test_id_replace_question_function(url_activity_code=None, url_test_id=None, url_question_number=None):
+def employees_test_id_replace_question_function(url_activity_code=None, url_test_id=None, url_question_number=None, url_activity_type=None):
   localhost_print_function(' ------------------------ employees_test_id_replace_question_function START ------------------------ ')
   # ------------------------ redirect start ------------------------
   if url_activity_code == None or url_test_id == None or url_test_id == '' or url_question_number == None or url_question_number == '':
-    return redirect(url_for('employees_views_interior.activity_a_contest_function'))
+    return redirect(url_for('employees_views_interior.activity_contest_function', url_activity_type=url_activity_type))
   # ------------------------ redirect end ------------------------
   # ------------------------ get group latest test start ------------------------
   db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id,product=url_activity_code).order_by(ActivityATestObj.created_timestamp.desc()).first()
@@ -569,22 +569,22 @@ def employees_test_id_replace_question_function(url_activity_code=None, url_test
     pass
   # ------------------------ check if old question graded/remove end ------------------------
   localhost_print_function(' ------------------------ employees_test_id_replace_question_function end ------------------------ ')
-  return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=url_test_id, url_question_number=url_question_number, url_redirect_code='e23', url_activity_code=url_activity_code))
+  return redirect(url_for('employees_views_interior.activity_contest_function', url_test_id=url_test_id, url_question_number=url_question_number, url_redirect_code='e23', url_activity_code=url_activity_code, url_activity_type='activity_type_a'))
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_interior.route('/activity/a/<url_activity_code>', methods=['GET', 'POST'])
-@employees_views_interior.route('/activity/a/<url_activity_code>/', methods=['GET', 'POST'])
-@employees_views_interior.route('/activity/a/<url_activity_code>/<url_test_id>', methods=['GET', 'POST'])
-@employees_views_interior.route('/activity/a/<url_activity_code>/<url_test_id>/', methods=['GET', 'POST'])
-@employees_views_interior.route('/activity/a/<url_activity_code>/<url_test_id>/<url_question_number>', methods=['GET', 'POST'])
-@employees_views_interior.route('/activity/a/<url_activity_code>/<url_test_id>/<url_question_number>/', methods=['GET', 'POST'])
-@employees_views_interior.route('/activity/a/<url_activity_code>/<url_test_id>/<url_question_number>/<url_initial_page_load>', methods=['GET', 'POST'])
-@employees_views_interior.route('/activity/a/<url_activity_code>/<url_test_id>/<url_question_number>/<url_initial_page_load>/', methods=['GET', 'POST'])
-@employees_views_interior.route('/activity/a/<url_activity_code>/<url_test_id>/<url_question_number>/<url_initial_page_load>/<url_redirect_code>', methods=['GET', 'POST'])
-@employees_views_interior.route('/activity/a/<url_activity_code>/<url_test_id>/<url_question_number>/<url_redirect_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/<url_activity_type>/<url_activity_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/<url_activity_type>/<url_activity_code>/', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/<url_activity_type>/<url_activity_code>/<url_test_id>', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/<url_activity_type>/<url_activity_code>/<url_test_id>/', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/<url_activity_type>/<url_activity_code>/<url_test_id>/<url_question_number>', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/<url_activity_type>/<url_activity_code>/<url_test_id>/<url_question_number>/', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/<url_activity_type>/<url_activity_code>/<url_test_id>/<url_question_number>/<url_initial_page_load>', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/<url_activity_type>/<url_activity_code>/<url_test_id>/<url_question_number>/<url_initial_page_load>/', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/<url_activity_type>/<url_activity_code>/<url_test_id>/<url_question_number>/<url_initial_page_load>/<url_redirect_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/activity/<url_activity_type>/<url_activity_code>/<url_test_id>/<url_question_number>/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
-def activity_a_contest_function(url_redirect_code=None, url_test_id=None, url_question_number='1', url_initial_page_load=None, url_activity_code=None):
+def activity_contest_function(url_redirect_code=None, url_test_id=None, url_question_number='1', url_initial_page_load=None, url_activity_code=None, url_activity_type=None):
   # ------------------------ page dict start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
   page_dict = {}
@@ -595,17 +595,17 @@ def activity_a_contest_function(url_redirect_code=None, url_test_id=None, url_qu
   page_dict['group_stripe_status'] = stripe_subscription_obj_status
   # ------------------------ stripe subscription status check end ------------------------
   # ------------------------ activity a live start ------------------------
-  page_dict, function_result = activity_a_live_function(page_dict, current_user, url_test_id, url_question_number, url_initial_page_load, url_activity_code)
+  page_dict, function_result = activity_live_function(page_dict, current_user, url_test_id, url_question_number, url_initial_page_load, url_activity_code, url_activity_type)
   if function_result == 'no_activity':
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   if function_result == 'init_activity':
-    return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=page_dict['latest_test_id'], url_question_number='1', url_initial_page_load='init', url_activity_code=url_activity_code))
+    return redirect(url_for('employees_views_interior.activity_contest_function', url_test_id=page_dict['latest_test_id'], url_question_number='1', url_initial_page_load='init', url_activity_code=url_activity_code, url_activity_type='activity_type_a'))
   if function_result == 'replace_activity':
     return redirect(url_for('employees_views_interior.activity_settings_function', url_redirect_code='e22', url_activity_code=url_activity_code, url_activity_type='activity_type_a'))
   if function_result == 'redirect_earliest_unanswered':
-    return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=url_test_id, url_question_number=page_dict['earliest_unanswered_question_number'], url_activity_code=url_activity_code))
+    return redirect(url_for('employees_views_interior.activity_contest_function', url_test_id=url_test_id, url_question_number=page_dict['earliest_unanswered_question_number'], url_activity_code=url_activity_code, url_activity_type='activity_type_a'))
   if function_result == 'redirect_earliest_unanswered':
-    return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=page_dict['latest_test_id'], url_question_number='1'))
+    return redirect(url_for('employees_views_interior.activity_contest_function', url_test_id=page_dict['latest_test_id'], url_question_number='1', url_activity_type='activity_type_a'))
   # ------------------------ activity a live end ------------------------
   if page_dict['view_as_archive'] == False: # no user inputs should be accepted since this test is closed.
     # ------------------------ ui post start ------------------------
@@ -619,7 +619,7 @@ def activity_a_contest_function(url_redirect_code=None, url_test_id=None, url_qu
         ui_answer = request.form.get('ui_answer_fitb')
         # ------------------------ validate ui start ------------------------
         if len(ui_answer) < 1 or len(ui_answer) > 280:
-          return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=url_test_id, url_question_number=str(url_question_number), url_redirect_code='e6'))
+          return redirect(url_for('employees_views_interior.activity_contest_function', url_test_id=url_test_id, url_question_number=str(url_question_number), url_redirect_code='e6', url_activity_type='activity_type_a'))
         # ------------------------ validate ui end ------------------------
         # ------------------------ grade ui start ------------------------
         grade_quiz_function(ui_answer, url_test_id, db_tests_obj.total_questions, url_question_number, page_dict['db_question_dict'], current_user.id, current_user.group_id, url_activity_code)
@@ -631,7 +631,7 @@ def activity_a_contest_function(url_redirect_code=None, url_test_id=None, url_qu
         # ------------------------ validate ui start ------------------------
         allowed_answers_arr = ['a', 'b', 'c', 'd', 'e']
         if ui_answer.lower() not in allowed_answers_arr:
-          return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=url_test_id, url_question_number=str(url_question_number), url_redirect_code='e6'))
+          return redirect(url_for('employees_views_interior.activity_contest_function', url_test_id=url_test_id, url_question_number=str(url_question_number), url_redirect_code='e6', url_activity_type='activity_type_a'))
         # ------------------------ validate ui start ------------------------
         # ------------------------ grade ui start ------------------------
         grade_quiz_function(ui_answer, url_test_id, db_tests_obj.total_questions, url_question_number, page_dict['db_question_dict'], current_user.id, current_user.group_id, url_activity_code)
@@ -651,9 +651,9 @@ def activity_a_contest_function(url_redirect_code=None, url_test_id=None, url_qu
             already_answered_question_number = str(i['question_number'])
             if already_answered_question_number in unanswered_arr:
               unanswered_arr.remove(already_answered_question_number)
-          return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=url_test_id, url_question_number=unanswered_arr[0]))
+          return redirect(url_for('employees_views_interior.activity_contest_function', url_test_id=url_test_id, url_question_number=unanswered_arr[0], url_activity_type='activity_type_a'))
       else:
-        return redirect(url_for('employees_views_interior.activity_a_contest_function', url_test_id=url_test_id, url_question_number=str(int(url_question_number)+1), url_activity_code=url_activity_code))
+        return redirect(url_for('employees_views_interior.activity_contest_function', url_test_id=url_test_id, url_question_number=str(int(url_question_number)+1), url_activity_code=url_activity_code, url_activity_type='activity_type_a'))
     # ------------------------ ui post end ------------------------
     localhost_print_function(' ------------- 100-activity start ------------- ')
     page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))

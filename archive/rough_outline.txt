@@ -16,6 +16,9 @@ NEXT STEPS
 
 
 NOTES
+- url_activity_code = trivia, picture_quiz, icebreakers, etc.
+- url_activity_type = url_activity_code's with similar db structure & page/flow logic
+
 - activity_type_a: 1 question + Multiple Choice response + only 1 correct answer
     -trivia, picture quiz
 - activity_type_b: 1 question + 1 written response ()

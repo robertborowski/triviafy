@@ -91,8 +91,10 @@ def activity_dashboard_function(current_user, page_dict, activity_name, activity
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
-def activity_a_live_function(page_dict, current_user, url_test_id, url_question_number, url_initial_page_load, url_activity_code):
+def activity_live_function(page_dict, current_user, url_test_id, url_question_number, url_initial_page_load, url_activity_code, url_activity_type):
   page_dict['latest_test_id'] = url_test_id
+  page_dict['url_activity_type'] = url_activity_type
+  page_dict['url_activity_code'] = url_activity_code
   # ------------------------ redirect to latest test id start ------------------------
   if url_test_id == None:
     db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id,product=url_activity_code).order_by(ActivityATestObj.created_timestamp.desc()).first()
@@ -161,7 +163,6 @@ def activity_a_live_function(page_dict, current_user, url_test_id, url_question_
   desired_question_type = question_type_order_arr[url_question_number-1]
   db_question_dict['desired_question_type'] = desired_question_type
   # ------------------------ append question type end ------------------------
-  page_dict['activity_type'] = url_activity_code
   page_dict['db_question_dict'] = db_question_dict
   # ------------------------ pull question from db end ------------------------
   # ------------------------ fix categories presentation start ------------------------
