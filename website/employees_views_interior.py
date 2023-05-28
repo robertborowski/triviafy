@@ -654,7 +654,7 @@ def activity_contest_function(url_redirect_code=None, url_test_id=None, url_ques
               already_answered_question_number = str(i['question_number'])
               if already_answered_question_number in unanswered_arr:
                 unanswered_arr.remove(already_answered_question_number)
-            return redirect(url_for('employees_views_interior.activity_contest_function', url_test_id=url_test_id, url_question_number=unanswered_arr[0], url_activity_type=url_activity_type))
+            return redirect(url_for('employees_views_interior.activity_contest_function', url_test_id=url_test_id, url_question_number=unanswered_arr[0], url_activity_type=url_activity_type, url_activity_code=url_activity_code))
         else:
           return redirect(url_for('employees_views_interior.activity_contest_function', url_test_id=url_test_id, url_question_number=str(int(url_question_number)+1), url_activity_code=url_activity_code, url_activity_type=url_activity_type))
       # ------------------------ activity_type_a end ------------------------

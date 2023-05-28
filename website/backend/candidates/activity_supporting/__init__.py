@@ -68,15 +68,16 @@ def activity_dashboard_function(current_user, page_dict, url_activity_code, url_
   if url_activity_type == 'activity_type_a':
     page_dict[url_activity_code+'_latest_winner'] = ''
     page_dict[url_activity_code+'_latest_winner_score'] = float(0)
-    try:
-      db_tests_dict = arr_of_dict_all_columns_single_item_function(db_tests_obj)
-      if db_tests_dict['status'] == 'Closed':
-        page_dict[url_activity_code+'_latest_closed'] = True
+  try:
+    db_tests_dict = arr_of_dict_all_columns_single_item_function(db_tests_obj)
+    if db_tests_dict['status'] == 'Closed':
+      page_dict[url_activity_code+'_latest_closed'] = True
+    if url_activity_type == 'activity_type_a':
       # ------------------------ winner start ------------------------
       page_dict[url_activity_code+'_latest_winner'], page_dict[url_activity_code+'_latest_winner_score'] = get_test_winner(db_tests_dict['id'])
       # ------------------------ winner end ------------------------
-    except:
-      pass
+  except:
+    pass
   # ------------------------ if latest closed then pull winner end ------------------------
   # ------------------------ cadence check to see if a new activity should be created start ------------------------
   page_dict[url_activity_code+'_cadence_valid'] = False
