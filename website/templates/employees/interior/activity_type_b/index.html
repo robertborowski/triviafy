@@ -32,33 +32,44 @@
           <p class="custom-m-0 custom-header-40 fw-bolder"><i class="fa-solid fa-arrow-right"></i> {{ page_dict_to_html['db_question_dict']['question'] }}</p>
         </div>
         <!-- ------------------------------------- question end ------------------------------------- -->
-        {% if page_dict_to_html['users_latest_response'] != none %}
-          <div class="custom-p-25 custom-border-white custom-br-1 custom-mt-100 custom-mb-100">
-            <div class="text-center">
-              <h2 class="custom-color-white" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Activity ends {{ page_dict_to_html['latest_test_end_str'] }}">Your response</h2>
+        {% if page_dict_to_html['view_as_archive'] == false %}
+          {% if page_dict_to_html['users_latest_response'] != none %}
+            <div class="custom-p-25 custom-border-white custom-br-1 custom-mt-100 custom-mb-100">
+              <div class="text-center">
+                <h2 class="custom-color-white" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Activity ends {{ page_dict_to_html['latest_test_end_str'] }}">Your response</h2>
+              </div>
+              <span class="btn btn-success custom-width-100 custom-tal custom-header-25 custom-p-25"><i class="fa-solid fa-check"></i> "{{ page_dict_to_html['users_latest_response'] }}"</span>
             </div>
-            <span class="btn btn-success custom-width-100 custom-tal custom-header-25 custom-p-25"><i class="fa-solid fa-check"></i> "{{ page_dict_to_html['users_latest_response'] }}"</span>
-          </div>
+          {% else %}
+          {% endif %}
+          <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+            <!-- ------------------------------------- answer start ------------------------------------- -->
+            <div class="custom-pb-25 custom-mt-50">
+              <div class="form-floating">
+                <textarea class="form-control" id="ui_answer" name="ui_answer" placeholder="Your answer" onkeyup="CountCharsCustomAnswer(this);" pattern="{1,500}" rows="5" style="height:100%;" required></textarea>
+                <label for="ui_answer">Your response below. Your team will see your response <i class="fa-solid fa-eye"></i></label>
+                <p id="id-countCharsCustomAnswer" class="custom-size-3 custom-color-light-1 fst-italic custom-mt-2 custom-ml-2"></p>
+              </div>
+            </div>
+            <!-- ------------------------------------- answer end ------------------------------------- -->
+            <div class="mx-auto">
+              {% if page_dict_to_html['users_latest_response'] != none %}
+                <button type="submit" class="btn btn-lg btn-warning custom-mb-6 custom-width-6 custom-ptb-8 custom-br-1" id="submit-button-botttom">Resubmit <i class="fa-solid fa-check"></i></button>
+              {% elif page_dict_to_html['users_latest_response'] == none %}
+                <button type="submit" class="btn btn-lg btn-success custom-mb-6 custom-width-6 custom-ptb-8 custom-br-1" id="submit-button-botttom">Submit <i class="fa-solid fa-check"></i></button>
+              {% endif %}
+            </div>
+          </form>
         {% else %}
-        {% endif %}
-        <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
-          <!-- ------------------------------------- answer start ------------------------------------- -->
-          <div class="custom-pb-25 custom-mt-50">
-            <div class="form-floating">
-              <textarea class="form-control" id="ui_answer" name="ui_answer" placeholder="Your answer" onkeyup="CountCharsCustomAnswer(this);" pattern="{1,500}" rows="5" style="height:100%;" required></textarea>
-              <label for="ui_answer">Your response below. Your team will see your response <i class="fa-solid fa-eye"></i></label>
-              <p id="id-countCharsCustomAnswer" class="custom-size-3 custom-color-light-1 fst-italic custom-mt-2 custom-ml-2"></p>
+          {% for k,v in page_dict_to_html['teammate_responses_dict'].items() %}
+            <div class="custom-p-25 custom-br-1 custom-mt-50">
+              <div class="text-center">
+                <h2 class="custom-color-white">{{ v['name'] }}'s response</h2>
+              </div>
+              <span class="btn btn-success custom-width-100 custom-tal custom-header-20 custom-p-25"><i class="fa-solid fa-check"></i> "{{ v['test_obj'] }}"</span>
             </div>
-          </div>
-          <!-- ------------------------------------- answer end ------------------------------------- -->
-          <div class="mx-auto">
-            {% if page_dict_to_html['users_latest_response'] != none %}
-              <button type="submit" class="btn btn-lg btn-warning custom-mb-6 custom-width-6 custom-ptb-8 custom-br-1" id="submit-button-botttom">Resubmit <i class="fa-solid fa-check"></i></button>
-            {% elif page_dict_to_html['users_latest_response'] == none %}
-              <button type="submit" class="btn btn-lg btn-success custom-mb-6 custom-width-6 custom-ptb-8 custom-br-1" id="submit-button-botttom">Submit <i class="fa-solid fa-check"></i></button>
-            {% endif %}
-          </div>
-        </form>
+          {% endfor %}
+        {% endif %}
       </div>
     </div>
     <!-- ------------------------------------- section end ------------------------------------- -->

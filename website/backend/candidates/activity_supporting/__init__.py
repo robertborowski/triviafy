@@ -242,11 +242,12 @@ def activity_live_function(page_dict, current_user, url_test_id, url_question_nu
   # ------------------------ additional activity_type_b logic end ------------------------
   # ------------------------ archive logic start ------------------------
   page_dict['view_as_archive'] = False
+  page_dict['teammate_responses_dict'] = False
   try:
     if db_tests_obj.status == 'Closed':
       page_dict['view_as_archive'] = True
+      # ------------------------ get teammate answers activity_type_a start ------------------------
       if url_activity_type == 'activity_type_a':
-        # ------------------------ get teammate answers start ------------------------
         teammate_answers_tuple = []
         db_test_grading_obj = ActivityATestGradedObj.query.filter_by(fk_test_id=url_test_id,product=url_activity_code).all()
         for i_obj in db_test_grading_obj:
@@ -269,7 +270,22 @@ def activity_live_function(page_dict, current_user, url_test_id, url_question_nu
               teammate_answers_tuple.append((i_name, i_ui_answer, i_ui_answer_is_correct))
               break
         page_dict['teammate_answers_tuple'] = teammate_answers_tuple
-        # ------------------------ get teammate answers end ------------------------
+      # ------------------------ get teammate answers activity_type_a end ------------------------
+      # ------------------------ get teammate answers activity_type_b start ------------------------
+      if url_activity_type == 'activity_type_b':
+        teammate_responses_dict = {}
+        db_test_grading_obj = ActivityBTestGradedObj.query.filter_by(fk_test_id=url_test_id,product=url_activity_code).all()
+        i_obj_counter = -1
+        for i_obj in db_test_grading_obj:
+          i_obj_counter += 1
+          teammate_responses_dict['user_'+str(i_obj_counter)] = {}
+          teammate_responses_dict['user_'+str(i_obj_counter)]['fk_user_id'] = i_obj.fk_user_id
+          teammate_responses_dict['user_'+str(i_obj_counter)]['test_obj'] = i_obj.test_obj
+          db_user_obj = UserObj.query.filter_by(id=i_obj.fk_user_id).first()
+          teammate_responses_dict['user_'+str(i_obj_counter)]['name'] = db_user_obj.name
+          teammate_responses_dict['user_'+str(i_obj_counter)]['email'] = db_user_obj.email
+        page_dict['teammate_responses_dict'] = teammate_responses_dict
+      # ------------------------ get teammate answers activity_type_b end ------------------------
   except:
     pass
   # ------------------------ archive logic end ------------------------

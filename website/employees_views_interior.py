@@ -17,7 +17,7 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v4, browser_response_set_cookie_function_v5
-from website.models import GroupObj, ActivityASettingsObj, ActivityATestObj, UserDesiredCategoriesObj, ActivityACreatedQuestionsObj, ActivityATestGradedObj, UserObj, StripePaymentOptionsObj, EmailSentObj, StripeCheckoutSessionObj, ActivityAGroupQuestionsUsedObj, UserFeatureRequestObj, UserSignupFeedbackObj, UserBirthdayObj, ActivityBCreatedQuestionsObj, ActivityBGroupQuestionsUsedObj, ActivityBTestGradedObj
+from website.models import GroupObj, ActivityASettingsObj, ActivityATestObj, UserDesiredCategoriesObj, ActivityACreatedQuestionsObj, ActivityATestGradedObj, UserObj, StripePaymentOptionsObj, EmailSentObj, StripeCheckoutSessionObj, ActivityAGroupQuestionsUsedObj, UserFeatureRequestObj, UserSignupFeedbackObj, UserBirthdayObj, ActivityBCreatedQuestionsObj, ActivityBGroupQuestionsUsedObj, ActivityBTestGradedObj, ActivityBTestObj
 from website.backend.candidates.autogeneration import question_choices_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
 from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function
@@ -700,12 +700,12 @@ def activity_contest_function(url_redirect_code=None, url_test_id=None, url_ques
         return redirect(url_for('employees_views_interior.activity_contest_function', url_redirect_code='s12', url_test_id=url_test_id, url_activity_code=url_activity_code, url_activity_type=url_activity_type))
       # ------------------------ activity_type_b end ------------------------
     # ------------------------ ui post end ------------------------
-    localhost_print_function(' ------------- 100-activity start ------------- ')
-    page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
-    for k,v in page_dict.items():
-      localhost_print_function(f"k: {k} | v: {v}")
-      pass
-    localhost_print_function(' ------------- 100-activity end ------------- ')
+  localhost_print_function(' ------------- 100-activity start ------------- ')
+  page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
+  for k,v in page_dict.items():
+    localhost_print_function(f"k: {k} | v: {v}")
+    pass
+  localhost_print_function(' ------------- 100-activity end ------------- ')
   if url_activity_type == 'activity_type_a':
     return render_template('employees/interior/activity_type_a/index.html', page_dict_to_html=page_dict)
   elif url_activity_type == 'activity_type_b':
@@ -723,13 +723,20 @@ def activity_archive_function(url_redirect_code=None):
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
   # ------------------------ pull all tests for group start ------------------------
-  db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id).order_by(ActivityATestObj.created_timestamp.desc()).all()
+  all_tests_obj_arr = []
+  db_tests_a_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id).order_by(ActivityATestObj.created_timestamp.desc()).all()
+  all_tests_obj_arr.append(db_tests_a_obj)
+  db_tests_b_obj = ActivityBTestObj.query.filter_by(fk_group_id=current_user.group_id).order_by(ActivityBTestObj.created_timestamp.desc()).all()
+  all_tests_obj_arr.append(db_tests_b_obj)
   # ------------------------ pull all tests for group end ------------------------
   # ------------------------ turn sql obj into arr of dicts start ------------------------
   tests_arr_of_dicts = []
-  for i_obj in db_tests_obj:
-    i_dict = arr_of_dict_all_columns_single_item_function(i_obj)
-    tests_arr_of_dicts.append(i_dict)
+  for_range_len_index_arr = ['activity_type_a','activity_type_b']
+  for i_count in range(len(all_tests_obj_arr)):
+    for i_obj in all_tests_obj_arr[i_count]:
+      i_dict = arr_of_dict_all_columns_single_item_function(i_obj)
+      i_dict['url_activity_type'] = for_range_len_index_arr[i_count]
+      tests_arr_of_dicts.append(i_dict)
   # ------------------------ turn sql obj into arr of dicts end ------------------------
   # ------------------------ loop through tests and assign variables per test start ------------------------
   total_tests = len(tests_arr_of_dicts)
@@ -738,7 +745,6 @@ def activity_archive_function(url_redirect_code=None):
     i['test_number'] = current_test
     i['test_winner'], i['test_winner_score'] = get_test_winner(i['id'])
     current_test -= 1
-    
   page_dict['tests_arr_of_dicts'] = tests_arr_of_dicts
   # ------------------------ loop through tests and assign variables per test end ------------------------
   localhost_print_function(' ------------- 100-archive start ------------- ')
@@ -747,7 +753,7 @@ def activity_archive_function(url_redirect_code=None):
     localhost_print_function(f"k: {k} | v: {v}")
     pass
   localhost_print_function(' ------------- 100-archive end ------------- ')
-  return render_template('employees/interior/activity_type_a/activity_archive/index.html', page_dict_to_html=page_dict)
+  return render_template('employees/interior/activity_archive/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
@@ -766,7 +772,7 @@ def group_leaderboard_function(url_redirect_code=None):
   for i in db_users_obj:
     i_dict = {}
     user_id = i.id
-    user_email = i.email
+    user_name = i.name
     # ------------------------ get total correct start ------------------------
     total_correct = int(0)
     db_test_grading_obj = ActivityATestGradedObj.query.filter_by(fk_user_id=user_id).all()
@@ -778,7 +784,7 @@ def group_leaderboard_function(url_redirect_code=None):
       # ------------------------ check if test is closed end ------------------------
     # ------------------------ get total correct end ------------------------
     i_dict['user_id'] = user_id
-    i_dict['user_email'] = user_email
+    i_dict['user_name'] = user_name
     i_dict['total_correct'] = total_correct
     i_dict['total_wins'] = int(0)
     users_arr_of_dicts.append(i_dict)

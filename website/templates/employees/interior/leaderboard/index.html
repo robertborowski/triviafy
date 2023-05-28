@@ -25,7 +25,7 @@
   <table id="candidates-datatable-id" class="table table-striped" style="width:100%">
     <thead>
       <tr>
-        <th>Email</th>
+        <th>Name</th>
         <th>Total Wins</th>
         <th>Total Correct</th>
         <th>Archive</th>
@@ -34,7 +34,7 @@
     <tbody>
       {% for i in page_dict_to_html['users_arr_of_dicts'] %}
       <tr>
-        <td>{{ i['user_email'] }}</td>
+        <td>{{ i['user_name'] }}</td>
         <td>{{ i['total_wins'] }}</td>
         <td>{{ i['total_correct'] }}</td>
         <td><a href="/archive" class="custom-a-2 fw-bolder">View archive</a></td>
