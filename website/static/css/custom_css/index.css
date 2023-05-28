@@ -43,6 +43,10 @@
   color: white;
   text-decoration: underline;
 }
+.custom-a-6, .custom-a-6:visited, .custom-a-6:hover {
+  color: white;
+  text-decoration: underline;
+}
 .custom-a-none, .custom-a-none:hover,.custom-a-none:visited {
   text-decoration: none;
 }
