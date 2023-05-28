@@ -156,12 +156,12 @@ def pull_create_activity_settings_obj_function(current_user, activity_name, acti
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
-def pull_latest_activity_test_obj_function(current_user, activity_name, activity_type):
+def pull_latest_activity_test_obj_function(current_user, url_activity_code, url_activity_type):
   db_tests_obj = None
-  if activity_type == 'activity_type_a':
-    db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id,product=activity_name).order_by(ActivityATestObj.created_timestamp.desc()).first()
-  if activity_type == 'activity_type_b':
-    db_tests_obj = ActivityBTestObj.query.filter_by(fk_group_id=current_user.group_id,product=activity_name).order_by(ActivityBTestObj.created_timestamp.desc()).first()
+  if url_activity_type == 'activity_type_a':
+    db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id,product=url_activity_code).order_by(ActivityATestObj.created_timestamp.desc()).first()
+  if url_activity_type == 'activity_type_b':
+    db_tests_obj = ActivityBTestObj.query.filter_by(fk_group_id=current_user.group_id,product=url_activity_code).order_by(ActivityBTestObj.created_timestamp.desc()).first()
   if db_tests_obj == None or db_tests_obj == []:
     db_tests_obj = None
   return db_tests_obj

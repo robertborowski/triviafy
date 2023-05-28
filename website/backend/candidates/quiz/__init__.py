@@ -14,7 +14,7 @@ from datetime import date, timedelta, datetime
 import difflib
 import json
 from website.backend.candidates.send_emails import send_email_template_function
-from website.backend.candidates.pull_create_logic import pull_create_activity_settings_obj_function
+from website.backend.candidates.pull_create_logic import pull_create_activity_settings_obj_function, pull_latest_activity_test_obj_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ Set Timezone START ------------------------
@@ -64,13 +64,13 @@ def build_question_type_arr_function(input_type, input_total_questions):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
-def get_next_quiz_open_function(company_group_id, activity_name):
+def get_next_quiz_open_function(current_user, url_activity_code, url_activity_type):
   # ------------------------ get group settings start ------------------------
-  db_group_settings_obj = ActivityASettingsObj.query.filter_by(fk_group_id=company_group_id,product=activity_name).order_by(ActivityASettingsObj.created_timestamp.desc()).first()
+  db_group_settings_obj = pull_create_activity_settings_obj_function(current_user, url_activity_code, url_activity_type)
   db_group_settings_dict = arr_of_dict_all_columns_single_item_function(db_group_settings_obj)
   # ------------------------ get group settings end ------------------------
   # ------------------------ get latest test start ------------------------
-  db_tests_obj = ActivityATestObj.query.filter_by(fk_group_id=company_group_id,product=activity_name).order_by(ActivityATestObj.created_timestamp.desc()).first()
+  db_tests_obj = pull_latest_activity_test_obj_function(current_user, url_activity_code, url_activity_type)
   db_tests_dict = arr_of_dict_all_columns_single_item_function(db_tests_obj)
   # ------------------------ get latest test end ------------------------
   # ------------------------ get next quiz open start ------------------------
