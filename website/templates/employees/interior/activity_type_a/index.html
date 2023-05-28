@@ -19,7 +19,7 @@
         {% if page_dict_to_html['view_as_archive'] == true %}
           <div>
             <!-- ------------------------------------- feature view: archive start ------------------------------------- -->
-            {% if page_dict_to_html['view_as_archive'] == true or page_dict_to_html['latest_test_completed'] == true %}
+            {% if page_dict_to_html['latest_test_completed'] == true %}
               <a href="/dashboard" class="btn btn-danger btn custom-mr-2"><i class="fa-regular fa-circle-xmark"></i> Exit</a>
             <!-- ------------------------------------- feature view: archive end ------------------------------------- -->
             {% else %}
@@ -39,7 +39,7 @@
         {% else %}
           <div>
             <!-- ------------------------------------- feature view: archive start ------------------------------------- -->
-            {% if page_dict_to_html['view_as_archive'] == true or page_dict_to_html['latest_test_completed'] == true %}
+            {% if page_dict_to_html['latest_test_completed'] == true %}
               <a href="/dashboard" class="btn btn-danger btn custom-mr-2"><i class="fa-regular fa-circle-xmark"></i> Exit</a>
             <!-- ------------------------------------- feature view: archive end ------------------------------------- -->
             {% else %}
@@ -246,6 +246,9 @@
 </div>
 <!-- ----------------------------------- shape divider end ----------------------------------- -->
 <!-- ------------------------------------- signature start ------------------------------------- -->
+<div class="custom-width-1 mx-auto custom-mb-50">
+  <a href="/dashboard" class="btn btn-outline-secondary custom-width-6"><i class="fa-solid fa-arrow-left"></i> Back</a>
+</div>
 <div class="custom-width-15 mx-auto custom-mb-50">
   <a href="/dashboard" class="navbar-brand">
     <img src="https://triviafypublicobjects.s3.us-east-2.amazonaws.com/official_logo.png" alt="triviafy logo" class="custom-img-size-1 custom-mt-negative-1">
