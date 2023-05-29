@@ -44,6 +44,14 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
         WHERE \
           product='{additional_input2}' AND \
           fk_group_id='{additional_input}';",
+    'select_group_settings_3':
+      f"SELECT \
+          * \
+        FROM \
+          activity_b_settings_obj \
+        WHERE \
+          product='{additional_input2}' AND \
+          fk_group_id='{additional_input}';",
     'select_latest_test_1':
       f"SELECT \
           * \
@@ -59,6 +67,17 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
           * \
         FROM \
           activity_a_test_obj \
+        WHERE \
+          fk_group_id='{additional_input}' \
+          AND product='{additional_input2}' \
+        ORDER BY \
+          created_timestamp DESC \
+        LIMIT 1;",
+    'select_latest_test_3':
+      f"SELECT \
+          * \
+        FROM \
+          activity_b_test_obj \
         WHERE \
           fk_group_id='{additional_input}' \
           AND product='{additional_input2}' \
@@ -86,6 +105,15 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
           created_timestamp, fk_group_id, fk_user_id, fk_test_id, total_questions, correct_count, final_score, status, graded_count \
         FROM \
           activity_a_test_graded_obj \
+        WHERE \
+          fk_user_id='{additional_input}' AND \
+          fk_test_id='{additional_input2}' AND \
+          status='complete';",
+    'select_test_graded_2':
+      f"SELECT \
+          created_timestamp, fk_group_id, fk_user_id, fk_test_id, status \
+        FROM \
+          activity_b_test_graded_obj \
         WHERE \
           fk_user_id='{additional_input}' AND \
           fk_test_id='{additional_input2}' AND \

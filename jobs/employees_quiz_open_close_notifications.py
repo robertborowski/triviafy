@@ -21,7 +21,11 @@ time.tzset()
 
 # ------------------------ get activities arr start ------------------------
 def get_activities_arr_function():
-  activities_arr = ['trivia','picture_quiz']
+  activities_arr = [
+    ['activity_type_a','trivia'],
+    ['activity_type_a','picture_quiz'],
+    ['activity_type_b','icebreakers']
+  ]
   return activities_arr
 # ------------------------ get activities arr end ------------------------
 
@@ -175,7 +179,6 @@ def breakup_email_function(input_email):
 
 # ------------------------ individual function start ------------------------
 def employees_quiz_open_close_notifications():
-  localhost_print_function(' ------------------------ employees_quiz_open_close_notifications start ------------------------ ')
   # ------------------------ job check start ------------------------
   # time of day
   job_datetime_check = datetime.now()
@@ -198,7 +201,7 @@ def employees_quiz_open_close_notifications():
   activities_arr = get_activities_arr_function()
   for i_activity in activities_arr:
     # ------------------------ activity capitalized start ------------------------
-    i_activity_capitalized = capitalize_all_words_function(i_activity)
+    i_activity_capitalized = capitalize_all_words_function(i_activity[1])
     # ------------------------ activity capitalized end ------------------------
     # ------------------------ loop all groups start ------------------------
     for i_user_group_dict in db_all_user_groups_arr_of_dict:
@@ -207,23 +210,35 @@ def employees_quiz_open_close_notifications():
       #   continue
       # ------------------------ testing self end ------------------------
       # ------------------------ get all table data start ------------------------
-      db_group_settings_arr_of_dict = select_manual_function(postgres_connection, postgres_cursor, 'select_group_settings_2', i_user_group_dict['group_id'], i_activity)
+      # ------------------------ activity type start ------------------------
+      db_group_settings_arr_of_dict = None
+      if i_activity[0] == 'activity_type_a':
+        db_group_settings_arr_of_dict = select_manual_function(postgres_connection, postgres_cursor, 'select_group_settings_2', i_user_group_dict['group_id'], i_activity[1])
+      if i_activity[0] == 'activity_type_b':
+        db_group_settings_arr_of_dict = select_manual_function(postgres_connection, postgres_cursor, 'select_group_settings_3', i_user_group_dict['group_id'], i_activity[1])
+      # ------------------------ activity type end ------------------------
       db_user_emails_arr_of_dicts = select_manual_function(postgres_connection, postgres_cursor, 'select_user_emails_2', i_user_group_dict['group_id'])
       # ------------------------ get all table data end ------------------------
       # ------------------------ get activity on off status start ------------------------
       activity_on_off_status = False
       for i_dict in db_all_groups_arr_of_dict:
         if i_dict['public_group_id'] == i_user_group_dict['group_id']:
-          activity_on_off_status = i_dict[i_activity]
+          activity_on_off_status = i_dict[i_activity[1]]
       # ------------------------ get activity on off status end ------------------------
-      if activity_on_off_status == True or i_activity == 'trivia':
+      if activity_on_off_status == True or i_activity[1] == 'trivia':
         # ------------------------ get latest test + status start ------------------------
         i_group_status = 'no latest test'
         latest_test_id = None
         latest_test_id_winner = None
         latest_test_end_timestamp = None
         db_latest_test_dict = {}
-        db_latest_test_arr = select_manual_function(postgres_connection, postgres_cursor, 'select_latest_test_2', i_user_group_dict['group_id'], i_activity)
+        # ------------------------ activity type start ------------------------
+        db_latest_test_arr = None
+        if i_activity[0] == 'activity_type_a':
+          db_latest_test_arr = select_manual_function(postgres_connection, postgres_cursor, 'select_latest_test_2', i_user_group_dict['group_id'], i_activity[1])
+        if i_activity[0] == 'activity_type_b':
+          db_latest_test_arr = select_manual_function(postgres_connection, postgres_cursor, 'select_latest_test_3', i_user_group_dict['group_id'], i_activity[1])
+        # ------------------------ activity type end ------------------------
         if db_latest_test_arr != None and db_latest_test_arr != []:
           db_latest_test_dict = db_latest_test_arr[0]
           latest_test_id = db_latest_test_dict['id']
@@ -295,7 +310,13 @@ def employees_quiz_open_close_notifications():
           # ------------------------ send email end ------------------------
           # ------------------------ check if grading exists start ------------------------
           i_user_completed_latest_test = False
-          db_test_graded_arr_of_dicts = select_manual_function(postgres_connection, postgres_cursor, 'select_test_graded_1', i_dict['id'], latest_test_id)
+          # ------------------------ activity type start ------------------------
+          db_test_graded_arr_of_dicts = None
+          if i_activity[0] == 'activity_type_a':
+            db_test_graded_arr_of_dicts = select_manual_function(postgres_connection, postgres_cursor, 'select_test_graded_1', i_dict['id'], latest_test_id)
+          if i_activity[0] == 'activity_type_b':
+            db_test_graded_arr_of_dicts = select_manual_function(postgres_connection, postgres_cursor, 'select_test_graded_2', i_dict['id'], latest_test_id)
+          # ------------------------ activity type end ------------------------
           if db_test_graded_arr_of_dicts != None and db_test_graded_arr_of_dicts != []:
             i_user_completed_latest_test = True
           # ------------------------ check if grading exists end ------------------------
@@ -354,21 +375,60 @@ def employees_quiz_open_close_notifications():
           # ------------------------ email only people who have not yet participated end ------------------------
           # ------------------------ email everyone with winner once quiz is closed start ------------------------
           if i_group_status == 'latest test is closed':
-            # ------------------------ get latest quiz winner start ------------------------
-            if latest_test_id_winner == None:
-              latest_test_id_winner = None
-              try:
-                db_latest_test_winner_arr_of_dict = select_manual_function(postgres_connection, postgres_cursor, 'select_latest_test_winner_1', latest_test_id)
-                db_winner_email_arr_of_dict = select_manual_function(postgres_connection, postgres_cursor, 'select_user_1', db_latest_test_winner_arr_of_dict[0]['fk_user_id'])
-                latest_test_id_winner = db_winner_email_arr_of_dict[0]['email']
-              except:
-                pass
-            # ------------------------ get latest quiz winner end ------------------------
-            # ------------------------ send email start ------------------------
-            output_subject = f"{i_activity_capitalized} Activity Closed, The Winner Is... | Confirmation: {latest_test_id}"
-            db_email_already_sent = select_manual_function(postgres_connection, postgres_cursor, 'select_check_email_sent_1', output_to_email, output_subject)
-            if db_email_already_sent == None or db_email_already_sent == []:
+            # ------------------------ activity_type_a start ------------------------
+            if i_activity[0] == 'activity_type_a':
+              # ------------------------ get latest quiz winner start ------------------------
               if latest_test_id_winner == None:
+                latest_test_id_winner = None
+                try:
+                  db_latest_test_winner_arr_of_dict = select_manual_function(postgres_connection, postgres_cursor, 'select_latest_test_winner_1', latest_test_id)
+                  db_winner_email_arr_of_dict = select_manual_function(postgres_connection, postgres_cursor, 'select_user_1', db_latest_test_winner_arr_of_dict[0]['fk_user_id'])
+                  latest_test_id_winner = db_winner_email_arr_of_dict[0]['email']
+                except:
+                  pass
+              # ------------------------ get latest quiz winner end ------------------------
+              # ------------------------ send email start ------------------------
+              output_subject = f"{i_activity_capitalized} Activity Closed, The Winner Is... | Confirmation: {latest_test_id}"
+              db_email_already_sent = select_manual_function(postgres_connection, postgres_cursor, 'select_check_email_sent_1', output_to_email, output_subject)
+              if db_email_already_sent == None or db_email_already_sent == []:
+                if latest_test_id_winner == None:
+                  output_body = f"<p>Hi {guessed_name},</p>\
+                                  <p>Your team's latest '{i_activity_capitalized}' activity is now closed! <a href='https://triviafy.com/dashboard'>Click here to see your team's responses, leaderboard, and statistics</a>.</p>\
+                                  <ul>Success stories for your team:</ul>\
+                                  <li>""Remote employees who feel connected to their colleagues are 50% less likely to quit their jobs."" - Harvard Business Review</li>\
+                                  <li>""71% of remote workers believe that virtual team building activities have a positive impact on their job satisfaction."" - Owl Labs</li>\
+                                  <li>""Virtual team building activities can reduce employee turnover by up to 30%."" - Gallup</li>\
+                                  <p style='margin:0;'>Best,</p>\
+                                  <p style='margin:0;'>Triviafy Support Team</p>\
+                                  <p style='margin:0;font-size:10px;'>Reply 'stop' to unsubscribe.</p>"
+                else:
+                  output_body = f"<p>Hi {guessed_name},</p>\
+                                  <p>Your team's latest '{i_activity_capitalized}' winner is {latest_test_id_winner}, great job, you are amazing! <a href='https://triviafy.com/dashboard'>Click here to see your team's responses, leaderboard, and statistics</a>.</p>\
+                                  <ul>Success stories for your team:</ul>\
+                                  <li>""Remote employees who feel connected to their colleagues are 50% less likely to quit their jobs."" - Harvard Business Review</li>\
+                                  <li>""71% of remote workers believe that virtual team building activities have a positive impact on their job satisfaction."" - Owl Labs</li>\
+                                  <li>""Virtual team building activities can reduce employee turnover by up to 30%."" - Gallup</li>\
+                                  <p style='margin:0;'>Best,</p>\
+                                  <p style='margin:0;'>Triviafy Support Team</p>\
+                                  <p style='margin:0;font-size:10px;'>Reply 'stop' to unsubscribe.</p>"
+                send_email_template_function(output_to_email, output_subject, output_body)
+                # ------------------------ insert to db start ------------------------
+                send_email_id = create_uuid_function('job_')
+                send_email_created_timestamp = create_timestamp_function()
+                insert_inputs_arr = [send_email_id, send_email_created_timestamp, 'job_email_activity_winner', output_to_email, output_subject, output_body]
+                insert_manual_function(postgres_connection, postgres_cursor, 'insert_email_1', insert_inputs_arr)
+                # ------------------------ insert to db end ------------------------
+              else:
+                localhost_print_function(f'already sent {output_to_email} | {output_subject}')
+                pass
+              # ------------------------ send email end ------------------------
+            # ------------------------ activity_type_a end ------------------------
+            # ------------------------ activity_type_b start ------------------------
+            if i_activity[0] == 'activity_type_b':
+              # ------------------------ send email start ------------------------
+              output_subject = f"{i_activity_capitalized} Activity Closed | Confirmation: {latest_test_id}"
+              db_email_already_sent = select_manual_function(postgres_connection, postgres_cursor, 'select_check_email_sent_1', output_to_email, output_subject)
+              if db_email_already_sent == None or db_email_already_sent == []:
                 output_body = f"<p>Hi {guessed_name},</p>\
                                 <p>Your team's latest '{i_activity_capitalized}' activity is now closed! <a href='https://triviafy.com/dashboard'>Click here to see your team's responses, leaderboard, and statistics</a>.</p>\
                                 <ul>Success stories for your team:</ul>\
@@ -378,27 +438,18 @@ def employees_quiz_open_close_notifications():
                                 <p style='margin:0;'>Best,</p>\
                                 <p style='margin:0;'>Triviafy Support Team</p>\
                                 <p style='margin:0;font-size:10px;'>Reply 'stop' to unsubscribe.</p>"
+                send_email_template_function(output_to_email, output_subject, output_body)
+                # ------------------------ insert to db start ------------------------
+                send_email_id = create_uuid_function('job_')
+                send_email_created_timestamp = create_timestamp_function()
+                insert_inputs_arr = [send_email_id, send_email_created_timestamp, 'job_email_activity_closed', output_to_email, output_subject, output_body]
+                insert_manual_function(postgres_connection, postgres_cursor, 'insert_email_1', insert_inputs_arr)
+                # ------------------------ insert to db end ------------------------
               else:
-                output_body = f"<p>Hi {guessed_name},</p>\
-                                <p>Your team's latest '{i_activity_capitalized}' winner is {latest_test_id_winner}, great job, you are amazing! <a href='https://triviafy.com/dashboard'>Click here to see your team's responses, leaderboard, and statistics</a>.</p>\
-                                <ul>Success stories for your team:</ul>\
-                                <li>""Remote employees who feel connected to their colleagues are 50% less likely to quit their jobs."" - Harvard Business Review</li>\
-                                <li>""71% of remote workers believe that virtual team building activities have a positive impact on their job satisfaction."" - Owl Labs</li>\
-                                <li>""Virtual team building activities can reduce employee turnover by up to 30%."" - Gallup</li>\
-                                <p style='margin:0;'>Best,</p>\
-                                <p style='margin:0;'>Triviafy Support Team</p>\
-                                <p style='margin:0;font-size:10px;'>Reply 'stop' to unsubscribe.</p>"
-              send_email_template_function(output_to_email, output_subject, output_body)
-              # ------------------------ insert to db start ------------------------
-              send_email_id = create_uuid_function('job_')
-              send_email_created_timestamp = create_timestamp_function()
-              insert_inputs_arr = [send_email_id, send_email_created_timestamp, 'job_email_activity_winner', output_to_email, output_subject, output_body]
-              insert_manual_function(postgres_connection, postgres_cursor, 'insert_email_1', insert_inputs_arr)
-              # ------------------------ insert to db end ------------------------
-            else:
-              localhost_print_function(f'already sent {output_to_email} | {output_subject}')
-              pass
-            # ------------------------ send email end ------------------------
+                localhost_print_function(f'already sent {output_to_email} | {output_subject}')
+                pass
+              # ------------------------ send email end ------------------------
+            # ------------------------ activity_type_b end ------------------------
           # ------------------------ email everyone with winner once quiz is closed end ------------------------
       # ------------------------ loop each user email end ------------------------
     # ------------------------ loop all groups end ------------------------
@@ -406,7 +457,6 @@ def employees_quiz_open_close_notifications():
   # ------------------------ close connection start ------------------------
   postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)
   # ------------------------ close connection end ------------------------
-  localhost_print_function(' ------------------------ employees_quiz_open_close_notifications end ------------------------ ')
   return True
 # ------------------------ individual function end ------------------------
 
