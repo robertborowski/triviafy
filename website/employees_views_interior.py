@@ -130,10 +130,18 @@ def login_dashboard_page_function(url_redirect_code=None):
     try:
       # ------------------------ pull and assign to dict start ------------------------
       on_off_dict = {}
+      # ------------------------ activity_type_a start ------------------------
       for i_index in range(len(page_dict['activity_a_accordian_arr'])):
         i_activity = page_dict['activity_a_accordian_arr'][i_index][1]
         i_activity_html = i_activity.capitalize()
         on_off_dict[i_activity] = request.form.get('flexActivity'+i_activity_html)
+      # ------------------------ activity_type_a end ------------------------
+      # ------------------------ activity_type_b start ------------------------
+      for i_index in range(len(page_dict['activity_b_accordian_arr'])):
+        i_activity = page_dict['activity_b_accordian_arr'][i_index][1]
+        i_activity_html = i_activity.capitalize()
+        on_off_dict[i_activity] = request.form.get('flexActivity'+i_activity_html)
+      # ------------------------ activity_type_b end ------------------------
       # ------------------------ pull and assign to dict end ------------------------
       db_group_obj = pull_group_obj_function(current_user)
       # ------------------------ update db start ------------------------
