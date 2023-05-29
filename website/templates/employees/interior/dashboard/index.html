@@ -43,7 +43,7 @@
     <div class="accordion" id="accordionExample">
       <!-- ------------------------------------- activity a items start ------------------------------------- -->
       {% for i_accordian in page_dict_to_html['activity_a_accordian_arr'] %}
-        {% if i_accordian[1] != 'trivia' and page_dict_to_html['group_stripe_status'] != 'active' %}
+        {% if page_dict_to_html['group_stripe_status'] != 'active' and i_accordian[1] != 'trivia' and i_accordian[1] != 'picture_quiz'%}
           <!-- ------------------------------------- accordion item start ------------------------------------- -->
           <div class="accordion-item">
             <h2 class="accordion-header">
@@ -159,7 +159,7 @@
       <!-- ------------------------------------- activity a items end ------------------------------------- -->
       <!-- ------------------------------------- activity b items start ------------------------------------- -->
       {% for i_accordian in page_dict_to_html['activity_b_accordian_arr'] %}
-        {% if page_dict_to_html['group_stripe_status'] != 'active' %}
+        {% if page_dict_to_html['group_stripe_status'] != 'active' and i_accordian[1] != 'icebreakers' %}
           <!-- ------------------------------------- accordion item start ------------------------------------- -->
           <div class="accordion-item">
             <h2 class="accordion-header">
