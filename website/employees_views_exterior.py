@@ -43,22 +43,22 @@ def employees_about_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_exterior.route('/employees/faq')
-@employees_views_exterior.route('/employees/faq/')
+@employees_views_exterior.route('/faq')
+@employees_views_exterior.route('/faq/')
 def employees_faq_function():
   return render_template('employees/exterior/faq/index.html')
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_exterior.route('/employees/pricing')
-@employees_views_exterior.route('/employees/pricing/')
+@employees_views_exterior.route('/pricing')
+@employees_views_exterior.route('/pricing/')
 def employees_pricing_function():
   return render_template('employees/exterior/pricing/index.html')
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_exterior.route('/employees/privacy')
-@employees_views_exterior.route('/employees/privacy/')
+@employees_views_exterior.route('/privacy')
+@employees_views_exterior.route('/privacy/')
 def employees_privacy_function():
   return render_template('employees/exterior/privacy/index.html')
 # ------------------------ individual route end ------------------------
@@ -129,7 +129,7 @@ def employees_example_page_function(url_redirect_code=None, url_question_number=
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_exterior.route('/employees/reset', methods=['GET', 'POST'])
+@employees_views_exterior.route('/reset', methods=['GET', 'POST'])
 def employees_forgot_password_page_function():
   forgot_password_error_statement = ''
   if request.method == 'POST':
@@ -149,7 +149,7 @@ def employees_forgot_password_page_function():
       serializer_token_obj = UserObj.get_reset_token_function(self=user_exists)
       output_email = ui_email
       output_subject_line = 'Password Reset - Triviafy'
-      output_message_content = f"To reset your password, visit the following link: https://triviafy.com/employees/reset/{serializer_token_obj} \n\nThis link will expire after 30 minutes.\nIf you did not make this request then simply ignore this email and no changes will be made."
+      output_message_content = f"To reset your password, visit the following link: https://triviafy.com/reset/{serializer_token_obj} \n\nThis link will expire after 30 minutes.\nIf you did not make this request then simply ignore this email and no changes will be made."
       send_email_template_function(output_email, output_subject_line, output_message_content)
       # ------------------------ send email with token url end ------------------------
     else:
@@ -160,7 +160,7 @@ def employees_forgot_password_page_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_exterior.route('/employees/reset/<token>', methods=['GET', 'POST'])
+@employees_views_exterior.route('/reset/<token>', methods=['GET', 'POST'])
 def employees_reset_forgot_password_page_function(token):
   reset_password_error_statement = ''
   user_obj_from_token = UserObj.verify_reset_token_function(token)

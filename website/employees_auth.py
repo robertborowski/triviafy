@@ -32,9 +32,9 @@ redis_connection = redis_connect_to_database_function()
 # ------------------------ connect to redis end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_auth.route('/employees/signup', methods=['GET', 'POST'])
-@employees_auth.route('/employees/signup/', methods=['GET', 'POST'])
-@employees_auth.route('/employees/signup/<url_redirect_code>', methods=['GET', 'POST'])
+@employees_auth.route('/signup', methods=['GET', 'POST'])
+@employees_auth.route('/signup/', methods=['GET', 'POST'])
+@employees_auth.route('/signup/<url_redirect_code>', methods=['GET', 'POST'])
 def employees_signup_function(url_redirect_code=None):
   # ------------------------ redirect codes start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
@@ -136,9 +136,9 @@ def employees_signup_function(url_redirect_code=None):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_auth.route('/employees/login', methods=['GET', 'POST'])
-@employees_auth.route('/employees/login/', methods=['GET', 'POST'])
-@employees_auth.route('/employees/login/<url_redirect_code>', methods=['GET', 'POST'])
+@employees_auth.route('/login', methods=['GET', 'POST'])
+@employees_auth.route('/login/', methods=['GET', 'POST'])
+@employees_auth.route('/login/<url_redirect_code>', methods=['GET', 'POST'])
 def employees_login_page_function(url_redirect_code=None):
   # ------------------------ redirect codes start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
