@@ -36,8 +36,8 @@ def landing_page_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_exterior.route('/employees/about')
-@employees_views_exterior.route('/employees/about/')
+@employees_views_exterior.route('/about')
+@employees_views_exterior.route('/about/')
 def employees_about_function():
   return render_template('employees/exterior/about/index.html')
 # ------------------------ individual route end ------------------------
@@ -71,15 +71,15 @@ def terms_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_exterior.route('/employees/blog', methods=['GET', 'POST'])
-@employees_views_exterior.route('/employees/blog/', methods=['GET', 'POST'])
+@employees_views_exterior.route('/blog', methods=['GET', 'POST'])
+@employees_views_exterior.route('/blog/', methods=['GET', 'POST'])
 def employees_blog_page_function():
   return render_template('employees/exterior/blog/index.html')
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_exterior.route('/employees/blog/<i_blog_post_number>', methods=['GET', 'POST'])
-@employees_views_exterior.route('/employees/blog/<i_blog_post_number>/', methods=['GET', 'POST'])
+@employees_views_exterior.route('/blog/<i_blog_post_number>', methods=['GET', 'POST'])
+@employees_views_exterior.route('/blog/<i_blog_post_number>/', methods=['GET', 'POST'])
 def employees_i_blog_page_function(i_blog_post_number='0001'):
   current_blog_post_num = i_blog_post_number
   current_blog_post_num_full_string = f'employees/exterior/blog/i_blog/i_{current_blog_post_num}.html'
