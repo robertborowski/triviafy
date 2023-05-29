@@ -724,9 +724,9 @@ def activity_archive_function(url_redirect_code=None):
   # ------------------------ page dict end ------------------------
   # ------------------------ pull all tests for group start ------------------------
   all_tests_obj_arr = []
-  db_tests_a_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id).order_by(ActivityATestObj.created_timestamp.desc()).all()
+  db_tests_a_obj = ActivityATestObj.query.filter_by(fk_group_id=current_user.group_id,status='Closed').order_by(ActivityATestObj.created_timestamp.desc()).all()
   all_tests_obj_arr.append(db_tests_a_obj)
-  db_tests_b_obj = ActivityBTestObj.query.filter_by(fk_group_id=current_user.group_id).order_by(ActivityBTestObj.created_timestamp.desc()).all()
+  db_tests_b_obj = ActivityBTestObj.query.filter_by(fk_group_id=current_user.group_id,status='Closed').order_by(ActivityBTestObj.created_timestamp.desc()).all()
   all_tests_obj_arr.append(db_tests_b_obj)
   # ------------------------ pull all tests for group end ------------------------
   # ------------------------ turn sql obj into arr of dicts start ------------------------
