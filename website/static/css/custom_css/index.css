@@ -428,6 +428,9 @@
 .custom-header-25 {
   font-size: 25px;
 }
+.custom-header-30 {
+  font-size: 30px;
+}
 .custom-header-40 {
   font-size: 40px;
 }
@@ -1421,6 +1424,12 @@
 .custom-width-21 {
   width: 300px;
   max-width: 90%;
+}
+.custom-width-50 {
+  width: 50%;
+}
+.custom-width-75 {
+  width: 75%;
 }
 .custom-width-95 {
   width: 95%;
