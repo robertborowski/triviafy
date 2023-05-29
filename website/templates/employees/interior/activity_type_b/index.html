@@ -20,7 +20,7 @@
     <div class="container mx-auto custom-pb-2">
       <div class="text-center">
         <h2 class="custom-color-white">{{ page_dict_to_html['url_activity_code']|capitalize|replace("_"," ") }}</h2>
-        <p class="custom-header-15 fst-italic custom-mt-2 custom-ml-2 custom-color-white-opacity-75">Activity ends {{ page_dict_to_html['latest_test_end_str'] }} | <a href="/activity/settings/{{ page_dict_to_html['url_activity_type'] }}/{{ page_dict_to_html['url_activity_code'] }}" class="custom-a-5">Change settings here</a></p>
+        <p class="custom-header-15 fst-italic custom-mt-2 custom-ml-2 custom-color-white-opacity-75">Activity ends {{ page_dict_to_html['current_test_end_str'] }} | <a href="/activity/settings/{{ page_dict_to_html['url_activity_type'] }}/{{ page_dict_to_html['url_activity_code'] }}" class="custom-a-5">Change settings here</a></p>
       </div>
     </div>
     <!-- ------------------------------------- title end ------------------------------------- -->
@@ -36,7 +36,7 @@
           {% if page_dict_to_html['users_latest_response'] != none %}
             <div class="custom-p-25 custom-border-white custom-br-1 custom-mt-100 custom-mb-100">
               <div class="text-center">
-                <h2 class="custom-color-white" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Activity ends {{ page_dict_to_html['latest_test_end_str'] }}">Your response</h2>
+                <h2 class="custom-color-white" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Activity ends {{ page_dict_to_html['current_test_end_str'] }}">Your response</h2>
               </div>
               <span class="btn btn-success custom-width-100 custom-tal custom-header-25 custom-p-25"><i class="fa-solid fa-check"></i> "{{ page_dict_to_html['users_latest_response'] }}"</span>
             </div>

@@ -110,7 +110,7 @@ def activity_live_function(page_dict, current_user, url_test_id, url_question_nu
   # ------------------------ first user first quiz delete logic start ------------------------
   db_tests_obj = pull_latest_activity_test_obj_function(current_user, url_activity_code, url_activity_type)
   page_dict['first_user_latest_quiz_can_replace'] = first_user_latest_quiz_check_function(current_user, db_tests_obj, url_activity_code, url_activity_type)
-  page_dict['latest_test_end_str'] = construct_time_presentation_function(db_tests_obj, 'end', 'v1')
+  page_dict['current_test_end_str'] = construct_time_presentation_function(db_tests_obj, 'end', 'v1')
   if url_test_id == 'fufq_remove':
     if page_dict['first_user_latest_quiz_can_replace'] == True:
       if url_activity_type == 'activity_type_a':
@@ -246,6 +246,7 @@ def activity_live_function(page_dict, current_user, url_test_id, url_question_nu
   try:
     if db_tests_obj.status == 'Closed':
       page_dict['view_as_archive'] = True
+      page_dict['current_test_end_str'] = construct_time_presentation_function(db_tests_obj, 'end', 'v1')
       # ------------------------ get teammate answers activity_type_a start ------------------------
       if url_activity_type == 'activity_type_a':
         teammate_answers_tuple = []
