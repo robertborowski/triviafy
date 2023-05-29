@@ -327,4 +327,13 @@ class UserBirthdayObj(db.Model):
   birth_month = db.Column(db.Integer)
   birth_day = db.Column(db.Integer)
 # ------------------------ individual model end ------------------------
+
+# ------------------------ individual model start ------------------------
+class BlogObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  title = db.Column(db.String(150))
+  details = db.Column(db.String(150))
+  aws_image_url = db.Column(db.String(150))
+# ------------------------ individual model end ------------------------
 # ------------------------ employees models end ------------------------

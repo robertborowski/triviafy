@@ -9,6 +9,7 @@ localhost_print_function(' ------------- 0 ------------- ')
 
 NEXT STEPS
 - Blog page, consistent blog posts tagged "written by Triviafy chat gpt / Written by Triviafy bard."
+- Add Examples to website exterior [Trivia + picture quiz + icebreakers] sample should always be the latest 5 created so that the website stays "fresh."
 - Activity Type c games
 - Activity Tyle d games
 - Activity: Email [Motivational Quote/any day of the week any amount of times, word of the day and the words should be motivational and encouraging (activity d)]

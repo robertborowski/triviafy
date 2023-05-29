@@ -12,7 +12,7 @@ from backend.utils.localhost_print_utils.localhost_print import localhost_print_
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import current_user
 from website.backend.candidates.redis import redis_connect_to_database_function
-from website.models import ActivityACreatedQuestionsObj, ZDontDeleteTableObj, UserObj
+from website.models import ActivityACreatedQuestionsObj, ZDontDeleteTableObj, UserObj, BlogObj
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
 from website.backend.candidates.user_inputs import alert_message_default_function_v2, sanitize_email_function, sanitize_password_function
 from website.backend.candidates.send_emails import send_email_template_function
@@ -74,14 +74,23 @@ def terms_function():
 @employees_views_exterior.route('/blog', methods=['GET', 'POST'])
 @employees_views_exterior.route('/blog/', methods=['GET', 'POST'])
 def employees_blog_page_function():
-  return render_template('employees/exterior/blog/index.html')
+  page_dict = {}
+  master_arr_of_dicts = []
+  blog_obj = BlogObj.query.order_by(BlogObj.created_timestamp.desc()).all()
+  for i_obj in blog_obj:
+    i_dict = arr_of_dict_all_columns_single_item_function(i_obj)
+    i_dict['title'] = i_dict['title'][:50] + '...'
+    i_dict['details'] = i_dict['details'][:100] + '...'
+    master_arr_of_dicts.append(i_dict)
+  page_dict['master_arr_of_dicts'] = master_arr_of_dicts
+  return render_template('employees/exterior/blog/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_exterior.route('/blog/<i_blog_post_number>', methods=['GET', 'POST'])
-@employees_views_exterior.route('/blog/<i_blog_post_number>/', methods=['GET', 'POST'])
-def employees_i_blog_page_function(i_blog_post_number='0001'):
-  current_blog_post_num = i_blog_post_number
+@employees_views_exterior.route('/blog/<i_blog_post_id>', methods=['GET', 'POST'])
+@employees_views_exterior.route('/blog/<i_blog_post_id>/', methods=['GET', 'POST'])
+def employees_i_blog_page_function(i_blog_post_id=None):
+  current_blog_post_num = i_blog_post_id
   current_blog_post_num_full_string = f'employees/exterior/blog/i_blog/i_{current_blog_post_num}.html'
   return render_template(current_blog_post_num_full_string)
 # ------------------------ individual route end ------------------------
