@@ -1477,7 +1477,7 @@ def employees_preview_question_function(url_redirect_code=None, url_question_id=
         except:
           pass
       # ------------------------ email self end ------------------------
-    return redirect(url_for('employees_views_interior.employees_questions_function'))
+    return redirect(url_for('employees_views_interior.employees_questions_function', url_activity_type='activity_type_a'))
   localhost_print_function(' ------------------------ employees_preview_question_function END ------------------------ ')
   return render_template('employees/interior/create_question/preview/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
