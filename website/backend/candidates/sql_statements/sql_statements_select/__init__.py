@@ -205,6 +205,45 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
     'select_question_id_actually_exists_v2': {
       'raw_query': "SELECT id FROM activity_a_created_questions_obj WHERE id=:val;",
       'input_args': {'val': additional_input}
+    },
+    'select_sample_trivia': {
+      'raw_query': f"SELECT \
+                      * \
+                    FROM \
+                      activity_a_created_questions_obj \
+                    WHERE \
+                      status = TRUE \
+                      AND product='trivia' \
+                    ORDER BY \
+                      created_timestamp DESC \
+                    LIMIT 5;",
+      'input_args': {}
+    },
+    'select_sample_picture_quiz': {
+      'raw_query': f"SELECT \
+                      * \
+                    FROM \
+                      activity_a_created_questions_obj \
+                    WHERE \
+                      status = TRUE \
+                      AND product LIKE '%picture_quiz%' \
+                    ORDER BY \
+                      created_timestamp DESC \
+                    LIMIT 5;",
+      'input_args': {}
+    },
+    'select_sample_icebreakers': {
+      'raw_query': f"SELECT \
+                      * \
+                    FROM \
+                      activity_b_created_questions_obj \
+                    WHERE \
+                      status = TRUE \
+                      AND product LIKE '%icebreakers%' \
+                    ORDER BY \
+                      RANDOM() \
+                    LIMIT 1;",
+      'input_args': {}
     }
   }
   # ------------------------ select queries end ------------------------

@@ -18,6 +18,7 @@ from website.backend.candidates.user_inputs import alert_message_default_functio
 from website.backend.candidates.send_emails import send_email_template_function
 from website import db
 from werkzeug.security import generate_password_hash
+from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -142,6 +143,64 @@ def employees_example_page_function(url_redirect_code=None, url_question_number=
     contains_img = True
   # ------------------------ check if contains img end ------------------------
   return render_template('employees/exterior/example_test/index.html', db_question_obj_to_html=db_question_obj, previous_question_number_to_html=previous_question_number, current_question_number_to_html=current_question_number, next_question_number_to_html=next_question_number, alert_message_dict_to_html=alert_message_dict, contains_img_to_html=contains_img)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@employees_views_exterior.route('/example/<url_activity_type>', methods=['GET', 'POST'])
+@employees_views_exterior.route('/example/<url_activity_type>/<url_activity_code>', methods=['GET', 'POST'])
+@employees_views_exterior.route('/example/<url_activity_type>/<url_activity_code>/', methods=['GET', 'POST'])
+@employees_views_exterior.route('/example/<url_activity_type>/<url_activity_code>/<url_question_number>', methods=['GET', 'POST'])
+@employees_views_exterior.route('/example/<url_activity_type>/<url_activity_code>/<url_question_number>/', methods=['GET', 'POST'])
+def employees_example_function(url_redirect_code=None, url_activity_type=None, url_activity_code=None, url_question_number=None):
+  # ------------------------ redirect codes start ------------------------
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ redirect codes end ------------------------
+  # ------------------------ url variables start ------------------------
+  if url_question_number == None:
+    url_question_number = '1'
+  if url_activity_type == None or url_activity_code == None:
+    return redirect(url_for('employees_views_exterior.landing_page_function'))
+  # ------------------------ url variables end ------------------------
+  # ------------------------ assign variables start ------------------------
+  page_dict['url_activity_type'] = url_activity_type
+  page_dict['url_activity_code'] = url_activity_code
+  page_dict['url_question_number'] = url_question_number
+  # ------------------------ assign variables end ------------------------
+  # ------------------------ pull activity examples start ------------------------
+  result_arr_of_dicts = None
+  if url_activity_type == 'activity_type_a':
+    if url_activity_code == 'trivia':
+      result_arr_of_dicts = select_general_function('select_sample_trivia')
+    elif url_activity_code == 'picture_quiz':
+      result_arr_of_dicts = select_general_function('select_sample_picture_quiz')
+  if url_activity_type == 'activity_type_b':
+    if url_activity_code == 'icebreakers':
+      result_arr_of_dicts = select_general_function('select_sample_icebreakers')
+  page_dict['result_arr_of_dicts'] = result_arr_of_dicts
+  page_dict['test_total_questions'] = len(result_arr_of_dicts)
+  page_dict['test_total_questions_arr'] = ['1','2','3','4','5']
+  # ------------------------ pull activity examples end ------------------------
+  # ------------------------ previous next current start ------------------------
+  page_dict['previous_question_number'] = str(int(url_question_number) - 1)
+  page_dict['current_question_number'] = str(url_question_number)
+  page_dict['next_question_number'] = str(int(url_question_number) + 1)
+  if int(url_question_number) == len(result_arr_of_dicts):
+    page_dict['next_question_number'] = 'submit'
+  # ------------------------ previous next current end ------------------------
+  # ------------------------ current question details start ------------------------
+  page_dict['db_question_dict'] = result_arr_of_dicts[int(url_question_number)-1]
+  page_dict['db_question_dict']['categories'] = categories_tuple_function(page_dict['db_question_dict']['categories'])
+  page_dict['db_question_dict']['desired_question_type'] = 'Multiple choice'
+  # ------------------------ current question details end ------------------------
+  localhost_print_function(' ------------- 100-example start ------------- ')
+  page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
+  for k,v in page_dict.items():
+    localhost_print_function(f"k: {k} | v: {v}")
+    pass
+  localhost_print_function(' ------------- 100-example end ------------- ')
+  return render_template('employees/exterior/example_test/activity_type_a/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
