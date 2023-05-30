@@ -90,8 +90,15 @@ def employees_blog_page_function():
 @employees_views_exterior.route('/blog/<i_blog_post_id>', methods=['GET', 'POST'])
 @employees_views_exterior.route('/blog/<i_blog_post_id>/', methods=['GET', 'POST'])
 def employees_i_blog_page_function(i_blog_post_id=None):
-  current_blog_post_num = i_blog_post_id
-  current_blog_post_num_full_string = f'employees/exterior/blog/blogs_by_id/{current_blog_post_num}.html'
+  if i_blog_post_id == None or i_blog_post_id == '':
+    return redirect(url_for('employees_views_exterior.employees_blog_page_function'))
+  try:
+    blog_obj = BlogObj.query.filter_by(id=i_blog_post_id).first()
+    if blog_obj == None or blog_obj == '':
+      return redirect(url_for('employees_views_exterior.employees_blog_page_function'))
+  except:
+    return redirect(url_for('employees_views_exterior.employees_blog_page_function'))
+  current_blog_post_num_full_string = f'employees/exterior/blog/blogs_by_id/{i_blog_post_id}.html'
   return render_template(current_blog_post_num_full_string)
 # ------------------------ individual route end ------------------------
 
