@@ -312,6 +312,7 @@ class UserCelebrateObj(db.Model):
   event = db.Column(db.String(150))
   celebrate_month = db.Column(db.Integer)
   celebrate_day = db.Column(db.Integer)
+  celebrate_year = db.Column(db.Integer)
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------

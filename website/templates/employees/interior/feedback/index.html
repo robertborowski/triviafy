@@ -50,6 +50,8 @@
           <h2 class="custom-color-white">Which activity are you 2nd most excited about?</h2>
         {% elif page_dict_to_html['feedback_request'] == 'birthday' %}
           <h2 class="custom-color-white">Colleague birthday trivia is a fan favorite! &#129395; &#127881;</h2>
+        {% elif page_dict_to_html['feedback_request'] == 'job_start_date' %}
+          <h2 class="custom-color-white">Feel appreciated on your start date anniversary.</h2>
         {% elif page_dict_to_html['feedback_request'] == 'marketing' %}
           <h2 class="custom-color-white">Finally, how did you hear about triviafy?</h2>
         {% endif %}
@@ -102,24 +104,28 @@
       </form>
       <!-- ------------------------------------- section - primary and secondary selection end ------------------------------------- -->
     
-    {% elif page_dict_to_html['feedback_request'] == 'birthday' %}
-      <!-- ------------------------------------- section - birthday start ------------------------------------- -->
+    {% elif page_dict_to_html['feedback_request'] == 'birthday' or page_dict_to_html['feedback_request'] == 'job_start_date' %}
+      <!-- ------------------------------------- section - year month start ------------------------------------- -->
       <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
         <div class="mx-auto custom-width-1 custom-pb-3">
-          <p class="custom-m-0 custom-color-white custom-opacity-2 custom-header-5"><span class="custom-ml-4">On</span> your birthday, we will automatically generate a personalized trivia question based on your answer below. The question will be sent via email to your colleagues, and they can submit their answers towards your team's leaderboard. Good luck!</p>
+          {% if page_dict_to_html['url_feedback_code'] == 'birthday' %}
+            <p class="custom-m-0 custom-color-white custom-opacity-2 custom-header-5"><span class="custom-ml-4">On</span> your birthday, we will automatically generate a personalized trivia question based on your answer below. The question will be sent via email to your colleagues, and they can submit their answers towards your team's leaderboard. Good luck!</p>
+          {% elif page_dict_to_html['url_feedback_code'] == 'job_start_date' %}
+            <p class="custom-m-0 custom-color-white custom-opacity-2 custom-header-5"><span class="custom-ml-4">On</span> your anniversary, we will automatically generate a personalized trivia question based on your answer below. The question will be sent via email to your colleagues, and they can submit their answers towards your team's leaderboard. Good luck!</p>
+          {% endif %}
         </div>
         <div class="mx-auto custom-width-1">
           <!-- ------------------------------------- dropdown question start ------------------------------------- -->
           <div class="dropdown custom-pb-2">
             <span class="custom-color-white custom-header-4 custom-mr-1">What is your favorite </span>
-            <button class="btn btn-warning dropdown-toggle custom-tal" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="id-birthday-question">
+            <button class="btn btn-warning dropdown-toggle custom-tal" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="id-year-month-question">
               __________ ?
             </button>
             <ul class="dropdown-menu">
               {% for i in page_dict_to_html['favorite_questions_arr_index'] %}
                 <li>
-                  <input type="radio" class="btn-check" id="ui_birthday_question_{{ i }}" name="ui_birthday_question" autocomplete="off" value="{{ page_dict_to_html['favorite_questions_arr'][i] }}" onclick="previewFavoriteSelection(this)" required>
-                  <label class="dropdown-item" for="ui_birthday_question_{{ i }}">{{ page_dict_to_html['favorite_questions_arr'][i] }}</label>
+                  <input type="radio" class="btn-check" id="ui_year_month_question_{{ i }}" name="ui_year_month_question" autocomplete="off" value="{{ page_dict_to_html['favorite_questions_arr'][i] }}" onclick="previewFavoriteSelection(this)" required>
+                  <label class="dropdown-item" for="ui_year_month_question_{{ i }}">{{ page_dict_to_html['favorite_questions_arr'][i] }}</label>
                 </li>
               {% endfor %}
             </ul>
@@ -128,27 +134,31 @@
           <!-- ------------------------------------- answer start ------------------------------------- -->
           <div class="custom-pb-3">
             <div class="form-floating">
-              <textarea class="form-control" id="ui_birthday_answer" name="ui_birthday_answer" placeholder="Your answer" onkeyup="CountCharsBirthdayAnswer(this);" pattern="{1,100}" required></textarea>
-              <label for="ui_birthday_answer">Your answer</label>
-              <p id="id-countCharsBirthdayAnswer" class="custom-size-3 custom-color-light-1 fst-italic custom-mt-2 custom-ml-2"></p>
+              <textarea class="form-control" id="ui_year_month_answer" name="ui_year_month_answer" placeholder="Your answer" onkeyup="CountCharsYearMonthAnswer(this);" pattern="{1,100}" required></textarea>
+              <label for="ui_year_month_answer">Your answer</label>
+              <p id="id-countCharsYearMonthAnswer" class="custom-size-3 custom-color-light-1 fst-italic custom-mt-2 custom-ml-2"></p>
             </div>
           </div>
           <!-- ------------------------------------- answer end ------------------------------------- -->
-          <!-- ------------------------------------- birthday start ------------------------------------- -->
+          <!-- ------------------------------------- dropdown start ------------------------------------- -->
           <div class="text-center custom-pb-6">
-            <p class="custom-m-0 custom-color-white custom-opacity-2 custom-header-5">Select your birthday month + day. Your age is your privacy. <i class="fa-solid fa-lock"></i></p>
+            {% if page_dict_to_html['url_feedback_code'] == 'birthday' %}
+              <p class="custom-m-0 custom-color-white custom-opacity-2 custom-header-5">Select your <span class="custom-underline-1 custom-header-20">{{ page_dict_to_html['url_feedback_code']|replace("_"," ") }}</span> month + day. Your age is your privacy. <i class="fa-solid fa-lock"></i></p>
+            {% elif page_dict_to_html['url_feedback_code'] == 'job_start_date' %}
+              <p class="custom-m-0 custom-color-white custom-opacity-2 custom-header-5">Select your <span class="custom-underline-1 custom-header-20">{{ page_dict_to_html['url_feedback_code']|replace("_"," ") }}</span> month + day.</p>
+            {% endif %}
           </div>
           <div class="custom-display-flex custom-fw-1 custom-jc-1 custom-pb-3">
             <!-- ------------------------------------- month dropdown start ------------------------------------- -->
             <div class="dropdown custom-pb-2">
-              <button class="btn btn-warning dropdown-toggle custom-tal custom-ptb-8" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="id-birthday-month">
+              <button class="btn btn-warning dropdown-toggle custom-tal custom-ptb-8" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="id-month-only">
                 Month
               </button>
               <ul class="dropdown-menu custom-width-6">
                 {% for i in page_dict_to_html['months_arr'] %}
                   <li>
-                    <input type="radio" class="btn-check" id="ui_birthday_month_{{ i }}" name="ui_birthday_month" autocomplete="off" value="{{ i }}" onclick="previewBirthdayMonthSelection(this)" required>
-                    <label class="dropdown-item" for="ui_birthday_month_{{ i }}">{{ i }}</label>
+                    <input type="radio" class="btn-check" id="ui_month_only_{{ i }}" name="ui_month_only" autocomplete="off" value="{{ i }}" onclick="previewMonthOnlySelection(this)" required>
+                    <label class="dropdown-item" for="ui_month_only_{{ i }}">{{ i }}</label>
                   </li>
                 {% endfor %}
               </ul>
@@ -159,14 +169,14 @@
             <!-- ------------------------------------- month dropdown end ------------------------------------- -->
             <!-- ------------------------------------- day dropdown start ------------------------------------- -->
             <div class="dropdown custom-pb-2">
-              <button class="btn btn-warning dropdown-toggle custom-tal custom-ptb-8" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="id-birthday-day">
+              <button class="btn btn-warning dropdown-toggle custom-tal custom-ptb-8" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="id-day-only">
                 Day
               </button>
               <ul class="dropdown-menu custom-width-6">
                 {% for i in page_dict_to_html['days_arr'] %}
                   <li>
-                    <input type="radio" class="btn-check" id="ui_birthday_day_{{ i }}" name="ui_birthday_day" autocomplete="off" value="{{ i }}" onclick="previewBirthdayDaySelection(this)" required>
-                    <label class="dropdown-item" for="ui_birthday_day_{{ i }}">{{ i }}</label>
+                    <input type="radio" class="btn-check" id="ui_day_only_{{ i }}" name="ui_day_only" autocomplete="off" value="{{ i }}" onclick="previewDayOnlySelection(this)" required>
+                    <label class="dropdown-item" for="ui_day_only_{{ i }}">{{ i }}</label>
                   </li>
                 {% endfor %}
               </ul>
@@ -181,16 +191,20 @@
             </div>
             <!-- ------------------------------------- year blurred end ------------------------------------- -->
           </div>
-          <!-- ------------------------------------- birthday end ------------------------------------- -->
+          <!-- ------------------------------------- dropdown end ------------------------------------- -->
           <div class="mx-auto custom-width-1">
             <button type="submit" class="btn btn-lg btn-success custom-width-6 custom-ptb-8 custom-br-1">Continue <i class="fa-solid fa-arrow-right"></i></button>
             <div class="text-center custom-mt-3">
-              <a href="/employees/feedback/birthday/skip" class="custom-a-5 custom-opacity-2">Skip, I am boring.</a>
+              {% if page_dict_to_html['url_feedback_code'] == 'birthday' %}
+                <a href="/employees/feedback/{{ page_dict_to_html['url_feedback_code'] }}/skip" class="custom-a-5 custom-opacity-2">Skip, I am boring.</a>
+              {% elif page_dict_to_html['url_feedback_code'] == 'job_start_date' %}
+                <a href="/employees/feedback/{{ page_dict_to_html['url_feedback_code'] }}/skip" class="custom-a-5 custom-opacity-2">Skip, I don't want to be appreciated.</a>
+              {% endif %}
             </div>
           </div>
         </div>
       </form>
-      <!-- ------------------------------------- section - birthday end ------------------------------------- -->
+      <!-- ------------------------------------- section - year month end ------------------------------------- -->
     {% elif page_dict_to_html['feedback_request'] == 'marketing' %}
       <!-- ------------------------------------- section - marketing start ------------------------------------- -->
       <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">

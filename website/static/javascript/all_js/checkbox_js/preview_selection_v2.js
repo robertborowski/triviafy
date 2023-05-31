@@ -1,24 +1,24 @@
 // ----------------------- start -----------------------
 function previewFavoriteSelection(obj){
-  if ($('input[name=ui_birthday_question]:checked').length > 0) {
-    var q = document.getElementById('id-birthday-question');
-    if (q) q.innerHTML = document.querySelector('input[name=ui_birthday_question]:checked').value;
+  if ($('input[name=ui_year_month_question]:checked').length > 0) {
+    var q = document.getElementById('id-year-month-question');
+    if (q) q.innerHTML = document.querySelector('input[name=ui_year_month_question]:checked').value;
   }
 }
 // ----------------------- end -----------------------
 // ----------------------- start -----------------------
-function previewBirthdayMonthSelection(obj){
-  if ($('input[name=ui_birthday_month]:checked').length > 0) {
-    var q = document.getElementById('id-birthday-month');
-    if (q) q.innerHTML = document.querySelector('input[name=ui_birthday_month]:checked').value;
+function previewMonthOnlySelection(obj){
+  if ($('input[name=ui_month_only]:checked').length > 0) {
+    var q = document.getElementById('id-month-only');
+    if (q) q.innerHTML = document.querySelector('input[name=ui_month_only]:checked').value;
   }
 }
 // ----------------------- end -----------------------
 // ----------------------- start -----------------------
-function previewBirthdayDaySelection(obj){
-  if ($('input[name=ui_birthday_day]:checked').length > 0) {
-    var q = document.getElementById('id-birthday-day');
-    if (q) q.innerHTML = document.querySelector('input[name=ui_birthday_day]:checked').value;
+function previewDayOnlySelection(obj){
+  if ($('input[name=ui_day_only]:checked').length > 0) {
+    var q = document.getElementById('id-day-only');
+    if (q) q.innerHTML = document.querySelector('input[name=ui_day_only]:checked').value;
   }
 }
 // ----------------------- end -----------------------

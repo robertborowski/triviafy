@@ -74,7 +74,9 @@ def login_dashboard_page_function(url_redirect_code=None):
   if onbaording_status == 'secondary':
     return redirect(url_for('employees_views_interior.employees_feedback_secondary_function'))
   if onbaording_status == 'birthday':
-    return redirect(url_for('employees_views_interior.employees_feedback_birthday_function'))
+    return redirect(url_for('employees_views_interior.employees_feedback_year_month_function', url_feedback_code='birthday'))
+  if onbaording_status == 'job_start_date':
+    return redirect(url_for('employees_views_interior.employees_feedback_year_month_function', url_feedback_code='job_start_date'))
   if onbaording_status == 'marketing':
     return redirect(url_for('employees_views_interior.employees_feedback_marketing_function'))
   # ------------------------ onboarding checks end ------------------------
@@ -1587,15 +1589,18 @@ def employees_feedback_secondary_function(url_redirect_code=None, value_to_remov
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_interior.route('/employees/feedback/birthday', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/feedback/birthday/', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/feedback/birthday/<url_redirect_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/feedback/<url_feedback_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/feedback/<url_feedback_code>/', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/feedback/<url_feedback_code>/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
-def employees_feedback_birthday_function(url_redirect_code=None):
-  localhost_print_function(' ------------------------ employees_feedback_birthday_function START ------------------------ ')
+def employees_feedback_year_month_function(url_redirect_code=None, url_feedback_code=None):
   # ------------------------ check if already answered start ------------------------
-  feedback_birthday_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='birthday_choice').first()
-  if feedback_birthday_obj != None and feedback_birthday_obj != []:
+  feedback_obj = None
+  try:
+    feedback_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question=url_feedback_code).first()
+    if feedback_obj != None and feedback_obj != []:
+      return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+  except:
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ check if already answered end ------------------------
   # ------------------------ page dict start ------------------------
@@ -1603,9 +1608,18 @@ def employees_feedback_birthday_function(url_redirect_code=None):
   page_dict = {}
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
+  # ------------------------ variables start ------------------------
+  page_dict['url_feedback_code'] = url_feedback_code
+  # ------------------------ variables end ------------------------
   # ------------------------ set variables start ------------------------
-  page_dict['feedback_step'] = '3'
-  page_dict['feedback_request'] = 'birthday'
+  page_dict['feedback_step'] = None
+  page_dict['feedback_request'] = None
+  if url_feedback_code == 'birthday':
+    page_dict['feedback_step'] = '3'
+    page_dict['feedback_request'] = 'birthday'
+  if url_feedback_code == 'job_start_date':
+    page_dict['feedback_step'] = '4'
+    page_dict['feedback_request'] = 'job_start_date'
   # ------------------------ set variables end ------------------------
   # ------------------------ get questions start ------------------------
   favorite_questions_arr, favorite_questions_arr_index = get_favorite_questions_function()
@@ -1620,29 +1634,29 @@ def employees_feedback_birthday_function(url_redirect_code=None):
   # ------------------------ submission start ------------------------
   if request.method == 'POST':
     # ------------------------ get user inputs start ------------------------
-    ui_birthday_question = request.form.get('ui_birthday_question')
-    ui_birthday_answer = request.form.get('ui_birthday_answer')
-    ui_birthday_month = request.form.get('ui_birthday_month')
-    ui_birthday_day = request.form.get('ui_birthday_day')
+    ui_year_month_question = request.form.get('ui_year_month_question')
+    ui_year_month_answer = request.form.get('ui_year_month_answer')
+    ui_month_only = request.form.get('ui_month_only')
+    ui_day_only = request.form.get('ui_day_only')
     # ------------------------ get user inputs end ------------------------
     # ------------------------ sanatize inputs start ------------------------
     # question
-    if ui_birthday_question not in favorite_questions_arr:
-      return redirect(url_for('employees_views_interior.employees_feedback_birthday_function', url_redirect_code='e17'))
+    if ui_year_month_question not in favorite_questions_arr:
+      return redirect(url_for('employees_views_interior.employees_feedback_year_month_function', url_redirect_code='e17', url_feedback_code=url_feedback_code))
     # answer
-    if len(ui_birthday_answer) == 0 or len(ui_birthday_answer) > 100:
-      return redirect(url_for('employees_views_interior.employees_feedback_birthday_function', url_redirect_code='e19'))
+    if len(ui_year_month_answer) == 0 or len(ui_year_month_answer) > 100:
+      return redirect(url_for('employees_views_interior.employees_feedback_year_month_function', url_redirect_code='e19', url_feedback_code=url_feedback_code))
     special_characters_arr = get_special_characters_function()
-    for i in ui_birthday_answer:
+    for i in ui_year_month_answer:
       if i in special_characters_arr:
-        return redirect(url_for('employees_views_interior.employees_feedback_birthday_function', url_redirect_code='e18'))
+        return redirect(url_for('employees_views_interior.employees_feedback_year_month_function', url_redirect_code='e18', url_feedback_code=url_feedback_code))
     # birth month
-    if int(ui_birthday_month) not in months_arr:
-      return redirect(url_for('employees_views_interior.employees_feedback_birthday_function', url_redirect_code='e20'))
+    if int(ui_month_only) not in months_arr:
+      return redirect(url_for('employees_views_interior.employees_feedback_year_month_function', url_redirect_code='e20', url_feedback_code=url_feedback_code))
     # birth day
-    allowed_days_arr = month_day_dict[str(ui_birthday_month)]
-    if int(ui_birthday_day) not in allowed_days_arr:
-      return redirect(url_for('employees_views_interior.employees_feedback_birthday_function', url_redirect_code='e21'))
+    allowed_days_arr = month_day_dict[str(ui_month_only)]
+    if int(ui_day_only) not in allowed_days_arr:
+      return redirect(url_for('employees_views_interior.employees_feedback_year_month_function', url_redirect_code='e21', url_feedback_code=url_feedback_code))
     # ------------------------ sanatize inputs end ------------------------
     try:
       new_birthday_row_id = create_uuid_function('celebrate_')
@@ -1651,11 +1665,11 @@ def employees_feedback_birthday_function(url_redirect_code=None):
         id = new_birthday_row_id,
         created_timestamp = create_timestamp_function(),
         fk_user_id = current_user.id,
-        question = ui_birthday_question,
-        answer = ui_birthday_answer,
-        event = 'birthday',
-        celebrate_month = int(ui_birthday_month),
-        celebrate_day = int(ui_birthday_day)
+        question = ui_year_month_question,
+        answer = ui_year_month_answer,
+        event = url_feedback_code,
+        celebrate_month = int(ui_month_only),
+        celebrate_day = int(ui_day_only)
       )
       db.session.add(new_row)
       db.session.commit()
@@ -1667,7 +1681,7 @@ def employees_feedback_birthday_function(url_redirect_code=None):
           created_timestamp = create_timestamp_function(),
           fk_user_id = current_user.id,
           fk_email = current_user.email,
-          question = 'birthday_choice',
+          question = url_feedback_code + '_choice',
           response = new_birthday_row_id
         )
         db.session.add(new_row)
@@ -1679,7 +1693,12 @@ def employees_feedback_birthday_function(url_redirect_code=None):
       pass
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ submission end ------------------------
-  localhost_print_function(' ------------------------ employees_feedback_birthday_function END ------------------------ ')
+  localhost_print_function(' ------------- 100-feedback input dates start ------------- ')
+  page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
+  for k,v in page_dict.items():
+    localhost_print_function(f"k: {k} | v: {v}")
+    pass
+  localhost_print_function(' ------------- 100-feedback input dates end ------------- ')
   return render_template('employees/interior/feedback/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
 
@@ -1691,8 +1710,8 @@ def employees_feedback_birthday_function(url_redirect_code=None):
 def employees_feedback_birthday_skip_function(url_redirect_code=None):
   localhost_print_function(' ------------------------ employees_feedback_birthday_skip_function START ------------------------ ')
   # ------------------------ check if already answered start ------------------------
-  feedback_birthday_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='birthday_choice').first()
-  if feedback_birthday_obj != None and feedback_birthday_obj != []:
+  feedback_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='birthday_choice').first()
+  if feedback_obj != None and feedback_obj != []:
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ check if already answered end ------------------------
   # ------------------------ skip logic start ------------------------

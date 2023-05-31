@@ -25,6 +25,10 @@ def onboarding_checks_function(current_user):
   feedback_birthday_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='birthday_choice').first()
   if feedback_birthday_obj == None or feedback_birthday_obj == []:
     return 'birthday'
+  # job_start_date
+  feedback_birthday_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='job_start_date_choice').first()
+  if feedback_birthday_obj == None or feedback_birthday_obj == []:
+    return 'job_start_date'
   # how did you hear about triviafy?
   feedback_marketing_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='marketing_choice').first()
   if feedback_marketing_obj == None or feedback_marketing_obj == []:
