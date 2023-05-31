@@ -14,7 +14,7 @@ from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_f
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required, current_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
-from website.models import UserObj, ZDontDeleteTableObj, StripeCheckoutSessionObj, ActivityACreatedQuestionsObj
+from website.models import UserObj, StripeCheckoutSessionObj, ActivityACreatedQuestionsObj
 from website.backend.candidates.browser import browser_response_set_cookie_function, browser_response_set_cookie_function_v2
 from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
@@ -71,16 +71,14 @@ def login_dashboard_page_function(url_redirect_code=None):
       alert_message_type = 'danger'
   # ------------------------ redirect codes end ------------------------
   # ------------------------ delete test drafts start ------------------------
-  ZDontDeleteTableObj.query.filter_by(user_id_fk=current_user.id,status='draft').delete()
-  db.session.commit()
+  # db.session.commit()
   # ------------------------ delete test drafts end ------------------------
   # ------------------------ get users total assessments created start ------------------------
-  test_created_obj = ZDontDeleteTableObj.query.filter_by(user_id_fk=current_user.id).all()
-  len_test_created_obj = len(test_created_obj)
+  # len_test_created_obj = len(test_created_obj)
   # ------------------------ redirect new users to create assessment start ------------------------
-  if len_test_created_obj == 0:
-    localhost_print_function(' ------------------------ login_dashboard_page_function END ------------------------ ')
-    return redirect(url_for('candidates_views_interior.candidates_assessment_create_new_function', step_status='1'))
+  # if len_test_created_obj == 0:
+  #   localhost_print_function(' ------------------------ login_dashboard_page_function END ------------------------ ')
+  #   return redirect(url_for('candidates_views_interior.candidates_assessment_create_new_function', step_status='1'))
   # ------------------------ redirect new users to create assessment end ------------------------
   # ------------------------ auto set cookie start ------------------------
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
@@ -488,14 +486,12 @@ def candidates_assessments_dashboard_function(url_redirect_code=None):
       alert_message_type = 'success'
   # ------------------------ valid redirect start ------------------------
   # ------------------------ delete test drafts start ------------------------
-  ZDontDeleteTableObj.query.filter_by(user_id_fk=current_user.id,status='draft').delete()
-  db.session.commit()
+  # db.session.commit()
   # ------------------------ delete test drafts end ------------------------
   # ------------------------ get assessments start ------------------------
-  db_tests_obj = ZDontDeleteTableObj.query.filter_by(user_id_fk=current_user.id).order_by(ZDontDeleteTableObj.assessment_name).all()
-  if db_tests_obj == None:
-    localhost_print_function(' ------------------------ candidates_assessments_dashboard_function END ------------------------ ')
-    return redirect(url_for('candidates_views_interior.candidates_assessment_create_new_function', step_status='1'))
+  # if db_tests_obj == None:
+  #   localhost_print_function(' ------------------------ candidates_assessments_dashboard_function END ------------------------ ')
+  #   return redirect(url_for('candidates_views_interior.candidates_assessment_create_new_function', step_status='1'))
   # ------------------------ get assessments end ------------------------
   # ------------------------ pull necessary columns start ------------------------
   db_tests_obj = arr_of_dict_necessary_columns_function(db_tests_obj, ['id', 'assessment_name', 'total_questions'])

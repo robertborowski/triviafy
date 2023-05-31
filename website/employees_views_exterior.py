@@ -12,7 +12,7 @@ from backend.utils.localhost_print_utils.localhost_print import localhost_print_
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import current_user
 from website.backend.candidates.redis import redis_connect_to_database_function
-from website.models import ActivityACreatedQuestionsObj, ZDontDeleteTableObj, UserObj, BlogObj
+from website.models import ActivityACreatedQuestionsObj, UserObj, BlogObj
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
 from website.backend.candidates.user_inputs import alert_message_default_function_v2, sanitize_email_function, sanitize_password_function
 from website.backend.candidates.send_emails import send_email_template_function
@@ -104,48 +104,6 @@ def employees_i_blog_page_function(i_blog_post_id=None):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_exterior.route('/example', methods=['GET', 'POST'])
-@employees_views_exterior.route('/example/', methods=['GET', 'POST'])
-@employees_views_exterior.route('/example/<url_question_number>', methods=['GET', 'POST'])
-@employees_views_exterior.route('/example/<url_question_number>/', methods=['GET', 'POST'])
-def employees_example_page_function(url_redirect_code=None, url_question_number='1'):
-  # ------------------------ redirect codes start ------------------------
-  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
-  # ------------------------ redirect codes end ------------------------
-  # ------------------------ pull test start ------------------------
-  db_test_obj = ZDontDeleteTableObj.query.filter_by(id='employees_example_do_not_delete_01').first()
-  db_test_obj = arr_of_dict_all_columns_single_item_function(db_test_obj)
-  total_questions = int(db_test_obj['total_questions'])
-  try:
-    if int(url_question_number) < 1 or int(url_question_number) > total_questions:
-      return redirect(url_for('employees_views_exterior.employees_example_page_function', url_question_number='1'))
-  except:
-    return redirect(url_for('employees_views_exterior.employees_example_page_function', url_question_number='1'))
-  question_ids_str = db_test_obj['question_ids_arr']
-  question_ids_arr = question_ids_str.split(',')
-  desired_question_str = question_ids_arr[int(url_question_number)-1]
-  # ------------------------ pull test end ------------------------
-  # ------------------------ pull question start ------------------------
-  db_question_obj = ActivityACreatedQuestionsObj.query.filter_by(id=desired_question_str).first()
-  db_question_obj = arr_of_dict_all_columns_single_item_function(db_question_obj)
-  db_question_obj['categories'] = categories_tuple_function(db_question_obj['categories'])
-  # ------------------------ pull question end ------------------------
-  # ------------------------ previous next current start ------------------------
-  previous_question_number = str(int(url_question_number) - 1)
-  current_question_number = str(url_question_number)
-  next_question_number = str(int(url_question_number) + 1)
-  if int(url_question_number) == total_questions:
-    next_question_number = 'submit'
-  # ------------------------ previous next current end ------------------------
-  # ------------------------ check if contains img start ------------------------
-  contains_img = False
-  if 'amazonaws.com' in db_question_obj['aws_image_url']:
-    contains_img = True
-  # ------------------------ check if contains img end ------------------------
-  return render_template('employees/exterior/example_test/index.html', db_question_obj_to_html=db_question_obj, previous_question_number_to_html=previous_question_number, current_question_number_to_html=current_question_number, next_question_number_to_html=next_question_number, alert_message_dict_to_html=alert_message_dict, contains_img_to_html=contains_img)
-# ------------------------ individual route end ------------------------
-
-# ------------------------ individual route start ------------------------
 @employees_views_exterior.route('/example/<url_activity_type>', methods=['GET', 'POST'])
 @employees_views_exterior.route('/example/<url_activity_type>/<url_activity_code>', methods=['GET', 'POST'])
 @employees_views_exterior.route('/example/<url_activity_type>/<url_activity_code>/', methods=['GET', 'POST'])
@@ -191,8 +149,9 @@ def employees_example_function(url_redirect_code=None, url_activity_type=None, u
   # ------------------------ previous next current end ------------------------
   # ------------------------ current question details start ------------------------
   page_dict['db_question_dict'] = result_arr_of_dicts[int(url_question_number)-1]
-  page_dict['db_question_dict']['categories'] = categories_tuple_function(page_dict['db_question_dict']['categories'])
-  page_dict['db_question_dict']['desired_question_type'] = 'Multiple choice'
+  if url_activity_type == 'activity_type_a':
+    page_dict['db_question_dict']['categories'] = categories_tuple_function(page_dict['db_question_dict']['categories'])
+    page_dict['db_question_dict']['desired_question_type'] = 'Multiple choice'
   # ------------------------ current question details end ------------------------
   localhost_print_function(' ------------- 100-example start ------------- ')
   page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
@@ -200,7 +159,10 @@ def employees_example_function(url_redirect_code=None, url_activity_type=None, u
     localhost_print_function(f"k: {k} | v: {v}")
     pass
   localhost_print_function(' ------------- 100-example end ------------- ')
-  return render_template('employees/exterior/example_test/activity_type_a/index.html', page_dict_to_html=page_dict)
+  if url_activity_type == 'activity_type_a':
+    return render_template('employees/exterior/example_test/activity_type_a/index.html', page_dict_to_html=page_dict)
+  if url_activity_type == 'activity_type_b':
+    return render_template('employees/exterior/example_test/activity_type_b/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
