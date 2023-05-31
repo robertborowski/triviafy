@@ -11,7 +11,7 @@ NEXT STEPS
 - Blog page, consistent blog posts tagged "written by Triviafy chat gpt / Written by Triviafy bard."
 - Add Examples to website exterior [Trivia + picture quiz + icebreakers] sample should always be the latest 5 created so that the website stays "fresh."
 - Activity Type c games
-- Activity Tyle d games
+- Activity Type d games
 - Activity: Email [Motivational Quote/any day of the week any amount of times, word of the day and the words should be motivational and encouraging (activity d)]
 
 
@@ -24,7 +24,7 @@ NOTES
     -trivia, picture quiz
 - activity_type_b: 1 question + 1 written response ()
     -icebreakers
-- activity_type_c: 1 question + multiple choice voting for many people (anonymous and not anonymous answer submission)
+- activity_type_c: 1 question + multiple choice voting for many people (anonymous and not anonymous answer submission), no "correct" answer
     -most_likely_to, personality_test, employee_surveys
 - activity_type_d: 1 Email + 1/n clickable URL links, no need to go to platform, just goes straight to a thank you message!
     -Email only activities
