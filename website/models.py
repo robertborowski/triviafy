@@ -123,7 +123,7 @@ class GroupObj(db.Model):
   # ------------------------ products auto on/off start ------------------------
   trivia = db.Column(db.Boolean, default=True)
   picture_quiz = db.Column(db.Boolean, default=False)
-  birthday_questions = db.Column(db.Boolean, default=False)
+  celebrations = db.Column(db.Boolean, default=False)
   icebreakers = db.Column(db.Boolean, default=False)
   surveys = db.Column(db.Boolean, default=False)
   personality_test = db.Column(db.Boolean, default=False)

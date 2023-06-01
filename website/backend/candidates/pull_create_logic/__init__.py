@@ -61,7 +61,7 @@ def pull_create_group_obj_function(current_user):
           status = 'active',
           trivia = True,
           picture_quiz = False,
-          birthday_questions = False,
+          celebrations = False,
           icebreakers = False,
           surveys = False,
           personality_test = False,
