@@ -75,8 +75,8 @@ def login_dashboard_page_function(url_redirect_code=None):
     return redirect(url_for('employees_views_interior.employees_feedback_secondary_function'))
   if onbaording_status == 'birthday':
     return redirect(url_for('employees_views_interior.employees_feedback_year_month_function', url_feedback_code='birthday'))
-  # if onbaording_status == 'job_start_date':
-  #   return redirect(url_for('employees_views_interior.employees_feedback_year_month_function', url_feedback_code='job_start_date'))
+  if onbaording_status == 'job_start_date':
+    return redirect(url_for('employees_views_interior.employees_feedback_year_month_function', url_feedback_code='job_start_date'))
   if onbaording_status == 'marketing':
     return redirect(url_for('employees_views_interior.employees_feedback_marketing_function'))
   # ------------------------ onboarding checks end ------------------------
@@ -1703,15 +1703,18 @@ def employees_feedback_year_month_function(url_redirect_code=None, url_feedback_
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_interior.route('/employees/feedback/birthday/skip', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/feedback/birthday/skip/', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/feedback/birthday/skip/<url_redirect_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/feedback/<url_feedback_code>/skip', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/feedback/<url_feedback_code>/skip/', methods=['GET', 'POST'])
+@employees_views_interior.route('/employees/feedback/<url_feedback_code>/skip/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
-def employees_feedback_birthday_skip_function(url_redirect_code=None):
-  localhost_print_function(' ------------------------ employees_feedback_birthday_skip_function START ------------------------ ')
+def employees_feedback_year_month_skip_function(url_redirect_code=None, url_feedback_code=None):
   # ------------------------ check if already answered start ------------------------
-  feedback_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='birthday_choice').first()
-  if feedback_obj != None and feedback_obj != []:
+  feedback_obj = None
+  try:
+    feedback_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question=url_feedback_code+'_choice').first()
+    if feedback_obj != None and feedback_obj != []:
+      return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+  except:
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ check if already answered end ------------------------
   # ------------------------ skip logic start ------------------------
@@ -1722,7 +1725,7 @@ def employees_feedback_birthday_skip_function(url_redirect_code=None):
       created_timestamp = create_timestamp_function(),
       fk_user_id = current_user.id,
       fk_email = current_user.email,
-      question = 'birthday_choice',
+      question = url_feedback_code + '_choice',
       response = 'feedback skipped'
     )
     db.session.add(new_row)
@@ -1731,7 +1734,6 @@ def employees_feedback_birthday_skip_function(url_redirect_code=None):
   except:
     pass
   # ------------------------ skip logic end ------------------------
-  localhost_print_function(' ------------------------ employees_feedback_birthday_skip_function END ------------------------ ')
   return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
 # ------------------------ individual route end ------------------------
 
