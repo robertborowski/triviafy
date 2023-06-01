@@ -260,6 +260,9 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
   # ------------------------ existing result start ------------------------
   for i_row in result_obj:
     # result_dict = dict(i_row.items()) # convert to dict keyed by column names
+    localhost_print_function(' ------------- 0 ------------- ')
+    localhost_print_function(f"i_row | type: {type(i_row)} | {i_row}")
+    localhost_print_function(' ------------- 0 ------------- ')
     result_dict = dict(i_row) # convert to dict keyed by column names
     result_arr_of_dicts.append(result_dict)
   # ------------------------ existing result end ------------------------
