@@ -27,7 +27,7 @@
 
             {% if page_dict_to_html['current_question_number'] == '1' %}
             {% else %}
-            <a href="/activity/{{ page_dict_to_html['url_activity_type'] }}/{{ page_dict_to_html['url_activity_code'] }}/{{ page_dict_to_html['url_test_id'] }}/{{ page_dict_to_html['previous_question_number'] }}/" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Back</a>
+            <a href="/activity/{{ page_dict_to_html['url_activity_type'] }}/{{ page_dict_to_html['url_activity_code'] }}/{{ page_dict_to_html['url_test_id'] }}/{{ page_dict_to_html['previous_question_number'] }}/" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Home</a>
             {% endif %}
             {% if page_dict_to_html['next_question_number'] == 'submit' %}
             <a href="/dashboard" class="btn btn-success custom-ml-3">Exit <i class="fa-solid fa-check"></i></a>
@@ -47,7 +47,7 @@
             
             {% if page_dict_to_html['current_question_number'] == '1' %}
             {% else %}
-            <a href="/activity/{{ page_dict_to_html['url_activity_type'] }}/{{ page_dict_to_html['url_activity_code'] }}/{{ page_dict_to_html['url_test_id'] }}/{{ page_dict_to_html['previous_question_number'] }}/" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Back</a>
+            <a href="/activity/{{ page_dict_to_html['url_activity_type'] }}/{{ page_dict_to_html['url_activity_code'] }}/{{ page_dict_to_html['url_test_id'] }}/{{ page_dict_to_html['previous_question_number'] }}/" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Home</a>
             {% endif %}
             {% if page_dict_to_html['next_question_number'] == 'submit' %}
             <button type="submit" class="btn btn-success custom-ml-3">Submit <i class="fa-solid fa-check"></i></button>
@@ -247,7 +247,7 @@
 <!-- ----------------------------------- shape divider end ----------------------------------- -->
 <!-- ------------------------------------- signature start ------------------------------------- -->
 <div class="custom-width-1 mx-auto custom-mb-50">
-  <a href="/dashboard" class="btn btn-outline-secondary custom-width-6"><i class="fa-solid fa-arrow-left"></i> Back</a>
+  <a href="/dashboard" class="btn btn-outline-secondary custom-width-6"><i class="fa-solid fa-arrow-left"></i> Home</a>
 </div>
 <div class="custom-width-15 mx-auto custom-mb-50">
   <a href="/dashboard" class="navbar-brand">
