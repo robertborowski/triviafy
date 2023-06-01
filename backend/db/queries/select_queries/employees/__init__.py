@@ -158,6 +158,18 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
           activity_a_created_questions_obj \
         WHERE \
           product='employees';",
+    'select_celebrations_for_openai':
+      f"SELECT \
+          l.* \
+        FROM \
+          user_celebrate_obj AS l LEFT JOIN \
+          activity_a_created_questions_obj AS r ON \
+          l.fk_user_id=r.fk_user_id \
+        WHERE \
+        (r.product NOT LIKE '%birthday%' AND r.product NOT LIKE '%anniversary%') \
+        ORDER BY \
+          l.created_timestamp \
+        LIMIT 1;",
     'select_letter_count_v1':
       f"SELECT 'A' AS letter, COUNT(*) AS total_count FROM activity_a_created_questions_obj WHERE product = 'employees' AND answer LIKE 'A,%' \
         UNION \

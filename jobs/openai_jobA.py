@@ -40,8 +40,7 @@ def run_job_function():
   postgres_connection, postgres_cursor = postgres_connect_to_database_function()
   # ------------------------ open connection end ------------------------
   # ------------------------ get all tables start ------------------------
-  db_all_user_groups_arr_of_dict = select_manual_function(postgres_connection, postgres_cursor, 'select_groups_2')
-  db_all_groups_arr_of_dict = select_manual_function(postgres_connection, postgres_cursor, 'select_groups_3')
+  db_arr_of_dict = select_manual_function(postgres_connection, postgres_cursor, 'select_celebrations_for_openai')
   # ------------------------ get all tables end ------------------------
   # ------------------------ close connection start ------------------------
   postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)
