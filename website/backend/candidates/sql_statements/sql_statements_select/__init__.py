@@ -2,7 +2,6 @@
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from website import db
 from flask_login import current_user
-from sqlalchemy import text
 # ------------------------ imports end ------------------------
 
 # ------------------------ individual function start ------------------------
@@ -208,17 +207,16 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
       'input_args': {'val': additional_input}
     },
     'select_sample_trivia': {
-      'raw_query': text("SELECT * FROM activity_a_created_questions_obj WHERE status=TRUE AND product='trivia' ORDER BY created_timestamp DESC LIMIT 5;"),
-      # 'raw_query': f"SELECT \
-      #                 * \
-      #               FROM \
-      #                 activity_a_created_questions_obj \
-      #               WHERE \
-      #                 status=TRUE \
-      #                 AND product='trivia' \
-      #               ORDER BY \
-      #                 created_timestamp DESC \
-      #               LIMIT 5;",
+      'raw_query': f"SELECT \
+                      * \
+                    FROM \
+                      activity_a_created_questions_obj \
+                    WHERE \
+                      status=TRUE \
+                      AND product='trivia' \
+                    ORDER BY \
+                      created_timestamp DESC \
+                    LIMIT 5;",
       'input_args': {}
     },
     'select_sample_picture_quiz': {
@@ -250,19 +248,17 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
   }
   # ------------------------ select queries end ------------------------
   # ------------------------ general query start ------------------------
+  # result_obj = db.session.execute('SELECT * FROM user_obj WHERE email = :val', {'val': 'a@a.com'})
   result_obj = db.session.execute(select_queries_dict[tag_query_to_use]['raw_query'], select_queries_dict[tag_query_to_use]['input_args'])
   # ------------------------ general query end ------------------------
   # ------------------------ default result start ------------------------
   result_arr_of_dicts = []
   # ------------------------ default result end ------------------------
   # ------------------------ existing result start ------------------------
-  # for i_row in result_obj:
-  #   # result_dict = dict(i_row.items()) # convert to dict keyed by column names
-  #   result_dict = dict(i_row) # convert to dict keyed by column names
-  #   result_arr_of_dicts.append(result_dict)
+  for i_row in result_obj:
+    # result_dict = dict(i_row.items()) # convert to dict keyed by column names
+    result_dict = dict(i_row) # convert to dict keyed by column names
+    result_arr_of_dicts.append(result_dict)
   # ------------------------ existing result end ------------------------
-  # ------------------------ existing result 2 start ------------------------
-  result_arr_of_dicts = [dict(row) for row in result_obj]
-  # ------------------------ existing result 2 end ------------------------
   return result_arr_of_dicts
 # ------------------------ individual function end ------------------------

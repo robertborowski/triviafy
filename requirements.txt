@@ -2,7 +2,7 @@ pandas
 flask
 flask_sqlalchemy
 flask_login
-sqlalchemy
+sqlalchemy==1.4.44
 datetime
 uuid
 slack_sdk
