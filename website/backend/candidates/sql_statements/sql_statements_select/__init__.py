@@ -208,8 +208,8 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
       'input_args': {'val': additional_input}
     },
     'select_sample_trivia': {
-      'raw_query': text("SELECT  * FROM activity_a_created_questions_obj WHERE status = TRUE AND product='trivia' ORDER BY created_timestamp DESC LIMIT 5;"),
-      'input_args': {'val': additional_input}
+      'raw_query': text("SELECT * FROM activity_a_created_questions_obj WHERE status=TRUE AND product='trivia' ORDER BY created_timestamp DESC LIMIT 5;"),
+      'input_args': {}
     },
     'select_sample_picture_quiz': {
       'raw_query': f"SELECT \
