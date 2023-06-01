@@ -1,5 +1,6 @@
 # ------------------------ imports start ------------------------
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
+import datetime
 # ------------------------ imports end ------------------------
 
 # ------------------------ individual function start ------------------------
@@ -44,6 +45,7 @@ def get_team_building_activities_list_function():
 def get_marketing_list_function():
   temp_list = [
     'Google',
+    'Colleague shared team link',
     'LinkedIn',
     'TikTok',
     'Twitter',
@@ -56,7 +58,7 @@ def get_marketing_list_function():
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
-def get_month_days_function():
+def get_month_days_years_function():
   months_arr = [1,2,3,4,5,6,7,8,9,10,11,12]
   days_arr = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
   month_day_dict = {
@@ -73,7 +75,11 @@ def get_month_days_function():
     '11': [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30],
     '12': [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
   }
-  return months_arr, days_arr, month_day_dict
+  # ------------------------ get years start ------------------------
+  current_year = datetime.datetime.now().year
+  years_arr = list(range(current_year, 1960, -1))
+  # ------------------------ get years end ------------------------
+  return months_arr, days_arr, years_arr, month_day_dict
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------

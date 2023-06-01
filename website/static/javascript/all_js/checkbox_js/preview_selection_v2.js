@@ -23,6 +23,14 @@ function previewDayOnlySelection(obj){
 }
 // ----------------------- end -----------------------
 // ----------------------- start -----------------------
+function previewYearOnlySelection(obj){
+  if ($('input[name=ui_year_only]:checked').length > 0) {
+    var q = document.getElementById('id-year-only');
+    if (q) q.innerHTML = document.querySelector('input[name=ui_year_only]:checked').value;
+  }
+}
+// ----------------------- end -----------------------
+// ----------------------- start -----------------------
 $(document).ready(function() {
   // ----------------------- remove space id names start -----------------------
   $('*').each(function() {

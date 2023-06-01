@@ -35,7 +35,7 @@ from website.backend.candidates.datatype_conversion_manipulation import one_col_
 from website.backend.candidates.test_backend import get_test_winner
 from website.backend.candidates.aws_manipulation import candidates_change_uploaded_image_filename_function, candidates_user_upload_image_checks_aws_s3_function
 from website.backend.candidates.string_manipulation import breakup_email_function, capitalize_all_words_function
-from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_function, get_favorite_questions_function, get_marketing_list_function, get_dashboard_accordian_function, get_activity_a_products_function, get_activity_b_products_function
+from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_years_function, get_favorite_questions_function, get_marketing_list_function, get_dashboard_accordian_function, get_activity_a_products_function, get_activity_b_products_function
 from website.backend.candidates.pull_create_logic import pull_create_group_obj_function, pull_latest_activity_test_obj_function, user_must_have_group_id_function, pull_create_activity_settings_obj_function, pull_group_obj_function, get_total_activity_closed_count_function
 from website.backend.candidates.activity_supporting import activity_dashboard_function, activity_live_function, turn_activity_auto_on_function
 from website.backend.candidates.emailing import email_share_with_team_function
@@ -1627,9 +1627,10 @@ def employees_feedback_year_month_function(url_redirect_code=None, url_feedback_
   page_dict['favorite_questions_arr_index'] = favorite_questions_arr_index
   # ------------------------ get questions end ------------------------
   # ------------------------ get month days dict start ------------------------
-  months_arr, days_arr, month_day_dict = get_month_days_function()
+  months_arr, days_arr, years_arr, month_day_dict = get_month_days_years_function()
   page_dict['months_arr'] = months_arr
   page_dict['days_arr'] = days_arr
+  page_dict['years_arr'] = years_arr
   # ------------------------ get month days dict end ------------------------
   # ------------------------ submission start ------------------------
   if request.method == 'POST':
@@ -1638,6 +1639,7 @@ def employees_feedback_year_month_function(url_redirect_code=None, url_feedback_
     ui_year_month_answer = request.form.get('ui_year_month_answer')
     ui_month_only = request.form.get('ui_month_only')
     ui_day_only = request.form.get('ui_day_only')
+    ui_year_only = request.form.get('ui_year_only')
     # ------------------------ get user inputs end ------------------------
     # ------------------------ sanatize inputs start ------------------------
     # question
@@ -1650,15 +1652,44 @@ def employees_feedback_year_month_function(url_redirect_code=None, url_feedback_
     for i in ui_year_month_answer:
       if i in special_characters_arr:
         return redirect(url_for('employees_views_interior.employees_feedback_year_month_function', url_redirect_code='e18', url_feedback_code=url_feedback_code))
-    # birth month
-    if int(ui_month_only) not in months_arr:
-      return redirect(url_for('employees_views_interior.employees_feedback_year_month_function', url_redirect_code='e20', url_feedback_code=url_feedback_code))
-    # birth day
-    allowed_days_arr = month_day_dict[str(ui_month_only)]
-    if int(ui_day_only) not in allowed_days_arr:
-      return redirect(url_for('employees_views_interior.employees_feedback_year_month_function', url_redirect_code='e21', url_feedback_code=url_feedback_code))
+    try:
+      # birth month
+      if int(ui_month_only) not in months_arr:
+        return redirect(url_for('employees_views_interior.employees_feedback_year_month_function', url_redirect_code='e20', url_feedback_code=url_feedback_code))
+    except:
+      pass
+    try:
+      # birth day
+      allowed_days_arr = month_day_dict[str(ui_month_only)]
+      if int(ui_day_only) not in allowed_days_arr:
+        return redirect(url_for('employees_views_interior.employees_feedback_year_month_function', url_redirect_code='e21', url_feedback_code=url_feedback_code))
+    except:
+      pass
+    try:
+      # birth year
+      if int(ui_year_only) not in years_arr:
+        return redirect(url_for('employees_views_interior.employees_feedback_year_month_function', url_redirect_code='e26', url_feedback_code=url_feedback_code))
+    except:
+      pass
     # ------------------------ sanatize inputs end ------------------------
     try:
+      # ------------------------ pre set start start ------------------------
+      new_month = None
+      new_day = None
+      new_year = None
+      try:
+        new_month = int(ui_month_only)
+      except:
+        pass
+      try:
+        new_day = int(ui_day_only)
+      except:
+        pass
+      try:
+        new_year = int(ui_year_only)
+      except:
+        pass
+      # ------------------------ pre set start end ------------------------
       new_birthday_row_id = create_uuid_function('celebrate_')
       # ------------------------ insert to db start ------------------------
       new_row = UserCelebrateObj(
@@ -1668,8 +1699,9 @@ def employees_feedback_year_month_function(url_redirect_code=None, url_feedback_
         question = ui_year_month_question,
         answer = ui_year_month_answer,
         event = url_feedback_code,
-        celebrate_month = int(ui_month_only),
-        celebrate_day = int(ui_day_only)
+        celebrate_month = new_month,
+        celebrate_day = new_day,
+        celebrate_year = new_year
       )
       db.session.add(new_row)
       db.session.commit()
@@ -1759,7 +1791,7 @@ def employees_feedback_marketing_function(url_redirect_code=None):
   page_dict['marketing_list'] = marketing_list
   page_dict['marketing_list_index'] = marketing_list_index
   # ------------------------ get current activities end ------------------------
-  page_dict['feedback_step'] = '4'
+  page_dict['feedback_step'] = '5'
   page_dict['feedback_request'] = 'marketing'
   # ------------------------ submission start ------------------------
   if request.method == 'POST':

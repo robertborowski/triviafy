@@ -388,6 +388,11 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':"Your team's free trial has expired. Please select a subscription below and your team will then be able to continue using our automated team building activities.",
       'type':'danger'
     }
+  elif redirect_var == 'e26':
+    alert_message_dict = {
+      'message':"Invalid year/month combination.",
+      'type':'danger'
+    }
   # ------------------------ errors end ------------------------
   # ------------------------ success start ------------------------
   elif redirect_var == 's1':
