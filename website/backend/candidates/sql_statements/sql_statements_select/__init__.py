@@ -207,7 +207,7 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
       'input_args': {'val': additional_input}
     },
     'select_sample_trivia': {
-      'raw_query': f"SELECT \
+      'raw_query': "SELECT \
                       * \
                     FROM \
                       activity_a_created_questions_obj \
