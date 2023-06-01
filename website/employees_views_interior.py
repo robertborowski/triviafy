@@ -75,8 +75,8 @@ def login_dashboard_page_function(url_redirect_code=None):
     return redirect(url_for('employees_views_interior.employees_feedback_secondary_function'))
   if onbaording_status == 'birthday':
     return redirect(url_for('employees_views_interior.employees_feedback_year_month_function', url_feedback_code='birthday'))
-  if onbaording_status == 'job_start_date':
-    return redirect(url_for('employees_views_interior.employees_feedback_year_month_function', url_feedback_code='job_start_date'))
+  # if onbaording_status == 'job_start_date':
+  #   return redirect(url_for('employees_views_interior.employees_feedback_year_month_function', url_feedback_code='job_start_date'))
   if onbaording_status == 'marketing':
     return redirect(url_for('employees_views_interior.employees_feedback_marketing_function'))
   # ------------------------ onboarding checks end ------------------------
