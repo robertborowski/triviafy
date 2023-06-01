@@ -250,24 +250,19 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
   }
   # ------------------------ select queries end ------------------------
   # ------------------------ general query start ------------------------
-  # result_obj = db.session.execute('SELECT * FROM user_obj WHERE email = :val', {'val': 'a@a.com'})
-  # result_obj = db.session.execute(select_queries_dict[tag_query_to_use]['raw_query'], select_queries_dict[tag_query_to_use]['input_args'])
-  result_obj = db.session.execute(select_queries_dict[tag_query_to_use]['raw_query'])
-  print(' ------------- 1 ------------- ')
-  print(f"result_obj | type: {type(result_obj)} | {result_obj}")
-  print(' ------------- 1 ------------- ')
+  result_obj = db.session.execute(select_queries_dict[tag_query_to_use]['raw_query'], select_queries_dict[tag_query_to_use]['input_args'])
   # ------------------------ general query end ------------------------
   # ------------------------ default result start ------------------------
   result_arr_of_dicts = []
   # ------------------------ default result end ------------------------
   # ------------------------ existing result start ------------------------
-  for i_row in result_obj:
-    # result_dict = dict(i_row.items()) # convert to dict keyed by column names
-    print(' ------------- 1 ------------- ')
-    print(f"i_row | type: {type(i_row)} | {i_row}")
-    print(' ------------- 1 ------------- ')
-    result_dict = dict(i_row) # convert to dict keyed by column names
-    result_arr_of_dicts.append(result_dict)
+  # for i_row in result_obj:
+  #   # result_dict = dict(i_row.items()) # convert to dict keyed by column names
+  #   result_dict = dict(i_row) # convert to dict keyed by column names
+  #   result_arr_of_dicts.append(result_dict)
   # ------------------------ existing result end ------------------------
+  # ------------------------ existing result 2 start ------------------------
+  result_arr_of_dicts = [dict(row) for row in result_obj]
+  # ------------------------ existing result 2 end ------------------------
   return result_arr_of_dicts
 # ------------------------ individual function end ------------------------
