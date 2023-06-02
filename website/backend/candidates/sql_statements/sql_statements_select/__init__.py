@@ -64,7 +64,7 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
       'input_args': {}
     },
     'select_all_employees_categories_v1': {
-      'raw_query': "SELECT DISTINCT q.categories FROM activity_a_created_questions_obj AS q WHERE q.status=TRUE AND q.product NOT LIKE 'candidates' ORDER BY q.categories;",
+      'raw_query': "SELECT DISTINCT q.categories FROM activity_a_created_questions_obj AS q WHERE q.status=TRUE AND q.product NOT LIKE 'candidates' AND q.categories IS NOT NULL ORDER BY q.categories;",
       'input_args': {}
     },
     'select_all_questions_for_x_categories': {
