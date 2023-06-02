@@ -1710,7 +1710,8 @@ def employees_feedback_year_month_function(url_redirect_code=None, url_feedback_
         event = url_feedback_code,
         celebrate_month = new_month,
         celebrate_day = new_day,
-        celebrate_year = new_year
+        celebrate_year = new_year,
+        status = False
       )
       db.session.add(new_row)
       db.session.commit()
