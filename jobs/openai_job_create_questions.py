@@ -5,10 +5,7 @@ from backend.db.connection.postgres_close_connection_to_database import postgres
 from backend.db.queries.select_queries.employees import select_manual_function
 from backend.db.queries.insert_queries.employees import insert_manual_function
 from backend.db.queries.update_queries.employees import update_manual_function
-from datetime import datetime, timedelta
 import os, time
-import sendgrid
-from sendgrid import SendGridAPIClient
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
 import openai
@@ -84,12 +81,16 @@ def run_job_function():
       # ------------------------ loop through questions already created rows end ------------------------
       # ------------------------ if already created then update db start ------------------------
       if user_product_question_already_created == True:
-        update_input_arr = [found_question_id, i_celebrate_dict['fk_user_id'], i_celebrate_dict['event']]
-        update_manual_function(postgres_connection, postgres_cursor, 'update_email_1', update_input_arr)
-        print('updated db on 2nd run!')
+        if i_celebrate_dict['status'] == True:
+          pass
+        elif i_celebrate_dict['status'] == False:
+          update_input_arr = [found_question_id, i_celebrate_dict['fk_user_id'], i_celebrate_dict['event']]
+          update_manual_function(postgres_connection, postgres_cursor, 'update_email_1', update_input_arr)
+          print('updated db on 2nd run!')
       # ------------------------ if already created then update db end ------------------------
       if user_product_question_already_created == False:
         # ------------------------ openai start ------------------------
+        print('waiting 20 seconds')
         time.sleep(20) # to not hit a rate limit on each run
         chatgpt_message = f"I am creating a multiple choice question that has only 1 correct answer. The question is 'what is your favorite {i_celebrate_dict['question'][:-1]}' and the only correct answer is '{i_celebrate_dict['answer']}'. Return a python array of 3 similar but incorrect answer choices. The python array returned should be given the name 'results_arr'."
         chatgpt_response_str = openai_chat_gpt_prompt_result_function(chatgpt_message)
@@ -148,7 +149,6 @@ def run_job_function():
         update_manual_function(postgres_connection, postgres_cursor, 'update_email_1', update_input_arr)
         print('updated db on 1st run!')
         # ------------------------ update db end ------------------------
-        break
     # ------------------------ loop through celebrate rows end ------------------------
   except Exception as e:
     print(f'Exception: {e}')
