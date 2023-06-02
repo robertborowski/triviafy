@@ -6,6 +6,24 @@ from backend.utils.localhost_print_utils.localhost_print import localhost_print_
 def insert_manual_function(postgres_connection, postgres_cursor, tag_query_to_use, additional_input_arr=None):
   if additional_input_arr != None:
     # ------------------------ generic pull start ------------------------
+    input_0 = None
+    input_1 = None
+    input_2 = None
+    input_3 = None
+    input_4 = None
+    input_5 = None
+    input_6 = None
+    input_7 = None
+    input_8 = None
+    input_9 = None
+    input_10 = None
+    input_11 = None
+    input_12 = None
+    input_13 = None
+    input_14 = None
+    input_15 = None
+    input_16 = None
+    input_17 = None
     try:
       input_0 = additional_input_arr[0]
       input_1 = additional_input_arr[1]
@@ -25,7 +43,6 @@ def insert_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
       input_15 = additional_input_arr[15]
       input_16 = additional_input_arr[16]
       input_17 = additional_input_arr[17]
-      input_18 = additional_input_arr[18]
     except:
       pass
     # ------------------------ generic pull end ------------------------
