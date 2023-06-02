@@ -214,6 +214,17 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
           AND event='birthday' \
           AND celebrate_month={additional_input} \
           AND celebrate_day={additional_input2};",
+    'select_if_job_start_date_today':
+      f"SELECT \
+          fk_question_id, \
+          celebrate_year \
+        FROM \
+          user_celebrate_obj \
+        WHERE \
+          status=True \
+          AND event='job_start_date' \
+          AND celebrate_month={additional_input} \
+          AND celebrate_year!={additional_input2};",
     'select_question_1':
       f"SELECT \
           * \
