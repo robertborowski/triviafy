@@ -186,6 +186,14 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
           (l.product LIKE '%birthday%' OR l.product LIKE '%job_start_date%') \
         ORDER BY \
           l.created_timestamp;",
+    'select_openai_questions_needed':
+      f"SELECT \
+          * \
+        FROM \
+          user_celebrate_obj \
+        WHERE \
+          status=False \
+          AND fk_question_id IS NULL;",
     'select_letter_count_v1':
       f"SELECT 'A' AS letter, COUNT(*) AS total_count FROM activity_a_created_questions_obj WHERE product = 'employees' AND answer LIKE 'A,%' \
         UNION \
