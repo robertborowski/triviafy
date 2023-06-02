@@ -151,6 +151,16 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
           user_obj \
         WHERE \
           id='{additional_input}';",
+    'select_user_2':
+      f"SELECT \
+          email, \
+          company_name, \
+          name, \
+          group_id \
+        FROM \
+          user_obj \
+        WHERE \
+          id='{additional_input}';",
     'select_categories_v1':
       f"SELECT \
           categories \
@@ -158,18 +168,24 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
           activity_a_created_questions_obj \
         WHERE \
           product='employees';",
+    'select_celebration_users':
+      f"SELECT \
+          * \
+        FROM \
+          user_celebrate_obj \
+        ORDER BY \
+          created_timestamp DESC;",
     'select_celebrations_for_openai':
       f"SELECT \
-          l.* \
+          DISTINCT l.* \
         FROM \
-          user_celebrate_obj AS l LEFT JOIN \
-          activity_a_created_questions_obj AS r ON \
+          activity_a_created_questions_obj AS l LEFT JOIN \
+          user_celebrate_obj AS r ON \
           l.fk_user_id=r.fk_user_id \
         WHERE \
-        (r.product NOT LIKE '%birthday%' AND r.product NOT LIKE '%anniversary%') \
+          (l.product LIKE '%birthday%' OR l.product LIKE '%job_start_date%') \
         ORDER BY \
-          l.created_timestamp \
-        LIMIT 1;",
+          l.created_timestamp;",
     'select_letter_count_v1':
       f"SELECT 'A' AS letter, COUNT(*) AS total_count FROM activity_a_created_questions_obj WHERE product = 'employees' AND answer LIKE 'A,%' \
         UNION \
