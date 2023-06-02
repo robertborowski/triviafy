@@ -1672,6 +1672,15 @@ def employees_feedback_year_month_function(url_redirect_code=None, url_feedback_
     except:
       pass
     # ------------------------ sanatize inputs end ------------------------
+    # ------------------------ question double start ------------------------
+    try:
+      db_celebrate_obj = UserCelebrateObj.query.filter_by(fk_user_id=current_user.id,question=ui_year_month_question).first()
+      if db_celebrate_obj != None:
+        if db_celebrate_obj.question == ui_year_month_question:
+          return redirect(url_for('employees_views_interior.employees_feedback_year_month_function', url_redirect_code='e27', url_feedback_code=url_feedback_code))
+    except:
+      pass
+    # ------------------------ question double end ------------------------
     try:
       # ------------------------ pre set start start ------------------------
       new_month = None

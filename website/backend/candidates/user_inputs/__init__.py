@@ -393,6 +393,11 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':"Invalid year/month combination.",
       'type':'danger'
     }
+  elif redirect_var == 'e27':
+    alert_message_dict = {
+      'message':"You cannot select the same question as your previous selection.",
+      'type':'danger'
+    }
   # ------------------------ errors end ------------------------
   # ------------------------ success start ------------------------
   elif redirect_var == 's1':
