@@ -1706,7 +1706,7 @@ def employees_feedback_year_month_function(url_redirect_code=None, url_feedback_
         created_timestamp = create_timestamp_function(),
         fk_user_id = current_user.id,
         question = ui_year_month_question,
-        answer = ui_year_month_answer,
+        answer = ui_year_month_answer.title(),
         event = url_feedback_code,
         celebrate_month = new_month,
         celebrate_day = new_day,
@@ -1863,7 +1863,7 @@ def employees_feedback_name_function(url_redirect_code=None):
         return redirect(url_for('employees_views_interior.employees_feedback_name_function', url_redirect_code='e18'))
     # ------------------------ sanatize inputs end ------------------------
     # ------------------------ update db start ------------------------
-    current_user.name = ui_name
+    current_user.name = ui_name.title()
     db.session.commit()
     # ------------------------ update db end ------------------------
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))

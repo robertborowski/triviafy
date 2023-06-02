@@ -141,7 +141,7 @@ def run_job_function():
         submission = 'submitted'
         # ------------------------ additional info end ------------------------
         # ------------------------ create new question start ------------------------
-        insert_inputs_arr = [question_id, question_created_timestamp, i_celebrate_dict['fk_user_id'], status, categories, title, question, answer_choices_arr[0], answer_choices_arr[1], answer_choices_arr[2], answer_choices_arr[3], option_e, correct_answer_choice, aws_image_uuid, aws_image_url, submission, i_celebrate_dict['event'], i_celebrate_dict['group_id']]
+        insert_inputs_arr = [question_id, question_created_timestamp, i_celebrate_dict['fk_user_id'], status, categories, title, question, answer_choices_arr[0].title(), answer_choices_arr[1].title(), answer_choices_arr[2].title(), answer_choices_arr[3].title(), option_e, correct_answer_choice, aws_image_uuid, aws_image_url, submission, i_celebrate_dict['event'], i_celebrate_dict['group_id']]
         insert_manual_function(postgres_connection, postgres_cursor, 'insert_celebrate_1', insert_inputs_arr)
         # ------------------------ create new question end ------------------------
         # ------------------------ update db start ------------------------
