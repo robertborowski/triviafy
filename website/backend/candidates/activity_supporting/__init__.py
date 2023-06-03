@@ -12,6 +12,7 @@ from website.backend.candidates.test_backend import get_test_winner, first_user_
 import json
 from website.backend.candidates.pull_create_logic import pull_group_obj_function
 from datetime import datetime, date
+from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ individual function start ------------------------
@@ -344,30 +345,46 @@ def get_upcoming_celebration_function(teammate_ids_arr):
   # ------------------------ loop checks start ------------------------
   for i in teammate_ids_arr:
     # ------------------------ pull variables start ------------------------
-    db_celebrate_obj = UserCelebrateObj.query.filter_by(fk_user_id=i).first()
+    db_celebrate_obj = UserCelebrateObj.query.filter_by(fk_user_id=i).all()
     if db_celebrate_obj != None and db_celebrate_obj != []:
-      i_celebrate_month = int(db_celebrate_obj.celebrate_month)
-      i_celebrate_day = int(db_celebrate_obj.celebrate_day)
-      i_celebrate_year = int(current_year)
-      if i_celebrate_month < current_month:
-        i_celebrate_year = int(current_year) + int(1)
-      # ------------------------ pull variables end ------------------------
-      # ------------------------ construct date start ------------------------
-      upcoming_date = date(i_celebrate_year, i_celebrate_month, i_celebrate_day)
-      # ------------------------ construct date end ------------------------
-      # ------------------------ compare dates and replace/append arr start ------------------------
-      localhost_print_function(' ------------- 1 ------------- ')
-      localhost_print_function(f"minimum_date | type: {type(minimum_date)} | {minimum_date}")
-      localhost_print_function(f"upcoming_date | type: {type(upcoming_date)} | {upcoming_date}")
-      localhost_print_function(' ------------- 1 ------------- ')
-      if upcoming_date < minimum_date:
-        minimum_date = upcoming_date
-        localhost_print_function(' ------------- 2 ------------- ')
-        localhost_print_function(f"minimum_date | type: {type(minimum_date)} | {minimum_date}")
-        localhost_print_function(' ------------- 2 ------------- ')
-      # ------------------------ compare dates and replace/append arr end ------------------------
+      for i_celebrate_obj in db_celebrate_obj:
+        i_celebrate_month = int(i_celebrate_obj.celebrate_month)
+        i_celebrate_day = int(i_celebrate_obj.celebrate_day)
+        i_celebrate_year = int(current_year)
+        if i_celebrate_month < current_month:
+          i_celebrate_year = int(current_year) + int(1)
+        # ------------------------ pull variables end ------------------------
+        # ------------------------ construct date start ------------------------
+        upcoming_date = date(i_celebrate_year, i_celebrate_month, i_celebrate_day)
+        # ------------------------ construct date end ------------------------
+        # ------------------------ compare dates and replace/append arr start ------------------------
+        if upcoming_date < minimum_date:
+          minimum_date = upcoming_date
+        # ------------------------ compare dates and replace/append arr end ------------------------
   # ------------------------ loop checks end ------------------------
-  return True
+  # ------------------------ get all users with min date start ------------------------
+  min_day = minimum_date.day    # int
+  min_month = minimum_date.month    # int
+  min_year = minimum_date.year    # int
+  teammate_ids_str = "'" + "','".join(teammate_ids_arr) + "'"
+  query_result_arr_of_dicts = select_general_function('select_upcoming_celebrations_v1', teammate_ids_str, min_month, min_day)
+  master_str = ''
+  for i_dict in query_result_arr_of_dicts:
+    db_user_obj = UserObj.query.filter_by(id=i_dict['fk_user_id']).first()
+    i_dict['name'] = db_user_obj.name
+    i_dict['email'] = db_user_obj.email
+    if i_dict['event'] == 'birthday':
+      if master_str == '':
+        master_str = master_str + f"{i_dict['name']}'s birthday on {min_month}/{min_day}/{min_year}"
+      else:
+        master_str = master_str + f" & {i_dict['name']}'s birthday on {min_month}/{min_day}/{min_year}"
+    if i_dict['event'] == 'job_start_date':
+      if master_str == '':
+        master_str = master_str + f"{i_dict['name']}'s company anniversary on {min_month}/{min_day}/{min_year}"
+      else:
+        master_str = master_str + f" & {i_dict['name']}'s company anniversary on {min_month}/{min_day}/{min_year}"
+  # ------------------------ get all users with min date end ------------------------
+  return master_str
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------

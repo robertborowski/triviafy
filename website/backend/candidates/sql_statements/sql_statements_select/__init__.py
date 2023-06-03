@@ -244,6 +244,19 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
                       RANDOM() \
                     LIMIT 1;",
       'input_args': {}
+    },
+    'select_upcoming_celebrations_v1': {
+      'raw_query': f"SELECT \
+                      * \
+                    FROM \
+                      user_celebrate_obj \
+                    WHERE \
+                      fk_user_id IN ({additional_input}) \
+                      AND celebrate_month = {additional_input2} \
+                      AND celebrate_day = {additional_input3} \
+                    ORDER BY \
+                      fk_user_id;",
+      'input_args': {}
     }
   }
   # ------------------------ select queries end ------------------------
