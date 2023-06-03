@@ -1490,9 +1490,9 @@ def employees_preview_question_function(url_redirect_code=None, url_question_id=
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_interior.route('/employees/feedback/primary', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/feedback/primary/', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/feedback/primary/<url_redirect_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/feedback/primary', methods=['GET', 'POST'])
+@employees_views_interior.route('/feedback/primary/', methods=['GET', 'POST'])
+@employees_views_interior.route('/feedback/primary/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
 def employees_feedback_primary_function(url_redirect_code=None):
   localhost_print_function(' ------------------------ employees_feedback_primary_function START ------------------------ ')
@@ -1539,10 +1539,9 @@ def employees_feedback_primary_function(url_redirect_code=None):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_interior.route('/employees/feedback/secondary', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/feedback/secondary/', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/feedback/secondary/<url_redirect_code>', methods=['GET', 'POST'])
-
+@employees_views_interior.route('/feedback/secondary', methods=['GET', 'POST'])
+@employees_views_interior.route('/feedback/secondary/', methods=['GET', 'POST'])
+@employees_views_interior.route('/feedback/secondary/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
 def employees_feedback_secondary_function(url_redirect_code=None, value_to_remove=None):
   localhost_print_function(' ------------------------ employees_feedback_secondary_function START ------------------------ ')
@@ -1594,9 +1593,9 @@ def employees_feedback_secondary_function(url_redirect_code=None, value_to_remov
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_interior.route('/employees/feedback/<url_feedback_code>', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/feedback/<url_feedback_code>/', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/feedback/<url_feedback_code>/<url_redirect_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/feedback/<url_feedback_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/feedback/<url_feedback_code>/', methods=['GET', 'POST'])
+@employees_views_interior.route('/feedback/<url_feedback_code>/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
 def employees_feedback_year_month_function(url_redirect_code=None, url_feedback_code=None):
   # ------------------------ check if already answered start ------------------------
@@ -1750,9 +1749,9 @@ def employees_feedback_year_month_function(url_redirect_code=None, url_feedback_
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_interior.route('/employees/feedback/<url_feedback_code>/skip', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/feedback/<url_feedback_code>/skip/', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/feedback/<url_feedback_code>/skip/<url_redirect_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/feedback/<url_feedback_code>/skip', methods=['GET', 'POST'])
+@employees_views_interior.route('/feedback/<url_feedback_code>/skip/', methods=['GET', 'POST'])
+@employees_views_interior.route('/feedback/<url_feedback_code>/skip/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
 def employees_feedback_year_month_skip_function(url_redirect_code=None, url_feedback_code=None):
   # ------------------------ check if already answered start ------------------------
@@ -1785,9 +1784,9 @@ def employees_feedback_year_month_skip_function(url_redirect_code=None, url_feed
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_interior.route('/employees/feedback/marketing', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/feedback/marketing/', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/feedback/marketing/<url_redirect_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/feedback/marketing', methods=['GET', 'POST'])
+@employees_views_interior.route('/feedback/marketing/', methods=['GET', 'POST'])
+@employees_views_interior.route('/feedback/marketing/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
 def employees_feedback_marketing_function(url_redirect_code=None):
   localhost_print_function(' ------------------------ employees_feedback_marketing_function START ------------------------ ')
@@ -1834,9 +1833,9 @@ def employees_feedback_marketing_function(url_redirect_code=None):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@employees_views_interior.route('/employees/feedback/name', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/feedback/name/', methods=['GET', 'POST'])
-@employees_views_interior.route('/employees/feedback/name/<url_redirect_code>', methods=['GET', 'POST'])
+@employees_views_interior.route('/feedback/name', methods=['GET', 'POST'])
+@employees_views_interior.route('/feedback/name/', methods=['GET', 'POST'])
+@employees_views_interior.route('/feedback/name/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
 def employees_feedback_name_function(url_redirect_code=None):
   localhost_print_function(' ------------------------ employees_feedback_name_function START ------------------------ ')

@@ -219,9 +219,9 @@
             <button type="submit" class="btn btn-lg btn-success custom-width-6 custom-ptb-8 custom-br-1">Continue <i class="fa-solid fa-arrow-right"></i></button>
             <div class="text-center custom-mt-3">
               {% if page_dict_to_html['url_feedback_code'] == 'birthday' %}
-                <a href="/employees/feedback/{{ page_dict_to_html['url_feedback_code'] }}/skip" class="custom-a-5 custom-opacity-2">Skip, I am boring.</a>
+                <a href="/feedback/{{ page_dict_to_html['url_feedback_code'] }}/skip" class="custom-a-5 custom-opacity-2">Skip, I am boring.</a>
               {% elif page_dict_to_html['url_feedback_code'] == 'job_start_date' %}
-                <a href="/employees/feedback/{{ page_dict_to_html['url_feedback_code'] }}/skip" class="custom-a-5 custom-opacity-2">Skip, I don't want to be appreciated.</a>
+                <a href="/feedback/{{ page_dict_to_html['url_feedback_code'] }}/skip" class="custom-a-5 custom-opacity-2">Skip, I don't want to be appreciated.</a>
               {% endif %}
             </div>
           </div>
