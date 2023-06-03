@@ -11,6 +11,7 @@ from website import db
 from website.backend.candidates.test_backend import get_test_winner, first_user_latest_quiz_check_function
 import json
 from website.backend.candidates.pull_create_logic import pull_group_obj_function
+from datetime import datetime, date
 # ------------------------ imports end ------------------------
 
 # ------------------------ individual function start ------------------------
@@ -324,11 +325,49 @@ def get_all_teammate_ids_function(current_user):
 def check_if_teammate_celebration_function(teammate_ids_arr):
   teammate_completed_check = False
   for i in teammate_ids_arr:
-    db_teammates_obj = UserCelebrateObj.query.filter_by(fk_user_id=i).first()
-    if db_teammates_obj != None and db_teammates_obj != []:
+    db_celebrate_obj = UserCelebrateObj.query.filter_by(fk_user_id=i).first()
+    if db_celebrate_obj != None and db_celebrate_obj != []:
       teammate_completed_check = True
       break
   return teammate_completed_check
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def get_upcoming_celebration_function(teammate_ids_arr):
+  # ------------------------ get todays variables start ------------------------
+  today = date.today()    # <class 'datetime.date'> | 2023-06-03
+  current_day = today.day
+  current_month = today.month
+  current_year = today.year
+  minimum_date = date(int(2100), int(12), int(1))
+  # ------------------------ get todays variables end ------------------------
+  # ------------------------ loop checks start ------------------------
+  for i in teammate_ids_arr:
+    # ------------------------ pull variables start ------------------------
+    db_celebrate_obj = UserCelebrateObj.query.filter_by(fk_user_id=i).first()
+    if db_celebrate_obj != None and db_celebrate_obj != []:
+      i_celebrate_month = int(db_celebrate_obj.celebrate_month)
+      i_celebrate_day = int(db_celebrate_obj.celebrate_day)
+      i_celebrate_year = int(current_year)
+      if i_celebrate_month < current_month:
+        i_celebrate_year = int(current_year) + int(1)
+      # ------------------------ pull variables end ------------------------
+      # ------------------------ construct date start ------------------------
+      upcoming_date = date(i_celebrate_year, i_celebrate_month, i_celebrate_day)
+      # ------------------------ construct date end ------------------------
+      # ------------------------ compare dates and replace/append arr start ------------------------
+      localhost_print_function(' ------------- 1 ------------- ')
+      localhost_print_function(f"minimum_date | type: {type(minimum_date)} | {minimum_date}")
+      localhost_print_function(f"upcoming_date | type: {type(upcoming_date)} | {upcoming_date}")
+      localhost_print_function(' ------------- 1 ------------- ')
+      if upcoming_date < minimum_date:
+        minimum_date = upcoming_date
+        localhost_print_function(' ------------- 2 ------------- ')
+        localhost_print_function(f"minimum_date | type: {type(minimum_date)} | {minimum_date}")
+        localhost_print_function(' ------------- 2 ------------- ')
+      # ------------------------ compare dates and replace/append arr end ------------------------
+  # ------------------------ loop checks end ------------------------
+  return True
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
@@ -353,5 +392,9 @@ def dashboard_celebrations_function(current_user, page_dict):
   db_group_dict = arr_of_dict_all_columns_single_item_function(db_group_obj)
   page_dict['celebrations_on_off_status'] = db_group_dict['celebrations']
   # ------------------------ get group activity status end ------------------------
+  if page_dict['celebrations_on_off_status'] == True:
+    # ------------------------ get upcoming celebration start ------------------------
+    page_dict['celebrations_upcoming_str'] = get_upcoming_celebration_function(teammate_ids_arr)
+    # ------------------------ get upcoming celebration end ------------------------
   return redirect_code, page_dict
 # ------------------------ individual function end ------------------------

@@ -1702,6 +1702,8 @@ def employees_feedback_year_month_function(url_redirect_code=None, url_feedback_
         new_year = int(ui_year_only)
       except:
         pass
+      if new_day == None:
+        new_day = int(1)
       # ------------------------ pre set start end ------------------------
       new_birthday_row_id = create_uuid_function('celebrate_')
       # ------------------------ insert to db celebration start ------------------------
