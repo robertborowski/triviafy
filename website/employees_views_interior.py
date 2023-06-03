@@ -1784,6 +1784,17 @@ def employees_feedback_year_month_skip_function(url_redirect_code=None, url_feed
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
+@employees_views_interior.route('/feedback/celebrations/delete_skipped', methods=['GET', 'POST'])
+@employees_views_interior.route('/feedback/celebrations/delete_skipped/', methods=['GET', 'POST'])
+@employees_views_interior.route('/feedback/celebrations/delete_skipped/<url_redirect_code>', methods=['GET', 'POST'])
+@login_required
+def employees_feedback_delete_skipped_function(url_redirect_code=None):
+  UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,response='feedback skipped').delete()
+  db.session.commit()
+  return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
 @employees_views_interior.route('/feedback/marketing', methods=['GET', 'POST'])
 @employees_views_interior.route('/feedback/marketing/', methods=['GET', 'POST'])
 @employees_views_interior.route('/feedback/marketing/<url_redirect_code>', methods=['GET', 'POST'])
