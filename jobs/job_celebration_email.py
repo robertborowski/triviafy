@@ -55,10 +55,6 @@ def run_job_function():
   # ------------------------ if no birthday today start ------------------------
   if db_arr_of_dict_if_birthday_today == None or db_arr_of_dict_if_birthday_today == [] or len(db_arr_of_dict_if_birthday_today) == 0:
     print('no birthdays today')
-    # ------------------------ close connection start ------------------------
-    postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)
-    # ------------------------ close connection end ------------------------
-    return True
   # ------------------------ if no birthday today end ------------------------
   # ------------------------ if yes birthday today start ------------------------
   else:
@@ -113,10 +109,6 @@ def run_job_function():
     # ------------------------ if no anniversary today start ------------------------
     if db_arr_of_dict_if_anniversary_today == None or db_arr_of_dict_if_anniversary_today == [] or len(db_arr_of_dict_if_anniversary_today) == 0:
       print('no anniversary today')
-      # ------------------------ close connection start ------------------------
-      postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)
-      # ------------------------ close connection end ------------------------
-      return True
     # ------------------------ if no anniversary today end ------------------------
     # ------------------------ if yes anniversary today start ------------------------
     else:
@@ -130,7 +122,7 @@ def run_job_function():
           total_years_working_str = f'{total_years_working_int} years'
         if total_years_working_int < 1:
           localhost_print_function(f"Incorrect input year")
-          return True
+          break
         # ------------------------ get total years end ------------------------
         # ------------------------ get question obj start ------------------------
         db_arr_of_dict_question = select_manual_function(postgres_connection, postgres_cursor, 'select_question_1', i_anniversary_dict['fk_question_id'])
@@ -177,7 +169,6 @@ def run_job_function():
     # ------------------------ if yes anniversary today end ------------------------
   else:
     localhost_print_function(f"Today is not the first of the month")
-    return True
   # ------------------------ lookup/celebrate anniversary end ------------------------
   # ------------------------ close connection start ------------------------
   postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)
