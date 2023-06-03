@@ -6,7 +6,7 @@ from website.backend.candidates.datetime_manipulation import convert_timestamp_t
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function, construct_time_presentation_function
 from website.backend.candidates.quiz import get_next_quiz_open_function, compare_candence_vs_previous_quiz_function_v2
 from website.backend.candidates.pull_create_logic import pull_create_group_obj_function
-from website.models import ActivityATestObj, ActivityATestGradedObj, ActivityAGroupQuestionsUsedObj, ActivityACreatedQuestionsObj, UserObj, ActivityBTestObj, ActivityBTestGradedObj, ActivityBGroupQuestionsUsedObj, ActivityBCreatedQuestionsObj
+from website.models import ActivityATestObj, ActivityATestGradedObj, ActivityAGroupQuestionsUsedObj, ActivityACreatedQuestionsObj, UserObj, ActivityBTestObj, ActivityBTestGradedObj, ActivityBGroupQuestionsUsedObj, ActivityBCreatedQuestionsObj, UserCelebrateObj
 from website import db
 from website.backend.candidates.test_backend import get_test_winner, first_user_latest_quiz_check_function
 import json
@@ -309,4 +309,49 @@ def turn_activity_auto_on_function(current_user, url_activity_code):
     pass
   # ------------------------ turn on auto start stop end ------------------------
   return True
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def get_all_teammate_ids_function(current_user):
+  teammate_ids_arr = []
+  db_teammates_obj = UserObj.query.filter_by(group_id=current_user.group_id).all()
+  for i_obj in db_teammates_obj:
+    teammate_ids_arr.append(i_obj.id)
+  return teammate_ids_arr
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def check_if_teammate_celebration_function(teammate_ids_arr):
+  teammate_completed_check = False
+  for i in teammate_ids_arr:
+    db_teammates_obj = UserCelebrateObj.query.filter_by(fk_user_id=i).first()
+    if db_teammates_obj != None and db_teammates_obj != []:
+      teammate_completed_check = True
+      break
+  return teammate_completed_check
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def dashboard_celebrations_function(current_user, page_dict):
+  redirect_code = None
+  # ------------------------ check if at least 1 user celebration question/answer participation start ------------------------
+  teammate_ids_arr = get_all_teammate_ids_function(current_user)
+  teammate_completed_check = check_if_teammate_celebration_function(teammate_ids_arr)
+  # ------------------------ check if at least 1 user celebration question/answer participation start ------------------------
+  # ------------------------ get group activity status start ------------------------
+  db_group_obj = pull_create_group_obj_function(current_user)
+  # ------------------------ submit new group activity status start ------------------------
+  if db_group_obj.celebrations == False and teammate_completed_check == True:
+    db_group_obj.celebrations = True
+    db.session.commit()
+    return 'dashboard', page_dict
+  if db_group_obj.celebrations == True and teammate_completed_check == False:
+    db_group_obj.celebrations = False
+    db.session.commit()
+    return 'dashboard', page_dict
+  # ------------------------ submit new group activity status end ------------------------
+  db_group_dict = arr_of_dict_all_columns_single_item_function(db_group_obj)
+  page_dict['celebrations_on_off_status'] = db_group_dict['celebrations']
+  # ------------------------ get group activity status end ------------------------
+  return redirect_code, page_dict
 # ------------------------ individual function end ------------------------

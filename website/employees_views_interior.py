@@ -37,7 +37,7 @@ from website.backend.candidates.aws_manipulation import candidates_change_upload
 from website.backend.candidates.string_manipulation import breakup_email_function, capitalize_all_words_function
 from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_years_function, get_favorite_questions_function, get_marketing_list_function, get_dashboard_accordian_function, get_activity_a_products_function, get_activity_b_products_function
 from website.backend.candidates.pull_create_logic import pull_create_group_obj_function, pull_latest_activity_test_obj_function, user_must_have_group_id_function, pull_create_activity_settings_obj_function, pull_group_obj_function, get_total_activity_closed_count_function
-from website.backend.candidates.activity_supporting import activity_dashboard_function, activity_live_function, turn_activity_auto_on_function
+from website.backend.candidates.activity_supporting import activity_dashboard_function, activity_live_function, turn_activity_auto_on_function, dashboard_celebrations_function
 from website.backend.candidates.emailing import email_share_with_team_function
 from website.backend.candidates.onboarding import onboarding_checks_function
 from website.backend.candidates.settings_supporting import activity_settings_prep_function, activity_settings_post_function
@@ -117,6 +117,11 @@ def login_dashboard_page_function(url_redirect_code=None):
   # ------------------------ dashboard supporting end ------------------------
   # ------------------------ dashboard supporting start ------------------------
   redirect_code, page_dict = activity_dashboard_function(current_user, page_dict, 'icebreakers', 'activity_type_b')
+  if redirect_code == 'dashboard':
+    return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+  # ------------------------ dashboard supporting end ------------------------
+  # ------------------------ dashboard supporting start ------------------------
+  redirect_code, page_dict = dashboard_celebrations_function(current_user, page_dict)
   if redirect_code == 'dashboard':
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ dashboard supporting end ------------------------
@@ -1700,7 +1705,7 @@ def employees_feedback_year_month_function(url_redirect_code=None, url_feedback_
         pass
       # ------------------------ pre set start end ------------------------
       new_birthday_row_id = create_uuid_function('celebrate_')
-      # ------------------------ insert to db start ------------------------
+      # ------------------------ insert to db celebration start ------------------------
       new_row = UserCelebrateObj(
         id = new_birthday_row_id,
         created_timestamp = create_timestamp_function(),
@@ -1715,9 +1720,9 @@ def employees_feedback_year_month_function(url_redirect_code=None, url_feedback_
       )
       db.session.add(new_row)
       db.session.commit()
-      # ------------------------ insert to db end ------------------------
+      # ------------------------ insert to db celebration end ------------------------
+      # ------------------------ insert to db feedback start ------------------------
       try:
-        # ------------------------ insert to db start ------------------------
         new_row = UserSignupFeedbackObj(
           id = create_uuid_function('feedback_'),
           created_timestamp = create_timestamp_function(),
@@ -1728,9 +1733,9 @@ def employees_feedback_year_month_function(url_redirect_code=None, url_feedback_
         )
         db.session.add(new_row)
         db.session.commit()
-        # ------------------------ insert to db end ------------------------
       except:
         pass
+      # ------------------------ insert to db feedback end ------------------------
     except:
       pass
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))

@@ -282,22 +282,37 @@
       <div class="accordion-item">
         <h2 class="accordion-header">
           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-            Birthdays
+            Celebrations
             <div class="form-check form-switch custom-ml-1">
-              <input class="form-check-input" type="checkbox" role="switch" id="flexActivityBirthdays" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Auto stop/start team activity, save changes below" disabled>
-              <label class="form-check-label" for="flexActivityBirthdays"></label>
+              {% if page_dict_to_html['celebrations_on_off_status'] == true %}
+                <input class="form-check-input" type="checkbox" role="switch" name="flexActivityCelebrations" id="flexActivityCelebrations" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Auto stop/start team activity, save changes below" checked>
+              {% else %}
+                <input class="form-check-input" type="checkbox" role="switch" name="flexActivityCelebrations" id="flexActivityCelebrations" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Auto stop/start team activity, save changes below">
+              {% endif %}
+              <label class="form-check-label" for="flexActivityCelebrations"></label>
             </div>
           </button>
         </h2>
         <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
           <div class="accordion-body">
+            {% if page_dict_to_html['group_stripe_status'] != 'active' %}
             <div class="text-center custom-p-4 custom-bg-color-3 custom-br-1">
-              {% if page_dict_to_html['group_stripe_status'] == 'active' %}
-                <p class="custom-m-0">Maintenance <i class="fa-solid fa-screwdriver-wrench"></i></p>
-              {% else %}
-                <a href="/account" class="custom-a-2">Subscription required <i class="fa-solid fa-eye-slash"></i></a>
-              {% endif %}
+              <a href="/account" class="custom-a-2">Subscription required <i class="fa-solid fa-eye-slash"></i></a>
             </div>
+            {% else %}
+              <!-- ------------------------------------- latest activity start ------------------------------------- -->
+              <div class="custom-border-9 custom-br-1 custom-p-1 custom-mb-6 custom-bg-color-8">
+                <h3 class="custom-ml-1 custom-mb-6">Upcoming celebration</h3>
+                <!-- ------------------------------------- next celebration logic start ------------------------------------- -->
+                {% if page_dict_to_html['celebrations_on_off_status'] == false %}
+                  <p class="custom-line-2"><a href="#" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">No upcoming celebrations</span></a> <a href="#" class="custom-a-2">Start celebrating</a></p>
+                {% else %}
+                  <p>hello</p>
+                {% endif %}
+                <!-- ------------------------------------- next celebration logic end ------------------------------------- -->
+              </div>
+              <!-- ------------------------------------- latest activity end ------------------------------------- -->
+            {% endif %}
           </div>
         </div>
       </div>
