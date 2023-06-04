@@ -257,6 +257,17 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
                     ORDER BY \
                       fk_user_id;",
       'input_args': {}
+    },
+    'select_upcoming_celebrations_v2': {
+      'raw_query': f"SELECT \
+                      * \
+                    FROM \
+                      user_celebrate_obj \
+                    WHERE \
+                      fk_user_id IN ({additional_input}) \
+                    ORDER BY \
+                      fk_user_id;",
+      'input_args': {}
     }
   }
   # ------------------------ select queries end ------------------------

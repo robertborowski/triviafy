@@ -37,7 +37,7 @@ from website.backend.candidates.aws_manipulation import candidates_change_upload
 from website.backend.candidates.string_manipulation import breakup_email_function, capitalize_all_words_function
 from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_years_function, get_favorite_questions_function, get_marketing_list_function, get_dashboard_accordian_function, get_activity_a_products_function, get_activity_b_products_function
 from website.backend.candidates.pull_create_logic import pull_create_group_obj_function, pull_latest_activity_test_obj_function, user_must_have_group_id_function, pull_create_activity_settings_obj_function, pull_group_obj_function, get_total_activity_closed_count_function
-from website.backend.candidates.activity_supporting import activity_dashboard_function, activity_live_function, turn_activity_auto_on_function, dashboard_celebrations_function
+from website.backend.candidates.activity_supporting import activity_dashboard_function, activity_live_function, turn_activity_auto_on_function, dashboard_celebrations_function, get_all_teammate_ids_function
 from website.backend.candidates.emailing import email_share_with_team_function
 from website.backend.candidates.onboarding import onboarding_checks_function
 from website.backend.candidates.settings_supporting import activity_settings_prep_function, activity_settings_post_function
@@ -818,6 +818,45 @@ def group_leaderboard_function(url_redirect_code=None):
   # ------------------------ pull test winner end ------------------------
   page_dict['users_arr_of_dicts'] = users_arr_of_dicts
   return render_template('employees/interior/leaderboard/index.html', page_dict_to_html=page_dict)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@employees_views_interior.route('/celebrations')
+@employees_views_interior.route('/celebrations/<url_redirect_code>')
+@login_required
+def activity_celebrations_function(url_redirect_code=None):
+  # ------------------------ page dict start ------------------------
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ page dict end ------------------------
+  # ------------------------ pull all teammates start ------------------------
+  teammates_arr_of_dict = []
+  teammate_ids_arr = []
+  db_teammates_obj = UserObj.query.filter_by(group_id=current_user.group_id).all()
+  for i_obj in db_teammates_obj:
+    i_dict = arr_of_dict_all_columns_single_item_function(i_obj)
+    teammates_arr_of_dict.append(i_dict)
+    teammate_ids_arr.append(i_dict['id'])
+  # ------------------------ pull all teammates end ------------------------
+  # ------------------------ pull all team celebrations start ------------------------
+  teammate_ids_str = "'" + "','".join(teammate_ids_arr) + "'"
+  query_celebrations_arr_of_dicts = select_general_function('select_upcoming_celebrations_v2', teammate_ids_str)
+  # ------------------------ pull all team celebrations end ------------------------
+  # ------------------------ data for table start ------------------------
+  for i_celebrate_dict in query_celebrations_arr_of_dicts:
+    for i_user_dict in teammates_arr_of_dict:
+      if i_celebrate_dict['fk_user_id'] == i_user_dict['id']:
+        i_celebrate_dict['name'] = i_user_dict['name']
+  page_dict['query_celebrations_arr_of_dicts'] = query_celebrations_arr_of_dicts
+  # ------------------------ data for table end ------------------------
+  localhost_print_function(' ------------- 100-celebrations start ------------- ')
+  page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
+  for k,v in page_dict.items():
+    localhost_print_function(f"k: {k} | v: {v}")
+    pass
+  localhost_print_function(' ------------- 100-celebrations end ------------- ')
+  return render_template('employees/interior/celebrations/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
