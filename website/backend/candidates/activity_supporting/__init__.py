@@ -358,7 +358,7 @@ def get_upcoming_celebration_function(teammate_ids_arr, page_dict):
         upcoming_date = date(i_celebrate_year, i_celebrate_month, i_celebrate_day)
         # ------------------------ construct date end ------------------------
         # ------------------------ compare dates and replace/append arr start ------------------------
-        if upcoming_date < minimum_date:
+        if upcoming_date < minimum_date and upcoming_date >= today:
           minimum_date = upcoming_date
         # ------------------------ compare dates and replace/append arr end ------------------------
   # ------------------------ loop checks end ------------------------

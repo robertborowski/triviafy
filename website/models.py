@@ -315,6 +315,7 @@ class UserCelebrateObj(db.Model):
   celebrate_year = db.Column(db.Integer)
   status = db.Column(db.Boolean, default=False)
   fk_question_id = db.Column(db.String(150))
+  fk_test_id = db.Column(db.String(150))
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
