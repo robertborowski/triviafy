@@ -334,7 +334,7 @@ def check_if_teammate_celebration_function(teammate_ids_arr):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
-def get_upcoming_celebration_function(teammate_ids_arr):
+def get_upcoming_celebration_function(teammate_ids_arr, page_dict):
   # ------------------------ get todays variables start ------------------------
   today = date.today()    # <class 'datetime.date'> | 2023-06-03
   current_day = today.day
@@ -362,12 +362,17 @@ def get_upcoming_celebration_function(teammate_ids_arr):
           minimum_date = upcoming_date
         # ------------------------ compare dates and replace/append arr end ------------------------
   # ------------------------ loop checks end ------------------------
+  # ------------------------ check today start ------------------------
+  page_dict['celebrations_are_today'] = False
+  if minimum_date == today:
+    page_dict['celebrations_are_today'] = True
+  # ------------------------ check today end ------------------------
   # ------------------------ get all users with min date start ------------------------
   min_day = minimum_date.day    # int
   min_month = minimum_date.month    # int
   min_year = minimum_date.year    # int
   teammate_ids_str = "'" + "','".join(teammate_ids_arr) + "'"
-  query_result_arr_of_dicts = select_general_function('select_upcoming_celebrations_v1', teammate_ids_str, min_month, min_day)
+  query_result_arr_of_dicts = select_general_function('select_celebrations_v1', teammate_ids_str, min_month, min_day)
   master_str = ''
   for i_dict in query_result_arr_of_dicts:
     db_user_obj = UserObj.query.filter_by(id=i_dict['fk_user_id']).first()
@@ -384,7 +389,41 @@ def get_upcoming_celebration_function(teammate_ids_arr):
       else:
         master_str = master_str + f" & {i_dict['name']}'s company anniversary on {min_month}/{min_day}/{min_year}"
   # ------------------------ get all users with min date end ------------------------
-  return master_str
+  page_dict['celebrations_upcoming_str'] = master_str
+  return page_dict
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def get_todays_celebration_function(current_user, teammate_ids_arr, page_dict):
+  # ------------------------ get todays variables start ------------------------
+  today = date.today()    # <class 'datetime.date'> | 2023-06-03
+  current_day = today.day
+  current_month = today.month
+  current_year = today.year
+  # ------------------------ get todays variables end ------------------------
+  # ------------------------ pull all teammates start ------------------------
+  teammates_arr_of_dict = []
+  db_teammates_obj = UserObj.query.filter_by(group_id=current_user.group_id).all()
+  for i_obj in db_teammates_obj:
+    i_dict = arr_of_dict_all_columns_single_item_function(i_obj)
+    teammates_arr_of_dict.append(i_dict)
+  # ------------------------ pull all teammates end ------------------------
+  # ------------------------ pull todays celebrations start ------------------------
+  teammate_ids_str = "'" + "','".join(teammate_ids_arr) + "'"
+  celebrations_today_arr_of_dicts = select_general_function('select_celebrations_v1', teammate_ids_str, current_month, current_day)
+  # ------------------------ pull todays celebrations end ------------------------
+  # ------------------------ data for table start ------------------------
+  for i_celebrate_dict in celebrations_today_arr_of_dicts:
+    for i_user_dict in teammates_arr_of_dict:
+      if i_celebrate_dict['fk_user_id'] == i_user_dict['id']:
+        i_celebrate_dict['name'] = i_user_dict['name']
+    if i_celebrate_dict['event'] == 'birthday':
+      i_celebrate_dict['event_str'] = i_celebrate_dict['name'] + "'s birthday is today, click here to participate! "
+    if i_celebrate_dict['event'] == 'job_start_date':
+      i_celebrate_dict['event_str'] = i_celebrate_dict['name'] + "'s company anniversary is today, click here to participate! "
+  page_dict['celebrations_today_arr_of_dicts'] = celebrations_today_arr_of_dicts
+  # ------------------------ data for table end ------------------------
+  return page_dict
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
@@ -411,7 +450,11 @@ def dashboard_celebrations_function(current_user, page_dict):
   # ------------------------ get group activity status end ------------------------
   if page_dict['celebrations_on_off_status'] == True:
     # ------------------------ get upcoming celebration start ------------------------
-    page_dict['celebrations_upcoming_str'] = get_upcoming_celebration_function(teammate_ids_arr)
+    page_dict = get_upcoming_celebration_function(teammate_ids_arr, page_dict)
     # ------------------------ get upcoming celebration end ------------------------
+    # ------------------------ get todays celebrations start ------------------------
+    if page_dict['celebrations_are_today'] == True:
+      page_dict = get_todays_celebration_function(current_user, teammate_ids_arr, page_dict)
+    # ------------------------ get todays celebrations end ------------------------
   return redirect_code, page_dict
 # ------------------------ individual function end ------------------------

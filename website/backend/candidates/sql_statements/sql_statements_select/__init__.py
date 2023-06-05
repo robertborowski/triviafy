@@ -245,7 +245,7 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
                     LIMIT 1;",
       'input_args': {}
     },
-    'select_upcoming_celebrations_v1': {
+    'select_celebrations_v1': {
       'raw_query': f"SELECT \
                       * \
                     FROM \
