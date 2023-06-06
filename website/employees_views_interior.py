@@ -1677,6 +1677,28 @@ def employees_feedback_year_month_function(url_redirect_code=None, url_feedback_
   page_dict['days_arr'] = days_arr
   page_dict['years_arr'] = years_arr
   # ------------------------ get month days dict end ------------------------
+  # ------------------------ get current response if exists start ------------------------
+  page_dict['existing_complete'] = False
+  page_dict['existing_question'] = None
+  page_dict['existing_answer'] = None
+  page_dict['existing_celebrate_month'] = None
+  page_dict['existing_celebrate_day'] = None
+  page_dict['existing_celebrate_year'] = None
+  try:
+    # ------------------------ check if feedback step skipped start ------------------------
+    # ------------------------ check if feedback step skipped end ------------------------
+    db_celebrate_obj = UserCelebrateObj.query.filter_by(fk_user_id=current_user.id,event=url_feedback_code).first()
+    if db_celebrate_obj != None and db_celebrate_obj != []:
+      db_celebrate_dict = arr_of_dict_all_columns_single_item_function(db_celebrate_obj)
+      page_dict['existing_complete'] = True
+      page_dict['existing_question'] = db_celebrate_dict['question']
+      page_dict['existing_answer'] = db_celebrate_dict['answer']
+      page_dict['existing_celebrate_month'] = db_celebrate_dict['celebrate_month']
+      page_dict['existing_celebrate_day'] = db_celebrate_dict['celebrate_day']
+      page_dict['existing_celebrate_year'] = db_celebrate_dict['celebrate_year']
+  except:
+    pass
+  # ------------------------ get current response if exists end ------------------------
   # ------------------------ submission start ------------------------
   if request.method == 'POST':
     # ------------------------ get user inputs start ------------------------
@@ -1826,6 +1848,50 @@ def employees_feedback_year_month_skip_function(url_redirect_code=None, url_feed
   except:
     pass
   # ------------------------ skip logic end ------------------------
+  return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@employees_views_interior.route('/feedback/<url_feedback_code>/replace', methods=['GET', 'POST'])
+@employees_views_interior.route('/feedback/<url_feedback_code>/replace/', methods=['GET', 'POST'])
+@employees_views_interior.route('/feedback/<url_feedback_code>/replace/<url_redirect_code>', methods=['GET', 'POST'])
+@login_required
+def employees_feedback_year_month_replace_function(url_redirect_code=None, url_feedback_code=None):
+  # ------------------------ delete from db start ------------------------
+  question_id = None
+  test_id = None
+  try:
+    UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question=url_feedback_code+'_choice').delete()
+  except:
+    pass
+  try:
+    db_obj = UserCelebrateObj.query.filter_by(fk_user_id=current_user.id,event=url_feedback_code).first()
+    question_id = db_obj.fk_question_id
+    test_id = db_obj.fk_test_id
+    UserCelebrateObj.query.filter_by(fk_user_id=current_user.id,event=url_feedback_code).delete()
+  except:
+    pass
+  try:
+    ActivityACreatedQuestionsObj.query.filter_by(fk_user_id=current_user.id,id=question_id,product=url_feedback_code).delete()
+  except:
+    pass
+  try:
+    ActivityAGroupQuestionsUsedObj.query.filter_by(fk_question_id=question_id,fk_test_id=test_id,product=url_feedback_code).delete()
+  except:
+    pass
+  try:
+    ActivityATestGradedObj.query.filter_by(fk_test_id=test_id,product=url_feedback_code).delete()
+  except:
+    pass
+  try:
+    ActivityATestObj.query.filter_by(id=test_id,product=url_feedback_code).delete()
+  except:
+    pass
+  try:
+    db.session.commit()
+  except:
+    pass
+  # ------------------------ delete from db end ------------------------
   return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
 # ------------------------ individual route end ------------------------
 
