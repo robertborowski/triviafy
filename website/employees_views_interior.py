@@ -840,14 +840,16 @@ def activity_celebrations_function(url_redirect_code=None):
     teammate_ids_arr.append(i_dict['id'])
   # ------------------------ pull all teammates end ------------------------
   # ------------------------ pull all team celebrations start ------------------------
-  teammate_ids_str = "'" + "','".join(teammate_ids_arr) + "'"
-  query_celebrations_arr_of_dicts = select_general_function('select_upcoming_celebrations_v2', teammate_ids_str)
+  db_celebrations_obj = UserCelebrateObj.query.filter_by(fk_group_id=current_user.group_id).all()
   # ------------------------ pull all team celebrations end ------------------------
   # ------------------------ data for table start ------------------------
-  for i_celebrate_dict in query_celebrations_arr_of_dicts:
+  query_celebrations_arr_of_dicts = []
+  for i_celebrate_obj in db_celebrations_obj:
+    i_celebrate_dict = arr_of_dict_all_columns_single_item_function(i_celebrate_obj)
     for i_user_dict in teammates_arr_of_dict:
       if i_celebrate_dict['fk_user_id'] == i_user_dict['id']:
         i_celebrate_dict['name'] = i_user_dict['name']
+    query_celebrations_arr_of_dicts.append(i_celebrate_dict)
   page_dict['query_celebrations_arr_of_dicts'] = query_celebrations_arr_of_dicts
   # ------------------------ data for table end ------------------------
   localhost_print_function(' ------------- 100-celebrations start ------------- ')
