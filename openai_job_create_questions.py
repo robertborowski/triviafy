@@ -65,12 +65,17 @@ def run_job_function():
   # ------------------------ get all tables start ------------------------
   db_arr_of_dict_custom_questions_created = select_manual_function(postgres_connection, postgres_cursor, 'select_celebrations_for_openai')
   db_arr_of_dict_users_to_create_questions_for = select_manual_function(postgres_connection, postgres_cursor, 'select_celebration_users')
-  products_arr = ['birthday','job_start_date']
   # ------------------------ get all tables end ------------------------
   # ------------------------ loop through logic start ------------------------
   try:
     # ------------------------ loop through celebrate rows start ------------------------
     for i_celebrate_dict in db_arr_of_dict_users_to_create_questions_for:
+      # ------------------------ get total teammate count start ------------------------
+      db_arr_of_dict_total_teammates = select_manual_function(postgres_connection, postgres_cursor, 'select_total_teammates', i_celebrate_dict['fk_group_id'])
+      if len(db_arr_of_dict_total_teammates) == 1:
+        localhost_print_function(f"group_id: {i_celebrate_dict['fk_group_id']} = 1 total user. No question created because no one else to celebrate.")
+        continue
+      # ------------------------ get total teammate count end ------------------------
       user_product_question_already_created = False
       # ------------------------ loop through questions already created rows start ------------------------
       found_question_id = None
