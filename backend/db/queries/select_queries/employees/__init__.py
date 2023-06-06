@@ -203,7 +203,7 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
           user_celebrate_obj \
         WHERE \
           status=False \
-          AND fk_question_id IS NULL;",
+          AND (fk_question_id IS NULL OR fk_question_id = '');",
     'select_if_birthday_today':
       f"SELECT \
           fk_question_id, \
@@ -219,6 +219,8 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
     'select_if_job_start_date_today':
       f"SELECT \
           fk_question_id, \
+          fk_user_id, \
+          fk_group_id, \
           celebrate_year \
         FROM \
           user_celebrate_obj \
