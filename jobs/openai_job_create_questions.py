@@ -67,6 +67,7 @@ def run_job_function():
   db_arr_of_dict_users_to_create_questions_for = select_manual_function(postgres_connection, postgres_cursor, 'select_celebration_users')
   # ------------------------ get all tables end ------------------------
   # ------------------------ loop through logic start ------------------------
+  chatgpt_response_str = None
   try:
     # ------------------------ loop through celebrate rows start ------------------------
     for i_celebrate_dict in db_arr_of_dict_users_to_create_questions_for:
@@ -156,7 +157,7 @@ def run_job_function():
         # ------------------------ update db end ------------------------
     # ------------------------ loop through celebrate rows end ------------------------
   except Exception as e:
-    print(f'Exception: {e}')
+    print(f'Exception: {e} | chatgpt_response_str: {chatgpt_response_str}')
   # ------------------------ loop through logic end ------------------------
   # ------------------------ close connection start ------------------------
   postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)

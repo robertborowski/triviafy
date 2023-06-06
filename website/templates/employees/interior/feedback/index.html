@@ -122,17 +122,22 @@
         <!-- ------------------------------------- existing choice start ------------------------------------- -->
         {% if page_dict_to_html['existing_complete'] == true %}
           <div class="mx-auto custom-width-1 custom-p-15 custom-br-1 custom-bg-green-1">
-            <h3>Your latest response</h3>
-            <ul>
-              <li>Question: {{ page_dict_to_html['existing_question'] }}</li>
-              <li>Answer: {{ page_dict_to_html['existing_answer'] }}</li>
-              <li>Month: {{ page_dict_to_html['existing_celebrate_month'] }}</li>
-              {% if page_dict_to_html['feedback_request'] == 'birthday' %}
-                <li>Day: {{ page_dict_to_html['existing_celebrate_day'] }}</li>
-              {% elif page_dict_to_html['feedback_request'] == 'job_start_date' %}
-                <li>Year: {{ page_dict_to_html['existing_celebrate_year'] }}</li>
-              {% endif %}        
-            </ul>
+            {% if page_dict_to_html['existing_feedback_skipped'] == true %}
+              <h3>You chose to skip this activity.</h3>
+              <p class="custom-m-0"><a href="/feedback/{{ page_dict_to_html['feedback_request'] }}/replace" class="custom-a-2">Replace your response to submit again.</a></p>
+            {% elif page_dict_to_html['existing_feedback_skipped'] == false %}
+              <h3>Your latest response</h3>
+              <ul>
+                <li>Question: {{ page_dict_to_html['existing_question'] }}</li>
+                <li>Answer: {{ page_dict_to_html['existing_answer'] }}</li>
+                <li>Month: {{ page_dict_to_html['existing_celebrate_month'] }}</li>
+                {% if page_dict_to_html['feedback_request'] == 'birthday' %}
+                  <li>Day: {{ page_dict_to_html['existing_celebrate_day'] }}</li>
+                {% elif page_dict_to_html['feedback_request'] == 'job_start_date' %}
+                  <li>Year: {{ page_dict_to_html['existing_celebrate_year'] }}</li>
+                {% endif %}        
+              </ul>
+            {% endif %}
           </div>
           <div class="custom-width-1 mx-auto custom-mt-50">
             <a href="/feedback/{{ page_dict_to_html['feedback_request'] }}/replace" class="btn btn-outline-danger custom-width-100 custom-mb-25">Replace response <i class="fa-solid fa-rotate-right"></i></a>

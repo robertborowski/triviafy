@@ -1679,6 +1679,7 @@ def employees_feedback_year_month_function(url_redirect_code=None, url_feedback_
   # ------------------------ get month days dict end ------------------------
   # ------------------------ get current response if exists start ------------------------
   page_dict['existing_complete'] = False
+  page_dict['existing_feedback_skipped'] = False
   page_dict['existing_question'] = None
   page_dict['existing_answer'] = None
   page_dict['existing_celebrate_month'] = None
@@ -1686,6 +1687,11 @@ def employees_feedback_year_month_function(url_redirect_code=None, url_feedback_
   page_dict['existing_celebrate_year'] = None
   try:
     # ------------------------ check if feedback step skipped start ------------------------
+    db_feedback_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question=url_feedback_code+'_choice').first()
+    if db_feedback_obj != None and db_feedback_obj != []:
+      if db_feedback_obj.response == 'feedback skipped':
+        page_dict['existing_complete'] = True
+        page_dict['existing_feedback_skipped'] = True
     # ------------------------ check if feedback step skipped end ------------------------
     db_celebrate_obj = UserCelebrateObj.query.filter_by(fk_user_id=current_user.id,event=url_feedback_code).first()
     if db_celebrate_obj != None and db_celebrate_obj != []:
