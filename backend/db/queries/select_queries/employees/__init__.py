@@ -206,7 +206,8 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
           AND fk_question_id IS NULL;",
     'select_if_birthday_today':
       f"SELECT \
-          fk_question_id \
+          fk_question_id, \
+          fk_user_id \
         FROM \
           user_celebrate_obj \
         WHERE \
@@ -232,6 +233,14 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
           activity_a_created_questions_obj \
         WHERE \
           id='{additional_input}';",
+    'select_test_1':
+      f"SELECT \
+          * \
+        FROM \
+          activity_a_test_obj \
+        WHERE \
+          product='{additional_input}' \
+          AND question_ids='{additional_input2}';",
     'select_letter_count_v1':
       f"SELECT 'A' AS letter, COUNT(*) AS total_count FROM activity_a_created_questions_obj WHERE product = 'employees' AND answer LIKE 'A,%' \
         UNION \

@@ -6,6 +6,25 @@ from backend.utils.localhost_print_utils.localhost_print import localhost_print_
 def update_manual_function(postgres_connection, postgres_cursor, tag_query_to_use, additional_input_arr=None):
   if additional_input_arr != None:
     # ------------------------ generic pull start ------------------------
+    input_0 = None
+    input_1 = None
+    input_2 = None
+    input_3 = None
+    input_4 = None
+    input_5 = None
+    input_6 = None
+    input_7 = None
+    input_8 = None
+    input_9 = None
+    input_10 = None
+    input_11 = None
+    input_12 = None
+    input_13 = None
+    input_14 = None
+    input_15 = None
+    input_16 = None
+    input_17 = None
+    input_18 = None
     try:
       input_0 = additional_input_arr[0]
       input_1 = additional_input_arr[1]
@@ -36,6 +55,12 @@ def update_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
                   SET status=True, fk_question_id=%s \
                   WHERE fk_user_id=%s AND event=%s;",
         'inject_criteria': (input_0, input_1, input_2)
+      },
+      'update_celebrations_1': {
+        'query': "UPDATE user_celebrate_obj \
+                  SET fk_test_id=%s \
+                  WHERE fk_question_id=%s;",
+        'inject_criteria': (input_0, input_1)
       }
     }
     # ------------------------ insert queries end ------------------------

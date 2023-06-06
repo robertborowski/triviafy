@@ -1566,7 +1566,8 @@ def employees_feedback_primary_function(url_redirect_code=None):
       fk_user_id = current_user.id,
       fk_email = current_user.email,
       question = 'primary_product_choice',
-      response = ui_answer
+      response = ui_answer,
+      fk_group_id = current_user.group_id
     )
     db.session.add(new_row)
     db.session.commit()
@@ -1620,7 +1621,8 @@ def employees_feedback_secondary_function(url_redirect_code=None, value_to_remov
       fk_user_id = current_user.id,
       fk_email = current_user.email,
       question = 'secondary_product_choice',
-      response = ui_answer
+      response = ui_answer,
+      fk_group_id = current_user.group_id
     )
     db.session.add(new_row)
     db.session.commit()
@@ -1756,7 +1758,8 @@ def employees_feedback_year_month_function(url_redirect_code=None, url_feedback_
         celebrate_month = new_month,
         celebrate_day = new_day,
         celebrate_year = new_year,
-        status = False
+        status = False,
+        fk_group_id = current_user.group_id
       )
       db.session.add(new_row)
       db.session.commit()
@@ -1769,7 +1772,8 @@ def employees_feedback_year_month_function(url_redirect_code=None, url_feedback_
           fk_user_id = current_user.id,
           fk_email = current_user.email,
           question = url_feedback_code + '_choice',
-          response = new_birthday_row_id
+          response = new_birthday_row_id,
+          fk_group_id = current_user.group_id
         )
         db.session.add(new_row)
         db.session.commit()
@@ -1813,7 +1817,8 @@ def employees_feedback_year_month_skip_function(url_redirect_code=None, url_feed
       fk_user_id = current_user.id,
       fk_email = current_user.email,
       question = url_feedback_code + '_choice',
-      response = 'feedback skipped'
+      response = 'feedback skipped',
+      fk_group_id = current_user.group_id
     )
     db.session.add(new_row)
     db.session.commit()
@@ -1873,7 +1878,8 @@ def employees_feedback_marketing_function(url_redirect_code=None):
       fk_user_id = current_user.id,
       fk_email = current_user.email,
       question = 'marketing_choice',
-      response = ui_answer
+      response = ui_answer,
+      fk_group_id = current_user.group_id
     )
     db.session.add(new_row)
     db.session.commit()

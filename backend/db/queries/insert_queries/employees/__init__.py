@@ -55,6 +55,15 @@ def insert_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
       'insert_celebrate_1': {
         'query': "INSERT INTO activity_a_created_questions_obj(id,created_timestamp,fk_user_id,status,categories,title,question,option_a,option_b,option_c,option_d,option_e,answer,aws_image_uuid,aws_image_url,submission,product,fk_group_id) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);",
         'new_row': (input_0, input_1, input_2, input_3, input_4, input_5, input_6, input_7, input_8, input_9, input_10, input_11, input_12, input_13, input_14, input_15, input_16, input_17)
+      },
+      'insert_test_1': {
+        'query': "INSERT INTO activity_a_test_obj(id,created_timestamp,fk_group_id,timezone,start_day,start_time,start_timestamp,end_day,end_time,end_timestamp,cadence,total_questions,question_type,categories,question_ids,question_types_order,status,product) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);",
+        'new_row': (input_0, input_1, input_2, input_3, input_4, input_5, input_6, input_7, input_8, input_9, input_10, input_11, input_12, input_13, input_14, input_15, input_16, input_17)
+      }
+      ,
+      'insert_used_1': {
+        'query': "INSERT INTO activity_a_group_questions_used_obj(id,created_timestamp,fk_group_id,fk_question_id,fk_test_id,product) VALUES(%s,%s,%s,%s,%s,%s);",
+        'new_row': (input_0, input_1, input_2, input_3, input_4, input_5)
       }
     }
     # ------------------------ insert queries end ------------------------

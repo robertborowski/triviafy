@@ -300,6 +300,7 @@ class UserSignupFeedbackObj(db.Model):
   fk_email = db.Column(db.String(150))
   question = db.Column(db.String(150))
   response = db.Column(db.String(150))
+  fk_group_id = db.Column(db.String(150))
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
@@ -316,6 +317,7 @@ class UserCelebrateObj(db.Model):
   status = db.Column(db.Boolean, default=False)
   fk_question_id = db.Column(db.String(150))
   fk_test_id = db.Column(db.String(150))
+  fk_group_id = db.Column(db.String(150))
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------

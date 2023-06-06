@@ -113,6 +113,14 @@ def admin_delete_page_function(url_redirect_code=None):
     group_to_delete = request.form.get('DeleteOneGroupAllEmployeesTables')
     if group_to_delete != None:
       try:
+        ActivityACreatedQuestionsObj.query.filter_by(fk_group_id=group_to_delete,product='birthday').delete()
+      except:
+        pass
+      try:
+        ActivityACreatedQuestionsObj.query.filter_by(fk_group_id=group_to_delete,product='job_start_date').delete()
+      except:
+        pass
+      try:
         ActivityAGroupQuestionsUsedObj.query.filter_by(fk_group_id=group_to_delete).delete()
       except:
         pass
@@ -149,7 +157,19 @@ def admin_delete_page_function(url_redirect_code=None):
       except:
         pass
       try:
+        UserCelebrateObj.query.filter_by(fk_group_id=group_to_delete).delete()
+      except:
+        pass
+      try:
         UserFeatureRequestObj.query.filter_by(fk_group_id=group_to_delete).delete()
+      except:
+        pass
+      try:
+        UserSignupFeedbackObj.query.filter_by(fk_group_id=group_to_delete, question='birthday_choice').delete()
+      except:
+        pass
+      try:
+        UserSignupFeedbackObj.query.filter_by(fk_group_id=group_to_delete, question='job_start_date_choice').delete()
       except:
         pass
       db.session.commit()
