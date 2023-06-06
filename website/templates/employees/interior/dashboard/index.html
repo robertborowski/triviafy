@@ -308,7 +308,7 @@
                   <p class="custom-line-2"><a href="/feedback/celebrations/delete_skipped" class="custom-a-none"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">No upcoming celebrations</span></a> <a href="/feedback/celebrations/delete_skipped" class="custom-a-2">Start celebrating</a></p>
                 {% else %}
                   {% if page_dict_to_html['celebrations_are_today'] == true %}
-                    <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Today's celebration</span> {% for i_dict in page_dict_to_html['celebrations_today_arr_of_dicts'] %}<a href="/{{ i_dict['fk_question_id'] }}" class="custom-a-2">{{ i_dict['event_str'] }}</a> {% endfor %}</p>
+                    <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Today's celebration</span> {% for i_dict in page_dict_to_html['celebrations_today_arr_of_dicts'] %}<a href="/activity/activity_type_a/{{ i_dict['fk_test_id'] }}/1" class="custom-a-2">{{ i_dict['event_str'] }}</a> {% endfor %}</p>
                   {% elif page_dict_to_html['celebrations_are_today'] == false %}
                     <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-4 custom-color-5 custom-mr-1">Upcoming celebration</span> {{ page_dict_to_html['celebrations_upcoming_str'] }}</p>
                   {% endif %}

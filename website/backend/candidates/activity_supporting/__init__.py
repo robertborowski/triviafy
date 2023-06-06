@@ -1,6 +1,6 @@
 # ------------------------ imports start ------------------------
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
-from website.backend.candidates.pull_create_logic import pull_create_activity_settings_obj_function, pull_latest_activity_test_obj_function, pull_latest_activity_test_graded_obj_function
+from website.backend.candidates.pull_create_logic import pull_create_activity_settings_obj_function, pull_latest_activity_test_obj_function, pull_latest_activity_test_graded_obj_function, pull_create_celebration_test_id_obj_function
 from website.backend.candidates.test_backend import get_test_winner, close_historical_activity_tests_function, delete_historical_activity_tests_no_participation_function
 from website.backend.candidates.datetime_manipulation import convert_timestamp_to_month_day_string_function
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function, construct_time_presentation_function
@@ -409,11 +409,20 @@ def get_todays_celebration_function(current_user, teammate_ids_arr, page_dict):
     teammates_arr_of_dict.append(i_dict)
   # ------------------------ pull all teammates end ------------------------
   # ------------------------ pull todays celebrations start ------------------------
-  teammate_ids_str = "'" + "','".join(teammate_ids_arr) + "'"
-  celebrations_today_arr_of_dicts = select_general_function('select_celebrations_v1', teammate_ids_str, current_month, current_day)
+  celebrations_today_arr_of_dicts = []
+  celebrations_today_arr_of_obj = UserCelebrateObj.query.filter_by(fk_group_id=current_user.group_id,celebrate_month=current_month,celebrate_day=current_day).all()
+  for i_obj in celebrations_today_arr_of_obj:
+    i_dict = arr_of_dict_all_columns_single_item_function(i_obj)
+    celebrations_today_arr_of_dicts.append(i_dict)
   # ------------------------ pull todays celebrations end ------------------------
   # ------------------------ data for table start ------------------------
   for i_celebrate_dict in celebrations_today_arr_of_dicts:
+    # ------------------------ ensure test id is not null start ------------------------
+    if i_celebrate_dict['fk_test_id'] == None or i_celebrate_dict['fk_test_id'] == '':
+      db_celebrate_obj = pull_create_celebration_test_id_obj_function(current_user, i_celebrate_dict['id'], 'activity_type_a', i_celebrate_dict['event'])
+      pulled_test_id = db_celebrate_obj.fk_test_id
+      i_celebrate_dict['fk_test_id'] = pulled_test_id
+    # ------------------------ ensure test id is not null end ------------------------
     for i_user_dict in teammates_arr_of_dict:
       if i_celebrate_dict['fk_user_id'] == i_user_dict['id']:
         i_celebrate_dict['name'] = i_user_dict['name']

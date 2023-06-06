@@ -2,9 +2,11 @@
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
-from website.models import GroupObj, UserObj, ActivityASettingsObj, ActivityATestObj, ActivityATestGradedObj, ActivityBSettingsObj, ActivityBTestObj, ActivityBTestGradedObj
+from website.models import GroupObj, UserObj, ActivityASettingsObj, ActivityATestObj, ActivityATestGradedObj, ActivityBSettingsObj, ActivityBTestObj, ActivityBTestGradedObj, UserCelebrateObj, ActivityAGroupQuestionsUsedObj
 from website.backend.candidates.autogeneration import generate_random_length_uuid_function
 from website import db
+from datetime import datetime
+from website.backend.candidates.datetime_manipulation import build_out_datetime_from_parts_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ individual function start ------------------------
@@ -188,4 +190,72 @@ def get_total_activity_closed_count_function(current_user):
   except:
     pass
   return total_count
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def pull_create_celebration_test_id_obj_function(current_user, celebrate_id, activity_type, activity_code):
+  db_test_obj = None
+  # ------------------------ pull/create group settings start ------------------------
+  if activity_type == 'activity_type_a':
+    db_celebrate_obj = UserCelebrateObj.query.filter_by(fk_group_id=current_user.group_id,id=celebrate_id).first()
+    if db_celebrate_obj.fk_test_id == None or db_celebrate_obj.fk_test_id == '':
+      # ------------------------ variables start ------------------------
+      input_test_id = create_uuid_function('test_')
+      todays_str = datetime.today().strftime('%m-%d-%Y')
+      input_timezone = 'EST'
+      input_start_time = '4 AM'
+      input_end_time = '8 PM'
+      input_question_id = db_celebrate_obj.fk_question_id
+      # ------------------------ variables end ------------------------
+      # ------------------------ insert to db start ------------------------
+      try:
+        new_row = ActivityATestObj(
+          id = input_test_id,
+          created_timestamp = create_timestamp_function(),
+          fk_group_id = current_user.group_id,
+          timezone = input_timezone,
+          start_day = datetime.now().strftime("%A"),
+          start_time = input_start_time,
+          start_timestamp = build_out_datetime_from_parts_function(todays_str, input_start_time, input_timezone),
+          end_day = datetime.now().strftime("%A"),
+          end_time = input_end_time,
+          end_timestamp = build_out_datetime_from_parts_function(todays_str, input_end_time, input_timezone),
+          cadence = 'Annually',
+          total_questions = int(1),
+          question_type = 'Multiple choice',
+          categories = 'all_categories',
+          question_ids = input_question_id,
+          question_types_order = 'Multiple choice',
+          status = 'Open',
+          product = activity_code
+        )
+        db.session.add(new_row)
+        db.session.commit()
+      except:
+        pass
+      # ------------------------ insert to db end ------------------------
+      # ------------------------ insert to db start ------------------------
+      try:
+        new_row = ActivityAGroupQuestionsUsedObj(
+          id = create_uuid_function('used_'),
+          created_timestamp = create_timestamp_function(),
+          fk_group_id = current_user.group_id,
+          fk_question_id = input_question_id,
+          fk_test_id = input_test_id,
+          product = activity_code,
+        )
+        db.session.add(new_row)
+        db.session.commit()
+      except:
+        pass
+      # ------------------------ insert to db end ------------------------
+      # ------------------------ update db start ------------------------
+      try:
+        db_celebrate_obj = UserCelebrateObj.query.filter_by(fk_group_id=current_user.group_id,id=celebrate_id).first()
+        db_celebrate_obj.fk_test_id = input_test_id
+        db.session.commit()
+      except:
+        pass
+      # ------------------------ update db end ------------------------
+  return db_celebrate_obj
 # ------------------------ individual function end ------------------------
