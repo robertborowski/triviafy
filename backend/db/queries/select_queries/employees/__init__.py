@@ -207,7 +207,8 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
     'select_if_birthday_today':
       f"SELECT \
           fk_question_id, \
-          fk_user_id \
+          fk_user_id, \
+          fk_group_id \
         FROM \
           user_celebrate_obj \
         WHERE \

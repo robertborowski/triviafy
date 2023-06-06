@@ -173,7 +173,7 @@ def run_job_function():
     for i_birthday_dict in db_arr_of_dict_if_birthday_today:
       # ------------------------ get total teammate count start ------------------------
       db_arr_of_dict_total_teammates = select_manual_function(postgres_connection, postgres_cursor, 'select_total_teammates', i_birthday_dict['fk_group_id'])
-      if len(db_arr_of_dict_total_teammates) == 1:
+      if db_arr_of_dict_total_teammates[0]['count'] == 1:
         localhost_print_function(f"group_id: {i_birthday_dict['fk_group_id']} = 1 total user. No test created because no one else to celebrate.")
         continue
       # ------------------------ get total teammate count end ------------------------
