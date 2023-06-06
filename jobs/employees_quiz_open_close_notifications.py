@@ -174,7 +174,7 @@ def breakup_email_function(input_email):
   except:
     pass
   # localhost_print_function(' ------------------------ breakup_email_function end ------------------------ ')
-  return email_arr[0].title()
+  return email_arr[0].lower().capitalize()
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------

@@ -1496,7 +1496,7 @@ def employees_preview_question_function(url_redirect_code=None, url_question_id=
     return redirect(url_for('employees_views_interior.employees_questions_function', url_redirect_code='e16'))
   # ------------------------ redirect if question id none end ------------------------
   page_dict['user_company_name'] = current_user.company_name
-  page_dict['user_company_name'] = page_dict['user_company_name'].title()
+  page_dict['user_company_name'] = page_dict['user_company_name'].lower().capitalize()
   # ------------------------ get latest custom question start ------------------------
   db_question_obj = ActivityACreatedQuestionsObj.query.filter_by(id=url_question_id).first()
   if db_question_obj == None or db_question_obj == []:
@@ -1775,7 +1775,7 @@ def employees_feedback_year_month_function(url_redirect_code=None, url_feedback_
         created_timestamp = create_timestamp_function(),
         fk_user_id = current_user.id,
         question = ui_year_month_question,
-        answer = ui_year_month_answer.title(),
+        answer = ui_year_month_answer.lower().capitalize(),
         event = url_feedback_code,
         celebrate_month = new_month,
         celebrate_day = new_day,
@@ -1991,7 +1991,7 @@ def employees_feedback_name_function(url_redirect_code=None):
         return redirect(url_for('employees_views_interior.employees_feedback_name_function', url_redirect_code='e18'))
     # ------------------------ sanatize inputs end ------------------------
     # ------------------------ update db start ------------------------
-    current_user.name = ui_name.title()
+    current_user.name = ui_name.lower().capitalize()
     db.session.commit()
     # ------------------------ update db end ------------------------
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))

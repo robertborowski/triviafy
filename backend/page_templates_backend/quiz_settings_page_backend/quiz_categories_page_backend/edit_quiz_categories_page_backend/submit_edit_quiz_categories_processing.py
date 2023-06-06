@@ -102,7 +102,7 @@ def submit_edit_quiz_categories_processing_function():
             i_category_with_caps = i_category_with_space.upper()
             categories_to_push_to_db_arr.append(i_category_with_caps)
           else:
-            i_category_with_title = i_category_with_space.title()
+            i_category_with_title = i_category_with_space.lower().capitalize()
             categories_to_push_to_db_arr.append(i_category_with_title)
           categories_to_push_to_db_arr = sorted(categories_to_push_to_db_arr)
           categories_to_push_to_db_str = ",".join(categories_to_push_to_db_arr)
