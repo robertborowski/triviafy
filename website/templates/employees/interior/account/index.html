@@ -31,13 +31,17 @@
             <!-- ----------------------------------- start ----------------------------------- -->
             <div class="container text-center custom-pt-6 custom-pb-6">
               <h1 class="custom-header-7 custom-color-primary fw-bold">Pricing</h1>
-              <h2 class="custom-header-5 fw-bold custom-a-2">Current plan: {{ page_dict_to_html['stripe_current_plan_type'] }}</h2>
+              <h2 class="custom-header-5 fw-bold custom-a-2 custom-opacity-1">Current plan: {{ page_dict_to_html['stripe_current_plan_type'] }}</h2>
               <p></p>
             </div>
             <!-- ----------------------------------- end ----------------------------------- -->
-
             <!-- ----------------------------------- start ----------------------------------- -->
-            <div class="container custom-pb-2">
+            <div class="text-center custom-mb-25">
+              <button type="submit" class="btn btn-success btn-lg">Update subscription <i class="fa-solid fa-check"></i></button>
+            </div>
+            <!-- ----------------------------------- end ----------------------------------- -->
+            <!-- ----------------------------------- start ----------------------------------- -->
+            <div class="container custom-mb-25">
               <div class="custom-width-10 mx-auto custom-p-1">
                 <div class="custom-display-flex custom-jc-1">
                   <!-- ----------------------------------- start ----------------------------------- -->
@@ -201,12 +205,14 @@
               </div>
               <!-- ----------------------------------- tier end ----------------------------------- -->
             </div>
+            <!-- ----------------------------------- start ----------------------------------- -->
             <div class="text-center custom-mb-3">
               <button type="submit" class="btn btn-success btn-lg custom-p-2">Continue via Stripe checkout <i class="fa-solid fa-arrow-right"></i></button>
               <div class="custom-mt-1">
                 <a href="/pricing" class="custom-a-2 custom-opacity-1" target="_blank">See our pricing FAQ's</a>
               </div>
             </div>
+            <!-- ----------------------------------- end ----------------------------------- -->
             <!-- ----------------------------------- end ----------------------------------- -->
           </div>
         </div>
