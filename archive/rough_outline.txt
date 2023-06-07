@@ -34,3 +34,18 @@ NOTES
     -Example: Podcast like breaking points always talks about polling, but they may be curious what their viewers think. Sure they can use a twitter poll but they dont want to waste their time on twitter, and not all subscribers are on twitter, also twitter does not provide demographics which is the whole point of the poll results.
     -Triviafy public polls would be a place that ANYONE can vote their opinion, multiple choice [strongly disagree to strongly agree], then the user provides their EMAIL as well as optional demographics (age, gender, occupation, etc). Triviafy provides the poll results to the user, in this case Breaking Points, and Breaking Points can left join their "subscribers" email table to this poll results table to get an accurate picture of what their results. Also use an API to hookup to their data.
     -Thomas Sowell, "like most people I've never seen a pollster" <-- that is what I think everytime they mention "polls show".
+
+- Public polls extended:
+    -User: likes a podcast, hears about Triviafy podcast polling.
+        -Website exterior:
+            -explains the demographics behind the most popular podcasts
+                -Example 1: JRE 1,000's of poll results about the average listener.
+                    -Charts about average listener character traits.
+                        -What those character traits map to in zodiac sign hahahaha (for the consumer POV).
+        -website interior:
+            -
+    -Incentives:
+        -Individual
+            -Learn about the real data behind the average user (Personality type, zodiac sign)
+        -Individual
+            -Learn about the real data behind the average user

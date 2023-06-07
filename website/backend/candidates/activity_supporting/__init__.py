@@ -109,44 +109,49 @@ def activity_live_function(page_dict, current_user, url_test_id, url_question_nu
       page_dict['latest_test_id'] = db_tests_obj.id
       return page_dict, 'init_activity'
   # ------------------------ redirect to latest test id end ------------------------
-  # ------------------------ first user first quiz delete logic start ------------------------
-  db_tests_obj = pull_latest_activity_test_obj_function(current_user, url_activity_code, url_activity_type)
-  page_dict['first_user_latest_quiz_can_replace'] = first_user_latest_quiz_check_function(current_user, db_tests_obj, url_activity_code, url_activity_type)
-  page_dict['current_test_end_str'] = construct_time_presentation_function(db_tests_obj, 'end', 'v1')
-  if url_test_id == 'fufq_remove':
-    if page_dict['first_user_latest_quiz_can_replace'] == True:
-      if url_activity_type == 'activity_type_a':
-        ActivityATestObj.query.filter_by(id=db_tests_obj.id).delete()
-        ActivityATestGradedObj.query.filter_by(fk_test_id=db_tests_obj.id).delete()
-        ActivityAGroupQuestionsUsedObj.query.filter_by(fk_test_id=db_tests_obj.id).delete()
-      elif url_activity_type == 'activity_type_b':
-        ActivityBTestObj.query.filter_by(id=db_tests_obj.id).delete()
-        ActivityBTestGradedObj.query.filter_by(fk_test_id=db_tests_obj.id).delete()
-        ActivityBGroupQuestionsUsedObj.query.filter_by(fk_test_id=db_tests_obj.id).delete()
-      db.session.commit()
-      return page_dict, 'replace_activity'
-  # ------------------------ first user first quiz delete logic end ------------------------
-  # ------------------------ on initial page load - redirect to first unanswered question start ------------------------
-  if url_activity_type == 'activity_type_a':
-    # ------------------------ pull latest graded start ------------------------
-    if url_initial_page_load == 'init':
-      db_test_grading_obj = ActivityATestGradedObj.query.filter_by(fk_test_id=url_test_id, fk_user_id=current_user.id, status='wip',product=url_activity_code).first()
-      try:
-        db_test_grading_dict = arr_of_dict_all_columns_single_item_function(db_test_grading_obj)
-        # ------------------------ pull latest graded end ------------------------
-        # ------------------------ pull question left off on initial load only start ------------------------
-        unanswered_arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
-        for i in json.loads(db_test_grading_dict['test_obj']):
-          already_answered_question_number = str(i['question_number'])
-          if already_answered_question_number in unanswered_arr:
-            unanswered_arr.remove(already_answered_question_number)
-        if str(url_question_number) != unanswered_arr[0]:
-          page_dict['earliest_unanswered_question_number'] = unanswered_arr[0]
-          return page_dict, 'redirect_earliest_unanswered'
-        # ------------------------ pull question left off on initial load only end ------------------------
-      except:
-        pass
-  # ------------------------ on initial page load - redirect to first unanswered question end ------------------------
+  # ------------------------ variables start ------------------------
+  product_multiple_questions_arr = ['trivia','picture_quiz']
+  product_single_questions_arr = ['birthday','job_start_date']
+  # ------------------------ variables end ------------------------
+  if url_activity_code in product_multiple_questions_arr:
+    # ------------------------ first user first quiz delete logic start ------------------------
+    db_tests_obj = pull_latest_activity_test_obj_function(current_user, url_activity_code, url_activity_type)
+    page_dict['first_user_latest_quiz_can_replace'] = first_user_latest_quiz_check_function(current_user, db_tests_obj, url_activity_code, url_activity_type)
+    page_dict['current_test_end_str'] = construct_time_presentation_function(db_tests_obj, 'end', 'v1')
+    if url_test_id == 'fufq_remove':
+      if page_dict['first_user_latest_quiz_can_replace'] == True:
+        if url_activity_type == 'activity_type_a':
+          ActivityATestObj.query.filter_by(id=db_tests_obj.id).delete()
+          ActivityATestGradedObj.query.filter_by(fk_test_id=db_tests_obj.id).delete()
+          ActivityAGroupQuestionsUsedObj.query.filter_by(fk_test_id=db_tests_obj.id).delete()
+        elif url_activity_type == 'activity_type_b':
+          ActivityBTestObj.query.filter_by(id=db_tests_obj.id).delete()
+          ActivityBTestGradedObj.query.filter_by(fk_test_id=db_tests_obj.id).delete()
+          ActivityBGroupQuestionsUsedObj.query.filter_by(fk_test_id=db_tests_obj.id).delete()
+        db.session.commit()
+        return page_dict, 'replace_activity'
+    # ------------------------ first user first quiz delete logic end ------------------------
+    # ------------------------ on initial page load - redirect to first unanswered question start ------------------------
+    if url_activity_type == 'activity_type_a':
+      # ------------------------ pull latest graded start ------------------------
+      if url_initial_page_load == 'init':
+        db_test_grading_obj = ActivityATestGradedObj.query.filter_by(fk_test_id=url_test_id, fk_user_id=current_user.id, status='wip',product=url_activity_code).first()
+        try:
+          db_test_grading_dict = arr_of_dict_all_columns_single_item_function(db_test_grading_obj)
+          # ------------------------ pull latest graded end ------------------------
+          # ------------------------ pull question left off on initial load only start ------------------------
+          unanswered_arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+          for i in json.loads(db_test_grading_dict['test_obj']):
+            already_answered_question_number = str(i['question_number'])
+            if already_answered_question_number in unanswered_arr:
+              unanswered_arr.remove(already_answered_question_number)
+          if str(url_question_number) != unanswered_arr[0]:
+            page_dict['earliest_unanswered_question_number'] = unanswered_arr[0]
+            return page_dict, 'redirect_earliest_unanswered'
+          # ------------------------ pull question left off on initial load only end ------------------------
+        except:
+          pass
+    # ------------------------ on initial page load - redirect to first unanswered question end ------------------------
   # ------------------------ pull test obj start ------------------------
   db_tests_obj = None
   if url_activity_type == 'activity_type_a':
@@ -176,16 +181,26 @@ def activity_live_function(page_dict, current_user, url_test_id, url_question_nu
     # ------------------------ validate question number end ------------------------
     # ------------------------ pull specific question id start ------------------------
     question_ids_str = db_tests_obj.question_ids
-    question_ids_arr = question_ids_str.split(',')
-    desired_question_id = question_ids_arr[url_question_number-1]
+    question_ids_arr = None
+    desired_question_id = ''
+    if url_activity_code in product_multiple_questions_arr:
+      question_ids_arr = question_ids_str.split(',')
+      desired_question_id = question_ids_arr[url_question_number-1]
+    elif url_activity_code in product_single_questions_arr:
+      desired_question_id = question_ids_str
     # ------------------------ pull specific question id end ------------------------
     # ------------------------ pull question from db start ------------------------
     db_question_obj = ActivityACreatedQuestionsObj.query.filter_by(id=desired_question_id).first()
     db_question_dict = arr_of_dict_all_columns_single_item_function(db_question_obj, for_json_dumps=True)
     # ------------------------ append question type start ------------------------
     question_type_order_str = db_tests_obj.question_types_order
-    question_type_order_arr = question_type_order_str.split(',')
-    desired_question_type = question_type_order_arr[url_question_number-1]
+    question_type_order_arr = None
+    desired_question_type = ''
+    if url_activity_code in product_multiple_questions_arr:
+      question_type_order_arr = question_type_order_str.split(',')
+      desired_question_type = question_type_order_arr[url_question_number-1]
+    elif url_activity_code in product_single_questions_arr:
+      desired_question_type = question_type_order_str
     db_question_dict['desired_question_type'] = desired_question_type
     # ------------------------ append question type end ------------------------
     page_dict['db_question_dict'] = db_question_dict

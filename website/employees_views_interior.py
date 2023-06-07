@@ -1172,7 +1172,7 @@ def employees_questions_function(url_redirect_code=None, url_activity_type=None)
   for i_obj in db_activity_created_questions_obj:
     i_dict = arr_of_dict_all_columns_single_item_function(i_obj)
     # ------------------------ append creator email start ------------------------
-    db_user_obj = UserObj.query.filter_by(id=i_dict['fk_user_id']).first()
+    db_user_obj = UserObj.query.filter_by(group_id=i_dict['fk_group_id']).first()
     i_dict['created_by_email'] = db_user_obj.email
     # ------------------------ append creator email end ------------------------
     # ------------------------ append asked status start ------------------------
