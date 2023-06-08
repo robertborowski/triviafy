@@ -408,6 +408,7 @@ def admin_analytics_page_function(url_redirect_code=None):
   # ------------------------ page dict end ------------------------
   master_arr_of_dicts_01 = []
   db_groups_obj = GroupObj.query.all()
+  """
   # ------------------------ loop groups start ------------------------
   for i_group_obj in db_groups_obj:
     # ------------------------ new i_dict start ------------------------
@@ -450,6 +451,7 @@ def admin_analytics_page_function(url_redirect_code=None):
     master_arr_of_dicts_01.append(i_dict)
     # ------------------------ append i_dict end ------------------------
   # ------------------------ loop groups end ------------------------
+  """
   page_dict['master_arr_of_dicts_01'] = master_arr_of_dicts_01
   # ------------------------ candidate_only_emails_arr start ------------------------
   candidate_only_emails_arr = []
