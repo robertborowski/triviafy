@@ -255,5 +255,10 @@ def construct_time_presentation_function(obj, start_end, version):
       end_day = obj.end_day
       end_time = obj.end_time
       return str(end_timestamp.strftime("%m/%d/%Y")) + ", " + end_day + "'s at " + end_time
+    elif version == 'v2':
+      end_timestamp = obj.end_timestamp
+      end_day = obj.end_day
+      end_time = obj.end_time
+      return str(end_timestamp.strftime("%m/%d/%Y")) + " at " + end_time
   return True
 # ------------------------ individual function end ------------------------

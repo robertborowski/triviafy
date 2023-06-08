@@ -112,6 +112,8 @@ def activity_live_function(page_dict, current_user, url_test_id, url_question_nu
   # ------------------------ variables start ------------------------
   product_multiple_questions_arr = ['trivia','picture_quiz']
   product_single_questions_arr = ['birthday','job_start_date']
+  page_dict['product_multiple_questions_arr'] = product_multiple_questions_arr
+  page_dict['product_single_questions_arr'] = product_single_questions_arr
   # ------------------------ variables end ------------------------
   if url_activity_code in product_multiple_questions_arr:
     # ------------------------ first user first quiz delete logic start ------------------------
@@ -161,6 +163,12 @@ def activity_live_function(page_dict, current_user, url_test_id, url_question_nu
   if db_tests_obj == None or db_tests_obj == []:
     return page_dict, 'no_activity'
   # ------------------------ pull test obj end ------------------------
+  # ------------------------ get end str start ------------------------
+  if url_activity_code in product_multiple_questions_arr:
+    page_dict['current_test_end_str'] = construct_time_presentation_function(db_tests_obj, 'end', 'v1')
+  elif url_activity_code in product_single_questions_arr:
+    page_dict['current_test_end_str'] = construct_time_presentation_function(db_tests_obj, 'end', 'v2')
+  # ------------------------ get end str end ------------------------
   # ------------------------ activity_type_b start ------------------------
   if url_activity_type == 'activity_type_b':
     page_dict['latest_question_id'] = db_tests_obj.fk_question_id
@@ -206,7 +214,10 @@ def activity_live_function(page_dict, current_user, url_test_id, url_question_nu
     page_dict['db_question_dict'] = db_question_dict
     # ------------------------ pull question from db end ------------------------
     # ------------------------ fix categories presentation start ------------------------
-    page_dict['db_question_dict']['categories'] = categories_tuple_function(page_dict['db_question_dict']['categories'])
+    if url_activity_code in product_multiple_questions_arr:
+      page_dict['db_question_dict']['categories'] = categories_tuple_function(page_dict['db_question_dict']['categories'])
+    elif url_activity_code in product_single_questions_arr:
+      pass
     # ------------------------ fix categories presentation end ------------------------
     # ------------------------ question order logic start ------------------------
     page_dict['current_question_number'] = str(int(url_question_number))

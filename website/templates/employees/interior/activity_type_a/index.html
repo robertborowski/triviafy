@@ -78,21 +78,23 @@
           <div class="custom-display-flex custom-mb-6">
             <h2 class="custom-header-4">Q{{ page_dict_to_html['current_question_number'] }}/{{ page_dict_to_html['test_total_questions'] }}: {{ page_dict_to_html['db_question_dict']['title'] }}</h2>
             <div>
-                {% for category_tuple in page_dict_to_html['db_question_dict']['categories'] %}
-                  <span class="custom-tag-1 custom-tag-category-{{ category_tuple[1] }} custom-br-4 custom-m-3 custom-header-5 custom-wrap-1">{{ category_tuple[0] }}</span>
-                {% endfor %}
-                <!-- ------------------------------------- discard quiz categories for new categories start ------------------------------------- -->
-                {% if page_dict_to_html['first_user_latest_quiz_can_replace'] == true and page_dict_to_html['view_as_archive'] == false %}
-                  <a href="/activity/{{ page_dict_to_html['url_activity_type'] }}/{{ page_dict_to_html['url_activity_code'] }}/fufq_remove" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete this entire activity and select new categories. Everyone on your team can edit this activity until at least one person answers all questions."><span class="btn btn-outline-danger btn-sm">Change categories</span></a>
-                {% else %}
+                {% if page_dict_to_html['url_activity_code'] in page_dict_to_html['product_multiple_questions_arr'] %}
+                  {% for category_tuple in page_dict_to_html['db_question_dict']['categories'] %}
+                    <span class="custom-tag-1 custom-tag-category-{{ category_tuple[1] }} custom-br-4 custom-m-3 custom-header-5 custom-wrap-1">{{ category_tuple[0] }}</span>
+                  {% endfor %}
+                  <!-- ------------------------------------- discard quiz categories for new categories start ------------------------------------- -->
+                  {% if page_dict_to_html['first_user_latest_quiz_can_replace'] == true and page_dict_to_html['view_as_archive'] == false %}
+                    <a href="/activity/{{ page_dict_to_html['url_activity_type'] }}/{{ page_dict_to_html['url_activity_code'] }}/fufq_remove" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete this entire activity and select new categories. Everyone on your team can edit this activity until at least one person answers all questions."><span class="btn btn-outline-danger btn-sm">Change categories</span></a>
+                  {% else %}
+                  {% endif %}
+                  <!-- ------------------------------------- discard quiz categories for new categories end ------------------------------------- -->
+                  <!-- ------------------------------------- change categories for next quiz start ------------------------------------- -->
+                  {% if page_dict_to_html['first_user_latest_quiz_can_replace'] == false or page_dict_to_html['view_as_archive'] == true %}
+                    <a href="/activity/settings/{{ page_dict_to_html['url_activity_type'] }}/{{ page_dict_to_html['url_activity_code'] }}" class="btn btn-outline-danger btn-sm">Edit categories for next contest</a>
+                  {% else %}
+                  {% endif %}
+                  <!-- ------------------------------------- change categories for next quiz end ------------------------------------- -->
                 {% endif %}
-                <!-- ------------------------------------- discard quiz categories for new categories end ------------------------------------- -->
-                <!-- ------------------------------------- change categories for next quiz start ------------------------------------- -->
-                {% if page_dict_to_html['first_user_latest_quiz_can_replace'] == false or page_dict_to_html['view_as_archive'] == true %}
-                  <a href="/activity/settings/{{ page_dict_to_html['url_activity_type'] }}/{{ page_dict_to_html['url_activity_code'] }}" class="btn btn-outline-danger btn-sm">Edit categories for next contest</a>
-                {% else %}
-                {% endif %}
-                <!-- ------------------------------------- change categories for next quiz end ------------------------------------- -->
             </div>
           </div>
           <div>
@@ -217,19 +219,25 @@
         </div>
         <!-- ----------------------------------- question right side end ----------------------------------- -->
         <!-- ------------------------------------- question progress start ------------------------------------- -->
-        <div class="container custom-display-flex custom-jc-1 custom-fw-1">
-          {% for i in page_dict_to_html['test_total_questions_arr'] %}
-            {% if i == page_dict_to_html['current_question_number'] %}
-              <div class="text-center">
-                <p><a href="/activity/{{ page_dict_to_html['url_activity_type'] }}/{{ page_dict_to_html['url_activity_code'] }}/{{ page_dict_to_html['url_test_id'] }}/{{ i }}/"><span class="btn btn-success btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Click 'Submit' to save your answer">{{ i }}</span></a></p>
-              </div>
-            {% else %}
-              <a href="/activity/{{ page_dict_to_html['url_activity_type'] }}/{{ page_dict_to_html['url_activity_code'] }}/{{ page_dict_to_html['url_test_id'] }}/{{ i }}/"><span class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Click 'Submit' to save your answer">{{ i }}</span></a>
-            {% endif %}
-          {% endfor %}
-        </div>
+        {% if page_dict_to_html['url_activity_code'] in page_dict_to_html['product_multiple_questions_arr'] %}
+          <div class="container custom-display-flex custom-jc-1 custom-fw-1">
+            {% for i in page_dict_to_html['test_total_questions_arr'] %}
+              {% if i == page_dict_to_html['current_question_number'] %}
+                <div class="text-center">
+                  <p><a href="/activity/{{ page_dict_to_html['url_activity_type'] }}/{{ page_dict_to_html['url_activity_code'] }}/{{ page_dict_to_html['url_test_id'] }}/{{ i }}/"><span class="btn btn-success btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Click 'Submit' to save your answer">{{ i }}</span></a></p>
+                </div>
+              {% else %}
+                <a href="/activity/{{ page_dict_to_html['url_activity_type'] }}/{{ page_dict_to_html['url_activity_code'] }}/{{ page_dict_to_html['url_test_id'] }}/{{ i }}/"><span class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Click 'Submit' to save your answer">{{ i }}</span></a>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
         <div class="mx-auto">
-          <p class="custom-mt-25 custom-header-15 fst-italic custom-color-black-opacity-50">Activity ends {{ page_dict_to_html['current_test_end_str'] }} | <a href="/activity/settings/{{ page_dict_to_html['url_activity_type'] }}/{{ page_dict_to_html['url_activity_code'] }}" class="custom-a-2">Change settings here</a></p>
+          {% if page_dict_to_html['url_activity_code'] in page_dict_to_html['product_multiple_questions_arr'] %}
+            <p class="custom-mt-25 custom-header-15 fst-italic custom-color-black-opacity-50">Activity ends {{ page_dict_to_html['current_test_end_str'] }} | <a href="/activity/settings/{{ page_dict_to_html['url_activity_type'] }}/{{ page_dict_to_html['url_activity_code'] }}" class="custom-a-2">Change settings here</a></p>
+          {% elif page_dict_to_html['url_activity_code'] in page_dict_to_html['product_single_questions_arr'] %}
+            <p class="custom-mt-25 custom-header-15 fst-italic custom-color-black-opacity-50">Activity ends {{ page_dict_to_html['current_test_end_str'] }}</p>
+          {% endif %}
         </div>
         <!-- ------------------------------------- question progress end ------------------------------------- -->
       </div>
