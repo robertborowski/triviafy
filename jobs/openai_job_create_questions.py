@@ -49,7 +49,7 @@ def openai_chat_gpt_parse_results_to_arr_function(chatgpt_response_str):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
-def run_job_function():
+def job_create_openai_multiple_choice_question_function():
   # ------------------------ open connection start ------------------------
   postgres_connection, postgres_cursor = postgres_connect_to_database_function()
   # ------------------------ open connection end ------------------------
@@ -132,7 +132,6 @@ def run_job_function():
         categories = None
         title = None
         aws_image_uuid = None
-        aws_image_uuid = None
         aws_image_url = None
         if i_celebrate_dict['event'] == 'birthday':
           title = 'Birthday celebration!'
@@ -167,5 +166,5 @@ def run_job_function():
 
 # ------------------------ run function start ------------------------
 if __name__ == "__main__":
-  run_job_function()
+  job_create_openai_multiple_choice_question_function()
 # ------------------------ run function end ------------------------

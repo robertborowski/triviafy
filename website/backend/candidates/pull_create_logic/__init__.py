@@ -7,6 +7,7 @@ from website.backend.candidates.autogeneration import generate_random_length_uui
 from website import db
 from datetime import datetime
 from website.backend.candidates.datetime_manipulation import build_out_datetime_from_parts_function
+from website.backend.openai import create_openai_multiple_choice_question_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ individual function start ------------------------
@@ -198,6 +199,13 @@ def pull_create_celebration_test_id_obj_function(current_user, celebrate_id, act
   # ------------------------ pull/create group settings start ------------------------
   if activity_type == 'activity_type_a':
     db_celebrate_obj = UserCelebrateObj.query.filter_by(fk_group_id=current_user.group_id,id=celebrate_id).first()
+    # ------------------------ openai created question check start ------------------------
+    input_question_id = None
+    if db_celebrate_obj.fk_question_id == None or db_celebrate_obj.fk_question_id == '':
+      input_question_id = create_openai_multiple_choice_question_function(current_user, db_celebrate_obj)
+    else:
+      input_question_id = db_celebrate_obj.fk_question_id
+    # ------------------------ openai created question check end ------------------------
     if db_celebrate_obj.fk_test_id == None or db_celebrate_obj.fk_test_id == '':
       # ------------------------ variables start ------------------------
       input_test_id = create_uuid_function('test_')
@@ -205,7 +213,6 @@ def pull_create_celebration_test_id_obj_function(current_user, celebrate_id, act
       input_timezone = 'EST'
       input_start_time = '4 AM'
       input_end_time = '8 PM'
-      input_question_id = db_celebrate_obj.fk_question_id
       # ------------------------ variables end ------------------------
       # ------------------------ insert to db start ------------------------
       try:
