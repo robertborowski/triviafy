@@ -5,10 +5,10 @@
 {% endblock %}
 {% block contentBodyExceptNavbarAndFooter %}
 <!-- ----------------------------------- start ----------------------------------- -->
-{% if alert_message_dict_to_html['message'] != '' %}
-  <div class="alert alert-{{ alert_message_dict_to_html['type'] }} mx-auto text-center container custom-mt-1" role="alert">
-    {{ alert_message_dict_to_html['message'] }}
-  </div>
+{% if page_dict_to_html['alert_message_dict']['message'] != '' %}
+<div class="alert alert-{{ page_dict_to_html['alert_message_dict']['type'] }} mx-auto text-center container custom-mt-1" role="alert">
+  {{ page_dict_to_html['alert_message_dict']['message'] }}
+</div>
 {% endif %}
 <!-- ----------------------------------- end ----------------------------------- -->
 <!-- ------------------------------------- new dashboard start ------------------------------------- -->
