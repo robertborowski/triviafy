@@ -69,8 +69,8 @@ def login_dashboard_page_function(url_redirect_code=None):
   is_match = product_login_checks_function(current_user,'employees')
   if is_match == False:
     logout_user()
-    localhost_print_function('user logged out and redirecting to landing page of product')
-    return redirect(url_for('employees_views_exterior.landing_page_function'))
+    localhost_print_function('user logged out and redirecting to login product - employees')
+    return redirect(url_for('employees_auth.employees_login_page_function'))
   # ------------------------ product login check end ------------------------
   onbaording_status = onboarding_checks_function(current_user)
   if onbaording_status == 'verify':

@@ -150,11 +150,26 @@ def employees_login_page_function(url_redirect_code=None):
     try:
       user_id_from_redis = redis_connection.get(get_cookie_value_from_browser).decode('utf-8')
       if user_id_from_redis != None:
-        user = UserObj.query.filter_by(id=user_id_from_redis).first()
+        user = UserObj.query.filter_by(id=user_id_from_redis,signup_product='employees').first()
+        # ------------------------ force logout same email logged into different product start ------------------------
+        if user == None:
+          try:
+            redis_connection.delete(get_cookie_value_from_browser)
+            localhost_print_function(f'delete redis key for user logged into different Triviafy product. Deleted: {get_cookie_value_from_browser}')
+            logout_user()
+            localhost_print_function('redirect to login page - employees')
+            return redirect(url_for('employees_auth.employees_login_page_function'))
+          except:
+            pass
+        # ------------------------ force logout same email logged into different product end ------------------------
         # ------------------------ keep user logged in start ------------------------
-        login_user(user, remember=True)
+        if user != None:
+          try:
+            login_user(user, remember=True)
+          except:
+            pass
         # ------------------------ keep user logged in end ------------------------
-        localhost_print_function('redirecting to logged in page')
+        localhost_print_function('redirecting to dashboard page - employees')
         return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
     except:
       pass
@@ -175,7 +190,7 @@ def employees_login_page_function(url_redirect_code=None):
     if ui_password_cleaned == False:
       return redirect(url_for('employees_auth.employees_login_page_function', url_redirect_code='e2'))
     # ------------------------ sanitize/check user input password end ------------------------
-    user = UserObj.query.filter_by(email=ui_email).first()
+    user = UserObj.query.filter_by(email=ui_email,signup_product='employees').first()
     if user:
       if check_password_hash(user.password, ui_password):
         # ------------------------ keep user logged in start ------------------------

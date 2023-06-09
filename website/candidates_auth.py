@@ -156,7 +156,7 @@ def candidates_login_page_function():
         # ------------------------ keep user logged in start ------------------------
         login_user(user, remember=True)
         # ------------------------ keep user logged in end ------------------------
-        localhost_print_function('redirecting to logged in page')
+        localhost_print_function('redirecting to logged in page - candidates')
         return redirect(url_for('candidates_views_interior.login_dashboard_page_function'))
     except:
       pass

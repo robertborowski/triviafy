@@ -179,7 +179,7 @@ def employees_forgot_password_page_function():
       forgot_password_error_statement = 'Please enter a valid work email.'
     # ------------------------ sanitize/check user input email end ------------------------
     # ------------------------ check if user email exists in db start ------------------------
-    user_exists = UserObj.query.filter_by(email=ui_email).first()
+    user_exists = UserObj.query.filter_by(email=ui_email,signup_product='employees').first()
     if user_exists:
       forgot_password_error_statement = 'Password reset link sent to email.'
       # ------------------------ send email with token url start ------------------------

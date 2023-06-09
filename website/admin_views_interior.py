@@ -59,7 +59,7 @@ def admin_dashboard_page_function(url_redirect_code=None):
       return redirect(url_for('admin_views_interior.admin_dashboard_page_function', url_redirect_code='e1'))
     # ------------------------ sanitize end ------------------------
     # ------------------------ check if user alread exists start ------------------------
-    db_users_obj = UserObj.query.filter_by(email=ui_email).first()
+    db_users_obj = UserObj.query.filter_by(email=ui_email,signup_product='employees').first()
     if db_users_obj != None and db_users_obj != []:
       return redirect(url_for('admin_views_interior.admin_dashboard_page_function', url_redirect_code='e3'))
     # ------------------------ check if user alread exists end ------------------------

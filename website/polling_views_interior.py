@@ -60,8 +60,8 @@ def polling_dashboard_function(url_redirect_code=None):
   is_match = product_login_checks_function(current_user,'polling')
   if is_match == False:
     logout_user()
-    localhost_print_function('user logged out and redirecting to landing page of product')
-    return redirect(url_for('polling_views_exterior.polling_landing_function'))
+    localhost_print_function('user logged out and redirecting to login product - polling')
+    return redirect(url_for('polling_auth.polling_login_function'))
   # ------------------------ product login check end ------------------------
   # ------------------------ page dict start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
