@@ -80,7 +80,7 @@ def employees_signup_function(url_redirect_code=None):
     # ------------------------ sanitize/check user input password end ------------------------
     # ------------------------ sanitize/check user inputs end ------------------------
     # ------------------------ check if user email already exists in db start ------------------------
-    user_exists = UserObj.query.filter_by(email=ui_email).first()
+    user_exists = UserObj.query.filter_by(email=ui_email,signup_product='employees').first()
     if user_exists != None and user_exists != []:
       return redirect(url_for('employees_auth.employees_signup_function', url_redirect_code='e3'))
     # ------------------------ check if user email already exists in db start ------------------------

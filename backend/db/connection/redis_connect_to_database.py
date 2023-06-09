@@ -5,8 +5,6 @@ from backend.utils.localhost_print_utils.localhost_print import localhost_print_
 
 # -------------------------------------------------------------- Main Function
 def redis_connect_to_database_function():
-  localhost_print_function('=========================================== redis_connect_to_database_function START ===========================================')
-
   try:
     """
     # Connecting to Redis non-pool
@@ -27,9 +25,7 @@ def redis_connect_to_database_function():
   
   except:
     localhost_print_function('redis connection failed!')
-    localhost_print_function('=========================================== redis_connect_to_database_function END ===========================================')
     return 'redis connection failed!'
     
   # Return the connection
-  localhost_print_function('=========================================== redis_connect_to_database_function END ===========================================')
   return redis_connection

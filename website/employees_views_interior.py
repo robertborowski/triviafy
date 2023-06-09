@@ -12,7 +12,7 @@ from backend.utils.localhost_print_utils.localhost_print import localhost_print_
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
 from flask import Blueprint, render_template, request, redirect, url_for
-from flask_login import login_required, current_user
+from flask_login import login_required, current_user, logout_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
@@ -41,6 +41,7 @@ from website.backend.candidates.activity_supporting import activity_dashboard_fu
 from website.backend.candidates.emailing import email_share_with_team_function
 from website.backend.candidates.onboarding import onboarding_checks_function
 from website.backend.candidates.settings_supporting import activity_settings_prep_function, activity_settings_post_function
+from website.backend.login_checks import product_login_checks_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -64,6 +65,13 @@ def login_dashboard_page_function(url_redirect_code=None):
   -These pages will require the template_location_url variable
   """
   # ------------------------ onboarding checks start ------------------------
+  # ------------------------ product login check start ------------------------
+  is_match = product_login_checks_function(current_user,'employees')
+  if is_match == False:
+    logout_user()
+    localhost_print_function('user logged out and redirecting to landing page of product')
+    return redirect(url_for('employees_views_exterior.landing_page_function'))
+  # ------------------------ product login check end ------------------------
   onbaording_status = onboarding_checks_function(current_user)
   if onbaording_status == 'verify':
     return redirect(url_for('employees_views_interior.verify_email_function'))

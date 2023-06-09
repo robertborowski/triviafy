@@ -591,6 +591,12 @@
 .custom-opacity-2 {
   opacity: 0.75;
 }
+.custom-opacity-50 {
+  opacity: 0.50;
+}
+.custom-opacity-75 {
+  opacity: 0.75;
+}
 /* ------------------- img end ------------------- */
 /* ------------------- index start ------------------- */
 .custom-index-1 {

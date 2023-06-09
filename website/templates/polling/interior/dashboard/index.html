@@ -1,0 +1,18 @@
+{% extends "polling/aaa_base/base2_interior.html" %}
+<!-- head tag block content -->
+{% block title %}
+  <title>Dashboard - Triviafy</title>
+{% endblock %}
+{% block contentBodyExceptNavbarAndFooter %}
+<!-- ----------------------------------- start ----------------------------------- -->
+{% if alert_message_dict_to_html['message'] != '' %}
+  <div class="alert alert-{{ alert_message_dict_to_html['type'] }} mx-auto text-center container custom-mt-1" role="alert">
+    {{ alert_message_dict_to_html['message'] }}
+  </div>
+{% endif %}
+<!-- ----------------------------------- end ----------------------------------- -->
+<!-- ------------------------------------- new dashboard start ------------------------------------- -->
+<div class="container custom-pt-50">
+  <h2>Hello interior logged in!</h2>
+</div>
+{% endblock %}

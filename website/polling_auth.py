@@ -41,38 +41,13 @@ def polling_signup_function(url_redirect_code=None):
   page_dict = {}
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
-  """
   if request.method == 'POST':
-    # ------------------------ post method hit #1 - quick sign up start ------------------------
-    ui_email = request.form.get('uiEmailVarious')
-    if ui_email != None:
-      # ------------------------ sanitize/check user input email start ------------------------
-      ui_email_cleaned = sanitize_email_function(ui_email, 'true')
-      if ui_email_cleaned == False:
-        return redirect(url_for('polling_auth.employees_signup_function', url_redirect_code='e1'))
-      # ------------------------ sanitize/check user input email end ------------------------
-      # ------------------------ check if email already exists in db start ------------------------
-      email_exists = EmailCollectObj.query.filter_by(email=ui_email).first()
-      # ------------------------ check if email already exists in db end ------------------------
-      # ------------------------ create new signup in db start ------------------------
-      if email_exists == None or email_exists == []:
-        new_row = EmailCollectObj(
-          id=create_uuid_function('collect_email_'),
-          created_timestamp=create_timestamp_function(),
-          email=ui_email.lower(),
-          source='employees'
-        )
-        db.session.add(new_row)
-        db.session.commit()
-      # ------------------------ create new signup in db end ------------------------
-      return render_template('employees/exterior/signup/index.html', alert_message_dict_to_html=alert_message_dict, redirect_var_email=ui_email)
-    # ------------------------ post method hit #1 - quick sign up end ------------------------
     # ------------------------ post method hit #2 - full sign up start ------------------------
     ui_email = request.form.get('uiEmail')
     ui_password = request.form.get('uiPassword')
     # ------------------------ sanitize/check user inputs start ------------------------
     # ------------------------ sanitize/check user input email start ------------------------
-    ui_email_cleaned = sanitize_email_function(ui_email, 'true')
+    ui_email_cleaned = sanitize_email_function(ui_email, 'false')
     if ui_email_cleaned == False:
       return redirect(url_for('polling_auth.employees_signup_function', url_redirect_code='e1'))
     # ------------------------ sanitize/check user input email end ------------------------
@@ -83,14 +58,13 @@ def polling_signup_function(url_redirect_code=None):
     # ------------------------ sanitize/check user input password end ------------------------
     # ------------------------ sanitize/check user inputs end ------------------------
     # ------------------------ check if user email already exists in db start ------------------------
-    user_exists = UserObj.query.filter_by(email=ui_email).first()
+    user_exists = UserObj.query.filter_by(email=ui_email,signup_product='polling').first()
     if user_exists != None and user_exists != []:
       return redirect(url_for('polling_auth.employees_signup_function', url_redirect_code='e3'))
     # ------------------------ check if user email already exists in db start ------------------------
     else:
       # ------------------------ infer company name start ------------------------
       email_arr1 = ui_email.split('@')
-      company_name_from_email = email_arr1[1].lower()
       # ------------------------ infer company name end ------------------------
       # ------------------------ create new user in db start ------------------------
       new_row = UserObj(
@@ -98,43 +72,25 @@ def polling_signup_function(url_redirect_code=None):
         created_timestamp=create_timestamp_function(),
         email=ui_email.lower(),
         password=generate_password_hash(ui_password, method="sha256"),
-        company_name = company_name_from_email,
-        verified_email = False
+        verified_email = False,
+        signup_product = 'polling'
       )
       db.session.add(new_row)
-      # ------------------------ remove from landing page collected start ------------------------
-      try:
-        EmailCollectObj.query.filter_by(email=ui_email.lower()).delete()
-      except:
-        pass
-      # ------------------------ remove from landing page collected end ------------------------
-      # ------------------------ remove from scraped start ------------------------
-      try:
-        EmailScrapedObj.query.filter_by(email=ui_email.lower()).delete()
-      except:
-        pass
-      # ------------------------ remove from scraped end ------------------------
       db.session.commit()
       # ------------------------ create new user in db end ------------------------
       # ------------------------ keep user logged in start ------------------------
       login_user(new_row, remember=True)
       # ------------------------ keep user logged in end ------------------------
-      # ------------------------ pull/create + assign group id start ------------------------
-      if current_user.group_id == None or current_user.group_id == '':
-        current_user.group_id = pull_create_group_id_function(current_user)
-        db.session.commit()
-      # ------------------------ pull/create + assign group id end ------------------------
       # ------------------------ email self start ------------------------
       try:
         output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
-        output_subject = f'Triviafy Employees - Signup - {ui_email}'
+        output_subject = f'Polling - Signup - {ui_email}'
         output_body = f"Hi there,\n\nNew user signed up: {ui_email} \n\nBest,\nTriviafy"
         send_email_template_function(output_to_email, output_subject, output_body)
       except:
         pass
       # ------------------------ email self end ------------------------
-      return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
+      return redirect(url_for('polling_views_interior.polling_dashboard_function'))
     # ------------------------ post method hit #2 - full sign up end ------------------------
-    """
   return render_template('polling/exterior/signup/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------

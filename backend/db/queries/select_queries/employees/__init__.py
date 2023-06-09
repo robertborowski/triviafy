@@ -251,6 +251,11 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
           user_obj \
         WHERE \
           group_id='{additional_input}';",
+    'select_all_user_ids':
+      f"SELECT \
+          id, email \
+        FROM \
+          user_obj;",
     'select_letter_count_v1':
       f"SELECT 'A' AS letter, COUNT(*) AS total_count FROM activity_a_created_questions_obj WHERE product = 'employees' AND answer LIKE 'A,%' \
         UNION \

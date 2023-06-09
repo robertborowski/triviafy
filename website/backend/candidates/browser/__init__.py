@@ -54,3 +54,12 @@ def browser_response_set_cookie_function_v5(current_user, input_template_url, pa
   redis_connection.set(set_browser_cookie_value, current_user.id.encode('utf-8'))
   return browser_response
 # ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def browser_response_set_cookie_function_v6(current_user, input_template_url, page_dict):
+  set_browser_cookie_key, set_browser_cookie_value = redis_set_browser_cookie_function()
+  browser_response = make_response(render_template(input_template_url, user=current_user, page_dict_to_html=page_dict))
+  browser_response.set_cookie(set_browser_cookie_key, set_browser_cookie_value, expires=datetime.datetime.now() + datetime.timedelta(days=60))
+  redis_connection.set(set_browser_cookie_value, current_user.id.encode('utf-8'))
+  return browser_response
+# ------------------------ individual function end ------------------------
