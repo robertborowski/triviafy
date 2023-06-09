@@ -12,7 +12,7 @@
   <div class="container custom-height-1-mobile">
     <div class="float-start custom-pt-100">
       <div class="custom-width-1">
-        <h1 class="custom-m-0 custom-width-1 custom-header-7 custom-weight-1 custom-color-white">Login to your premium podcast polling platform <i class="fa-solid fa-chart-column"></i></h1>
+        <h1 class="custom-m-0 custom-width-1 custom-header-7 custom-weight-1 custom-color-white">Reset your premium podcast polling platform password <i class="fa-solid fa-chart-column"></i></h1>
         <h2 class="custom-header-4 custom-mt-1 custom-color-white custom-opacity-75">Audience relationship management. Share <i>your feedback</i> directly with <i>your favorite</i> podcast hosts.</h2>
       </div>
     </div>
@@ -26,27 +26,20 @@
         {% endif %}
         <!-- ----------------------------------- end ----------------------------------- -->
         <div class="text-center custom-pb-4">
-          <h1 class="custom-header-2">Login</h1>
-          <div class="text-center">
-            <span class="custom-m-0 custom-size-3 custom-img-opacity-2 custom-color-grey-1">Poll data is private, secure, & encrypted.</span>
-          </div>
+          <h1 class="custom-header-2">Submit new password</h1>
         </div>
         <div class="custom-pb-6">
           <div class="mb-3">
-            <label for="uiEmail" class="form-label"></label>
-            <input type="email" class="form-control" id="uiEmail" name="uiEmail" aria-describedby="emailHelp" placeholder="Email*" pattern="\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b" required>
+            <label for="reset_forgot_password_page_ui_password" class="form-label"></label>
+            <input type="password" class="form-control" id="reset_forgot_password_page_ui_password" name="reset_forgot_password_page_ui_password" placeholder="Password*" title="Minimum 4 characters" required>
           </div>
           <div class="mb-3">
-            <label for="uiPassword" class="form-label"></label>
-            <input type="password" class="form-control" id="uiPassword" name="uiPassword" placeholder="Password*" required>
+            <label for="reset_forgot_password_page_ui_password_confirmed" class="form-label"></label>
+            <input type="password" class="form-control" id="reset_forgot_password_page_ui_password_confirmed" name="reset_forgot_password_page_ui_password_confirmed" placeholder="Confirm password*" title="Minimum 4 characters" required>
           </div>
         </div>
         <div class="text-center">
-          <button type="submit" class="custom-width-100 btn btn-success btn-lg">Continue <i class="fa-solid fa-check"></i></button>
-          <div class="custom-mt-25">
-            <p class="custom-m-0"><a href="/polling/signup" class="custom-a-2 custom-opacity-50">Create account</a></p>
-            <p class="custom-m-0 custom-mt-10"><a href="/polling/reset" class="custom-a-2 custom-opacity-50">Forgot password</a></p>
-          </div>
+          <button type="submit" class="custom-width-100 btn btn-success btn-lg">Submit <i class="fa-solid fa-check"></i></button>
         </div>
       </form>
     </div>

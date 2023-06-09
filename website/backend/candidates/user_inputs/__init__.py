@@ -398,6 +398,16 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':"You cannot select the same question as your previous selection.",
       'type':'danger'
     }
+  elif redirect_var == 'e28':
+    alert_message_dict = {
+      'message':"That is an invalid or expired token.",
+      'type':'danger'
+    }
+  elif redirect_var == 'e29':
+    alert_message_dict = {
+      'message':"Passwords do not match.",
+      'type':'danger'
+    }
   # ------------------------ errors end ------------------------
   # ------------------------ success start ------------------------
   elif redirect_var == 's1':
@@ -458,6 +468,11 @@ def alert_message_default_function_v2(redirect_var=None):
   elif redirect_var == 's12':
     alert_message_dict = {
       'message':'Successfully submitted',
+      'type':'success'
+    }
+  elif redirect_var == 's13':
+    alert_message_dict = {
+      'message':'Check your spam/promotions folder and mark Triviafy as "Not Spam". A password reset link has been successfully sent to your email.',
       'type':'success'
     }
   # ------------------------ success end ------------------------
