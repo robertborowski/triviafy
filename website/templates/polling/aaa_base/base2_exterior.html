@@ -1,0 +1,43 @@
+{% extends "polling/aaa_base/base.html" %}
+
+<!-- head tag block content -->
+{% block title %}
+  <title>base2_exterior.html</title>
+{% endblock %}
+
+{% block contentBody %}
+<body class="custom-google-font-1">
+  <!-- ------------------------------------- navbar start ------------------------------------- -->
+  <div class="container-fluid custom-bg-primary">
+    <nav class="container navbar navbar-expand-md navbar-light">
+      <a href="/polling" class="navbar-brand">
+        <img src="https://triviafypublicobjects.s3.us-east-2.amazonaws.com/official_logo.png" alt="triviafy logo" class="custom-img-size-50 custom-mr-1">
+        <span class="fw-bold custom-header-1 custom-color-white">Triviafy</span>
+        <p class="custom-m-0 custom-mt-negative-15 custom-header-12 custom-tar custom-color-white">Podcast Polling Platform</p>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#toggleMobileMenu" aria-controls="toggleMobileMenu" aria-expanded="false" aria-lable="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="toggleMobileMenu">
+        <ul class="navbar-nav ms-auto text-center">
+          <li><a href="/login" class="nav-link mx-2 custom-my-1-mobile custom-color-white">Log in</a></li>
+          <li><a class="btn btn-success btn-lg fw-bold mx-2 custom-my-1-mobile text-nowrap" href="/signup" role="button">Get started <i class="fa-solid fa-arrow-right"></i></a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+  <!-- <div class="custom-filler-1"></div> -->
+  <!-- ------------------------------------- navbar end ------------------------------------- -->
+  {% block contentBodyExceptNavbarAndFooter %}
+  {% endblock %}
+  <!-- ------------------------------------- footer start ------------------------------------- -->
+  <div class="custom-width-180-px custom-mb-100 mx-auto">
+    <a href="/polling" class="navbar-brand">
+      <img src="https://triviafypublicobjects.s3.us-east-2.amazonaws.com/official_logo.png" alt="triviafy logo" class="custom-img-size-50 custom-mr-1">
+      <span class="fw-bold custom-header-1">Triviafy</span>
+      <p class="custom-m-0 custom-mt-negative-15 custom-header-12 custom-tar">Podcast Polling Platform</p>
+    </a>
+  </div>
+  <!-- ------------------------------------- footer end ------------------------------------- -->
+</body>
+{% endblock %}

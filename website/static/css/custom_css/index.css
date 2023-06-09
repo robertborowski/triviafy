@@ -549,6 +549,12 @@
 .custom-img-size-75 {
   max-height: 75px;
 }
+.custom-img-size-100 {
+  max-height: 100px;
+}
+.custom-img-size-150 {
+  max-height: 150px;
+}
 .custom-img-opacity-1 {
   opacity: 0.20;
 }
@@ -1256,6 +1262,24 @@
 .custom-shape-divider-bottom-1682683019 .shape-fill {
   fill: #FFFFFF;
 }
+
+.custom-shape-divider-bottom-1686320767 {
+  position: relative;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+.custom-shape-divider-bottom-1686320767 svg {
+  position: relative;
+  display: block;
+  width: calc(300% + 1.3px);
+  height: 150px;
+}
+.custom-shape-divider-bottom-1686320767 .shape-fill {
+  fill: #FFFFFF;
+}
 /* ------------------- shape divider end ------------------- */
 /* ------------------- tag start ------------------- */
 .custom-tag-1 {
@@ -1439,6 +1463,12 @@
 }
 .custom-width-100 {
   width: 100%;
+}
+.custom-width-175-px {
+  width: 175px;
+}
+.custom-width-180-px {
+  width: 180px;
 }
 .custom-width-200 {
   width: 200px;
