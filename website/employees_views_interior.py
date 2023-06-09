@@ -121,7 +121,7 @@ def login_dashboard_page_function(url_redirect_code=None):
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ dashboard supporting end ------------------------
   # ------------------------ dashboard supporting start ------------------------
-  redirect_code, page_dict = dashboard_celebrations_function(current_user, page_dict)
+  redirect_code, page_dict = dashboard_celebrations_function(current_user, page_dict, 'activity_type_a')
   if redirect_code == 'dashboard':
     return redirect(url_for('employees_views_interior.login_dashboard_page_function'))
   # ------------------------ dashboard supporting end ------------------------

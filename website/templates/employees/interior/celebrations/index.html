@@ -40,7 +40,11 @@
         {% endif %}
         <td>{{ i['celebrate_month'] }}</td>
         <td>{{ i['celebrate_day'] }}</td>
-        <td><a href="#" class="custom-a-2 fw-bolder">View</a></td>
+        {% if i['status'] == True and i['fk_test_id'] is not none and i['fk_test_id'] != '' %}
+          <td><a href="/activity/activity_type_a/{{ i['event'] }}/{{ i['fk_test_id'] }}/1/" class="custom-a-2 fw-bolder" target="_blank">View results!</a></td>
+        {% else %}
+          <td>Upcoming</td>
+        {% endif %}
       </tr>
       {% endfor %}
     </tbody>

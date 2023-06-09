@@ -274,7 +274,12 @@ def activity_live_function(page_dict, current_user, url_test_id, url_question_nu
   try:
     if db_tests_obj.status == 'Closed':
       page_dict['view_as_archive'] = True
-      page_dict['current_test_end_str'] = construct_time_presentation_function(db_tests_obj, 'end', 'v1')
+      # ------------------------ get end str start ------------------------
+      if url_activity_code in product_multiple_questions_arr:
+        page_dict['current_test_end_str'] = construct_time_presentation_function(db_tests_obj, 'end', 'v1')
+      elif url_activity_code in product_single_questions_arr:
+        page_dict['current_test_end_str'] = construct_time_presentation_function(db_tests_obj, 'end', 'v2')
+      # ------------------------ get end str end ------------------------
       # ------------------------ get teammate answers activity_type_a start ------------------------
       if url_activity_type == 'activity_type_a':
         teammate_answers_tuple = []
@@ -462,8 +467,28 @@ def get_todays_celebration_function(current_user, teammate_ids_arr, page_dict):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
-def dashboard_celebrations_function(current_user, page_dict):
+def dashboard_celebrations_function(current_user, page_dict, url_activity_type):
   redirect_code = None
+  # ------------------------ ensure all historical tests are closed start ------------------------
+  historical_activity_tests_were_closed = close_historical_activity_tests_function(current_user, 'birthday', url_activity_type)
+  if historical_activity_tests_were_closed == True:
+    return 'dashboard', page_dict
+  # ------------------------ ensure all historical tests are closed end ------------------------
+  # ------------------------ ensure all historical tests are closed start ------------------------
+  historical_activity_tests_were_closed = close_historical_activity_tests_function(current_user, 'job_start_date', url_activity_type)
+  if historical_activity_tests_were_closed == True:
+    return 'dashboard', page_dict
+  # ------------------------ ensure all historical tests are closed end ------------------------
+  # ------------------------ delete all historical closed tests with 'No participation' start ------------------------
+  historical_activity_tests_were_deleted, page_dict = delete_historical_activity_tests_no_participation_function(current_user, 'birthday', page_dict, url_activity_type)
+  if historical_activity_tests_were_deleted == True:
+    return 'dashboard', page_dict
+  # ------------------------ delete all historical closed tests with 'No participation' end ------------------------
+  # ------------------------ delete all historical closed tests with 'No participation' start ------------------------
+  historical_activity_tests_were_deleted, page_dict = delete_historical_activity_tests_no_participation_function(current_user, 'job_start_date', page_dict, url_activity_type)
+  if historical_activity_tests_were_deleted == True:
+    return 'dashboard', page_dict
+  # ------------------------ delete all historical closed tests with 'No participation' end ------------------------
   # ------------------------ check if at least 1 user celebration question/answer participation start ------------------------
   teammate_ids_arr = get_all_teammate_ids_function(current_user)
   teammate_completed_check = check_if_teammate_celebration_function(teammate_ids_arr)
