@@ -12,9 +12,19 @@ function CountCharsNameAnswer(obj){
   var maxLength = 20;
   var strLength = obj.value.length;
   if(strLength > maxLength){
-    document.getElementById("id-countCharsNameAnswer").innerHTML = '<span style="color: red;">'+strLength+' out of '+maxLength+' characters. Please avoid using special characters in your response.</span>';
+    document.getElementById("id-countCharsNameAnswer").innerHTML = '<span style="color: red;">'+strLength+' out of '+maxLength+' characters.</span>';
   }else{
-    document.getElementById("id-countCharsNameAnswer").innerHTML = '<span style="color:white;opacity:75%;">'+strLength+' out of '+maxLength+' characters. Please avoid using special characters in your response.';
+    document.getElementById("id-countCharsNameAnswer").innerHTML = '<span style="color:white;opacity:75%;">'+strLength+' out of '+maxLength+' characters.';
+  }
+}
+
+function CountCharsLastNameAnswer(obj){
+  var maxLength = 20;
+  var strLength = obj.value.length;
+  if(strLength > maxLength){
+    document.getElementById("id-countCharsLastNameAnswer").innerHTML = '<span style="color: red;">'+strLength+' out of '+maxLength+' characters.</span>';
+  }else{
+    document.getElementById("id-countCharsLastNameAnswer").innerHTML = '<span style="color:white;opacity:75%;">'+strLength+' out of '+maxLength+' characters.';
   }
 }
 

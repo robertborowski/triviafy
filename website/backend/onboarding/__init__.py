@@ -11,7 +11,7 @@ def onboarding_checks_v2_function(current_user):
   # ------------------------ check if email verified end ------------------------
   # ------------------------ check if feedback given start ------------------------
   # name
-  if current_user.name == None or current_user.name == '':
+  if current_user.name == None or current_user.name == '' or current_user.last_name == None or current_user.last_name == '':
     return 'name'
   """
   # primary

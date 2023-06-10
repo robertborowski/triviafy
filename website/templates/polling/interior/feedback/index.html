@@ -66,19 +66,24 @@
     {% if page_dict_to_html['feedback_request'] == 'name' %}
       <!-- ------------------------------------- section - name start ------------------------------------- -->
       <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
-        <div class="mx-auto custom-width-1">
+        <div class="mx-auto custom-width-400">
           <!-- ------------------------------------- answer start ------------------------------------- -->
-          <div class="custom-pb-2">
+          <div class="custom-pb-25">
             <div class="form-floating">
-              <textarea class="form-control" id="ui_name" name="ui_name" placeholder="Your name" onkeyup="CountCharsNameAnswer(this);" pattern="{1,20}" required></textarea>
-              <label for="ui_name">Your name</label>
+              <textarea class="form-control" id="ui_name" name="ui_name" placeholder="First name" onkeyup="CountCharsNameAnswer(this);" pattern="{1,20}" required></textarea>
+              <label for="ui_name">First name</label>
               <p id="id-countCharsNameAnswer" class="custom-size-3 custom-color-light-1 fst-italic custom-mt-2 custom-ml-2"></p>
+            </div>
+            <div class="form-floating">
+              <textarea class="form-control" id="ui_last_name" name="ui_last_name" placeholder="Last name" onkeyup="CountCharsLastNameAnswer(this);" pattern="{1,20}" required></textarea>
+              <label for="ui_last_name">Last name</label>
+              <p id="id-countCharsLastNameAnswer" class="custom-size-3 custom-color-light-1 fst-italic custom-mt-2 custom-ml-2"></p>
             </div>
           </div>
           <!-- ------------------------------------- answer end ------------------------------------- -->
-        </div>
-        <div class="mx-auto custom-width-1">
-          <button type="submit" class="btn btn-lg btn-success custom-mb-6 custom-width-6 custom-ptb-8 custom-br-1" id="submit-button-botttom">Continue <i class="fa-solid fa-arrow-right"></i></button>
+          <div class="mx-auto custom-width-100">
+            <button type="submit" class="btn btn-lg btn-success custom-mb-6 custom-width-6 custom-ptb-8 custom-br-1" id="submit-button-botttom">Continue <i class="fa-solid fa-arrow-right"></i></button>
+          </div>
         </div>
       </form>
       <!-- ------------------------------------- section - name end ------------------------------------- -->

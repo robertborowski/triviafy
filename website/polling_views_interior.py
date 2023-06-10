@@ -129,7 +129,7 @@ def verify_email_function(url_redirect_code=None):
     verification_code = create_uuid_function('verify_')
     redis_connection.set(verification_code, current_user.id.encode('utf-8'))
     # ------------------------ verification code store in redis end ------------------------
-    # ------------------------ auto send first email to employee start ------------------------
+    # ------------------------ auto send first email to user start ------------------------
     guessed_name = breakup_email_function(current_user.email)
     try:
       output_to_email = current_user.email
@@ -156,7 +156,7 @@ def verify_email_function(url_redirect_code=None):
       send_email_template_function(output_to_email, output_subject, output_body)
     except:
       pass
-    # ------------------------ auto send first email to employee end ------------------------
+    # ------------------------ auto send first email to user end ------------------------
     # ------------------------ insert email to db start ------------------------
     try:
       new_row_email = EmailSentObj(
@@ -243,7 +243,7 @@ def verify_email_function(url_redirect_code=None):
 def polling_feedback_name_function(url_redirect_code=None):
   # ------------------------ check if already answered start ------------------------
   if current_user.name != None and current_user.name != '':
-    return redirect(url_for('polling_views_interior.login_dashboard_page_function'))
+    return redirect(url_for('polling_views_interior.polling_dashboard_function'))
   # ------------------------ check if already answered end ------------------------
   # ------------------------ page dict start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
@@ -256,20 +256,25 @@ def polling_feedback_name_function(url_redirect_code=None):
   if request.method == 'POST':
     # ------------------------ get user inputs start ------------------------
     ui_name = request.form.get('ui_name')
+    ui_last_name = request.form.get('ui_last_name')
     # ------------------------ get user inputs end ------------------------
     # ------------------------ sanatize inputs start ------------------------
-    if len(ui_name) <= 1 or len(ui_name) > 20:
+    if len(ui_name) <= 1 or len(ui_name) > 20 or len(ui_last_name) <= 1 or len(ui_last_name) > 20:
       return redirect(url_for('polling_views_interior.feedback_name_function', url_redirect_code='e19'))
     special_characters_arr = get_special_characters_function()
     for i in ui_name:
       if i in special_characters_arr:
         return redirect(url_for('polling_views_interior.feedback_name_function', url_redirect_code='e18'))
+    for i in ui_last_name:
+      if i in special_characters_arr:
+        return redirect(url_for('polling_views_interior.feedback_name_function', url_redirect_code='e18'))
     # ------------------------ sanatize inputs end ------------------------
     # ------------------------ update db start ------------------------
     current_user.name = ui_name.lower().capitalize()
+    current_user.last_name = ui_last_name.lower().capitalize()
     db.session.commit()
     # ------------------------ update db end ------------------------
-    return redirect(url_for('polling_views_interior.login_dashboard_page_function'))
+    return redirect(url_for('polling_views_interior.polling_dashboard_function'))
   # ------------------------ submission end ------------------------
   # ------------------------ for setting cookie start ------------------------
   template_location_url = 'polling/interior/feedback/index.html'
