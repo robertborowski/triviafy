@@ -17,31 +17,12 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v6
-from website.models import GroupObj, ActivityASettingsObj, ActivityATestObj, UserDesiredCategoriesObj, ActivityACreatedQuestionsObj, ActivityATestGradedObj, UserObj, StripePaymentOptionsObj, EmailSentObj, StripeCheckoutSessionObj, ActivityAGroupQuestionsUsedObj, UserFeatureRequestObj, UserSignupFeedbackObj, UserCelebrateObj, ActivityBCreatedQuestionsObj, ActivityBGroupQuestionsUsedObj, ActivityBTestGradedObj, ActivityBTestObj
-from website.backend.candidates.autogeneration import question_choices_function
-from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function, categories_tuple_function
-from website.backend.candidates.datetime_manipulation import days_times_timezone_arr_function
-from website.backend.candidates.sql_statements.sql_statements_select import select_general_function
-from website.backend.candidates.string_manipulation import all_employee_question_categories_sorted_function
-from website.backend.candidates.user_inputs import sanitize_char_count_1_function, sanitize_create_question_options_function, sanitize_create_question_categories_function, sanitize_create_question_question_function, sanitize_create_question_option_e_function, sanitize_create_question_answer_function, get_special_characters_function
-from website.backend.candidates.send_emails import send_email_template_function
-import os
-from website.backend.candidates.quiz import grade_quiz_function, pull_question_function, create_activity_function, compare_candence_vs_previous_quiz_function_v2
-import json
-from datetime import datetime
-from website.backend.candidates.stripe import check_stripe_subscription_status_function_v2, convert_current_period_end_function
-import stripe
-from website.backend.candidates.datatype_conversion_manipulation import one_col_dict_to_arr_function
-from website.backend.candidates.test_backend import get_test_winner
-from website.backend.candidates.aws_manipulation import candidates_change_uploaded_image_filename_function, candidates_user_upload_image_checks_aws_s3_function
-from website.backend.candidates.string_manipulation import breakup_email_function, capitalize_all_words_function
-from website.backend.candidates.lists import get_team_building_activities_list_function, get_month_days_years_function, get_favorite_questions_function, get_marketing_list_function, get_dashboard_accordian_function, get_activity_a_products_function, get_activity_b_products_function
-from website.backend.candidates.pull_create_logic import pull_create_group_obj_function, pull_latest_activity_test_obj_function, user_must_have_group_id_function, pull_create_activity_settings_obj_function, pull_group_obj_function, get_total_activity_closed_count_function
-from website.backend.candidates.activity_supporting import activity_dashboard_function, activity_live_function, turn_activity_auto_on_function, dashboard_celebrations_function, get_all_teammate_ids_function
-from website.backend.candidates.emailing import email_share_with_team_function
-from website.backend.candidates.onboarding import onboarding_checks_function
-from website.backend.candidates.settings_supporting import activity_settings_prep_function, activity_settings_post_function
+from website.models import UserObj, EmailSentObj
+from website.backend.onboarding import onboarding_checks_v2_function
 from website.backend.login_checks import product_login_checks_function
+from website.backend.candidates.string_manipulation import breakup_email_function
+import os
+from website.backend.candidates.send_emails import send_email_template_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -63,6 +44,11 @@ def polling_dashboard_function(url_redirect_code=None):
     localhost_print_function('user logged out and redirecting to login product - polling')
     return redirect(url_for('polling_auth.polling_login_function'))
   # ------------------------ product login check end ------------------------
+  # ------------------------ onboarding checks start ------------------------
+  onbaording_status = onboarding_checks_v2_function(current_user)
+  if onbaording_status == 'verify':
+    return redirect(url_for('polling_views_interior.verify_email_function'))
+  # ------------------------ onboarding checks end ------------------------
   # ------------------------ page dict start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
   page_dict = {}
@@ -87,3 +73,209 @@ def polling_dashboard_function(url_redirect_code=None):
     return browser_response
   # ------------------------ auto set cookie end ------------------------
 # ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@polling_views_interior.route('/polling/verify/success/<url_verification_code>')
+@polling_views_interior.route('/polling/verify/success/<url_verification_code>/<url_redirect_code>')
+@polling_views_interior.route('/polling/verify/success/<url_verification_code>/<url_redirect_code>/')
+@login_required
+def verification_code_clicked_function(url_redirect_code=None, url_verification_code=None):
+  # ------------------------ page dict start ------------------------
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ page dict end ------------------------
+  # ------------------------ verification start ------------------------
+  if url_verification_code == None:
+    return redirect(url_for('polling_views_interior.polling_dashboard_function'))
+  redis_uuid_value = ''
+  try:
+    redis_uuid_value = redis_connection.get(url_verification_code).decode('utf-8')
+  except:
+    return redirect(url_for('polling_views_interior.polling_dashboard_function'))
+  db_user_obj = UserObj.query.filter_by(id=redis_uuid_value).first()
+  db_user_obj.verified_email = True
+  db.session.commit()
+  redis_connection.delete(url_verification_code)
+  # ------------------------ verification end ------------------------
+  return redirect(url_for('polling_views_interior.polling_dashboard_function', url_redirect_code='s9'))
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@polling_views_interior.route('/polling/verify', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/verify/<url_redirect_code>', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/verify/<url_redirect_code>/', methods=['GET', 'POST'])
+@login_required
+def verify_email_function(url_redirect_code=None):
+  # ------------------------ page dict start ------------------------
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ page dict end ------------------------
+  page_dict['user_email'] = current_user.email
+  output_subject = f'Verify Polling Email: {current_user.email}'
+  # ------------------------ check if verify email already sent start ------------------------
+  db_email_obj = EmailSentObj.query.filter_by(to_email=current_user.email,subject=output_subject).first()
+  # ------------------------ check if verify email already sent end ------------------------
+  if db_email_obj == None or db_email_obj == []:
+    # ------------------------ verification code store in redis start ------------------------
+    verification_code = create_uuid_function('verify_')
+    redis_connection.set(verification_code, current_user.id.encode('utf-8'))
+    # ------------------------ verification code store in redis end ------------------------
+    # ------------------------ auto send first email to employee start ------------------------
+    guessed_name = breakup_email_function(current_user.email)
+    try:
+      output_to_email = current_user.email
+      output_body = ''
+      # ------------------------ get environment start ------------------------
+      server_env = os.environ.get('TESTING', 'false')
+      # ------------------------ get environment end ------------------------
+      # ------------------------ localhost start ------------------------
+      if server_env == 'true':
+        output_body = f"<p>Hi {guessed_name},</p>\
+                        <p>Please click the link below to verify your email address.</p>\
+                        <p>Verify email link: http://127.0.0.1:80/polling/verify/success/{verification_code}</p>\
+                        <p style='margin:0;'>Best,</p>\
+                        <p style='margin:0;'>Triviafy Support Team</p>"
+      # ------------------------ localhost end ------------------------
+      # ------------------------ production start ------------------------
+      else:
+        output_body = f"<p>Hi {guessed_name},</p>\
+                        <p>Please click the link below to verify your email address.</p>\
+                        <p>Verify email link: https://triviafy.com/polling/verify/success/{verification_code}</p>\
+                        <p style='margin:0;'>Best,</p>\
+                        <p style='margin:0;'>Triviafy Support Team</p>"
+      # ------------------------ production end ------------------------
+      send_email_template_function(output_to_email, output_subject, output_body)
+    except:
+      pass
+    # ------------------------ auto send first email to employee end ------------------------
+    # ------------------------ insert email to db start ------------------------
+    try:
+      new_row_email = EmailSentObj(
+        id = create_uuid_function('email_'),
+        created_timestamp = create_timestamp_function(),
+        from_user_id_fk = current_user.id,
+        to_email = output_to_email,
+        subject = output_subject,
+        body = output_body
+      )
+      db.session.add(new_row_email)
+      db.session.commit()
+    except:
+      pass
+    # ------------------------ insert email to db end ------------------------
+  # ------------------------ resend email start ------------------------
+  if request.method == 'POST':
+    # ------------------------ delete all existing redis keys for this uuid start ------------------------
+    redis_keys = redis_connection.keys()
+    for i_key in redis_keys:    
+      if 'verify' in str(i_key):
+        redis_value = redis_connection.get(i_key).decode('utf-8')
+        if redis_value == current_user.id:
+          redis_connection.delete(i_key)
+    # ------------------------ delete all existing redis keys for this uuid end ------------------------
+    # ------------------------ create new verification key start ------------------------
+    new_verification_code = create_uuid_function('verify_')
+    redis_connection.set(new_verification_code, current_user.id.encode('utf-8'))
+    # ------------------------ create new verification key end ------------------------
+    # ------------------------ send email start ------------------------
+    guessed_name = breakup_email_function(current_user.email)
+    try:
+      output_to_email = current_user.email
+      output_body = ''
+      # ------------------------ get environment start ------------------------
+      server_env = os.environ.get('TESTING', 'false')
+      # ------------------------ get environment end ------------------------
+      # ------------------------ localhost start ------------------------
+      if server_env == 'true':
+        output_body = f"<p>Hi {guessed_name},</p>\
+                      <p>Please click the link below to verify your email address.</p>\
+                      <p>Verify email link: http://127.0.0.1:80/polling/verify/success/{new_verification_code}</p>\
+                      <p style='margin:0;'>Best,</p>\
+                      <p style='margin:0;'>Triviafy Support Team</p>"
+      # ------------------------ localhost end ------------------------
+      # ------------------------ production start ------------------------
+      else:
+        output_body = f"<p>Hi {guessed_name},</p>\
+                        <p>Please click the link below to verify your email address.</p>\
+                        <p>Verify email link: https://triviafy.com/polling/verify/success/{new_verification_code}</p>\
+                        <p style='margin:0;'>Best,</p>\
+                        <p style='margin:0;'>Triviafy Support Team</p>"
+      # ------------------------ production end ------------------------
+      send_email_template_function(output_to_email, output_subject, output_body)
+      # ------------------------ insert email to db start ------------------------
+      try:
+        new_row_email = EmailSentObj(
+          id = create_uuid_function('email_'),
+          created_timestamp = create_timestamp_function(),
+          from_user_id_fk = current_user.id,
+          to_email = output_to_email,
+          subject = output_subject,
+          body = output_body
+        )
+        db.session.add(new_row_email)
+        db.session.commit()
+      except:
+        pass
+      # ------------------------ insert email to db end ------------------------
+    except:
+      pass
+    # ------------------------ send email end ------------------------
+    return redirect(url_for('polling_views_interior.verify_email_function', url_redirect_code='s8'))
+  # ------------------------ resend email end ------------------------
+  localhost_print_function(' ------------------------ verify_email_function end ------------------------ ')
+  return render_template('polling/interior/verify_email/index.html', page_dict_to_html=page_dict)
+# ------------------------ individual route end ------------------------
+
+"""
+# ------------------------ individual route start ------------------------
+@polling_views_interior.route('/feedback/name', methods=['GET', 'POST'])
+@polling_views_interior.route('/feedback/name/', methods=['GET', 'POST'])
+@polling_views_interior.route('/feedback/name/<url_redirect_code>', methods=['GET', 'POST'])
+@login_required
+def feedback_name_function(url_redirect_code=None):
+  # ------------------------ check if already answered start ------------------------
+  if current_user.name != None and current_user.name != '':
+    return redirect(url_for('polling_views_interior.login_dashboard_page_function'))
+  # ------------------------ check if already answered end ------------------------
+  # ------------------------ page dict start ------------------------
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ page dict end ------------------------
+  page_dict['feedback_step'] = '0'
+  page_dict['feedback_request'] = 'name'
+  # ------------------------ submission start ------------------------
+  if request.method == 'POST':
+    # ------------------------ get user inputs start ------------------------
+    ui_name = request.form.get('ui_name')
+    # ------------------------ get user inputs end ------------------------
+    # ------------------------ sanatize inputs start ------------------------
+    if len(ui_name) <= 1 or len(ui_name) > 20:
+      return redirect(url_for('polling_views_interior.feedback_name_function', url_redirect_code='e19'))
+    special_characters_arr = get_special_characters_function()
+    for i in ui_name:
+      if i in special_characters_arr:
+        return redirect(url_for('polling_views_interior.feedback_name_function', url_redirect_code='e18'))
+    # ------------------------ sanatize inputs end ------------------------
+    # ------------------------ update db start ------------------------
+    current_user.name = ui_name.lower().capitalize()
+    db.session.commit()
+    # ------------------------ update db end ------------------------
+    return redirect(url_for('polling_views_interior.login_dashboard_page_function'))
+  # ------------------------ submission end ------------------------
+  # ------------------------ for setting cookie start ------------------------
+  template_location_url = 'polling/interior/feedback/index.html'
+  # ------------------------ for setting cookie end ------------------------
+  # ------------------------ auto set cookie start ------------------------
+  get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
+  if get_cookie_value_from_browser != None:
+    redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
+    return render_template(template_location_url, user=current_user, page_dict_to_html=page_dict)
+  else:
+    browser_response = browser_response_set_cookie_function_v6(current_user, template_location_url, page_dict)
+    return browser_response
+  # ------------------------ auto set cookie end ------------------------
+# ------------------------ individual route end ------------------------
+"""
