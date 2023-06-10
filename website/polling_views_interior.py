@@ -24,7 +24,7 @@ from website.backend.candidates.string_manipulation import breakup_email_functio
 import os
 from website.backend.candidates.send_emails import send_email_template_function
 from website.backend.candidates.user_inputs import get_special_characters_function
-from website.backend.candidates.lists import get_month_days_years_function
+from website.backend.candidates.lists import get_month_days_years_function, get_marketing_list_v2_function
 from website.backend.dates import get_years_from_date_function
 # ------------------------ imports end ------------------------
 
@@ -54,6 +54,8 @@ def polling_dashboard_function(url_redirect_code=None):
   if onbaording_status == 'attribute_tos':
     return redirect(url_for('polling_views_interior.polling_feedback_function', url_feedback_code=onbaording_status))
   if onbaording_status == 'attribute_birthday':
+    return redirect(url_for('polling_views_interior.polling_feedback_function', url_feedback_code=onbaording_status))
+  if onbaording_status == 'attribute_marketing':
     return redirect(url_for('polling_views_interior.polling_feedback_function', url_feedback_code=onbaording_status))
   # ------------------------ onboarding checks end ------------------------
   # ------------------------ page dict start ------------------------
@@ -267,14 +269,9 @@ def polling_feedback_function(url_redirect_code=None, url_feedback_code=None):
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
   # ------------------------ double check redirect start ------------------------
-  if url_feedback_code == 'attribute_tos':
-    onbaording_status = onboarding_checks_v2_function(current_user)
-    if onbaording_status != url_feedback_code:
-      return redirect(url_for('polling_views_interior.polling_dashboard_function'))
-  if url_feedback_code == 'attribute_birthday':
-    onbaording_status = onboarding_checks_v2_function(current_user)
-    if onbaording_status != url_feedback_code:
-      return redirect(url_for('polling_views_interior.polling_dashboard_function'))
+  onbaording_status = onboarding_checks_v2_function(current_user)
+  if onbaording_status != url_feedback_code:
+    return redirect(url_for('polling_views_interior.polling_dashboard_function'))
   # ------------------------ double check redirect end ------------------------
   # ------------------------ set loading bar variables start ------------------------
   # if url_feedback_code == 'name':
@@ -285,13 +282,20 @@ def polling_feedback_function(url_redirect_code=None, url_feedback_code=None):
     page_dict['feedback_request'] = url_feedback_code
   if url_feedback_code == 'attribute_birthday':
     page_dict['feedback_step'] = '2'
-    page_dict['feedback_request'] = url_feedback_code  
+    page_dict['feedback_request'] = url_feedback_code
+  if url_feedback_code == 'attribute_marketing':
+    page_dict['feedback_step'] = '3'
+    page_dict['feedback_request'] = url_feedback_code
   # ------------------------ set loading bar variables end ------------------------
-  # ------------------------ more specific variables start ------------------------
+  # ------------------------ more specific variables init start ------------------------
   months_arr = []
   days_arr = []
   years_arr = []
   month_day_dict = {}
+  marketing_list = None
+  marketing_list_index = None
+  # ------------------------ more specific variables init end ------------------------
+  # ------------------------ more specific variables for birthday start ------------------------
   if url_feedback_code == 'attribute_birthday':
     # ------------------------ get month days dict start ------------------------
     months_arr, days_arr, years_arr, month_day_dict = get_month_days_years_function()
@@ -299,7 +303,15 @@ def polling_feedback_function(url_redirect_code=None, url_feedback_code=None):
     page_dict['days_arr'] = days_arr
     page_dict['years_arr'] = years_arr
     # ------------------------ get month days dict end ------------------------
-  # ------------------------ more specific variables end ------------------------
+  # ------------------------ more specific variables for birthday end ------------------------
+  # ------------------------ more specific variables for marketing start ------------------------
+  if url_feedback_code == 'attribute_marketing':
+    # ------------------------ get current activities start ------------------------
+    marketing_list, marketing_list_index = get_marketing_list_v2_function()
+    page_dict['marketing_list'] = marketing_list
+    page_dict['marketing_list_index'] = marketing_list_index
+    # ------------------------ get current activities end ------------------------
+  # ------------------------ more specific variables for marketing end ------------------------
   # ------------------------ submission start ------------------------
   if request.method == 'POST':
     # ------------------------ double check redirect start ------------------------
@@ -405,6 +417,27 @@ def polling_feedback_function(url_redirect_code=None, url_feedback_code=None):
       # ------------------------ insert to db end ------------------------
       return redirect(url_for('polling_views_interior.polling_dashboard_function'))
     # ------------------------ post feedback birthday end ------------------------
+    # ------------------------ post feedback marketing start ------------------------
+    if url_feedback_code == 'attribute_marketing':
+      ui_answer = request.form.get('ui_selection_radio')
+      # ------------------------ invalid start ------------------------
+      if ui_answer not in marketing_list:
+        return redirect(url_for('polling_views_interior.polling_feedback_function', url_feedback_code=url_feedback_code, url_redirect_code='e6'))
+      # ------------------------ invalid end ------------------------
+      # ------------------------ insert to db start ------------------------
+      new_row = UserAttributesObj(
+        id=create_uuid_function('attribute_'),
+        created_timestamp=create_timestamp_function(),
+        fk_user_id=current_user.id,
+        product='polling',
+        attribute_code=url_feedback_code,
+        attribute_response=ui_answer
+      )
+      db.session.add(new_row)
+      db.session.commit()
+      # ------------------------ insert to db end ------------------------
+      return redirect(url_for('polling_views_interior.polling_dashboard_function'))
+    # ------------------------ post feedback marketing end ------------------------
   # ------------------------ submission end ------------------------
   # ------------------------ set cookie on first feedback step start ------------------------
   if url_feedback_code == 'attribute_tos':

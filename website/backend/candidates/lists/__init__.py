@@ -58,6 +58,24 @@ def get_marketing_list_function():
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
+def get_marketing_list_v2_function():
+  temp_list = [
+    'Google',
+    'Word of mouth',
+    'Podcast',
+    'YouTube',
+    'Twitter',
+    'TikTok',
+    'LinkedIn',
+    'Facebook',
+    'Instagram',
+    'Other'
+  ]
+  temp_list_index = get_arr_associated_index_function(temp_list)
+  return temp_list, temp_list_index
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
 def get_month_days_years_function():
   months_arr = [1,2,3,4,5,6,7,8,9,10,11,12]
   days_arr = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]

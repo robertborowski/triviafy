@@ -43,7 +43,7 @@
         {% elif page_dict_to_html['feedback_request'] == 'attribute_birthday' %}
           <h1 class="custom-color-white">Age demographic</h1>
           <p class="custom-color-white custom-opacity-75">You must be 18+ years old to participate in Triviafy polling.</p>
-        {% elif page_dict_to_html['feedback_request'] == 'marketing' %}
+        {% elif page_dict_to_html['feedback_request'] == 'attribute_marketing' %}
           <h1 class="custom-color-white">Finally, how did you hear about Triviafy?</h1>
         {% endif %}
       </div>
@@ -184,7 +184,7 @@
         </div>
       </form>
       <!-- ------------------------------------- section - birthday end ------------------------------------- -->
-      {% elif page_dict_to_html['feedback_request'] == 'marketing' %}
+      {% elif page_dict_to_html['feedback_request'] == 'attribute_marketing' %}
       <!-- ------------------------------------- section - marketing start ------------------------------------- -->
       <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
         <div class="text-center">
