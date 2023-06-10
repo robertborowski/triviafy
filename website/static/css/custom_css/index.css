@@ -493,6 +493,24 @@
 .custom-min-height-1 {
   min-height: 350px;
 }
+.custom-height-100-px {
+  height: 100px;
+}
+.custom-height-150-px {
+  height: 150px;
+}
+.custom-height-200-px {
+  height: 200px;
+}
+.custom-height-300-px {
+  height: 300px;
+}
+.custom-height-400-px {
+  height: 400px;
+}
+.custom-height-500-px {
+  height: 500px;
+}
 /* ------------------- height end ------------------- */
 /* ------------------- highlight start ------------------- */
 .custom-highlight-1 {
@@ -1501,6 +1519,10 @@
 }
 .custom-width-500 {
   width: 500px;
+  max-width: 90%;
+}
+.custom-width-800 {
+  width: 800px;
   max-width: 90%;
 }
 .custom-width-900 {
