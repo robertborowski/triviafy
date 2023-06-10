@@ -232,8 +232,19 @@ def verify_email_function(url_redirect_code=None):
     # ------------------------ send email end ------------------------
     return redirect(url_for('polling_views_interior.verify_email_function', url_redirect_code='s8'))
   # ------------------------ resend email end ------------------------
-  localhost_print_function(' ------------------------ verify_email_function end ------------------------ ')
-  return render_template('polling/interior/verify_email/index.html', page_dict_to_html=page_dict)
+  # ------------------------ for setting cookie start ------------------------
+  template_location_url = 'polling/interior/feedback/index.html'
+  # ------------------------ for setting cookie end ------------------------
+  # ------------------------ auto set cookie start ------------------------
+  get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
+  if get_cookie_value_from_browser != None:
+    redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
+    return render_template(template_location_url, user=current_user, page_dict_to_html=page_dict)
+  else:
+    browser_response = browser_response_set_cookie_function_v6(current_user, template_location_url, page_dict)
+    return browser_response
+  # ------------------------ auto set cookie end ------------------------
+  # return render_template('polling/interior/verify_email/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
