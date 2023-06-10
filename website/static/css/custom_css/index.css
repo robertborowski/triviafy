@@ -725,6 +725,9 @@
 .custom-mb-10 {
   margin-bottom: 10px;
 }
+.custom-mb-15 {
+  margin-bottom: 15px;
+}
 .custom-mb-25 {
   margin-bottom: 25px;
 }
@@ -1475,6 +1478,9 @@
 }
 .custom-width-100 {
   width: 100%;
+}
+.custom-width-100-px {
+  width: 100px;
 }
 .custom-width-175-px {
   width: 175px;
