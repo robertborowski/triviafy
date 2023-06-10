@@ -236,9 +236,9 @@ def verify_email_function(url_redirect_code=None):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@polling_views_interior.route('/feedback/name', methods=['GET', 'POST'])
-@polling_views_interior.route('/feedback/name/', methods=['GET', 'POST'])
-@polling_views_interior.route('/feedback/name/<url_redirect_code>', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/feedback/name', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/feedback/name/', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/feedback/name/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
 def polling_feedback_name_function(url_redirect_code=None):
   # ------------------------ check if already answered start ------------------------
