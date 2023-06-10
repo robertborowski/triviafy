@@ -95,7 +95,7 @@ def verification_code_clicked_function(url_redirect_code=None, url_verification_
   try:
     redis_uuid_value = redis_connection.get(url_verification_code).decode('utf-8')
   except:
-    return redirect(url_for('polling_views_interior.polling_dashboard_function'))
+    return redirect(url_for('polling_views_interior.verify_email_function', url_redirect_code='e28'))
   db_user_obj = UserObj.query.filter_by(id=redis_uuid_value).first()
   db_user_obj.verified_email = True
   db.session.commit()
