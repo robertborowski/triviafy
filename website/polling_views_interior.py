@@ -17,7 +17,7 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v6
-from website.models import UserObj, EmailSentObj
+from website.models import UserObj, EmailSentObj, UserSignupFeedbackObj
 from website.backend.onboarding import onboarding_checks_v2_function
 from website.backend.login_checks import product_login_checks_function
 from website.backend.candidates.string_manipulation import breakup_email_function
@@ -49,8 +49,10 @@ def polling_dashboard_function(url_redirect_code=None):
   onbaording_status = onboarding_checks_v2_function(current_user)
   if onbaording_status == 'verify':
     return redirect(url_for('polling_views_interior.verify_email_function'))
+  if onbaording_status == 'polling_terms_of_service':
+    return redirect(url_for('polling_views_interior.polling_feedback_name_function', url_feedback_code=onbaording_status))
   if onbaording_status == 'name':
-    return redirect(url_for('polling_views_interior.polling_feedback_name_function'))
+    return redirect(url_for('polling_views_interior.polling_feedback_name_function', url_feedback_code=onbaording_status))
   # ------------------------ onboarding checks end ------------------------
   # ------------------------ page dict start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
@@ -236,56 +238,86 @@ def verify_email_function(url_redirect_code=None):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@polling_views_interior.route('/polling/feedback/name', methods=['GET', 'POST'])
-@polling_views_interior.route('/polling/feedback/name/', methods=['GET', 'POST'])
-@polling_views_interior.route('/polling/feedback/name/<url_redirect_code>', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/feedback/<url_feedback_code>', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/feedback/<url_feedback_code>/', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/feedback/<url_feedback_code>/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
-def polling_feedback_name_function(url_redirect_code=None):
-  # ------------------------ check if already answered start ------------------------
-  if current_user.name != None and current_user.name != '':
-    return redirect(url_for('polling_views_interior.polling_dashboard_function'))
-  # ------------------------ check if already answered end ------------------------
+def polling_feedback_name_function(url_redirect_code=None, url_feedback_code=None):
   # ------------------------ page dict start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
   page_dict = {}
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
-  page_dict['feedback_step'] = '0'
-  page_dict['feedback_request'] = 'name'
+  # ------------------------ set loading bar variables start ------------------------
+  if url_feedback_code == 'polling_terms_of_service':
+    page_dict['feedback_step'] = '0'
+    page_dict['feedback_request'] = 'polling_terms_of_service'
+  if url_feedback_code == 'name':
+    page_dict['feedback_step'] = '0'
+    page_dict['feedback_request'] = 'name'
+  # ------------------------ set loading bar variables end ------------------------
   # ------------------------ submission start ------------------------
   if request.method == 'POST':
-    # ------------------------ get user inputs start ------------------------
-    ui_name = request.form.get('ui_name')
-    ui_last_name = request.form.get('ui_last_name')
-    # ------------------------ get user inputs end ------------------------
-    # ------------------------ sanatize inputs start ------------------------
-    if len(ui_name) <= 1 or len(ui_name) > 20 or len(ui_last_name) <= 1 or len(ui_last_name) > 20:
-      return redirect(url_for('polling_views_interior.feedback_name_function', url_redirect_code='e19'))
-    special_characters_arr = get_special_characters_function()
-    for i in ui_name:
-      if i in special_characters_arr:
-        return redirect(url_for('polling_views_interior.feedback_name_function', url_redirect_code='e18'))
-    for i in ui_last_name:
-      if i in special_characters_arr:
-        return redirect(url_for('polling_views_interior.feedback_name_function', url_redirect_code='e18'))
-    # ------------------------ sanatize inputs end ------------------------
-    # ------------------------ update db start ------------------------
-    current_user.name = ui_name.lower().capitalize()
-    current_user.last_name = ui_last_name.lower().capitalize()
-    db.session.commit()
-    # ------------------------ update db end ------------------------
-    return redirect(url_for('polling_views_interior.polling_dashboard_function'))
+    # ------------------------ post feedback name start ------------------------
+    if url_feedback_code == 'name':
+      # ------------------------ check if already answered start ------------------------
+      if current_user.name != None and current_user.name != '':
+        return redirect(url_for('polling_views_interior.polling_dashboard_function'))
+      # ------------------------ check if already answered end ------------------------
+      # ------------------------ get user inputs start ------------------------
+      ui_name = request.form.get('ui_name')
+      ui_last_name = request.form.get('ui_last_name')
+      # ------------------------ get user inputs end ------------------------
+      # ------------------------ sanatize inputs start ------------------------
+      if len(ui_name) <= 1 or len(ui_name) > 20 or len(ui_last_name) <= 1 or len(ui_last_name) > 20:
+        return redirect(url_for('polling_views_interior.feedback_name_function', url_redirect_code='e19'))
+      special_characters_arr = get_special_characters_function()
+      for i in ui_name:
+        if i in special_characters_arr:
+          return redirect(url_for('polling_views_interior.feedback_name_function', url_redirect_code='e18'))
+      for i in ui_last_name:
+        if i in special_characters_arr:
+          return redirect(url_for('polling_views_interior.feedback_name_function', url_redirect_code='e18'))
+      # ------------------------ sanatize inputs end ------------------------
+      # ------------------------ update db start ------------------------
+      current_user.name = ui_name.lower().capitalize()
+      current_user.last_name = ui_last_name.lower().capitalize()
+      db.session.commit()
+      # ------------------------ update db end ------------------------
+      return redirect(url_for('polling_views_interior.polling_dashboard_function'))
+    # ------------------------ post feedback name end ------------------------
+    # ------------------------ post feedback tos start ------------------------
+    if url_feedback_code == 'polling_terms_of_service':
+      # ------------------------ insert to db start ------------------------
+      new_row = UserSignupFeedbackObj(
+        id = create_uuid_function('feedback_'),
+        created_timestamp = create_timestamp_function(),
+        fk_user_id = current_user.id,
+        fk_email = current_user.email,
+        question = url_feedback_code,
+        response = 'Complete'
+      )
+      db.session.add(new_row)
+      db.session.commit()
+      # ------------------------ insert to db end ------------------------
+      return redirect(url_for('polling_views_interior.polling_dashboard_function'))
+    # ------------------------ post feedback tos end ------------------------
   # ------------------------ submission end ------------------------
-  # ------------------------ for setting cookie start ------------------------
-  template_location_url = 'polling/interior/feedback/index.html'
-  # ------------------------ for setting cookie end ------------------------
-  # ------------------------ auto set cookie start ------------------------
-  get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
-  if get_cookie_value_from_browser != None:
-    redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
-    return render_template(template_location_url, user=current_user, page_dict_to_html=page_dict)
+  # ------------------------ set cookie on first feedback step start ------------------------
+  if url_feedback_code == 'polling_terms_of_service':
+    # ------------------------ for setting cookie start ------------------------
+    template_location_url = 'polling/interior/feedback/index.html'
+    # ------------------------ for setting cookie end ------------------------
+    # ------------------------ auto set cookie start ------------------------
+    get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
+    if get_cookie_value_from_browser != None:
+      redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
+      return render_template(template_location_url, user=current_user, page_dict_to_html=page_dict)
+    else:
+      browser_response = browser_response_set_cookie_function_v6(current_user, template_location_url, page_dict)
+      return browser_response
+    # ------------------------ auto set cookie end ------------------------
+  # ------------------------ set cookie on first feedback step end ------------------------
   else:
-    browser_response = browser_response_set_cookie_function_v6(current_user, template_location_url, page_dict)
-    return browser_response
-  # ------------------------ auto set cookie end ------------------------
+    return render_template('polling/interior/feedback/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
