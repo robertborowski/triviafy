@@ -51,7 +51,7 @@ def polling_dashboard_function(url_redirect_code=None):
   onbaording_status = onboarding_checks_v2_function(current_user)
   if onbaording_status == 'verify':
     return redirect(url_for('polling_views_interior.verify_email_function'))
-  if onbaording_status == 'polling_tos':
+  if onbaording_status == 'attribute_tos':
     return redirect(url_for('polling_views_interior.polling_feedback_function', url_feedback_code=onbaording_status))
   if onbaording_status == 'attribute_birthday':
     return redirect(url_for('polling_views_interior.polling_feedback_function', url_feedback_code=onbaording_status))
@@ -267,7 +267,7 @@ def polling_feedback_function(url_redirect_code=None, url_feedback_code=None):
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
   # ------------------------ double check redirect start ------------------------
-  if url_feedback_code == 'polling_tos':
+  if url_feedback_code == 'attribute_tos':
     onbaording_status = onboarding_checks_v2_function(current_user)
     if onbaording_status != url_feedback_code:
       return redirect(url_for('polling_views_interior.polling_dashboard_function'))
@@ -280,7 +280,7 @@ def polling_feedback_function(url_redirect_code=None, url_feedback_code=None):
   # if url_feedback_code == 'name':
   #   page_dict['feedback_step'] = '0'
   #   page_dict['feedback_request'] = url_feedback_code
-  if url_feedback_code == 'polling_tos':
+  if url_feedback_code == 'attribute_tos':
     page_dict['feedback_step'] = '1'
     page_dict['feedback_request'] = url_feedback_code
   if url_feedback_code == 'attribute_birthday':
@@ -303,7 +303,7 @@ def polling_feedback_function(url_redirect_code=None, url_feedback_code=None):
   # ------------------------ submission start ------------------------
   if request.method == 'POST':
     # ------------------------ double check redirect start ------------------------
-    if url_feedback_code == 'polling_tos':
+    if url_feedback_code == 'attribute_tos':
       onbaording_status = onboarding_checks_v2_function(current_user)
       if onbaording_status != url_feedback_code:
         return redirect(url_for('polling_views_interior.polling_dashboard_function'))
@@ -341,7 +341,7 @@ def polling_feedback_function(url_redirect_code=None, url_feedback_code=None):
     #   return redirect(url_for('polling_views_interior.polling_dashboard_function'))
     # # ------------------------ post feedback name end ------------------------
     # ------------------------ post feedback tos start ------------------------
-    if url_feedback_code == 'polling_tos':
+    if url_feedback_code == 'attribute_tos':
       # ------------------------ insert to db start ------------------------
       new_row = UserAttributesObj(
         id=create_uuid_function('attribute_'),
@@ -407,7 +407,7 @@ def polling_feedback_function(url_redirect_code=None, url_feedback_code=None):
     # ------------------------ post feedback birthday end ------------------------
   # ------------------------ submission end ------------------------
   # ------------------------ set cookie on first feedback step start ------------------------
-  if url_feedback_code == 'polling_tos':
+  if url_feedback_code == 'attribute_tos':
     # ------------------------ for setting cookie start ------------------------
     template_location_url = 'polling/interior/feedback/index.html'
     # ------------------------ for setting cookie end ------------------------

@@ -38,7 +38,7 @@
     <!-- ------------------------------------- title start ------------------------------------- -->
     <div class="container mx-auto custom-pb-50">
       <div class="text-center">
-        {% if page_dict_to_html['feedback_request'] == 'polling_tos' %}
+        {% if page_dict_to_html['feedback_request'] == 'attribute_tos' %}
           <h1 class="custom-color-white">Terms of service</h1>
         {% elif page_dict_to_html['feedback_request'] == 'attribute_birthday' %}
           <h1 class="custom-color-white">Age demographic</h1>
@@ -74,11 +74,11 @@
         </div>
       </form>
       <!-- ------------------------------------- section - name end ------------------------------------- -->
-      {% elif page_dict_to_html['feedback_request'] == 'polling_tos' %}
+      {% elif page_dict_to_html['feedback_request'] == 'attribute_tos' %}
       <!-- ------------------------------------- section - terms of service start ------------------------------------- -->
       <!-- ------------------------------------- top start ------------------------------------- -->
       <div class="custom-width-800 mx-auto custom-mb-50 custom-color-white custom-opacity-75">
-        <div data-bs-spy="scroll" data-bs-target="#navbar-example2" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true" class="scrollspy-example bg-body-tertiary p-3 rounded-2 custom-overflow-1 custom-height-300-px" tabindex="0">
+        <div data-bs-spy="scroll" data-bs-target="#navbar-example2" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true" class="scrollspy-example bg-body-tertiary custom-overflow-1 custom-height-300-px custom-border-white-opacity-1 custom-br-1 custom-p-25 shadow-lg" tabindex="0">
           <!-- ------------------------------------- tos content start ------------------------------------- -->
           <h4 id="scrollspyHeading1">Terms of Service</h4>
           <p>These Terms of Service ("Terms") govern your use of Triviafy ("the Service"), provided by Triviafy ("the Company"). By accessing or using the Service, you agree to be bound by these Terms. If you do not agree with any part of these Terms, you must not use the Service.</p>
