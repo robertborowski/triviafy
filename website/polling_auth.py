@@ -20,8 +20,7 @@ from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_f
 from website.backend.candidates.send_emails import send_email_template_function
 import os
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
-from .models import UserObj, EmailCollectObj, EmailScrapedObj
-from website.backend.candidates.pull_create_logic import pull_create_group_id_function
+from .models import UserObj
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -63,9 +62,6 @@ def polling_signup_function(url_redirect_code=None):
       return redirect(url_for('polling_auth.polling_signup_function', url_redirect_code='e3'))
     # ------------------------ check if user email already exists in db start ------------------------
     else:
-      # ------------------------ infer company name start ------------------------
-      email_arr1 = ui_email.split('@')
-      # ------------------------ infer company name end ------------------------
       # ------------------------ create new user in db start ------------------------
       new_row = UserObj(
         id=create_uuid_function('user_'),

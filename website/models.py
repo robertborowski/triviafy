@@ -46,6 +46,19 @@ class UserObj(db.Model, UserMixin):   # Only the users object inherits UserMixin
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
+class UserAttributesObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  fk_user_id = db.Column(db.String(150))
+  anonymous_status = db.Column(db.Boolean, default=False)
+  attribute_code = db.Column(db.String(150))
+  attribute_response = db.Column(db.String(150))
+  attribute_year = db.Column(db.Integer)
+  attribute_month = db.Column(db.Integer)
+  attribute_day = db.Column(db.Integer)
+# ------------------------ individual model end ------------------------
+
+# ------------------------ individual model start ------------------------
 class EmailCollectObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
   created_timestamp = db.Column(db.DateTime(timezone=True))

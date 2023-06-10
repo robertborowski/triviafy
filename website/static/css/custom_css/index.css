@@ -839,6 +839,12 @@
 .custom-mr-3 {
   margin-right: 25px;
 }
+.custom-mr-10 {
+  margin-right: 10px;
+}
+.custom-mr-25 {
+  margin-right: 25px;
+}
 .custom-ml-1 {
   margin-left: 5px;
 }
@@ -862,6 +868,9 @@
 }
 .custom-ml-10 {
   margin-left: 10px;
+}
+.custom-ml-25 {
+  margin-left: 25px;
 }
 .custom-ml-50 {
   margin-left: 50px;

@@ -24,6 +24,7 @@ from website.backend.candidates.string_manipulation import breakup_email_functio
 import os
 from website.backend.candidates.send_emails import send_email_template_function
 from website.backend.candidates.user_inputs import get_special_characters_function
+from website.backend.candidates.lists import get_month_days_years_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -50,6 +51,8 @@ def polling_dashboard_function(url_redirect_code=None):
   if onbaording_status == 'verify':
     return redirect(url_for('polling_views_interior.verify_email_function'))
   if onbaording_status == 'polling_terms_of_service':
+    return redirect(url_for('polling_views_interior.polling_feedback_function', url_feedback_code=onbaording_status))
+  if onbaording_status == 'attribute_birthday':
     return redirect(url_for('polling_views_interior.polling_feedback_function', url_feedback_code=onbaording_status))
   # ------------------------ onboarding checks end ------------------------
   # ------------------------ page dict start ------------------------
@@ -259,43 +262,59 @@ def polling_feedback_function(url_redirect_code=None, url_feedback_code=None):
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
   # ------------------------ set loading bar variables start ------------------------
+  # if url_feedback_code == 'name':
+  #   page_dict['feedback_step'] = '0'
+  #   page_dict['feedback_request'] = url_feedback_code
   if url_feedback_code == 'polling_terms_of_service':
     page_dict['feedback_step'] = '1'
     page_dict['feedback_request'] = url_feedback_code
-  if url_feedback_code == 'name':
-    page_dict['feedback_step'] = '0'
-    page_dict['feedback_request'] = url_feedback_code
+  if url_feedback_code == 'attribute_birthday':
+    page_dict['feedback_step'] = '2'
+    page_dict['feedback_request'] = url_feedback_code  
   # ------------------------ set loading bar variables end ------------------------
+  # ------------------------ more specific variables start ------------------------
+  months_arr = []
+  days_arr = []
+  years_arr = []
+  month_day_dict = {}
+  if url_feedback_code == 'attribute_birthday':
+    # ------------------------ get month days dict start ------------------------
+    months_arr, days_arr, years_arr, month_day_dict = get_month_days_years_function()
+    page_dict['months_arr'] = months_arr
+    page_dict['days_arr'] = days_arr
+    page_dict['years_arr'] = years_arr
+    # ------------------------ get month days dict end ------------------------
+  # ------------------------ more specific variables end ------------------------
   # ------------------------ submission start ------------------------
   if request.method == 'POST':
-    # ------------------------ post feedback name start ------------------------
-    if url_feedback_code == 'name':
-      # ------------------------ check if already answered start ------------------------
-      if current_user.name != None and current_user.name != '':
-        return redirect(url_for('polling_views_interior.polling_dashboard_function'))
-      # ------------------------ check if already answered end ------------------------
-      # ------------------------ get user inputs start ------------------------
-      ui_name = request.form.get('ui_name')
-      ui_last_name = request.form.get('ui_last_name')
-      # ------------------------ get user inputs end ------------------------
-      # ------------------------ sanatize inputs start ------------------------
-      if len(ui_name) <= 1 or len(ui_name) > 20 or len(ui_last_name) <= 1 or len(ui_last_name) > 20:
-        return redirect(url_for('polling_views_interior.feedback_name_function', url_redirect_code='e19'))
-      special_characters_arr = get_special_characters_function()
-      for i in ui_name:
-        if i in special_characters_arr:
-          return redirect(url_for('polling_views_interior.feedback_name_function', url_redirect_code='e18'))
-      for i in ui_last_name:
-        if i in special_characters_arr:
-          return redirect(url_for('polling_views_interior.feedback_name_function', url_redirect_code='e18'))
-      # ------------------------ sanatize inputs end ------------------------
-      # ------------------------ update db start ------------------------
-      current_user.name = ui_name.lower().capitalize()
-      current_user.last_name = ui_last_name.lower().capitalize()
-      db.session.commit()
-      # ------------------------ update db end ------------------------
-      return redirect(url_for('polling_views_interior.polling_dashboard_function'))
-    # ------------------------ post feedback name end ------------------------
+    # # ------------------------ post feedback name start ------------------------
+    # if url_feedback_code == 'name':
+    #   # ------------------------ check if already answered start ------------------------
+    #   if current_user.name != None and current_user.name != '':
+    #     return redirect(url_for('polling_views_interior.polling_dashboard_function'))
+    #   # ------------------------ check if already answered end ------------------------
+    #   # ------------------------ get user inputs start ------------------------
+    #   ui_name = request.form.get('ui_name')
+    #   ui_last_name = request.form.get('ui_last_name')
+    #   # ------------------------ get user inputs end ------------------------
+    #   # ------------------------ sanatize inputs start ------------------------
+    #   if len(ui_name) <= 1 or len(ui_name) > 20 or len(ui_last_name) <= 1 or len(ui_last_name) > 20:
+    #     return redirect(url_for('polling_views_interior.feedback_name_function', url_redirect_code='e19'))
+    #   special_characters_arr = get_special_characters_function()
+    #   for i in ui_name:
+    #     if i in special_characters_arr:
+    #       return redirect(url_for('polling_views_interior.feedback_name_function', url_redirect_code='e18'))
+    #   for i in ui_last_name:
+    #     if i in special_characters_arr:
+    #       return redirect(url_for('polling_views_interior.feedback_name_function', url_redirect_code='e18'))
+    #   # ------------------------ sanatize inputs end ------------------------
+    #   # ------------------------ update db start ------------------------
+    #   current_user.name = ui_name.lower().capitalize()
+    #   current_user.last_name = ui_last_name.lower().capitalize()
+    #   db.session.commit()
+    #   # ------------------------ update db end ------------------------
+    #   return redirect(url_for('polling_views_interior.polling_dashboard_function'))
+    # # ------------------------ post feedback name end ------------------------
     # ------------------------ post feedback tos start ------------------------
     if url_feedback_code == 'polling_terms_of_service':
       # ------------------------ insert to db start ------------------------
@@ -312,6 +331,17 @@ def polling_feedback_function(url_redirect_code=None, url_feedback_code=None):
       # ------------------------ insert to db end ------------------------
       return redirect(url_for('polling_views_interior.polling_dashboard_function'))
     # ------------------------ post feedback tos end ------------------------
+    # ------------------------ post feedback birthday start ------------------------
+    if url_feedback_code == 'attribute_birthday':
+      # ------------------------ get user inputs start ------------------------
+      ui_month_only = request.form.get('ui_month_only')
+      ui_day_only = request.form.get('ui_day_only')
+      ui_year_only = request.form.get('ui_year_only')
+      # ------------------------ get user inputs end ------------------------
+      # ------------------------ insert to db start ------------------------
+      # ------------------------ insert to db end ------------------------
+      return redirect(url_for('polling_views_interior.polling_dashboard_function'))
+    # ------------------------ post feedback birthday end ------------------------
   # ------------------------ submission end ------------------------
   # ------------------------ set cookie on first feedback step start ------------------------
   if url_feedback_code == 'polling_terms_of_service':
