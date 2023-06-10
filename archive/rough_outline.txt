@@ -49,3 +49,6 @@ NOTES
             -Learn about the real data behind the average user (Personality type, zodiac sign)
         -Individual
             -Learn about the real data behind the average user
+
+________________________________________________________________________________________________________________
+Start off with the top podcasts and YouTube channels, Youtubers are request for more based (manual additions), while podcasts are automated with chatGPT (automated additions).

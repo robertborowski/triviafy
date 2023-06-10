@@ -18,15 +18,8 @@ def onboarding_checks_v2_function(current_user):
   if current_user.verified_email == False:
     return 'verify'
   # ------------------------ check if email verified end ------------------------
-  # ------------------------ check if feedback given start ------------------------
-  search_feedback_arr = ['polling_terms_of_service']
-  for i_feedback in search_feedback_arr:
-    feedback_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question=i_feedback).first()
-    if feedback_obj == None or feedback_obj == []:
-      return i_feedback
-  # ------------------------ check if feedback given end ------------------------
   # ------------------------ check all attributes table start ------------------------
-  attribute_arr = ['attribute_birthday']
+  attribute_arr = ['polling_tos','attribute_birthday']
   for i_attribute in attribute_arr:
     attribute_obj = UserAttributesObj.query.filter_by(fk_user_id=current_user.id,attribute_code=i_attribute).first()
     if attribute_obj == None or attribute_obj == []:

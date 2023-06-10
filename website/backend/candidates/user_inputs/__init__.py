@@ -408,6 +408,11 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':"Passwords do not match.",
       'type':'danger'
     }
+  elif redirect_var == 'e30':
+    alert_message_dict = {
+      'message':"You must be 18+ years old to participate in Triviafy polling.",
+      'type':'danger'
+    }
   # ------------------------ errors end ------------------------
   # ------------------------ success start ------------------------
   elif redirect_var == 's1':
