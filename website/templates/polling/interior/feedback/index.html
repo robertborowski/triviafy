@@ -30,14 +30,14 @@
   {% endif %}
   <!-- ----------------------------------- end ----------------------------------- -->
   <!-- ------------------------------------- entire page start ------------------------------------- -->
-  <div class="container-fluid custom-bg-primary-gradient-1 custom-pt-3">
+  <div class="container-fluid custom-bg-primary-gradient-1 custom-pt-100">
     <!-- ------------------------------------- title start ------------------------------------- -->
-    <div class="container mx-auto custom-pb-2">
+    <div class="container mx-auto custom-pb-50">
       <div class="text-center">
         {% if page_dict_to_html['feedback_request'] == 'polling_terms_of_service' %}
-          <h2 class="custom-color-white">Terms of service</h2>
+          <h1 class="custom-color-white">Terms of service</h1>
         {% elif page_dict_to_html['feedback_request'] == 'marketing' %}
-          <h2 class="custom-color-white">Finally, how did you hear about Triviafy?</h2>
+          <h1 class="custom-color-white">Finally, how did you hear about Triviafy?</h1>
         {% endif %}
       </div>
     </div>
@@ -67,7 +67,15 @@
         </div>
       </form>
       <!-- ------------------------------------- section - name end ------------------------------------- -->
-    {% elif page_dict_to_html['feedback_request'] == 'marketing' %}
+      {% elif page_dict_to_html['feedback_request'] == 'polling_terms_of_service' %}
+      <!-- ------------------------------------- section - marketing start ------------------------------------- -->
+      <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+        <div class="text-center">
+          <button type="submit" class="btn btn-lg btn-success">Continue <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </form>
+      <!-- ------------------------------------- section - marketing end ------------------------------------- -->
+      {% elif page_dict_to_html['feedback_request'] == 'marketing' %}
       <!-- ------------------------------------- section - marketing start ------------------------------------- -->
       <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
         <div class="text-center">
