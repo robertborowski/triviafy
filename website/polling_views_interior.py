@@ -17,7 +17,7 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v6
-from website.models import UserObj, EmailSentObj, UserAttributesObj
+from website.models import UserObj, EmailSentObj, UserAttributesObj, SourcesFollowingObj
 from website.backend.onboarding import onboarding_checks_v2_function
 from website.backend.login_checks import product_login_checks_function
 from website.backend.candidates.string_manipulation import breakup_email_function
@@ -26,6 +26,7 @@ from website.backend.candidates.send_emails import send_email_template_function
 from website.backend.candidates.user_inputs import get_special_characters_function
 from website.backend.candidates.lists import get_month_days_years_function, get_marketing_list_v2_function
 from website.backend.dates import get_years_from_date_function
+from website.backend.get_create_obj import get_all_sources_following_function, get_all_platforms_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -63,6 +64,13 @@ def polling_dashboard_function(url_redirect_code=None):
   page_dict = {}
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
+  # ------------------------ get all sources following start ------------------------
+  page_dict['sources_following_total'] = get_all_sources_following_function(current_user)
+  # ------------------------ get all sources following end ------------------------
+  # ------------------------ redirect if not following any sources start ------------------------
+  if page_dict['sources_following_total'] == None:
+    return redirect(url_for('polling_views_interior.polling_add_source_function', url_step_code='1'))
+  # ------------------------ redirect if not following any sources end ------------------------
   # ------------------------ for setting cookie start ------------------------
   template_location_url = 'polling/interior/dashboard/index.html'
   # ------------------------ for setting cookie end ------------------------
@@ -456,4 +464,47 @@ def polling_feedback_function(url_redirect_code=None, url_feedback_code=None):
   # ------------------------ set cookie on first feedback step end ------------------------
   else:
     return render_template('polling/interior/feedback/index.html', page_dict_to_html=page_dict)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@polling_views_interior.route('/polling/source/add/<url_step_code>', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/source/add/<url_step_code>/', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/source/add/<url_step_code>/<url_redirect_code>', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/source/add/<url_step_code>/<url_redirect_code>/', methods=['GET', 'POST'])
+@login_required
+def polling_add_source_function(url_redirect_code=None, url_step_code='1'):
+  # ------------------------ page dict start ------------------------
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ page dict end ------------------------
+  # ------------------------ set variables start ------------------------
+  page_dict['url_step_code'] = url_step_code
+  # ------------------------ set variables end ------------------------
+  # ------------------------ set title start ------------------------
+  page_dict['url_step_title'] = ''
+  if page_dict['url_step_code'] == '1':
+    page_dict['url_step_title'] = 'Platform'
+  if page_dict['url_step_code'] == '2':
+    page_dict['url_step_title'] = 'Show'
+  # ------------------------ set title end ------------------------
+  # ------------------------ get platforms start ------------------------
+  page_dict['platforms_arr'] = []
+  if page_dict['url_step_code'] == '1':
+    all_platforms_obj = get_all_platforms_function()
+    for i_obj in all_platforms_obj:
+      page_dict['platforms_arr'].append(i_obj.name)
+  # ------------------------ get platforms end ------------------------
+  # ------------------------ for setting cookie start ------------------------
+  template_location_url = 'polling/interior/source_select/index.html'
+  # ------------------------ for setting cookie end ------------------------
+  # ------------------------ auto set cookie start ------------------------
+  get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
+  if get_cookie_value_from_browser != None:
+    redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
+    return render_template(template_location_url, user=current_user, page_dict_to_html=page_dict)
+  else:
+    browser_response = browser_response_set_cookie_function_v6(current_user, template_location_url, page_dict)
+    return browser_response
+  # ------------------------ auto set cookie end ------------------------
 # ------------------------ individual route end ------------------------

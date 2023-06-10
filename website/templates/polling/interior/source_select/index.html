@@ -1,0 +1,59 @@
+{% extends "polling/aaa_base/base2_primary.html" %}
+
+<!-- head tag block content -->
+{% block title %}
+  <title>Feedback - Triviafy</title>
+{% endblock %}
+
+{% block contentBodyExceptNavbarAndFooter %}
+<div class="custom-bg-primary-darker">
+  <!-- ------------------------------------- entire page start ------------------------------------- -->
+  <div class="container-fluid custom-bg-primary-gradient-1 custom-pt-100">
+    <!-- ----------------------------------- start ----------------------------------- -->
+    {% if page_dict_to_html['alert_message_dict']['message'] != '' %}
+    <div class="alert alert-{{ page_dict_to_html['alert_message_dict']['type'] }} mx-auto text-center container-fluid custom-width-6 custom-m-0" role="alert">
+      {{ page_dict_to_html['alert_message_dict']['message'] }}
+    </div>
+    {% endif %}
+    <!-- ----------------------------------- end ----------------------------------- -->
+    <!-- ------------------------------------- title start ------------------------------------- -->
+    <div class="container mx-auto custom-pb-50">
+      <div class="text-center">
+        <h1 class="custom-color-white">{{ page_dict_to_html['url_step_title'] }}</h1>
+      </div>
+    </div>
+    <!-- ------------------------------------- title end ------------------------------------- -->
+    <!-- ------------------------------------- step 1 start ------------------------------------- -->
+    {% if page_dict_to_html['url_step_code'] == '1' %}
+      <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+        <div class="custom-display-flex custom-fw-1 custom-jc-3 custom-width-800 mx-auto">
+          <!-- ------------------------------------- month dropdown start ------------------------------------- -->
+          <div class="dropdown custom-pb-2">
+            <button class="btn btn-warning dropdown-toggle custom-tal custom-ptb-8" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="id-month-only">
+              Select
+            </button>
+            <ul class="dropdown-menu custom-width-6">
+              {% for i in page_dict_to_html['platforms_arr'] %}
+                <li>
+                  <input type="radio" class="btn-check" id="ui_month_only_{{ i }}" name="ui_month_only" autocomplete="off" value="{{ i }}" onclick="previewMonthOnlySelection(this)" required>
+                  <label class="dropdown-item" for="ui_month_only_{{ i }}">{{ i }}</label>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+          <!-- ------------------------------------- month dropdown end ------------------------------------- -->
+        </div>
+      </form>
+    {% endif %}
+    <!-- ------------------------------------- step 1 end ------------------------------------- -->
+  </div>
+  <!-- ------------------------------------- entire page end ------------------------------------- -->
+</div>
+<!-- ----------------------------------- shape divider start ----------------------------------- -->
+<div class="custom-shape-divider-bottom-1672276706 custom-bg-primary-darker">
+  <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+      <path d="M1200 0L0 0 598.97 114.72 1200 0z" class="shape-fill"></path>
+  </svg>
+</div>
+<!-- ----------------------------------- shape divider end ----------------------------------- -->
+{% endblock %}

@@ -12,8 +12,14 @@
 {% endif %}
 <!-- ----------------------------------- end ----------------------------------- -->
 <!-- ------------------------------------- dashboard start ------------------------------------- -->
-<div class="container custom-pt-50">
-  <h2>Hello interior logged in!</h2>
-</div>
+{% if page_dict_to_html['sources_following_total'] is none %}
+  <div class="container custom-pt-50 custom-border-2">
+    <h2>Welcome, what are you listening to?</h2>
+  </div>
+{% else %}
+  <div class="container custom-pt-50 custom-border-2">
+    <h2>Hello you are subscribed to the following</h2>
+  </div>
+{% endif %}
 <!-- ------------------------------------- dashboard end ------------------------------------- -->
 {% endblock %}

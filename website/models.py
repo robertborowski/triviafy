@@ -344,4 +344,20 @@ class BlogObj(db.Model):
   details = db.Column(db.String(150))
   aws_image_url = db.Column(db.String(150))
 # ------------------------ individual model end ------------------------
+
+# ------------------------ individual model start ------------------------
+class SourcesFollowingObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  fk_source_id = db.Column(db.String(150))
+  fk_user_id = db.Column(db.String(150))
+# ------------------------ individual model end ------------------------
+
+# ------------------------ individual model start ------------------------
+class PlatformsObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  name = db.Column(db.String(150))
+  status = db.Column(db.Boolean, default=False)
+# ------------------------ individual model end ------------------------
 # ------------------------ employees models end ------------------------
