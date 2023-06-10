@@ -25,7 +25,7 @@
   <div class="container custom-width-800 custom-color-8">
     <!-- ----------------------------------- start ----------------------------------- -->
     {% if page_dict_to_html['alert_message_dict']['message'] != '' %}
-    <div class="alert alert-{{ page_dict_to_html['alert_message_dict']['type'] }} mx-auto text-center container custom-mt-1 custom-width-1" role="alert">
+    <div class="alert alert-{{ page_dict_to_html['alert_message_dict']['type'] }} mx-auto text-center container custom-mt-1" role="alert">
       {{ page_dict_to_html['alert_message_dict']['message'] }}
     </div>
     {% endif %}
