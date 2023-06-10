@@ -12,6 +12,13 @@
 {% block contentBodyExceptNavbarAndFooter %}
 <!-- ------------------------------------- main start ------------------------------------- -->
 <div class="container-fluid custom-bg-primary-gradient-1">
+  <!-- ------------------------------------- progress bar start ------------------------------------- -->
+  {% if page_dict_to_html['feedback_step'] == '0' %}
+    <div class="progress" role="progressbar" aria-label="Success striped example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+      <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width: 33%"></div>
+    </div>
+  {% endif %}
+  <!-- ------------------------------------- progress bar end ------------------------------------- -->
   <div class="text-center custom-pt-100 custom-mb-50">
     <h2 class="custom-header-50 custom-color-8">Verify your email</h2>
   </div>
@@ -51,7 +58,7 @@
     <img src="https://triviafypublicobjects.s3.us-east-2.amazonaws.com/official_logo.png" alt="triviafy logo" class="custom-img-size-1 custom-mt-negative-1">
     <span class="fw-bold custom-header-1">Triviafy<spa class="custom-header-4">.com</span></span>
     <div class="text-center">
-      <p class="custom-m-0">Podcast Polling Platform</p>
+      <p class="custom-m-0">Audience Polling Platform</p>
     </div>
   </a>
 </div>

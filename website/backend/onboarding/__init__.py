@@ -24,31 +24,6 @@ def onboarding_checks_v2_function(current_user):
     feedback_obj = search_feedback_function(current_user,i_feedback)
     if feedback_obj == i_feedback:
       return i_feedback
-  # name
-  if current_user.name == None or current_user.name == '' or current_user.last_name == None or current_user.last_name == '':
-    return 'name'
-  """
-  # primary
-  feedback_primary_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='primary_product_choice').first()
-  if feedback_primary_obj == None or feedback_primary_obj == []:
-    return 'primary'
-  # secondary
-  feedback_secondary_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='secondary_product_choice').first()
-  if feedback_secondary_obj == None or feedback_secondary_obj == []:
-    return 'secondary'
-  # birthday
-  feedback_birthday_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='birthday_choice').first()
-  if feedback_birthday_obj == None or feedback_birthday_obj == []:
-    return 'birthday'
-  # job_start_date
-  feedback_birthday_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='job_start_date_choice').first()
-  if feedback_birthday_obj == None or feedback_birthday_obj == []:
-    return 'job_start_date'
-  # how did you hear about triviafy?
-  feedback_marketing_obj = UserSignupFeedbackObj.query.filter_by(fk_user_id=current_user.id,question='marketing_choice').first()
-  if feedback_marketing_obj == None or feedback_marketing_obj == []:
-    return 'marketing'
   # ------------------------ check if feedback given end ------------------------
-  """
   return False
 # ------------------------ individual function end ------------------------

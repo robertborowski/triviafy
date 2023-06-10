@@ -50,9 +50,7 @@ def polling_dashboard_function(url_redirect_code=None):
   if onbaording_status == 'verify':
     return redirect(url_for('polling_views_interior.verify_email_function'))
   if onbaording_status == 'polling_terms_of_service':
-    return redirect(url_for('polling_views_interior.polling_feedback_name_function', url_feedback_code=onbaording_status))
-  if onbaording_status == 'name':
-    return redirect(url_for('polling_views_interior.polling_feedback_name_function', url_feedback_code=onbaording_status))
+    return redirect(url_for('polling_views_interior.polling_feedback_function', url_feedback_code=onbaording_status))
   # ------------------------ onboarding checks end ------------------------
   # ------------------------ page dict start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
@@ -122,6 +120,7 @@ def verify_email_function(url_redirect_code=None):
     return redirect(url_for('polling_views_interior.polling_dashboard_function'))
   # ------------------------ redirect check end ------------------------
   page_dict['user_email'] = current_user.email
+  page_dict['feedback_step'] = '0'
   output_subject = f'Verify Polling Email: {current_user.email}'
   # ------------------------ check if verify email already sent start ------------------------
   db_email_obj = EmailSentObj.query.filter_by(to_email=current_user.email,subject=output_subject).first()
@@ -242,7 +241,7 @@ def verify_email_function(url_redirect_code=None):
 @polling_views_interior.route('/polling/feedback/<url_feedback_code>/', methods=['GET', 'POST'])
 @polling_views_interior.route('/polling/feedback/<url_feedback_code>/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
-def polling_feedback_name_function(url_redirect_code=None, url_feedback_code=None):
+def polling_feedback_function(url_redirect_code=None, url_feedback_code=None):
   # ------------------------ page dict start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
   page_dict = {}
@@ -250,11 +249,11 @@ def polling_feedback_name_function(url_redirect_code=None, url_feedback_code=Non
   # ------------------------ page dict end ------------------------
   # ------------------------ set loading bar variables start ------------------------
   if url_feedback_code == 'polling_terms_of_service':
-    page_dict['feedback_step'] = '0'
-    page_dict['feedback_request'] = 'polling_terms_of_service'
+    page_dict['feedback_step'] = '1'
+    page_dict['feedback_request'] = url_feedback_code
   if url_feedback_code == 'name':
     page_dict['feedback_step'] = '0'
-    page_dict['feedback_request'] = 'name'
+    page_dict['feedback_request'] = url_feedback_code
   # ------------------------ set loading bar variables end ------------------------
   # ------------------------ submission start ------------------------
   if request.method == 'POST':
