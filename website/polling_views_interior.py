@@ -112,6 +112,10 @@ def verify_email_function(url_redirect_code=None):
   page_dict = {}
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
+  # ------------------------ redirect check start ------------------------
+  if current_user.verified_email == True:
+    return redirect(url_for('polling_views_interior.polling_dashboard_function'))
+  # ------------------------ redirect check end ------------------------
   page_dict['user_email'] = current_user.email
   output_subject = f'Verify Polling Email: {current_user.email}'
   # ------------------------ check if verify email already sent start ------------------------
