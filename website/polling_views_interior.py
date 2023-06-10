@@ -23,6 +23,7 @@ from website.backend.login_checks import product_login_checks_function
 from website.backend.candidates.string_manipulation import breakup_email_function
 import os
 from website.backend.candidates.send_emails import send_email_template_function
+from website.backend.candidates.user_inputs import get_special_characters_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -48,6 +49,8 @@ def polling_dashboard_function(url_redirect_code=None):
   onbaording_status = onboarding_checks_v2_function(current_user)
   if onbaording_status == 'verify':
     return redirect(url_for('polling_views_interior.verify_email_function'))
+  if onbaording_status == 'name':
+    return redirect(url_for('polling_views_interior.polling_feedback_name_function'))
   # ------------------------ onboarding checks end ------------------------
   # ------------------------ page dict start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
@@ -232,13 +235,12 @@ def verify_email_function(url_redirect_code=None):
   return render_template('polling/interior/verify_email/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
 
-"""
 # ------------------------ individual route start ------------------------
 @polling_views_interior.route('/feedback/name', methods=['GET', 'POST'])
 @polling_views_interior.route('/feedback/name/', methods=['GET', 'POST'])
 @polling_views_interior.route('/feedback/name/<url_redirect_code>', methods=['GET', 'POST'])
 @login_required
-def feedback_name_function(url_redirect_code=None):
+def polling_feedback_name_function(url_redirect_code=None):
   # ------------------------ check if already answered start ------------------------
   if current_user.name != None and current_user.name != '':
     return redirect(url_for('polling_views_interior.login_dashboard_page_function'))
@@ -282,4 +284,3 @@ def feedback_name_function(url_redirect_code=None):
     return browser_response
   # ------------------------ auto set cookie end ------------------------
 # ------------------------ individual route end ------------------------
-"""
