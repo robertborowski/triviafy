@@ -233,7 +233,7 @@ def verify_email_function(url_redirect_code=None):
     return redirect(url_for('polling_views_interior.verify_email_function', url_redirect_code='s8'))
   # ------------------------ resend email end ------------------------
   # ------------------------ for setting cookie start ------------------------
-  template_location_url = 'polling/interior/feedback/index.html'
+  template_location_url = 'polling/interior/verify_email/index.html'
   # ------------------------ for setting cookie end ------------------------
   # ------------------------ auto set cookie start ------------------------
   get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
