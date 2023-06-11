@@ -25,7 +25,7 @@ import os
 from website.backend.candidates.send_emails import send_email_template_function
 from website.backend.candidates.lists import get_month_days_years_function, get_marketing_list_v2_function
 from website.backend.dates import get_years_from_date_function, return_ints_from_str_function
-from website.backend.get_create_obj import get_all_sources_following_function, get_all_platforms_function, get_platform_based_on_name_function
+from website.backend.get_create_obj import get_all_sources_following_function, get_all_platforms_function, get_platform_based_on_name_function, get_all_shows_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -438,17 +438,20 @@ def polling_feedback_function(url_redirect_code=None, url_feedback_code=None):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@polling_views_interior.route('/polling/source/add/<url_step_code>/<url_platform_id>/<url_redirect_code>/', methods=['GET', 'POST'])
-@polling_views_interior.route('/polling/source/add/<url_step_code>/<url_platform_id>/<url_redirect_code>', methods=['GET', 'POST'])
-@polling_views_interior.route('/polling/source/add/<url_step_code>/<url_platform_id>/', methods=['GET', 'POST'])
-@polling_views_interior.route('/polling/source/add/<url_step_code>/<url_platform_id>', methods=['GET', 'POST'])
-@polling_views_interior.route('/polling/source/add/<url_step_code>/<url_redirect_code>/', methods=['GET', 'POST'])
-@polling_views_interior.route('/polling/source/add/<url_step_code>/<url_redirect_code>', methods=['GET', 'POST'])
-@polling_views_interior.route('/polling/source/add/<url_step_code>/', methods=['GET', 'POST'])
 @polling_views_interior.route('/polling/source/add/<url_step_code>', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/source/add/<url_step_code>/', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/source/add/<url_step_code>/<url_platform_id>', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/source/add/<url_step_code>/<url_platform_id>/', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/source/add/<url_step_code>/<url_platform_id>/<url_redirect_code>', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/source/add/<url_step_code>/<url_platform_id>/<url_redirect_code>/', methods=['GET', 'POST'])
 @login_required
 def polling_add_source_function(url_redirect_code=None, url_step_code='1', url_platform_id=None):
   # ------------------------ page dict start ------------------------
+  if url_redirect_code == None:
+    try:
+      url_redirect_code = request.args.get('url_redirect_code')
+    except:
+      pass
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
   page_dict = {}
   page_dict['alert_message_dict'] = alert_message_dict
@@ -458,12 +461,18 @@ def polling_add_source_function(url_redirect_code=None, url_step_code='1', url_p
   page_dict['url_next_step_code'] = str(int(url_step_code) + 1)
   page_dict['url_previous_step_code'] = str(int(url_step_code) - 1)
   page_dict['platforms_arr'] = []
+  page_dict['shows_arr'] = []
+  page_dict['url_step_title'] = ''
+  page_dict['url_back_str'] = ''
   # ------------------------ set variables end ------------------------
+  # ------------------------ redirect steps check start ------------------------
+  if url_step_code == '2' and url_platform_id == None:
+    return redirect(url_for('polling_views_interior.polling_add_source_function', url_step_code=page_dict['url_previous_step_code'], url_redirect_code='e6'))
+  # ------------------------ redirect steps check end ------------------------
   # ------------------------ get all sources following start ------------------------
   page_dict['sources_following_total'] = get_all_sources_following_function(current_user)
   # ------------------------ get all sources following end ------------------------
   # ------------------------ set title start ------------------------
-  page_dict['url_step_title'] = ''
   page_dict['url_step_subtitle'] = "Audience Polling Platform"
   if page_dict['url_step_code'] == '1':
     if page_dict['sources_following_total'] == None:
@@ -474,7 +483,6 @@ def polling_add_source_function(url_redirect_code=None, url_step_code='1', url_p
     page_dict['url_step_title'] = 'Show selection'
   # ------------------------ set title end ------------------------
   # ------------------------ set back button string start ------------------------
-  page_dict['url_back_str'] = ''
   if url_platform_id == None:
     page_dict['url_back_str'] = f"{page_dict['url_previous_step_code']}"
   else:
@@ -486,6 +494,15 @@ def polling_add_source_function(url_redirect_code=None, url_step_code='1', url_p
     for i_obj in all_platforms_obj:
       page_dict['platforms_arr'].append(i_obj.name)
   # ------------------------ get platforms end ------------------------
+  # ------------------------ get shows start ------------------------
+  if page_dict['url_step_code'] == '2':
+    all_showss_obj = get_all_shows_function()
+    try:
+      for i_obj in all_showss_obj:
+        page_dict['shows_arr'].append(i_obj.name)
+    except:
+      pass
+  # ------------------------ get shows end ------------------------
   if request.method == 'POST':
     if page_dict['url_step_code'] == '1':
       # ------------------------ get user inputs start ------------------------
@@ -499,17 +516,23 @@ def polling_add_source_function(url_redirect_code=None, url_step_code='1', url_p
       db_obj = get_platform_based_on_name_function(ui_platform_selection)
       return redirect(url_for('polling_views_interior.polling_add_source_function', url_step_code=page_dict['url_next_step_code'], url_platform_id=db_obj.id))
       # ------------------------ get id based on user inputs end ------------------------
-    pass
+    if page_dict['url_step_code'] == '2':
+      # ------------------------ get user inputs start ------------------------
+      ui_search_show_name = request.form.get('ui_search_show_name')
+      # ------------------------ get user inputs end ------------------------
   # ------------------------ for setting cookie start ------------------------
   template_location_url = 'polling/interior/source_select/index.html'
   # ------------------------ for setting cookie end ------------------------
-  # ------------------------ auto set cookie start ------------------------
-  get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
-  if get_cookie_value_from_browser != None:
-    redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
-    return render_template(template_location_url, user=current_user, page_dict_to_html=page_dict)
+  if page_dict['url_step_code'] == '1':
+    # ------------------------ auto set cookie start ------------------------
+    get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
+    if get_cookie_value_from_browser != None:
+      redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
+      return render_template(template_location_url, user=current_user, page_dict_to_html=page_dict)
+    else:
+      browser_response = browser_response_set_cookie_function_v6(current_user, template_location_url, page_dict)
+      return browser_response
+    # ------------------------ auto set cookie end ------------------------
   else:
-    browser_response = browser_response_set_cookie_function_v6(current_user, template_location_url, page_dict)
-    return browser_response
-  # ------------------------ auto set cookie end ------------------------
+    return render_template('polling/interior/source_select/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------

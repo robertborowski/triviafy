@@ -57,6 +57,25 @@
       <!-- ------------------------------------- form end ------------------------------------- -->
     {% endif %}
     <!-- ------------------------------------- step 1 end ------------------------------------- -->
+    <!-- ------------------------------------- step 2 start ------------------------------------- -->
+    {% if page_dict_to_html['url_step_code'] == '2' %}
+      <!-- ------------------------------------- form start ------------------------------------- -->
+      <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+        <!-- ------------------------------------- search section start ------------------------------------- -->
+        <div class="custom-width-500 mx-auto">
+          <!-- ------------------------------------- search bar start ------------------------------------- -->
+          <label for="none1" class="form-label custom-color-white">Search show name</label>
+          <input type="text" class="form-control" id="none1" name="ui_search_show_name" placeholder="Search show name" required>
+          <!-- ------------------------------------- search bar end ------------------------------------- -->
+          <button type="submit" class="btn btn-lg btn-success custom-width-100 custom-mt-25">Search <i class="fa-solid fa-angle-right"></i></button>
+        </div>
+        <!-- ------------------------------------- search section end ------------------------------------- -->
+        <!-- ------------------------------------- existing radio section start ------------------------------------- -->
+        <!-- ------------------------------------- existing radio section end ------------------------------------- -->
+      </form>
+      <!-- ------------------------------------- form end ------------------------------------- -->
+    {% endif %}
+    <!-- ------------------------------------- step 2 end ------------------------------------- -->
   </div>
   <!-- ------------------------------------- entire page end ------------------------------------- -->
 </div>

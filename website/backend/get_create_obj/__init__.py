@@ -2,7 +2,7 @@
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
-from website.models import UserObj, SourcesFollowingObj, PlatformsObj
+from website.models import UserObj, SourcesFollowingObj, PlatformsObj, ShowsObj
 # ------------------------ imports end ------------------------
 
 # ------------------------ individual function start ------------------------
@@ -20,6 +20,14 @@ def get_all_sources_following_function(current_user):
 # ------------------------ individual function start ------------------------
 def get_all_platforms_function():
   db_objs = PlatformsObj.query.filter_by(status=True).order_by(PlatformsObj.name.asc()).all()
+  if db_objs == None or db_objs == []:
+    return None
+  return db_objs
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def get_all_shows_function():
+  db_objs = ShowsObj.query.filter_by(status=True).order_by(ShowsObj.name_long.asc()).all()
   if db_objs == None or db_objs == []:
     return None
   return db_objs

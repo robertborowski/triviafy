@@ -360,4 +360,16 @@ class PlatformsObj(db.Model):
   name = db.Column(db.String(150))
   status = db.Column(db.Boolean, default=False)
 # ------------------------ individual model end ------------------------
+
+# ------------------------ individual model start ------------------------
+class ShowsObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  name_short = db.Column(db.String(150))
+  name_long = db.Column(db.String(150))
+  description = db.Column(db.String(150))
+  topics = db.Column(db.String(150))
+  fk_platform_id = db.Column(db.String(150))
+  status = db.Column(db.Boolean, default=False)
+# ------------------------ individual model end ------------------------
 # ------------------------ employees models end ------------------------
