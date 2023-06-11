@@ -398,7 +398,7 @@ def polling_feedback_function(url_redirect_code=None, url_feedback_code=None):
     # ------------------------ post feedback birthday end ------------------------
     # ------------------------ post feedback marketing start ------------------------
     if url_feedback_code == 'attribute_marketing':
-      ui_answer = request.form.get('ui_selection_radio')
+      ui_answer = request.form.get('ui_general_selection_radio')
       # ------------------------ invalid start ------------------------
       if ui_answer not in marketing_list:
         return redirect(url_for('polling_views_interior.polling_feedback_function', url_feedback_code=url_feedback_code, url_redirect_code='e6'))
@@ -452,12 +452,19 @@ def polling_add_source_function(url_redirect_code=None, url_step_code='1'):
   # ------------------------ set variables start ------------------------
   page_dict['url_step_code'] = url_step_code
   # ------------------------ set variables end ------------------------
+  # ------------------------ get all sources following start ------------------------
+  page_dict['sources_following_total'] = get_all_sources_following_function(current_user)
+  # ------------------------ get all sources following end ------------------------
   # ------------------------ set title start ------------------------
   page_dict['url_step_title'] = ''
+  page_dict['url_step_subtitle'] = "Audience Polling Platform"
   if page_dict['url_step_code'] == '1':
-    page_dict['url_step_title'] = 'Platform'
+    if page_dict['sources_following_total'] == None:
+      page_dict['url_step_title'] = "Welcome to Triviafy"
+    else:  
+      page_dict['url_step_title'] = 'Triviafy supported platforms'
   if page_dict['url_step_code'] == '2':
-    page_dict['url_step_title'] = 'Show'
+    page_dict['url_step_title'] = 'Show selection'
   # ------------------------ set title end ------------------------
   # ------------------------ get platforms start ------------------------
   page_dict['platforms_arr'] = []
@@ -466,6 +473,11 @@ def polling_add_source_function(url_redirect_code=None, url_step_code='1'):
     for i_obj in all_platforms_obj:
       page_dict['platforms_arr'].append(i_obj.name)
   # ------------------------ get platforms end ------------------------
+  if request.method == 'POST':
+    # ------------------------ get user inputs start ------------------------
+    ui_platform_selection = request.form.get('ui_general_selection_radio')
+    # ------------------------ get user inputs end ------------------------
+    pass
   # ------------------------ for setting cookie start ------------------------
   template_location_url = 'polling/interior/source_select/index.html'
   # ------------------------ for setting cookie end ------------------------

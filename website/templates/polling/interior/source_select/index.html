@@ -20,30 +20,33 @@
     <div class="container mx-auto custom-pb-50">
       <div class="text-center">
         <h1 class="custom-color-white">{{ page_dict_to_html['url_step_title'] }}</h1>
+        <p class="custom-m-0 custom-color-white custom-opacity-75 custom-header-15">{{ page_dict_to_html['url_step_subtitle'] }}</p>
       </div>
     </div>
     <!-- ------------------------------------- title end ------------------------------------- -->
     <!-- ------------------------------------- step 1 start ------------------------------------- -->
     {% if page_dict_to_html['url_step_code'] == '1' %}
+      <!-- ------------------------------------- form start ------------------------------------- -->
       <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
-        <div class="custom-display-flex custom-fw-1 custom-jc-3 custom-width-800 mx-auto">
-          <!-- ------------------------------------- month dropdown start ------------------------------------- -->
-          <div class="dropdown custom-pb-2">
-            <button class="btn btn-warning dropdown-toggle custom-tal custom-ptb-8" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="id-month-only">
-              Select
-            </button>
-            <ul class="dropdown-menu custom-width-6">
-              {% for i in page_dict_to_html['platforms_arr'] %}
+        <div class="custom-width-400 mx-auto">
+          <!-- ------------------------------------- dropdown start ------------------------------------- -->
+          <div class="dropdown">
+            <label class="custom-color-white custom-mb-5">Select a platform</label>
+            <button class="btn custom-bg-white-always dropdown-toggle custom-tal custom-width-100" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="id-general">Select</button>
+            <ul class="dropdown-menu custom-width-100">
+              {% for i in range(page_dict_to_html['platforms_arr']|length) %}
                 <li>
-                  <input type="radio" class="btn-check" id="ui_month_only_{{ i }}" name="ui_month_only" autocomplete="off" value="{{ i }}" onclick="previewMonthOnlySelection(this)" required>
-                  <label class="dropdown-item" for="ui_month_only_{{ i }}">{{ i }}</label>
+                  <input type="radio" class="btn-check" id="uiSelection{{ i }}" name="ui_general_selection_radio" autocomplete="off" value="{{ page_dict_to_html['platforms_arr'][i] }}" onclick="previewGeneralSelection(this)" required>
+                  <label class="dropdown-item custom-color-black" for="uiSelection{{ i }}">{{ page_dict_to_html['platforms_arr'][i] }}</label>
                 </li>
               {% endfor %}
             </ul>
           </div>
-          <!-- ------------------------------------- month dropdown end ------------------------------------- -->
+          <!-- ------------------------------------- dropdown end ------------------------------------- -->
+          <button type="submit" class="btn btn-lg btn-success custom-width-100 custom-mt-25">Continue <i class="fa-solid fa-arrow-right"></i></button>
         </div>
       </form>
+      <!-- ------------------------------------- form end ------------------------------------- -->
     {% endif %}
     <!-- ------------------------------------- step 1 end ------------------------------------- -->
   </div>
