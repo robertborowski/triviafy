@@ -31,6 +31,14 @@ function previewYearOnlySelection(obj){
 }
 // ----------------------- end -----------------------
 // ----------------------- start -----------------------
+function previewGeneralSelection(obj){
+  if ($('input[name=ui_selection_radio]:checked').length > 0) {
+    var q = document.getElementById('id-general');
+    if (q) q.innerHTML = document.querySelector('input[name=ui_selection_radio]:checked').value;
+  }
+}
+// ----------------------- end -----------------------
+// ----------------------- start -----------------------
 $(document).ready(function() {
   // ----------------------- remove space id names start -----------------------
   $('*').each(function() {
