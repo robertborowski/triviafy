@@ -466,6 +466,8 @@ def polling_add_source_function(url_redirect_code=None, url_step_code='1', url_p
   page_dict['url_back_str'] = ''
   # ------------------------ set variables end ------------------------
   # ------------------------ redirect steps check start ------------------------
+  if url_step_code == '1' and url_platform_id != None:
+    return redirect(url_for('polling_views_interior.polling_add_source_function', url_step_code=url_step_code))
   if url_step_code == '2' and url_platform_id == None:
     return redirect(url_for('polling_views_interior.polling_add_source_function', url_step_code=page_dict['url_previous_step_code'], url_redirect_code='e6'))
   # ------------------------ redirect steps check end ------------------------
