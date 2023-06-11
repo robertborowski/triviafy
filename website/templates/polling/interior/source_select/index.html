@@ -17,13 +17,21 @@
     {% endif %}
     <!-- ----------------------------------- end ----------------------------------- -->
     <!-- ------------------------------------- title start ------------------------------------- -->
-    <div class="container mx-auto custom-pb-50">
+    <div class="container mx-auto custom-pb-25">
       <div class="text-center">
         <h1 class="custom-color-white">{{ page_dict_to_html['url_step_title'] }}</h1>
         <p class="custom-m-0 custom-color-white custom-opacity-75 custom-header-15">{{ page_dict_to_html['url_step_subtitle'] }}</p>
       </div>
     </div>
     <!-- ------------------------------------- title end ------------------------------------- -->
+    <!-- ------------------------------------- back button start ------------------------------------- -->
+    {% if page_dict_to_html['url_step_code'] == '1' %}
+    {% else %}
+      <div class="text-center custom-pb-25">
+        <a href="/polling/source/add/{{ page_dict_to_html['url_back_str'] }}" class="btn btn-secondary btn-sm"><i class="fa-solid fa-angle-left"></i> Back</a>
+      </div>
+    {% endif %}
+    <!-- ------------------------------------- back button end ------------------------------------- -->
     <!-- ------------------------------------- step 1 start ------------------------------------- -->
     {% if page_dict_to_html['url_step_code'] == '1' %}
       <!-- ------------------------------------- form start ------------------------------------- -->
@@ -43,7 +51,7 @@
             </ul>
           </div>
           <!-- ------------------------------------- dropdown end ------------------------------------- -->
-          <button type="submit" class="btn btn-lg btn-success custom-width-100 custom-mt-25">Continue <i class="fa-solid fa-arrow-right"></i></button>
+          <button type="submit" class="btn btn-lg btn-success custom-width-100 custom-mt-25">Continue <i class="fa-solid fa-angle-right"></i></button>
         </div>
       </form>
       <!-- ------------------------------------- form end ------------------------------------- -->

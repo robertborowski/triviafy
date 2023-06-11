@@ -473,6 +473,13 @@ def polling_add_source_function(url_redirect_code=None, url_step_code='1', url_p
   if page_dict['url_step_code'] == '2':
     page_dict['url_step_title'] = 'Show selection'
   # ------------------------ set title end ------------------------
+  # ------------------------ set back button string start ------------------------
+  page_dict['url_back_str'] = ''
+  if url_platform_id == None:
+    page_dict['url_back_str'] = f"{page_dict['url_previous_step_code']}"
+  else:
+    page_dict['url_back_str'] = f"{page_dict['url_previous_step_code']}/{url_platform_id}"
+  # ------------------------ set back button string end ------------------------
   # ------------------------ get platforms start ------------------------
   if page_dict['url_step_code'] == '1':
     all_platforms_obj = get_all_platforms_function()
