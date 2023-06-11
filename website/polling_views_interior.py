@@ -26,6 +26,7 @@ from website.backend.candidates.send_emails import send_email_template_function
 from website.backend.candidates.lists import get_month_days_years_function, get_marketing_list_v2_function
 from website.backend.dates import get_years_from_date_function, return_ints_from_str_function
 from website.backend.get_create_obj import get_all_sources_following_function, get_all_platforms_function, get_platform_based_on_name_function, get_all_shows_function
+from website.backend.spotify import spotify_search_show_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -522,6 +523,9 @@ def polling_add_source_function(url_redirect_code=None, url_step_code='1', url_p
       # ------------------------ get user inputs start ------------------------
       ui_search_show_name = request.form.get('ui_search_show_name')
       # ------------------------ get user inputs end ------------------------
+      # ------------------------ search spotify start ------------------------
+      spotify_pulled_dict = spotify_search_show_function(ui_search_show_name)
+      # ------------------------ search spotify end ------------------------
   # ------------------------ for setting cookie start ------------------------
   template_location_url = 'polling/interior/source_select/index.html'
   # ------------------------ for setting cookie end ------------------------
