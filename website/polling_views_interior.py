@@ -25,7 +25,7 @@ import os
 from website.backend.candidates.send_emails import send_email_template_function
 from website.backend.candidates.lists import get_month_days_years_function, get_marketing_list_v2_function
 from website.backend.dates import get_years_from_date_function, return_ints_from_str_function
-from website.backend.get_create_obj import get_all_sources_following_function, get_all_platforms_function
+from website.backend.get_create_obj import get_all_sources_following_function, get_all_platforms_function, get_platform_based_on_name_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -438,12 +438,16 @@ def polling_feedback_function(url_redirect_code=None, url_feedback_code=None):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@polling_views_interior.route('/polling/source/add/<url_step_code>', methods=['GET', 'POST'])
-@polling_views_interior.route('/polling/source/add/<url_step_code>/', methods=['GET', 'POST'])
-@polling_views_interior.route('/polling/source/add/<url_step_code>/<url_redirect_code>', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/source/add/<url_step_code>/<url_platform_id>/<url_redirect_code>/', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/source/add/<url_step_code>/<url_platform_id>/<url_redirect_code>', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/source/add/<url_step_code>/<url_platform_id>/', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/source/add/<url_step_code>/<url_platform_id>', methods=['GET', 'POST'])
 @polling_views_interior.route('/polling/source/add/<url_step_code>/<url_redirect_code>/', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/source/add/<url_step_code>/<url_redirect_code>', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/source/add/<url_step_code>/', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/source/add/<url_step_code>', methods=['GET', 'POST'])
 @login_required
-def polling_add_source_function(url_redirect_code=None, url_step_code='1'):
+def polling_add_source_function(url_redirect_code=None, url_step_code='1', url_platform_id=None):
   # ------------------------ page dict start ------------------------
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
   page_dict = {}
@@ -451,6 +455,9 @@ def polling_add_source_function(url_redirect_code=None, url_step_code='1'):
   # ------------------------ page dict end ------------------------
   # ------------------------ set variables start ------------------------
   page_dict['url_step_code'] = url_step_code
+  page_dict['url_next_step_code'] = str(int(url_step_code) + 1)
+  page_dict['url_previous_step_code'] = str(int(url_step_code) - 1)
+  page_dict['platforms_arr'] = []
   # ------------------------ set variables end ------------------------
   # ------------------------ get all sources following start ------------------------
   page_dict['sources_following_total'] = get_all_sources_following_function(current_user)
@@ -467,16 +474,24 @@ def polling_add_source_function(url_redirect_code=None, url_step_code='1'):
     page_dict['url_step_title'] = 'Show selection'
   # ------------------------ set title end ------------------------
   # ------------------------ get platforms start ------------------------
-  page_dict['platforms_arr'] = []
   if page_dict['url_step_code'] == '1':
     all_platforms_obj = get_all_platforms_function()
     for i_obj in all_platforms_obj:
       page_dict['platforms_arr'].append(i_obj.name)
   # ------------------------ get platforms end ------------------------
   if request.method == 'POST':
-    # ------------------------ get user inputs start ------------------------
-    ui_platform_selection = request.form.get('ui_general_selection_radio')
-    # ------------------------ get user inputs end ------------------------
+    if page_dict['url_step_code'] == '1':
+      # ------------------------ get user inputs start ------------------------
+      ui_platform_selection = request.form.get('ui_general_selection_radio')
+      # ------------------------ get user inputs end ------------------------
+      # ------------------------ sanitize ui start ------------------------
+      if ui_platform_selection not in page_dict['platforms_arr']:
+        return redirect(url_for('polling_views_interior.polling_add_source_function', url_step_code=url_step_code, url_redirect_code='e6'))
+      # ------------------------ sanitize ui end ------------------------
+      # ------------------------ get id based on user inputs start ------------------------
+      db_obj = get_platform_based_on_name_function(ui_platform_selection)
+      return redirect(url_for('polling_views_interior.polling_add_source_function', url_step_code=page_dict['url_next_step_code'], url_platform_id=db_obj.id))
+      # ------------------------ get id based on user inputs end ------------------------
     pass
   # ------------------------ for setting cookie start ------------------------
   template_location_url = 'polling/interior/source_select/index.html'

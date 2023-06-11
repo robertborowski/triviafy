@@ -24,3 +24,11 @@ def get_all_platforms_function():
     return None
   return db_objs
 # ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def get_platform_based_on_name_function(input_name):
+  db_obj = PlatformsObj.query.filter_by(name=input_name,status=True).first()
+  if db_obj == None or db_obj == []:
+    return None
+  return db_obj
+# ------------------------ individual function end ------------------------
