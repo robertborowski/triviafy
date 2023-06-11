@@ -18,3 +18,15 @@ def get_years_from_date_function(input_year, input_month, input_day):
   year_difference = float((todays_date - start_date).days // 365)
   return year_difference
 # ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def return_ints_from_str_function(input_str):
+  try:
+    arr = input_str.split(' / ')
+    month = int(arr[0])
+    day = int(arr[1])
+    year = int(arr[2])
+  except:
+    return False, False, False
+  return year, month, day
+# ------------------------ individual function end ------------------------

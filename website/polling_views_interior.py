@@ -23,9 +23,8 @@ from website.backend.login_checks import product_login_checks_function
 from website.backend.candidates.string_manipulation import breakup_email_function
 import os
 from website.backend.candidates.send_emails import send_email_template_function
-from website.backend.candidates.user_inputs import get_special_characters_function
 from website.backend.candidates.lists import get_month_days_years_function, get_marketing_list_v2_function
-from website.backend.dates import get_years_from_date_function
+from website.backend.dates import get_years_from_date_function, return_ints_from_str_function
 from website.backend.get_create_obj import get_all_sources_following_function, get_all_platforms_function
 # ------------------------ imports end ------------------------
 
@@ -282,9 +281,6 @@ def polling_feedback_function(url_redirect_code=None, url_feedback_code=None):
     return redirect(url_for('polling_views_interior.polling_dashboard_function'))
   # ------------------------ double check redirect end ------------------------
   # ------------------------ set loading bar variables start ------------------------
-  # if url_feedback_code == 'name':
-  #   page_dict['feedback_step'] = '0'
-  #   page_dict['feedback_request'] = url_feedback_code
   if url_feedback_code == 'attribute_tos':
     page_dict['feedback_step'] = '1'
     page_dict['feedback_request'] = url_feedback_code
@@ -332,34 +328,6 @@ def polling_feedback_function(url_redirect_code=None, url_feedback_code=None):
       if onbaording_status != url_feedback_code:
         return redirect(url_for('polling_views_interior.polling_dashboard_function'))
     # ------------------------ double check redirect end ------------------------
-    # # ------------------------ post feedback name start ------------------------
-    # if url_feedback_code == 'name':
-    #   # ------------------------ check if already answered start ------------------------
-    #   if current_user.name != None and current_user.name != '':
-    #     return redirect(url_for('polling_views_interior.polling_dashboard_function'))
-    #   # ------------------------ check if already answered end ------------------------
-    #   # ------------------------ get user inputs start ------------------------
-    #   ui_name = request.form.get('ui_name')
-    #   ui_last_name = request.form.get('ui_last_name')
-    #   # ------------------------ get user inputs end ------------------------
-    #   # ------------------------ sanatize inputs start ------------------------
-    #   if len(ui_name) <= 1 or len(ui_name) > 20 or len(ui_last_name) <= 1 or len(ui_last_name) > 20:
-    #     return redirect(url_for('polling_views_interior.feedback_name_function', url_redirect_code='e19'))
-    #   special_characters_arr = get_special_characters_function()
-    #   for i in ui_name:
-    #     if i in special_characters_arr:
-    #       return redirect(url_for('polling_views_interior.feedback_name_function', url_redirect_code='e18'))
-    #   for i in ui_last_name:
-    #     if i in special_characters_arr:
-    #       return redirect(url_for('polling_views_interior.feedback_name_function', url_redirect_code='e18'))
-    #   # ------------------------ sanatize inputs end ------------------------
-    #   # ------------------------ update db start ------------------------
-    #   current_user.name = ui_name.lower().capitalize()
-    #   current_user.last_name = ui_last_name.lower().capitalize()
-    #   db.session.commit()
-    #   # ------------------------ update db end ------------------------
-    #   return redirect(url_for('polling_views_interior.polling_dashboard_function'))
-    # # ------------------------ post feedback name end ------------------------
     # ------------------------ post feedback tos start ------------------------
     if url_feedback_code == 'attribute_tos':
       # ------------------------ insert to db start ------------------------
@@ -379,33 +347,36 @@ def polling_feedback_function(url_redirect_code=None, url_feedback_code=None):
     # ------------------------ post feedback birthday start ------------------------
     if url_feedback_code == 'attribute_birthday':
       # ------------------------ get user inputs start ------------------------
-      ui_month_only = request.form.get('ui_month_only')
-      ui_day_only = request.form.get('ui_day_only')
-      ui_year_only = request.form.get('ui_year_only')
+      ui_birthday = request.form.get('ui_birthday')
       # ------------------------ get user inputs end ------------------------
+      # ------------------------ sanatize inputs start ------------------------
+      ui_year, ui_month, ui_day = return_ints_from_str_function(ui_birthday)
+      if ui_year == False or ui_month == False or ui_day == False:
+        return redirect(url_for('polling_views_interior.polling_feedback_function', url_redirect_code='e6'))
+      # ------------------------ sanatize inputs end ------------------------
       # ------------------------ sanatize inputs start ------------------------
       try:
         # birth month
-        if int(ui_month_only) not in months_arr:
+        if int(ui_month) not in months_arr:
           return redirect(url_for('polling_views_interior.polling_feedback_function', url_redirect_code='e20', url_feedback_code=url_feedback_code))
       except:
         pass
       try:
         # birth day
-        allowed_days_arr = month_day_dict[str(ui_month_only)]
-        if int(ui_day_only) not in allowed_days_arr:
+        allowed_days_arr = month_day_dict[str(ui_month)]
+        if int(ui_day) not in allowed_days_arr:
           return redirect(url_for('polling_views_interior.polling_feedback_function', url_redirect_code='e21', url_feedback_code=url_feedback_code))
       except:
         pass
       try:
         # birth year
-        if int(ui_year_only) not in years_arr:
+        if int(ui_year) not in years_arr:
           return redirect(url_for('polling_views_interior.polling_feedback_function', url_redirect_code='e26', url_feedback_code=url_feedback_code))
       except:
         pass
       # ------------------------ sanatize inputs end ------------------------
       # ------------------------ age check start ------------------------
-      current_age = get_years_from_date_function(ui_year_only, ui_month_only, ui_day_only)
+      current_age = get_years_from_date_function(ui_year, ui_month, ui_day)
       if float(current_age) < float(18.0):
         return redirect(url_for('polling_views_interior.polling_feedback_function', url_redirect_code='e30', url_feedback_code=url_feedback_code))
       # ------------------------ age check end ------------------------
@@ -416,9 +387,9 @@ def polling_feedback_function(url_redirect_code=None, url_feedback_code=None):
         fk_user_id=current_user.id,
         product='polling',
         attribute_code=url_feedback_code,
-        attribute_year=ui_year_only,
-        attribute_month=ui_month_only,
-        attribute_day=ui_day_only
+        attribute_year=ui_year,
+        attribute_month=ui_month,
+        attribute_day=ui_day
       )
       db.session.add(new_row)
       db.session.commit()

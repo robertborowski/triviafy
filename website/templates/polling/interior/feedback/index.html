@@ -126,61 +126,14 @@
       {% elif page_dict_to_html['feedback_request'] == 'attribute_birthday' %}
       <!-- ------------------------------------- section - birthday start ------------------------------------- -->
       <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
-        <div class="custom-display-flex custom-fw-1 custom-jc-3 custom-width-800 mx-auto">
-          <!-- ------------------------------------- month dropdown start ------------------------------------- -->
-          <div class="dropdown custom-pb-2">
-            <button class="btn btn-warning dropdown-toggle custom-tal custom-ptb-8" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="id-month-only">
-              Month
-            </button>
-            <ul class="dropdown-menu custom-width-6">
-              {% for i in page_dict_to_html['months_arr'] %}
-                <li>
-                  <input type="radio" class="btn-check" id="ui_month_only_{{ i }}" name="ui_month_only" autocomplete="off" value="{{ i }}" onclick="previewMonthOnlySelection(this)" required>
-                  <label class="dropdown-item" for="ui_month_only_{{ i }}">{{ i }}</label>
-                </li>
-              {% endfor %}
-            </ul>
+        <div class="custom-width-400 mx-auto">
+          <!-- ------------------------------------- birthday input start ------------------------------------- -->
+          <div class="mb-3">
+            <label for="id-birthday_input" class="form-label custom-color-white">Birthday</label>
+            <input type="text" class="form-control" id="id-birthday_input" name="ui_birthday" placeholder="mm/dd/yyyy" required>
           </div>
-          <div>
-            <p class="custom-color-white custom-header-7 custom-opacity-2 custom-ml-25 custom-mr-25">/</p>
-          </div>
-          <!-- ------------------------------------- month dropdown end ------------------------------------- -->
-          <!-- ------------------------------------- day dropdown start ------------------------------------- -->
-          <div class="dropdown custom-pb-2">
-            <button class="btn btn-warning dropdown-toggle custom-tal custom-ptb-8" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="id-day-only">
-              Day
-            </button>
-            <ul class="dropdown-menu custom-width-6">
-              {% for i in page_dict_to_html['days_arr'] %}
-                <li>
-                  <input type="radio" class="btn-check" id="ui_day_only_{{ i }}" name="ui_day_only" autocomplete="off" value="{{ i }}" onclick="previewDayOnlySelection(this)" required>
-                  <label class="dropdown-item" for="ui_day_only_{{ i }}">{{ i }}</label>
-                </li>
-              {% endfor %}
-            </ul>
-          </div>
-          <div>
-            <p class="custom-color-white custom-header-7 custom-opacity-2 custom-ml-25 custom-mr-25">/</p>
-          </div>
-          <!-- ------------------------------------- day dropdown end ------------------------------------- -->
-          <!-- ------------------------------------- year dropdown start ------------------------------------- -->
-          <div class="dropdown custom-pb-2">
-            <button class="btn btn-warning dropdown-toggle custom-tal custom-ptb-8" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="id-year-only">
-              Year
-            </button>
-            <ul class="dropdown-menu custom-width-6">
-              {% for i in page_dict_to_html['years_arr'] %}
-                <li>
-                  <input type="radio" class="btn-check" id="ui_year_only_{{ i }}" name="ui_year_only" autocomplete="off" value="{{ i }}" onclick="previewYearOnlySelection(this)" required>
-                  <label class="dropdown-item" for="ui_year_only_{{ i }}">{{ i }}</label>
-                </li>
-              {% endfor %}
-            </ul>
-          </div>
-          <!-- ------------------------------------- year dropdown end ------------------------------------- -->
-        </div>
-        <div class="text-center">
-          <button type="submit" class="btn btn-lg btn-success">Continue <i class="fa-solid fa-arrow-right"></i></button>
+          <!-- ------------------------------------- birthday input end ------------------------------------- -->
+          <button type="submit" class="btn btn-lg btn-success custom-width-100 custom-mt-25">Continue <i class="fa-solid fa-arrow-right"></i></button>
         </div>
       </form>
       <!-- ------------------------------------- section - birthday end ------------------------------------- -->

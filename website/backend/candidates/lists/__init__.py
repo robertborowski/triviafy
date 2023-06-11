@@ -95,7 +95,7 @@ def get_month_days_years_function():
   }
   # ------------------------ get years start ------------------------
   current_year = datetime.datetime.now().year
-  years_arr = list(range(current_year, 1960, -1))
+  years_arr = list(range(current_year, 1940, -1))
   # ------------------------ get years end ------------------------
   return months_arr, days_arr, years_arr, month_day_dict
 # ------------------------ individual function end ------------------------
