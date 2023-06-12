@@ -346,10 +346,11 @@ class BlogObj(db.Model):
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
-class SourcesFollowingObj(db.Model):
+class ShowsFollowingObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
   created_timestamp = db.Column(db.DateTime(timezone=True))
-  fk_source_id = db.Column(db.String(150))
+  fk_platform_id = db.Column(db.String(150))
+  fk_show_id = db.Column(db.String(150))
   fk_user_id = db.Column(db.String(150))
 # ------------------------ individual model end ------------------------
 
@@ -365,11 +366,15 @@ class PlatformsObj(db.Model):
 class ShowsObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
   created_timestamp = db.Column(db.DateTime(timezone=True))
-  name_short = db.Column(db.String(150))
-  name_long = db.Column(db.String(150))
-  description = db.Column(db.String(150))
+  name = db.Column(db.String(150))
+  description = db.Column(db.String(300))
   topics = db.Column(db.String(150))
   fk_platform_id = db.Column(db.String(150))
   status = db.Column(db.Boolean, default=False)
+  spotify_fk_id = db.Column(db.String(150))
+  spotify_image_large = db.Column(db.String(150))
+  spotify_image_medium = db.Column(db.String(150))
+  spotify_image_small = db.Column(db.String(150))
+  spotify_url = db.Column(db.String(150))
 # ------------------------ individual model end ------------------------
 # ------------------------ employees models end ------------------------

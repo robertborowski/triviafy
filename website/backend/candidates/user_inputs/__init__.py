@@ -413,6 +413,11 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':"You must be 18+ years old to participate in Triviafy polling.",
       'type':'danger'
     }
+  elif redirect_var == 'e31':
+    alert_message_dict = {
+      'message':"Please select that show from the below selection.",
+      'type':'danger'
+    }
   # ------------------------ errors end ------------------------
   # ------------------------ success start ------------------------
   elif redirect_var == 's1':

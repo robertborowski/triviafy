@@ -11,27 +11,19 @@
   <div class="container-fluid custom-bg-primary-gradient-1 custom-pt-100">
     <!-- ----------------------------------- start ----------------------------------- -->
     {% if page_dict_to_html['alert_message_dict']['message'] != '' %}
-    <div class="alert alert-{{ page_dict_to_html['alert_message_dict']['type'] }} mx-auto text-center container-fluid custom-width-400 custom-mb-25" role="alert">
+    <div class="alert alert-{{ page_dict_to_html['alert_message_dict']['type'] }} mx-auto text-center container-fluid custom-width-100 custom-mb-25" role="alert">
       {{ page_dict_to_html['alert_message_dict']['message'] }}
     </div>
     {% endif %}
     <!-- ----------------------------------- end ----------------------------------- -->
     <!-- ------------------------------------- title start ------------------------------------- -->
-    <div class="container mx-auto custom-pb-25">
+    <div class="container mx-auto custom-pb-50">
       <div class="text-center">
         <h1 class="custom-color-white">{{ page_dict_to_html['url_step_title'] }}</h1>
         <p class="custom-m-0 custom-color-white custom-opacity-75 custom-header-15">{{ page_dict_to_html['url_step_subtitle'] }}</p>
       </div>
     </div>
     <!-- ------------------------------------- title end ------------------------------------- -->
-    <!-- ------------------------------------- back button start ------------------------------------- -->
-    {% if page_dict_to_html['url_step_code'] == '1' %}
-    {% else %}
-      <div class="text-center custom-pb-25">
-        <a href="/polling/source/add/{{ page_dict_to_html['url_back_str'] }}" class="btn btn-secondary btn-sm"><i class="fa-solid fa-angle-left"></i> Back</a>
-      </div>
-    {% endif %}
-    <!-- ------------------------------------- back button end ------------------------------------- -->
     <!-- ------------------------------------- step 1 start ------------------------------------- -->
     {% if page_dict_to_html['url_step_code'] == '1' %}
       <!-- ------------------------------------- form start ------------------------------------- -->
@@ -68,6 +60,9 @@
           <input type="text" class="form-control" id="none1" name="ui_search_show_name" placeholder="Search show name" required>
           <!-- ------------------------------------- search bar end ------------------------------------- -->
           <button type="submit" class="btn btn-lg btn-success custom-width-100 custom-mt-25">Search <i class="fa-solid fa-angle-right"></i></button>
+          <!-- ------------------------------------- back button start ------------------------------------- -->
+          <a href="/polling/show/add/{{ page_dict_to_html['url_back_str'] }}" class="btn btn-outline-secondary custom-width-100 custom-mt-15"><i class="fa-solid fa-angle-left"></i> Back</a>
+          <!-- ------------------------------------- back button end ------------------------------------- -->
         </div>
         <!-- ------------------------------------- search section end ------------------------------------- -->
         <!-- ------------------------------------- existing radio section start ------------------------------------- -->
@@ -76,6 +71,26 @@
       <!-- ------------------------------------- form end ------------------------------------- -->
     {% endif %}
     <!-- ------------------------------------- step 2 end ------------------------------------- -->
+    <!-- ------------------------------------- step 3 start ------------------------------------- -->
+    {% if page_dict_to_html['url_step_code'] == '3' %}
+      <!-- ------------------------------------- form start ------------------------------------- -->
+      <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+        <!-- ------------------------------------- confirm section start ------------------------------------- -->
+        <div class="custom-width-500 mx-auto text-center">
+          <p class="custom-m-0 custom-color-white custom-header-25 custom-pb-25">{{ page_dict_to_html['spotify_pulled_dict']['name'] }}</p>
+          <div class="custom-pb-25">
+            <img src="{{ page_dict_to_html['spotify_pulled_dict']['img_medium'] }}" alt="show img" class="custom-br-1 shadow-lg">
+          </div>
+          <button type="submit" class="btn btn-lg btn-success custom-width-100 custom-mt-25">Confirm <i class="fa-solid fa-check"></i></button>
+          <!-- ------------------------------------- back button start ------------------------------------- -->
+          <a href="/polling/show/add/{{ page_dict_to_html['url_back_str'] }}" class="btn btn-outline-secondary custom-width-100 custom-mt-15"><i class="fa-solid fa-angle-left"></i> Back</a>
+          <!-- ------------------------------------- back button end ------------------------------------- -->
+        </div>
+        <!-- ------------------------------------- confirm section end ------------------------------------- -->
+      </form>
+      <!-- ------------------------------------- form end ------------------------------------- -->
+    {% endif %}
+    <!-- ------------------------------------- step 3 end ------------------------------------- -->
   </div>
   <!-- ------------------------------------- entire page end ------------------------------------- -->
 </div>

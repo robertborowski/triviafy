@@ -23,11 +23,6 @@ def run_function():
   redis_connection = redis_connect_to_database_function()
   redis_keys = redis_connection.keys()
   # ------------------------ connect to postgres end ------------------------
-  # ------------------------ connect to redis start ------------------------
-  # Connect to redis database pool (no need to close) 
-  redis_connection = redis_connect_to_database_function()
-  redis_keys = redis_connection.keys()
-  # ------------------------ connect to redis end ------------------------
   # ------------------------ all redis keys, store in counted dict, delete if doesnt exist start ------------------------
   counter = 0
   id_counter_dict = {}
@@ -68,12 +63,11 @@ def run_function():
           exists_in_db = True
           db_current_email = i_dict['email']
       # ------------------------ find user end ------------------------
-      print(' ')
       print(f'db_current_email: {db_current_email} <----------------------------')
       print(f'k: {k} | v: {v} <----------------------------')
       print(' ')
     else:
-      print(f'k: {k} | v: {v}')
+      pass
   localhost_print_function(counter)
   # ------------------------ loop through counted dict to see who is logged in multiple browsers end ------------------------
   return True

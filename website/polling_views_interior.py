@@ -17,15 +17,16 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v6
-from website.models import UserObj, EmailSentObj, UserAttributesObj, SourcesFollowingObj
+from website.models import UserObj, EmailSentObj, UserAttributesObj, ShowsFollowingObj, ShowsObj
 from website.backend.onboarding import onboarding_checks_v2_function
 from website.backend.login_checks import product_login_checks_function
 from website.backend.candidates.string_manipulation import breakup_email_function
 import os
+import json
 from website.backend.candidates.send_emails import send_email_template_function
 from website.backend.candidates.lists import get_month_days_years_function, get_marketing_list_v2_function
 from website.backend.dates import get_years_from_date_function, return_ints_from_str_function
-from website.backend.get_create_obj import get_all_sources_following_function, get_all_platforms_function, get_platform_based_on_name_function, get_all_shows_function
+from website.backend.get_create_obj import get_all_shows_following_function, get_all_platforms_function, get_platform_based_on_name_function, get_all_shows_for_platform_function, get_show_based_on_name_function
 from website.backend.spotify import spotify_search_show_function
 # ------------------------ imports end ------------------------
 
@@ -65,11 +66,11 @@ def polling_dashboard_function(url_redirect_code=None):
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
   # ------------------------ get all sources following start ------------------------
-  page_dict['sources_following_total'] = get_all_sources_following_function(current_user)
+  page_dict['sources_following_total'] = get_all_shows_following_function(current_user)
   # ------------------------ get all sources following end ------------------------
   # ------------------------ redirect if not following any sources start ------------------------
   if page_dict['sources_following_total'] == None:
-    return redirect(url_for('polling_views_interior.polling_add_source_function', url_step_code='1'))
+    return redirect(url_for('polling_views_interior.polling_add_show_function', url_step_code='1'))
   # ------------------------ redirect if not following any sources end ------------------------
   # ------------------------ for setting cookie start ------------------------
   template_location_url = 'polling/interior/dashboard/index.html'
@@ -439,14 +440,18 @@ def polling_feedback_function(url_redirect_code=None, url_feedback_code=None):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@polling_views_interior.route('/polling/source/add/<url_step_code>', methods=['GET', 'POST'])
-@polling_views_interior.route('/polling/source/add/<url_step_code>/', methods=['GET', 'POST'])
-@polling_views_interior.route('/polling/source/add/<url_step_code>/<url_platform_id>', methods=['GET', 'POST'])
-@polling_views_interior.route('/polling/source/add/<url_step_code>/<url_platform_id>/', methods=['GET', 'POST'])
-@polling_views_interior.route('/polling/source/add/<url_step_code>/<url_platform_id>/<url_redirect_code>', methods=['GET', 'POST'])
-@polling_views_interior.route('/polling/source/add/<url_step_code>/<url_platform_id>/<url_redirect_code>/', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/show/add', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/show/add/', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/show/add/<url_step_code>', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/show/add/<url_step_code>/', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/show/add/<url_step_code>/<url_platform_id>', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/show/add/<url_step_code>/<url_platform_id>/', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/show/add/<url_step_code>/<url_platform_id>/<url_redis_key>', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/show/add/<url_step_code>/<url_platform_id>/<url_redis_key>/', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/show/add/<url_step_code>/<url_platform_id>/<url_redis_key>/<url_redirect_code>', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/show/add/<url_step_code>/<url_platform_id>/<url_redis_key>/<url_redirect_code>/', methods=['GET', 'POST'])
 @login_required
-def polling_add_source_function(url_redirect_code=None, url_step_code='1', url_platform_id=None):
+def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_platform_id=None, url_redis_key=None):
   # ------------------------ page dict start ------------------------
   if url_redirect_code == None:
     try:
@@ -457,23 +462,43 @@ def polling_add_source_function(url_redirect_code=None, url_step_code='1', url_p
   page_dict = {}
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
+  # ------------------------ remove from redis check start ------------------------
+  try:
+    wip_key = request.args.get('wip_key')
+    if wip_key != None and wip_key != '':
+      redis_connection.delete(wip_key)
+  except:
+    pass
+  # ------------------------ remove from redis check end ------------------------
   # ------------------------ set variables start ------------------------
   page_dict['url_step_code'] = url_step_code
+  page_dict['url_platform_id'] = url_platform_id
+  page_dict['url_redis_key'] = url_redis_key
   page_dict['url_next_step_code'] = str(int(url_step_code) + 1)
   page_dict['url_previous_step_code'] = str(int(url_step_code) - 1)
   page_dict['platforms_arr'] = []
   page_dict['shows_arr'] = []
   page_dict['url_step_title'] = ''
   page_dict['url_back_str'] = ''
+  page_dict['spotify_pulled_dict'] = None
+  spotify_pulled_dict = {}
   # ------------------------ set variables end ------------------------
   # ------------------------ redirect steps check start ------------------------
   if url_step_code == '1' and url_platform_id != None:
-    return redirect(url_for('polling_views_interior.polling_add_source_function', url_step_code=url_step_code))
-  if url_step_code == '2' and url_platform_id == None:
-    return redirect(url_for('polling_views_interior.polling_add_source_function', url_step_code=page_dict['url_previous_step_code'], url_redirect_code='e6'))
+    return redirect(url_for('polling_views_interior.polling_add_show_function', url_step_code=url_step_code))
+  if url_step_code == '2' and (url_platform_id == None or url_redis_key != None):
+    return redirect(url_for('polling_views_interior.polling_add_show_function', url_step_code=page_dict['url_previous_step_code'], url_redirect_code='e6'))
+  if url_step_code == '3' and (url_platform_id == None or url_redis_key == None):
+    return redirect(url_for('polling_views_interior.polling_add_show_function', url_step_code=page_dict['url_previous_step_code'], url_platform_id=url_platform_id, url_redirect_code='e6'))
   # ------------------------ redirect steps check end ------------------------
+  # ------------------------ set back button string start ------------------------
+  if url_step_code == '2':
+    page_dict['url_back_str'] = f"{page_dict['url_previous_step_code']}"
+  elif url_step_code == '3':
+    page_dict['url_back_str'] = f"{page_dict['url_previous_step_code']}/{url_platform_id}?wip_key={url_redis_key}"
+  # ------------------------ set back button string end ------------------------
   # ------------------------ get all sources following start ------------------------
-  page_dict['sources_following_total'] = get_all_sources_following_function(current_user)
+  page_dict['sources_following_total'] = get_all_shows_following_function(current_user)
   # ------------------------ get all sources following end ------------------------
   # ------------------------ set title start ------------------------
   page_dict['url_step_subtitle'] = "Audience Polling Platform"
@@ -481,16 +506,12 @@ def polling_add_source_function(url_redirect_code=None, url_step_code='1', url_p
     if page_dict['sources_following_total'] == None:
       page_dict['url_step_title'] = "Welcome to Triviafy"
     else:  
-      page_dict['url_step_title'] = 'Triviafy supported platforms'
+      page_dict['url_step_title'] = 'Platform selection'
   if page_dict['url_step_code'] == '2':
     page_dict['url_step_title'] = 'Show selection'
+  if page_dict['url_step_code'] == '3':
+    page_dict['url_step_title'] = 'Confirm show'
   # ------------------------ set title end ------------------------
-  # ------------------------ set back button string start ------------------------
-  if url_platform_id == None:
-    page_dict['url_back_str'] = f"{page_dict['url_previous_step_code']}"
-  else:
-    page_dict['url_back_str'] = f"{page_dict['url_previous_step_code']}/{url_platform_id}"
-  # ------------------------ set back button string end ------------------------
   # ------------------------ get platforms start ------------------------
   if page_dict['url_step_code'] == '1':
     all_platforms_obj = get_all_platforms_function()
@@ -499,13 +520,22 @@ def polling_add_source_function(url_redirect_code=None, url_step_code='1', url_p
   # ------------------------ get platforms end ------------------------
   # ------------------------ get shows start ------------------------
   if page_dict['url_step_code'] == '2':
-    all_showss_obj = get_all_shows_function()
+    all_shows_obj = get_all_shows_for_platform_function(page_dict['url_platform_id'])
     try:
-      for i_obj in all_showss_obj:
+      for i_obj in all_shows_obj:
         page_dict['shows_arr'].append(i_obj.name)
     except:
       pass
   # ------------------------ get shows end ------------------------
+  # ------------------------ pull from redis if exists start ------------------------
+  if page_dict['url_step_code'] == '3':
+    try:
+      redis_pulled_value = redis_connection.get(url_redis_key).decode('utf-8')
+      spotify_pulled_dict = json.loads(redis_pulled_value)
+      page_dict['spotify_pulled_dict'] = spotify_pulled_dict
+    except:
+      pass
+  # ------------------------ pull from redis if exists end ------------------------
   if request.method == 'POST':
     if page_dict['url_step_code'] == '1':
       # ------------------------ get user inputs start ------------------------
@@ -513,11 +543,11 @@ def polling_add_source_function(url_redirect_code=None, url_step_code='1', url_p
       # ------------------------ get user inputs end ------------------------
       # ------------------------ sanitize ui start ------------------------
       if ui_platform_selection not in page_dict['platforms_arr']:
-        return redirect(url_for('polling_views_interior.polling_add_source_function', url_step_code=url_step_code, url_redirect_code='e6'))
+        return redirect(url_for('polling_views_interior.polling_add_show_function', url_step_code=url_step_code, url_redirect_code='e6'))
       # ------------------------ sanitize ui end ------------------------
       # ------------------------ get id based on user inputs start ------------------------
       db_obj = get_platform_based_on_name_function(ui_platform_selection)
-      return redirect(url_for('polling_views_interior.polling_add_source_function', url_step_code=page_dict['url_next_step_code'], url_platform_id=db_obj.id))
+      return redirect(url_for('polling_views_interior.polling_add_show_function', url_step_code=page_dict['url_next_step_code'], url_platform_id=db_obj.id))
       # ------------------------ get id based on user inputs end ------------------------
     if page_dict['url_step_code'] == '2':
       # ------------------------ get user inputs start ------------------------
@@ -526,8 +556,63 @@ def polling_add_source_function(url_redirect_code=None, url_step_code='1', url_p
       # ------------------------ search spotify start ------------------------
       spotify_pulled_dict = spotify_search_show_function(ui_search_show_name)
       # ------------------------ search spotify end ------------------------
+      # ------------------------ check if show already in db start ------------------------
+      show_already_exists_check = get_show_based_on_name_function(url_platform_id, spotify_pulled_dict['name'])
+      if show_already_exists_check != None:
+        return redirect(url_for('polling_views_interior.polling_add_show_function', url_step_code=url_step_code, url_platform_id=url_platform_id, url_redirect_code='e31'))
+      # ------------------------ check if show already in db end ------------------------
+      # ------------------------ add spotify result to redis start ------------------------
+      url_redis_key = create_uuid_function('spotify_temp_')
+      redis_connection.set(url_redis_key, json.dumps(spotify_pulled_dict).encode('utf-8'))
+      # ------------------------ add spotify result to redis end ------------------------
+      return redirect(url_for('polling_views_interior.polling_add_show_function', url_step_code=page_dict['url_next_step_code'], url_platform_id=url_platform_id, url_redis_key=url_redis_key))
+    if page_dict['url_step_code'] == '3':
+      # ------------------------ insert to db start ------------------------
+      new_show_id=create_uuid_function('show_'),
+      new_row = ShowsObj(
+        id=new_show_id,
+        created_timestamp=create_timestamp_function(),
+        name = spotify_pulled_dict['name'],
+        description = spotify_pulled_dict['description'],
+        fk_platform_id = url_platform_id,
+        status = True,
+        spotify_fk_id = spotify_pulled_dict['id'],
+        spotify_image_large = spotify_pulled_dict['img_large'],
+        spotify_image_medium = spotify_pulled_dict['img_medium'],
+        spotify_image_small = spotify_pulled_dict['img_small'],
+        spotify_url = spotify_pulled_dict['show_url']
+      )
+      db.session.add(new_row)
+      db.session.commit()
+      # ------------------------ insert to db end ------------------------
+      # ------------------------ insert to db start ------------------------
+      new_row = ShowsFollowingObj(
+        id=create_uuid_function('following_'),
+        created_timestamp=create_timestamp_function(),
+        fk_platform_id = url_platform_id,
+        fk_show_id = new_show_id,
+        fk_user_id = current_user.id
+      )
+      db.session.add(new_row)
+      db.session.commit()
+      # ------------------------ insert to db end ------------------------
+      # ------------------------ remove from redis start ------------------------
+      try:
+        redis_connection.delete(url_redis_key)
+      except:
+        pass
+      # ------------------------ remove from redis end ------------------------
+      return redirect(url_for('polling_views_interior.polling_dashboard_function'))
+  # ------------------------ for setting cookie end ------------------------
+  localhost_print_function(' ------------- 100-show selection start ------------- ')
+  page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
+  for k,v in page_dict.items():
+    localhost_print_function(f"k: {k} | v: {v}")
+    pass
+  localhost_print_function(' ------------- 100-show selection end ------------- ')
+  # ------------------------ auto set cookie start ------------------------
   # ------------------------ for setting cookie start ------------------------
-  template_location_url = 'polling/interior/source_select/index.html'
+  template_location_url = 'polling/interior/show_select/index.html'
   # ------------------------ for setting cookie end ------------------------
   if page_dict['url_step_code'] == '1':
     # ------------------------ auto set cookie start ------------------------
@@ -540,5 +625,5 @@ def polling_add_source_function(url_redirect_code=None, url_step_code='1', url_p
       return browser_response
     # ------------------------ auto set cookie end ------------------------
   else:
-    return render_template('polling/interior/source_select/index.html', page_dict_to_html=page_dict)
+    return render_template('polling/interior/show_select/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------

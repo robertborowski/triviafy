@@ -54,7 +54,7 @@ def spotify_search_show_function(input_show_name):
   try:
     pulled_dict['id'] = response_dict['shows']['items'][0]['id']
     pulled_dict['name'] = response_dict['shows']['items'][0]['name']
-    pulled_dict['description'] = response_dict['shows']['items'][0]['description']
+    pulled_dict['description'] = response_dict['shows']['items'][0]['description'][0:290]
     pulled_dict['img_large'] = response_dict['shows']['items'][0]['images'][0]['url']
     pulled_dict['img_medium'] = response_dict['shows']['items'][0]['images'][1]['url']
     pulled_dict['img_small'] = response_dict['shows']['items'][0]['images'][2]['url']
