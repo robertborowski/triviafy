@@ -545,6 +545,8 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
       # ------------------------ sanitize ui start ------------------------
       if ui_platform_selection not in page_dict['platforms_arr']:
         return redirect(url_for('polling_views_interior.polling_add_show_function', url_step_code=url_step_code, url_redirect_code='e6'))
+      if ui_platform_selection != 'Podcast':
+        return redirect(url_for('polling_views_interior.polling_add_show_function', url_step_code=url_step_code, url_redirect_code='e33'))
       # ------------------------ sanitize ui end ------------------------
       # ------------------------ get id based on user inputs start ------------------------
       db_obj = get_platform_based_on_name_function(ui_platform_selection)
@@ -584,11 +586,11 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
         description = spotify_pulled_dict['description'],
         fk_platform_id = url_platform_id,
         status = True,
-        spotify_fk_id = spotify_pulled_dict['id'],
-        spotify_image_large = spotify_pulled_dict['img_large'],
-        spotify_image_medium = spotify_pulled_dict['img_medium'],
-        spotify_image_small = spotify_pulled_dict['img_small'],
-        spotify_url = spotify_pulled_dict['show_url']
+        platform_reference_id = spotify_pulled_dict['id'],
+        platform_image_large = spotify_pulled_dict['img_large'],
+        platform_image_medium = spotify_pulled_dict['img_medium'],
+        platform_image_small = spotify_pulled_dict['img_small'],
+        platform_url = spotify_pulled_dict['show_url']
       )
       db.session.add(new_row)
       db.session.commit()

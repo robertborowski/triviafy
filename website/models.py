@@ -371,10 +371,10 @@ class ShowsObj(db.Model):
   topics = db.Column(db.String(150))
   fk_platform_id = db.Column(db.String(150))
   status = db.Column(db.Boolean, default=False)
-  spotify_fk_id = db.Column(db.String(150))
-  spotify_image_large = db.Column(db.String(150))
-  spotify_image_medium = db.Column(db.String(150))
-  spotify_image_small = db.Column(db.String(150))
-  spotify_url = db.Column(db.String(150))
+  platform_reference_id = db.Column(db.String(150))
+  platform_image_large = db.Column(db.String(150))
+  platform_image_medium = db.Column(db.String(150))
+  platform_image_small = db.Column(db.String(150))
+  platform_url = db.Column(db.String(150))
 # ------------------------ individual model end ------------------------
 # ------------------------ employees models end ------------------------

@@ -423,6 +423,11 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':"Show name not found.",
       'type':'danger'
     }
+  elif redirect_var == 'e33':
+    alert_message_dict = {
+      'message':"Currently only podcasts are supported.",
+      'type':'danger'
+    }
   # ------------------------ errors end ------------------------
   # ------------------------ success start ------------------------
   elif redirect_var == 's1':
