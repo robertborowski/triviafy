@@ -28,6 +28,7 @@ from website.backend.candidates.lists import get_month_days_years_function, get_
 from website.backend.dates import get_years_from_date_function, return_ints_from_str_function
 from website.backend.get_create_obj import get_all_shows_following_function, get_all_platforms_function, get_platform_based_on_name_function, get_all_shows_for_platform_function, get_show_based_on_name_function
 from website.backend.spotify import spotify_search_show_function
+from website.backend.user_inputs import sanitize_letters_numbers_spaces_specials_only_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -553,8 +554,15 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
       # ------------------------ get user inputs start ------------------------
       ui_search_show_name = request.form.get('ui_search_show_name')
       # ------------------------ get user inputs end ------------------------
+      # ------------------------ sanitize ui start ------------------------
+      ui_search_show_name_check = sanitize_letters_numbers_spaces_specials_only_function(ui_search_show_name)
+      if ui_search_show_name_check == False:
+        return redirect(url_for('polling_views_interior.polling_add_show_function', url_step_code=url_step_code, url_platform_id=url_platform_id, url_redirect_code='e6'))
+      # ------------------------ sanitize ui end ------------------------
       # ------------------------ search spotify start ------------------------
       spotify_pulled_dict = spotify_search_show_function(ui_search_show_name)
+      if spotify_pulled_dict == None:
+        return redirect(url_for('polling_views_interior.polling_add_show_function', url_step_code=url_step_code, url_platform_id=url_platform_id, url_redirect_code='e32'))
       # ------------------------ search spotify end ------------------------
       # ------------------------ check if show already in db start ------------------------
       show_already_exists_check = get_show_based_on_name_function(url_platform_id, spotify_pulled_dict['name'])

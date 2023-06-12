@@ -1,6 +1,7 @@
 # ------------------------ imports start ------------------------
 import requests
 import os
+from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ individual function start ------------------------
@@ -42,6 +43,10 @@ def spotify_search_show_function(input_show_name):
   # for k,v in response_dict['shows']['items'][0].items():
   #   print(f'k: {k} | v: {v}')
   # ------------------------ explore response end ------------------------
+  # ------------------------ if none start ------------------------
+  if response_dict['shows']['items'] == None or response_dict['shows']['items'] == [] or response_dict['shows']['items'] == '':
+    return None
+  # ------------------------ if none end ------------------------
   pulled_dict = {
     'id': None,
     'name': None,

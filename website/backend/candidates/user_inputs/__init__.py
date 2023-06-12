@@ -418,6 +418,11 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':"Please select that show from the below selection.",
       'type':'danger'
     }
+  elif redirect_var == 'e32':
+    alert_message_dict = {
+      'message':"Show name not found.",
+      'type':'danger'
+    }
   # ------------------------ errors end ------------------------
   # ------------------------ success start ------------------------
   elif redirect_var == 's1':

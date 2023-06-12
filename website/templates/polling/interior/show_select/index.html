@@ -77,9 +77,12 @@
       <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
         <!-- ------------------------------------- confirm section start ------------------------------------- -->
         <div class="custom-width-500 mx-auto text-center">
-          <p class="custom-m-0 custom-color-white custom-header-25 custom-pb-25">{{ page_dict_to_html['spotify_pulled_dict']['name'] }}</p>
           <div class="custom-pb-25">
             <img src="{{ page_dict_to_html['spotify_pulled_dict']['img_medium'] }}" alt="show img" class="custom-br-1 shadow-lg">
+          </div>
+          <p class="custom-m-0 custom-color-white custom-header-25 custom-pb-15">{{ page_dict_to_html['spotify_pulled_dict']['name'] }}</p>
+          <div class="custom-tal">
+            <p class="custom-m-0 custom-color-white custom-header-10 custom-pb-25 custom-opacity-50">{{ page_dict_to_html['spotify_pulled_dict']['description'] }}...</p>
           </div>
           <button type="submit" class="btn btn-lg btn-success custom-width-100 custom-mt-25">Confirm <i class="fa-solid fa-check"></i></button>
           <!-- ------------------------------------- back button start ------------------------------------- -->

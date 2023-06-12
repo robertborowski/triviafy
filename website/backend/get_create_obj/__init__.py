@@ -7,14 +7,14 @@ from website.models import UserObj, ShowsFollowingObj, PlatformsObj, ShowsObj
 
 # ------------------------ individual function start ------------------------
 def get_all_shows_following_function(current_user):
-  db_sources_following_obj = None
+  db_shows_following_obj = None
   try:
-    db_sources_following_obj = ShowsFollowingObj.query.filter_by(fk_user_id=current_user.id).all()
-    if db_sources_following_obj == None or db_sources_following_obj == []:
+    db_shows_following_obj = ShowsFollowingObj.query.filter_by(fk_user_id=current_user.id).all()
+    if db_shows_following_obj == None or db_shows_following_obj == []:
       return None
   except:
     pass
-  return db_sources_following_obj
+  return db_shows_following_obj
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
