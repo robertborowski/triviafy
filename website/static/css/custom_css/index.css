@@ -308,6 +308,12 @@
 .custom-brr-1 {
   border-radius: 0px 15px 15px 0px !important;
 }
+.custom-br-15 {
+  border-radius: 15px;
+}
+.custom-br-25 {
+  border-radius: 25px;
+}
 /* ------------------- border end ------------------- */
 /* ------------------- display start ------------------- */
 .custom-display-flex {
@@ -1013,6 +1019,14 @@
 .custom-ptb-8 {
   padding-top: 25px;
   padding-bottom: 25px;
+}
+.custom-ptb-25 {
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+.custom-ptb-50 {
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
 .custom-pt-1 {
   padding-top: 50px;
