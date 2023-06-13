@@ -1,7 +1,4 @@
 # ------------------------ imports start ------------------------
-from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
-from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
-from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
 from website.models import UserObj, ShowsFollowingObj, PlatformsObj, ShowsObj
 # ------------------------ imports end ------------------------
 
@@ -36,6 +33,22 @@ def get_all_shows_for_platform_function(input_platform_id):
 # ------------------------ individual function start ------------------------
 def get_show_based_on_name_function(input_platform_id, input_name):
   db_obj = ShowsObj.query.filter_by(fk_platform_id=input_platform_id,name=input_name,status=True).first()
+  if db_obj == None or db_obj == []:
+    return None
+  return db_obj
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def get_show_based_on_id_and_platform_id_function(input_show_id, input_platform_id):
+  db_obj = ShowsObj.query.filter_by(id=input_show_id, fk_platform_id=input_platform_id, status=True).first()
+  if db_obj == None or db_obj == []:
+    return None
+  return db_obj
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def check_if_currently_following_show_function(current_user, input_show_id, input_platform_id):
+  db_obj = ShowsFollowingObj.query.filter_by(fk_user_id=current_user.id, fk_show_id=input_show_id, fk_platform_id=input_platform_id).first()
   if db_obj == None or db_obj == []:
     return None
   return db_obj

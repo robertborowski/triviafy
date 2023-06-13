@@ -26,7 +26,7 @@ import json
 from website.backend.candidates.send_emails import send_email_template_function
 from website.backend.candidates.lists import get_month_days_years_function, get_marketing_list_v2_function
 from website.backend.dates import get_years_from_date_function, return_ints_from_str_function
-from website.backend.get_create_obj import get_all_shows_following_function, get_all_platforms_function, get_platform_based_on_name_function, get_all_shows_for_platform_function, get_show_based_on_name_function
+from website.backend.get_create_obj import get_all_shows_following_function, get_all_platforms_function, get_platform_based_on_name_function, get_all_shows_for_platform_function, get_show_based_on_name_function, get_show_based_on_id_and_platform_id_function, check_if_currently_following_show_function
 from website.backend.spotify import spotify_search_show_function
 from website.backend.user_inputs import sanitize_letters_numbers_spaces_specials_only_function
 # ------------------------ imports end ------------------------
@@ -69,10 +69,6 @@ def polling_dashboard_function(url_redirect_code=None):
   # ------------------------ get all sources following start ------------------------
   page_dict['sources_following_total'] = get_all_shows_following_function(current_user)
   # ------------------------ get all sources following end ------------------------
-  # ------------------------ redirect if not following any sources start ------------------------
-  if page_dict['sources_following_total'] == None:
-    return redirect(url_for('polling_views_interior.polling_add_show_function', url_step_code='1'))
-  # ------------------------ redirect if not following any sources end ------------------------
   # ------------------------ for setting cookie start ------------------------
   template_location_url = 'polling/interior/dashboard/index.html'
   # ------------------------ for setting cookie end ------------------------
@@ -504,10 +500,7 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
   # ------------------------ set title start ------------------------
   page_dict['url_step_subtitle'] = "Audience Polling Platform"
   if page_dict['url_step_code'] == '1':
-    if page_dict['sources_following_total'] == None:
-      page_dict['url_step_title'] = "Welcome to Triviafy"
-    else:  
-      page_dict['url_step_title'] = 'Platform selection'
+    page_dict['url_step_title'] = 'Platform selection'
   if page_dict['url_step_code'] == '2':
     page_dict['url_step_title'] = 'Show selection'
   if page_dict['url_step_code'] == '3':
@@ -525,6 +518,8 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
     try:
       for i_obj in all_shows_obj:
         i_dict = {}
+        i_dict['id'] = i_obj.id
+        i_dict['fk_platform_id'] = i_obj.fk_platform_id
         i_dict['name'] = i_obj.name
         i_dict['platform_image_small'] = i_obj.platform_image_small
         i_dict['description'] = i_obj.description[0:100] + '...'
@@ -625,19 +620,45 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
     pass
   localhost_print_function(' ------------- 100-show selection end ------------- ')
   # ------------------------ auto set cookie start ------------------------
-  # ------------------------ for setting cookie start ------------------------
-  template_location_url = 'polling/interior/show_select/index.html'
-  # ------------------------ for setting cookie end ------------------------
-  if page_dict['url_step_code'] == '1':
-    # ------------------------ auto set cookie start ------------------------
-    get_cookie_value_from_browser = redis_check_if_cookie_exists_function()
-    if get_cookie_value_from_browser != None:
-      redis_connection.set(get_cookie_value_from_browser, current_user.id.encode('utf-8'))
-      return render_template(template_location_url, user=current_user, page_dict_to_html=page_dict)
-    else:
-      browser_response = browser_response_set_cookie_function_v6(current_user, template_location_url, page_dict)
-      return browser_response
-    # ------------------------ auto set cookie end ------------------------
-  else:
-    return render_template('polling/interior/show_select/index.html', page_dict_to_html=page_dict)
+  return render_template('polling/interior/show_select/index.html', page_dict_to_html=page_dict)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@polling_views_interior.route('/polling/show/follow/<url_platform_id>/<url_show_id>', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/show/follow/<url_platform_id>/<url_show_id>/', methods=['GET', 'POST'])
+@login_required
+def polling_follow_show_function(url_redirect_code=None, url_platform_id=None, url_show_id=None):
+  # ------------------------ page dict start ------------------------
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ page dict end ------------------------
+  # ------------------------ check inputs start ------------------------
+  if url_platform_id == None or url_show_id == None:
+    return redirect(url_for('polling_views_interior.polling_dashboard_function', url_redirect_code='e6'))
+  # ------------------------ check inputs end ------------------------
+  # ------------------------ sanitize inputs start ------------------------
+  db_obj = get_show_based_on_id_and_platform_id_function(url_show_id, url_platform_id)
+  if db_obj == None:
+    return redirect(url_for('polling_views_interior.polling_dashboard_function', url_redirect_code='e6'))
+  # ------------------------ sanitize inputs end ------------------------
+  # ------------------------ check if already following start ------------------------
+  db_obj = check_if_currently_following_show_function(current_user, url_show_id, url_platform_id)
+  if db_obj != None:
+    return redirect(url_for('polling_views_interior.polling_dashboard_function', url_redirect_code='s15'))
+  # ------------------------ check if already following end ------------------------
+  # ------------------------ add to db start ------------------------
+  new_row = ShowsFollowingObj(
+    id=create_uuid_function('following_'),
+    created_timestamp=create_timestamp_function(),
+    fk_platform_id = url_platform_id,
+    fk_show_id = url_show_id,
+    fk_user_id = current_user.id
+  )
+  db.session.add(new_row)
+  db.session.commit()
+  # ------------------------ add to db end ------------------------
+  # ------------------------ redirect to dashboard start ------------------------
+  return redirect(url_for('polling_views_interior.polling_dashboard_function', url_redirect_code='s14'))
+  # ------------------------ redirect to dashboard end ------------------------
 # ------------------------ individual route end ------------------------

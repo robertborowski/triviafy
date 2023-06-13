@@ -2,7 +2,7 @@
 
 <!-- head tag block content -->
 {% block title %}
-  <title>Feedback - Triviafy</title>
+  <title>Select - Triviafy</title>
 {% endblock %}
 
 {% block contentBodyExceptNavbarAndFooter %}
@@ -63,10 +63,10 @@
           {% for i_dict in page_dict_to_html['shows_arr_of_dict'] %}
             <div class="custom-p-15 custom-br-20 custom-bg-white custom-opacity-80-hover custom-mtb-50">
               <div class="custom-display-flex">
-                <a href="#"><img src="{{ i_dict['platform_image_small'] }}" alt="podcast show logo" class="custom-br-5 border"></a>
+                <a href="/polling/show/follow/{{ i_dict['fk_platform_id'] }}/{{ i_dict['id'] }}"><img src="{{ i_dict['platform_image_small'] }}" alt="podcast show logo" class="custom-br-5 border"></a>
                 <div class="custom-ml-5 custom-display-flex custom-f-direction-col">
-                  <a href="#" class="custom-a-2 custom-header-18">{{ i_dict['name'] }}</a>
-                  <a href="#" class="custom-a-2 custom-header-12 custom-opacity-50">{{ i_dict['description'] }}</a>
+                  <a href="/polling/show/follow/{{ i_dict['fk_platform_id'] }}/{{ i_dict['id'] }}" class="custom-a-2 custom-header-18">{{ i_dict['name'] }}</a>
+                  <a href="/polling/show/follow/{{ i_dict['fk_platform_id'] }}/{{ i_dict['id'] }}" class="custom-a-2 custom-header-12 custom-opacity-50">{{ i_dict['description'] }}</a>
                 </div>
               </div>
             </div>

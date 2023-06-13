@@ -13,24 +13,36 @@
 <!-- ----------------------------------- end ----------------------------------- -->
 <!-- ------------------------------------- section start ------------------------------------- -->
 <div class="container custom-pt-50">
-  <h2>Add show</h2>
+  {% if page_dict_to_html['sources_following_total'] == none %}
+    <h2>Welcome to Triviafy</h2>
+  {% else %}
+    <h2>Add show</h2>
+  {% endif %}
   <div class="custom-br-25 custom-bg-white shadow border custom-p-15">
     <div class="custom-ptb-50 text-center">
-      <a href="/polling/show/add/1" class="custom-m-0 btn btn-primary btn-lg">Add <i class="fa-solid fa-plus"></i></a>
+      {% if page_dict_to_html['sources_following_total'] == none %}
+        <p class="custom-m-0 custom-pb-15 custom-header-20">You are currently not following any shows</p>
+        <a href="/polling/show/add/1" class="custom-m-0 btn btn-primary btn-lg">Add show <i class="fa-solid fa-plus"></i></a>
+      {% else %}
+        <a href="/polling/show/add/1" class="custom-m-0 btn btn-primary btn-lg">Add <i class="fa-solid fa-plus"></i></a>
+      {% endif %}
     </div>
   </div>
 </div>
 <!-- ------------------------------------- section end ------------------------------------- -->
-<!-- ------------------------------------- section start ------------------------------------- -->
-<div class="container custom-pt-50">
-  <h2>Your shows</h2>
-  <div class="custom-br-25 custom-bg-white shadow border custom-p-15">
-    <!-- ------------------------------------- individual show start ------------------------------------- -->
-    <div class="custom-ptb-50 text-center">
-      <a href="#" class="custom-m-0 btn btn-primary btn-lg">for loop i's here</a>
+{% if page_dict_to_html['sources_following_total'] == none %}
+{% else %}
+  <!-- ------------------------------------- section start ------------------------------------- -->
+  <div class="container custom-pt-50">
+    <h2>Your shows</h2>
+    <div class="custom-br-25 custom-bg-white shadow border custom-p-15">
+      <!-- ------------------------------------- individual show start ------------------------------------- -->
+      <div class="custom-ptb-50 text-center">
+        <a href="#" class="custom-m-0 btn btn-primary btn-lg">for loop i's here</a>
+      </div>
+      <!-- ------------------------------------- individual show end ------------------------------------- -->
     </div>
-    <!-- ------------------------------------- individual show end ------------------------------------- -->
   </div>
-</div>
-<!-- ------------------------------------- section end ------------------------------------- -->
+  <!-- ------------------------------------- section end ------------------------------------- -->
+{% endif %}
 {% endblock %}

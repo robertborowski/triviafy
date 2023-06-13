@@ -495,6 +495,16 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':'Check your spam/promotions folder and mark Triviafy as "Not Spam". A password reset link has been successfully sent to your email.',
       'type':'success'
     }
+  elif redirect_var == 's14':
+    alert_message_dict = {
+      'message':'Successfully following show',
+      'type':'success'
+    }
+  elif redirect_var == 's15':
+    alert_message_dict = {
+      'message':'You are already following this show',
+      'type':'success'
+    }
   # ------------------------ success end ------------------------
   # ------------------------ info end ------------------------
   elif redirect_var == 'i1':
