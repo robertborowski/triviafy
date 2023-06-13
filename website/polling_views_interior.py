@@ -26,9 +26,10 @@ import json
 from website.backend.candidates.send_emails import send_email_template_function
 from website.backend.candidates.lists import get_month_days_years_function, get_marketing_list_v2_function
 from website.backend.dates import get_years_from_date_function, return_ints_from_str_function
-from website.backend.get_create_obj import get_all_shows_following_function, get_all_platforms_function, get_platform_based_on_name_function, get_all_shows_for_platform_function, get_show_based_on_name_function, get_show_based_on_id_and_platform_id_function, check_if_currently_following_show_function
+from website.backend.get_create_obj import get_all_shows_following_function, get_all_platforms_function, get_platform_based_on_name_function, get_all_shows_for_platform_function, get_show_based_on_name_function, get_show_based_on_id_and_platform_id_function, check_if_currently_following_show_function, get_show_based_on_id_function
 from website.backend.spotify import spotify_search_show_function
 from website.backend.user_inputs import sanitize_letters_numbers_spaces_specials_only_function
+from website.backend.dict_manipulation import arr_of_dict_all_columns_single_item_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -66,9 +67,16 @@ def polling_dashboard_function(url_redirect_code=None):
   page_dict = {}
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
-  # ------------------------ get all sources following start ------------------------
-  page_dict['sources_following_total'] = get_all_shows_following_function(current_user)
-  # ------------------------ get all sources following end ------------------------
+  # ------------------------ get all shows following start ------------------------
+  page_dict['shows_following_arr_of_dict'] = get_all_shows_following_function(current_user)
+  if page_dict['shows_following_arr_of_dict'] != None:
+    shows_arr_of_dict = []
+    for i_obj in page_dict['shows_following_arr_of_dict']:
+      show_obj = get_show_based_on_id_function(i_obj.fk_show_id)
+      show_dict = arr_of_dict_all_columns_single_item_function(show_obj)
+      shows_arr_of_dict.append(show_dict)
+    page_dict['shows_following_arr_of_dict'] = shows_arr_of_dict
+  # ------------------------ get all shows following end ------------------------
   # ------------------------ for setting cookie start ------------------------
   template_location_url = 'polling/interior/dashboard/index.html'
   # ------------------------ for setting cookie end ------------------------
@@ -495,7 +503,7 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
     page_dict['url_back_str'] = f"{page_dict['url_previous_step_code']}/{url_platform_id}?wip_key={url_redis_key}"
   # ------------------------ set back button string end ------------------------
   # ------------------------ get all sources following start ------------------------
-  page_dict['sources_following_total'] = get_all_shows_following_function(current_user)
+  page_dict['shows_following_arr_of_dict'] = get_all_shows_following_function(current_user)
   # ------------------------ get all sources following end ------------------------
   # ------------------------ set title start ------------------------
   page_dict['url_step_subtitle'] = "Audience Polling Platform"
