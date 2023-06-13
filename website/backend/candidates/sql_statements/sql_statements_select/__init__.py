@@ -219,6 +219,17 @@ def select_general_function(tag_query_to_use, additional_input=None, additional_
                     LIMIT 5;",
       'input_args': {}
     },
+    'select_sample_trivia2': {
+      'raw_query': f"SELECT \
+                      * \
+                    FROM \
+                      activity_a_created_questions_obj \
+                    WHERE \
+                      status=TRUE \
+                      AND product='trivia' \
+                      AND id IN ('questionid_50536b69-dca5-4576-9963-955d47b57d55','questionid_c1410845-325f-4fa9-bb0c-32643e89c7a6','questionid_c28d1b3a-db3d-4f13-ac01-d5a8537b92c2','questionid_305b16ca-5ca3-4b94-8fef-b83d824bd429','questionid_cf424ccc-0363-4575-ad38-3760c13727da');",
+      'input_args': {}
+    },
     'select_sample_picture_quiz': {
       'raw_query': f"SELECT \
                       * \

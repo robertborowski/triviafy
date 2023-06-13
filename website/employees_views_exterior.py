@@ -130,7 +130,7 @@ def employees_example_function(url_redirect_code=None, url_activity_type=None, u
   result_arr_of_dicts = None
   if url_activity_type == 'activity_type_a':
     if url_activity_code == 'trivia':
-      result_arr_of_dicts = select_general_function('select_sample_trivia')
+      result_arr_of_dicts = select_general_function('select_sample_trivia2')
     elif url_activity_code == 'picture_quiz':
       result_arr_of_dicts = select_general_function('select_sample_picture_quiz')
   if url_activity_type == 'activity_type_b':

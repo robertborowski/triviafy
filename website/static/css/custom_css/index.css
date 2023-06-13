@@ -633,6 +633,13 @@
 .custom-opacity-75 {
   opacity: 0.75;
 }
+.custom-opacity-80-hover {
+  opacity: 0.80;
+}
+.custom-opacity-80-hover:hover {
+  opacity: 1.0;
+  transition: 0.33s;
+}
 /* ------------------- img end ------------------- */
 /* ------------------- index start ------------------- */
 .custom-index-1 {
