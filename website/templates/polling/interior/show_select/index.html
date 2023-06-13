@@ -56,12 +56,12 @@
         <!-- ------------------------------------- search section start ------------------------------------- -->
         <div class="custom-width-500 mx-auto">
           <!-- ------------------------------------- search bar start ------------------------------------- -->
-          <label for="none1" class="form-label custom-color-white">Search show name</label>
-          <input type="text" class="form-control custom-ptb-15" id="none1" name="ui_search_show_name" placeholder="Search show name" required>
+          <label for="ui_search_show_name" class="form-label custom-color-white">Search show name</label>
+          <input type="text" class="form-control custom-ptb-15" id="ui_search_show_name" name="ui_search_show_name" placeholder="Search show name" required>
           <!-- ------------------------------------- search bar end ------------------------------------- -->
           <!-- ------------------------------------- existing radio section start ------------------------------------- -->
           {% for i_dict in page_dict_to_html['shows_arr_of_dict'] %}
-            <div class="custom-p-15 custom-br-20 custom-bg-white custom-opacity-80-hover custom-mtb-50">
+            <div class="custom-p-15 custom-br-20 custom-bg-white custom-opacity-80-hover custom-mtb-50 uiSearchItem">
               <div class="custom-display-flex">
                 <a href="/polling/show/follow/{{ i_dict['fk_platform_id'] }}/{{ i_dict['id'] }}"><img src="{{ i_dict['platform_image_small'] }}" alt="podcast show logo" class="custom-br-5 border"></a>
                 <div class="custom-ml-5 custom-display-flex custom-f-direction-col">
