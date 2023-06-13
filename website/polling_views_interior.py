@@ -527,7 +527,7 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
         i_dict = {}
         i_dict['name'] = i_obj.name
         i_dict['platform_image_small'] = i_obj.platform_image_small
-        i_dict['description'] = i_obj.description[0:150] + '...'
+        i_dict['description'] = i_obj.description[0:100] + '...'
         page_dict['shows_arr_of_dict'].append(i_dict)
     except:
       pass

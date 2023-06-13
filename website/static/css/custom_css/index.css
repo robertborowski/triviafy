@@ -365,6 +365,9 @@
 .custom-f-align-1 {
   align-items: center;
 }
+.custom-f-direction-col {
+  flex-direction: column;
+}
 /* ------------------- flex end ------------------- */
 /* ------------------- google start ------------------- */
 .custom-google-font-1 {
@@ -883,6 +886,9 @@
 }
 .custom-ml-4 {
   margin-left: 15px;
+}
+.custom-ml-5 {
+  margin-left: 5px;
 }
 .custom-ml-10 {
   margin-left: 10px;

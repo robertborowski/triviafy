@@ -62,12 +62,12 @@
           <!-- ------------------------------------- existing radio section start ------------------------------------- -->
           {% for i_dict in page_dict_to_html['shows_arr_of_dict'] %}
             <div class="custom-p-15 custom-br-20 custom-bg-white custom-mtb-50">
-              <div>
+              <div class="custom-display-flex">
                 <a href="#"><img src="{{ i_dict['platform_image_small'] }}" alt="podcast show logo" class="custom-br-5 border"></a>
-                <a href="#" class="custom-a-2 custom-header-18">{{ i_dict['name'] }}</a>
-              </div>
-              <div>
-                <a href="#" class="custom-a-2 custom-header-12 custom-opacity-50">{{ i_dict['description'] }}</a>
+                <div class="custom-ml-5 custom-display-flex custom-f-direction-col">
+                  <a href="#" class="custom-a-2 custom-header-18">{{ i_dict['name'] }}</a>
+                  <a href="#" class="custom-a-2 custom-header-12 custom-opacity-50">{{ i_dict['description'] }}</a>
+                </div>
               </div>
             </div>
           {% endfor %}
