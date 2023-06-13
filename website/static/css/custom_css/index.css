@@ -300,7 +300,7 @@
   border-radius: 6px;
 }
 .custom-br-5 {
-  border-radius: 500px;
+  border-radius: 5px;
 }
 .custom-brl-1 {
   border-radius: 15px 0px 0px 15px !important;
@@ -311,8 +311,14 @@
 .custom-br-15 {
   border-radius: 15px;
 }
+.custom-br-20 {
+  border-radius: 20px;
+}
 .custom-br-25 {
   border-radius: 25px;
+}
+.custom-br-500 {
+  border-radius: 500px;
 }
 /* ------------------- border end ------------------- */
 /* ------------------- display start ------------------- */
@@ -899,6 +905,14 @@
   margin-top: 50px;
   margin-bottom: 50px;
 }
+.custom-mtb-25 {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+.custom-mtb-50 {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
 /* ------------------- margin end ------------------- */
 /* ------------------- overflow start ------------------- */
 .custom-overflow-1 {
@@ -1019,6 +1033,14 @@
 .custom-ptb-8 {
   padding-top: 25px;
   padding-bottom: 25px;
+}
+.custom-ptb-10 {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.custom-ptb-15 {
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 .custom-ptb-25 {
   padding-top: 25px;

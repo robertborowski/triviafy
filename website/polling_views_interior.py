@@ -478,7 +478,7 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
   page_dict['url_next_step_code'] = str(int(url_step_code) + 1)
   page_dict['url_previous_step_code'] = str(int(url_step_code) - 1)
   page_dict['platforms_arr'] = []
-  page_dict['shows_arr'] = []
+  page_dict['shows_arr_of_dict'] = []
   page_dict['url_step_title'] = ''
   page_dict['url_back_str'] = ''
   page_dict['spotify_pulled_dict'] = None
@@ -524,7 +524,11 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
     all_shows_obj = get_all_shows_for_platform_function(page_dict['url_platform_id'])
     try:
       for i_obj in all_shows_obj:
-        page_dict['shows_arr'].append(i_obj.name)
+        i_dict = {}
+        i_dict['name'] = i_obj.name
+        i_dict['platform_image_small'] = i_obj.platform_image_small
+        i_dict['description'] = i_obj.description[0:150] + '...'
+        page_dict['shows_arr_of_dict'].append(i_dict)
     except:
       pass
   # ------------------------ get shows end ------------------------

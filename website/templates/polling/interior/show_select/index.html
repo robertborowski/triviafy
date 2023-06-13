@@ -57,16 +57,27 @@
         <div class="custom-width-500 mx-auto">
           <!-- ------------------------------------- search bar start ------------------------------------- -->
           <label for="none1" class="form-label custom-color-white">Search show name</label>
-          <input type="text" class="form-control" id="none1" name="ui_search_show_name" placeholder="Search show name" required>
+          <input type="text" class="form-control custom-ptb-15" id="none1" name="ui_search_show_name" placeholder="Search show name" required>
           <!-- ------------------------------------- search bar end ------------------------------------- -->
-          <button type="submit" class="btn btn-lg btn-success custom-width-100 custom-mt-25">Search <i class="fa-solid fa-angle-right"></i></button>
+          <!-- ------------------------------------- existing radio section start ------------------------------------- -->
+          {% for i_dict in page_dict_to_html['shows_arr_of_dict'] %}
+            <div class="custom-p-15 custom-br-20 custom-bg-white custom-mtb-50">
+              <div>
+                <a href="#"><img src="{{ i_dict['platform_image_small'] }}" alt="podcast show logo" class="custom-br-5 border"></a>
+                <a href="#" class="custom-a-2 custom-header-18">{{ i_dict['name'] }}</a>
+              </div>
+              <div>
+                <a href="#" class="custom-a-2 custom-header-12 custom-opacity-50">{{ i_dict['description'] }}</a>
+              </div>
+            </div>
+          {% endfor %}
+          <!-- ------------------------------------- existing radio section end ------------------------------------- -->
+          <button type="submit" class="btn btn-lg btn-success custom-width-100">Search <i class="fa-solid fa-angle-right"></i></button>
           <!-- ------------------------------------- back button start ------------------------------------- -->
           <a href="/polling/show/add/{{ page_dict_to_html['url_back_str'] }}" class="btn btn-outline-secondary custom-width-100 custom-mt-15"><i class="fa-solid fa-angle-left"></i> Back</a>
           <!-- ------------------------------------- back button end ------------------------------------- -->
         </div>
         <!-- ------------------------------------- search section end ------------------------------------- -->
-        <!-- ------------------------------------- existing radio section start ------------------------------------- -->
-        <!-- ------------------------------------- existing radio section end ------------------------------------- -->
       </form>
       <!-- ------------------------------------- form end ------------------------------------- -->
     {% endif %}
