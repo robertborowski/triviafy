@@ -30,6 +30,7 @@ from website.backend.get_create_obj import get_all_shows_following_function, get
 from website.backend.spotify import spotify_search_show_function
 from website.backend.user_inputs import sanitize_letters_numbers_spaces_specials_only_function
 from website.backend.dict_manipulation import arr_of_dict_all_columns_single_item_function
+from website.backend.openai import create_openai_starter_poll_questions_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -619,6 +620,9 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
       except:
         pass
       # ------------------------ remove from redis end ------------------------
+      # ------------------------ openai get starter polls start ------------------------
+      chatgpt_response_arr_of_dicts = create_openai_starter_poll_questions_function(spotify_pulled_dict['name'])
+      # ------------------------ openai get starter polls end ------------------------
       return redirect(url_for('polling_views_interior.polling_dashboard_function'))
   # ------------------------ for setting cookie end ------------------------
   localhost_print_function(' ------------- 100-show selection start ------------- ')

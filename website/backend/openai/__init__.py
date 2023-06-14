@@ -44,6 +44,64 @@ def openai_chat_gpt_parse_results_to_arr_function(chatgpt_response_str):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
+def openai_chat_gpt_parse_results_to_arr_polling_function(chatgpt_response_str):
+  result_arr_of_dict = None
+  try:
+    # ------------------------ remove line breaks from str start ------------------------
+    chatgpt_response_str = chatgpt_response_str.replace('\n','')
+    # ------------------------ remove line breaks from str end ------------------------
+    # ------------------------ split the string into questions arr start ------------------------
+    result_arr = chatgpt_response_str.split('polling_question_')
+    # ------------------------ split the string into questions arr end ------------------------
+    # ------------------------ remove any strings that are not part of the desired result start ------------------------
+    result_arr_copy = result_arr[:]
+    for i_str in result_arr_copy:
+      if 'polling_answer_' not in i_str:
+        result_arr.remove(i_str)
+    # ------------------------ remove any strings that are not part of the desired result end ------------------------
+    # ------------------------ manipulate to array of dicts start ------------------------
+    result_arr_of_dict = []
+    for i in result_arr:
+      i_dict = {}
+      # ------------------------ breakup question start ------------------------
+      question_segments = i.split(":")
+      question_pulled = question_segments[1].strip()
+      question = question_pulled.replace('polling_answer_1','').strip()
+      i_dict['question'] = question
+      # ------------------------ breakup question end ------------------------
+      # ------------------------ breakup answers start ------------------------
+      answer_segments = i.split(":")[2:]
+      answers_arr = []
+      for i_answer in answer_segments:
+        search_string = 'polling_answer'
+        if search_string in i_answer:
+          found_index = i_answer.find(search_string)
+          i_answer = i_answer[:found_index]
+        i_answer = i_answer.strip()
+        answers_arr.append(i_answer)
+      i_dict['answer_choices'] = answers_arr
+      # ------------------------ breakup answers end ------------------------
+      result_arr_of_dict.append(i_dict)
+    # ------------------------ manipulate to array of dicts end ------------------------
+  except:
+    pass
+  return result_arr_of_dict
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def create_openai_starter_poll_questions_function(show_name):
+  # ------------------------ openai start ------------------------
+  chatgpt_message = f"I would like you to create 10 polling questions for me that follow the following rules. Rule #1: The polling questions should be aimed at the average listener of the podcast '{show_name}'. Rule #2: Please avoid general polling questions that could be asked about any other podcast. Rule #3: Each polling question should have at least 5 options as answer choices. Rule #4: Each question number should be preceded with the word 'polling_question_', for example question 1 should be titled 'polling_question_1' and so on until 'polling_question_10'. Rule #5: Each answer option should be preceded with the word 'polling_answer_', for example answer option 1 should be titled 'polling_answer_1' and so on until 'polling_answer_5'."
+  chatgpt_response_str = openai_chat_gpt_prompt_result_function(chatgpt_message)
+  chatgpt_response_arr_of_dicts = openai_chat_gpt_parse_results_to_arr_polling_function(chatgpt_response_str)
+  # ------------------------ openai end ------------------------
+  # ------------------------ sanitize/check results as expected start ------------------------
+  # if results not as expected then 1) Add the show to a failed open ai table list and 2) send an email to yourself saying it failed.
+  # ------------------------ sanitize/check results as expected end ------------------------
+  return chatgpt_response_arr_of_dicts
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
 def create_openai_multiple_choice_question_function(current_user, input_db_obj_to_update):
   question_id_to_return = None
   # ------------------------ get todays variables start ------------------------

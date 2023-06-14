@@ -14,14 +14,14 @@
 <!-- ------------------------------------- section start ------------------------------------- -->
 <div class="container custom-width-800 custom-pt-50">
   {% if page_dict_to_html['shows_following_arr_of_dict'] == none %}
-    <h2>Welcome to Triviafy</h2>
+    <h2 class="text-center">Welcome to Triviafy</h2>
   {% else %}
     <h2>Add show</h2>
   {% endif %}
   <div class="custom-br-25 custom-bg-white shadow-sm border custom-p-15">
     <div class="custom-ptb-25 text-center">
       {% if page_dict_to_html['shows_following_arr_of_dict'] == none %}
-        <p class="custom-m-0 custom-pb-15 custom-header-20">You are currently not following any shows</p>
+        <p class="custom-m-0 custom-pb-15 custom-header-15">You are currently not following any shows</p>
         <a href="/polling/show/add/1" class="custom-m-0 btn btn-primary btn-lg">Add show <i class="fa-solid fa-plus"></i></a>
       {% else %}
         <a href="/polling/show/add/1" class="custom-m-0 btn btn-primary btn-lg">Add <i class="fa-solid fa-plus"></i></a>
@@ -42,7 +42,7 @@
       <div class="custom-br-25 custom-bg-white shadow-sm border custom-p-15 custom-mtb-25 uiSearchItem">
         <!-- ------------------------------------- show details start ------------------------------------- -->
         <div class="custom-display-flex custom-pb-10">
-          <a href="#"><img src="{{ i_dict['platform_image_small'] }}" alt="show logo" class="custom-br-5"></a>
+          <a href="#"><img src="{{ i_dict['platform_image_small'] }}" alt="show logo" class="custom-br-5 border shadow-sm"></a>
           <div class="custom-ml-5 custom-display-flex custom-f-direction-col">
             <a href="#" class="custom-a-2 custom-header-18">{{ i_dict['name'] }}</a>
             <a href="#" class="custom-a-2 custom-header-12 custom-opacity-50">{{ i_dict['description'] }}...</a>
