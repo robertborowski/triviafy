@@ -377,4 +377,16 @@ class ShowsObj(db.Model):
   platform_image_small = db.Column(db.String(150))
   platform_url = db.Column(db.String(150))
 # ------------------------ individual model end ------------------------
+
+# ------------------------ individual model start ------------------------
+class PollsObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  type = db.Column(db.String(150))
+  fk_show_id = db.Column(db.String(150))
+  question = db.Column(db.String(150))
+  answer_choices_json = db.Column(db.String(500))
+  written_response_allowed = db.Column(db.Boolean, default=True)
+  topics = db.Column(db.String(150))
+# ------------------------ individual model end ------------------------
 # ------------------------ employees models end ------------------------

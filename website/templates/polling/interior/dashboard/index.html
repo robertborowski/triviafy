@@ -41,17 +41,17 @@
     {% for i_dict in page_dict_to_html['shows_following_arr_of_dict'] %}
       <div class="custom-br-25 custom-bg-white shadow-sm border custom-p-15 custom-mtb-25 uiSearchItem">
         <!-- ------------------------------------- show details start ------------------------------------- -->
-        <div class="custom-display-flex">
+        <div class="custom-display-flex custom-pb-10">
           <a href="#"><img src="{{ i_dict['platform_image_small'] }}" alt="show logo" class="custom-br-5"></a>
           <div class="custom-ml-5 custom-display-flex custom-f-direction-col">
             <a href="#" class="custom-a-2 custom-header-18">{{ i_dict['name'] }}</a>
-            <a href="#" class="custom-a-2 custom-header-12 custom-opacity-50">{{ i_dict['description'] }}</a>
+            <a href="#" class="custom-a-2 custom-header-12 custom-opacity-50">{{ i_dict['description'] }}...</a>
           </div>
         </div>
         <!-- ------------------------------------- show details end ------------------------------------- -->
         <!-- ------------------------------------- polling details start ------------------------------------- -->
         <div>
-          <p class="custom-m-0">hello</p>
+          <a href="#" class="custom-a-2">Polls status:</a>
         </div>
         <!-- ------------------------------------- polling details end ------------------------------------- -->
       </div>
