@@ -17,7 +17,7 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v6
-from website.models import UserObj, EmailSentObj, UserAttributesObj, ShowsFollowingObj, ShowsObj
+from website.models import UserObj, EmailSentObj, UserAttributesObj, ShowsFollowingObj, ShowsObj, PollsObj
 from website.backend.onboarding import onboarding_checks_v2_function
 from website.backend.login_checks import product_login_checks_function
 from website.backend.candidates.string_manipulation import breakup_email_function
@@ -622,6 +622,21 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
       # ------------------------ remove from redis end ------------------------
       # ------------------------ openai get starter polls start ------------------------
       chatgpt_response_arr_of_dicts = create_openai_starter_poll_questions_function(spotify_pulled_dict['name'])
+      if chatgpt_response_arr_of_dicts != None and chatgpt_response_arr_of_dicts != []:
+        # ------------------------ add to db start ------------------------
+        for i_dict in chatgpt_response_arr_of_dicts:
+          answers_str = "~".join(i_dict['answer_choices'])
+          new_row = PollsObj(
+            id=create_uuid_function('poll_'),
+            created_timestamp=create_timestamp_function(),
+            type='show',
+            fk_show_id=new_show_id,
+            question=i_dict['question'],
+            answer_choices=answers_str
+          )
+          db.session.add(new_row)
+        db.session.commit()
+        # ------------------------ add to db end ------------------------
       # ------------------------ openai get starter polls end ------------------------
       return redirect(url_for('polling_views_interior.polling_dashboard_function'))
   # ------------------------ for setting cookie end ------------------------

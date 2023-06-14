@@ -11,6 +11,7 @@ from sqlalchemy import and_, or_
 from datetime import date
 from website import db
 import random
+from website.backend.candidates.send_emails import send_email_template_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ individual function start ------------------------
@@ -49,6 +50,7 @@ def openai_chat_gpt_parse_results_to_arr_polling_function(chatgpt_response_str):
   try:
     # ------------------------ remove line breaks from str start ------------------------
     chatgpt_response_str = chatgpt_response_str.replace('\n','')
+    chatgpt_response_str = chatgpt_response_str.replace('~','')
     # ------------------------ remove line breaks from str end ------------------------
     # ------------------------ split the string into questions arr start ------------------------
     result_arr = chatgpt_response_str.split('polling_question_')
@@ -96,7 +98,16 @@ def create_openai_starter_poll_questions_function(show_name):
   chatgpt_response_arr_of_dicts = openai_chat_gpt_parse_results_to_arr_polling_function(chatgpt_response_str)
   # ------------------------ openai end ------------------------
   # ------------------------ sanitize/check results as expected start ------------------------
-  # if results not as expected then 1) Add the show to a failed open ai table list and 2) send an email to yourself saying it failed.
+  if chatgpt_response_arr_of_dicts == None or chatgpt_response_arr_of_dicts == []:
+    # ------------------------ email self start ------------------------
+    try:
+      output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+      output_subject = f'Failure on ChatGPT parsing polls for {show_name}'
+      output_body = f'Failure on ChatGPT parsing polls for {show_name}'
+      send_email_template_function(output_to_email, output_subject, output_body)
+    except:
+      pass
+    # ------------------------ email self end ------------------------
   # ------------------------ sanitize/check results as expected end ------------------------
   return chatgpt_response_arr_of_dicts
 # ------------------------ individual function end ------------------------
