@@ -599,7 +599,8 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
               type='show',
               fk_show_id=new_show_id,
               question=i_dict['question'],
-              answer_choices=answers_str
+              answer_choices=answers_str,
+              status_approved=True
             )
             db.session.add(new_row)
           db.session.commit()

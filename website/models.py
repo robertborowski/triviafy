@@ -388,5 +388,6 @@ class PollsObj(db.Model):
   answer_choices = db.Column(db.String(500))
   written_response_allowed = db.Column(db.Boolean, default=True)
   topics = db.Column(db.String(150))
+  status_approved = db.Column(db.Boolean, default=False)
 # ------------------------ individual model end ------------------------
 # ------------------------ employees models end ------------------------
