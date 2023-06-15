@@ -390,4 +390,17 @@ class PollsObj(db.Model):
   topics = db.Column(db.String(150))
   status_approved = db.Column(db.Boolean, default=False)
 # ------------------------ individual model end ------------------------
+
+# ------------------------ individual model start ------------------------
+class PollsAnsweredObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  fk_show_id = db.Column(db.String(150))
+  fk_poll_id = db.Column(db.String(150))
+  fk_user_id = db.Column(db.String(150))
+  poll_answer_submitted = db.Column(db.String(150))
+  written_answer_submitted = db.Column(db.String(150))
+  status_answer_anonymous = db.Column(db.Boolean, default=False)
+  poll_like_dislike = db.Column(db.Boolean)
+# ------------------------ individual model end ------------------------
 # ------------------------ employees models end ------------------------

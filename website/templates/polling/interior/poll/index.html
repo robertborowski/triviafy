@@ -1,0 +1,55 @@
+{% extends "polling/aaa_base/base2_primary.html" %}
+
+<!-- head tag block content -->
+{% block title %}
+  <title>Select - Triviafy</title>
+{% endblock %}
+
+{% block contentBodyExceptNavbarAndFooter %}
+<div class="custom-bg-primary-darker">
+  <!-- ------------------------------------- form start ------------------------------------- -->
+  <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+    <!-- ------------------------------------- navbar start ------------------------------------- -->
+    <div class="container-fluid custom-bg-primary fixed-top">
+      <nav class="container navbar navbar-expand-md navbar-light custom-display-flex custom-jc-between">
+        <a href="/polling/dashboard" class="navbar-brand">
+          <img src="{{ page_dict_to_html['db_show_dict']['platform_image_small'] }}" alt="show logo" class="custom-img-size-40 custom-mr-1 custom-br-5">
+          <span class="fw-bold custom-header-15 custom-color-white">{{ page_dict_to_html['db_show_dict']['name_title'] }}</span>
+        </a>
+        <div class="custom-display-flex custom-f-direction-row custom-f-nowrap">
+          <a href="#" class="btn btn-secondary btn-sm"><i class="fa-solid fa-angle-left"></i> Back</a>
+          <button type="submit" class="btn btn-success btn-sm custom-ml-10">Submit <i class="fa-solid fa-angle-right"></i></button>
+        </div>
+      </nav>
+    </div>
+    <div class="custom-filler-65"></div>
+    <!-- ------------------------------------- navbar end ------------------------------------- -->
+    <!-- ------------------------------------- background start ------------------------------------- -->
+    <div class="container-fluid custom-bg-primary-gradient-1">
+      <!-- ------------------------------------- inside content start ------------------------------------- -->
+      <div class="container custom-border-2">
+        <div class="custom-mt-100">
+          <div class="custom-bg-white custom-br-20 custom-height-4 shadow-lg border">
+            <p class="custom-m-0">Hello</p>
+          </div>
+        </div>
+      </div>
+      <!-- ------------------------------------- inside content start ------------------------------------- -->
+    </div>
+    <!-- ------------------------------------- background end ------------------------------------- -->
+  </form>
+  <!-- ------------------------------------- form end ------------------------------------- -->
+</div>
+<!-- ----------------------------------- shape divider start ----------------------------------- -->
+<div class="custom-shape-divider-bottom-1672276706 custom-bg-primary-darker">
+  <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+      <path d="M1200 0L0 0 598.97 114.72 1200 0z" class="shape-fill"></path>
+  </svg>
+</div>
+<!-- ----------------------------------- shape divider end ----------------------------------- -->
+<!-- ----------------------------------- exit start ----------------------------------- -->
+<div class="custom-width-400 mx-auto custom-mb-50">
+  <a href="/polling/dashbaord" class="btn btn-outline-secondary custom-width-100"><i class="fa-solid fa-angle-left"></i> Exit</a>
+</div>
+<!-- ----------------------------------- exit end ----------------------------------- -->
+{% endblock %}

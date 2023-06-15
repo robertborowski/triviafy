@@ -665,7 +665,6 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
     localhost_print_function(f"k: {k} | v: {v}")
     pass
   localhost_print_function(' ------------- 100-show selection end ------------- ')
-  # ------------------------ auto set cookie start ------------------------
   return render_template('polling/interior/show_select/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
 
@@ -673,12 +672,7 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
 @polling_views_interior.route('/polling/show/follow/<url_platform_id>/<url_show_id>', methods=['GET', 'POST'])
 @polling_views_interior.route('/polling/show/follow/<url_platform_id>/<url_show_id>/', methods=['GET', 'POST'])
 @login_required
-def polling_follow_show_function(url_redirect_code=None, url_platform_id=None, url_show_id=None):
-  # ------------------------ page dict start ------------------------
-  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
-  page_dict = {}
-  page_dict['alert_message_dict'] = alert_message_dict
-  # ------------------------ page dict end ------------------------
+def polling_follow_show_function(url_platform_id=None, url_show_id=None):
   # ------------------------ check inputs start ------------------------
   if url_platform_id == None or url_show_id == None:
     return redirect(url_for('polling_views_interior.polling_dashboard_function', url_redirect_code='e6'))
@@ -707,4 +701,37 @@ def polling_follow_show_function(url_redirect_code=None, url_platform_id=None, u
   # ------------------------ redirect to dashboard start ------------------------
   return redirect(url_for('polling_views_interior.polling_dashboard_function', url_redirect_code='s14'))
   # ------------------------ redirect to dashboard end ------------------------
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@polling_views_interior.route('/polling/show/<url_show_id>', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/show/<url_show_id>/', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/show/<url_show_id>/<url_redirect_code>', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/show/<url_show_id>/<url_redirect_code>/', methods=['GET', 'POST'])
+@login_required
+def polling_show_function(url_redirect_code=None, url_show_id=None):
+  # ------------------------ page dict start ------------------------
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ page dict end ------------------------
+  # ------------------------ pull show info start ------------------------
+  db_show_obj = get_show_based_on_id_function(url_show_id)
+  page_dict['db_show_dict'] = arr_of_dict_all_columns_single_item_function(db_show_obj)
+  title_limit = 15
+  if len(page_dict['db_show_dict']['name']) > title_limit:
+    page_dict['db_show_dict']['name_title'] = page_dict['db_show_dict']['name'][0:title_limit] + '...'
+  else:
+    page_dict['db_show_dict']['name_title'] = page_dict['db_show_dict']['name']
+  # ------------------------ pull show info end ------------------------
+  # ------------------------ pull unanswered polling questions start ------------------------
+  
+  # ------------------------ pull unanswered polling questions end ------------------------
+  localhost_print_function(' ------------- 100-show poll start ------------- ')
+  page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
+  for k,v in page_dict.items():
+    localhost_print_function(f"k: {k} | v: {v}")
+    pass
+  localhost_print_function(' ------------- 100-show poll end ------------- ')
+  return render_template('polling/interior/poll/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------

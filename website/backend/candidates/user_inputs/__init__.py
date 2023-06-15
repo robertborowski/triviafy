@@ -502,7 +502,7 @@ def alert_message_default_function_v2(redirect_var=None):
     }
   elif redirect_var == 's14':
     alert_message_dict = {
-      'message':'Successfully following show',
+      'message':'Successfully following show. Scroll to see poll status below.',
       'type':'success'
     }
   elif redirect_var == 's15':

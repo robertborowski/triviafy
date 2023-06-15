@@ -351,6 +351,9 @@
 .custom-filler-6 {
   height: 1px;
 }
+.custom-filler-65 {
+  height: 65px;
+}
 /* ------------------- filler end ------------------- */
 /* ------------------- flex start ------------------- */
 .custom-fw-1 {
@@ -362,11 +365,20 @@
 .custom-fw-2-mobile {
   flex-wrap: nowrap;
 }
+.custom-f-wrap {
+  flex-wrap: wrap;
+}
+.custom-f-nowrap {
+  flex-wrap: nowrap;
+}
 .custom-f-align-1 {
   align-items: center;
 }
 .custom-f-direction-col {
   flex-direction: column;
+}
+.custom-f-direction-row {
+  flex-direction: row;
 }
 /* ------------------- flex end ------------------- */
 /* ------------------- google start ------------------- */
@@ -578,6 +590,9 @@
 }
 .custom-img-size-30 {
   max-width: 30px;
+}
+.custom-img-size-40 {
+  max-height: 40px;
 }
 .custom-img-size-50 {
   max-height: 50px;
