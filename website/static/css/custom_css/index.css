@@ -713,6 +713,18 @@
   line-height: 30px;
 }
 /* ------------------- list style end ------------------- */
+/* ------------------- loading screen start ------------------- */
+.custom-loading-screen {
+  display: block;
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: var(--custom-color-primary-darker);
+}
+/* ------------------- loading screen end ------------------- */
 /* ------------------- margin start ------------------- */
 .custom-m-0 {
   margin: 0 0 0 0;

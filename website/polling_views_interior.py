@@ -585,59 +585,82 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
       # ------------------------ add spotify result to redis end ------------------------
       return redirect(url_for('polling_views_interior.polling_add_show_function', url_step_code=page_dict['url_next_step_code'], url_platform_id=url_platform_id, url_redis_key=url_redis_key))
     if page_dict['url_step_code'] == '3':
-      # ------------------------ insert to db start ------------------------
-      new_show_id=create_uuid_function('show_'),
-      new_row = ShowsObj(
-        id=new_show_id,
-        created_timestamp=create_timestamp_function(),
-        name = spotify_pulled_dict['name'],
-        description = spotify_pulled_dict['description'],
-        fk_platform_id = url_platform_id,
-        status = True,
-        platform_reference_id = spotify_pulled_dict['id'],
-        platform_image_large = spotify_pulled_dict['img_large'],
-        platform_image_medium = spotify_pulled_dict['img_medium'],
-        platform_image_small = spotify_pulled_dict['img_small'],
-        platform_url = spotify_pulled_dict['show_url']
-      )
-      db.session.add(new_row)
-      db.session.commit()
-      # ------------------------ insert to db end ------------------------
-      # ------------------------ insert to db start ------------------------
-      new_row = ShowsFollowingObj(
-        id=create_uuid_function('following_'),
-        created_timestamp=create_timestamp_function(),
-        fk_platform_id = url_platform_id,
-        fk_show_id = new_show_id,
-        fk_user_id = current_user.id
-      )
-      db.session.add(new_row)
-      db.session.commit()
-      # ------------------------ insert to db end ------------------------
+      new_show_id=create_uuid_function('show_')
+      try:
+        # ------------------------ openai get starter polls start ------------------------
+        chatgpt_response_arr_of_dicts = create_openai_starter_poll_questions_function(spotify_pulled_dict['name'])
+        if chatgpt_response_arr_of_dicts != None and chatgpt_response_arr_of_dicts != []:
+          # ------------------------ add to db start ------------------------
+          for i_dict in chatgpt_response_arr_of_dicts:
+            answers_str = "~".join(i_dict['answer_choices'])
+            new_row = PollsObj(
+              id=create_uuid_function('poll_'),
+              created_timestamp=create_timestamp_function(),
+              type='show',
+              fk_show_id=new_show_id,
+              question=i_dict['question'],
+              answer_choices=answers_str
+            )
+            db.session.add(new_row)
+          db.session.commit()
+          # ------------------------ add to db end ------------------------
+          # ------------------------ openai get starter polls end ------------------------
+          # ------------------------ insert to db start ------------------------
+          new_row = ShowsObj(
+            id=new_show_id,
+            created_timestamp=create_timestamp_function(),
+            name = spotify_pulled_dict['name'],
+            description = spotify_pulled_dict['description'],
+            fk_platform_id = url_platform_id,
+            status = True,
+            platform_reference_id = spotify_pulled_dict['id'],
+            platform_image_large = spotify_pulled_dict['img_large'],
+            platform_image_medium = spotify_pulled_dict['img_medium'],
+            platform_image_small = spotify_pulled_dict['img_small'],
+            platform_url = spotify_pulled_dict['show_url']
+          )
+          db.session.add(new_row)
+          db.session.commit()
+          # ------------------------ insert to db end ------------------------
+          # ------------------------ insert to db start ------------------------
+          new_row = ShowsFollowingObj(
+            id=create_uuid_function('following_'),
+            created_timestamp=create_timestamp_function(),
+            fk_platform_id = url_platform_id,
+            fk_show_id = new_show_id,
+            fk_user_id = current_user.id
+          )
+          db.session.add(new_row)
+          db.session.commit()
+          # ------------------------ insert to db end ------------------------
+      except:
+        # ------------------------ delete in progress failed rows start ------------------------
+        try:
+          PollsObj.query.filter_by(fk_show_id=new_show_id).delete()
+        except:
+          pass
+        try:
+          ShowsObj.query.filter_by(id=new_show_id).delete()
+        except:
+          pass
+        try:
+          ShowsFollowingObj.query.filter_by(fk_show_id=new_show_id).delete()
+        except:
+          pass
+        # ------------------------ delete in progress failed rows end ------------------------
+        # ------------------------ remove from redis start ------------------------
+        try:
+          redis_connection.delete(url_redis_key)
+        except:
+          pass
+        # ------------------------ remove from redis end ------------------------
+        return redirect(url_for('polling_views_interior.polling_add_show_function', url_step_code='1', url_redirect_code='e34'))
       # ------------------------ remove from redis start ------------------------
       try:
         redis_connection.delete(url_redis_key)
       except:
         pass
       # ------------------------ remove from redis end ------------------------
-      # ------------------------ openai get starter polls start ------------------------
-      chatgpt_response_arr_of_dicts = create_openai_starter_poll_questions_function(spotify_pulled_dict['name'])
-      if chatgpt_response_arr_of_dicts != None and chatgpt_response_arr_of_dicts != []:
-        # ------------------------ add to db start ------------------------
-        for i_dict in chatgpt_response_arr_of_dicts:
-          answers_str = "~".join(i_dict['answer_choices'])
-          new_row = PollsObj(
-            id=create_uuid_function('poll_'),
-            created_timestamp=create_timestamp_function(),
-            type='show',
-            fk_show_id=new_show_id,
-            question=i_dict['question'],
-            answer_choices=answers_str
-          )
-          db.session.add(new_row)
-        db.session.commit()
-        # ------------------------ add to db end ------------------------
-      # ------------------------ openai get starter polls end ------------------------
       return redirect(url_for('polling_views_interior.polling_dashboard_function'))
   # ------------------------ for setting cookie end ------------------------
   localhost_print_function(' ------------- 100-show selection start ------------- ')

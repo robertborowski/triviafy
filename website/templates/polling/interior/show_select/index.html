@@ -95,7 +95,13 @@
           <div class="custom-tal">
             <p class="custom-m-0 custom-color-white custom-header-10 custom-pb-25 custom-opacity-50">{{ page_dict_to_html['spotify_pulled_dict']['description'] }}...</p>
           </div>
-          <button type="submit" class="btn btn-lg btn-success custom-width-100 custom-mt-25">Confirm <i class="fa-solid fa-check"></i></button>
+          <!-- ------------------------------------- loading screen start ------------------------------------- -->
+          <div class="uiSelectAllBlockInvisible custom-color-white text-center" id="id-loading_screen">
+            <p class="custom-pt-150 custom-header-20">Loading please wait, adding new podcasts can take up to 2 minutes. Please do not refresh or leave this page.</p>
+            <p class="custom-m-0 custom-header-20"><i class="fa-solid fa-hourglass-half"></i></p>
+          </div>
+          <!-- ------------------------------------- loading screen end ------------------------------------- -->
+          <button type="submit" class="btn btn-lg btn-success custom-width-100 custom-mt-25" onclick="return showLoadingScreen()">Confirm <i class="fa-solid fa-check"></i></button>
           <!-- ------------------------------------- back button start ------------------------------------- -->
           <a href="/polling/show/add/{{ page_dict_to_html['url_back_str'] }}" class="btn btn-outline-secondary custom-width-100 custom-mt-15"><i class="fa-solid fa-angle-left"></i> Back</a>
           <!-- ------------------------------------- back button end ------------------------------------- -->

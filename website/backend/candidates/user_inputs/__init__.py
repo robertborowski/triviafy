@@ -428,6 +428,11 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':"Currently only podcasts are supported.",
       'type':'danger'
     }
+  elif redirect_var == 'e34':
+    alert_message_dict = {
+      'message':"There was an error with the podcast title, please try again.",
+      'type':'danger'
+    }
   # ------------------------ errors end ------------------------
   # ------------------------ success start ------------------------
   elif redirect_var == 's1':
