@@ -31,6 +31,7 @@ from website.backend.spotify import spotify_search_show_function
 from website.backend.user_inputs import sanitize_letters_numbers_spaces_specials_only_function
 from website.backend.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from website.backend.openai import create_openai_starter_poll_questions_function
+from website.backend.show_utils import shows_following_arr_of_dict_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -68,17 +69,10 @@ def polling_dashboard_function(url_redirect_code=None):
   page_dict = {}
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
-  # ------------------------ get all shows following start ------------------------
+  # ------------------------ get all shows following sorted start ------------------------
   page_dict['shows_following_arr_of_dict'] = get_all_shows_following_function(current_user)
-  if page_dict['shows_following_arr_of_dict'] != None:
-    shows_arr_of_dict = []
-    for i_obj in page_dict['shows_following_arr_of_dict']:
-      show_obj = get_show_based_on_id_function(i_obj.fk_show_id)
-      show_dict = arr_of_dict_all_columns_single_item_function(show_obj)
-      shows_arr_of_dict.append(show_dict)
-    sorted_shows_arr_of_dict = sorted(shows_arr_of_dict, key=lambda x: x['name'])
-    page_dict['shows_following_arr_of_dict'] = sorted_shows_arr_of_dict
-  # ------------------------ get all shows following end ------------------------
+  page_dict = shows_following_arr_of_dict_function(page_dict)
+  # ------------------------ get all shows following sorted end ------------------------
   # ------------------------ for setting cookie start ------------------------
   template_location_url = 'polling/interior/dashboard/index.html'
   # ------------------------ for setting cookie end ------------------------
