@@ -14,6 +14,7 @@ def select_general_function(tag_query_to_use, input1=None, input2=None, input3=N
                     FROM \
                       polls_obj \
                     WHERE \
+                      status_removed=False AND \
                       fk_show_id='{input1}' AND \
                       id NOT IN (SELECT fk_poll_id FROM polls_answered_obj WHERE fk_show_id='{input1}' AND fk_user_id='{input2}') \
                     ORDER BY \
@@ -26,6 +27,7 @@ def select_general_function(tag_query_to_use, input1=None, input2=None, input3=N
                     FROM \
                       polls_obj \
                     WHERE \
+                      status_removed=False AND \
                       fk_show_id='{input1}' AND \
                       id='{input2}';"
     }
