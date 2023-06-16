@@ -19,11 +19,19 @@ def select_general_function(tag_query_to_use, input1=None, input2=None, input3=N
                     ORDER BY \
                       RANDOM() \
                     LIMIT 1;"
+    },
+    'select_2': {
+      'raw_query': f"SELECT \
+                      * \
+                    FROM \
+                      polls_obj \
+                    WHERE \
+                      fk_show_id='{input1}' AND \
+                      id='{input2}';"
     }
   }
   # ------------------------ select queries end ------------------------
   # ------------------------ general query start ------------------------
-  # result_obj = db.session.execute('SELECT * FROM user_obj WHERE email = :val', {'val': 'a@a.com'})
   result_obj = db.session.execute(select_queries_dict[tag_query_to_use]['raw_query'])
   # ------------------------ general query end ------------------------
   # ------------------------ existing result start ------------------------

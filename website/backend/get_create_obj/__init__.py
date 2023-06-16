@@ -1,5 +1,5 @@
 # ------------------------ imports start ------------------------
-from website.models import UserObj, ShowsFollowingObj, PlatformsObj, ShowsObj
+from website.models import UserObj, ShowsFollowingObj, PlatformsObj, ShowsObj, PollsObj
 # ------------------------ imports end ------------------------
 
 # ------------------------ individual function start ------------------------
@@ -49,6 +49,14 @@ def get_show_based_on_id_and_platform_id_function(input_show_id, input_platform_
 # ------------------------ individual function start ------------------------
 def get_show_based_on_id_function(input_show_id):
   db_obj = ShowsObj.query.filter_by(id=input_show_id).first()
+  if db_obj == None or db_obj == []:
+    return None
+  return db_obj
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def get_poll_based_on_id_function(input_id):
+  db_obj = PollsObj.query.filter_by(id=input_id).first()
   if db_obj == None or db_obj == []:
     return None
   return db_obj

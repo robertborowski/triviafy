@@ -26,7 +26,7 @@ import json
 from website.backend.candidates.send_emails import send_email_template_function
 from website.backend.candidates.lists import get_month_days_years_function, get_marketing_list_v2_function
 from website.backend.dates import get_years_from_date_function, return_ints_from_str_function
-from website.backend.get_create_obj import get_all_shows_following_function, get_all_platforms_function, get_platform_based_on_name_function, get_all_shows_for_platform_function, get_show_based_on_name_function, get_show_based_on_id_and_platform_id_function, check_if_currently_following_show_function, get_show_based_on_id_function
+from website.backend.get_create_obj import get_all_shows_following_function, get_all_platforms_function, get_platform_based_on_name_function, get_all_shows_for_platform_function, get_show_based_on_name_function, get_show_based_on_id_and_platform_id_function, check_if_currently_following_show_function, get_show_based_on_id_function, get_poll_based_on_id_function
 from website.backend.spotify import spotify_search_show_function
 from website.backend.user_inputs import sanitize_letters_numbers_spaces_specials_only_function
 from website.backend.dict_manipulation import arr_of_dict_all_columns_single_item_function, prep_poll_dict_function
@@ -707,11 +707,18 @@ def polling_follow_show_function(url_platform_id=None, url_show_id=None):
 # ------------------------ individual route start ------------------------
 @polling_views_interior.route('/polling/show/<url_show_id>', methods=['GET', 'POST'])
 @polling_views_interior.route('/polling/show/<url_show_id>/', methods=['GET', 'POST'])
-@polling_views_interior.route('/polling/show/<url_show_id>/<url_redirect_code>', methods=['GET', 'POST'])
-@polling_views_interior.route('/polling/show/<url_show_id>/<url_redirect_code>/', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/show/<url_show_id>/<url_poll_id>', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/show/<url_show_id>/<url_poll_id>/', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/show/<url_show_id>/<url_poll_id>/<url_redirect_code>', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/show/<url_show_id>/<url_poll_id>/<url_redirect_code>/', methods=['GET', 'POST'])
 @login_required
-def polling_show_function(url_redirect_code=None, url_show_id=None):
+def polling_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=None):
   # ------------------------ page dict start ------------------------
+  if url_redirect_code == None:
+    try:
+      url_redirect_code = request.args.get('url_redirect_code')
+    except:
+      pass
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
   page_dict = {}
   page_dict['alert_message_dict'] = alert_message_dict
@@ -729,15 +736,27 @@ def polling_show_function(url_redirect_code=None, url_show_id=None):
   else:
     page_dict['db_show_dict']['name_title'] = page_dict['db_show_dict']['name']
   # ------------------------ pull show info end ------------------------
-  # ------------------------ pull unanswered polling questions start ------------------------
-  poll_arr_of_dict = select_general_function('select_1', url_show_id, current_user.id)
-  page_dict['poll_dict'] = poll_arr_of_dict[0]
-  page_dict['poll_dict'] = prep_poll_dict_function(page_dict['poll_dict'])
-  localhost_print_function(' ------------- 0 ------------- ')
-  for k,v in page_dict['poll_dict'].items():
-    localhost_print_function(f"k: {k} | v: {v}")
-  localhost_print_function(' ------------- 0 ------------- ')
-  # ------------------------ pull unanswered polling questions end ------------------------
+  # ------------------------ variables start ------------------------
+  page_dict['url_show_id'] = url_show_id
+  page_dict['url_poll_id'] = url_poll_id
+  # ------------------------ variables end ------------------------
+  # ------------------------ pull show + poll combination start ------------------------
+  poll_arr_of_dict = []
+  if url_poll_id != None:
+    # ------------------------ check if poll exists in db start ------------------------
+    db_poll_obj = get_poll_based_on_id_function(url_poll_id)
+    if db_poll_obj == None:
+      return redirect(url_for('polling_views_interior.polling_dashboard_function', url_redirect_code='e6'))
+    # ------------------------ check if poll exists in db end ------------------------
+    # pull specific, unanswered or answered
+    poll_arr_of_dict = select_general_function('select_2', url_show_id, url_poll_id)
+  else:
+    # pull random, unanswered
+    poll_arr_of_dict = select_general_function('select_1', url_show_id, current_user.id)
+  page_dict['poll_dict'] = prep_poll_dict_function(poll_arr_of_dict[0])
+  if url_poll_id == None or url_poll_id != page_dict['poll_dict']['id']:
+    return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id']))
+  # ------------------------ pull show + poll combination end ------------------------
   localhost_print_function(' ------------- 100-show poll start ------------- ')
   page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
   for k,v in page_dict.items():
