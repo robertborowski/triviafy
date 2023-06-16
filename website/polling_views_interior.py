@@ -29,9 +29,10 @@ from website.backend.dates import get_years_from_date_function, return_ints_from
 from website.backend.get_create_obj import get_all_shows_following_function, get_all_platforms_function, get_platform_based_on_name_function, get_all_shows_for_platform_function, get_show_based_on_name_function, get_show_based_on_id_and_platform_id_function, check_if_currently_following_show_function, get_show_based_on_id_function
 from website.backend.spotify import spotify_search_show_function
 from website.backend.user_inputs import sanitize_letters_numbers_spaces_specials_only_function
-from website.backend.dict_manipulation import arr_of_dict_all_columns_single_item_function
+from website.backend.dict_manipulation import arr_of_dict_all_columns_single_item_function, prep_poll_dict_function
 from website.backend.openai import create_openai_starter_poll_questions_function
 from website.backend.show_utils import shows_following_arr_of_dict_function
+from website.backend.sql_statements.select import select_general_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -717,6 +718,10 @@ def polling_show_function(url_redirect_code=None, url_show_id=None):
   # ------------------------ page dict end ------------------------
   # ------------------------ pull show info start ------------------------
   db_show_obj = get_show_based_on_id_function(url_show_id)
+  # ------------------------ check if show exists in db start ------------------------
+  if db_show_obj == None:
+    return redirect(url_for('polling_views_interior.polling_dashboard_function', url_redirect_code='e6'))
+  # ------------------------ check if show exists in db end ------------------------
   page_dict['db_show_dict'] = arr_of_dict_all_columns_single_item_function(db_show_obj)
   title_limit = 15
   if len(page_dict['db_show_dict']['name']) > title_limit:
@@ -725,7 +730,13 @@ def polling_show_function(url_redirect_code=None, url_show_id=None):
     page_dict['db_show_dict']['name_title'] = page_dict['db_show_dict']['name']
   # ------------------------ pull show info end ------------------------
   # ------------------------ pull unanswered polling questions start ------------------------
-  
+  poll_arr_of_dict = select_general_function('select_1', url_show_id, current_user.id)
+  page_dict['poll_dict'] = poll_arr_of_dict[0]
+  page_dict['poll_dict'] = prep_poll_dict_function(page_dict['poll_dict'])
+  localhost_print_function(' ------------- 0 ------------- ')
+  for k,v in page_dict['poll_dict'].items():
+    localhost_print_function(f"k: {k} | v: {v}")
+  localhost_print_function(' ------------- 0 ------------- ')
   # ------------------------ pull unanswered polling questions end ------------------------
   localhost_print_function(' ------------- 100-show poll start ------------- ')
   page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))

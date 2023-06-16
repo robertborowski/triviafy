@@ -13,3 +13,11 @@ def arr_of_dict_all_columns_single_item_function(sql_obj, for_json_dumps=False):
     current_dict[c.name] = current_value
   return current_dict
 # ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def prep_poll_dict_function(poll_dict):
+  # ------------------------ separate answer choices start ------------------------
+  poll_dict['answer_choices'] = poll_dict['answer_choices'].split('~')
+  # ------------------------ separate answer choices end ------------------------
+  return poll_dict
+# ------------------------ individual function end ------------------------
