@@ -12,29 +12,25 @@
 {% endif %}
 <!-- ----------------------------------- end ----------------------------------- -->
 <!-- ------------------------------------- section start ------------------------------------- -->
-<div class="container custom-width-800 custom-pt-50">
-  {% if page_dict_to_html['shows_following_arr_of_dict'] == none %}
+{% if page_dict_to_html['shows_following_arr_of_dict'] == none %}
+  <div class="container custom-width-500 custom-pt-50">
     <h2 class="text-center">Welcome to Triviafy</h2>
-  {% else %}
-    <h2>Add show</h2>
-  {% endif %}
-  <div class="custom-br-25 custom-bg-white shadow-sm border custom-p-15">
-    <div class="custom-ptb-25 text-center">
-      {% if page_dict_to_html['shows_following_arr_of_dict'] == none %}
+    <div class="custom-br-25 custom-bg-white shadow-sm border custom-p-15">
+      <div class="custom-ptb-25 text-center">
         <p class="custom-m-0 custom-pb-15 custom-header-15">You are currently not following any shows</p>
         <a href="/polling/show/add/1" class="custom-m-0 btn btn-primary btn-lg">Add show <i class="fa-solid fa-plus"></i></a>
-      {% else %}
-        <a href="/polling/show/add/1" class="custom-m-0 btn btn-primary btn-lg">Add <i class="fa-solid fa-plus"></i></a>
-      {% endif %}
+      </div>
     </div>
   </div>
-</div>
-<!-- ------------------------------------- section end ------------------------------------- -->
-{% if page_dict_to_html['shows_following_arr_of_dict'] == none %}
 {% else %}
   <!-- ------------------------------------- section start ------------------------------------- -->
   <div class="container custom-width-800 custom-pt-50">
-    <h2>Your shows</h2>
+    <div class="custom-display-flex custom-jc-between">
+      <h2>Your shows</h2>
+      <div class="custom-ml-10 custom-mt-5">
+        <a href="/polling/show/add/1" class="btn btn-primary btn-sm">Add show <i class="fa-solid fa-plus"></i></a>
+      </div>
+    </div>
     <!-- ------------------------------------- search bar start ------------------------------------- -->
     <input type="text" class="form-control" id="ui_search_show_name" name="ui_search_show_name" placeholder="Search show name">
     <!-- ------------------------------------- search bar end ------------------------------------- -->
@@ -59,4 +55,5 @@
   </div>
   <!-- ------------------------------------- section end ------------------------------------- -->
 {% endif %}
+<!-- ------------------------------------- section end ------------------------------------- -->
 {% endblock %}

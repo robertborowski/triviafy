@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block contentBodyExceptNavbarAndFooter %}
-<div class="custom-bg-primary-darker">
+<div class="custom-bg-primary">
   <!-- ------------------------------------- form start ------------------------------------- -->
   <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
     <!-- ------------------------------------- navbar start ------------------------------------- -->
@@ -31,11 +31,21 @@
         <!-- ------------------------------------- question start ------------------------------------- -->
         <div class="custom-mt-50 custom-width-500 mx-auto">
           <p class="custom-color-white custom-m-0 custom-opacity-75 custom-pb-5 custom-header-20">Question</p>
-          <div class="custom-bg-green-1 custom-br-20 shadow-lg border custom-p-50">
+          <div class="custom-bg-green-1 custom-br-15 shadow-lg border custom-p-50">
             <h1 class="custom-m-0 custom-header-25 fw-bold">{{ page_dict_to_html['poll_dict']['question'] }}</h1>
           </div>
         </div>
         <!-- ------------------------------------- question end ------------------------------------- -->
+        <!-- ------------------------------------- answer start ------------------------------------- -->
+        <div class="custom-mt-50 custom-width-500 mx-auto">
+          <p class="custom-color-white custom-m-0 custom-opacity-75 custom-pb-5 custom-header-20">Answer choices</p>
+          {% for i in page_dict_to_html['poll_dict']['answer_choices'] %}
+            <div class="custom-bg-white custom-br-15 shadow-lg border custom-p-25 custom-mb-20">
+              <h2 class="custom-m-0 custom-header-18 fw-bold">{{ i }}</h2>
+            </div>
+          {% endfor %}
+        </div>
+        <!-- ------------------------------------- answer end ------------------------------------- -->
       </div>
       <!-- ------------------------------------- inside content start ------------------------------------- -->
     </div>
