@@ -17,8 +17,7 @@
           <span class="fw-bold custom-header-15 custom-color-white">{{ page_dict_to_html['db_show_dict']['name_title'] }}</span>
         </a>
         <div class="custom-display-flex custom-f-direction-row custom-f-nowrap">
-          <a href="#" class="btn btn-secondary btn-sm"><i class="fa-solid fa-angle-left"></i> Back</a>
-          <button type="submit" class="btn btn-success btn-sm custom-ml-10">Submit <i class="fa-solid fa-angle-right"></i></button>
+          <button type="submit" class="btn btn-success btn-lg custom-ml-10">Submit <i class="fa-solid fa-check"></i></button>
         </div>
       </nav>
     </div>
@@ -28,9 +27,18 @@
     <div class="container-fluid custom-bg-primary-gradient-1">
       <!-- ------------------------------------- inside content start ------------------------------------- -->
       <div class="container">
-        <!-- ------------------------------------- question start ------------------------------------- -->
+        <!-- ------------------------------------- email + anonymous option start ------------------------------------- -->
         <div class="custom-mt-50 custom-width-500 mx-auto">
-          <p class="custom-color-white custom-m-0 custom-opacity-75 custom-pb-5 custom-header-20">Question</p>
+          <p class="custom-m-0 custom-color-white custom-opacity-75 custom-header-15">User: <span id="id-user_email">{{ page_dict_to_html['current_user_email'] }}</span></p>
+          <div class="form-check custom-color-white custom-header-15">
+            <input class="form-check-input" type="checkbox" value="ui_checked" name="ui_anonymous_check" id="id-flexCheckDefault" onchange="handleCheckboxChange()">
+            <label class="form-check-label custom-opacity-75" for="id-flexCheckDefault" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="When sharing my answer with the podcast host, hide my email from this response.">Poll anonymously</label>
+          </div>
+        </div>
+        <!-- ------------------------------------- email + anonymous option end ------------------------------------- -->
+        <!-- ------------------------------------- question start ------------------------------------- -->
+        <div class="custom-mt-25 custom-width-500 mx-auto">
+          <p class="custom-color-white custom-m-0 custom-opacity-75 custom-pb-5 custom-header-30">Question</p>
           <div class="custom-bg-green-1 custom-br-15 shadow-lg border custom-p-50">
             <h1 class="custom-m-0 custom-header-25 fw-bold">{{ page_dict_to_html['poll_dict']['question'] }}</h1>
           </div>
@@ -38,11 +46,25 @@
         <!-- ------------------------------------- question end ------------------------------------- -->
         <!-- ------------------------------------- answer start ------------------------------------- -->
         <div class="custom-mt-50 custom-width-500 mx-auto">
-          <p class="custom-color-white custom-m-0 custom-opacity-75 custom-pb-5 custom-header-20">Answer choices</p>
+          <p class="custom-color-white custom-m-0 custom-opacity-75 custom-pb-5 custom-header-30">Answer choices</p>
           {% for i in range(page_dict_to_html['poll_dict']['answer_choices']|length) %}
             <input type="radio" class="btn-check" id="uiAnswerSelection{{ i }}" name="ui_selection_radio" value="{{ page_dict_to_html['poll_dict']['answer_choices'][i] }}" autocomplete="off" required>
             <label class="custom-mb-25 custom-border-white-opacity-1 custom-br-15 custom-width-100 custom-ptb-15 custom-hover-1 custom-color-white" for="uiAnswerSelection{{ i }}"><span class="custom-ml-25">{{ page_dict_to_html['poll_dict']['answer_choices'][i] }}</span></label>
           {% endfor %}
+          <!-- ------------------------------------- expand dropdown add written response start ------------------------------------- -->
+          <div>
+            <span class="custom-opacity-1-hover custom-hover-1 custom-color-white uiSelectAllBlockVisible" id="id-flow_show_details_1">Add written response <i class="fa-solid fa-caret-down custom-ml-1"></i></span>
+            <span class="custom-opacity-1-hover custom-hover-1 custom-color-white uiSelectAllBlockInvisible" id="id-flow_hide_details_1">Hide written response <i class="fa-solid fa-caret-up custom-ml-1"></i></span>
+          </div>
+          <div class="custom-mt-10 custom-width-100 uiSelectAllBlockInvisible" id="id-activity_details_1">
+            <!-- ------------------------------------- ui written response start ------------------------------------- -->
+            <div class="custom-br-15 custom-p-10 shadow custom-bg-white">
+              <h3 class="custom-ml-1 custom-mb-25">Details</h3>
+              <p class="custom-line-2"><span class="custom-br-1 custom-p-9 custom-bg-color-3 custom-color-grey-2 custom-mr-1">Participation</span> Activities are asynchronous, allowing colleagues to conveniently submit their answers at their own pace and on their own schedule.</p>
+            </div>
+            <!-- ------------------------------------- ui written response end ------------------------------------- -->
+          </div>
+          <!-- ------------------------------------- expand dropdown add written response end ------------------------------------- -->
         </div>
         <!-- ------------------------------------- answer end ------------------------------------- -->
       </div>

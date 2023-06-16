@@ -740,6 +740,7 @@ def polling_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=
   # ------------------------ variables start ------------------------
   page_dict['url_show_id'] = url_show_id
   page_dict['url_poll_id'] = url_poll_id
+  page_dict['current_user_email'] = current_user.email
   # ------------------------ variables end ------------------------
   # ------------------------ pull show + poll combination start ------------------------
   poll_arr_of_dict = []
@@ -761,6 +762,11 @@ def polling_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=
   if request.method == 'POST':
     # ------------------------ get ui start ------------------------
     ui_answer_selected = request.form.get('ui_selection_radio')
+    ui_anonymous_check = request.form.get('ui_anonymous_check')
+    localhost_print_function(' ------------- 0 ------------- ')
+    localhost_print_function(f"ui_answer_selected | type: {type(ui_answer_selected)} | {ui_answer_selected}")
+    localhost_print_function(f"ui_anonymous_check | type: {type(ui_anonymous_check)} | {ui_anonymous_check}")
+    localhost_print_function(' ------------- 0 ------------- ')
     # ------------------------ get ui end ------------------------
   localhost_print_function(' ------------- 100-show poll start ------------- ')
   page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
