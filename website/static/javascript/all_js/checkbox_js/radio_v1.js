@@ -30,3 +30,30 @@ document.addEventListener('click', function() {
   }
 });
 // ------------------------ end ------------------------
+
+// ------------------------ start ------------------------
+document.addEventListener('click', function() {
+  // loop through all id's on the page
+  var element_all_ids = document.querySelectorAll('[id]');
+  for (var i = 0; i < element_all_ids.length; i++) {
+    // get the name of each element and see if name contains substring
+    var i_element_id = document.getElementById(element_all_ids[i].id);
+    if (i_element_id.id.indexOf('uiAnswerSelection') !== -1) {
+      // get label associated with id
+      var i_label = document.querySelector('label[for="'+i_element_id.id+'"]');
+      // if/else checked add + remove classes
+      if (i_element_id.checked) {
+        i_label.classList.add('custom-bg-white');
+        i_label.classList.remove('custom-color-white');
+        i_label.classList.add('custom-color-black');
+        i_label.classList.add('custom-transition-1');
+      } else {
+        i_label.classList.remove('custom-bg-white');
+        i_label.classList.add('custom-color-white');
+        i_label.classList.remove('custom-color-black');
+        i_label.classList.remove('custom-transition-1');
+      }
+    }
+  }
+});
+// ------------------------ end ------------------------

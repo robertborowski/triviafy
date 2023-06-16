@@ -596,7 +596,8 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
               fk_show_id=new_show_id,
               question=i_dict['question'],
               answer_choices=answers_str,
-              status_approved=True
+              status_approved=True,
+              status_removed=False
             )
             db.session.add(new_row)
           db.session.commit()
@@ -757,6 +758,10 @@ def polling_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=
   if url_poll_id == None or url_poll_id != page_dict['poll_dict']['id']:
     return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id']))
   # ------------------------ pull show + poll combination end ------------------------
+  if request.method == 'POST':
+    # ------------------------ get ui start ------------------------
+    ui_answer_selected = request.form.get('ui_selection_radio')
+    # ------------------------ get ui end ------------------------
   localhost_print_function(' ------------- 100-show poll start ------------- ')
   page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
   for k,v in page_dict.items():

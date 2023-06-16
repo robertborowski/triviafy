@@ -56,7 +56,7 @@ def get_show_based_on_id_function(input_show_id):
 
 # ------------------------ individual function start ------------------------
 def get_poll_based_on_id_function(input_id):
-  db_obj = PollsObj.query.filter_by(id=input_id).first()
+  db_obj = PollsObj.query.filter_by(id=input_id,status_removed=False).first()
   if db_obj == None or db_obj == []:
     return None
   return db_obj

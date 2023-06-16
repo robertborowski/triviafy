@@ -39,10 +39,9 @@
         <!-- ------------------------------------- answer start ------------------------------------- -->
         <div class="custom-mt-50 custom-width-500 mx-auto">
           <p class="custom-color-white custom-m-0 custom-opacity-75 custom-pb-5 custom-header-20">Answer choices</p>
-          {% for i in page_dict_to_html['poll_dict']['answer_choices'] %}
-            <div class="custom-bg-white custom-br-15 shadow-lg border custom-p-25 custom-mb-20">
-              <h2 class="custom-m-0 custom-header-18 fw-bold">{{ i }}</h2>
-            </div>
+          {% for i in range(page_dict_to_html['poll_dict']['answer_choices']|length) %}
+            <input type="radio" class="btn-check" id="uiAnswerSelection{{ i }}" name="ui_selection_radio" value="{{ page_dict_to_html['poll_dict']['answer_choices'][i] }}" autocomplete="off" required>
+            <label class="custom-mb-25 custom-border-white-opacity-1 custom-br-15 custom-width-100 custom-ptb-15 custom-hover-1 custom-color-white" for="uiAnswerSelection{{ i }}"><span class="custom-ml-25">{{ page_dict_to_html['poll_dict']['answer_choices'][i] }}</span></label>
           {% endfor %}
         </div>
         <!-- ------------------------------------- answer end ------------------------------------- -->

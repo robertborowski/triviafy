@@ -389,6 +389,7 @@ class PollsObj(db.Model):
   written_response_allowed = db.Column(db.Boolean, default=True)
   topics = db.Column(db.String(150))
   status_approved = db.Column(db.Boolean, default=False)
+  status_removed = db.Column(db.Boolean, default=False)
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
