@@ -54,6 +54,14 @@
   color: white;
   text-decoration: none;
 }
+.custom-a-white-underline {
+  color: white;
+  text-decoration: none;
+}
+.custom-a-white-underline:hover {
+  color: white;
+  text-decoration: underline;
+}
 /* ------------------- a end ------------------- */
 /* ------------------- background start ------------------- */
 .custom-bg-see-through {
@@ -207,6 +215,8 @@
   --custom-color-primary: rgb(111, 66, 193);
   --custom-color-primary-lighter: rgb(230 217 255);
   --custom-color-primary-darker: rgb(44 26 77);
+  --custom-color-success: #198754;
+  --custom-color-info: #0dcaf0;
   --custom-color-8: rgb(237, 237, 237);
   --custom-color-9: rgb(232 255 235);
   --custom-color-10: rgb(255 213 213);
@@ -226,6 +236,12 @@
 }
 .custom-color-primary-darker {
   color: var(--custom-color-primary-darker);
+}
+.custom-color-success {
+  color: var(--custom-color-success);
+}
+.custom-color-info {
+  color: var(--custom-color-info);
 }
 .custom-color-white {
   color: white;
@@ -955,6 +971,9 @@
 }
 .custom-ml-10 {
   margin-left: 10px;
+}
+.custom-ml-15 {
+  margin-left: 15px;
 }
 .custom-ml-25 {
   margin-left: 25px;
