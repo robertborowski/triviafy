@@ -56,6 +56,9 @@
 }
 /* ------------------- a end ------------------- */
 /* ------------------- background start ------------------- */
+.custom-bg-see-through {
+  background-color: rgba(255, 255, 255, 0) !important;
+}
 .custom-bg-white {
   background-color: white;
 }
@@ -356,8 +359,11 @@
 .custom-filler-5 {
   height: 75px;
 }
-.custom-filler-6 {
+.custom-filler-1-px {
   height: 1px;
+}
+.custom-filler-17 {
+  height: 17px;
 }
 .custom-filler-65 {
   height: 65px;
@@ -467,6 +473,9 @@
   font-size: 20px;
 }
 .custom-header-25 {
+  font-size: 25px;
+}
+.custom-header-25-mobile {
   font-size: 25px;
 }
 .custom-header-30 {

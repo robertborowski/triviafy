@@ -84,7 +84,7 @@ def get_show_percent_of_all_polls_answered_function(fk_user_id, fk_show_id):
   # ------------------------ calculation end ------------------------
   # ------------------------ catch start ------------------------
   if int(user_percent_completed) == int(0):
-    user_percent_completed = 11
+    user_percent_completed = 1
   # ------------------------ catch end ------------------------
   return int(user_percent_completed)
 # ------------------------ individual function end ------------------------
