@@ -692,7 +692,7 @@ def polling_follow_show_function(url_platform_id=None, url_show_id=None):
   # ------------------------ check if already following start ------------------------
   db_obj = check_if_currently_following_show_function(current_user, url_show_id, url_platform_id)
   if db_obj != None:
-    return redirect(url_for('polling_views_interior.polling_dashboard_function', url_redirect_code='s15'))
+    return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_redirect_code='s16'))
   # ------------------------ check if already following end ------------------------
   # ------------------------ add to db start ------------------------
   new_row = ShowsFollowingObj(

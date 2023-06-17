@@ -6,9 +6,9 @@
 {% endblock %}
 
 {% block contentBodyExceptNavbarAndFooter %}
-<div class="custom-bg-primary-darker">
+<div class="custom-bg-black">
   <!-- ------------------------------------- entire page start ------------------------------------- -->
-  <div class="container-fluid custom-bg-primary-gradient-1 custom-pt-100">
+  <div class="container-fluid custom-bg-black custom-pt-100">
     <!-- ----------------------------------- start ----------------------------------- -->
     {% if page_dict_to_html['alert_message_dict']['message'] != '' %}
     <div class="alert alert-{{ page_dict_to_html['alert_message_dict']['type'] }} mx-auto text-center container-fluid custom-width-100 custom-mb-25" role="alert">
@@ -89,7 +89,7 @@
         <!-- ------------------------------------- confirm section start ------------------------------------- -->
         <div class="custom-width-500 mx-auto text-center">
           <div class="custom-pb-25">
-            <img src="{{ page_dict_to_html['spotify_pulled_dict']['img_medium'] }}" alt="show img" class="custom-br-1 shadow-lg">
+            <img src="{{ page_dict_to_html['spotify_pulled_dict']['img_medium'] }}" alt="show img" class="custom-br-1">
           </div>
           <p class="custom-m-0 custom-color-white custom-header-25 custom-pb-15">{{ page_dict_to_html['spotify_pulled_dict']['name'] }}</p>
           <div class="custom-tal">
@@ -115,7 +115,7 @@
   <!-- ------------------------------------- entire page end ------------------------------------- -->
 </div>
 <!-- ----------------------------------- shape divider start ----------------------------------- -->
-<div class="custom-shape-divider-bottom-1672276706 custom-bg-primary-darker">
+<div class="custom-shape-divider-bottom-1672276706 custom-bg-black">
   <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
       <path d="M1200 0L0 0 598.97 114.72 1200 0z" class="shape-fill"></path>
   </svg>
