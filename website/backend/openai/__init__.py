@@ -101,6 +101,9 @@ def openai_chat_gpt_parse_results_to_arr_polling_function(chatgpt_response_str):
 
 # ------------------------ individual function start ------------------------
 def create_openai_starter_poll_questions_function(show_name):
+  # ------------------------ clean show name start ------------------------
+  show_name = show_name.replace(':','')
+  # ------------------------ clean show name end ------------------------
   # ------------------------ openai start ------------------------
   chatgpt_message = f"I would like you to create 10 polling questions for me that follow the following rules. Rule #1: The polling questions should be aimed at the average listener of the podcast '{show_name}'. Rule #2: Please avoid general polling questions that could be asked about any other podcast. Rule #3: Each polling question should have at least 5 options as answer choices. Rule #4: Each question number should be preceded with the word 'polling_question_' (lowercase), for example question 1 should be titled 'polling_question_1' (lowercase) and so on until 'polling_question_10' (lowercase). Rule #5: Each answer option should be preceded with the word 'polling_answer_' (lowercase), for example answer option 1 should be titled 'polling_answer_1' (lowercase) and so on until 'polling_answer_5' (lowercase). Rule #6: Do not include 'a) ,b) ,c) ,d) ,e) ' as separators for the answer choices. Rule #7: Do not include '-' as separators for the answer choices. Rule #8: The only answer choice separators should be polling_answer_1 through polling_answer_5. Rule #9: Each question number should not have any additional separators or numbering except for polling_question_1 through polling_question_10."
   chatgpt_response_str = openai_chat_gpt_prompt_result_function(chatgpt_message)

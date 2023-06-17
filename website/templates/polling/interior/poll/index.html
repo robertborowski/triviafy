@@ -39,16 +39,15 @@
       <!-- ----------------------------------- alert end ----------------------------------- -->
       <!-- ------------------------------------- question start ------------------------------------- -->
       <div class="custom-mt-50 mx-auto">
-        <p class="custom-color-white custom-m-0 custom-opacity-75 custom-pb-5 custom-header-30">Question</p>
+        <p class="custom-color-white custom-m-0 custom-opacity-75 custom-pb-5 custom-header-30">Poll</p>
         <div class="custom-br-15 custom-p-50 custom-bg-white">
           <h1 class="custom-m-0 custom-header-25-mobile fw-bold custom-color-black">{{ page_dict_to_html['poll_dict']['question'] }}</h1>
         </div>
       </div>
       <!-- ------------------------------------- question end ------------------------------------- -->
       <!-- ------------------------------------- answer start ------------------------------------- -->
-      <div class="custom-mt-50 mx-auto">
-        <p class="custom-color-white custom-m-0 custom-opacity-75 custom-header-30">Answer choices</p>
-        <p class="custom-color-white custom-m-0 custom-opacity-75 custom-header-10 custom-pb-25">Only the verified '{{ page_dict_to_html['db_show_dict']['name_title'] }}' host can see your direct feedback.</p>
+      <div class="custom-mt-25 mx-auto">
+        <p class="custom-color-white custom-m-0 custom-opacity-75 custom-header-15 custom-pb-5">Feedback options</p>
         <div class="custom-border-white-opacity-25 custom-br-15">
           {% for i in range(page_dict_to_html['poll_dict']['answer_choices']|length) %}
             <input type="radio" class="btn-check" id="uiAnswerSelection{{ i }}" name="ui_selection_radio" value="{{ page_dict_to_html['poll_dict']['answer_choices'][i] }}" autocomplete="off" required>
@@ -59,8 +58,8 @@
       <!-- ------------------------------------- answer end ------------------------------------- -->
       <!-- ------------------------------------- expand dropdown add written response start ------------------------------------- -->
       <div class="custom-mt-15">
-        <span class="custom-opacity-1-hover custom-hover-1 custom-color-white uiSelectAllBlockVisible" id="id-flow_show_details_1">Add written response <i class="fa-solid fa-caret-down custom-ml-1"></i></span>
-        <span class="custom-opacity-1-hover custom-hover-1 custom-color-white uiSelectAllBlockInvisible" id="id-flow_hide_details_1">Hide written response <i class="fa-solid fa-caret-up custom-ml-1"></i></span>
+        <span class="custom-opacity-75-hover custom-hover-1 custom-color-white custom-header-15 uiSelectAllBlockInvisible" id="id-flow_hide_details_1">Hide written feedback <i class="fa-solid fa-caret-up custom-ml-1"></i></span>
+        <span class="custom-opacity-75-hover custom-hover-1 custom-color-white custom-header-15 uiSelectAllBlockVisible" id="id-flow_show_details_1">Add written feedback <i class="fa-solid fa-caret-down custom-ml-1"></i></span>
       </div>
       <div class="custom-mt-10 custom-width-100 uiSelectAllBlockInvisible" id="id-activity_details_1">
         <!-- ------------------------------------- ui written response start ------------------------------------- -->
@@ -76,7 +75,7 @@
         <p class="custom-m-0 custom-color-white custom-opacity-75 custom-header-15">Feedback from #1 fan: <span id="id-user_email">{{ page_dict_to_html['current_user_email'] }}</span></p>
         <div class="form-check custom-color-white custom-header-15 custom-mt-10">
           <input class="form-check-input" type="checkbox" value="ui_checked" name="ui_anonymous_check" id="id-flexCheckDefault" onchange="handleCheckboxChange()">
-          <label class="form-check-label custom-opacity-75 custom-line-height-12" for="id-flexCheckDefault">Poll anonymously <span class="custom-color-white custom-m-0 custom-opacity-75 custom-header-10 custom-line-height-12">Triviafy only shares your feedback with the '{{ page_dict_to_html['db_show_dict']['name_title'] }}' verified host. Check this box to hide your email from the verified '{{ page_dict_to_html['db_show_dict']['name_title'] }}' host for this poll.</span></label>
+          <label class="form-check-label custom-opacity-75-hover custom-hover-1 custom-line-height-12" for="id-flexCheckDefault">Poll anonymously <span class="custom-color-white custom-m-0 custom-opacity-75 custom-header-10 custom-line-height-12">Only the verified '{{ page_dict_to_html['db_show_dict']['name_title'] }}' host can see your direct feedback. Check this box to hide your email from the verified '{{ page_dict_to_html['db_show_dict']['name_title'] }}' host for this poll.</span></label>
         </div>
       </div>
       <!-- ------------------------------------- email + anonymous option end ------------------------------------- -->
@@ -99,7 +98,7 @@
       <!-- ------------------------------------- poll statistics start ------------------------------------- -->
       <div class="mx-auto">
         <p class="custom-color-white custom-m-0 custom-opacity-75 custom-header-30">Create poll for this community</p>
-        <p class="custom-color-white custom-m-0 custom-opacity-75 custom-header-10 custom-pb-25">The verified '{{ page_dict_to_html['db_show_dict']['name_title'] }}' host has final approval before others in the community can vote on your poll.</p>
+        <p class="custom-color-white custom-m-0 custom-opacity-75 custom-header-10 custom-pb-25">The verified '{{ page_dict_to_html['db_show_dict']['name_title'] }}' host has final approval before your poll can be seen by others in the community.</p>
         <a href="#" class="custom-width-100 btn btn-outline-warning">Create poll <i class="fa-solid fa-plus"></i></a>
       </div>
       <!-- ------------------------------------- poll statistics end ------------------------------------- -->

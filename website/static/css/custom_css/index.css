@@ -655,7 +655,10 @@
 .custom-opacity-1-hover {
   opacity: 0.50;
 }
-.custom-opacity-1-hover:hover {
+.custom-opacity-75-hover {
+  opacity: 0.75;
+}
+.custom-opacity-1-hover:hover, .custom-opacity-75-hover:hover {
   opacity: 1;
   transition: 0.3s;
 }
@@ -760,7 +763,7 @@
   left: 0;
   height: 100%;
   width: 100%;
-  background-color: var(--custom-color-primary-darker);
+  background-color: black;
 }
 /* ------------------- loading screen end ------------------- */
 /* ------------------- margin start ------------------- */
