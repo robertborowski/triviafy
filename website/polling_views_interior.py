@@ -26,7 +26,7 @@ import json
 from website.backend.candidates.send_emails import send_email_template_function
 from website.backend.candidates.lists import get_month_days_years_function, get_marketing_list_v2_function
 from website.backend.dates import get_years_from_date_function, return_ints_from_str_function
-from website.backend.get_create_obj import get_all_shows_following_function, get_all_platforms_function, get_platform_based_on_name_function, get_all_shows_for_platform_function, get_show_based_on_name_function, get_show_based_on_id_and_platform_id_function, check_if_currently_following_show_function, get_show_based_on_id_function, get_poll_based_on_id_function
+from website.backend.get_create_obj import get_all_shows_following_function, get_all_platforms_function, get_platform_based_on_name_function, get_all_shows_for_platform_function, get_show_based_on_name_function, get_show_based_on_id_and_platform_id_function, check_if_currently_following_show_function, get_show_based_on_id_function, get_poll_based_on_id_function, get_show_percent_of_all_polls_answered_function
 from website.backend.spotify import spotify_search_show_function
 from website.backend.user_inputs import sanitize_letters_numbers_spaces_specials_only_function
 from website.backend.dict_manipulation import arr_of_dict_all_columns_single_item_function, prep_poll_dict_function
@@ -756,14 +756,17 @@ def polling_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=
       return redirect(url_for('polling_views_interior.polling_dashboard_function', url_redirect_code='e6'))
     # ------------------------ check if poll exists in db end ------------------------
     # pull specific, unanswered or answered
-    poll_arr_of_dict = select_general_function('select_2', url_show_id, url_poll_id)
+    poll_arr_of_dict = select_general_function('select_query_general_2', url_show_id, url_poll_id)
   else:
     # pull random, unanswered
-    poll_arr_of_dict = select_general_function('select_1', url_show_id, current_user.id)
+    poll_arr_of_dict = select_general_function('select_query_general_1', url_show_id, current_user.id)
   page_dict['poll_dict'] = prep_poll_dict_function(poll_arr_of_dict[0])
   if url_poll_id == None or url_poll_id != page_dict['poll_dict']['id']:
     return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id'], url_redirect_code=url_redirect_code))
   # ------------------------ pull show + poll combination end ------------------------
+  # ------------------------ pull + calculate status bar percent complete start ------------------------
+  page_dict['percent_total_polls_complete'] = get_show_percent_of_all_polls_answered_function(current_user.id, url_show_id)
+  # ------------------------ pull + calculate status bar percent complete end ------------------------
   if request.method == 'POST':
     # ------------------------ get ui start ------------------------
     ui_answer_selected = request.form.get('ui_selection_radio')

@@ -1,5 +1,6 @@
 # ------------------------ imports start ------------------------
-from website.models import UserObj, ShowsFollowingObj, PlatformsObj, ShowsObj, PollsObj
+from website.models import UserObj, ShowsFollowingObj, PlatformsObj, ShowsObj, PollsObj, PollsAnsweredObj
+from website.backend.sql_statements.select import select_general_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ individual function start ------------------------
@@ -52,6 +53,40 @@ def get_show_based_on_id_function(input_show_id):
   if db_obj == None or db_obj == []:
     return None
   return db_obj
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def get_show_percent_of_all_polls_answered_function(fk_user_id, fk_show_id):
+  # ------------------------ variables start ------------------------
+  user_percent_completed = int(0)
+  show_polls_total = int(0)
+  show_polls_answered_total = int(0)
+  # ------------------------ variables end ------------------------
+  # ------------------------ show polls total start ------------------------
+  db_objs = PollsObj.query.filter_by(fk_show_id=fk_show_id,status_approved=True,status_removed=False).all()
+  try:
+    show_polls_total = len(db_objs)
+  except:
+    pass
+  # ------------------------ show polls total end ------------------------
+  # ------------------------ user answered show polls total start ------------------------
+  db_arr_of_dicts = select_general_function('select_query_general_3', fk_show_id, fk_user_id)
+  try:
+    show_polls_answered_total = len(db_arr_of_dicts)
+  except:
+    pass
+  # ------------------------ user answered show polls total end ------------------------
+  # ------------------------ calculation start ------------------------
+  try:
+    user_percent_completed = int(int(show_polls_answered_total)/int(show_polls_total))
+  except:
+    pass
+  # ------------------------ calculation end ------------------------
+  # ------------------------ catch start ------------------------
+  if int(user_percent_completed) == int(0):
+    user_percent_completed = 11
+  # ------------------------ catch end ------------------------
+  return int(user_percent_completed)
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------

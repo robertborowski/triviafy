@@ -1,0 +1,23 @@
+{% extends "polling/aaa_base/base.html" %}
+
+<!-- head tag block content -->
+{% block title %}
+  <title>base2_primary.html</title>
+{% endblock %}
+
+{% block contentBody %}
+<body class="custom-google-font-1">
+  <div class="custom-filler-6 custom-bg-black"></div>
+  {% block contentBodyExceptNavbarAndFooter %}
+  {% endblock %}
+  <!-- ------------------------------------- footer start ------------------------------------- -->
+  <div class="custom-width-180-px custom-mb-100 mx-auto">
+    <a href="/polling/dashboard" class="navbar-brand">
+      <img src="https://triviafypublicobjects.s3.us-east-2.amazonaws.com/official_logo.png" alt="triviafy logo" class="custom-img-size-50 custom-mr-1">
+      <span class="fw-bold custom-header-1">Triviafy</span>
+      <p class="custom-m-0 custom-mt-negative-15 custom-header-12 custom-tar">Audience Polling Platform</p>
+    </a>
+  </div>
+  <!-- ------------------------------------- footer end ------------------------------------- -->
+</body>
+{% endblock %}

@@ -1,4 +1,4 @@
-{% extends "polling/aaa_base/base2_primary.html" %}
+{% extends "polling/aaa_base/base2_black.html" %}
 
 <!-- head tag block content -->
 {% block title %}
@@ -11,6 +11,11 @@
   <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
     <!-- ------------------------------------- navbar start ------------------------------------- -->
     <div class="container-fluid custom-bg-black fixed-top">
+      <!-- ------------------------------------- progress bar start ------------------------------------- -->
+      <div class="progress" role="progressbar" aria-label="Success striped example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" id="id-progress_bar_catch{{ page_dict_to_html['percent_total_polls_complete'] }}" style="width: 0%"></div>
+      </div>
+      <!-- ------------------------------------- progress bar end ------------------------------------- -->
       <nav class="container navbar navbar-expand-md navbar-light custom-display-flex custom-jc-between">
         <a href="/polling/dashboard" class="navbar-brand">
           <img src="{{ page_dict_to_html['db_show_dict']['platform_image_small'] }}" alt="show logo" class="custom-img-size-40 custom-mr-1 custom-br-5">
@@ -21,7 +26,7 @@
         </div>
       </nav>
     </div>
-    <div class="custom-filler-65"></div>
+    <div class="custom-filler-82"></div>
     <!-- ------------------------------------- navbar end ------------------------------------- -->
     <!-- ------------------------------------- background start ------------------------------------- -->
     <div class="custom-width-500 mx-auto">
@@ -97,7 +102,7 @@
       <div class="mx-auto">
         <p class="custom-color-white custom-m-0 custom-opacity-75 custom-header-30">Create poll for this community</p>
         <p class="custom-color-white custom-m-0 custom-opacity-75 custom-header-10 custom-pb-25">The verified '{{ page_dict_to_html['db_show_dict']['name_title'] }}' host has final approval before others in the community can vote on your poll.</p>
-        <a href="#" class="custom-width-100 btn btn-outline-success">Create poll <i class="fa-solid fa-plus"></i></a>
+        <a href="#" class="custom-width-100 btn btn-outline-warning">Create poll <i class="fa-solid fa-plus"></i></a>
       </div>
       <!-- ------------------------------------- poll statistics end ------------------------------------- -->
     </div>
@@ -114,7 +119,7 @@
 <!-- ----------------------------------- shape divider end ----------------------------------- -->
 <!-- ----------------------------------- exit start ----------------------------------- -->
 <div class="custom-width-500 mx-auto custom-mb-50">
-  <a href="/polling/dashboard" class="btn btn-outline-secondary custom-width-100"><i class="fa-solid fa-angle-left"></i> Exit</a>
+  <a href="/polling/dashboard" class="btn btn-outline-secondary custom-width-100"><i class="fa-solid fa-angle-left"></i> Back to my shows</a>
 </div>
 <!-- ----------------------------------- exit end ----------------------------------- -->
 {% endblock %}
