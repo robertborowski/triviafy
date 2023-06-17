@@ -1657,6 +1657,10 @@
   width: 500px;
   max-width: 90%;
 }
+.custom-width-600 {
+  width: 600px;
+  max-width: 90%;
+}
 .custom-width-800 {
   width: 800px;
   max-width: 90%;

@@ -22,14 +22,14 @@
           <span class="fw-bold custom-header-15 custom-color-white">{{ page_dict_to_html['db_show_dict']['name_title'] }}</span>
         </a>
         <div class="custom-display-flex custom-f-direction-row custom-f-nowrap">
-          <button type="submit" class="btn btn-success btn-lg custom-ml-10">Submit <i class="fa-solid fa-check"></i></button>
+          <button type="submit" class="btn btn-success btn-lg custom-ml-10" id="id-submit_enable_general_1" disabled>Submit <i class="fa-solid fa-check"></i></button>
         </div>
       </nav>
     </div>
     <div class="custom-filler-82"></div>
     <!-- ------------------------------------- navbar end ------------------------------------- -->
     <!-- ------------------------------------- background start ------------------------------------- -->
-    <div class="custom-width-500 mx-auto">
+    <div class="custom-width-600 mx-auto">
       <!-- ----------------------------------- alert start ----------------------------------- -->
       {% if page_dict_to_html['alert_message_dict']['message'] != '' %}
       <div class="alert alert-{{ page_dict_to_html['alert_message_dict']['type'] }} mx-auto text-center container" role="alert">
@@ -75,14 +75,14 @@
       <!-- ------------------------------------- expand dropdown add written response end ------------------------------------- -->
       <!-- ------------------------------------- email + anonymous option start ------------------------------------- -->
       <div class="custom-mt-50 mx-auto">
-        <p class="custom-m-0 custom-color-white custom-opacity-75 custom-header-15">Feedback provider <span id="id-user_email">{{ page_dict_to_html['current_user_email'] }}</span></p>
+        <p class="custom-m-0 custom-color-white custom-opacity-75 custom-header-15">Feedback from #1 fan: <span id="id-user_email">{{ page_dict_to_html['current_user_email'] }}</span></p>
         <div class="form-check custom-color-white custom-header-15 custom-mt-10">
           <input class="form-check-input" type="checkbox" value="ui_checked" name="ui_anonymous_check" id="id-flexCheckDefault" onchange="handleCheckboxChange()">
-          <label class="form-check-label custom-opacity-75 custom-line-height-12" for="id-flexCheckDefault">Poll anonymously <span class="custom-color-white custom-m-0 custom-opacity-75 custom-header-10 custom-line-height-12">Triviafy only shares your feedback with the '{{ page_dict_to_html['db_show_dict']['name_title'] }}' verified host. Check this box to hide your email from the verified '{{ page_dict_to_html['db_show_dict']['name_title'] }}' host.</span></label>
+          <label class="form-check-label custom-opacity-75 custom-line-height-12" for="id-flexCheckDefault">Poll anonymously <span class="custom-color-white custom-m-0 custom-opacity-75 custom-header-10 custom-line-height-12">Triviafy only shares your feedback with the '{{ page_dict_to_html['db_show_dict']['name_title'] }}' verified host. Check this box to hide your email from the verified '{{ page_dict_to_html['db_show_dict']['name_title'] }}' host for this poll.</span></label>
         </div>
       </div>
       <!-- ------------------------------------- email + anonymous option end ------------------------------------- -->
-      <button type="submit" class="btn btn-success btn-lg custom-width-100 custom-mt-50">Submit <i class="fa-solid fa-check"></i></button>
+      <button type="submit" class="btn btn-success btn-lg custom-width-100 custom-mt-50" id="id-submit_enable_general_2" disabled>Submit <i class="fa-solid fa-check"></i></button>
       <!-- ------------------------------------- divider start ------------------------------------- -->
       <div class="custom-border-white-opacity-25 custom-mtb-75 custom-width-100 mx-auto"></div>
       <!-- ------------------------------------- divider end ------------------------------------- -->
@@ -118,7 +118,7 @@
 </div>
 <!-- ----------------------------------- shape divider end ----------------------------------- -->
 <!-- ----------------------------------- exit start ----------------------------------- -->
-<div class="custom-width-500 mx-auto custom-mb-50">
+<div class="custom-width-600 mx-auto custom-mb-50">
   <a href="/polling/dashboard" class="btn btn-outline-secondary custom-width-100"><i class="fa-solid fa-angle-left"></i> Back to my shows</a>
 </div>
 <!-- ----------------------------------- exit end ----------------------------------- -->

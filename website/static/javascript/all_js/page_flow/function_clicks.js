@@ -1,4 +1,19 @@
 $(document).ready(function() {
+  // ----------------------------- general poll submission start -----------------------------
+  $('input[name="ui_selection_radio"]').click(function() {
+    if ($('input[name="ui_selection_radio"]:checked').length > 0) {
+      $('#id-submit_enable_general_1').removeAttr('disabled');
+      $('#id-submit_enable_general_1').attr('enabled', true);
+      $('#id-submit_enable_general_2').removeAttr('disabled');
+      $('#id-submit_enable_general_2').attr('enabled', true);
+    } else {
+      $('#id-submit_enable_general_1').removeAttr('enabled');
+      $('#id-submit_enable_general_1').attr('disabled', true);
+      $('#id-submit_enable_general_2').removeAttr('enabled');
+      $('#id-submit_enable_general_2').attr('disabled', true);
+    }
+  });
+  // ----------------------------- general poll submission end -----------------------------
   // ----------------------------- continue form start -----------------------------
   $("#id-flow_continue_1").click(function() {
     // part 1
