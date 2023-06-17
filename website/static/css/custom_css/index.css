@@ -289,7 +289,12 @@
 .custom-border-9 {border: 1px solid rgb(0 0 0 / 10%);}
 .custom-border-see-through {border: 1px solid rgba(255, 255, 255, 0);}
 .custom-border-white {border: 1px solid rgb(255, 255, 255);}
-.custom-border-white-opacity-1 {border: 1px solid rgba(255, 255, 255, 0.200);}
+.custom-border-white-opacity-10 {border: 1px solid rgba(255, 255, 255, 0.100);}
+.custom-border-white-opacity-15 {border: 1px solid rgba(255, 255, 255, 0.150);}
+.custom-border-white-opacity-20 {border: 1px solid rgba(255, 255, 255, 0.200);}
+.custom-border-white-opacity-25 {border: 1px solid rgba(255, 255, 255, 0.250);}
+.custom-border-white-opacity-50 {border: 1px solid rgba(255, 255, 255, 0.500);}
+.custom-border-white-opacity-75 {border: 1px solid rgba(255, 255, 255, 0.750);}
 .custom-br-1 {
   border-radius: 15px;
 }
@@ -724,6 +729,9 @@
 }
 /* ------------------- list style end ------------------- */
 /* ------------------- list style start ------------------- */
+.custom-line-height-12 {
+  line-height: 12px;
+}
 .custom-line-1 {
   line-height: 40px;
 }
@@ -958,6 +966,14 @@
 .custom-mtb-50 {
   margin-top: 50px;
   margin-bottom: 50px;
+}
+.custom-mtb-75 {
+  margin-top: 75px;
+  margin-bottom: 75px;
+}
+.custom-mtb-100 {
+  margin-top: 100px;
+  margin-bottom: 100px;
 }
 /* ------------------- margin end ------------------- */
 /* ------------------- overflow start ------------------- */
@@ -1601,6 +1617,12 @@
 }
 .custom-width-75 {
   width: 75%;
+}
+.custom-width-80 {
+  width: 80%;
+}
+.custom-width-90 {
+  width: 90%;
 }
 .custom-width-95 {
   width: 95%;

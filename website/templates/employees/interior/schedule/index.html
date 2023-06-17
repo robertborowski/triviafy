@@ -51,7 +51,7 @@
     <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
       <!-- ------------------------------------- part 1 form start ------------------------------------- -->
       <div class="uiSearchItemVisible2" id="id-form_part_1">
-        <div class="container custom-border-white-opacity-1 custom-br-1 custom-width-4">
+        <div class="container custom-border-white-opacity-20 custom-br-1 custom-width-4">
           <!-- ------------------------------------- dynamic dropdown v1 start ------------------------------------- -->
           <div class="dropdown custom-p-2">
             {% for k, v in page_dict_to_html['dropdowns_dict'].items() %}
@@ -136,7 +136,7 @@
                 {% else %}
                   <input type="checkbox" class="btn-check" id="uiSelectedCategories_{{ i }}" name="uiSelectedCategories" value="{{ i }}" onclick="highlightCheckboxV1(this)">
                 {% endif %}
-                <label class="custom-border-white-opacity-1 custom-br-1 custom-hover-1 custom-color-white custom-m-1 custom-width-5 custom-ptb-1 uiSearchItem" for="uiSelectedCategories_{{ i }}">{{ i }}</label>
+                <label class="custom-border-white-opacity-20 custom-br-1 custom-hover-1 custom-color-white custom-m-1 custom-width-5 custom-ptb-1 uiSearchItem" for="uiSelectedCategories_{{ i }}">{{ i }}</label>
               {% endfor %}
             </div>
             <!-- ------------------------------------- select categories end ------------------------------------- -->

@@ -94,11 +94,11 @@
           <div class="custom-display-flex custom-fw-1">
             <input type="radio" class="btn-check" id="uiFeedbackSelection{{ i }}" name="ui_selection_radio" value="{{ page_dict_to_html['activities_list'][i] }}" autocomplete="off" required>
             {% if page_dict_to_html['activities_list'][i] == 'Trivia' %}
-              <label class="custom-mb-6 custom-border-white-opacity-1 custom-br-1 custom-width-6 custom-ptb-8 custom-hover-1 custom-color-white" for="uiFeedbackSelection{{ i }}"><span class="custom-ml-2">{{ page_dict_to_html['activities_list'][i] }} <span class="custom-br-1 custom-size-3 custom-p-8 custom-bg-warning custom-ml-3 custom-color-black fst-italic">Most popular</span></label>
+              <label class="custom-mb-6 custom-border-white-opacity-20 custom-br-1 custom-width-6 custom-ptb-8 custom-hover-1 custom-color-white" for="uiFeedbackSelection{{ i }}"><span class="custom-ml-2">{{ page_dict_to_html['activities_list'][i] }} <span class="custom-br-1 custom-size-3 custom-p-8 custom-bg-warning custom-ml-3 custom-color-black fst-italic">Most popular</span></label>
             {% elif page_dict_to_html['activities_list'][i] == 'Colleague birthday trivia' %}
-              <label class="custom-mb-6 custom-border-white-opacity-1 custom-br-1 custom-width-6 custom-ptb-8 custom-hover-1 custom-color-white" for="uiFeedbackSelection{{ i }}"><span class="custom-ml-2">{{ page_dict_to_html['activities_list'][i] }} <span class="custom-br-1 custom-size-3 custom-p-8 custom-bg-info custom-ml-3 custom-color-white fst-italic">Fan favorite</span></label>
+              <label class="custom-mb-6 custom-border-white-opacity-20 custom-br-1 custom-width-6 custom-ptb-8 custom-hover-1 custom-color-white" for="uiFeedbackSelection{{ i }}"><span class="custom-ml-2">{{ page_dict_to_html['activities_list'][i] }} <span class="custom-br-1 custom-size-3 custom-p-8 custom-bg-info custom-ml-3 custom-color-white fst-italic">Fan favorite</span></label>
             {% else %}
-              <label class="custom-mb-6 custom-border-white-opacity-1 custom-br-1 custom-width-6 custom-ptb-8 custom-hover-1 custom-color-white" for="uiFeedbackSelection{{ i }}"><span class="custom-ml-2">{{ page_dict_to_html['activities_list'][i] }}</span></label>
+              <label class="custom-mb-6 custom-border-white-opacity-20 custom-br-1 custom-width-6 custom-ptb-8 custom-hover-1 custom-color-white" for="uiFeedbackSelection{{ i }}"><span class="custom-ml-2">{{ page_dict_to_html['activities_list'][i] }}</span></label>
             {% endif %}
           </div>
           {% endfor %}
@@ -266,7 +266,7 @@
           {% for i in page_dict_to_html['marketing_list_index'] %}
           <div class="custom-display-flex custom-fw-1">
             <input type="radio" class="btn-check" id="uiFeedbackSelection{{ i }}" name="ui_selection_radio" value="{{ page_dict_to_html['marketing_list'][i] }}" autocomplete="off" required>
-            <label class="custom-mb-6 custom-border-white-opacity-1 custom-br-1 custom-width-6 custom-ptb-8 custom-hover-1 custom-color-white" for="uiFeedbackSelection{{ i }}"><span class="custom-ml-2">{{ page_dict_to_html['marketing_list'][i] }}</span></label>
+            <label class="custom-mb-6 custom-border-white-opacity-20 custom-br-1 custom-width-6 custom-ptb-8 custom-hover-1 custom-color-white" for="uiFeedbackSelection{{ i }}"><span class="custom-ml-2">{{ page_dict_to_html['marketing_list'][i] }}</span></label>
           </div>
           {% endfor %}
         </div>
