@@ -425,7 +425,7 @@ def alert_message_default_function_v2(redirect_var=None):
     }
   elif redirect_var == 'e33':
     alert_message_dict = {
-      'message':"Currently only podcasts are supported.",
+      'message':"Currently only 'Podcasts' are supported.",
       'type':'danger'
     }
   elif redirect_var == 'e34':
@@ -507,7 +507,12 @@ def alert_message_default_function_v2(redirect_var=None):
     }
   elif redirect_var == 's15':
     alert_message_dict = {
-      'message':'You are already following this show',
+      'message':'You are already following this show, search below.',
+      'type':'success'
+    }
+  elif redirect_var == 's16':
+    alert_message_dict = {
+      'message':'Successfully following show, start polling below.',
       'type':'success'
     }
   # ------------------------ success end ------------------------

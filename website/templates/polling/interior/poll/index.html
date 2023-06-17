@@ -25,10 +25,17 @@
     <!-- ------------------------------------- navbar end ------------------------------------- -->
     <!-- ------------------------------------- background start ------------------------------------- -->
     <div class="container-fluid custom-bg-primary-gradient-1">
+      <!-- ----------------------------------- start ----------------------------------- -->
+      {% if page_dict_to_html['alert_message_dict']['message'] != '' %}
+      <div class="alert alert-{{ page_dict_to_html['alert_message_dict']['type'] }} mx-auto text-center container custom-width-500" role="alert">
+        {{ page_dict_to_html['alert_message_dict']['message'] }}
+      </div>
+      {% endif %}
+      <!-- ----------------------------------- end ----------------------------------- -->
       <!-- ------------------------------------- inside content start ------------------------------------- -->
       <div class="container">
         <!-- ------------------------------------- email + anonymous option start ------------------------------------- -->
-        <div class="custom-mt-50 custom-width-500 mx-auto">
+        <div class="custom-mt-25 custom-width-500 mx-auto">
           <p class="custom-m-0 custom-color-white custom-opacity-75 custom-header-15">User: <span id="id-user_email">{{ page_dict_to_html['current_user_email'] }}</span></p>
           <div class="form-check custom-color-white custom-header-15">
             <input class="form-check-input" type="checkbox" value="ui_checked" name="ui_anonymous_check" id="id-flexCheckDefault" onchange="handleCheckboxChange()">
@@ -49,7 +56,7 @@
           <p class="custom-color-white custom-m-0 custom-opacity-75 custom-pb-5 custom-header-30">Answer choices</p>
           {% for i in range(page_dict_to_html['poll_dict']['answer_choices']|length) %}
             <input type="radio" class="btn-check" id="uiAnswerSelection{{ i }}" name="ui_selection_radio" value="{{ page_dict_to_html['poll_dict']['answer_choices'][i] }}" autocomplete="off" required>
-            <label class="custom-mb-25 custom-border-white-opacity-1 custom-br-15 custom-width-100 custom-ptb-15 custom-hover-1 custom-color-white" for="uiAnswerSelection{{ i }}"><span class="custom-ml-25">{{ page_dict_to_html['poll_dict']['answer_choices'][i] }}</span></label>
+            <label class="custom-mb-25 custom-border-white-opacity-1 custom-br-15 custom-width-100 custom-p-20 custom-hover-1 custom-color-white" for="uiAnswerSelection{{ i }}">{{ page_dict_to_html['poll_dict']['answer_choices'][i] }}</label>
           {% endfor %}
           <!-- ------------------------------------- expand dropdown add written response start ------------------------------------- -->
           <div>
@@ -82,7 +89,7 @@
 </div>
 <!-- ----------------------------------- shape divider end ----------------------------------- -->
 <!-- ----------------------------------- exit start ----------------------------------- -->
-<div class="custom-width-400 mx-auto custom-mb-50">
+<div class="custom-width-500 mx-auto custom-mb-50">
   <a href="/polling/dashboard" class="btn btn-outline-secondary custom-width-100"><i class="fa-solid fa-angle-left"></i> Exit</a>
 </div>
 <!-- ----------------------------------- exit end ----------------------------------- -->

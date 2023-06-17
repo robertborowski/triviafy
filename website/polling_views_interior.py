@@ -586,6 +586,11 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
         # ------------------------ openai get starter polls start ------------------------
         chatgpt_response_arr_of_dicts = create_openai_starter_poll_questions_function(spotify_pulled_dict['name'])
         if chatgpt_response_arr_of_dicts != None and chatgpt_response_arr_of_dicts != []:
+          # ------------------------ if refresh/issue make sure does not already exist start ------------------------
+          show_already_exists_check = get_show_based_on_name_function(url_platform_id, spotify_pulled_dict['name'])
+          if show_already_exists_check != None:
+            return redirect(url_for('polling_views_interior.polling_add_show_function', url_step_code=url_step_code, url_platform_id=url_platform_id, url_redirect_code='e31'))
+          # ------------------------ if refresh/issue make sure does not already exist end ------------------------
           # ------------------------ add to db start ------------------------
           for i_dict in chatgpt_response_arr_of_dicts:
             answers_str = "~".join(i_dict['answer_choices'])
@@ -659,7 +664,7 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
       except:
         pass
       # ------------------------ remove from redis end ------------------------
-      return redirect(url_for('polling_views_interior.polling_dashboard_function'))
+      return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=new_show_id, url_redirect_code='s16'))
   # ------------------------ for setting cookie end ------------------------
   localhost_print_function(' ------------- 100-show selection start ------------- ')
   page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
@@ -701,7 +706,7 @@ def polling_follow_show_function(url_platform_id=None, url_show_id=None):
   db.session.commit()
   # ------------------------ add to db end ------------------------
   # ------------------------ redirect to dashboard start ------------------------
-  return redirect(url_for('polling_views_interior.polling_dashboard_function', url_redirect_code='s14'))
+  return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_redirect_code='s16'))
   # ------------------------ redirect to dashboard end ------------------------
 # ------------------------ individual route end ------------------------
 
@@ -757,7 +762,7 @@ def polling_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=
     poll_arr_of_dict = select_general_function('select_1', url_show_id, current_user.id)
   page_dict['poll_dict'] = prep_poll_dict_function(poll_arr_of_dict[0])
   if url_poll_id == None or url_poll_id != page_dict['poll_dict']['id']:
-    return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id']))
+    return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id'], url_redirect_code=url_redirect_code))
   # ------------------------ pull show + poll combination end ------------------------
   if request.method == 'POST':
     # ------------------------ get ui start ------------------------
