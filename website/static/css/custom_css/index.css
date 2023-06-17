@@ -62,6 +62,9 @@
 .custom-bg-white-always, .custom-bg-white-always:hover, .custom-bg-white-always:active {
   background-color: white !important;
 }
+.custom-bg-black {
+  background-color: black;
+}
 .custom-bg-tan-1 {
   background-color: rgb(255, 237, 217);
 }
