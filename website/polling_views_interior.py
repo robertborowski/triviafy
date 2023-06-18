@@ -774,14 +774,20 @@ def polling_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=
     ui_vote_question = request.form.get('ui_vote_question')
     ui_vote_feedback = request.form.get('ui_vote_feedback')
     ui_written_feedback = request.form.get('ui_written_feedback')
+    # ------------------------ get ui end ------------------------
+    # ------------------------ sanatize ui start ------------------------
+    if ui_answer_selected not in page_dict['poll_dict']['answer_choices']:
+      return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id'], url_redirect_code='e6'))
+    if ui_anonymous_check != None or ui_anonymous_check != 'ui_checked':
+      return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id'], url_redirect_code='e6'))
+    if ui_vote_question != None or ui_vote_question != 'up' or ui_vote_question != 'down':
+      return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id'], url_redirect_code='e6'))
+    if ui_vote_feedback != None or ui_vote_feedback != 'up' or ui_vote_feedback != 'down':
+      return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id'], url_redirect_code='e6'))
     localhost_print_function(' ------------- 0 ------------- ')
-    localhost_print_function(f"ui_answer_selected | type: {type(ui_answer_selected)} | {ui_answer_selected}")
-    localhost_print_function(f"ui_anonymous_check | type: {type(ui_anonymous_check)} | {ui_anonymous_check}")
-    localhost_print_function(f"ui_vote_question | type: {type(ui_vote_question)} | {ui_vote_question}")
-    localhost_print_function(f"ui_vote_feedback | type: {type(ui_vote_feedback)} | {ui_vote_feedback}")
     localhost_print_function(f"ui_written_feedback | type: {type(ui_written_feedback)} | {ui_written_feedback}")
     localhost_print_function(' ------------- 0 ------------- ')
-    # ------------------------ get ui end ------------------------
+    # ------------------------ sanatize ui end ------------------------
   localhost_print_function(' ------------- 100-show poll start ------------- ')
   page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
   for k,v in page_dict.items():
