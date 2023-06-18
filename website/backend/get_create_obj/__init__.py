@@ -78,7 +78,8 @@ def get_show_percent_of_all_polls_answered_function(fk_user_id, fk_show_id):
   # ------------------------ user answered show polls total end ------------------------
   # ------------------------ calculation start ------------------------
   try:
-    user_percent_completed = int(int(show_polls_answered_total)/int(show_polls_total))
+    user_percent_completed = float(int(show_polls_answered_total)/int(show_polls_total))
+    user_percent_completed = str(int(float(user_percent_completed) * float(100)))
   except:
     pass
   # ------------------------ calculation end ------------------------

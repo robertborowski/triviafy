@@ -33,7 +33,7 @@ def select_general_function(tag_query_to_use, input1=None, input2=None, input3=N
     },
     'select_query_general_3': {
       'raw_query': f"SELECT \
-                      t1.* \
+                      DISTINCT t1.fk_poll_id \
                     FROM \
                       polls_answered_obj AS t1 LEFT JOIN polls_obj AS t2 ON t1.fk_poll_id=t2.id \
                     WHERE \

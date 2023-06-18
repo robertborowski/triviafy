@@ -40,7 +40,7 @@
       <!-- ----------------------------------- button auto page scroll start ----------------------------------- -->
       {% if page_dict_to_html['poll_answered'] == true %}
         <div class="custom-p-25 custom-mt-50 btn btn-warning custom-width-100" id="id-general_autoscroll_click_1">
-          <span class="custom-header-30">See poll statistics</span>
+          <span class="custom-header-30">See poll statistics <i class="fa-solid fa-angle-down"></i></span>
         </div>
         <a href="/polling/show/{{ page_dict_to_html['url_show_id'] }}" class="btn btn-success custom-width-100 custom-mt-25">Continue to next poll <i class="fa-solid fa-angle-right"></i></a>
       {% else %}

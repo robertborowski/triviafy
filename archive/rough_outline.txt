@@ -1,10 +1,7 @@
-localhost_print_function(' ------------- 0 ------------- ')
-localhost_print_function(f'i | type: {type(i)} | {i}')
-localhost_print_function(' ------------- 0 ------------- ')
 
-localhost_print_function(' ------------- 0 ------------- ')
-localhost_print_function(f"i | type: {type(i)} | {i}")
-localhost_print_function(' ------------- 0 ------------- ')
+print(' ------------- 0 ------------- ')
+print(f"i | type: {type(i)} | {i}")
+print(' ------------- 0 ------------- ')
 
 
 NEXT STEPS
