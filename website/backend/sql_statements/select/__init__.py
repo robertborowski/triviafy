@@ -14,9 +14,9 @@ def select_general_function(tag_query_to_use, input1=None, input2=None, input3=N
                     FROM \
                       polls_obj \
                     WHERE \
-                      status_removed=False AND \
+                      status_removed=False AND status_approved=True AND \
                       fk_show_id='{input1}' AND \
-                      id NOT IN (SELECT fk_poll_id FROM polls_answered_obj WHERE fk_show_id='{input1}' AND fk_user_id='{input2}') \
+                      id NOT IN (SELECT DISTINCT fk_poll_id FROM polls_answered_obj WHERE fk_show_id='{input1}' AND fk_user_id='{input2}') \
                     ORDER BY \
                       RANDOM() \
                     LIMIT 1;"
@@ -27,7 +27,7 @@ def select_general_function(tag_query_to_use, input1=None, input2=None, input3=N
                     FROM \
                       polls_obj \
                     WHERE \
-                      status_removed=False AND \
+                      status_removed=False AND status_approved=True AND \
                       fk_show_id='{input1}' AND \
                       id='{input2}';"
     },
@@ -37,7 +37,7 @@ def select_general_function(tag_query_to_use, input1=None, input2=None, input3=N
                     FROM \
                       polls_answered_obj AS t1 LEFT JOIN polls_obj AS t2 ON t1.fk_poll_id=t2.id \
                     WHERE \
-                      t2.status_approved=True AND status_removed=False AND \
+                      t2.status_approved=True AND t2.status_removed=False AND \
                       t1.fk_show_id='{input1}' AND \
                       t1.fk_user_id='{input2}';"
     }
