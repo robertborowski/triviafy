@@ -28,7 +28,7 @@ from website.backend.candidates.lists import get_month_days_years_function, get_
 from website.backend.dates import get_years_from_date_function, return_ints_from_str_function
 from website.backend.get_create_obj import get_all_shows_following_function, get_all_platforms_function, get_platform_based_on_name_function, get_all_shows_for_platform_function, get_show_based_on_name_function, get_show_based_on_id_and_platform_id_function, check_if_currently_following_show_function, get_show_based_on_id_function, get_poll_based_on_id_function, get_show_percent_of_all_polls_answered_function
 from website.backend.spotify import spotify_search_show_function
-from website.backend.user_inputs import sanitize_letters_numbers_spaces_specials_only_function
+from website.backend.user_inputs import sanitize_letters_numbers_spaces_specials_only_function, sanitize_text_v1_function
 from website.backend.dict_manipulation import arr_of_dict_all_columns_single_item_function, prep_poll_dict_function
 from website.backend.openai import create_openai_starter_poll_questions_function
 from website.backend.show_utils import shows_following_arr_of_dict_function
@@ -778,16 +778,18 @@ def polling_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=
     # ------------------------ sanatize ui start ------------------------
     if ui_answer_selected not in page_dict['poll_dict']['answer_choices']:
       return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id'], url_redirect_code='e6'))
-    if ui_anonymous_check != None or ui_anonymous_check != 'ui_checked':
+    if ui_anonymous_check != None and ui_anonymous_check != 'ui_checked':
       return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id'], url_redirect_code='e6'))
-    if ui_vote_question != None or ui_vote_question != 'up' or ui_vote_question != 'down':
+    if ui_vote_question != None and ui_vote_question != 'up' and ui_vote_question != 'down':
       return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id'], url_redirect_code='e6'))
-    if ui_vote_feedback != None or ui_vote_feedback != 'up' or ui_vote_feedback != 'down':
+    if ui_vote_feedback != None and ui_vote_feedback != 'up' and ui_vote_feedback != 'down':
       return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id'], url_redirect_code='e6'))
-    localhost_print_function(' ------------- 0 ------------- ')
-    localhost_print_function(f"ui_written_feedback | type: {type(ui_written_feedback)} | {ui_written_feedback}")
-    localhost_print_function(' ------------- 0 ------------- ')
+    ui_written_feedback = sanitize_text_v1_function(ui_written_feedback, 150, False)
+    if ui_written_feedback == False:
+      return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id'], url_redirect_code='e6'))
     # ------------------------ sanatize ui end ------------------------
+    # ------------------------ insert to db start ------------------------
+    # ------------------------ insert to db end ------------------------
   localhost_print_function(' ------------- 100-show poll start ------------- ')
   page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
   for k,v in page_dict.items():

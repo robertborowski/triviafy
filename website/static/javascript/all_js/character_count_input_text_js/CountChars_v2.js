@@ -52,7 +52,7 @@ function CountCharsGeneral150(obj){
   var maxLength = 150;
   var strLength = obj.value.length;
   if(strLength > maxLength){
-    document.getElementById("id-countCharsGeneral150").innerHTML = '<span style="color: red;">'+strLength+' out of '+maxLength+' characters.</span>';
+    document.getElementById("id-countCharsGeneral150").innerHTML = '<span style="color: var(--custom-color-danger);">'+strLength+' out of '+maxLength+' characters.</span>';
   }else{
     document.getElementById("id-countCharsGeneral150").innerHTML = strLength+' out of '+maxLength+' characters.';
   }
