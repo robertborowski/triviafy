@@ -58,4 +58,10 @@ $(document).ready(function() {
     $("#id-flow_show_details_1").addClass("uiSelectAllBlockVisible");
   });
   // ----------------------------- activity details end -----------------------------
+  // ----------------------------- autoscroll start -----------------------------
+  $("#id-general_autoscroll_click_1").click(function() {
+    var element = document.getElementById('id-general_autoscroll_location_1');
+    element.scrollIntoView({ behavior: 'smooth' });
+  });
+  // ----------------------------- autoscroll end -----------------------------
 });

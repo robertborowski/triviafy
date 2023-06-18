@@ -826,7 +826,7 @@ def polling_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=
     db.session.add(new_row)
     db.session.commit()
     # ------------------------ insert to db end ------------------------
-    return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id'], url_redirect_code='w2'))
+    return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id']))
   localhost_print_function(' ------------- 100-show poll start ------------- ')
   page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
   for k,v in page_dict.items():

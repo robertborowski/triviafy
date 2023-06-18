@@ -37,6 +37,15 @@
       </div>
       {% endif %}
       <!-- ----------------------------------- alert end ----------------------------------- -->
+      <!-- ----------------------------------- button auto page scroll start ----------------------------------- -->
+      {% if page_dict_to_html['poll_answered'] == true %}
+        <div class="custom-p-25 custom-mt-50 btn btn-warning custom-width-100" id="id-general_autoscroll_click_1">
+          <span class="custom-header-30">See poll statistics</span>
+        </div>
+        <a href="/polling/show/{{ page_dict_to_html['url_show_id'] }}" class="btn btn-success custom-width-100 custom-mt-25">Continue to next poll <i class="fa-solid fa-angle-right"></i></a>
+      {% else %}
+      {% endif %}
+      <!-- ----------------------------------- button auto page scroll end ----------------------------------- -->
       <!-- ------------------------------------- question start ------------------------------------- -->
       <div class="custom-mt-50 mx-auto">
         <div class="custom-display-flex custom-header-20 custom-color-white custom-jc-between">
@@ -53,9 +62,9 @@
             <!-- ------------------------------------- radio downvote start ------------------------------------- -->
             <input type="radio" class="btn-check" id="id-ui_vote_question_down" name="ui_vote_question" value="down" autocomplete="off">
             {% if page_dict_to_html['poll_answered_dict']['poll_vote_updown_question'] == false %}
-              <label class="custom-transition-03 custom-hover-1 custom-color-danger-important custom-ml-5" for="id-ui_vote_question_down"><i class="fa-solid fa-circle-down" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Not good poll question"></i></label>
+              <label class="custom-transition-03 custom-hover-1 custom-color-danger-important custom-ml-5" for="id-ui_vote_question_down"><i class="fa-solid fa-circle-down" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Poll question not so good"></i></label>
             {% else %}
-              <label class="custom-transition-03 custom-opacity-50 custom-hover-1 custom-ml-5" for="id-ui_vote_question_down"><i class="fa-solid fa-circle-down" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Not good poll question"></i></label>
+              <label class="custom-transition-03 custom-opacity-50 custom-hover-1 custom-ml-5" for="id-ui_vote_question_down"><i class="fa-solid fa-circle-down" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Poll question not so good"></i></label>
             {% endif %}
             <!-- ------------------------------------- radio downvote end ------------------------------------- -->
           </div>
@@ -81,9 +90,9 @@
             <!-- ------------------------------------- radio downvote start ------------------------------------- -->
             <input type="radio" class="btn-check" id="id-ui_vote_feedback_down" name="ui_vote_feedback" value="down" autocomplete="off">
             {% if page_dict_to_html['poll_answered_dict']['poll_vote_updown_feedback'] == false %}
-              <label class="custom-transition-03 custom-hover-1 custom-color-danger-important custom-ml-5" for="id-ui_vote_feedback_down"><i class="fa-solid fa-circle-down" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Not good feedback options"></i></label>
+              <label class="custom-transition-03 custom-hover-1 custom-color-danger-important custom-ml-5" for="id-ui_vote_feedback_down"><i class="fa-solid fa-circle-down" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Feedback options not so good"></i></label>
             {% else %}
-              <label class="custom-transition-03 custom-opacity-50 custom-hover-1 custom-ml-5" for="id-ui_vote_feedback_down"><i class="fa-solid fa-circle-down" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Not good feedback options"></i></label>
+              <label class="custom-transition-03 custom-opacity-50 custom-hover-1 custom-ml-5" for="id-ui_vote_feedback_down"><i class="fa-solid fa-circle-down" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Feedback options not so good"></i></label>
             {% endif %}
             <!-- ------------------------------------- radio downvote end ------------------------------------- -->
           </div>
@@ -108,7 +117,7 @@
       <div class="custom-mt-10 custom-width-100 uiSelectAllBlockInvisible" id="id-activity_details_1">
         <!-- ------------------------------------- ui written response start ------------------------------------- -->
         <!-- <label for="ui_written_feedback" class="custom-m-0"></label> -->
-        {% if page_dict_to_html['poll_answered_dict']['written_answer_submitted'] != none %}
+        {% if page_dict_to_html['poll_answered'] == true %}
           <textarea class="form-control" id="ui_written_feedback" name="ui_written_feedback" placeholder="Your previous feedback: '{{ page_dict_to_html['poll_answered_dict']['written_answer_submitted'] }}'" rows="4" onkeyup="CountCharsGeneral150(this);" pattern="{1,150}"></textarea>
         {% else %}
           <textarea class="form-control" id="ui_written_feedback" name="ui_written_feedback" placeholder="Additional feedback..." rows="4" onkeyup="CountCharsGeneral150(this);" pattern="{1,150}"></textarea>
@@ -132,7 +141,7 @@
       <!-- ------------------------------------- email + anonymous option end ------------------------------------- -->
       <button type="submit" class="btn btn-secondary btn-lg custom-ptb-25 custom-width-100 custom-mt-50" id="id-submit_enable_general_2" disabled>Vote <i class="fa-solid fa-check"></i></button>
       <!-- ------------------------------------- divider start ------------------------------------- -->
-      <div class="custom-border-white-opacity-25 custom-mtb-100 custom-width-100 mx-auto"></div>
+      <div class="custom-border-white-opacity-25 custom-mtb-100 custom-width-100 mx-auto" id="id-general_autoscroll_location_1"></div>
       <!-- ------------------------------------- divider end ------------------------------------- -->
       <!-- ------------------------------------- poll statistics start ------------------------------------- -->
       <div class="mx-auto">
@@ -147,6 +156,10 @@
       <div class="custom-border-white-opacity-25 custom-mtb-100 custom-width-100 mx-auto"></div>
       <!-- ------------------------------------- divider end ------------------------------------- -->
       <!-- ------------------------------------- create poll start ------------------------------------- -->
+      {% if page_dict_to_html['poll_answered'] == true %}
+        <a href="/polling/show/{{ page_dict_to_html['url_show_id'] }}" class="btn btn-success btn-lg custom-ptb-25 custom-width-100 custom-mb-100">Continue to next poll <i class="fa-solid fa-angle-right"></i><i class="fa-solid fa-angle-right"></i><i class="fa-solid fa-angle-right"></i></a>
+      {% else %}
+      {% endif %}
       <div class="mx-auto">
         <p class="custom-color-white custom-m-0 custom-opacity-75 custom-header-30">Create poll for this community</p>
         <p class="custom-color-white custom-m-0 custom-opacity-75 custom-header-10 custom-pb-25">The verified '{{ page_dict_to_html['db_show_dict']['name_title'] }}' host has final approval before your poll can be seen by others in the community.</p>
