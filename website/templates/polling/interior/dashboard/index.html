@@ -47,15 +47,15 @@
         <!-- ------------------------------------- show details end ------------------------------------- -->
         <!-- ------------------------------------- polling details start ------------------------------------- -->
         <div>
-          <a href="#" class="custom-a-2 custom-header-18 custom-display-block">Create poll for this community <i class="fa-solid fa-plus"></i></a>
-          <a href="#" class="custom-a-2 custom-header-18 custom-display-block">Review my responses & poll statistics <i class="fa-solid fa-angle-right"></i></a>
+          <a href="#" class="custom-a-2 custom-header-18 custom-display-block custom-p-10">Create poll for this community <i class="fa-solid fa-plus"></i></a>
+          <a href="#" class="custom-a-2 custom-header-18 custom-display-block custom-p-10">Review responses & statistics <i class="fa-solid fa-angle-right"></i></a>
           <a href="/polling/show/{{ i_dict['id'] }}" class="custom-a-2 custom-header-12 custom-mt-10 custom-display-block">{{ i_dict['percent_total_polls_complete'] }}% total polls answered</a>
           <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
             <div class="progress-bar bg-secondary" id="id-progress_bar_{{ i_dict['show_count'] }}catch{{ i_dict['percent_total_polls_complete'] }}" style="width: 20%"></div>
           </div>
           {% if i_dict['user_completed_all_polls'] == true %}
           {% else %}
-            <a href="/polling/show/{{ i_dict['id'] }}" class="btn btn-outline-success btn-sm custom-width-100 custom-mt-10">Continue polls <i class="fa-solid fa-angle-right"></i></a>
+            <a href="/polling/show/{{ i_dict['id'] }}" class="btn btn-outline-success btn-lg custom-width-100 custom-mt-10">Continue polls <i class="fa-solid fa-angle-right"></i></a>
           {% endif %}
         </div>
         <!-- ------------------------------------- polling details end ------------------------------------- -->

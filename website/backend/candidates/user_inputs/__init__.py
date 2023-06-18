@@ -515,6 +515,11 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':'Successfully following show, start polling below.',
       'type':'success'
     }
+  elif redirect_var == 's17':
+    alert_message_dict = {
+      'message':'You are up to date with the newest show polls.',
+      'type':'success'
+    }
   # ------------------------ success end ------------------------
   # ------------------------ info end ------------------------
   elif redirect_var == 'i1':
