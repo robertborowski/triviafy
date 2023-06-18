@@ -47,3 +47,13 @@ function CountCharsCustomAnswer(obj){
     document.getElementById("id-countCharsCustomAnswer").innerHTML = '<span style="color:white;opacity:75%;">'+strLength+' out of '+maxLength+' characters. Please avoid using special characters in your response.';
   }
 }
+
+function CountCharsGeneral150(obj){
+  var maxLength = 150;
+  var strLength = obj.value.length;
+  if(strLength > maxLength){
+    document.getElementById("id-countCharsGeneral150").innerHTML = '<span style="color: red;">'+strLength+' out of '+maxLength+' characters.</span>';
+  }else{
+    document.getElementById("id-countCharsGeneral150").innerHTML = strLength+' out of '+maxLength+' characters.';
+  }
+}

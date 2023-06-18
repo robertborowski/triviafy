@@ -773,11 +773,13 @@ def polling_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=
     ui_anonymous_check = request.form.get('ui_anonymous_check')
     ui_vote_question = request.form.get('ui_vote_question')
     ui_vote_feedback = request.form.get('ui_vote_feedback')
+    ui_written_feedback = request.form.get('ui_written_feedback')
     localhost_print_function(' ------------- 0 ------------- ')
     localhost_print_function(f"ui_answer_selected | type: {type(ui_answer_selected)} | {ui_answer_selected}")
     localhost_print_function(f"ui_anonymous_check | type: {type(ui_anonymous_check)} | {ui_anonymous_check}")
     localhost_print_function(f"ui_vote_question | type: {type(ui_vote_question)} | {ui_vote_question}")
     localhost_print_function(f"ui_vote_feedback | type: {type(ui_vote_feedback)} | {ui_vote_feedback}")
+    localhost_print_function(f"ui_written_feedback | type: {type(ui_written_feedback)} | {ui_written_feedback}")
     localhost_print_function(' ------------- 0 ------------- ')
     # ------------------------ get ui end ------------------------
   localhost_print_function(' ------------- 100-show poll start ------------- ')
