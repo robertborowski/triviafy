@@ -789,6 +789,7 @@ def polling_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=
       return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id'], url_redirect_code='e6'))
     # ------------------------ sanatize ui end ------------------------
     # ------------------------ insert to db start ------------------------
+    
     # ------------------------ insert to db end ------------------------
   localhost_print_function(' ------------- 100-show poll start ------------- ')
   page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))

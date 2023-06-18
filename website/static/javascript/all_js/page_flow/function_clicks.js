@@ -6,11 +6,19 @@ $(document).ready(function() {
       $('#id-submit_enable_general_1').attr('enabled', true);
       $('#id-submit_enable_general_2').removeAttr('disabled');
       $('#id-submit_enable_general_2').attr('enabled', true);
+      $('#id-submit_enable_general_1').removeClass('btn-secondary');
+      $('#id-submit_enable_general_1').addClass('btn-success');
+      $('#id-submit_enable_general_2').removeClass('btn-secondary');
+      $('#id-submit_enable_general_2').addClass('btn-success');
     } else {
       $('#id-submit_enable_general_1').removeAttr('enabled');
       $('#id-submit_enable_general_1').attr('disabled', true);
       $('#id-submit_enable_general_2').removeAttr('enabled');
       $('#id-submit_enable_general_2').attr('disabled', true);
+      $('#id-submit_enable_general_1').addClass('btn-secondary');
+      $('#id-submit_enable_general_1').removeClass('btn-success');
+      $('#id-submit_enable_general_2').addClass('btn-secondary');
+      $('#id-submit_enable_general_2').removeClass('btn-success');
     }
   });
   // ----------------------------- general poll submission end -----------------------------
