@@ -217,6 +217,7 @@
   --custom-color-primary-darker: rgb(44 26 77);
   --custom-color-success: #198754;
   --custom-color-info: #0dcaf0;
+  --custom-color-danger: #dc3545;
   --custom-color-8: rgb(237, 237, 237);
   --custom-color-9: rgb(232 255 235);
   --custom-color-10: rgb(255 213 213);
@@ -240,8 +241,17 @@
 .custom-color-success {
   color: var(--custom-color-success);
 }
+.custom-color-success-important {
+  color: var(--custom-color-success) !important;
+}
 .custom-color-info {
   color: var(--custom-color-info);
+}
+.custom-color-danger {
+  color: var(--custom-color-danger);
+}
+.custom-color-danger-important {
+  color: var(--custom-color-danger) !important;
 }
 .custom-color-white {
   color: white;
@@ -680,6 +690,12 @@
 }
 .custom-opacity-2 {
   opacity: 0.75;
+}
+.custom-opacity-10 {
+  opacity: 0.10;
+}
+.custom-opacity-25 {
+  opacity: 0.25;
 }
 .custom-opacity-50 {
   opacity: 0.50;
@@ -1554,8 +1570,11 @@
 }
 /* ------------------- text end ------------------- */
 /* ------------------- transition start ------------------- */
-.custom-transition-1 {
-  transition: 0.5s;
+.custom-transition-03 {
+  transition: 0.3s;
+}
+.custom-transition-05 {
+  transition: 0.3s;
 }
 /* ------------------- transition end ------------------- */
 /* ------------------- underline start ------------------- */

@@ -4,9 +4,9 @@ function handleCheckboxChange() {
     
     if (checkbox.checked) {
       userEmail.classList.add("custom-blur-1");
-      userEmail.classList.add("custom-transition-1");
+      userEmail.classList.add("custom-transition-05");
     } else {
       userEmail.classList.remove("custom-blur-1");
-      userEmail.classList.remove("custom-transition-1");
+      userEmail.classList.remove("custom-transition-05");
     }
   }
