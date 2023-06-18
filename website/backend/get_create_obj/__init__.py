@@ -61,6 +61,7 @@ def get_show_percent_of_all_polls_answered_function(fk_user_id, fk_show_id):
   user_percent_completed = int(0)
   show_polls_total = int(0)
   show_polls_answered_total = int(0)
+  is_complete = False
   # ------------------------ variables end ------------------------
   # ------------------------ show polls total start ------------------------
   db_objs = PollsObj.query.filter_by(fk_show_id=fk_show_id,status_approved=True,status_removed=False).all()
@@ -87,7 +88,11 @@ def get_show_percent_of_all_polls_answered_function(fk_user_id, fk_show_id):
   if int(user_percent_completed) == int(0):
     user_percent_completed = 1
   # ------------------------ catch end ------------------------
-  return int(user_percent_completed)
+  # ------------------------ complete status start ------------------------
+  if int(user_percent_completed) == int(100):
+    is_complete = True
+  # ------------------------ complete status end ------------------------
+  return int(user_percent_completed), is_complete
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------

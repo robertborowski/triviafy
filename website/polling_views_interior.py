@@ -74,6 +74,13 @@ def polling_dashboard_function(url_redirect_code=None):
   page_dict['shows_following_arr_of_dict'] = get_all_shows_following_function(current_user)
   page_dict = shows_following_arr_of_dict_function(page_dict)
   # ------------------------ get all shows following sorted end ------------------------
+  # ------------------------ pull + calculate status bar percent complete start ------------------------
+  show_counter = 0
+  for i_dict in page_dict['shows_following_arr_of_dict']:
+    i_dict['percent_total_polls_complete'], i_dict['user_completed_all_polls'] = get_show_percent_of_all_polls_answered_function(current_user.id, i_dict['id'])
+    show_counter += 1
+    i_dict['show_count'] = show_counter
+  # ------------------------ pull + calculate status bar percent complete end ------------------------
   # ------------------------ for setting cookie start ------------------------
   template_location_url = 'polling/interior/dashboard/index.html'
   # ------------------------ for setting cookie end ------------------------
@@ -767,7 +774,7 @@ def polling_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=
     return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id'], url_redirect_code=url_redirect_code))
   # ------------------------ pull show + poll combination end ------------------------
   # ------------------------ pull + calculate status bar percent complete start ------------------------
-  page_dict['percent_total_polls_complete'] = get_show_percent_of_all_polls_answered_function(current_user.id, url_show_id)
+  page_dict['percent_total_polls_complete'], page_dict['user_completed_all_polls'] = get_show_percent_of_all_polls_answered_function(current_user.id, url_show_id)
   # ------------------------ pull + calculate status bar percent complete end ------------------------
   # ------------------------ pull latest answer if exists start ------------------------
   try:
