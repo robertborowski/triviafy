@@ -539,6 +539,11 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':'Deleted!',
       'type':'warning'
     }
+  elif redirect_var == 'w2':
+    alert_message_dict = {
+      'message':'Poll successfully received',
+      'type':'warning'
+    }
   # ------------------------ warning end ------------------------
   # localhost_print_function('=========================================== alert_message_default_function_v2 END ===========================================')
   return alert_message_dict

@@ -746,6 +746,8 @@ def polling_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=
   page_dict['url_show_id'] = url_show_id
   page_dict['url_poll_id'] = url_poll_id
   page_dict['current_user_email'] = current_user.email
+  page_dict['poll_answered'] = False
+  page_dict['poll_answered_dict'] = None
   # ------------------------ variables end ------------------------
   # ------------------------ pull show + poll combination start ------------------------
   poll_arr_of_dict = []
@@ -767,6 +769,14 @@ def polling_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=
   # ------------------------ pull + calculate status bar percent complete start ------------------------
   page_dict['percent_total_polls_complete'] = get_show_percent_of_all_polls_answered_function(current_user.id, url_show_id)
   # ------------------------ pull + calculate status bar percent complete end ------------------------
+  # ------------------------ pull latest answer if exists start ------------------------
+  try:
+    db_latest_poll_obj = PollsAnsweredObj.query.filter_by(fk_show_id=url_show_id,fk_poll_id=url_poll_id,fk_user_id=current_user.id).order_by(PollsAnsweredObj.created_timestamp.desc()).first()
+    page_dict['poll_answered_dict'] = arr_of_dict_all_columns_single_item_function(db_latest_poll_obj)
+    page_dict['poll_answered'] = True
+  except:
+    pass
+  # ------------------------ pull latest answer if exists end ------------------------
   if request.method == 'POST':
     # ------------------------ get ui start ------------------------
     ui_answer_selected = request.form.get('ui_selection_radio')
@@ -816,6 +826,7 @@ def polling_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=
     db.session.add(new_row)
     db.session.commit()
     # ------------------------ insert to db end ------------------------
+    return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id'], url_redirect_code='w2'))
   localhost_print_function(' ------------- 100-show poll start ------------- ')
   page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
   for k,v in page_dict.items():

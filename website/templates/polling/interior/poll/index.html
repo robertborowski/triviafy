@@ -42,12 +42,22 @@
         <div class="custom-display-flex custom-header-20 custom-color-white custom-jc-between">
           <p class="custom-m-0 custom-opacity-75 custom-pb-5">Poll</p>
           <div>
-            <!-- ------------------------------------- radio upvote downvote start ------------------------------------- -->
+            <!-- ------------------------------------- radio upvote start ------------------------------------- -->
             <input type="radio" class="btn-check" id="id-ui_vote_question_up" name="ui_vote_question" value="up" autocomplete="off">
-            <label class="custom-transition-03 custom-opacity-50 custom-hover-1" for="id-ui_vote_question_up"><i class="fa-solid fa-circle-up" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Good poll question"></i></label>
+            {% if page_dict_to_html['poll_answered_dict']['poll_vote_updown_question'] == true %}
+              <label class="custom-transition-03 custom-hover-1 custom-color-success-important" for="id-ui_vote_question_up"><i class="fa-solid fa-circle-up" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Good poll question"></i></label>
+            {% else %}
+              <label class="custom-transition-03 custom-opacity-50 custom-hover-1" for="id-ui_vote_question_up"><i class="fa-solid fa-circle-up" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Good poll question"></i></label>
+            {% endif %}
+            <!-- ------------------------------------- radio upvote end ------------------------------------- -->
+            <!-- ------------------------------------- radio downvote start ------------------------------------- -->
             <input type="radio" class="btn-check" id="id-ui_vote_question_down" name="ui_vote_question" value="down" autocomplete="off">
-            <label class="custom-transition-03 custom-opacity-50 custom-hover-1 custom-ml-5" for="id-ui_vote_question_down"><i class="fa-solid fa-circle-down" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Not good poll question"></i></label>
-            <!-- ------------------------------------- radio upvote downvote end ------------------------------------- -->
+            {% if page_dict_to_html['poll_answered_dict']['poll_vote_updown_question'] == false %}
+              <label class="custom-transition-03 custom-hover-1 custom-color-danger-important custom-ml-5" for="id-ui_vote_question_down"><i class="fa-solid fa-circle-down" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Not good poll question"></i></label>
+            {% else %}
+              <label class="custom-transition-03 custom-opacity-50 custom-hover-1 custom-ml-5" for="id-ui_vote_question_down"><i class="fa-solid fa-circle-down" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Not good poll question"></i></label>
+            {% endif %}
+            <!-- ------------------------------------- radio downvote end ------------------------------------- -->
           </div>
         </div>
         <div class="custom-br-15 custom-p-50 custom-bg-white">
@@ -60,18 +70,32 @@
         <div class="custom-display-flex custom-header-20 custom-color-white custom-jc-between">
           <p class="custom-m-0 custom-opacity-75 custom-pb-5">Feedback</p>
           <div>
-            <!-- ------------------------------------- radio upvote downvote start ------------------------------------- -->
+            <!-- ------------------------------------- radio upvote start ------------------------------------- -->
             <input type="radio" class="btn-check" id="id-ui_vote_feedback_up" name="ui_vote_feedback" value="up" autocomplete="off">
-            <label class="custom-transition-03 custom-opacity-50 custom-hover-1" for="id-ui_vote_feedback_up"><i class="fa-solid fa-circle-up" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Good feedback options"></i></label>
+            {% if page_dict_to_html['poll_answered_dict']['poll_vote_updown_feedback'] == true %}
+              <label class="custom-transition-03 custom-hover-1 custom-color-success-important" for="id-ui_vote_feedback_up"><i class="fa-solid fa-circle-up" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Good feedback options"></i></label>
+            {% else %}
+              <label class="custom-transition-03 custom-opacity-50 custom-hover-1" for="id-ui_vote_feedback_up"><i class="fa-solid fa-circle-up" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Good feedback options"></i></label>
+            {% endif %}
+            <!-- ------------------------------------- radio upvote end ------------------------------------- -->
+            <!-- ------------------------------------- radio downvote start ------------------------------------- -->
             <input type="radio" class="btn-check" id="id-ui_vote_feedback_down" name="ui_vote_feedback" value="down" autocomplete="off">
-            <label class="custom-transition-03 custom-opacity-50 custom-hover-1 custom-ml-5" for="id-ui_vote_feedback_down"><i class="fa-solid fa-circle-down" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Not good feedback options"></i></label>
-            <!-- ------------------------------------- radio upvote downvote end ------------------------------------- -->
+            {% if page_dict_to_html['poll_answered_dict']['poll_vote_updown_feedback'] == false %}
+              <label class="custom-transition-03 custom-hover-1 custom-color-danger-important custom-ml-5" for="id-ui_vote_feedback_down"><i class="fa-solid fa-circle-down" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Not good feedback options"></i></label>
+            {% else %}
+              <label class="custom-transition-03 custom-opacity-50 custom-hover-1 custom-ml-5" for="id-ui_vote_feedback_down"><i class="fa-solid fa-circle-down" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Not good feedback options"></i></label>
+            {% endif %}
+            <!-- ------------------------------------- radio downvote end ------------------------------------- -->
           </div>
         </div>
         <div class="custom-border-white-opacity-25 custom-br-15">
           {% for i in range(page_dict_to_html['poll_dict']['answer_choices']|length) %}
             <input type="radio" class="btn-check" id="uiAnswerSelection{{ i }}" name="ui_selection_radio" value="{{ page_dict_to_html['poll_dict']['answer_choices'][i] }}" autocomplete="off" required>
-            <label class="custom-br-15 custom-width-100 custom-p-25 custom-hover-1 custom-color-white custom-transition-05" for="uiAnswerSelection{{ i }}">{{ page_dict_to_html['poll_dict']['answer_choices'][i] }}</label>
+            {% if page_dict_to_html['poll_answered_dict']['poll_answer_submitted'] == page_dict_to_html['poll_dict']['answer_choices'][i] %}
+              <label class="custom-br-15 custom-width-100 custom-p-25 custom-hover-1 custom-transition-05 custom-bg-white custom-color-black" for="uiAnswerSelection{{ i }}">{{ page_dict_to_html['poll_dict']['answer_choices'][i] }}</label>
+            {% else %}
+              <label class="custom-br-15 custom-width-100 custom-p-25 custom-hover-1 custom-color-white custom-transition-05" for="uiAnswerSelection{{ i }}">{{ page_dict_to_html['poll_dict']['answer_choices'][i] }}</label>
+            {% endif %}
           {% endfor %}
         </div>
       </div>
@@ -84,7 +108,11 @@
       <div class="custom-mt-10 custom-width-100 uiSelectAllBlockInvisible" id="id-activity_details_1">
         <!-- ------------------------------------- ui written response start ------------------------------------- -->
         <!-- <label for="ui_written_feedback" class="custom-m-0"></label> -->
-        <textarea class="form-control" id="ui_written_feedback" name="ui_written_feedback" placeholder="Additional feedback..." rows="4" onkeyup="CountCharsGeneral150(this);" pattern="{1,150}"></textarea>
+        {% if page_dict_to_html['poll_answered_dict']['written_answer_submitted'] != none %}
+          <textarea class="form-control" id="ui_written_feedback" name="ui_written_feedback" placeholder="Your previous feedback: '{{ page_dict_to_html['poll_answered_dict']['written_answer_submitted'] }}'" rows="4" onkeyup="CountCharsGeneral150(this);" pattern="{1,150}"></textarea>
+        {% else %}
+          <textarea class="form-control" id="ui_written_feedback" name="ui_written_feedback" placeholder="Additional feedback..." rows="4" onkeyup="CountCharsGeneral150(this);" pattern="{1,150}"></textarea>
+        {% endif %}
         <p id="id-countCharsGeneral150" class="custom-m-0 custom-pt-10 custom-header-12 custom-color-white custom-opacity-75"></p>
         <!-- ------------------------------------- ui written response end ------------------------------------- -->
       </div>
@@ -93,7 +121,11 @@
       <div class="custom-mt-50 mx-auto">
         <p class="custom-m-0 custom-color-white custom-opacity-75 custom-header-15">Feedback from #1 fan: <span id="id-user_email">{{ page_dict_to_html['current_user_email'] }}</span></p>
         <div class="form-check custom-color-white custom-header-15 custom-mt-10">
-          <input class="form-check-input" type="checkbox" value="ui_checked" name="ui_anonymous_check" id="id-flexCheckDefault" onchange="handleCheckboxChange()">
+          {% if page_dict_to_html['poll_answered_dict']['status_answer_anonymous'] == true %}
+            <input class="form-check-input" type="checkbox" value="ui_checked" name="ui_anonymous_check" id="id-flexCheckDefault" onchange="handleCheckboxChange()" checked>
+          {% else %}
+            <input class="form-check-input" type="checkbox" value="ui_checked" name="ui_anonymous_check" id="id-flexCheckDefault" onchange="handleCheckboxChange()">
+          {% endif %}
           <label class="form-check-label custom-opacity-75-hover custom-hover-1 custom-line-height-12" for="id-flexCheckDefault">Poll anonymously <span class="custom-color-white custom-m-0 custom-opacity-75 custom-header-10 custom-line-height-12">Only the verified '{{ page_dict_to_html['db_show_dict']['name_title'] }}' host can see your direct feedback. Check this box to hide your email from the verified '{{ page_dict_to_html['db_show_dict']['name_title'] }}' host for this poll.</span></label>
         </div>
       </div>
