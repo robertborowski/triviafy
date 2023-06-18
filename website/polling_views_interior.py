@@ -17,7 +17,7 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v6
-from website.models import UserObj, EmailSentObj, UserAttributesObj, ShowsFollowingObj, ShowsObj, PollsObj
+from website.models import UserObj, EmailSentObj, UserAttributesObj, ShowsFollowingObj, ShowsObj, PollsObj, PollsAnsweredObj
 from website.backend.onboarding import onboarding_checks_v2_function
 from website.backend.login_checks import product_login_checks_function
 from website.backend.candidates.string_manipulation import breakup_email_function
@@ -788,8 +788,33 @@ def polling_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=
     if ui_written_feedback == False:
       return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id'], url_redirect_code='e6'))
     # ------------------------ sanatize ui end ------------------------
+    # ------------------------ variables before insert start ------------------------
+    if ui_vote_question == 'up':
+      ui_vote_question = True
+    if ui_vote_question == 'down':
+      ui_vote_question = False
+    if ui_vote_feedback == 'up':
+      ui_vote_feedback = True
+    if ui_vote_feedback == 'down':
+      ui_vote_feedback = False
+    if ui_anonymous_check == 'ui_checked':
+      ui_anonymous_check = True
+    # ------------------------ variables before insert end ------------------------
     # ------------------------ insert to db start ------------------------
-    
+    new_row = PollsAnsweredObj(
+      id=create_uuid_function('vote_'),
+      created_timestamp=create_timestamp_function(),
+      fk_show_id=url_show_id,
+      fk_poll_id=url_poll_id,
+      fk_user_id=current_user.id,
+      poll_answer_submitted=ui_answer_selected,
+      written_answer_submitted=ui_written_feedback,
+      status_answer_anonymous=ui_anonymous_check,
+      poll_vote_updown_question=ui_vote_question,
+      poll_vote_updown_feedback=ui_vote_feedback
+    )
+    db.session.add(new_row)
+    db.session.commit()
     # ------------------------ insert to db end ------------------------
   localhost_print_function(' ------------- 100-show poll start ------------- ')
   page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))

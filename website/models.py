@@ -402,6 +402,7 @@ class PollsAnsweredObj(db.Model):
   poll_answer_submitted = db.Column(db.String(150))
   written_answer_submitted = db.Column(db.String(150))
   status_answer_anonymous = db.Column(db.Boolean, default=False)
-  poll_like_dislike = db.Column(db.Boolean)
+  poll_vote_updown_question = db.Column(db.Boolean)
+  poll_vote_updown_feedback = db.Column(db.Boolean)
 # ------------------------ individual model end ------------------------
 # ------------------------ employees models end ------------------------

@@ -23,7 +23,7 @@ def sanitize_letters_numbers_spaces_specials_only_function(user_input):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual arr start ------------------------
-replace_from_str_arr = ['select','update','delete','insert','<','>','{','}','[',']','~','`','_']
+replace_from_str_arr = ['select','update','delete','insert','drop','<','>','{','}','[',']','~','`','_']
 # ------------------------ individual arr end ------------------------
 
 # ------------------------ individual function start ------------------------
