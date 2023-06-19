@@ -75,11 +75,14 @@ def polling_dashboard_function(url_redirect_code=None):
   page_dict = shows_following_arr_of_dict_function(page_dict)
   # ------------------------ get all shows following sorted end ------------------------
   # ------------------------ pull + calculate status bar percent complete start ------------------------
-  show_counter = 0
-  for i_dict in page_dict['shows_following_arr_of_dict']:
-    i_dict['percent_total_polls_complete'], i_dict['user_completed_all_polls'] = get_show_percent_of_all_polls_answered_function(current_user.id, i_dict['id'])
-    show_counter += 1
-    i_dict['show_count'] = show_counter
+  try:
+    show_counter = 0
+    for i_dict in page_dict['shows_following_arr_of_dict']:
+      i_dict['percent_total_polls_complete'], i_dict['user_completed_all_polls'] = get_show_percent_of_all_polls_answered_function(current_user.id, i_dict['id'])
+      show_counter += 1
+      i_dict['show_count'] = show_counter
+  except:
+    pass
   # ------------------------ pull + calculate status bar percent complete end ------------------------
   # ------------------------ for setting cookie start ------------------------
   template_location_url = 'polling/interior/dashboard/index.html'
