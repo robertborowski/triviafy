@@ -48,15 +48,20 @@ def create_app_function():
   # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
   app.config['UPLOAD_FOLDER'] = './website/backend/candidates/user_inputs/'
   app.config['MAX_CONTENT_PATH'] = 16 * 1024 * 1024
+  app.config['TIMEOUT'] = 120
   # ------------------------ additional flask app configurations end ------------------------
   # ------------------------ Handleing Error Messages START ------------------------
-  @app.errorhandler(404)
-  # inbuilt function which takes error as parameter
+  @app.errorhandler(404) # inbuilt function which takes error as parameter
   def not_found(e):
     # localhost_print_function('exception hit create_app_function')
     # localhost_print_function('=========================================== create_app_function END ===========================================')
     return render_template("employees/exterior/error_404/index.html")
   # ------------------------ Handleing Error Messages END ------------------------
+  # ------------------------ timeout start ------------------------
+  @app.errorhandler(504)  # Handle Gateway Timeout error
+  def handle_gateway_timeout_error(error):
+    return render_template("polling/interior/dashboard/index.html")
+  # ------------------------ timeout end ------------------------
   # ------------------------ stripe api environment start ------------------------
   stripe.api_key = os.environ.get('STRIPE_API_KEY')  # PRODUCTION
   # stripe.api_key = os.environ.get('STRIPE_TEST_API_KEY')  # TESTING
