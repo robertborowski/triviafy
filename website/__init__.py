@@ -48,7 +48,6 @@ def create_app_function():
   # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
   app.config['UPLOAD_FOLDER'] = './website/backend/candidates/user_inputs/'
   app.config['MAX_CONTENT_PATH'] = 16 * 1024 * 1024
-  app.config['TIMEOUT'] = 90
   # ------------------------ additional flask app configurations end ------------------------
   # ------------------------ Handleing Error Messages START ------------------------
   @app.errorhandler(404) # inbuilt function which takes error as parameter
@@ -58,9 +57,9 @@ def create_app_function():
     return render_template("employees/exterior/error_404/index.html")
   # ------------------------ Handleing Error Messages END ------------------------
   # ------------------------ timeout start ------------------------
-  @app.errorhandler(503)  # Handle Gateway Timeout error
-  def handle_gateway_timeout_error(error):
-    return render_template("polling/interior/dashboard/index.html")
+  @app.errorhandler(503)  # Handle 503 Service Unavailable error
+  def handle_service_unavailable_error(error):
+      return render_template('polling/interior/dashboard/index.html')
   # ------------------------ timeout end ------------------------
   # ------------------------ stripe api environment start ------------------------
   stripe.api_key = os.environ.get('STRIPE_API_KEY')  # PRODUCTION
