@@ -48,7 +48,6 @@ def create_app_function():
   # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
   app.config['UPLOAD_FOLDER'] = './website/backend/candidates/user_inputs/'
   app.config['MAX_CONTENT_PATH'] = 16 * 1024 * 1024
-  app.config['TIMEOUT'] = 120
   # ------------------------ additional flask app configurations end ------------------------
   # ------------------------ Handleing Error Messages START ------------------------
   @app.errorhandler(404) # inbuilt function which takes error as parameter
