@@ -1,2 +1,2 @@
 web: python index.py
-worker1: python jobs/testing_function.py
+worker1: python testing_function.py
