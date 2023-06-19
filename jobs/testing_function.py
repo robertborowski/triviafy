@@ -10,6 +10,14 @@ time.tzset()
 
 # ------------------------ individual function start ------------------------
 def run_function():
+  print(' -------------------------- 000 start -------------------------- ')
+  counter = 0
+  while counter < 10:
+    counter += 1
+    print(f'status counter: {counter}')
+    time.sleep(10)
+  print(' -------------------------- 000 end -------------------------- ')
+  
   try:
     print(' -------------------------- 001 -------------------------- ')
     print('starting to wait')
