@@ -42,6 +42,17 @@ polling_views_interior = Blueprint('polling_views_interior', __name__)
 redis_connection = redis_connect_to_database_function()
 # ------------------------ connect to redis end ------------------------
 
+# ------------------------ timeout start ------------------------
+@polling_views_interior.errorhandler(504)
+def handle_timeout_error504(e):
+  return render_template('employees/exterior/error_404/index.html')
+# ------------------------ timeout end ------------------------
+# ------------------------ timeout start ------------------------
+@polling_views_interior.errorhandler(503)
+def handle_timeout_error503(e):
+    return render_template('employees/exterior/error_404/index.html')
+# ------------------------ timeout end ------------------------
+
 # ------------------------ individual route start ------------------------
 @polling_views_interior.route('/polling/dashboard', methods=['GET', 'POST'])
 @polling_views_interior.route('/polling/dashboard/<url_redirect_code>', methods=['GET', 'POST'])
