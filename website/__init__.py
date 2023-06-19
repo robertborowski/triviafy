@@ -58,12 +58,16 @@ def create_app_function():
   # ------------------------ Handleing Error Messages END ------------------------
   # ------------------------ timeout start ------------------------
   @app.errorhandler(503)
-  def handle_service_unavailable_error(e):
+  def handle_timeout_error503(e):
+      print(' --- 001 --- ')
+      print(e)
       return render_template('polling/interior/dashboard/index.html')
   # ------------------------ timeout end ------------------------
   # ------------------------ timeout start ------------------------
   @app.errorhandler(504)
-  def handle_service_unavailable_error(e):
+  def handle_timeout_error504(e):
+      print(' --- 002 --- ')
+      print(e)
       return render_template('polling/interior/dashboard/index.html')
   # ------------------------ timeout end ------------------------
   # ------------------------ stripe api environment start ------------------------
