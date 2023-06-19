@@ -11,8 +11,7 @@
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
-from flask import Blueprint, render_template, request, redirect, url_for, Flask
-from timeout_decorator import timeout
+from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required, current_user, logout_user
 from website.backend.candidates.redis import redis_check_if_cookie_exists_function, redis_connect_to_database_function
 from website import db
@@ -460,7 +459,6 @@ def polling_feedback_function(url_redirect_code=None, url_feedback_code=None):
 @polling_views_interior.route('/polling/show/add/<url_step_code>/<url_platform_id>/<url_redis_key>/', methods=['GET', 'POST'])
 @polling_views_interior.route('/polling/show/add/<url_step_code>/<url_platform_id>/<url_redis_key>/<url_redirect_code>', methods=['GET', 'POST'])
 @polling_views_interior.route('/polling/show/add/<url_step_code>/<url_platform_id>/<url_redis_key>/<url_redirect_code>/', methods=['GET', 'POST'])
-@timeout(90)  # Set timeout to 30 seconds
 @login_required
 def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_platform_id=None, url_redis_key=None):
   # ------------------------ page dict start ------------------------
