@@ -57,7 +57,12 @@ def create_app_function():
     return render_template("employees/exterior/error_404/index.html")
   # ------------------------ Handleing Error Messages END ------------------------
   # ------------------------ timeout start ------------------------
-  @app.errorhandler(503)  # Handle 503 Service Unavailable error
+  @app.errorhandler(503)
+  def handle_service_unavailable_error(e):
+      return render_template('polling/interior/dashboard/index.html')
+  # ------------------------ timeout end ------------------------
+  # ------------------------ timeout start ------------------------
+  @app.errorhandler(504)
   def handle_service_unavailable_error(e):
       return render_template('polling/interior/dashboard/index.html')
   # ------------------------ timeout end ------------------------
