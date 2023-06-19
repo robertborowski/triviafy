@@ -49,27 +49,36 @@ def create_app_function():
   app.config['UPLOAD_FOLDER'] = './website/backend/candidates/user_inputs/'
   app.config['MAX_CONTENT_PATH'] = 16 * 1024 * 1024
   # ------------------------ additional flask app configurations end ------------------------
+  # ------------------------ timeout start ------------------------
+  try:
+    @app.errorhandler(504)
+    def handle_timeout_error504(e):
+        print(' --- 002 --- ')
+        print(e)
+        return render_template('polling/interior/dashboard/index.html')
+  except:
+    pass
+  # ------------------------ timeout end ------------------------
+  # ------------------------ timeout start ------------------------
+  try:
+    @app.errorhandler(503)
+    def handle_timeout_error503(e):
+        print(' --- 001 --- ')
+        print(e)
+        return render_template('polling/interior/dashboard/index.html')
+  except:
+    pass
+  # ------------------------ timeout end ------------------------
   # ------------------------ Handleing Error Messages START ------------------------
-  @app.errorhandler(404) # inbuilt function which takes error as parameter
-  def not_found(e):
-    # localhost_print_function('exception hit create_app_function')
-    # localhost_print_function('=========================================== create_app_function END ===========================================')
-    return render_template("employees/exterior/error_404/index.html")
+  try:
+    @app.errorhandler(404) # inbuilt function which takes error as parameter
+    def not_found(e):
+      print(' --- 000 --- ')
+      print(e)
+      return render_template("employees/exterior/error_404/index.html")
+  except:
+    pass
   # ------------------------ Handleing Error Messages END ------------------------
-  # ------------------------ timeout start ------------------------
-  @app.errorhandler(503)
-  def handle_timeout_error503(e):
-      print(' --- 001 --- ')
-      print(e)
-      return render_template('polling/interior/dashboard/index.html')
-  # ------------------------ timeout end ------------------------
-  # ------------------------ timeout start ------------------------
-  @app.errorhandler(504)
-  def handle_timeout_error504(e):
-      print(' --- 002 --- ')
-      print(e)
-      return render_template('polling/interior/dashboard/index.html')
-  # ------------------------ timeout end ------------------------
   # ------------------------ stripe api environment start ------------------------
   stripe.api_key = os.environ.get('STRIPE_API_KEY')  # PRODUCTION
   # stripe.api_key = os.environ.get('STRIPE_TEST_API_KEY')  # TESTING
