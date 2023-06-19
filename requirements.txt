@@ -15,4 +15,3 @@ sendgrid
 itsdangerous==2.0.1
 stripe
 openai
-timeout_decorator==0.5.0
