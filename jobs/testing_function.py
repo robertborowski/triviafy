@@ -1,5 +1,8 @@
 # ------------------------ imports start ------------------------
 import os, time
+from backend.db.connection.postgres_connect_to_database import postgres_connect_to_database_function
+from backend.db.connection.postgres_close_connection_to_database import postgres_close_connection_to_database_function
+from backend.db.queries.insert_queries.employees import insert_manual_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ set timezone start ------------------------
@@ -10,22 +13,23 @@ time.tzset()
 
 # ------------------------ individual function start ------------------------
 def run_function():
-  print(' -------------------------- 000 start -------------------------- ')
+  # ------------------------ DB Conection START ------------------------
+  # Connect to Postgres database
+  postgres_connection, postgres_cursor = postgres_connect_to_database_function()
+  # ------------------------ DB Conection End ------------------------
   counter = 0
   while counter < 10:
     counter += 1
-    print(f'status counter: {counter}')
+    # ------------------------ insert to db start ------------------------
+    value_string = f'hello{counter}'
+    insert_inputs_arr = [value_string]
+    insert_manual_function(postgres_connection, postgres_cursor, 'insert1', insert_inputs_arr)
+    # ------------------------ insert to db end ------------------------
     time.sleep(10)
-  print(' -------------------------- 000 end -------------------------- ')
-  
-  try:
-    print(' -------------------------- 001 -------------------------- ')
-    print('starting to wait')
-    time.sleep(60)
-    print('done waiting 60 seconds')
-    print(' -------------------------- 002 -------------------------- ')
-  except:
-    print(' -------------------------- error -------------------------- ')
+  # ------------------------ DB Close Conection START ------------------------
+  # Close postgres db connection
+  postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)
+  # ------------------------ DB Close Conection END ------------------------
   return True
 # ------------------------ individual function end ------------------------
 

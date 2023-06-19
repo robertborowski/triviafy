@@ -64,6 +64,10 @@ def insert_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
       'insert_used_1': {
         'query': "INSERT INTO activity_a_group_questions_used_obj(id,created_timestamp,fk_group_id,fk_question_id,fk_test_id,product) VALUES(%s,%s,%s,%s,%s,%s);",
         'new_row': (input_0, input_1, input_2, input_3, input_4, input_5)
+      },
+      'insert1': {
+        'query': "INSERT INTO z_table_1(id) VALUES(%s);",
+        'new_row': (input_0)
       }
     }
     # ------------------------ insert queries end ------------------------
