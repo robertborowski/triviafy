@@ -48,9 +48,13 @@ def insert_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
     # ------------------------ generic pull end ------------------------
     # ------------------------ insert queries start ------------------------
     insert_queries_dict = {
-      'insert1': {
-        'query': "INSERT INTO email_sent_obj(id,created_timestamp,from_user_id_fk,to_email,subject,body) VALUES(%s,%s,%s,%s,%s,%s);",
-        'new_row': (input_0, input_1, input_2, input_3, input_4, input_5)
+      'insert_poll': {
+        'query': "INSERT INTO polls_obj(id,created_timestamp,type,fk_show_id,question,answer_choices,written_response_allowed,status_approved,status_removed) VALUES(%s,%s,%s,%s,%s,%s,%s,%s);",
+        'new_row': (input_0, input_1, input_2, input_3, input_4, input_5, input_6, input_7)
+      },
+      'insert_show': {
+        'query': "INSERT INTO shows_obj(id,created_timestamp,name,description,fk_platform_id,status,platform_reference_id,platform_image_large,platform_image_medium,platform_image_small,platform_url) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);",
+        'new_row': (input_0, input_1, input_2, input_3, input_4, input_5, input_6, input_7, input_8, input_9, input_10)
       }
     }
     # ------------------------ insert queries end ------------------------

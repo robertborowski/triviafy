@@ -13,7 +13,9 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
       f"SELECT \
           * \
         FROM \
-          shows_queue_obj;"
+          shows_queue_obj \
+        ORDER BY \
+          created_timestamp;"
   }
   # ------------------------ select queries end ------------------------
   # ------------------------ cursor start ------------------------

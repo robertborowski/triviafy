@@ -382,9 +382,14 @@ class ShowsObj(db.Model):
 class ShowsQueueObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
   created_timestamp = db.Column(db.DateTime(timezone=True))
-  name = db.Column(db.String(150))
   fk_platform_id = db.Column(db.String(150))
   platform_reference_id = db.Column(db.String(150))
+  name = db.Column(db.String(150))
+  description = db.Column(db.String(300))
+  img_large = db.Column(db.String(150))
+  img_medium = db.Column(db.String(150))
+  img_small = db.Column(db.String(150))
+  show_url = db.Column(db.String(150))
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
