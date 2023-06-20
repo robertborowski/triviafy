@@ -17,7 +17,7 @@ from website.backend.candidates.redis import redis_check_if_cookie_exists_functi
 from website import db
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from website.backend.candidates.browser import browser_response_set_cookie_function_v6
-from website.models import UserObj, EmailSentObj, UserAttributesObj, ShowsFollowingObj, ShowsObj, PollsObj, PollsAnsweredObj
+from website.models import UserObj, EmailSentObj, UserAttributesObj, ShowsFollowingObj, ShowsObj, PollsObj, PollsAnsweredObj, ShowsQueueObj
 from website.backend.onboarding import onboarding_checks_v2_function
 from website.backend.login_checks import product_login_checks_function
 from website.backend.candidates.string_manipulation import breakup_email_function
@@ -452,6 +452,24 @@ def polling_feedback_function(url_redirect_code=None, url_feedback_code=None):
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
+@polling_views_interior.route('/polling/loading/<url_platform_reference_id>')
+@login_required
+def polling_loading_function(url_platform_reference_id=None):
+  # ------------------------ check url start ------------------------
+  if url_platform_reference_id == None:
+    return redirect(url_for('polling_views_interior.polling_dashboard_function', url_redirect_code='e6'))
+  # ------------------------ check url end ------------------------
+  # ------------------------ check if exists start ------------------------
+  db_show_check_obj = ShowsObj.query.filter_by(platform_reference_id=url_platform_reference_id).first()
+  if db_show_check_obj != None:
+    db_show_following_obj = ShowsFollowingObj.query.filter_by(fk_show_id=db_show_check_obj.id,fk_user_id=current_user.id).first()
+    if db_show_following_obj != None:
+      return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=db_show_following_obj.fk_show_id, url_redirect_code='s16'))
+  # ------------------------ check if exists end ------------------------
+  return render_template('polling/interior/loading_screen/index.html')
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
 @polling_views_interior.route('/polling/show/add', methods=['GET', 'POST'])
 @polling_views_interior.route('/polling/show/add/', methods=['GET', 'POST'])
 @polling_views_interior.route('/polling/show/add/<url_step_code>', methods=['GET', 'POST'])
@@ -591,6 +609,29 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
       # ------------------------ add spotify result to redis end ------------------------
       return redirect(url_for('polling_views_interior.polling_add_show_function', url_step_code=page_dict['url_next_step_code'], url_platform_id=url_platform_id, url_redis_key=url_redis_key))
     if page_dict['url_step_code'] == '3':
+      # ------------------------ remove from redis start ------------------------
+      try:
+        redis_connection.delete(url_redis_key)
+      except:
+        pass
+      # ------------------------ remove from redis end ------------------------
+      # ------------------------ check if already in queue start ------------------------
+      db_queue_obj = ShowsQueueObj.query.filter_by(name=spotify_pulled_dict['name']).first()
+      # ------------------------ check if already in queue end ------------------------
+      if db_queue_obj == None:
+        # ------------------------ add to live job queue start ------------------------
+        new_row = ShowsQueueObj(
+          id=create_uuid_function('queue_'),
+          created_timestamp=create_timestamp_function(),
+          name=spotify_pulled_dict['name'],
+          fk_platform_id = url_platform_id,
+          platform_reference_id = spotify_pulled_dict['id']
+        )
+        db.session.add(new_row)
+        db.session.commit()
+        # ------------------------ add to live job queue end ------------------------
+        return redirect(url_for('polling_views_interior.polling_loading_function', url_platform_reference_id=spotify_pulled_dict['id']))
+      """
       new_show_id=create_uuid_function('show_')
       try:
         # ------------------------ openai get starter polls start ------------------------
@@ -675,7 +716,7 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
         pass
       # ------------------------ remove from redis end ------------------------
       return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=new_show_id, url_redirect_code='s16'))
-  # ------------------------ for setting cookie end ------------------------
+      """
   localhost_print_function(' ------------- 100-show selection start ------------- ')
   page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
   for k,v in page_dict.items():

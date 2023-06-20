@@ -384,6 +384,7 @@ class ShowsQueueObj(db.Model):
   created_timestamp = db.Column(db.DateTime(timezone=True))
   name = db.Column(db.String(150))
   fk_platform_id = db.Column(db.String(150))
+  platform_reference_id = db.Column(db.String(150))
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------

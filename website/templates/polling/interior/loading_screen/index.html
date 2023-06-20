@@ -1,0 +1,24 @@
+{% extends "polling/aaa_base/base2_black.html" %}
+
+<!-- head tag block content -->
+{% block title %}
+  <title>Loading - Triviafy</title>
+{% endblock %}
+
+{% block contentBodyExceptNavbarAndFooter %}
+<div class="custom-bg-black">
+    <!-- ------------------------------------- loading screen start ------------------------------------- -->
+    <div class="custom-color-white text-center custom-loading-screen">
+        <p class="custom-pt-150 custom-header-20">Loading please wait, adding new podcasts can take up to 2 minutes. Please do not refresh or leave this page.</p>
+        <div class="spinner-border text-light" role="status">
+        <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    <!-- ------------------------------------- loading screen end ------------------------------------- -->
+    <script>
+      setTimeout(function() {
+        location.reload();
+      }, 10000);
+    </script>
+</div>
+{% endblock %}
