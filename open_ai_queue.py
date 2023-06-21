@@ -150,6 +150,15 @@ def run_function():
     # ------------------------ if yes results start ------------------------
     else:
       for i_queue_dict in queue_result_arr_of_dict:
+        # ------------------------ check if show already exists start ------------------------
+        show_exists_in_db_check = select_manual_function(postgres_connection, postgres_cursor, 'select2', i_queue_dict['name'])
+        if show_exists_in_db_check != None and show_exists_in_db_check != []:
+          try:
+            delete_manual_function(postgres_connection, postgres_cursor, 'delete_queue', i_queue_dict['id'])
+          except:
+            pass
+          continue
+        # ------------------------ check if show already exists end ------------------------
         new_show_id=create_uuid_function('show_')
         try:
           # ------------------------ openai get starter polls start ------------------------

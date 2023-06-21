@@ -15,8 +15,9 @@ def delete_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
   # ------------------------ delete queries end ------------------------
   # ------------------------ cursor start ------------------------
   try:
-    cursor = postgres_connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cursor = postgres_connection.cursor()
     cursor.execute(delete_queries_dict[tag_query_to_use])
+    postgres_connection.commit()
   except:
     pass
   # ------------------------ cursor end ------------------------

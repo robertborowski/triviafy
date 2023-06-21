@@ -15,7 +15,14 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
         FROM \
           shows_queue_obj \
         ORDER BY \
-          created_timestamp;"
+          created_timestamp;",
+    'select2':
+      f"SELECT \
+          * \
+        FROM \
+          shows_obj \
+        WHERE \
+          name='{input1}';"
   }
   # ------------------------ select queries end ------------------------
   # ------------------------ cursor start ------------------------
