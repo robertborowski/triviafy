@@ -149,15 +149,21 @@
       <!-- ------------------------------------- poll statistics start ------------------------------------- -->
       <div class="mx-auto">
         <p class="custom-color-white custom-m-0 custom-opacity-75 custom-header-30">Poll statistics</p>
-        <p class="custom-color-white custom-m-0 custom-opacity-75 custom-header-10 custom-pb-25">Only the verified '{{ page_dict_to_html['db_show_dict']['name_title'] }}' host can see your direct feedback. Your feedback and privacy will always be hidden from the public poll statistics.</p>
+        <p class="custom-color-white custom-m-0 custom-opacity-75 custom-header-10 custom-pb-10">Only the verified '{{ page_dict_to_html['db_show_dict']['name_title'] }}' host can see your direct feedback. Your feedback and privacy will always be hidden from the public poll statistics.</p>
         {% if page_dict_to_html['poll_answered'] == false %}
           <div class="custom-br-15 custom-border-white-opacity-25 custom-p-15">
             <p class="custom-m-0 custom-header-15 custom-color-white custom-opacity-75">You must first answer this poll in order to see the community statistics.</p>
           </div>
         {% else %}
-          <div>
-            <p class="custom-m-0">Question: </p>
-            <p class="custom-color-white">{{ page_dict_to_html['testing_value'] }}</p>
+          <div class="custom-border-white-opacity-25 custom-br-15 custom-p-15 custom-color-white custom-header-12">
+            <p class="custom-m-0 custom-mb-10">Q: {{ page_dict_to_html['poll_dict']['question'] }}</p>
+            {% for k,v in page_dict_to_html['poll_dict']['answer_choices_dict'].items() %}
+              {% if v == page_dict_to_html['poll_answered_dict']['poll_answer_submitted'] %}
+                <p class="custom-m-0"><i class="fa-solid fa-arrow-right"></i> *{{ k }}: {{ v }}</p>
+              {% else %}
+                <p class="custom-m-0 custom-opacity-50">{{ k }}: {{ v }}</p>
+              {% endif %}
+            {% endfor %}
           </div>
         {% endif %}
       </div>
