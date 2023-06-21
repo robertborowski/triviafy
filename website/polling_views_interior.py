@@ -33,6 +33,7 @@ from website.backend.dict_manipulation import arr_of_dict_all_columns_single_ite
 from website.backend.openai import create_openai_starter_poll_questions_function
 from website.backend.show_utils import shows_following_arr_of_dict_function
 from website.backend.sql_statements.select import select_general_function
+from website.backend.poll_statistics import get_poll_statistics
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -760,6 +761,10 @@ def polling_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=
   except:
     pass
   # ------------------------ pull latest answer if exists end ------------------------
+  # ------------------------ get poll statistics start ------------------------
+  if page_dict['poll_answered'] == True:
+    page_dict = get_poll_statistics(page_dict)
+  # ------------------------ get poll statistics end ------------------------
   if request.method == 'POST':
     # ------------------------ get ui start ------------------------
     ui_answer_selected = request.form.get('ui_selection_radio')

@@ -151,7 +151,7 @@ def run_function():
     else:
       for i_queue_dict in queue_result_arr_of_dict:
         # ------------------------ check if show already exists start ------------------------
-        show_exists_in_db_check = select_manual_function(postgres_connection, postgres_cursor, 'select2', i_queue_dict['name'])
+        show_exists_in_db_check = select_manual_function(postgres_connection, postgres_cursor, 'select2', i_queue_dict['platform_reference_id'])
         if show_exists_in_db_check != None and show_exists_in_db_check != []:
           try:
             delete_manual_function(postgres_connection, postgres_cursor, 'delete_queue', i_queue_dict['id'])

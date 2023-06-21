@@ -22,7 +22,7 @@ def select_manual_function(postgres_connection, postgres_cursor, tag_query_to_us
         FROM \
           shows_obj \
         WHERE \
-          name='{input1}';"
+          platform_reference_id='{input1}';"
   }
   # ------------------------ select queries end ------------------------
   # ------------------------ cursor start ------------------------
