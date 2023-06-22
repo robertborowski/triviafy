@@ -562,13 +562,14 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
     all_shows_obj = get_all_shows_for_platform_function(page_dict['url_platform_id'])
     try:
       for i_obj in all_shows_obj:
-        i_dict = {}
-        i_dict['id'] = i_obj.id
-        i_dict['fk_platform_id'] = i_obj.fk_platform_id
-        i_dict['name'] = i_obj.name
-        i_dict['platform_image_small'] = i_obj.platform_image_small
-        i_dict['description'] = i_obj.description[0:100] + '...'
-        page_dict['shows_arr_of_dict'].append(i_dict)
+        if i_obj.id != 'show_user_attributes':
+          i_dict = {}
+          i_dict['id'] = i_obj.id
+          i_dict['fk_platform_id'] = i_obj.fk_platform_id
+          i_dict['name'] = i_obj.name
+          i_dict['platform_image_small'] = i_obj.platform_image_small
+          i_dict['description'] = i_obj.description[0:100] + '...'
+          page_dict['shows_arr_of_dict'].append(i_dict)
     except:
       pass
   # ------------------------ get shows end ------------------------
