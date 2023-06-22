@@ -133,6 +133,7 @@ def get_chart_data_function(chart_name, page_dict, total_answered_arr_of_dict, c
       page_dict['poll_statistics_dict']['vote_count_by_gender_dict'][i] = 0
     # ------------------------ set count to zero for options end ------------------------
     # ------------------------ loop for count start ------------------------
+    total_answered_arr_of_dict = select_general_function('select_query_general_4', 'poll_user_attribute_gender')
     for i_poll_answered_dict in total_answered_arr_of_dict:
       i_poll_answer_submitted = i_poll_answered_dict['poll_answer_submitted']
       if i_poll_answer_submitted == 'Male':
