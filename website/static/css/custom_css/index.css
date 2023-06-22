@@ -215,9 +215,10 @@
   --custom-color-primary: rgb(111, 66, 193);
   --custom-color-primary-lighter: rgb(230 217 255);
   --custom-color-primary-darker: rgb(44 26 77);
-  --custom-color-success: #198754;
+  --custom-color-success: rgb(25, 135, 84);
   --custom-color-info: #0dcaf0;
   --custom-color-danger: #dc3545;
+  --custom-color-warning: rgb(255, 193, 7);
   --custom-color-8: rgb(237, 237, 237);
   --custom-color-9: rgb(232 255 235);
   --custom-color-10: rgb(255 213 213);

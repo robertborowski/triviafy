@@ -30,3 +30,13 @@ def return_ints_from_str_function(input_str):
     return False, False, False
   return year, month, day
 # ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def user_years_old_at_timestamp_function(timestamp_submitted, user_birth_year, user_birth_month, user_birth_day):
+  # timestamp_submitted > type: <class 'datetime.datetime'>
+  # user_birth_year, user_birth_month, user_birth_day > type: <class 'int'>
+  birth_date = date(int(user_birth_year), int(user_birth_month), int(user_birth_day))
+  submitted_date = timestamp_submitted.date()
+  year_difference = int(float((submitted_date - birth_date).days // 365))
+  return year_difference
+# ------------------------ individual function end ------------------------

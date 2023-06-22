@@ -1,5 +1,6 @@
 $(document).ready(function() {
-  var chartContentColor = "rgb(0, 0, 0, 0.60)";
+  var chartContentColor = "rgb(0, 0, 0, 0.50)";
+  var chartBorderWidth = 3;
   // ----------------------------- chart start -----------------------------
   new Chart("id-chartAnswerDistribution", {
     type: "bar",
@@ -7,7 +8,8 @@ $(document).ready(function() {
       labels: chartAnswerDistributionLabels,
       datasets: [{
         backgroundColor: chartContentColor,
-        data: chartAnswerDistributionValues
+        data: chartAnswerDistributionValues,
+        borderWidth: chartBorderWidth
       }]
     },
     options: {
@@ -26,14 +28,35 @@ $(document).ready(function() {
       labels: chartGenerationDistributionLabels,
       datasets: [{
         backgroundColor: chartContentColor,
-        data: chartGenerationDistributionValues
+        data: chartGenerationDistributionValues,
+        borderWidth: chartBorderWidth
       }]
     },
     options: {
       legend: {display: false},
       title: {
         display: true,
-        text: chartGenerationDistributionTitle
+        text: chartGenerationDistributionTitle,
+      }
+    }
+  });
+  // ----------------------------- chart end -----------------------------
+  // ----------------------------- chart start -----------------------------
+  new Chart("id-chartAgeGroupDistribution", {
+    type: "bar",
+    data: {
+      labels: chartAgeGroupDistributionLabels,
+      datasets: [{
+        backgroundColor: chartContentColor,
+        data: chartAgeGroupDistributionValues,
+        borderWidth: chartBorderWidth
+      }]
+    },
+    options: {
+      legend: {display: false},
+      title: {
+        display: true,
+        text: chartAgeGroupDistributionTitle
       }
     }
   });

@@ -172,7 +172,7 @@
           <div class="custom-bg-white custom-br-15 custom-mt-25">
             <canvas id="id-chartAnswerDistribution" style="width:100%;"></canvas>
             <script>
-              var chartAnswerDistributionTitle = 'Answer Distribution (%)'
+              var chartAnswerDistributionTitle = 'Answer distribution (%)'
               var chartAnswerDistributionLabels = {{ page_dict_to_html['poll_statistics_dict']['chart_answer_distribution']['labels']|tojson }}
               var chartAnswerDistributionValues = {{ page_dict_to_html['poll_statistics_dict']['chart_answer_distribution']['values']|tojson }}
             </script>
@@ -189,7 +189,7 @@
           <div class="custom-bg-white custom-br-15 custom-mt-50">
             <canvas id="id-chartGenerationDistribution" style="width:100%;"></canvas>
             <script>
-              var chartGenerationDistributionTitle = 'Generation Distribution (%)'
+              var chartGenerationDistributionTitle = 'Generation distribution (%)'
               var chartGenerationDistributionLabels = {{ page_dict_to_html['poll_statistics_dict']['chart_generation_distribution']['labels']|tojson }}
               var chartGenerationDistributionValues = {{ page_dict_to_html['poll_statistics_dict']['chart_generation_distribution']['values']|tojson }}
             </script>
@@ -217,6 +217,23 @@
             {% endfor %}
           </div>
           <!-- ------------------------------------- chart generation distribution end ------------------------------------- -->
+          <!-- ------------------------------------- chart age group distribution start ------------------------------------- -->
+          <div class="custom-bg-white custom-br-15 custom-mt-50">
+            <canvas id="id-chartAgeGroupDistribution" style="width:100%;"></canvas>
+            <script>
+              var chartAgeGroupDistributionTitle = 'Age group distribution (%)'
+              var chartAgeGroupDistributionLabels = {{ page_dict_to_html['poll_statistics_dict']['chart_age_group_distribution']['labels']|tojson }}
+              var chartAgeGroupDistributionValues = {{ page_dict_to_html['poll_statistics_dict']['chart_age_group_distribution']['values']|tojson }}
+            </script>
+          </div>
+          <div class="custom-color-white custom-mt-10 custom-header-12 custom-display-flex custom-f-wrap">
+            {% for k,v in page_dict_to_html['poll_statistics_dict']['vote_percent_by_age_group_dict'].items() %}
+              <div class="custom-f-nowrap custom-border-2 custom-m-5 custom-p-10 custom-border-white-opacity-50 custom-br-15">
+                <span>{{ k }}: {{ v }}%</span>
+              </div>
+            {% endfor %}
+          </div>
+          <!-- ------------------------------------- chart age group distribution end ------------------------------------- -->
         {% endif %}
       </div>
       <!-- ------------------------------------- poll statistics end ------------------------------------- -->
