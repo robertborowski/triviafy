@@ -146,3 +146,11 @@ def get_age_demographics_function():
   # ------------------------ generation options end ------------------------
   return year_generation_dict, generation_options_arr
 # ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def get_age_group_function():
+  # ------------------------ generation options start ------------------------
+  age_group_options_arr = ["18-20's","30's","40's","50's","60's +"]
+  # ------------------------ generation options end ------------------------
+  return age_group_options_arr
+# ------------------------ individual function end ------------------------
