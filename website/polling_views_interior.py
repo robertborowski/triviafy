@@ -763,7 +763,7 @@ def polling_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=
   # ------------------------ pull latest answer if exists end ------------------------
   # ------------------------ get poll statistics start ------------------------
   if page_dict['poll_answered'] == True:
-    page_dict = get_poll_statistics(page_dict)
+    page_dict = get_poll_statistics(current_user, page_dict)
   # ------------------------ get poll statistics end ------------------------
   if request.method == 'POST':
     # ------------------------ get ui start ------------------------
