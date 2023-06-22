@@ -154,3 +154,9 @@ def get_age_group_function():
   # ------------------------ generation options end ------------------------
   return age_group_options_arr
 # ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def get_gender_arr_function():
+  get_arr = ['female','male','ideology']
+  return get_arr
+# ------------------------ individual function end ------------------------

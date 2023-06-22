@@ -1,7 +1,7 @@
 # ------------------------ imports start ------------------------
 from website.models import UserAttributesObj, PollsAnsweredObj
 from website.backend.sql_statements.select import select_general_function
-from website.backend.get_create_obj import get_age_demographics_function, get_age_group_function
+from website.backend.get_create_obj import get_age_demographics_function, get_age_group_function, get_gender_arr_function
 import pprint
 from website.backend.dates import user_years_old_at_timestamp_function
 # ------------------------ imports end ------------------------
@@ -118,16 +118,41 @@ def get_chart_data_function(chart_name, page_dict, total_answered_arr_of_dict, c
     # ------------------------ chart variables end ------------------------
     pass
   # ------------------------ chart age groups end ------------------------
-  # ------------------------ chart age groups start ------------------------
+  # ------------------------ chart gender start ------------------------
   if chart_name == 'chart_gender_distribution':
     # ------------------------ check if current user provided attribute poll response start ------------------------
     db_poll_answered_obj = PollsAnsweredObj.query.filter_by(fk_user_id=current_user.id,fk_show_id='show_user_attributes',fk_poll_id='poll_user_attribute_gender').order_by(PollsAnsweredObj.created_timestamp.desc()).first()
-    # ------------------------ check if current user provided attribute poll response end ------------------------
     if db_poll_answered_obj == None or db_poll_answered_obj == []:
-      page_dict['poll_statistics_dict']['user_attribute_gender'] = None
+      page_dict['poll_statistics_dict']['user_provided_attribute_gender'] = None
     else:
-      page_dict['poll_statistics_dict']['user_attribute_gender'] = db_poll_answered_obj.poll_answer_submitted
-  # ------------------------ chart age groups end ------------------------
+      page_dict['poll_statistics_dict']['user_provided_attribute_gender'] = True
+    # ------------------------ check if current user provided attribute poll response end ------------------------
+    # ------------------------ set count to zero for options start ------------------------
+    gender_arr = get_gender_arr_function()
+    for i in gender_arr:
+      page_dict['poll_statistics_dict']['vote_count_by_gender_dict'][i] = 0
+    # ------------------------ set count to zero for options end ------------------------
+    # ------------------------ loop for count start ------------------------
+    for i_poll_answered_dict in total_answered_arr_of_dict:
+      i_poll_answer_submitted = i_poll_answered_dict['poll_answer_submitted']
+      if i_poll_answer_submitted == 'Male':
+        page_dict['poll_statistics_dict']['vote_count_by_gender_dict']['male'] += 1
+      elif i_poll_answer_submitted == 'Female':
+        page_dict['poll_statistics_dict']['vote_count_by_gender_dict']['female'] += 1
+      elif i_poll_answer_submitted == 'Ideology based':
+        page_dict['poll_statistics_dict']['vote_count_by_gender_dict']['ideology'] += 1
+    # ------------------------ loop for count end ------------------------
+    # ------------------------ loop for percent start ------------------------
+    for k, v in page_dict['poll_statistics_dict']['vote_count_by_gender_dict'].items():
+      result = get_percent_data_function(v, page_dict['poll_statistics_dict']['total_latest_poll_answers'])
+      page_dict['poll_statistics_dict']['vote_percent_by_gender_dict'][k] = result
+    # ------------------------ loop for percent end ------------------------
+    # ------------------------ chart variables start ------------------------
+    for k,v in page_dict['poll_statistics_dict']['vote_percent_by_gender_dict'].items():
+      page_dict['poll_statistics_dict']['chart_gender_distribution']['labels'].append(k)
+      page_dict['poll_statistics_dict']['chart_gender_distribution']['values'].append(v)
+    # ------------------------ chart variables end ------------------------
+  # ------------------------ chart gender end ------------------------
   return page_dict
 # ------------------------ individual function end ------------------------
 
@@ -160,7 +185,7 @@ def get_poll_statistics_function(current_user, page_dict):
   page_dict['poll_statistics_dict']['chart_age_group_distribution']['labels'] = []
   page_dict['poll_statistics_dict']['chart_age_group_distribution']['values'] = []
   # chart gender
-  page_dict['poll_statistics_dict']['user_attribute_gender'] = None
+  page_dict['poll_statistics_dict']['user_provided_attribute_gender'] = None
   page_dict['poll_statistics_dict']['vote_count_by_gender_dict'] = {}
   page_dict['poll_statistics_dict']['vote_percent_by_gender_dict'] = {}
   page_dict['poll_statistics_dict']['chart_gender_distribution'] = {}
