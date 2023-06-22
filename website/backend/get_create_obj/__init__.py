@@ -131,18 +131,18 @@ def get_age_demographics_function():
   # ------------------------ map generations to dict start ------------------------
   year_generation_dict = {}
   for i in generation_arr_silent:
-    year_generation_dict[str(i)] = 'silent'
+    year_generation_dict[str(i)] = 'Silent'
   for i in generation_arr_boomers:
-    year_generation_dict[str(i)] = 'boomers'
+    year_generation_dict[str(i)] = 'Boomers'
   for i in generation_arr_gen_x:
-    year_generation_dict[str(i)] = 'gen_x'
+    year_generation_dict[str(i)] = 'Gen X'
   for i in generation_arr_millenial:
-    year_generation_dict[str(i)] = 'millenials'
+    year_generation_dict[str(i)] = 'Millenials'
   for i in generation_arr_gen_z:
-    year_generation_dict[str(i)] = 'gen_z'
+    year_generation_dict[str(i)] = 'Gen Z'
   # ------------------------ map generations to dict end ------------------------
   # ------------------------ generation options start ------------------------
-  generation_options_arr = ['silent','boomers','gen_x','millenials','gen_z']
+  generation_options_arr = ['Silent','Boomers','Gen X','Millenials','Gen Z']
   # ------------------------ generation options end ------------------------
   return year_generation_dict, generation_options_arr
 # ------------------------ individual function end ------------------------
@@ -157,6 +157,6 @@ def get_age_group_function():
 
 # ------------------------ individual function start ------------------------
 def get_gender_arr_function():
-  get_arr = ['female','male','ideology']
+  get_arr = ['Female','Male','Ideology based']
   return get_arr
 # ------------------------ individual function end ------------------------

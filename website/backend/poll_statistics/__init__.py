@@ -68,18 +68,9 @@ def get_chart_data_function(chart_name, page_dict, total_answered_arr_of_dict, c
     # ------------------------ loop for percent end ------------------------
     # ------------------------ chart variables start ------------------------
     for k,v in page_dict['poll_statistics_dict']['vote_percent_by_generation_dict'].items():
-      if k == 'silent':
+      if k == 'Silent':
         continue
-      fixed_word = k
-      if k == 'boomers':
-        fixed_word = 'Boomers'
-      elif k == 'gen_x':
-        fixed_word = 'Gen X'
-      elif k == 'millenials':
-        fixed_word = 'Millenials'
-      elif k == 'gen_z':
-        fixed_word = 'Gen Z'
-      page_dict['poll_statistics_dict']['chart_generation_distribution']['labels'].append(fixed_word)
+      page_dict['poll_statistics_dict']['chart_generation_distribution']['labels'].append(k)
       page_dict['poll_statistics_dict']['chart_generation_distribution']['values'].append(v)
     # ------------------------ chart variables end ------------------------
   # ------------------------ chart generations end ------------------------
@@ -136,12 +127,7 @@ def get_chart_data_function(chart_name, page_dict, total_answered_arr_of_dict, c
     total_answered_arr_of_dict = select_general_function('select_query_general_4', 'poll_user_attribute_gender')
     for i_poll_answered_dict in total_answered_arr_of_dict:
       i_poll_answer_submitted = i_poll_answered_dict['poll_answer_submitted']
-      if i_poll_answer_submitted == 'Male':
-        page_dict['poll_statistics_dict']['vote_count_by_gender_dict']['male'] += 1
-      elif i_poll_answer_submitted == 'Female':
-        page_dict['poll_statistics_dict']['vote_count_by_gender_dict']['female'] += 1
-      elif i_poll_answer_submitted == 'Ideology based':
-        page_dict['poll_statistics_dict']['vote_count_by_gender_dict']['ideology'] += 1
+      page_dict['poll_statistics_dict']['vote_count_by_gender_dict'][i_poll_answer_submitted] += 1
     # ------------------------ loop for count end ------------------------
     # ------------------------ loop for percent start ------------------------
     for k, v in page_dict['poll_statistics_dict']['vote_count_by_gender_dict'].items():
