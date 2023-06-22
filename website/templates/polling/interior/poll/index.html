@@ -6,6 +6,13 @@
 {% endblock %}
 
 {% block contentBodyExceptNavbarAndFooter %}
+<!-- ------------------------------------- chart variables start ------------------------------------- -->
+<script>
+  var chartAnswerDistributionTitle = 'Answer Distribution (%)'
+  var chartAnswerDistributionLabels = {{ page_dict_to_html['poll_statistics_dict']['chart_answer_distribution']['labels']|tojson }}
+  var chartAnswerDistributionValues = {{ page_dict_to_html['poll_statistics_dict']['chart_answer_distribution']['values']|tojson }}
+</script>
+<!-- ------------------------------------- chart variables end ------------------------------------- -->
 <div class="custom-bg-black">
   <!-- ------------------------------------- form start ------------------------------------- -->
   <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
@@ -170,12 +177,26 @@
           </div>
           <div class="custom-bg-white custom-br-15 custom-mt-25">
             <canvas id="id-chartAnswerDistribution" style="width:100%;max-width:700px"></canvas>
-            <script>
-              var chartAnswerDistributionTitle = 'Answer Distribution (%)'
-              var chartAnswerDistributionLabels = {{ page_dict_to_html['poll_statistics_dict']['chart_answer_distribution']['labels']|tojson }}
-              var chartAnswerDistributionValues = {{ page_dict_to_html['poll_statistics_dict']['chart_answer_distribution']['values']|tojson }}
-            </script>
           </div>
+          <div class="custom-color-white custom-mt-25 custom-header-12">
+            {% for k,v in page_dict_to_html['poll_statistics_dict']['answer_choice_percent_distribution_dict'].items() %}
+              <span class="custom-m-5 custom-p-10 custom-border-white-opacity-50 custom-br-15">{{ k }}: {{ v }}%</span>
+            {% endfor %}
+          </div>
+          <!-- <div class="custom-color-white custom-mt-15 custom-header-12">
+            {% for k,v in page_dict_to_html['poll_statistics_dict']['vote_percent_by_generation_dict'].items() %}
+              {% if k == 'silent' %}
+              {% elif k == 'boomers' %}
+                <span class="custom-m-5 custom-p-10 custom-border-white-opacity-50 custom-br-15">Boomers: {{ v }}%</span>
+              {% elif k == 'gen_x' %}
+                <span class="custom-m-5 custom-p-10 custom-border-white-opacity-50 custom-br-15">Gen X: {{ v }}%</span>
+              {% elif k == 'millenials' %}
+                <span class="custom-m-5 custom-p-10 custom-border-white-opacity-50 custom-br-15">Millenials: {{ v }}%</span>
+              {% elif k == 'gen_z' %}
+                <span class="custom-m-5 custom-p-10 custom-border-white-opacity-50 custom-br-15">Gen Z: {{ v }}%</span>
+              {% endif %}
+            {% endfor %}
+          </div> -->
         {% endif %}
       </div>
       <!-- ------------------------------------- poll statistics end ------------------------------------- -->

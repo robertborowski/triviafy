@@ -118,3 +118,28 @@ def get_platform_based_on_name_function(input_name):
     return None
   return db_obj
 # ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def get_age_demographics_function():
+  # ------------------------ identify generations in arr start ------------------------
+  generation_arr_silent = list(range(1928, 1945+1))
+  generation_arr_boomers = list(range(1946, 1964+1))
+  generation_arr_gen_x = list(range(1965, 1980+1))
+  generation_arr_millenial = list(range(1981, 1996+1))
+  generation_arr_gen_z = list(range(1997, 2012+1))
+  # ------------------------ identify generations in arr end ------------------------
+  # ------------------------ map generations to dict start ------------------------
+  year_generation_dict = {}
+  for i in generation_arr_silent:
+    year_generation_dict[str(i)] = 'silent'
+  for i in generation_arr_boomers:
+    year_generation_dict[str(i)] = 'boomers'
+  for i in generation_arr_gen_x:
+    year_generation_dict[str(i)] = 'gen_x'
+  for i in generation_arr_millenial:
+    year_generation_dict[str(i)] = 'millenials'
+  for i in generation_arr_gen_z:
+    year_generation_dict[str(i)] = 'gen_z'
+  # ------------------------ map generations to dict end ------------------------
+  return year_generation_dict
+# ------------------------ individual function end ------------------------

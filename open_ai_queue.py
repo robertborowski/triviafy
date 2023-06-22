@@ -193,12 +193,15 @@ def run_function():
             delete_manual_function(postgres_connection, postgres_cursor, 'delete_shows_following', new_show_id)
           except:
             pass
-      # ------------------------ delete show from queue start ------------------------
-      try:
-        delete_manual_function(postgres_connection, postgres_cursor, 'delete_queue', i_queue_dict['id'])
-      except:
-        pass
-      # ------------------------ delete show from queue end ------------------------
+        # ------------------------ delete show from queue start ------------------------
+        try:
+          delete_manual_function(postgres_connection, postgres_cursor, 'delete_queue', i_queue_dict['id'])
+        except:
+          pass
+        # ------------------------ delete show from queue end ------------------------
+        # ------------------------ openai rate limit start ------------------------
+        time.sleep(30)
+        # ------------------------ openai rate limit end ------------------------
       # ------------------------ close db connection start ------------------------
       postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)
       # ------------------------ close db connection end ------------------------

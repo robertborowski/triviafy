@@ -1,23 +1,105 @@
 # ------------------------ imports start ------------------------
-from website.models import PollsAnsweredObj
+from website.models import UserAttributesObj
 from website.backend.sql_statements.select import select_general_function
+from website.backend.get_create_obj import get_age_demographics_function
+import pprint
 # ------------------------ imports end ------------------------
 
 # ------------------------ individual function start ------------------------
-def get_poll_statistics(current_user, page_dict):
+def get_percent_data_function(input_numerator, input_denominator):
+  result = 0
+  try:
+    result = float(float(float(input_numerator)/float(input_denominator)) * float(100))
+  except:
+    pass
+  return int(result)
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def get_chart_data_function(chart_name, page_dict, total_answered_arr_of_dict):
+  if chart_name == 'chart_answer_distribution':
+    # ------------------------ loop answered count start ------------------------
+    for k,v in page_dict['poll_dict']['answer_choices_dict'].items():
+      page_dict['poll_statistics_dict']['answer_choice_count_distribution_dict'][k] = 0
+    for i_poll_answered_dict in total_answered_arr_of_dict:
+      i_poll_answer_submitted = i_poll_answered_dict['poll_answer_submitted']
+      for k,v in page_dict['poll_dict']['answer_choices_dict'].items():
+        if i_poll_answer_submitted == v:
+          try:
+            page_dict['poll_statistics_dict']['answer_choice_count_distribution_dict'][k] += 1
+          except:
+            pass
+    # ------------------------ loop answered count end ------------------------
+    # ------------------------ loop answered percent start ------------------------
+    for k, v in page_dict['poll_statistics_dict']['answer_choice_count_distribution_dict'].items():
+      result = get_percent_data_function(v, page_dict['poll_statistics_dict']['total_latest_poll_answers'])
+      page_dict['poll_statistics_dict']['answer_choice_percent_distribution_dict'][k] = result
+    # ------------------------ loop answered percent end ------------------------
+    # ------------------------ chart variables for answered percent start ------------------------
+    for k,v in page_dict['poll_statistics_dict']['answer_choice_percent_distribution_dict'].items():
+      page_dict['poll_statistics_dict']['chart_answer_distribution']['labels'].append(k)
+      page_dict['poll_statistics_dict']['chart_answer_distribution']['values'].append(v)
+    # ------------------------ chart variables for answered percent end ------------------------
+  if chart_name == 'chart_generation_distribution':
+    # ------------------------ get all user id's that voted start ------------------------
+    for i_poll_answered_dict in total_answered_arr_of_dict:
+      page_dict['poll_statistics_dict']['all_user_ids_participated'].append(i_poll_answered_dict['fk_user_id'])
+    # ------------------------ get all user id's that voted end ------------------------
+    # ------------------------ loop answered count start ------------------------
+    year_generation_dict = get_age_demographics_function()
+    for i_user in page_dict['poll_statistics_dict']['all_user_ids_participated']:
+      try:
+        db_user_obj = UserAttributesObj.query.filter_by(fk_user_id=i_user,attribute_code='attribute_birthday').first()
+        user_generation = year_generation_dict[str(db_user_obj.attribute_year)]
+        page_dict['poll_statistics_dict']['vote_count_by_generation_dict'][user_generation] += 1
+      except:
+        pass
+    # ------------------------ loop answered count end ------------------------
+    # ------------------------ loop answered percent start ------------------------
+    for k, v in page_dict['poll_statistics_dict']['vote_count_by_generation_dict'].items():
+      result = get_percent_data_function(v, page_dict['poll_statistics_dict']['total_latest_poll_answers'])
+      page_dict['poll_statistics_dict']['vote_percent_by_generation_dict'][k] = result
+    # ------------------------ loop answered percent end ------------------------
+  return page_dict
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+
+# ------------------------ individual function start ------------------------
+def get_poll_statistics_function(current_user, page_dict):
+  # ------------------------ set variables start ------------------------
+  page_dict['poll_statistics_dict'] = {}
+  page_dict['poll_statistics_dict']['total_latest_poll_answers'] = 0
+  # answer choice
+  page_dict['poll_statistics_dict']['answer_choice_count_distribution_dict'] = {}
+  page_dict['poll_statistics_dict']['answer_choice_percent_distribution_dict'] = {}
+  # charts
+  page_dict['poll_statistics_dict']['chart_answer_distribution'] = {}
+  page_dict['poll_statistics_dict']['chart_answer_distribution']['labels'] = []
+  page_dict['poll_statistics_dict']['chart_answer_distribution']['values'] = []
+  page_dict['poll_statistics_dict']['chart_generation_distribution'] = {}
+  page_dict['poll_statistics_dict']['chart_generation_distribution']['labels'] = []
+  page_dict['poll_statistics_dict']['chart_generation_distribution']['values'] = []
+  # users participated
+  page_dict['poll_statistics_dict']['all_user_ids_participated'] = []
+  # categorize generations
+  page_dict['poll_statistics_dict']['vote_count_by_generation_dict'] = {}
+  page_dict['poll_statistics_dict']['vote_count_by_generation_dict']['silent'] = 0
+  page_dict['poll_statistics_dict']['vote_count_by_generation_dict']['boomers'] = 0
+  page_dict['poll_statistics_dict']['vote_count_by_generation_dict']['gen_x'] = 0
+  page_dict['poll_statistics_dict']['vote_count_by_generation_dict']['millenials'] = 0
+  page_dict['poll_statistics_dict']['vote_count_by_generation_dict']['gen_z'] = 0
+  page_dict['poll_statistics_dict']['vote_percent_by_generation_dict'] = {}
+  page_dict['poll_statistics_dict']['vote_percent_by_generation_dict']['silent'] = 0
+  page_dict['poll_statistics_dict']['vote_percent_by_generation_dict']['boomers'] = 0
+  page_dict['poll_statistics_dict']['vote_percent_by_generation_dict']['gen_x'] = 0
+  page_dict['poll_statistics_dict']['vote_percent_by_generation_dict']['millenials'] = 0
+  page_dict['poll_statistics_dict']['vote_percent_by_generation_dict']['gen_z'] = 0
+  # ------------------------ set variables end ------------------------
   # ------------------------ pull variables start ------------------------
   poll_id = page_dict['url_poll_id']
   show_id = page_dict['url_show_id']
   # ------------------------ pull variables end ------------------------
-  # ------------------------ set variables start ------------------------
-  page_dict['poll_statistics_dict'] = {}
-  page_dict['poll_statistics_dict']['total_latest_poll_answers'] = 0
-  page_dict['poll_statistics_dict']['answer_choice_count_distribution_dict'] = {}
-  page_dict['poll_statistics_dict']['answer_choice_percent_distribution_dict'] = {}
-  page_dict['poll_statistics_dict']['chart_answer_distribution'] = {}
-  page_dict['poll_statistics_dict']['chart_answer_distribution']['labels'] = []
-  page_dict['poll_statistics_dict']['chart_answer_distribution']['values'] = []
-  # ------------------------ set variables end ------------------------
   # ------------------------ get total answered start ------------------------
   total_answered_arr_of_dict = select_general_function('select_query_general_4', poll_id)
   try:
@@ -25,31 +107,14 @@ def get_poll_statistics(current_user, page_dict):
   except:
     pass
   # ------------------------ get total answered end ------------------------
-  # ------------------------ loop answered count start ------------------------
-  for k,v in page_dict['poll_dict']['answer_choices_dict'].items():
-    page_dict['poll_statistics_dict']['answer_choice_count_distribution_dict'][k] = 0
-  for i_poll_answered_dict in total_answered_arr_of_dict:
-    i_poll_answer_submitted = i_poll_answered_dict['poll_answer_submitted']
-    for k,v in page_dict['poll_dict']['answer_choices_dict'].items():
-      if i_poll_answer_submitted == v:
-        try:
-          page_dict['poll_statistics_dict']['answer_choice_count_distribution_dict'][k] += 1
-        except:
-          pass
-  # ------------------------ loop answered count start ------------------------
-  # ------------------------ loop answered percent start ------------------------
-  for k, v in page_dict['poll_statistics_dict']['answer_choice_count_distribution_dict'].items():
-    result = 0
-    try:
-      result = float(float(float(v)/float(page_dict['poll_statistics_dict']['total_latest_poll_answers'])) * float(100))
-    except:
-      pass
-    page_dict['poll_statistics_dict']['answer_choice_percent_distribution_dict'][k] = int(result)
-  # ------------------------ loop answered percent end ------------------------
-  # ------------------------ variables for chart start ------------------------
-  for k,v in page_dict['poll_statistics_dict']['answer_choice_percent_distribution_dict'].items():
-    page_dict['poll_statistics_dict']['chart_answer_distribution']['labels'].append(k)
-    page_dict['poll_statistics_dict']['chart_answer_distribution']['values'].append(v)
-  # ------------------------ variables for chart end ------------------------
+  # ------------------------ get answer percent distribution start ------------------------
+  page_dict = get_chart_data_function('chart_answer_distribution', page_dict, total_answered_arr_of_dict)
+  # ------------------------ get answer percent distribution end ------------------------
+  # ------------------------ get generational percent distribution start ------------------------
+  page_dict = get_chart_data_function('chart_generation_distribution', page_dict, total_answered_arr_of_dict)
+  # ------------------------ get generational percent distribution end ------------------------
+  # print(' ------------- 50 ------------- ')
+  # print(pprint.pformat(page_dict, indent=2))
+  # print(' ------------- 50 ------------- ')
   return page_dict
 # ------------------------ individual function end ------------------------

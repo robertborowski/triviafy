@@ -28,7 +28,7 @@
   </div>
   {% else %}
   <div class="custom-display-flex custom-fw-1">
-    <div class="custom-width-11-mobile custom-p-5">
+    <div class="custom-width-11-mobile custom-p-50-15">
       <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
         <div class="custom-mb-6">
           <label for="uiCandidateEmail" class="form-label">Add individual candidate</label>
@@ -39,7 +39,7 @@
         </div>
       </form>
     </div>
-    <div class="custom-width-11-mobile custom-p-5">
+    <div class="custom-width-11-mobile custom-p-50-15">
       {% if stripe_subscription_obj_status_to_html != 'active' %}
       <div class="custom-mb-6">
         <label for="ui_image_upload" class="form-label">Add bulk candidates - <a href="/candidates/account">Subscription</a> required</label>

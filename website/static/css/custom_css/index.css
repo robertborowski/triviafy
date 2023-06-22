@@ -1052,6 +1052,9 @@
   padding: 50px;
 }
 .custom-p-5 {
+  padding: 5px;
+}
+.custom-p-50-15 {
   padding: 50px 15px;
 }
 .custom-p-6 {
