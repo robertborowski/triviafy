@@ -1,5 +1,6 @@
 $(document).ready(function() {
-  var chartContentColor = "rgb(0, 0, 0, 0.50)";
+  // var chartContentColor = "rgb(0, 0, 0, 0.50)";
+  var chartContentColor = "rgb(255, 193, 7, 0.50)";
   var chartBorderWidth = 3;
   // ----------------------------- chart start -----------------------------
   new Chart("id-chartAnswerDistribution", {
