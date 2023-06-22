@@ -60,6 +60,11 @@ def get_chart_data_function(chart_name, page_dict, total_answered_arr_of_dict):
       result = get_percent_data_function(v, page_dict['poll_statistics_dict']['total_latest_poll_answers'])
       page_dict['poll_statistics_dict']['vote_percent_by_generation_dict'][k] = result
     # ------------------------ loop answered percent end ------------------------
+    # ------------------------ chart variables for answered percent start ------------------------
+    for k,v in page_dict['poll_statistics_dict']['vote_percent_by_generation_dict'].items():
+      page_dict['poll_statistics_dict']['chart_generation_distribution']['labels'].append(k)
+      page_dict['poll_statistics_dict']['chart_generation_distribution']['values'].append(v)
+    # ------------------------ chart variables for answered percent end ------------------------
   return page_dict
 # ------------------------ individual function end ------------------------
 
@@ -113,8 +118,8 @@ def get_poll_statistics_function(current_user, page_dict):
   # ------------------------ get generational percent distribution start ------------------------
   page_dict = get_chart_data_function('chart_generation_distribution', page_dict, total_answered_arr_of_dict)
   # ------------------------ get generational percent distribution end ------------------------
-  # print(' ------------- 50 ------------- ')
-  # print(pprint.pformat(page_dict, indent=2))
-  # print(' ------------- 50 ------------- ')
+  print(' ------------- 50 ------------- ')
+  print(pprint.pformat(page_dict, indent=2))
+  print(' ------------- 50 ------------- ')
   return page_dict
 # ------------------------ individual function end ------------------------

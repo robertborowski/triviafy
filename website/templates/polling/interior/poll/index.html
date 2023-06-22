@@ -168,22 +168,31 @@
           <div class="custom-color-white custom-header-20">
             <p class="custom-m-0 custom-mt-25"><i class="fa-solid fa-chevron-right"></i> Total responses: {{ page_dict_to_html['poll_statistics_dict']['total_latest_poll_answers'] }}</p>
           </div>
+          <!-- ------------------------------------- chart answer distribution start ------------------------------------- -->
           <div class="custom-bg-white custom-br-15 custom-mt-25">
-            <!-- ------------------------------------- chart variables start ------------------------------------- -->
             <canvas id="id-chartAnswerDistribution" style="width:100%;"></canvas>
             <script>
               var chartAnswerDistributionTitle = 'Answer Distribution (%)'
               var chartAnswerDistributionLabels = {{ page_dict_to_html['poll_statistics_dict']['chart_answer_distribution']['labels']|tojson }}
               var chartAnswerDistributionValues = {{ page_dict_to_html['poll_statistics_dict']['chart_answer_distribution']['values']|tojson }}
             </script>
-            <!-- ------------------------------------- chart variables end ------------------------------------- -->
           </div>
           <div class="custom-color-white custom-mt-25 custom-header-12">
             {% for k,v in page_dict_to_html['poll_statistics_dict']['answer_choice_percent_distribution_dict'].items() %}
               <span class="custom-m-5 custom-p-10 custom-border-white-opacity-50 custom-br-15">{{ k }}: {{ v }}%</span>
             {% endfor %}
           </div>
-          <!-- <div class="custom-color-white custom-mt-15 custom-header-12">
+          <!-- ------------------------------------- chart answer distribution end ------------------------------------- -->
+          <!-- ------------------------------------- chart generation distribution start ------------------------------------- -->
+          <div class="custom-bg-white custom-br-15 custom-mt-50">
+            <canvas id="id-chartGenerationDistribution" style="width:100%;"></canvas>
+            <script>
+              var chartGenerationDistributionTitle = 'Generation Distribution (%)'
+              var chartGenerationDistributionLabels = {{ page_dict_to_html['poll_statistics_dict']['chart_generation_distribution']['labels']|tojson }}
+              var chartGenerationDistributionValues = {{ page_dict_to_html['poll_statistics_dict']['chart_generation_distribution']['values']|tojson }}
+            </script>
+          </div>
+          <div class="custom-color-white custom-mt-25 custom-header-12">
             {% for k,v in page_dict_to_html['poll_statistics_dict']['vote_percent_by_generation_dict'].items() %}
               {% if k == 'silent' %}
               {% elif k == 'boomers' %}
@@ -196,7 +205,8 @@
                 <span class="custom-m-5 custom-p-10 custom-border-white-opacity-50 custom-br-15">Gen Z: {{ v }}%</span>
               {% endif %}
             {% endfor %}
-          </div> -->
+          </div>
+          <!-- ------------------------------------- chart generation distribution end ------------------------------------- -->
         {% endif %}
       </div>
       <!-- ------------------------------------- poll statistics end ------------------------------------- -->
