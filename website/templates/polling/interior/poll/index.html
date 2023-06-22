@@ -159,14 +159,22 @@
             <p class="custom-m-0 custom-mb-10">Q: {{ page_dict_to_html['poll_dict']['question'] }}</p>
             {% for k,v in page_dict_to_html['poll_dict']['answer_choices_dict'].items() %}
               {% if v == page_dict_to_html['poll_answered_dict']['poll_answer_submitted'] %}
-                <p class="custom-m-0"><i class="fa-solid fa-arrow-right"></i> {{ k }}: {{ v }}</p>
+                <p class="custom-m-0"><i class="fa-solid fa-arrow-right"></i> (You answered) {{ k }}: {{ v }}</p>
               {% else %}
                 <p class="custom-m-0 custom-opacity-50">{{ k }}: {{ v }}</p>
               {% endif %}
             {% endfor %}
           </div>
           <div class="custom-color-white custom-header-20">
-            <p class="custom-m-0 custom-mt-10"><i class="fa-solid fa-chevron-right"></i> Total responses: {{ page_dict_to_html['poll_statistics_dict']['total_latest_poll_answers'] }}</p>
+            <p class="custom-m-0 custom-mt-25"><i class="fa-solid fa-chevron-right"></i> Total responses: {{ page_dict_to_html['poll_statistics_dict']['total_latest_poll_answers'] }}</p>
+          </div>
+          <div class="custom-bg-white custom-br-15 custom-mt-25">
+            <canvas id="id-chartAnswerDistribution" style="width:100%;max-width:700px"></canvas>
+            <script>
+              var chartAnswerDistributionTitle = 'Answer Distribution (%)'
+              var chartAnswerDistributionLabels = {{ page_dict_to_html['poll_statistics_dict']['chart_answer_distribution']['labels']|tojson }}
+              var chartAnswerDistributionValues = {{ page_dict_to_html['poll_statistics_dict']['chart_answer_distribution']['values']|tojson }}
+            </script>
           </div>
         {% endif %}
       </div>
