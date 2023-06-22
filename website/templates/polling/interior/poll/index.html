@@ -6,13 +6,6 @@
 {% endblock %}
 
 {% block contentBodyExceptNavbarAndFooter %}
-<!-- ------------------------------------- chart variables start ------------------------------------- -->
-<script>
-  var chartAnswerDistributionTitle = 'Answer Distribution (%)'
-  var chartAnswerDistributionLabels = {{ page_dict_to_html['poll_statistics_dict']['chart_answer_distribution']['labels']|tojson }}
-  var chartAnswerDistributionValues = {{ page_dict_to_html['poll_statistics_dict']['chart_answer_distribution']['values']|tojson }}
-</script>
-<!-- ------------------------------------- chart variables end ------------------------------------- -->
 <div class="custom-bg-black">
   <!-- ------------------------------------- form start ------------------------------------- -->
   <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
@@ -176,7 +169,14 @@
             <p class="custom-m-0 custom-mt-25"><i class="fa-solid fa-chevron-right"></i> Total responses: {{ page_dict_to_html['poll_statistics_dict']['total_latest_poll_answers'] }}</p>
           </div>
           <div class="custom-bg-white custom-br-15 custom-mt-25">
-            <canvas id="id-chartAnswerDistribution" style="width:100%;max-width:700px"></canvas>
+            <!-- ------------------------------------- chart variables start ------------------------------------- -->
+            <canvas id="id-chartAnswerDistribution" style="width:100%;"></canvas>
+            <script>
+              var chartAnswerDistributionTitle = 'Answer Distribution (%)'
+              var chartAnswerDistributionLabels = {{ page_dict_to_html['poll_statistics_dict']['chart_answer_distribution']['labels']|tojson }}
+              var chartAnswerDistributionValues = {{ page_dict_to_html['poll_statistics_dict']['chart_answer_distribution']['values']|tojson }}
+            </script>
+            <!-- ------------------------------------- chart variables end ------------------------------------- -->
           </div>
           <div class="custom-color-white custom-mt-25 custom-header-12">
             {% for k,v in page_dict_to_html['poll_statistics_dict']['answer_choice_percent_distribution_dict'].items() %}
