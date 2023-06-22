@@ -19,24 +19,26 @@ def get_percent_data_function(input_numerator, input_denominator):
 def get_chart_data_function(chart_name, page_dict, total_answered_arr_of_dict):
   if chart_name == 'chart_answer_distribution':
     # ------------------------ loop answered count start ------------------------
+    # ------------------------ set count to zero for options start ------------------------
     for k,v in page_dict['poll_dict']['answer_choices_dict'].items():
-      page_dict['poll_statistics_dict']['answer_choice_count_distribution_dict'][k] = 0
+      page_dict['poll_statistics_dict']['vote_count_by_answer_choice_dict'][k] = 0
+    # ------------------------ set count to zero for options end ------------------------
     for i_poll_answered_dict in total_answered_arr_of_dict:
       i_poll_answer_submitted = i_poll_answered_dict['poll_answer_submitted']
       for k,v in page_dict['poll_dict']['answer_choices_dict'].items():
         if i_poll_answer_submitted == v:
           try:
-            page_dict['poll_statistics_dict']['answer_choice_count_distribution_dict'][k] += 1
+            page_dict['poll_statistics_dict']['vote_count_by_answer_choice_dict'][k] += 1
           except:
             pass
     # ------------------------ loop answered count end ------------------------
     # ------------------------ loop answered percent start ------------------------
-    for k, v in page_dict['poll_statistics_dict']['answer_choice_count_distribution_dict'].items():
+    for k, v in page_dict['poll_statistics_dict']['vote_count_by_answer_choice_dict'].items():
       result = get_percent_data_function(v, page_dict['poll_statistics_dict']['total_latest_poll_answers'])
-      page_dict['poll_statistics_dict']['answer_choice_percent_distribution_dict'][k] = result
+      page_dict['poll_statistics_dict']['vote_percent_by_answer_choice_dict'][k] = result
     # ------------------------ loop answered percent end ------------------------
     # ------------------------ chart variables for answered percent start ------------------------
-    for k,v in page_dict['poll_statistics_dict']['answer_choice_percent_distribution_dict'].items():
+    for k,v in page_dict['poll_statistics_dict']['vote_percent_by_answer_choice_dict'].items():
       page_dict['poll_statistics_dict']['chart_answer_distribution']['labels'].append(k)
       page_dict['poll_statistics_dict']['chart_answer_distribution']['values'].append(v)
     # ------------------------ chart variables for answered percent end ------------------------
@@ -46,7 +48,11 @@ def get_chart_data_function(chart_name, page_dict, total_answered_arr_of_dict):
       page_dict['poll_statistics_dict']['all_user_ids_participated'].append(i_poll_answered_dict['fk_user_id'])
     # ------------------------ get all user id's that voted end ------------------------
     # ------------------------ loop answered count start ------------------------
-    year_generation_dict = get_age_demographics_function()
+    year_generation_dict, generation_options_arr = get_age_demographics_function()
+    # ------------------------ set count to zero for options start ------------------------
+    for i in generation_options_arr:
+      page_dict['poll_statistics_dict']['vote_count_by_generation_dict'][i] = 0
+    # ------------------------ set count to zero for options end ------------------------
     for i_user in page_dict['poll_statistics_dict']['all_user_ids_participated']:
       try:
         db_user_obj = UserAttributesObj.query.filter_by(fk_user_id=i_user,attribute_code='attribute_birthday').first()
@@ -62,7 +68,18 @@ def get_chart_data_function(chart_name, page_dict, total_answered_arr_of_dict):
     # ------------------------ loop answered percent end ------------------------
     # ------------------------ chart variables for answered percent start ------------------------
     for k,v in page_dict['poll_statistics_dict']['vote_percent_by_generation_dict'].items():
-      page_dict['poll_statistics_dict']['chart_generation_distribution']['labels'].append(k)
+      if k == 'silent':
+        continue
+      fixed_word = k
+      if k == 'boomers':
+        fixed_word = 'Boomers'
+      elif k == 'gen_x':
+        fixed_word = 'Gen X'
+      elif k == 'millenials':
+        fixed_word = 'Millenials'
+      elif k == 'gen_z':
+        fixed_word = 'Gen Z'
+      page_dict['poll_statistics_dict']['chart_generation_distribution']['labels'].append(fixed_word)
       page_dict['poll_statistics_dict']['chart_generation_distribution']['values'].append(v)
     # ------------------------ chart variables for answered percent end ------------------------
   return page_dict
@@ -74,32 +91,22 @@ def get_chart_data_function(chart_name, page_dict, total_answered_arr_of_dict):
 def get_poll_statistics_function(current_user, page_dict):
   # ------------------------ set variables start ------------------------
   page_dict['poll_statistics_dict'] = {}
+  # total answered
   page_dict['poll_statistics_dict']['total_latest_poll_answers'] = 0
-  # answer choice
-  page_dict['poll_statistics_dict']['answer_choice_count_distribution_dict'] = {}
-  page_dict['poll_statistics_dict']['answer_choice_percent_distribution_dict'] = {}
-  # charts
+  # users participated
+  page_dict['poll_statistics_dict']['all_user_ids_participated'] = []
+  # chart answer choice
+  page_dict['poll_statistics_dict']['vote_count_by_answer_choice_dict'] = {}
+  page_dict['poll_statistics_dict']['vote_percent_by_answer_choice_dict'] = {}
   page_dict['poll_statistics_dict']['chart_answer_distribution'] = {}
   page_dict['poll_statistics_dict']['chart_answer_distribution']['labels'] = []
   page_dict['poll_statistics_dict']['chart_answer_distribution']['values'] = []
+  # chart generations
+  page_dict['poll_statistics_dict']['vote_count_by_generation_dict'] = {}
+  page_dict['poll_statistics_dict']['vote_percent_by_generation_dict'] = {}
   page_dict['poll_statistics_dict']['chart_generation_distribution'] = {}
   page_dict['poll_statistics_dict']['chart_generation_distribution']['labels'] = []
   page_dict['poll_statistics_dict']['chart_generation_distribution']['values'] = []
-  # users participated
-  page_dict['poll_statistics_dict']['all_user_ids_participated'] = []
-  # categorize generations
-  page_dict['poll_statistics_dict']['vote_count_by_generation_dict'] = {}
-  page_dict['poll_statistics_dict']['vote_count_by_generation_dict']['silent'] = 0
-  page_dict['poll_statistics_dict']['vote_count_by_generation_dict']['boomers'] = 0
-  page_dict['poll_statistics_dict']['vote_count_by_generation_dict']['gen_x'] = 0
-  page_dict['poll_statistics_dict']['vote_count_by_generation_dict']['millenials'] = 0
-  page_dict['poll_statistics_dict']['vote_count_by_generation_dict']['gen_z'] = 0
-  page_dict['poll_statistics_dict']['vote_percent_by_generation_dict'] = {}
-  page_dict['poll_statistics_dict']['vote_percent_by_generation_dict']['silent'] = 0
-  page_dict['poll_statistics_dict']['vote_percent_by_generation_dict']['boomers'] = 0
-  page_dict['poll_statistics_dict']['vote_percent_by_generation_dict']['gen_x'] = 0
-  page_dict['poll_statistics_dict']['vote_percent_by_generation_dict']['millenials'] = 0
-  page_dict['poll_statistics_dict']['vote_percent_by_generation_dict']['gen_z'] = 0
   # ------------------------ set variables end ------------------------
   # ------------------------ pull variables start ------------------------
   poll_id = page_dict['url_poll_id']

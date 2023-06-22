@@ -141,5 +141,8 @@ def get_age_demographics_function():
   for i in generation_arr_gen_z:
     year_generation_dict[str(i)] = 'gen_z'
   # ------------------------ map generations to dict end ------------------------
-  return year_generation_dict
+  # ------------------------ generation options start ------------------------
+  generation_options_arr = ['silent','boomers','gen_x','millenials','gen_z']
+  # ------------------------ generation options end ------------------------
+  return year_generation_dict, generation_options_arr
 # ------------------------ individual function end ------------------------
