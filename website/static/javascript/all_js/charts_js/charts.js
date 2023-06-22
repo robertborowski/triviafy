@@ -62,4 +62,24 @@ $(document).ready(function() {
     }
   });
   // ----------------------------- chart end -----------------------------
+  // ----------------------------- chart start -----------------------------
+  new Chart("id-chartGenderDistribution", {
+    type: "bar",
+    data: {
+      labels: chartGenderDistributionLabels,
+      datasets: [{
+        backgroundColor: chartContentColor,
+        data: chartGenderDistributionValues,
+        borderWidth: chartBorderWidth
+      }]
+    },
+    options: {
+      legend: {display: false},
+      title: {
+        display: true,
+        text: chartGenderDistributionTitle
+      }
+    }
+  });
+  // ----------------------------- chart end -----------------------------
 });

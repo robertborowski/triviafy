@@ -234,6 +234,30 @@
             {% endfor %}
           </div>
           <!-- ------------------------------------- chart age group distribution end ------------------------------------- -->
+          <!-- ------------------------------------- chart gender distribution start ------------------------------------- -->
+          {% if page_dict_to_html['poll_statistics_dict']['user_attribute_gender'] == none %}
+            <div class="custom-br-15 custom-border-white-opacity-25 custom-p-25 custom-mt-100">
+              <a href="/polling/show/show_user_attributes/poll_user_attribute_gender" class="custom-a-1 custom-color-white custom-m-0 custom-opacity-75 custom-header-30 custom-display-block custom-pb-10">Gender distribution <i class="fa-solid fa-angle-right"></i></a>
+              <a href="/polling/show/show_user_attributes/poll_user_attribute_gender" class="custom-a-1 custom-header-15 custom-color-white custom-opacity-75">You must first answer this poll in order to see the community statistics, go to poll <i class="fa-solid fa-angle-right"></i></a>
+            </div>
+          {% else %}
+            <div class="custom-bg-white custom-br-15 custom-mt-50">
+              <canvas id="id-chartGenderDistribution" style="width:100%;"></canvas>
+              <script>
+                var chartGenderDistributionTitle = 'Age group distribution (%)'
+                var chartGenderDistributionLabels = {{ page_dict_to_html['poll_statistics_dict']['chart_gender_distribution']['labels']|tojson }}
+                var chartGenderDistributionValues = {{ page_dict_to_html['poll_statistics_dict']['chart_gender_distribution']['values']|tojson }}
+              </script>
+            </div>
+            <div class="custom-color-white custom-mt-10 custom-header-12 custom-display-flex custom-f-wrap">
+              {% for k,v in page_dict_to_html['poll_statistics_dict']['vote_percent_by_gender_dict'].items() %}
+                <div class="custom-f-nowrap custom-border-2 custom-m-5 custom-p-10 custom-border-white-opacity-50 custom-br-15">
+                  <span>{{ k }}: {{ v }}%</span>
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+          <!-- ------------------------------------- chart gender distribution end ------------------------------------- -->
         {% endif %}
       </div>
       <!-- ------------------------------------- poll statistics end ------------------------------------- -->
@@ -255,21 +279,27 @@
       <div class="custom-border-white-opacity-25 custom-mtb-100 custom-width-100 mx-auto"></div>
       <!-- ------------------------------------- divider end ------------------------------------- -->
       <!-- ------------------------------------- verified status start ------------------------------------- -->
-      <div class="mx-auto">
-        <p class="custom-color-white custom-m-0 custom-opacity-75 custom-header-30 custom-pb-25">Verify podcast and get access to your specialized audience feedback</p>
-        <div class="custom-display-flex">
-          <div>
-            <img src="{{ page_dict_to_html['db_show_dict']['platform_image_small'] }}" alt="show logo" class="custom-mr-1 custom-br-5 custom-border-white-opacity-75">
-          </div>
-          <div class="custom-f-direction-row custom-ml-15">
-            <p class="custom-color-white custom-m-0 custom-opacity-75 custom-header-20">Not yet verified <i class="fa-solid fa-circle-check custom-color-info"></i></p>
-            <p class="custom-color-white custom-m-0 custom-opacity-75 custom-header-15">100% free verification process</p>
-            <p class="custom-color-white custom-m-0 custom-opacity-75 custom-header-15">1. Email <a href="mailto:support@triviafy.com" class="custom-a-5 custom-color-info">support@triviafy.com</a> proof that you mentioned Triviafy to your audience on at least one major platform, e.g., podcast episode, Twitter, TikTok, etc.</p>
-            <p class="custom-color-white custom-m-0 custom-opacity-75 custom-header-15"><a href="https://calendly.com/triviafy/podcast-host-verification-call" class="custom-a-white-underline" target="_blank">2. Complete step 1 then book <span class="custom-color-info">Calendly</span> call for final verification</a>.</p>
-          </div>
+      {% if page_dict_to_html['db_show_dict']['name_title'] == 'Triviafy.com' %}
+        <div class="text-center">
+          <img src="{{ page_dict_to_html['db_show_dict']['platform_image_small'] }}" alt="show logo" class="custom-mr-1 custom-br-500 custom-width-100-px">
         </div>
-        <a href="mailto:support@triviafy.com" class="custom-width-100 btn btn-outline-info custom-mt-25">Begin host verification process <i class="fa-regular fa-envelope"></i></a>
-      </div>
+      {% else %}
+        <div class="mx-auto">
+          <p class="custom-color-white custom-m-0 custom-opacity-75 custom-header-30 custom-pb-25">Verify podcast and get access to your specialized audience feedback</p>
+          <div class="custom-display-flex">
+            <div>
+              <img src="{{ page_dict_to_html['db_show_dict']['platform_image_small'] }}" alt="show logo" class="custom-mr-1 custom-br-5 custom-border-white-opacity-75">
+            </div>
+            <div class="custom-f-direction-row custom-ml-15">
+              <p class="custom-color-white custom-m-0 custom-opacity-75 custom-header-20">Not yet verified <i class="fa-solid fa-circle-check custom-color-info"></i></p>
+              <p class="custom-color-white custom-m-0 custom-opacity-75 custom-header-15">100% free verification process</p>
+              <p class="custom-color-white custom-m-0 custom-opacity-75 custom-header-15">1. Email <a href="mailto:support@triviafy.com" class="custom-a-5 custom-color-info">support@triviafy.com</a> proof that you mentioned Triviafy to your audience on at least one major platform, e.g., podcast episode, Twitter, TikTok, etc.</p>
+              <p class="custom-color-white custom-m-0 custom-opacity-75 custom-header-15"><a href="https://calendly.com/triviafy/podcast-host-verification-call" class="custom-a-white-underline" target="_blank">2. Complete step 1 then book <span class="custom-color-info">Calendly</span> call for final verification</a>.</p>
+            </div>
+          </div>
+          <a href="mailto:support@triviafy.com" class="custom-width-100 btn btn-outline-info custom-mt-25">Begin host verification process <i class="fa-regular fa-envelope"></i></a>
+        </div>
+      {% endif %}
       <!-- ------------------------------------- verified status end ------------------------------------- -->
     </div>
     <!-- ------------------------------------- background end ------------------------------------- -->
