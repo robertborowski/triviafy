@@ -4,13 +4,13 @@ $(document).ready(function() {
   var chartBorderWidth = 3;
   // ----------------------------- chart start -----------------------------
   try {
-    new Chart("id-chartAnswerDistribution", {
+    new Chart("id-chartAnswerChoiceDistribution", {
       type: "bar",
       data: {
-        labels: chartAnswerDistributionLabels,
+        labels: chartAnswerChoiceDistributionLabels,
         datasets: [{
           backgroundColor: chartContentColor,
-          data: chartAnswerDistributionValues,
+          data: chartAnswerChoiceDistributionValues,
           borderWidth: chartBorderWidth
         }]
       },
@@ -18,7 +18,7 @@ $(document).ready(function() {
         legend: {display: false},
         title: {
           display: true,
-          text: chartAnswerDistributionTitle
+          text: chartAnswerChoiceDistributionTitle
         }
       }
     }); 

@@ -44,7 +44,7 @@
         </div>
         {% if page_dict_to_html['db_show_dict']['name_title'] == 'Triviafy.com' %}
           <a href="/polling/show/{{ page_dict_to_html['url_show_id'] }}" class="custom-p-25 btn btn-success btn-lg custom-width-100 custom-mt-25 custom-header-30">Next user poll <i class="fa-solid fa-angle-right"></i></a>
-          <a href="/polling/dashboard" class="btn btn-primary btn-sm custom-width-100 custom-mt-25">Return to show polls <i class="fa-solid fa-reply"></i></a>
+          <a href="/polling/dashboard" class="btn btn-outline-secondary btn-sm custom-width-100 custom-mt-25">Return to show polls <i class="fa-solid fa-reply"></i></a>
         {% else %}
           <a href="/polling/show/{{ page_dict_to_html['url_show_id'] }}" class="custom-p-25 btn btn-success btn-lg custom-width-100 custom-mt-25 custom-header-30">Next poll <i class="fa-solid fa-angle-right"></i></a>
         {% endif %}
@@ -160,6 +160,7 @@
             <p class="custom-m-0 custom-header-15 custom-color-white custom-opacity-75">You must first answer this poll in order to see the community statistics.</p>
           </div>
         {% else %}
+          <!-- ------------------------------------- restate q/a start ------------------------------------- -->
           <div class="custom-border-white-opacity-25 custom-br-15 custom-p-15 custom-color-white custom-header-12">
             <p class="custom-m-0 custom-mb-10">Q: {{ page_dict_to_html['poll_dict']['question'] }}</p>
             {% for k,v in page_dict_to_html['poll_dict']['answer_choices_dict'].items() %}
@@ -170,93 +171,46 @@
               {% endif %}
             {% endfor %}
           </div>
+          <!-- ------------------------------------- restate q/a end ------------------------------------- -->
+          <!-- ------------------------------------- total unique responses start ------------------------------------- -->
           <div class="custom-color-white custom-header-20">
             <p class="custom-m-0 custom-mt-25"><i class="fa-solid fa-chevron-right"></i> Total responses: {{ page_dict_to_html['poll_statistics_dict']['total_latest_poll_answers'] }}</p>
           </div>
-          <!-- ------------------------------------- chart answer distribution start ------------------------------------- -->
-          {% if page_dict_to_html['poll_answered_dict']['poll_answer_submitted'] == 'Skip this question' %}
-            <div class="custom-br-15 custom-border-white-opacity-25 custom-p-15 custom-mt-25">
-              <p class="custom-m-0 custom-header-15 custom-color-white custom-opacity-75">You can not see the answer distribution if you selected 'Skip this question'</p>
-            </div>
-          {% else %}
-            <div class="custom-bg-white custom-br-15 custom-mt-25">
-              <canvas id="id-chartAnswerDistribution" style="width:100%;"></canvas>
-              <script>
-                var chartAnswerDistributionTitle = 'Answer distribution (%)'
-                var chartAnswerDistributionLabels = {{ page_dict_to_html['poll_statistics_dict']['chart_answer_choice_distribution']['labels']|tojson }}
-                var chartAnswerDistributionValues = {{ page_dict_to_html['poll_statistics_dict']['chart_answer_choice_distribution']['values']|tojson }}
-              </script>
-            </div>
-            <div class="custom-color-white custom-mt-10 custom-header-12 custom-display-flex custom-f-wrap">
-              {% for k,v in page_dict_to_html['poll_statistics_dict']['vote_percent_by_answer_choice_dict'].items() %}
-                <div class="custom-f-nowrap custom-border-2 custom-m-5 custom-p-10 custom-border-white-opacity-50 custom-br-15">
-                  <span>{{ k }}: {{ v }}%</span>
-                </div>
-              {% endfor %}
-            </div>
-          {% endif %}
-          <!-- ------------------------------------- chart answer distribution end ------------------------------------- -->
-          <!-- ------------------------------------- chart generation distribution start ------------------------------------- -->
-          <div class="custom-bg-white custom-br-15 custom-mt-50">
-            <canvas id="id-chartGenerationDistribution" style="width:100%;"></canvas>
-            <script>
-              var chartGenerationDistributionTitle = 'Generation distribution (%)'
-              var chartGenerationDistributionLabels = {{ page_dict_to_html['poll_statistics_dict']['chart_generation_distribution']['labels']|tojson }}
-              var chartGenerationDistributionValues = {{ page_dict_to_html['poll_statistics_dict']['chart_generation_distribution']['values']|tojson }}
-            </script>
-          </div>
-          <div class="custom-color-white custom-mt-10 custom-header-12 custom-display-flex custom-f-wrap">
-            {% for k,v in page_dict_to_html['poll_statistics_dict']['vote_percent_by_generation_dict'].items() %}
-              {% if k == 'silent' %}
-              {% else %}
-                <div class="custom-f-nowrap custom-border-2 custom-m-5 custom-p-10 custom-border-white-opacity-50 custom-br-15">
-                  <span>{{ k }}: {{ v }}%</span>
-                </div>
-              {% endif %}
-            {% endfor %}
-          </div>
-          <!-- ------------------------------------- chart generation distribution end ------------------------------------- -->
-          <!-- ------------------------------------- chart age group distribution start ------------------------------------- -->
-          <div class="custom-bg-white custom-br-15 custom-mt-50">
-            <canvas id="id-chartAgeGroupDistribution" style="width:100%;"></canvas>
-            <script>
-              var chartAgeGroupDistributionTitle = 'Age group distribution (%)'
-              var chartAgeGroupDistributionLabels = {{ page_dict_to_html['poll_statistics_dict']['chart_age_group_distribution']['labels']|tojson }}
-              var chartAgeGroupDistributionValues = {{ page_dict_to_html['poll_statistics_dict']['chart_age_group_distribution']['values']|tojson }}
-            </script>
-          </div>
-          <div class="custom-color-white custom-mt-10 custom-header-12 custom-display-flex custom-f-wrap">
-            {% for k,v in page_dict_to_html['poll_statistics_dict']['vote_percent_by_age_group_dict'].items() %}
-              <div class="custom-f-nowrap custom-border-2 custom-m-5 custom-p-10 custom-border-white-opacity-50 custom-br-15">
-                <span>{{ k }}: {{ v }}%</span>
+          <!-- ------------------------------------- total unique responses end ------------------------------------- -->
+          <!-- ------------------------------------- chart general distribution start ------------------------------------- -->
+          {% for i_dict in page_dict_to_html['poll_statistics_dict']['chart_arr_of_dict'] %}
+            {% if i_dict['user_provided_attribute_x'] == none or page_dict_to_html['poll_answered_dict']['poll_answer_submitted'] == 'Skip this question' %}
+              <div class="custom-br-15 custom-border-white-opacity-25 custom-p-25 custom-mt-50">
+                <a href="/polling/show/show_user_attributes/{{ i_dict['fk_poll_id'] }}" class="custom-a-white-underline custom-m-0 custom-header-30 custom-display-block custom-pb-10"><i class="fa-solid fa-circle-exclamation custom-color-danger"></i> {{ i_dict['chart_attribute'] }} distribution <i class="fa-solid fa-angle-right"></i></a>
+                <a href="/polling/show/show_user_attributes/{{ i_dict['fk_poll_id'] }}" class="custom-a-white-underline custom-header-15">You must first answer this poll in order to see the community statistics, go to poll <i class="fa-solid fa-angle-right"></i></a>
               </div>
-            {% endfor %}
-          </div>
-          <!-- ------------------------------------- chart age group distribution end ------------------------------------- -->
-          <!-- ------------------------------------- chart gender distribution start ------------------------------------- -->
-          {% if page_dict_to_html['poll_statistics_dict']['user_provided_attribute_gender'] == none %}
-            <div class="custom-br-15 custom-border-white-opacity-25 custom-p-25 custom-mt-100">
-              <a href="/polling/show/show_user_attributes/poll_user_attribute_gender" class="custom-a-white-underline custom-m-0 custom-header-30 custom-display-block custom-pb-10"><i class="fa-solid fa-circle-exclamation custom-color-danger"></i> Gender distribution <i class="fa-solid fa-angle-right"></i></a>
-              <a href="/polling/show/show_user_attributes/poll_user_attribute_gender" class="custom-a-white-underline custom-header-15">You must first answer this poll in order to see the community statistics, go to poll <i class="fa-solid fa-angle-right"></i></a>
-            </div>
-          {% else %}
-            <div class="custom-bg-white custom-br-15 custom-mt-50">
-              <canvas id="id-chartGenderDistribution" style="width:100%;"></canvas>
-              <script>
-                var chartGenderDistributionTitle = 'Gender distribution (%)'
-                var chartGenderDistributionLabels = {{ page_dict_to_html['poll_statistics_dict']['chart_gender_distribution']['labels']|tojson }}
-                var chartGenderDistributionValues = {{ page_dict_to_html['poll_statistics_dict']['chart_gender_distribution']['values']|tojson }}
-              </script>
-            </div>
-            <div class="custom-color-white custom-mt-10 custom-header-12 custom-display-flex custom-f-wrap">
-              {% for k,v in page_dict_to_html['poll_statistics_dict']['vote_percent_by_gender_dict'].items() %}
-                <div class="custom-f-nowrap custom-border-2 custom-m-5 custom-p-10 custom-border-white-opacity-50 custom-br-15">
-                  <span>{{ k }}: {{ v }}%</span>
-                </div>
-              {% endfor %}
-            </div>
-          {% endif %}
-          <!-- ------------------------------------- chart gender distribution end ------------------------------------- -->
+            {% else %}
+              <div class="custom-bg-white custom-br-15 custom-mt-50">
+                <canvas id="{{ i_dict['unique_id'] }}" style="width:100%;"></canvas>
+                <script>
+                  var dynamicVariableNameTitle = {{ i_dict['js_variables_arr'][0]|tojson }}; // Variable name
+                  var variableValueTitle = {{ i_dict['chart_title']|tojson }}; // Variable value
+                  window[dynamicVariableNameTitle] = variableValueTitle;
+
+                  var dynamicVariableNameLabels = {{ i_dict['js_variables_arr'][1]|tojson }}; // Variable name
+                  var variableValueLabels = {{ page_dict_to_html['poll_statistics_dict'][i_dict['chart_name']]['labels']|tojson }}; // Variable value
+                  window[dynamicVariableNameLabels] = variableValueLabels;
+
+                  var dynamicVariableNameValues = {{ i_dict['js_variables_arr'][2]|tojson }}; // Variable name
+                  var variableValueValues = {{ page_dict_to_html['poll_statistics_dict'][i_dict['chart_name']]['values']|tojson }}; // Variable value
+                  window[dynamicVariableNameValues] = variableValueValues;
+                </script>
+              </div>
+              <div class="custom-color-white custom-mt-10 custom-header-12 custom-display-flex custom-f-wrap">
+                {% for k,v in page_dict_to_html['poll_statistics_dict'][i_dict['vote_percent_by_x_dict']].items() %}
+                  <div class="custom-f-nowrap custom-border-2 custom-m-5 custom-p-10 custom-border-white-opacity-50 custom-br-15">
+                    <span>{{ k }}: {{ v }}%</span>
+                  </div>
+                {% endfor %}
+              </div>
+            {% endif %}
+          {% endfor %}
+          <!-- ------------------------------------- chart general distribution end ------------------------------------- -->
         {% endif %}
       </div>
       <!-- ------------------------------------- poll statistics end ------------------------------------- -->
@@ -267,7 +221,7 @@
       {% if page_dict_to_html['poll_answered'] == true %}
         {% if page_dict_to_html['db_show_dict']['name_title'] == 'Triviafy.com' %}
           <a href="/polling/show/{{ page_dict_to_html['url_show_id'] }}" class="btn btn-success btn-lg custom-ptb-25 custom-width-100 custom-mb-25 custom-header-30">Next user poll <i class="fa-solid fa-angle-right"></i><i class="fa-solid fa-angle-right"></i><i class="fa-solid fa-angle-right"></i></a>
-          <a href="/polling/dashboard" class="btn btn-primary btn-sm custom-width-100 custom-mb-100">Return to show polls <i class="fa-solid fa-reply"></i></a>
+          <a href="/polling/dashboard" class="btn btn-outline-secondary btn-sm custom-width-100 custom-mb-100">Return to show polls <i class="fa-solid fa-reply"></i></a>
         {% else %}
           <a href="/polling/show/{{ page_dict_to_html['url_show_id'] }}" class="btn btn-success btn-lg custom-ptb-25 custom-width-100 custom-mb-100 custom-header-30">Next poll <i class="fa-solid fa-angle-right"></i><i class="fa-solid fa-angle-right"></i><i class="fa-solid fa-angle-right"></i></a>
         {% endif %}

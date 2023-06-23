@@ -17,19 +17,19 @@ def get_percent_data_function(input_numerator, input_denominator):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
-def get_chart_data_function(page_dict, total_answered_arr_of_dict, current_user, chart_arr_of_dict):
+def get_chart_data_function(page_dict, total_answered_arr_of_dict, current_user):
   # ------------------------ chart general start ------------------------
-  for i_dict in chart_arr_of_dict:
+  for i_dict in page_dict['poll_statistics_dict']['chart_arr_of_dict']:
     # ------------------------ check if current user provided attribute poll response start ------------------------
-    if i_dict['fk_show_id'] == 'show_user_attributes' and 'poll_user_attribute_' in i_dict['fk_poll_id']:
+    if i_dict['user_provided_attribute_x'] != 'ignore':
       db_poll_answered_obj = PollsAnsweredObj.query.filter_by(fk_user_id=current_user.id,fk_show_id=i_dict['fk_show_id'],fk_poll_id=i_dict['fk_poll_id']).order_by(PollsAnsweredObj.created_timestamp.desc()).first()
       if db_poll_answered_obj == None or db_poll_answered_obj == []:
-        page_dict['poll_statistics_dict'][i_dict['user_provided_attribute_x']] = None
+        i_dict['user_provided_attribute_x'] = None
       else:
         if db_poll_answered_obj.poll_answer_submitted == 'Skip this question':
-          page_dict['poll_statistics_dict'][i_dict['user_provided_attribute_x']] = None
+          i_dict['user_provided_attribute_x'] = None
         else:
-          page_dict['poll_statistics_dict'][i_dict['user_provided_attribute_x']] = True
+          i_dict['user_provided_attribute_x'] = True
     # ------------------------ check if current user provided attribute poll response end ------------------------
     # ------------------------ set count to zero for options start ------------------------
     # answer choices only
@@ -133,42 +133,59 @@ def get_poll_statistics_function(current_user, page_dict):
   # ------------------------ set variables for charts start ------------------------
   chart_arr_of_dict = [
     {
+      'unique_id':'id-chartAnswerChoiceDistribution',
+      'js_variables_arr':['chartAnswerChoiceDistributionTitle','chartAnswerChoiceDistributionLabels','chartAnswerChoiceDistributionValues'],
+      'chart_attribute':'Answer choices',
       'chart_name':'chart_answer_choice_distribution',
+      'chart_title':'Answer distribution (%) - Triviafy.com',
       'fk_show_id':show_id,
       'fk_poll_id':poll_id,
-      'user_provided_attribute_x':None,
+      'user_provided_attribute_x':'ignore',
       'starting_point_arr':None,
       'vote_count_by_x_dict':'vote_count_by_answer_choice_dict',
       'vote_percent_by_x_dict':'vote_percent_by_answer_choice_dict'
     },
     {
+      'unique_id':'id-chartGenerationDistribution',
+      'js_variables_arr':['chartGenerationDistributionTitle','chartGenerationDistributionLabels','chartGenerationDistributionValues'],
+      'chart_attribute':'Generation',
       'chart_name':'chart_generation_distribution',
+      'chart_title':'Generation distribution (%) - Triviafy.com',
       'fk_show_id':show_id,
       'fk_poll_id':poll_id,
-      'user_provided_attribute_x':None,
+      'user_provided_attribute_x':'ignore',
       'starting_point_arr':None,
       'vote_count_by_x_dict':'vote_count_by_generation_dict',
       'vote_percent_by_x_dict':'vote_percent_by_generation_dict'
     },
     {
+      'unique_id':'id-chartAgeGroupDistribution',
+      'js_variables_arr':['chartAgeGroupDistributionTitle','chartAgeGroupDistributionLabels','chartAgeGroupDistributionValues'],
+      'chart_attribute':'Age group',
       'chart_name':'chart_age_group_distribution',
+      'chart_title':'Age group distribution (%) - Triviafy.com',
       'fk_show_id':show_id,
       'fk_poll_id':poll_id,
-      'user_provided_attribute_x':None,
+      'user_provided_attribute_x':'ignore',
       'starting_point_arr':get_age_group_function(),
       'vote_count_by_x_dict':'vote_count_by_age_group_dict',
       'vote_percent_by_x_dict':'vote_percent_by_age_group_dict'
     },
     {
+      'unique_id':'id-chartGenderDistribution',
+      'js_variables_arr':['chartGenderDistributionTitle','chartGenderDistributionLabels','chartGenderDistributionValues'],
+      'chart_attribute':'Gender',
       'chart_name':'chart_gender_distribution',
+      'chart_title':'Gender group distribution (%) - Triviafy.com',
       'fk_show_id':'show_user_attributes',
       'fk_poll_id':'poll_user_attribute_gender',
-      'user_provided_attribute_x':'user_provided_attribute_gender',
+      'user_provided_attribute_x':None,
       'starting_point_arr':get_gender_arr_function(),
       'vote_count_by_x_dict':'vote_count_by_gender_dict',
       'vote_percent_by_x_dict':'vote_percent_by_gender_dict'
     }
   ]
+  page_dict['poll_statistics_dict']['chart_arr_of_dict'] = chart_arr_of_dict
   # ------------------------ set variables for charts end ------------------------
   # ------------------------ get total answered start ------------------------
   total_answered_arr_of_dict = select_general_function('select_query_general_4', poll_id)
@@ -182,7 +199,7 @@ def get_poll_statistics_function(current_user, page_dict):
     page_dict['poll_statistics_dict']['all_user_ids_participated'].append(i_poll_answered_dict['fk_user_id'])
   # ------------------------ get all user id's that voted end ------------------------
   # ------------------------ get chart data start ------------------------
-  page_dict = get_chart_data_function(page_dict, total_answered_arr_of_dict, current_user, chart_arr_of_dict)
+  page_dict = get_chart_data_function(page_dict, total_answered_arr_of_dict, current_user)
   # ------------------------ get chart data end ------------------------
   print(' ------------- 50 ------------- ')
   print(pprint.pformat(page_dict, indent=2))
