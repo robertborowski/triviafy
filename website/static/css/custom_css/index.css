@@ -1687,6 +1687,9 @@
 .custom-width-100 {
   width: 100%;
 }
+.custom-width-66-px {
+  max-width: 66px;
+}
 .custom-width-100-px {
   width: 100px;
 }

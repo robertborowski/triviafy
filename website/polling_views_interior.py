@@ -30,8 +30,7 @@ from website.backend.get_create_obj import get_all_shows_following_function, get
 from website.backend.spotify import spotify_search_show_function
 from website.backend.user_inputs import sanitize_letters_numbers_spaces_specials_only_function, sanitize_text_v1_function
 from website.backend.dict_manipulation import arr_of_dict_all_columns_single_item_function, prep_poll_dict_function
-from website.backend.openai import create_openai_starter_poll_questions_function
-from website.backend.show_utils import shows_following_arr_of_dict_function
+from website.backend.show_utils import shows_following_arr_of_dict_function, follow_user_polls_show_function
 from website.backend.sql_statements.select import select_general_function
 from website.backend.poll_statistics import get_poll_statistics_function
 from datetime import datetime
@@ -76,6 +75,12 @@ def polling_dashboard_function(url_redirect_code=None):
   page_dict['shows_following_arr_of_dict'] = get_all_shows_following_function(current_user)
   page_dict = shows_following_arr_of_dict_function(page_dict)
   # ------------------------ get all shows following sorted end ------------------------
+  # ------------------------ ensure user is part of the user polls show start ------------------------
+  if page_dict['shows_following_arr_of_dict'] != None:
+    update_made = follow_user_polls_show_function(current_user)
+    if update_made == True:
+      return redirect(url_for('polling_views_interior.polling_dashboard_function'))
+  # ------------------------ ensure user is part of the user polls show end ------------------------
   # ------------------------ pull + calculate status bar percent complete start ------------------------
   try:
     show_counter = 0
