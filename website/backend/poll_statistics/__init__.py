@@ -22,7 +22,8 @@ def get_chart_data_function(chart_name, page_dict, total_answered_arr_of_dict, c
   if chart_name == 'chart_answer_distribution':
     # ------------------------ set count to zero for options start ------------------------
     for k,v in page_dict['poll_dict']['answer_choices_dict'].items():
-      page_dict['poll_statistics_dict']['vote_count_by_answer_choice_dict'][k] = 0
+      if v != 'Skip this question':
+        page_dict['poll_statistics_dict']['vote_count_by_answer_choice_dict'][k] = 0
     # ------------------------ set count to zero for options end ------------------------
     # ------------------------ loop for count start ------------------------
     for i_poll_answered_dict in total_answered_arr_of_dict:
@@ -116,7 +117,10 @@ def get_chart_data_function(chart_name, page_dict, total_answered_arr_of_dict, c
     if db_poll_answered_obj == None or db_poll_answered_obj == []:
       page_dict['poll_statistics_dict']['user_provided_attribute_gender'] = None
     else:
-      page_dict['poll_statistics_dict']['user_provided_attribute_gender'] = True
+      if db_poll_answered_obj.poll_answer_submitted == 'Skip this question':
+        page_dict['poll_statistics_dict']['user_provided_attribute_gender'] = None
+      else:
+        page_dict['poll_statistics_dict']['user_provided_attribute_gender'] = True
     # ------------------------ check if current user provided attribute poll response end ------------------------
     # ------------------------ set count to zero for options start ------------------------
     gender_arr = get_gender_arr_function()

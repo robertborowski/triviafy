@@ -42,7 +42,7 @@ def select_general_function(tag_query_to_use, input1=None, input2=None, input3=N
                       t1.fk_user_id='{input2}';"
     },
     'select_query_general_4': {
-      'raw_query': f"WITH cte1 AS(SELECT ROW_NUMBER()OVER(PARTITION BY t1.fk_poll_id,t1.fk_user_id ORDER BY t1.created_timestamp DESC)AS row_num,t1.*FROM polls_answered_obj AS t1 LEFT JOIN polls_obj AS t2 ON t1.fk_poll_id=t2.id WHERE t1.fk_poll_id='{input1}' AND t2.status_approved=TRUE AND t2.status_removed=FALSE)SELECT *FROM cte1 WHERE row_num=1;"
+      'raw_query': f"WITH cte1 AS(SELECT ROW_NUMBER()OVER(PARTITION BY t1.fk_poll_id,t1.fk_user_id ORDER BY t1.created_timestamp DESC)AS row_num,t1.*FROM polls_answered_obj AS t1 LEFT JOIN polls_obj AS t2 ON t1.fk_poll_id=t2.id WHERE t1.fk_poll_id='{input1}' AND t2.status_approved=TRUE AND t2.status_removed=FALSE)SELECT *FROM cte1 WHERE row_num=1 AND cte1.poll_answer_submitted!='Skip this question';"
     }
   }
   # ------------------------ select queries end ------------------------

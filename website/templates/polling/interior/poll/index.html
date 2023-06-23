@@ -174,21 +174,27 @@
             <p class="custom-m-0 custom-mt-25"><i class="fa-solid fa-chevron-right"></i> Total responses: {{ page_dict_to_html['poll_statistics_dict']['total_latest_poll_answers'] }}</p>
           </div>
           <!-- ------------------------------------- chart answer distribution start ------------------------------------- -->
-          <div class="custom-bg-white custom-br-15 custom-mt-25">
-            <canvas id="id-chartAnswerDistribution" style="width:100%;"></canvas>
-            <script>
-              var chartAnswerDistributionTitle = 'Answer distribution (%)'
-              var chartAnswerDistributionLabels = {{ page_dict_to_html['poll_statistics_dict']['chart_answer_distribution']['labels']|tojson }}
-              var chartAnswerDistributionValues = {{ page_dict_to_html['poll_statistics_dict']['chart_answer_distribution']['values']|tojson }}
-            </script>
-          </div>
-          <div class="custom-color-white custom-mt-10 custom-header-12 custom-display-flex custom-f-wrap">
-            {% for k,v in page_dict_to_html['poll_statistics_dict']['vote_percent_by_answer_choice_dict'].items() %}
-              <div class="custom-f-nowrap custom-border-2 custom-m-5 custom-p-10 custom-border-white-opacity-50 custom-br-15">
-                <span>{{ k }}: {{ v }}%</span>
-              </div>
-            {% endfor %}
-          </div>
+          {% if page_dict_to_html['poll_answered_dict']['poll_answer_submitted'] == 'Skip this question' %}
+            <div class="custom-br-15 custom-border-white-opacity-25 custom-p-15 custom-mt-25">
+              <p class="custom-m-0 custom-header-15 custom-color-white custom-opacity-75">You can not see the answer distribution if you selected 'Skip this question'</p>
+            </div>
+          {% else %}
+            <div class="custom-bg-white custom-br-15 custom-mt-25">
+              <canvas id="id-chartAnswerDistribution" style="width:100%;"></canvas>
+              <script>
+                var chartAnswerDistributionTitle = 'Answer distribution (%)'
+                var chartAnswerDistributionLabels = {{ page_dict_to_html['poll_statistics_dict']['chart_answer_distribution']['labels']|tojson }}
+                var chartAnswerDistributionValues = {{ page_dict_to_html['poll_statistics_dict']['chart_answer_distribution']['values']|tojson }}
+              </script>
+            </div>
+            <div class="custom-color-white custom-mt-10 custom-header-12 custom-display-flex custom-f-wrap">
+              {% for k,v in page_dict_to_html['poll_statistics_dict']['vote_percent_by_answer_choice_dict'].items() %}
+                <div class="custom-f-nowrap custom-border-2 custom-m-5 custom-p-10 custom-border-white-opacity-50 custom-br-15">
+                  <span>{{ k }}: {{ v }}%</span>
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
           <!-- ------------------------------------- chart answer distribution end ------------------------------------- -->
           <!-- ------------------------------------- chart generation distribution start ------------------------------------- -->
           <div class="custom-bg-white custom-br-15 custom-mt-50">
