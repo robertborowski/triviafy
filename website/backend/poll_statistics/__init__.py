@@ -1,7 +1,7 @@
 # ------------------------ imports start ------------------------
 from website.models import UserAttributesObj, PollsAnsweredObj
 from website.backend.sql_statements.select import select_general_function
-from website.backend.get_create_obj import get_age_demographics_function, get_age_group_function, get_gender_arr_function
+from website.backend.get_create_obj import get_age_demographics_function, get_age_group_function, get_starting_arr_function
 import pprint
 from website.backend.dates import user_years_old_at_timestamp_function
 # ------------------------ imports end ------------------------
@@ -120,7 +120,7 @@ def get_poll_statistics_function(current_user, page_dict):
   page_dict['poll_statistics_dict']['total_latest_poll_answers'] = 0
   # users participated
   page_dict['poll_statistics_dict']['all_user_ids_participated'] = []
-  charts_arr = ['answer_choice','generation','age_group','gender','income']
+  charts_arr = ['answer_choice','generation','age_group','gender','annual_income']
   for i in charts_arr:
     if i!='answer_choice' and i!='generation' and i!='age_group':
       page_dict['poll_statistics_dict']['user_provided_attribute_'+i] = None
@@ -176,13 +176,26 @@ def get_poll_statistics_function(current_user, page_dict):
       'js_variables_arr':['chartGenderDistributionTitle','chartGenderDistributionLabels','chartGenderDistributionValues'],
       'chart_attribute':'Gender',
       'chart_name':'chart_gender_distribution',
-      'chart_title':'Gender group distribution (%) - Triviafy.com',
+      'chart_title':'Gender distribution (%) - Triviafy.com',
       'fk_show_id':'show_user_attributes',
       'fk_poll_id':'poll_user_attribute_gender',
       'user_provided_attribute_x':None,
-      'starting_point_arr':get_gender_arr_function(),
+      'starting_point_arr':get_starting_arr_function('poll_user_attribute_gender'),
       'vote_count_by_x_dict':'vote_count_by_gender_dict',
       'vote_percent_by_x_dict':'vote_percent_by_gender_dict'
+    },
+    {
+      'unique_id':'id-chartAnnualIncomeDistribution',
+      'js_variables_arr':['chartAnnualIncomeDistributionTitle','chartAnnualIncomeDistributionLabels','chartAnnualIncomeDistributionValues'],
+      'chart_attribute':'Annual income',
+      'chart_name':'chart_annual_income_distribution',
+      'chart_title':'Annual income distribution (%) - Triviafy.com',
+      'fk_show_id':'show_user_attributes',
+      'fk_poll_id':'poll_user_attribute_annual_income',
+      'user_provided_attribute_x':None,
+      'starting_point_arr':get_starting_arr_function('poll_user_attribute_annual_income'),
+      'vote_count_by_x_dict':'vote_count_by_annual_income_dict',
+      'vote_percent_by_x_dict':'vote_percent_by_annual_income_dict'
     }
   ]
   page_dict['poll_statistics_dict']['chart_arr_of_dict'] = chart_arr_of_dict

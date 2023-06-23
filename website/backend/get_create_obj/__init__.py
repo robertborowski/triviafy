@@ -156,7 +156,17 @@ def get_age_group_function():
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
-def get_gender_arr_function():
-  get_arr = ['Female','Male','Ideology based']
+def get_starting_arr_function(fk_poll_id):
+  get_arr = []
+  db_obj = PollsObj.query.filter_by(id=fk_poll_id).first()
+  if db_obj == None or db_obj == []:
+    return None
+  else:
+    get_str = db_obj.answer_choices
+    get_arr = get_str.split('~')
+    try:
+      get_arr.remove('Skip this question')
+    except:
+      pass
   return get_arr
 # ------------------------ individual function end ------------------------

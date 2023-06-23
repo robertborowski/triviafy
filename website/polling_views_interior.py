@@ -747,7 +747,10 @@ def polling_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=
     # pull random, unanswered
     poll_arr_of_dict = select_general_function('select_query_general_1', url_show_id, current_user.id)
     if poll_arr_of_dict == None or poll_arr_of_dict == []:
-      return redirect(url_for('polling_views_interior.polling_dashboard_function', url_redirect_code='s17'))
+      if url_show_id == 'show_user_attributes':
+        return redirect(url_for('polling_views_interior.polling_dashboard_function', url_redirect_code='s18'))
+      else:
+        return redirect(url_for('polling_views_interior.polling_dashboard_function', url_redirect_code='s17'))
   page_dict['poll_dict'] = prep_poll_dict_function(poll_arr_of_dict[0])
   if url_poll_id == None or url_poll_id != page_dict['poll_dict']['id']:
     return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id'], url_redirect_code=url_redirect_code))

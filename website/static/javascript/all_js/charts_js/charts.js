@@ -98,4 +98,28 @@ $(document).ready(function() {
     // catch_nothing
   }
   // ----------------------------- chart end -----------------------------
+  // ----------------------------- chart start -----------------------------
+  try {
+    new Chart("id-chartAnnualIncomeDistribution", {
+      type: "bar",
+      data: {
+        labels: chartAnnualIncomeDistributionLabels,
+        datasets: [{
+          backgroundColor: chartContentColor,
+          data: chartAnnualIncomeDistributionValues,
+          borderWidth: chartBorderWidth
+        }]
+      },
+      options: {
+        legend: {display: false},
+        title: {
+          display: true,
+          text: chartAnnualIncomeDistributionTitle
+        }
+      }
+    });
+  } catch (error) {
+    // catch_nothing
+  }
+  // ----------------------------- chart end -----------------------------
 });
