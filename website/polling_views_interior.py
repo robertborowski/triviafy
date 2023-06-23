@@ -34,6 +34,7 @@ from website.backend.openai import create_openai_starter_poll_questions_function
 from website.backend.show_utils import shows_following_arr_of_dict_function
 from website.backend.sql_statements.select import select_general_function
 from website.backend.poll_statistics import get_poll_statistics_function
+from datetime import datetime
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -767,6 +768,22 @@ def polling_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=
     page_dict = get_poll_statistics_function(current_user, page_dict)
   # ------------------------ get poll statistics end ------------------------
   if request.method == 'POST':
+    # ------------------------ check how many posts this person did today on this question start ------------------------
+    total_poll_submissions_today = 0
+    try:
+      db_poll_answered_obj = PollsAnsweredObj.query.filter_by(fk_poll_id=url_poll_id,fk_user_id=current_user.id).order_by(PollsAnsweredObj.created_timestamp.desc()).all()
+      if db_poll_answered_obj != None and db_poll_answered_obj != []:
+        for i_obj in db_poll_answered_obj:
+          submission_created_timestamp = i_obj.created_timestamp
+          submission_date = submission_created_timestamp.date()
+          today_date = datetime.now().date()
+          if submission_date == today_date:
+            total_poll_submissions_today += 1
+        if total_poll_submissions_today >= 10:
+          return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=url_poll_id, url_redirect_code='e35'))
+    except:
+      pass
+    # ------------------------ check how many posts this person did today on this question end ------------------------
     # ------------------------ get ui start ------------------------
     ui_answer_selected = request.form.get('ui_selection_radio')
     ui_anonymous_check = request.form.get('ui_anonymous_check')

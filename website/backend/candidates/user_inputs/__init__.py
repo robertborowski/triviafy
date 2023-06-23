@@ -433,6 +433,11 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':"There was an error with the podcast title, please try again.",
       'type':'danger'
     }
+  elif redirect_var == 'e35':
+    alert_message_dict = {
+      'message':"You have reached your daily limit for this poll.",
+      'type':'danger'
+    }
   # ------------------------ errors end ------------------------
   # ------------------------ success start ------------------------
   elif redirect_var == 's1':
