@@ -33,7 +33,7 @@ def get_chart_data_function(page_dict, total_answered_arr_of_dict, current_user,
     # ------------------------ check if current user provided attribute poll response end ------------------------
     # ------------------------ set count to zero for options start ------------------------
     # answer choices only
-    if i_dict['chart_name'] == 'chart_answer_distribution':
+    if i_dict['chart_name'] == 'chart_answer_choice_distribution':
       for k,v in page_dict['poll_dict']['answer_choices_dict'].items():
         if v != 'Skip this question':
           page_dict['poll_statistics_dict'][i_dict['vote_count_by_x_dict']][k] = 0
@@ -49,7 +49,7 @@ def get_chart_data_function(page_dict, total_answered_arr_of_dict, current_user,
     # ------------------------ set count to zero for options end ------------------------
     # ------------------------ loop for count start ------------------------
     # answer choices only
-    if i_dict['chart_name'] == 'chart_answer_distribution':
+    if i_dict['chart_name'] == 'chart_answer_choice_distribution':
       for i_poll_answered_dict in total_answered_arr_of_dict:
         i_poll_answer_submitted = i_poll_answered_dict['poll_answer_submitted']
         for k,v in page_dict['poll_dict']['answer_choices_dict'].items():
@@ -120,36 +120,20 @@ def get_poll_statistics_function(current_user, page_dict):
   page_dict['poll_statistics_dict']['total_latest_poll_answers'] = 0
   # users participated
   page_dict['poll_statistics_dict']['all_user_ids_participated'] = []
-  # chart answer choice
-  page_dict['poll_statistics_dict']['vote_count_by_answer_choice_dict'] = {}
-  page_dict['poll_statistics_dict']['vote_percent_by_answer_choice_dict'] = {}
-  page_dict['poll_statistics_dict']['chart_answer_distribution'] = {}
-  page_dict['poll_statistics_dict']['chart_answer_distribution']['labels'] = []
-  page_dict['poll_statistics_dict']['chart_answer_distribution']['values'] = []
-  # chart generations
-  page_dict['poll_statistics_dict']['vote_count_by_generation_dict'] = {}
-  page_dict['poll_statistics_dict']['vote_percent_by_generation_dict'] = {}
-  page_dict['poll_statistics_dict']['chart_generation_distribution'] = {}
-  page_dict['poll_statistics_dict']['chart_generation_distribution']['labels'] = []
-  page_dict['poll_statistics_dict']['chart_generation_distribution']['values'] = []
-  # chart age groups
-  page_dict['poll_statistics_dict']['vote_count_by_age_group_dict'] = {}
-  page_dict['poll_statistics_dict']['vote_percent_by_age_group_dict'] = {}
-  page_dict['poll_statistics_dict']['chart_age_group_distribution'] = {}
-  page_dict['poll_statistics_dict']['chart_age_group_distribution']['labels'] = []
-  page_dict['poll_statistics_dict']['chart_age_group_distribution']['values'] = []
-  # chart gender
-  page_dict['poll_statistics_dict']['user_provided_attribute_gender'] = None
-  page_dict['poll_statistics_dict']['vote_count_by_gender_dict'] = {}
-  page_dict['poll_statistics_dict']['vote_percent_by_gender_dict'] = {}
-  page_dict['poll_statistics_dict']['chart_gender_distribution'] = {}
-  page_dict['poll_statistics_dict']['chart_gender_distribution']['labels'] = []
-  page_dict['poll_statistics_dict']['chart_gender_distribution']['values'] = []
+  charts_arr = ['answer_choice','generation','age_group','gender','income']
+  for i in charts_arr:
+    if i!='answer_choice' and i!='generation' and i!='age_group':
+      page_dict['poll_statistics_dict']['user_provided_attribute_'+i] = None
+    page_dict['poll_statistics_dict']['vote_count_by_'+i+'_dict'] = {}
+    page_dict['poll_statistics_dict']['vote_percent_by_'+i+'_dict'] = {}
+    page_dict['poll_statistics_dict']['chart_'+i+'_distribution'] = {}
+    page_dict['poll_statistics_dict']['chart_'+i+'_distribution']['labels'] = []
+    page_dict['poll_statistics_dict']['chart_'+i+'_distribution']['values'] = []
   # ------------------------ set variables page_dict end ------------------------
   # ------------------------ set variables for charts start ------------------------
   chart_arr_of_dict = [
     {
-      'chart_name':'chart_answer_distribution',
+      'chart_name':'chart_answer_choice_distribution',
       'fk_show_id':show_id,
       'fk_poll_id':poll_id,
       'user_provided_attribute_x':None,

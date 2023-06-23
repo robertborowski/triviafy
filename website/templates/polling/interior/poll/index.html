@@ -183,8 +183,8 @@
               <canvas id="id-chartAnswerDistribution" style="width:100%;"></canvas>
               <script>
                 var chartAnswerDistributionTitle = 'Answer distribution (%)'
-                var chartAnswerDistributionLabels = {{ page_dict_to_html['poll_statistics_dict']['chart_answer_distribution']['labels']|tojson }}
-                var chartAnswerDistributionValues = {{ page_dict_to_html['poll_statistics_dict']['chart_answer_distribution']['values']|tojson }}
+                var chartAnswerDistributionLabels = {{ page_dict_to_html['poll_statistics_dict']['chart_answer_choice_distribution']['labels']|tojson }}
+                var chartAnswerDistributionValues = {{ page_dict_to_html['poll_statistics_dict']['chart_answer_choice_distribution']['values']|tojson }}
               </script>
             </div>
             <div class="custom-color-white custom-mt-10 custom-header-12 custom-display-flex custom-f-wrap">
