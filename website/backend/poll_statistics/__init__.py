@@ -131,7 +131,7 @@ def get_chart_data_function(chart_name, page_dict, total_answered_arr_of_dict, c
     # ------------------------ loop for count end ------------------------
     # ------------------------ loop for percent start ------------------------
     for k, v in page_dict['poll_statistics_dict']['vote_count_by_gender_dict'].items():
-      result = get_percent_data_function(v, page_dict['poll_statistics_dict']['total_latest_poll_answers'])
+      result = get_percent_data_function(v, len(total_answered_arr_of_dict))
       page_dict['poll_statistics_dict']['vote_percent_by_gender_dict'][k] = result
     # ------------------------ loop for percent end ------------------------
     # ------------------------ chart variables start ------------------------
