@@ -932,6 +932,13 @@ def polling_create_poll_function(url_redirect_code=None, url_show_id=None):
   if new_following_updated == True:
     return redirect(url_for('polling_views_interior.polling_create_poll_function', url_show_id=url_show_id))
   # ------------------------ ensure user is following the show end ------------------------
+  # ------------------------ provide array of answer choice amount allowed start ------------------------
+  page_dict['allowed_answers_arr'] = [i for i in range(1, 10+1)]
+  # ------------------------ provide array of answer choice amount allowed end ------------------------
+  # ------------------------ submission start ------------------------
+  if request.method == 'POST':
+    pass
+  # ------------------------ submission end ------------------------
   localhost_print_function(' ------------- 100-create poll start ------------- ')
   page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
   for k,v in page_dict.items():
