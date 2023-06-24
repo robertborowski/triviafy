@@ -463,6 +463,11 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':"You reached your poll submission daily limit for this show.",
       'type':'danger'
     }
+  elif redirect_var == 'e41':
+    alert_message_dict = {
+      'message':"Poll not available or not yet approved.",
+      'type':'danger'
+    }
   # ------------------------ errors end ------------------------
   # ------------------------ success start ------------------------
   elif redirect_var == 's1':

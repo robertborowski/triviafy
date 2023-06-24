@@ -792,7 +792,7 @@ def polling_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=
       return redirect(url_for('polling_views_interior.polling_dashboard_function', url_redirect_code='e6'))
     # ------------------------ check if poll exists in db end ------------------------
     # pull specific, unanswered or answered
-    poll_arr_of_dict = select_general_function('select_query_general_2', url_show_id, url_poll_id)
+    poll_arr_of_dict = select_general_function('select_query_general_2', url_show_id, url_poll_id, current_user.id)
   else:
     # pull random, unanswered
     poll_arr_of_dict = select_general_function('select_query_general_1', url_show_id, current_user.id)
@@ -801,7 +801,10 @@ def polling_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=
         return redirect(url_for('polling_views_interior.polling_dashboard_function', url_redirect_code='s18'))
       else:
         return redirect(url_for('polling_views_interior.polling_dashboard_function', url_redirect_code='s17'))
-  page_dict['poll_dict'] = prep_poll_dict_function(poll_arr_of_dict[0])
+  try:
+    page_dict['poll_dict'] = prep_poll_dict_function(poll_arr_of_dict[0])
+  except:
+    return redirect(url_for('polling_views_interior.polling_dashboard_function', url_redirect_code='e41'))
   if url_poll_id == None or url_poll_id != page_dict['poll_dict']['id']:
     return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id'], url_redirect_code=url_redirect_code))
   # ------------------------ pull show + poll combination end ------------------------
@@ -967,7 +970,7 @@ def polling_create_poll_function(url_redirect_code=None, url_show_id=None):
       return redirect(url_for('polling_views_interior.polling_create_poll_function', url_redirect_code='e40', url_show_id=url_show_id))
     # ------------------------ check if user submitted max amount for today for this show end ------------------------
     # ------------------------ insert to db start ------------------------
-    new_poll_id=create_uuid_function('poll_'),
+    new_poll_id=create_uuid_function('poll_')
     new_row = PollsObj(
       id=new_poll_id,
       created_timestamp=create_timestamp_function(),

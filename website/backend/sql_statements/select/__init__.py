@@ -27,7 +27,7 @@ def select_general_function(tag_query_to_use, input1=None, input2=None, input3=N
                     FROM \
                       polls_obj \
                     WHERE \
-                      status_removed=False AND status_approved=True AND \
+                      status_removed=False AND (status_approved=True OR fk_user_id='{input3}') AND \
                       fk_show_id='{input1}' AND \
                       id='{input2}';"
     },
