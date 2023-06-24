@@ -122,4 +122,28 @@ $(document).ready(function() {
     // catch_nothing
   }
   // ----------------------------- chart end -----------------------------
+  // ----------------------------- chart start -----------------------------
+  try {
+    new Chart("id-chartRelationshipStatusDistribution", {
+      type: "bar",
+      data: {
+        labels: chartRelationshipStatusDistributionLabels,
+        datasets: [{
+          backgroundColor: chartContentColor,
+          data: chartRelationshipStatusDistributionValues,
+          borderWidth: chartBorderWidth
+        }]
+      },
+      options: {
+        legend: {display: false},
+        title: {
+          display: true,
+          text: chartRelationshipStatusDistributionTitle
+        }
+      }
+    });
+  } catch (error) {
+    // catch_nothing
+  }
+  // ----------------------------- chart end -----------------------------
 });

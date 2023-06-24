@@ -120,7 +120,7 @@ def get_poll_statistics_function(current_user, page_dict):
   page_dict['poll_statistics_dict']['total_latest_poll_answers'] = 0
   # users participated
   page_dict['poll_statistics_dict']['all_user_ids_participated'] = []
-  charts_arr = ['answer_choice','generation','age_group','gender','annual_income']
+  charts_arr = ['answer_choice','generation','age_group','gender','annual_income','relationship_status']
   for i in charts_arr:
     if i!='answer_choice' and i!='generation' and i!='age_group':
       page_dict['poll_statistics_dict']['user_provided_attribute_'+i] = None
@@ -196,6 +196,19 @@ def get_poll_statistics_function(current_user, page_dict):
       'starting_point_arr':get_starting_arr_function('poll_user_attribute_annual_income'),
       'vote_count_by_x_dict':'vote_count_by_annual_income_dict',
       'vote_percent_by_x_dict':'vote_percent_by_annual_income_dict'
+    },
+    {
+      'unique_id':'id-chartRelationshipStatusDistribution',
+      'js_variables_arr':['chartRelationshipStatusDistributionTitle','chartRelationshipStatusDistributionLabels','chartRelationshipStatusDistributionValues'],
+      'chart_attribute':'Relationship status',
+      'chart_name':'chart_relationship_status_distribution',
+      'chart_title':'Relationship status distribution (%) - Triviafy.com',
+      'fk_show_id':'show_user_attributes',
+      'fk_poll_id':'poll_user_attribute_relationship_status',
+      'user_provided_attribute_x':None,
+      'starting_point_arr':get_starting_arr_function('poll_user_attribute_relationship_status'),
+      'vote_count_by_x_dict':'vote_count_by_relationship_status_dict',
+      'vote_percent_by_x_dict':'vote_percent_by_relationship_status_dict'
     }
   ]
   page_dict['poll_statistics_dict']['chart_arr_of_dict'] = chart_arr_of_dict
