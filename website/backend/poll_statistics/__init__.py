@@ -99,7 +99,10 @@ def get_chart_data_function(page_dict, total_answered_arr_of_dict, current_user)
     for k,v in page_dict['poll_statistics_dict'][i_dict['vote_percent_by_x_dict']].items():
       if i_dict['chart_name'] == 'chart_distribution_generation' and k == 'Silent':
         continue
-      page_dict['poll_statistics_dict'][i_dict['chart_name']]['labels'].append(k)
+      label = k
+      if len(label) > 15:
+        label = label[0:15]+'...'
+      page_dict['poll_statistics_dict'][i_dict['chart_name']]['labels'].append(label)
       page_dict['poll_statistics_dict'][i_dict['chart_name']]['values'].append(v)
     # ------------------------ chart variables end ------------------------
   # ------------------------ chart general end ------------------------
