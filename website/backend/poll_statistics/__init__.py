@@ -120,7 +120,7 @@ def get_poll_statistics_function(current_user, page_dict):
   page_dict['poll_statistics_dict']['total_latest_poll_answers'] = 0
   # users participated
   page_dict['poll_statistics_dict']['all_user_ids_participated'] = []
-  charts_arr = ['answer_choice','generation','age_group','gender','annual_income','relationship_status','education']
+  charts_arr = ['answer_choice','generation','age_group','gender','annual_income','relationship_status','education','employment','collar','ethnicity']
   for i in charts_arr:
     if i!='answer_choice' and i!='generation' and i!='age_group':
       page_dict['poll_statistics_dict']['user_provided_attribute_'+i] = None
@@ -222,6 +222,45 @@ def get_poll_statistics_function(current_user, page_dict):
       'starting_point_arr':get_starting_arr_function('poll_user_attribute_education'),
       'vote_count_by_x_dict':'vote_count_dict_education',
       'vote_percent_by_x_dict':'vote_percent_dict_education'
+    },
+    {
+      'unique_id':'id-chart_distribution_employment',
+      'js_variables_arr':['chart_distribution_title_employment','chart_distribution_labels_employment','chart_distribution_values_employment'],
+      'chart_attribute':'Employment',
+      'chart_name':'chart_distribution_employment',
+      'chart_title':'Employment (%) | Triviafy.com | '+page_dict['db_show_dict']['name_title'],
+      'fk_show_id':'show_user_attributes',
+      'fk_poll_id':'poll_user_attribute_employment',
+      'user_provided_attribute_x':None,
+      'starting_point_arr':get_starting_arr_function('poll_user_attribute_employment'),
+      'vote_count_by_x_dict':'vote_count_dict_employment',
+      'vote_percent_by_x_dict':'vote_percent_dict_employment'
+    },
+    {
+      'unique_id':'id-chart_distribution_collar',
+      'js_variables_arr':['chart_distribution_title_collar','chart_distribution_labels_collar','chart_distribution_values_collar'],
+      'chart_attribute':'Job type',
+      'chart_name':'chart_distribution_collar',
+      'chart_title':'Job type (%) | Triviafy.com | '+page_dict['db_show_dict']['name_title'],
+      'fk_show_id':'show_user_attributes',
+      'fk_poll_id':'poll_user_attribute_collar',
+      'user_provided_attribute_x':None,
+      'starting_point_arr':get_starting_arr_function('poll_user_attribute_collar'),
+      'vote_count_by_x_dict':'vote_count_dict_collar',
+      'vote_percent_by_x_dict':'vote_percent_dict_collar'
+    },
+    {
+      'unique_id':'id-chart_distribution_ethnicity',
+      'js_variables_arr':['chart_distribution_title_ethnicity','chart_distribution_labels_ethnicity','chart_distribution_values_ethnicity'],
+      'chart_attribute':'Ethnicity',
+      'chart_name':'chart_distribution_ethnicity',
+      'chart_title':'Ethnicity (%) | Triviafy.com | '+page_dict['db_show_dict']['name_title'],
+      'fk_show_id':'show_user_attributes',
+      'fk_poll_id':'poll_user_attribute_ethnicity',
+      'user_provided_attribute_x':None,
+      'starting_point_arr':get_starting_arr_function('poll_user_attribute_ethnicity'),
+      'vote_count_by_x_dict':'vote_count_dict_ethnicity',
+      'vote_percent_by_x_dict':'vote_percent_dict_ethnicity'
     }
   ]
   page_dict['poll_statistics_dict']['chart_arr_of_dict'] = chart_arr_of_dict
