@@ -26,11 +26,11 @@ import json
 from website.backend.candidates.send_emails import send_email_template_function
 from website.backend.candidates.lists import get_month_days_years_function, get_marketing_list_v2_function
 from website.backend.dates import get_years_from_date_function, return_ints_from_str_function
-from website.backend.get_create_obj import get_all_shows_following_function, get_all_platforms_function, get_platform_based_on_name_function, get_all_shows_for_platform_function, get_show_based_on_name_function, get_show_based_on_id_and_platform_id_function, check_if_currently_following_show_function, get_show_based_on_id_function, get_poll_based_on_id_function, get_show_percent_of_all_polls_answered_function
+from website.backend.get_create_obj import get_all_shows_following_function, get_all_platforms_function, get_platform_based_on_name_function, get_all_shows_for_platform_function, get_show_based_on_name_function, get_show_based_on_id_and_platform_id_function, check_if_currently_following_show_function, get_show_based_on_id_function, get_poll_based_on_id_function, get_show_percent_of_all_polls_answered_function, get_all_polls_based_on_show_id_function, check_at_least_one_poll_answer_submitted_function
 from website.backend.spotify import spotify_search_show_function
 from website.backend.user_inputs import sanitize_letters_numbers_spaces_specials_only_function, sanitize_text_v1_function
 from website.backend.dict_manipulation import arr_of_dict_all_columns_single_item_function, prep_poll_dict_function
-from website.backend.show_utils import shows_following_arr_of_dict_function, follow_user_polls_show_function
+from website.backend.show_utils import shows_following_arr_of_dict_function, follow_user_polls_show_function, follow_show_function
 from website.backend.sql_statements.select import select_general_function
 from website.backend.poll_statistics import get_poll_statistics_function
 from datetime import datetime
@@ -45,9 +45,13 @@ redis_connection = redis_connect_to_database_function()
 
 # ------------------------ individual route start ------------------------
 @polling_views_interior.route('/polling/dashboard', methods=['GET', 'POST'])
-@polling_views_interior.route('/polling/dashboard/<url_redirect_code>', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/dashboard/', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/dashboard/<url_show_id>', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/dashboard/<url_show_id>/', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/dashboard/<url_show_id>/<url_redirect_code>', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/dashboard/<url_show_id>/<url_redirect_code>/', methods=['GET', 'POST'])
 @login_required
-def polling_dashboard_function(url_redirect_code=None):
+def polling_dashboard_function(url_redirect_code=None, url_show_id=None):
   # ------------------------ product login check start ------------------------
   is_match = product_login_checks_function(current_user,'polling')
   if is_match == False:
@@ -67,6 +71,11 @@ def polling_dashboard_function(url_redirect_code=None):
     return redirect(url_for('polling_views_interior.polling_feedback_function', url_feedback_code=onbaording_status))
   # ------------------------ onboarding checks end ------------------------
   # ------------------------ page dict start ------------------------
+  if url_redirect_code == None:
+    try:
+      url_redirect_code = request.args.get('url_redirect_code')
+    except:
+      pass
   alert_message_dict = alert_message_default_function_v2(url_redirect_code)
   page_dict = {}
   page_dict['alert_message_dict'] = alert_message_dict
@@ -75,22 +84,58 @@ def polling_dashboard_function(url_redirect_code=None):
   page_dict['shows_following_arr_of_dict'] = get_all_shows_following_function(current_user)
   page_dict = shows_following_arr_of_dict_function(page_dict)
   # ------------------------ get all shows following sorted end ------------------------
-  # ------------------------ ensure user is part of the user polls show start ------------------------
-  if page_dict['shows_following_arr_of_dict'] != None:
-    update_made = follow_user_polls_show_function(current_user)
-    if update_made == True:
-      return redirect(url_for('polling_views_interior.polling_dashboard_function'))
-  # ------------------------ ensure user is part of the user polls show end ------------------------
-  # ------------------------ pull + calculate status bar percent complete start ------------------------
-  try:
-    show_counter = 0
-    for i_dict in page_dict['shows_following_arr_of_dict']:
-      i_dict['percent_total_polls_complete'], i_dict['user_completed_all_polls'] = get_show_percent_of_all_polls_answered_function(current_user.id, i_dict['id'])
-      show_counter += 1
-      i_dict['show_count'] = show_counter
-  except:
-    pass
-  # ------------------------ pull + calculate status bar percent complete end ------------------------
+  # ------------------------ dashboard default start ------------------------
+  # ------------------------ variables start ------------------------
+  page_dict['url_show_id'] = url_show_id
+  # ------------------------ variables end ------------------------
+  if url_show_id == None:
+    # ------------------------ ensure user is part of the user polls show start ------------------------
+    if page_dict['shows_following_arr_of_dict'] != None:
+      update_made = follow_user_polls_show_function(current_user)
+      if update_made == True:
+        return redirect(url_for('polling_views_interior.polling_dashboard_function'))
+    # ------------------------ ensure user is part of the user polls show end ------------------------
+    # ------------------------ pull + calculate status bar percent complete start ------------------------
+    try:
+      show_counter = 0
+      for i_dict in page_dict['shows_following_arr_of_dict']:
+        i_dict['percent_total_polls_complete'], i_dict['user_completed_all_polls'] = get_show_percent_of_all_polls_answered_function(current_user.id, i_dict['id'])
+        show_counter += 1
+        i_dict['show_count'] = show_counter
+    except:
+      pass
+    # ------------------------ pull + calculate status bar percent complete end ------------------------
+  # ------------------------ dashboard default end ------------------------
+  # ------------------------ dashboard show polls start ------------------------
+  if url_show_id != None:
+    # ------------------------ ensure show id exists start ------------------------
+    db_show_obj = get_show_based_on_id_function(url_show_id)
+    if db_show_obj == None:
+      return redirect(url_for('polling_views_interior.polling_dashboard_function', url_redirect_code='e6'))
+    page_dict['db_show_dict'] = arr_of_dict_all_columns_single_item_function(db_show_obj)
+    title_limit = 15
+    if len(page_dict['db_show_dict']['name']) > title_limit:
+      page_dict['db_show_dict']['name_title'] = page_dict['db_show_dict']['name'][0:title_limit] + '...'
+    else:
+      page_dict['db_show_dict']['name_title'] = page_dict['db_show_dict']['name']
+    # ------------------------ ensure show id exists end ------------------------
+    # ------------------------ ensure user is following the show start ------------------------
+    new_following_updated = follow_show_function(current_user, url_show_id)
+    if new_following_updated == True:
+      return redirect(url_for('polling_views_interior.polling_dashboard_function', url_show_id=url_show_id))
+    # ------------------------ ensure user is following the show end ------------------------
+    # ------------------------ pull all polls for show id start ------------------------
+    page_dict['all_polls_for_show_arr_of_dict'] = []
+    db_objs = get_all_polls_based_on_show_id_function(page_dict['url_show_id'])
+    for i_obj in db_objs:
+      i_dict = arr_of_dict_all_columns_single_item_function(i_obj)
+      page_dict['all_polls_for_show_arr_of_dict'].append(i_dict)
+    # ------------------------ pull all polls for show id end ------------------------
+    # ------------------------ pull answered status for all polls start ------------------------
+    for i_dict in page_dict['all_polls_for_show_arr_of_dict']:
+      i_dict['user_answered_poll_at_least_once'] = check_at_least_one_poll_answer_submitted_function(current_user, i_dict['id'])
+    # ------------------------ pull answered status for all polls end ------------------------
+  # ------------------------ dashboard show polls end ------------------------
   # ------------------------ for setting cookie start ------------------------
   template_location_url = 'polling/interior/dashboard/index.html'
   # ------------------------ for setting cookie end ------------------------

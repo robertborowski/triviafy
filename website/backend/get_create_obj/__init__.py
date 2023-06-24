@@ -104,6 +104,22 @@ def get_poll_based_on_id_function(input_id):
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
+def get_all_polls_based_on_show_id_function(fk_show_id):
+  db_objs = PollsObj.query.filter_by(fk_show_id=fk_show_id,status_approved=True,status_removed=False).order_by(PollsObj.created_timestamp.desc()).all()
+  if db_objs == None or db_objs == []:
+    db_objs = None
+  return db_objs
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def check_at_least_one_poll_answer_submitted_function(current_user, poll_id):
+  db_obj = PollsAnsweredObj.query.filter_by(fk_poll_id=poll_id,fk_user_id=current_user.id).order_by(PollsAnsweredObj.created_timestamp.desc()).first()
+  if db_obj == None or db_obj == []:
+    return False
+  return True
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
 def check_if_currently_following_show_function(current_user, input_show_id, input_platform_id):
   db_obj = ShowsFollowingObj.query.filter_by(fk_user_id=current_user.id, fk_show_id=input_show_id, fk_platform_id=input_platform_id).first()
   if db_obj == None or db_obj == []:

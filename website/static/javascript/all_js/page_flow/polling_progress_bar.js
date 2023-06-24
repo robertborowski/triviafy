@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  // ----------------------------- multipl progress bars start -----------------------------
+  // ----------------------------- multiple progress bars start -----------------------------
   try {
     var all_ids_like_arr = $('[id^="id-progress_bar_"]');
     for (var i = 0; i < all_ids_like_arr.length; i++) {
@@ -29,7 +29,7 @@ $(document).ready(function() {
   } catch (error) {
     return;
   }
-  // ----------------------------- multipl progress bars start -----------------------------
+  // ----------------------------- multiple progress bars start -----------------------------
 });
 
 $(document).ready(function() {
