@@ -1,149 +1,37 @@
 $(document).ready(function() {
+  // ----------------------------- set variables start -----------------------------
   // var chartContentColor = "rgb(0, 0, 0, 0.50)";
   var chartContentColor = "rgb(255, 193, 7, 0.50)";
   var chartBorderWidth = 3;
-  // ----------------------------- chart start -----------------------------
-  try {
-    new Chart("id-chartAnswerChoiceDistribution", {
-      type: "bar",
-      data: {
-        labels: chartAnswerChoiceDistributionLabels,
-        datasets: [{
-          backgroundColor: chartContentColor,
-          data: chartAnswerChoiceDistributionValues,
-          borderWidth: chartBorderWidth
-        }]
-      },
-      options: {
-        legend: {display: false},
-        title: {
-          display: true,
-          text: chartAnswerChoiceDistributionTitle
+  var idsArray = ["id-chart_distribution_answer_choice", "id-chart_distribution_generation", "id-chart_distribution_age_group", "id-chart_distribution_gender", "id-chart_distribution_annual_income", "id-chart_distribution_relationship_status"];
+  var titlesArray = [chart_distribution_title_answer_choice, chart_distribution_title_generation, chart_distribution_title_age_group, chart_distribution_title_gender, chart_distribution_title_annual_income, chart_distribution_title_relationship_status];
+  var labelsArray = [chart_distribution_labels_answer_choice, chart_distribution_labels_generation, chart_distribution_labels_age_group, chart_distribution_labels_gender, chart_distribution_labels_annual_income, chart_distribution_labels_relationship_status];
+  var valuesArray = [chart_distribution_values_answer_choice, chart_distribution_values_generation, chart_distribution_values_age_group, chart_distribution_values_gender, chart_distribution_values_annual_income, chart_distribution_values_relationship_status];
+  // ----------------------------- set variables end -----------------------------
+  // ----------------------------- for loop charts start -----------------------------
+  for (var i = 0; i < idsArray.length; i++) {
+    try {
+      new Chart(idsArray[i], {
+        type: "bar",
+        data: {
+          labels: labelsArray[i],
+          datasets: [{
+            backgroundColor: chartContentColor,
+            data: valuesArray[i],
+            borderWidth: chartBorderWidth
+          }]
+        },
+        options: {
+          legend: {display: false},
+          title: {
+            display: true,
+            text: titlesArray[i]
+          }
         }
-      }
-    }); 
-  } catch (error) {
-    // catch_nothing
+      }); 
+    } catch (error) {
+      // catch_nothing
+    }
   }
-  // ----------------------------- chart end -----------------------------
-  // ----------------------------- chart start -----------------------------
-  try {
-    new Chart("id-chartGenerationDistribution", {
-      type: "bar",
-      data: {
-        labels: chartGenerationDistributionLabels,
-        datasets: [{
-          backgroundColor: chartContentColor,
-          data: chartGenerationDistributionValues,
-          borderWidth: chartBorderWidth
-        }]
-      },
-      options: {
-        legend: {display: false},
-        title: {
-          display: true,
-          text: chartGenerationDistributionTitle,
-        }
-      }
-    }); 
-  } catch (error) {
-    // catch_nothing
-  }
-  // ----------------------------- chart end -----------------------------
-  // ----------------------------- chart start -----------------------------
-  try {
-    new Chart("id-chartAgeGroupDistribution", {
-      type: "bar",
-      data: {
-        labels: chartAgeGroupDistributionLabels,
-        datasets: [{
-          backgroundColor: chartContentColor,
-          data: chartAgeGroupDistributionValues,
-          borderWidth: chartBorderWidth
-        }]
-      },
-      options: {
-        legend: {display: false},
-        title: {
-          display: true,
-          text: chartAgeGroupDistributionTitle
-        }
-      }
-    });
-  } catch (error) {
-    // catch_nothing
-  }
-  // ----------------------------- chart end -----------------------------
-  // ----------------------------- chart start -----------------------------
-  try {
-    new Chart("id-chartGenderDistribution", {
-      type: "bar",
-      data: {
-        labels: chartGenderDistributionLabels,
-        datasets: [{
-          backgroundColor: chartContentColor,
-          data: chartGenderDistributionValues,
-          borderWidth: chartBorderWidth
-        }]
-      },
-      options: {
-        legend: {display: false},
-        title: {
-          display: true,
-          text: chartGenderDistributionTitle
-        }
-      }
-    });
-  } catch (error) {
-    // catch_nothing
-  }
-  // ----------------------------- chart end -----------------------------
-  // ----------------------------- chart start -----------------------------
-  try {
-    new Chart("id-chartAnnualIncomeDistribution", {
-      type: "bar",
-      data: {
-        labels: chartAnnualIncomeDistributionLabels,
-        datasets: [{
-          backgroundColor: chartContentColor,
-          data: chartAnnualIncomeDistributionValues,
-          borderWidth: chartBorderWidth
-        }]
-      },
-      options: {
-        legend: {display: false},
-        title: {
-          display: true,
-          text: chartAnnualIncomeDistributionTitle
-        }
-      }
-    });
-  } catch (error) {
-    // catch_nothing
-  }
-  // ----------------------------- chart end -----------------------------
-  // ----------------------------- chart start -----------------------------
-  try {
-    new Chart("id-chartRelationshipStatusDistribution", {
-      type: "bar",
-      data: {
-        labels: chartRelationshipStatusDistributionLabels,
-        datasets: [{
-          backgroundColor: chartContentColor,
-          data: chartRelationshipStatusDistributionValues,
-          borderWidth: chartBorderWidth
-        }]
-      },
-      options: {
-        legend: {display: false},
-        title: {
-          display: true,
-          text: chartRelationshipStatusDistributionTitle
-        }
-      }
-    });
-  } catch (error) {
-    // catch_nothing
-  }
-  // ----------------------------- chart end -----------------------------
+  // ----------------------------- for loop charts end -----------------------------
 });

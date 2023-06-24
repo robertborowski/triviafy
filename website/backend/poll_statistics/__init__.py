@@ -33,12 +33,12 @@ def get_chart_data_function(page_dict, total_answered_arr_of_dict, current_user)
     # ------------------------ check if current user provided attribute poll response end ------------------------
     # ------------------------ set count to zero for options start ------------------------
     # answer choices only
-    if i_dict['chart_name'] == 'chart_answer_choice_distribution':
+    if i_dict['chart_name'] == 'chart_distribution_answer_choice':
       for k,v in page_dict['poll_dict']['answer_choices_dict'].items():
         if v != 'Skip this question':
           page_dict['poll_statistics_dict'][i_dict['vote_count_by_x_dict']][k] = 0
     # generation only
-    elif i_dict['chart_name'] == 'chart_generation_distribution':
+    elif i_dict['chart_name'] == 'chart_distribution_generation':
       year_generation_dict, generation_options_arr = get_age_demographics_function()
       for i in generation_options_arr:
         page_dict['poll_statistics_dict'][i_dict['vote_count_by_x_dict']][i] = 0
@@ -49,7 +49,7 @@ def get_chart_data_function(page_dict, total_answered_arr_of_dict, current_user)
     # ------------------------ set count to zero for options end ------------------------
     # ------------------------ loop for count start ------------------------
     # answer choices only
-    if i_dict['chart_name'] == 'chart_answer_choice_distribution':
+    if i_dict['chart_name'] == 'chart_distribution_answer_choice':
       for i_poll_answered_dict in total_answered_arr_of_dict:
         i_poll_answer_submitted = i_poll_answered_dict['poll_answer_submitted']
         for k,v in page_dict['poll_dict']['answer_choices_dict'].items():
@@ -59,7 +59,7 @@ def get_chart_data_function(page_dict, total_answered_arr_of_dict, current_user)
             except:
               pass
     # generation only
-    elif i_dict['chart_name'] == 'chart_generation_distribution':
+    elif i_dict['chart_name'] == 'chart_distribution_generation':
       for i_user in page_dict['poll_statistics_dict']['all_user_ids_participated']:
         try:
           db_user_obj = UserAttributesObj.query.filter_by(fk_user_id=i_user,attribute_code='attribute_birthday').first()
@@ -68,7 +68,7 @@ def get_chart_data_function(page_dict, total_answered_arr_of_dict, current_user)
         except:
           pass
     # age group only
-    elif i_dict['chart_name'] == 'chart_age_group_distribution':
+    elif i_dict['chart_name'] == 'chart_distribution_age_group':
       for i_poll_answered_dict in total_answered_arr_of_dict:
         i_poll_answer_submitted_timestamp = i_poll_answered_dict['created_timestamp']
         db_user_obj = UserAttributesObj.query.filter_by(fk_user_id=i_poll_answered_dict['fk_user_id'],attribute_code='attribute_birthday').first()
@@ -97,7 +97,7 @@ def get_chart_data_function(page_dict, total_answered_arr_of_dict, current_user)
     # ------------------------ loop for percent end ------------------------
     # ------------------------ chart variables start ------------------------
     for k,v in page_dict['poll_statistics_dict'][i_dict['vote_percent_by_x_dict']].items():
-      if i_dict['chart_name'] == 'chart_generation_distribution' and k == 'Silent':
+      if i_dict['chart_name'] == 'chart_distribution_generation' and k == 'Silent':
         continue
       page_dict['poll_statistics_dict'][i_dict['chart_name']]['labels'].append(k)
       page_dict['poll_statistics_dict'][i_dict['chart_name']]['values'].append(v)
@@ -124,91 +124,91 @@ def get_poll_statistics_function(current_user, page_dict):
   for i in charts_arr:
     if i!='answer_choice' and i!='generation' and i!='age_group':
       page_dict['poll_statistics_dict']['user_provided_attribute_'+i] = None
-    page_dict['poll_statistics_dict']['vote_count_by_'+i+'_dict'] = {}
-    page_dict['poll_statistics_dict']['vote_percent_by_'+i+'_dict'] = {}
-    page_dict['poll_statistics_dict']['chart_'+i+'_distribution'] = {}
-    page_dict['poll_statistics_dict']['chart_'+i+'_distribution']['labels'] = []
-    page_dict['poll_statistics_dict']['chart_'+i+'_distribution']['values'] = []
+    page_dict['poll_statistics_dict']['vote_count_dict_'+i] = {}
+    page_dict['poll_statistics_dict']['vote_percent_dict_'+i] = {}
+    page_dict['poll_statistics_dict']['chart_distribution_'+i] = {}
+    page_dict['poll_statistics_dict']['chart_distribution_'+i]['labels'] = []
+    page_dict['poll_statistics_dict']['chart_distribution_'+i]['values'] = []
   # ------------------------ set variables page_dict end ------------------------
   # ------------------------ set variables for charts start ------------------------
   chart_arr_of_dict = [
     {
-      'unique_id':'id-chartAnswerChoiceDistribution',
-      'js_variables_arr':['chartAnswerChoiceDistributionTitle','chartAnswerChoiceDistributionLabels','chartAnswerChoiceDistributionValues'],
+      'unique_id':'id-chart_distribution_answer_choice',
+      'js_variables_arr':['chart_distribution_title_answer_choice','chart_distribution_labels_answer_choice','chart_distribution_values_answer_choice'],
       'chart_attribute':'Answer choices',
-      'chart_name':'chart_answer_choice_distribution',
+      'chart_name':'chart_distribution_answer_choice',
       'chart_title':'Answer distribution (%) - Triviafy.com',
       'fk_show_id':show_id,
       'fk_poll_id':poll_id,
       'user_provided_attribute_x':'ignore',
       'starting_point_arr':None,
-      'vote_count_by_x_dict':'vote_count_by_answer_choice_dict',
-      'vote_percent_by_x_dict':'vote_percent_by_answer_choice_dict'
+      'vote_count_by_x_dict':'vote_count_dict_answer_choice',
+      'vote_percent_by_x_dict':'vote_percent_dict_answer_choice'
     },
     {
-      'unique_id':'id-chartGenerationDistribution',
-      'js_variables_arr':['chartGenerationDistributionTitle','chartGenerationDistributionLabels','chartGenerationDistributionValues'],
+      'unique_id':'id-chart_distribution_generation',
+      'js_variables_arr':['chart_distribution_title_generation','chart_distribution_labels_generation','chart_distribution_values_generation'],
       'chart_attribute':'Generation',
-      'chart_name':'chart_generation_distribution',
+      'chart_name':'chart_distribution_generation',
       'chart_title':'Generation distribution (%) - Triviafy.com',
       'fk_show_id':show_id,
       'fk_poll_id':poll_id,
       'user_provided_attribute_x':'ignore',
       'starting_point_arr':None,
-      'vote_count_by_x_dict':'vote_count_by_generation_dict',
-      'vote_percent_by_x_dict':'vote_percent_by_generation_dict'
+      'vote_count_by_x_dict':'vote_count_dict_generation',
+      'vote_percent_by_x_dict':'vote_percent_dict_generation'
     },
     {
-      'unique_id':'id-chartAgeGroupDistribution',
-      'js_variables_arr':['chartAgeGroupDistributionTitle','chartAgeGroupDistributionLabels','chartAgeGroupDistributionValues'],
+      'unique_id':'id-chart_distribution_age_group',
+      'js_variables_arr':['chart_distribution_title_age_group','chart_distribution_labels_age_group','chart_distribution_values_age_group'],
       'chart_attribute':'Age group',
-      'chart_name':'chart_age_group_distribution',
+      'chart_name':'chart_distribution_age_group',
       'chart_title':'Age group distribution (%) - Triviafy.com',
       'fk_show_id':show_id,
       'fk_poll_id':poll_id,
       'user_provided_attribute_x':'ignore',
       'starting_point_arr':get_age_group_function(),
-      'vote_count_by_x_dict':'vote_count_by_age_group_dict',
-      'vote_percent_by_x_dict':'vote_percent_by_age_group_dict'
+      'vote_count_by_x_dict':'vote_count_dict_age_group',
+      'vote_percent_by_x_dict':'vote_percent_dict_age_group'
     },
     {
-      'unique_id':'id-chartGenderDistribution',
-      'js_variables_arr':['chartGenderDistributionTitle','chartGenderDistributionLabels','chartGenderDistributionValues'],
+      'unique_id':'id-chart_distribution_gender',
+      'js_variables_arr':['chart_distribution_title_gender','chart_distribution_labels_gender','chart_distribution_values_gender'],
       'chart_attribute':'Gender',
-      'chart_name':'chart_gender_distribution',
+      'chart_name':'chart_distribution_gender',
       'chart_title':'Gender distribution (%) - Triviafy.com',
       'fk_show_id':'show_user_attributes',
       'fk_poll_id':'poll_user_attribute_gender',
       'user_provided_attribute_x':None,
       'starting_point_arr':get_starting_arr_function('poll_user_attribute_gender'),
-      'vote_count_by_x_dict':'vote_count_by_gender_dict',
-      'vote_percent_by_x_dict':'vote_percent_by_gender_dict'
+      'vote_count_by_x_dict':'vote_count_dict_gender',
+      'vote_percent_by_x_dict':'vote_percent_dict_gender'
     },
     {
-      'unique_id':'id-chartAnnualIncomeDistribution',
-      'js_variables_arr':['chartAnnualIncomeDistributionTitle','chartAnnualIncomeDistributionLabels','chartAnnualIncomeDistributionValues'],
+      'unique_id':'id-chart_distribution_annual_income',
+      'js_variables_arr':['chart_distribution_title_annual_income','chart_distribution_labels_annual_income','chart_distribution_values_annual_income'],
       'chart_attribute':'Annual income',
-      'chart_name':'chart_annual_income_distribution',
+      'chart_name':'chart_distribution_annual_income',
       'chart_title':'Annual income distribution (%) - Triviafy.com',
       'fk_show_id':'show_user_attributes',
       'fk_poll_id':'poll_user_attribute_annual_income',
       'user_provided_attribute_x':None,
       'starting_point_arr':get_starting_arr_function('poll_user_attribute_annual_income'),
-      'vote_count_by_x_dict':'vote_count_by_annual_income_dict',
-      'vote_percent_by_x_dict':'vote_percent_by_annual_income_dict'
+      'vote_count_by_x_dict':'vote_count_dict_annual_income',
+      'vote_percent_by_x_dict':'vote_percent_dict_annual_income'
     },
     {
-      'unique_id':'id-chartRelationshipStatusDistribution',
-      'js_variables_arr':['chartRelationshipStatusDistributionTitle','chartRelationshipStatusDistributionLabels','chartRelationshipStatusDistributionValues'],
+      'unique_id':'id-chart_distribution_relationship_status',
+      'js_variables_arr':['chart_distribution_title_relationship_status','chart_distribution_labels_relationship_status','chart_distribution_values_relationship_status'],
       'chart_attribute':'Relationship status',
-      'chart_name':'chart_relationship_status_distribution',
+      'chart_name':'chart_distribution_relationship_status',
       'chart_title':'Relationship status distribution (%) - Triviafy.com',
       'fk_show_id':'show_user_attributes',
       'fk_poll_id':'poll_user_attribute_relationship_status',
       'user_provided_attribute_x':None,
       'starting_point_arr':get_starting_arr_function('poll_user_attribute_relationship_status'),
-      'vote_count_by_x_dict':'vote_count_by_relationship_status_dict',
-      'vote_percent_by_x_dict':'vote_percent_by_relationship_status_dict'
+      'vote_count_by_x_dict':'vote_count_dict_relationship_status',
+      'vote_percent_by_x_dict':'vote_percent_dict_relationship_status'
     }
   ]
   page_dict['poll_statistics_dict']['chart_arr_of_dict'] = chart_arr_of_dict
