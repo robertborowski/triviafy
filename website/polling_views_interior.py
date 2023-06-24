@@ -26,7 +26,7 @@ import json
 from website.backend.candidates.send_emails import send_email_template_function
 from website.backend.candidates.lists import get_month_days_years_function, get_marketing_list_v2_function
 from website.backend.dates import get_years_from_date_function, return_ints_from_str_function
-from website.backend.get_create_obj import get_all_shows_following_function, get_all_platforms_function, get_platform_based_on_name_function, get_all_shows_for_platform_function, get_show_based_on_name_function, get_show_based_on_id_and_platform_id_function, check_if_currently_following_show_function, get_show_based_on_id_function, get_poll_based_on_id_function, get_show_percent_of_all_polls_answered_function, get_all_polls_based_on_show_id_function, check_at_least_one_poll_answer_submitted_function
+from website.backend.get_create_obj import get_all_shows_following_function, get_all_platforms_function, get_platform_based_on_name_function, get_all_shows_for_platform_function, get_show_based_on_name_function, get_show_based_on_id_and_platform_id_function, check_if_currently_following_show_function, get_show_based_on_id_function, get_poll_based_on_id_function, get_show_percent_of_all_polls_answered_function, get_all_polls_based_on_show_id_function, check_at_least_one_poll_answer_submitted_function, get_total_polls_created_today_by_user_for_one_show_function
 from website.backend.spotify import spotify_search_show_function
 from website.backend.user_inputs import sanitize_letters_numbers_spaces_specials_only_function, sanitize_text_v1_function, sanitize_text_v2_function
 from website.backend.dict_manipulation import arr_of_dict_all_columns_single_item_function, prep_poll_dict_function
@@ -962,7 +962,9 @@ def polling_create_poll_function(url_redirect_code=None, url_show_id=None):
       return redirect(url_for('polling_views_interior.polling_create_poll_function', url_redirect_code='e38', url_show_id=url_show_id))
     # ------------------------ sanatize ui end ------------------------
     # ------------------------ check if user submitted max amount for today for this show start ------------------------
-    # to be written
+    total_polls_created_today_by_user_for_show = get_total_polls_created_today_by_user_for_one_show_function(current_user.id,url_show_id)
+    if int(total_polls_created_today_by_user_for_show) > 10:
+      return redirect(url_for('polling_views_interior.polling_create_poll_function', url_redirect_code='e40', url_show_id=url_show_id))
     # ------------------------ check if user submitted max amount for today for this show end ------------------------
     # ------------------------ insert to db start ------------------------
     new_poll_id=create_uuid_function('poll_'),

@@ -458,6 +458,11 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':"You need more than 1 answer choice",
       'type':'danger'
     }
+  elif redirect_var == 'e40':
+    alert_message_dict = {
+      'message':"You reached your poll submission daily limit for this show.",
+      'type':'danger'
+    }
   # ------------------------ errors end ------------------------
   # ------------------------ success start ------------------------
   elif redirect_var == 's1':

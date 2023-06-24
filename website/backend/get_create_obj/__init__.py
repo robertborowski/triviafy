@@ -1,6 +1,7 @@
 # ------------------------ imports start ------------------------
 from website.models import UserObj, ShowsFollowingObj, PlatformsObj, ShowsObj, PollsObj, PollsAnsweredObj
 from website.backend.sql_statements.select import select_general_function
+from datetime import datetime, date
 # ------------------------ imports end ------------------------
 
 # ------------------------ individual function start ------------------------
@@ -93,6 +94,26 @@ def get_show_percent_of_all_polls_answered_function(fk_user_id, fk_show_id):
     is_complete = True
   # ------------------------ complete status end ------------------------
   return int(user_percent_completed), is_complete
+# ------------------------ individual function end ------------------------
+
+# ------------------------ individual function start ------------------------
+def get_total_polls_created_today_by_user_for_one_show_function(input_user_id, input_show_id):
+  # ------------------------ set variables start ------------------------
+  today_date = date.today()
+  count_today = int(0)
+  # ------------------------ set variables end ------------------------
+  # ------------------------ pull data start ------------------------
+  db_obj = PollsObj.query.filter_by(fk_user_id=input_user_id,fk_show_id=input_show_id).order_by(PollsObj.created_timestamp.desc()).all()
+  if db_obj == None or db_obj == []:
+    return int(0)
+  # ------------------------ pull data end ------------------------
+  # ------------------------ loop + count today start ------------------------
+  for i_obj in db_obj:
+    i_obj_date = i_obj.created_timestamp.date()
+    if i_obj_date == today_date:
+      count_today += 1
+  # ------------------------ loop + count today end ------------------------
+  return int(count_today)
 # ------------------------ individual function end ------------------------
 
 # ------------------------ individual function start ------------------------
