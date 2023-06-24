@@ -1,0 +1,43 @@
+{% extends "polling/aaa_base/base2_interior.html" %}
+<!-- head tag block content -->
+{% block title %}
+  <title>Create Poll - Triviafy</title>
+{% endblock %}
+{% block contentBodyExceptNavbarAndFooter %}
+<!-- ----------------------------------- start ----------------------------------- -->
+{% if page_dict_to_html['alert_message_dict']['message'] != '' %}
+<div class="alert alert-{{ page_dict_to_html['alert_message_dict']['type'] }} mx-auto text-center container custom-mt-25 custom-width-800" role="alert">
+  {{ page_dict_to_html['alert_message_dict']['message'] }}
+</div>
+{% endif %}
+<!-- ----------------------------------- end ----------------------------------- -->
+<!-- ------------------------------------- start ------------------------------------- -->
+<div class="container custom-width-800 custom-pt-50">
+  <!-- ------------------------------------- top start ------------------------------------- -->
+  <div class="custom-display-flex custom-jc-between">
+    <div class="custom-display-flex">
+      <img src="{{ page_dict_to_html['db_show_dict']['platform_image_small'] }}" alt="show logo" class="custom-br-5 custom-width-height-40-px">
+      <h2 class="custom-ml-10">{{ page_dict_to_html['db_show_dict']['name_title'] }} | Create poll</h2>
+    </div>
+    <div class="custom-ml-10 custom-mt-5">
+      <a href="/polling/show/add/1" class="btn btn-primary btn-sm custom-mb-10-mobile">My polls <i class="fa-solid fa-angle-right"></i></a>
+    </div>
+  </div>
+  <!-- ------------------------------------- top end ------------------------------------- -->
+  <!-- ------------------------------------- bottom start ------------------------------------- -->
+  <div class="custom-br-25 custom-bg-white shadow-sm border custom-p-15 custom-mtb-25 uiSearchItem">
+    <!-- ------------------------------------- question start ------------------------------------- -->
+    <div class="custom-display-flex custom-pb-10">
+      <p>question</p>
+    </div>
+    <!-- ------------------------------------- question end ------------------------------------- -->
+    <!-- ------------------------------------- answer choices start ------------------------------------- -->
+    <div>
+      <p>answer choices</p>
+    </div>
+    <!-- ------------------------------------- answer choices end ------------------------------------- -->
+  </div>
+  <!-- ------------------------------------- bottom end ------------------------------------- -->
+</div>
+<!-- -------------------------------------  end ------------------------------------- -->
+{% endblock %}

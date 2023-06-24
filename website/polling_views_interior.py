@@ -894,3 +894,49 @@ def polling_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=
   localhost_print_function(' ------------- 100-show poll end ------------- ')
   return render_template('polling/interior/poll/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@polling_views_interior.route('/polling/create/<url_show_id>', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/create/<url_show_id>/', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/create/<url_show_id>/<url_redirect_code>', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/create/<url_show_id>/<url_redirect_code>/', methods=['GET', 'POST'])
+@login_required
+def polling_create_poll_function(url_redirect_code=None, url_show_id=None):
+  # ------------------------ page dict start ------------------------
+  if url_redirect_code == None:
+    try:
+      url_redirect_code = request.args.get('url_redirect_code')
+    except:
+      pass
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ page dict end ------------------------
+  # ------------------------ if no show id start ------------------------
+  if url_show_id == None:
+    return redirect(url_for('polling_views_interior.polling_dashboard_function', url_redirect_code='e6'))
+  # ------------------------ if no show id end ------------------------
+  # ------------------------ ensure show id exists start ------------------------
+  db_show_obj = get_show_based_on_id_function(url_show_id)
+  if db_show_obj == None:
+    return redirect(url_for('polling_views_interior.polling_dashboard_function', url_redirect_code='e6'))
+  page_dict['db_show_dict'] = arr_of_dict_all_columns_single_item_function(db_show_obj)
+  title_limit = 15
+  if len(page_dict['db_show_dict']['name']) > title_limit:
+    page_dict['db_show_dict']['name_title'] = page_dict['db_show_dict']['name'][0:title_limit] + '...'
+  else:
+    page_dict['db_show_dict']['name_title'] = page_dict['db_show_dict']['name']
+  # ------------------------ ensure show id exists end ------------------------
+  # ------------------------ ensure user is following the show start ------------------------
+  new_following_updated = follow_show_function(current_user, url_show_id)
+  if new_following_updated == True:
+    return redirect(url_for('polling_views_interior.polling_create_poll_function', url_show_id=url_show_id))
+  # ------------------------ ensure user is following the show end ------------------------
+  localhost_print_function(' ------------- 100-create poll start ------------- ')
+  page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
+  for k,v in page_dict.items():
+    localhost_print_function(f"k: {k} | v: {v}")
+    pass
+  localhost_print_function(' ------------- 100-create poll end ------------- ')
+  return render_template('polling/interior/poll/create/index.html', page_dict_to_html=page_dict)
+# ------------------------ individual route end ------------------------

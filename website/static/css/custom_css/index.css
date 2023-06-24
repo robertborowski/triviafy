@@ -1687,6 +1687,10 @@
 .custom-width-100 {
   width: 100%;
 }
+.custom-width-height-40-px {
+  max-width: 40px;
+  max-height: 40px;
+}
 .custom-width-66-px {
   max-width: 66px;
 }
