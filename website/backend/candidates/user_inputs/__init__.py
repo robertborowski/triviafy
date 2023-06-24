@@ -438,6 +438,26 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':"You have reached your daily limit for this poll.",
       'type':'danger'
     }
+  elif redirect_var == 'e36':
+    alert_message_dict = {
+      'message':"Invalid question",
+      'type':'danger'
+    }
+  elif redirect_var == 'e37':
+    alert_message_dict = {
+      'message':"Invalid answer choice. Please avoid using special characters or making your response too long.",
+      'type':'danger'
+    }
+  elif redirect_var == 'e38':
+    alert_message_dict = {
+      'message':"Your answer choices are too lengthy.",
+      'type':'danger'
+    }
+  elif redirect_var == 'e39':
+    alert_message_dict = {
+      'message':"You need more than 1 answer choice",
+      'type':'danger'
+    }
   # ------------------------ errors end ------------------------
   # ------------------------ success start ------------------------
   elif redirect_var == 's1':
@@ -528,6 +548,11 @@ def alert_message_default_function_v2(redirect_var=None):
   elif redirect_var == 's18':
     alert_message_dict = {
       'message':'You are up to date with the latest user polls.',
+      'type':'success'
+    }
+  elif redirect_var == 's19':
+    alert_message_dict = {
+      'message':'Poll successfully created! Pending admin final approval.',
       'type':'success'
     }
   # ------------------------ success end ------------------------

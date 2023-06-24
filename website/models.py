@@ -404,6 +404,7 @@ class PollsObj(db.Model):
   topics = db.Column(db.String(150))
   status_approved = db.Column(db.Boolean, default=False)
   status_removed = db.Column(db.Boolean, default=False)
+  fk_user_id = db.Column(db.String(150))
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------

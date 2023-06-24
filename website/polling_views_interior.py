@@ -28,7 +28,7 @@ from website.backend.candidates.lists import get_month_days_years_function, get_
 from website.backend.dates import get_years_from_date_function, return_ints_from_str_function
 from website.backend.get_create_obj import get_all_shows_following_function, get_all_platforms_function, get_platform_based_on_name_function, get_all_shows_for_platform_function, get_show_based_on_name_function, get_show_based_on_id_and_platform_id_function, check_if_currently_following_show_function, get_show_based_on_id_function, get_poll_based_on_id_function, get_show_percent_of_all_polls_answered_function, get_all_polls_based_on_show_id_function, check_at_least_one_poll_answer_submitted_function
 from website.backend.spotify import spotify_search_show_function
-from website.backend.user_inputs import sanitize_letters_numbers_spaces_specials_only_function, sanitize_text_v1_function
+from website.backend.user_inputs import sanitize_letters_numbers_spaces_specials_only_function, sanitize_text_v1_function, sanitize_text_v2_function
 from website.backend.dict_manipulation import arr_of_dict_all_columns_single_item_function, prep_poll_dict_function
 from website.backend.show_utils import shows_following_arr_of_dict_function, follow_user_polls_show_function, follow_show_function
 from website.backend.sql_statements.select import select_general_function
@@ -937,7 +937,53 @@ def polling_create_poll_function(url_redirect_code=None, url_show_id=None):
   # ------------------------ provide array of answer choice amount allowed end ------------------------
   # ------------------------ submission start ------------------------
   if request.method == 'POST':
-    pass
+    # ------------------------ get ui start ------------------------
+    ui_question = request.form.get('ui_question')
+    ui_answer_choices_arr = request.form.getlist('ui_answer_choices')
+    # ------------------------ get ui end ------------------------
+    # ------------------------ sanatize ui start ------------------------
+    # sanitize question
+    ui_question = sanitize_text_v2_function(ui_question, 150, True)
+    if ui_question == False:
+      return redirect(url_for('polling_views_interior.polling_create_poll_function', url_redirect_code='e36', url_show_id=url_show_id))
+    # sanitize answer choices
+    ui_answer_choices_arr_cleaned = []
+    for i in ui_answer_choices_arr:
+      if i == '':
+        continue
+      i = sanitize_text_v2_function(i, 150, False)
+      if i == False:
+        return redirect(url_for('polling_views_interior.polling_create_poll_function', url_redirect_code='e37', url_show_id=url_show_id))
+      ui_answer_choices_arr_cleaned.append(i)
+    if len(ui_answer_choices_arr_cleaned) < 2:
+      return redirect(url_for('polling_views_interior.polling_create_poll_function', url_redirect_code='e39', url_show_id=url_show_id))
+    ui_answer_choices_str = "~".join(ui_answer_choices_arr_cleaned)
+    if len(ui_answer_choices_str) > 500:
+      return redirect(url_for('polling_views_interior.polling_create_poll_function', url_redirect_code='e38', url_show_id=url_show_id))
+    # ------------------------ sanatize ui end ------------------------
+    # ------------------------ check if user submitted max amount for today for this show start ------------------------
+    # to be written
+    # ------------------------ check if user submitted max amount for today for this show end ------------------------
+    # ------------------------ insert to db start ------------------------
+    new_poll_id=create_uuid_function('poll_'),
+    new_row = PollsObj(
+      id=new_poll_id,
+      created_timestamp=create_timestamp_function(),
+      type='show',
+      fk_show_id=url_show_id,
+      question=ui_question,
+      answer_choices=ui_answer_choices_str,
+      written_response_allowed=True,
+      status_approved=False,
+      status_removed=False,
+      fk_user_id=current_user.id
+    )
+    db.session.add(new_row)
+    db.session.commit()
+    # ------------------------ insert to db end ------------------------
+    # ------------------------ redirect to poll start ------------------------
+    return redirect(url_for('polling_views_interior.polling_show_function', url_redirect_code='s19', url_show_id=url_show_id, url_poll_id=new_poll_id))
+    # ------------------------ redirect to poll end ------------------------
   # ------------------------ submission end ------------------------
   localhost_print_function(' ------------- 100-create poll start ------------- ')
   page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
