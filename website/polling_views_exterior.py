@@ -12,7 +12,7 @@ from backend.utils.localhost_print_utils.localhost_print import localhost_print_
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import current_user
 from website.backend.candidates.redis import redis_connect_to_database_function
-from website.models import ActivityACreatedQuestionsObj, UserObj, BlogObj
+from website.models import UserObj, BlogPollingObj
 from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from website import db
 from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function
@@ -122,13 +122,35 @@ def polling_reset_forgot_password_function(token, url_redirect_code=None):
 # ------------------------ individual route start ------------------------
 @polling_views_exterior.route('/polling/blog')
 @polling_views_exterior.route('/polling/blog/')
-@polling_views_exterior.route('/polling/blog/<url_redirect_code>')
-@polling_views_exterior.route('/polling/blog/<url_redirect_code>/')
-def polling_all_blogs_function(url_redirect_code=None):
+def polling_all_blogs_function():
   # ------------------------ page dict start ------------------------
-  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
   page_dict = {}
-  page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
+  # ------------------------ get all blogs start ------------------------
+  master_arr_of_dicts = []
+  blog_obj = BlogPollingObj.query.order_by(BlogPollingObj.created_timestamp.desc()).all()
+  for i_obj in blog_obj:
+    i_dict = arr_of_dict_all_columns_single_item_function(i_obj)
+    i_dict['title'] = i_dict['title'][:50] + '...'
+    i_dict['details'] = i_dict['details'][:100] + '...'
+    master_arr_of_dicts.append(i_dict)
+  page_dict['master_arr_of_dicts'] = master_arr_of_dicts
+  # ------------------------ get all blogs end ------------------------
   return render_template('polling/exterior/blog/index.html', page_dict_to_html=page_dict)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@polling_views_exterior.route('/polling/blog/<i_blog_post_id>')
+@polling_views_exterior.route('/polling/blog/<i_blog_post_id>/')
+def polling_i_blog_page_function(i_blog_post_id=None):
+  if i_blog_post_id == None or i_blog_post_id == '':
+    return redirect(url_for('polling_views_exterior.polling_all_blogs_function'))
+  try:
+    blog_obj = BlogPollingObj.query.filter_by(id=i_blog_post_id).first()
+    if blog_obj == None or blog_obj == '':
+      return redirect(url_for('polling_views_exterior.polling_all_blogs_function'))
+  except:
+    return redirect(url_for('polling_views_exterior.polling_all_blogs_function'))
+  current_blog_post_num_full_string = f'polling/exterior/blog/blogs_by_id/{i_blog_post_id}.html'
+  return render_template(current_blog_post_num_full_string)
 # ------------------------ individual route end ------------------------
