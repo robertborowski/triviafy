@@ -770,6 +770,9 @@
 .uiSelectAllBlockInvisible {
   display: none;
 }
+.custom-visible-non-mobile-only {
+  display:inline-block;
+}
 /* ------------------- jQuery end ------------------- */
 /* ------------------- list style start ------------------- */
 .custom-ls-1 {

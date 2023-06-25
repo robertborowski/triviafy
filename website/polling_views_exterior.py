@@ -118,3 +118,17 @@ def polling_reset_forgot_password_function(token, url_redirect_code=None):
     # ------------------------ update db end ------------------------
   return render_template('polling/exterior/forgot_password/reset_forgot_password/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@polling_views_exterior.route('/polling/blog')
+@polling_views_exterior.route('/polling/blog/')
+@polling_views_exterior.route('/polling/blog/<url_redirect_code>')
+@polling_views_exterior.route('/polling/blog/<url_redirect_code>/')
+def polling_all_blogs_function(url_redirect_code=None):
+  # ------------------------ page dict start ------------------------
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ page dict end ------------------------
+  return render_template('polling/exterior/blog/index.html', page_dict_to_html=page_dict)
+# ------------------------ individual route end ------------------------

@@ -86,7 +86,7 @@
     .custom-m-1-mobile {
       margin: 5px;
     }
-    .custom-my-1-mobile {
+    .custom-mtb-20-mobile {
       margin-top: 20px;
       margin-bottom: 20px;
     }
@@ -117,6 +117,11 @@
     /* ------------------- margin end ------------------- */
     /* ------------------- padding start ------------------- */
     /* ------------------- padding end ------------------- */
+    /* ------------------- visibility start ------------------- */
+    .custom-visible-non-mobile-only {
+      display:none;
+    }
+    /* ------------------- visibility end ------------------- */
     /* ------------------- width start ------------------- */
     .custom-width-2-mobile {
       width: 100%;
