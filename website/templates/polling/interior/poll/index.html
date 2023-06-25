@@ -38,6 +38,11 @@
       {% endif %}
       <!-- ----------------------------------- alert end ----------------------------------- -->
       <!-- ----------------------------------- button auto page scroll start ----------------------------------- -->
+      {% if page_dict_to_html['poll_dict']['status_approved'] == false %}
+        <div class="custom-p-15 custom-mt-50 btn btn-danger custom-width-100">
+          <span class="custom-header-20">This poll has not yet been approved by the show admin. No poll statistics will be available until approved.</span>
+        </div>
+      {% endif %}
       {% if page_dict_to_html['poll_answered'] == true %}
         <div class="custom-p-25 custom-mt-50 btn btn-warning custom-width-100" id="id-general_autoscroll_click_1">
           <span class="custom-header-30">See poll statistics <i class="fa-solid fa-angle-down"></i></span>
