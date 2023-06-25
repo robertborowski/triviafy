@@ -1490,6 +1490,11 @@
   fill: #FFFFFF;
 }
 /* ------------------- shape divider end ------------------- */
+/* ------------------- stroke start ------------------- */
+.custom-stroke-1 {
+  -webkit-text-stroke: 0.75px black;
+}
+/* ------------------- stroke end ------------------- */
 /* ------------------- tag start ------------------- */
 .custom-tag-1 {
   background-color: var(--custom-color-primary);
