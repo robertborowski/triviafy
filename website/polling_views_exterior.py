@@ -8,7 +8,6 @@
 # ------------------------ info about this file end ------------------------
 
 # ------------------------ imports start ------------------------
-from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import current_user
 from website.backend.candidates.redis import redis_connect_to_database_function
@@ -19,7 +18,7 @@ from website.backend.candidates.user_inputs import sanitize_email_function, sani
 from werkzeug.security import generate_password_hash
 from website.backend.candidates.send_emails import send_email_template_function
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
-from website import db
+import datetime
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -143,14 +142,20 @@ def polling_all_blogs_function():
 @polling_views_exterior.route('/polling/blog/<i_blog_post_id>')
 @polling_views_exterior.route('/polling/blog/<i_blog_post_id>/')
 def polling_i_blog_page_function(i_blog_post_id=None):
+  # ------------------------ page dict start ------------------------
+  page_dict = {}
+  # ------------------------ page dict end ------------------------
   if i_blog_post_id == None or i_blog_post_id == '':
     return redirect(url_for('polling_views_exterior.polling_all_blogs_function'))
   try:
     blog_obj = BlogPollingObj.query.filter_by(id=i_blog_post_id).first()
     if blog_obj == None or blog_obj == '':
       return redirect(url_for('polling_views_exterior.polling_all_blogs_function'))
+    else:
+      page_dict['blog_dict'] = arr_of_dict_all_columns_single_item_function(blog_obj)
+      page_dict['blog_dict']['created_timestamp_date'] = page_dict['blog_dict']['created_timestamp'].date()
   except:
     return redirect(url_for('polling_views_exterior.polling_all_blogs_function'))
   current_blog_post_num_full_string = f'polling/exterior/blog/blogs_by_id/{i_blog_post_id}.html'
-  return render_template(current_blog_post_num_full_string)
+  return render_template(current_blog_post_num_full_string, page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
