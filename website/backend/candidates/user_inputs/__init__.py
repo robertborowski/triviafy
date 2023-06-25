@@ -468,6 +468,11 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':"Poll not available or not yet approved.",
       'type':'danger'
     }
+  elif redirect_var == 'e43':
+    alert_message_dict = {
+      'message':"You have not yet created any custom polls.",
+      'type':'danger'
+    }
   # ------------------------ errors end ------------------------
   # ------------------------ success start ------------------------
   elif redirect_var == 's1':

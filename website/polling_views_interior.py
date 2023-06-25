@@ -998,3 +998,34 @@ def polling_create_poll_function(url_redirect_code=None, url_show_id=None):
   localhost_print_function(' ------------- 100-create poll end ------------- ')
   return render_template('polling/interior/poll/create/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@polling_views_interior.route('/polling/create/all', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/create/all/', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/create/all/<url_redirect_code>', methods=['GET', 'POST'])
+@polling_views_interior.route('/polling/create/all/<url_redirect_code>/', methods=['GET', 'POST'])
+@login_required
+def polling_view_all_created_polls_function(url_redirect_code=None):
+  # ------------------------ page dict start ------------------------
+  if url_redirect_code == None:
+    try:
+      url_redirect_code = request.args.get('url_redirect_code')
+    except:
+      pass
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ page dict end ------------------------
+  # ------------------------ pull all created polls start ------------------------
+  page_dict['created_polls_arr_of_dict'] = select_general_function('select_query_general_5', current_user.id)
+  if page_dict['created_polls_arr_of_dict'] == None or page_dict['created_polls_arr_of_dict'] == []:
+    return redirect(url_for('polling_views_interior.polling_dashboard_function', url_redirect_code='e43'))
+  # ------------------------ pull all created polls end ------------------------
+  localhost_print_function(' ------------- 100-created polls start ------------- ')
+  page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
+  for k,v in page_dict.items():
+    localhost_print_function(f"k: {k} | v: {v}")
+    pass
+  localhost_print_function(' ------------- 100-created polls end ------------- ')
+  return render_template('polling/interior/poll/create/view_all_created/index.html', page_dict_to_html=page_dict)
+# ------------------------ individual route end ------------------------
