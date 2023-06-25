@@ -80,6 +80,9 @@ def polling_dashboard_function(url_redirect_code=None, url_show_id=None):
   page_dict = {}
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
+  # ------------------------ navbar variable start ------------------------
+  page_dict['current_user_email'] = current_user.email
+  # ------------------------ navbar variable end ------------------------
   # ------------------------ get all shows following sorted start ------------------------
   page_dict['shows_following_arr_of_dict'] = get_all_shows_following_function(current_user)
   page_dict = shows_following_arr_of_dict_function(page_dict)
@@ -915,6 +918,9 @@ def polling_create_poll_function(url_redirect_code=None, url_show_id=None):
   page_dict = {}
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
+  # ------------------------ navbar variable start ------------------------
+  page_dict['current_user_email'] = current_user.email
+  # ------------------------ navbar variable end ------------------------
   # ------------------------ if no show id start ------------------------
   if url_show_id == None:
     return redirect(url_for('polling_views_interior.polling_dashboard_function', url_redirect_code='e6'))
@@ -1016,6 +1022,9 @@ def polling_view_all_created_polls_function(url_redirect_code=None):
   page_dict = {}
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
+  # ------------------------ navbar variable start ------------------------
+  page_dict['current_user_email'] = current_user.email
+  # ------------------------ navbar variable end ------------------------
   # ------------------------ pull all created polls start ------------------------
   page_dict['created_polls_arr_of_dict'] = select_general_function('select_query_general_5', current_user.id)
   if page_dict['created_polls_arr_of_dict'] == None or page_dict['created_polls_arr_of_dict'] == []:
