@@ -891,6 +891,21 @@ def polling_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=
     db.session.add(new_row)
     db.session.commit()
     # ------------------------ insert to db end ------------------------
+    # ------------------------ make sure user is following the show if submitted answer start ------------------------
+    db_following_obj = ShowsFollowingObj.query.filter_by(fk_show_id=url_show_id,fk_user_id=current_user.id).first()
+    if db_following_obj == None or db_following_obj == []:
+      # ------------------------ insert to db start ------------------------
+      new_row = ShowsFollowingObj(
+        id=create_uuid_function('following_'),
+        created_timestamp=create_timestamp_function(),
+        fk_platform_id='platform001',
+        fk_show_id=url_show_id,
+        fk_user_id=current_user.id
+      )
+      db.session.add(new_row)
+      db.session.commit()
+      # ------------------------ insert to db end ------------------------
+    # ------------------------ make sure user is following the show if submitted answer end ------------------------
     return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id']))
   localhost_print_function(' ------------- 100-show poll start ------------- ')
   page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
