@@ -130,6 +130,7 @@ def polling_all_blogs_function():
   blog_obj = BlogPollingObj.query.order_by(BlogPollingObj.created_timestamp.desc()).all()
   for i_obj in blog_obj:
     i_dict = arr_of_dict_all_columns_single_item_function(i_obj)
+    i_dict['title_url'] = i_dict['title'].replace(' ','%20')
     i_dict['title'] = i_dict['title'][:50] + '...'
     i_dict['details'] = i_dict['details'][:100] + '...'
     master_arr_of_dicts.append(i_dict)
@@ -139,16 +140,16 @@ def polling_all_blogs_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@polling_views_exterior.route('/polling/blog/<i_blog_post_id>')
-@polling_views_exterior.route('/polling/blog/<i_blog_post_id>/')
-def polling_i_blog_page_function(i_blog_post_id=None):
+@polling_views_exterior.route('/polling/blog/<i_blog_post_title>')
+@polling_views_exterior.route('/polling/blog/<i_blog_post_title>/')
+def polling_i_blog_page_function(i_blog_post_title=None):
   # ------------------------ page dict start ------------------------
   page_dict = {}
   # ------------------------ page dict end ------------------------
-  if i_blog_post_id == None or i_blog_post_id == '':
+  if i_blog_post_title == None or i_blog_post_title == '':
     return redirect(url_for('polling_views_exterior.polling_all_blogs_function'))
   try:
-    blog_obj = BlogPollingObj.query.filter_by(id=i_blog_post_id).first()
+    blog_obj = BlogPollingObj.query.filter_by(title=i_blog_post_title).first()
     if blog_obj == None or blog_obj == '':
       return redirect(url_for('polling_views_exterior.polling_all_blogs_function'))
     else:
@@ -156,6 +157,6 @@ def polling_i_blog_page_function(i_blog_post_id=None):
       page_dict['blog_dict']['created_timestamp_date'] = page_dict['blog_dict']['created_timestamp'].date()
   except:
     return redirect(url_for('polling_views_exterior.polling_all_blogs_function'))
-  current_blog_post_num_full_string = f'polling/exterior/blog/blogs_by_id/{i_blog_post_id}.html'
+  current_blog_post_num_full_string = f'polling/exterior/blog/blogs_by_id/{blog_obj.id}.html'
   return render_template(current_blog_post_num_full_string, page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
