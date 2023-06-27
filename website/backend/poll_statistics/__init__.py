@@ -1,4 +1,5 @@
 # ------------------------ imports start ------------------------
+from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from website.models import UserAttributesObj, PollsAnsweredObj
 from website.backend.sql_statements.select import select_general_function
 from website.backend.get_create_obj import get_age_demographics_function, get_age_group_function, get_starting_arr_function
@@ -85,7 +86,7 @@ def get_chart_data_function(page_dict, total_answered_arr_of_dict, current_user)
           page_dict['poll_statistics_dict'][i_dict['vote_count_by_x_dict']]["60's +"] += 1
     else:
       # all user attribute checks
-      total_answered_arr_of_dict = select_general_function('select_query_general_4', i_dict['fk_poll_id'])
+      total_answered_arr_of_dict = select_general_function('select_query_general_6', i_dict['fk_poll_id'], page_dict['url_poll_id'])
       for i_poll_answered_dict in total_answered_arr_of_dict:
         i_poll_answer_submitted = i_poll_answered_dict['poll_answer_submitted']
         page_dict['poll_statistics_dict'][i_dict['vote_count_by_x_dict']][i_poll_answer_submitted] += 1
@@ -321,8 +322,8 @@ def get_poll_statistics_function(current_user, page_dict):
   # ------------------------ get chart data start ------------------------
   page_dict = get_chart_data_function(page_dict, total_answered_arr_of_dict, current_user)
   # ------------------------ get chart data end ------------------------
-  print(' ------------- 50 ------------- ')
-  print(pprint.pformat(page_dict, indent=2))
-  print(' ------------- 50 ------------- ')
+  localhost_print_function(' ------------- 50 ------------- ')
+  localhost_print_function(pprint.pformat(page_dict, indent=2))
+  localhost_print_function(' ------------- 50 ------------- ')
   return page_dict
 # ------------------------ individual function end ------------------------
