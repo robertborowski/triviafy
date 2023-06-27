@@ -1489,6 +1489,43 @@
 .custom-shape-divider-bottom-1686320767 .shape-fill {
   fill: #FFFFFF;
 }
+
+.custom-shape-divider-bottom-1686320767-black {
+  position: relative;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+.custom-shape-divider-bottom-1686320767-black svg {
+  position: relative;
+  display: block;
+  width: calc(300% + 1.3px);
+  height: 150px;
+}
+.custom-shape-divider-bottom-1686320767-black .shape-fill {
+  fill: #000000;
+}
+
+.custom-shape-divider-bottom-1687866772 {
+  position: relative;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+}
+.custom-shape-divider-bottom-1687866772 svg {
+  position: relative;
+  display: block;
+  width: calc(300% + 1.3px);
+  height: 150px;
+}
+.custom-shape-divider-bottom-1687866772 .shape-fill {
+  fill: #FFFFFF;
+}
 /* ------------------- shape divider end ------------------- */
 /* ------------------- stroke start ------------------- */
 .custom-stroke-1 {

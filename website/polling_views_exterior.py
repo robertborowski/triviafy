@@ -8,6 +8,7 @@
 # ------------------------ info about this file end ------------------------
 
 # ------------------------ imports start ------------------------
+from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import current_user
 from website.backend.candidates.redis import redis_connect_to_database_function
@@ -19,6 +20,7 @@ from werkzeug.security import generate_password_hash
 from website.backend.candidates.send_emails import send_email_template_function
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 import datetime
+from website.backend.sql_statements.select import select_general_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -32,7 +34,14 @@ redis_connection = redis_connect_to_database_function()
 @polling_views_exterior.route('/polling')
 @polling_views_exterior.route('/polling/')
 def polling_landing_function():
-  return render_template('polling/exterior/landing/index.html')
+  # ------------------------ set variables start ------------------------
+  page_dict = {}
+  # ------------------------ set variables end ------------------------
+  # ------------------------ get random podcast show info start ------------------------
+  show_arr_of_dict = select_general_function('select_query_general_7')
+  page_dict['show_dict'] = show_arr_of_dict[0]
+  # ------------------------ get random podcast show info end ------------------------
+  return render_template('polling/exterior/landing/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
