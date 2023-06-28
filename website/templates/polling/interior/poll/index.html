@@ -141,7 +141,11 @@
       <!-- ------------------------------------- expand dropdown add written response end ------------------------------------- -->
       <!-- ------------------------------------- email + anonymous option start ------------------------------------- -->
       <div class="custom-mt-50 mx-auto">
-        <p class="custom-m-0 custom-color-white custom-opacity-75 custom-header-15">Feedback from #1 fan: <span id="id-user_email">{{ page_dict_to_html['current_user_email'] }}</span></p>
+        {% if page_dict_to_html['current_user_email'] == 'robjborowski@gmail.com' %}
+          <p class="custom-m-0 custom-color-white custom-opacity-75 custom-header-15">Feedback from #1 fan: <span id="id-user_email">j_smith96@gmail.com</span></p>
+        {% else %}
+          <p class="custom-m-0 custom-color-white custom-opacity-75 custom-header-15">Feedback from #1 fan: <span id="id-user_email">{{ page_dict_to_html['current_user_email'] }}</span></p>
+        {% endif %}
         <div class="form-check custom-color-white custom-header-15 custom-mt-10">
           {% if page_dict_to_html['poll_answered_dict']['status_answer_anonymous'] == true %}
             <input class="form-check-input" type="checkbox" value="ui_checked" name="ui_anonymous_check" id="id-flexCheckDefault" onchange="handleCheckboxChange()" checked>
