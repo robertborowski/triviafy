@@ -169,3 +169,17 @@ def polling_i_blog_page_function(i_blog_post_title=None):
   current_blog_post_num_full_string = f'polling/exterior/blog/blogs_by_id/{blog_obj.id}.html'
   return render_template(current_blog_post_num_full_string, page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@polling_views_exterior.route('/polling/privacy')
+@polling_views_exterior.route('/polling/privacy/')
+def employees_privacy_function():
+  return render_template('polling/exterior/privacy/index.html')
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@polling_views_exterior.route('/polling/terms')
+@polling_views_exterior.route('/polling/terms/')
+def terms_function():
+  return render_template('polling/exterior/tos/index.html')
+# ------------------------ individual route end ------------------------
