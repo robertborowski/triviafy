@@ -268,6 +268,9 @@
 .custom-color-white {
   color: white;
 }
+.custom-color-white-important {
+  color: white !important;
+}
 .custom-color-white-opacity-75 {
   color: white;
   opacity: 0.75;
