@@ -803,6 +803,9 @@
 .custom-line-2 {
   line-height: 30px;
 }
+.custom-line-height-40 {
+  line-height: 40px;
+}
 /* ------------------- list style end ------------------- */
 /* ------------------- loading screen start ------------------- */
 .custom-loading-screen {

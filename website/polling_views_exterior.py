@@ -173,13 +173,27 @@ def polling_i_blog_page_function(i_blog_post_title=None):
 # ------------------------ individual route start ------------------------
 @polling_views_exterior.route('/polling/privacy')
 @polling_views_exterior.route('/polling/privacy/')
-def employees_privacy_function():
+def polling_privacy_function():
   return render_template('polling/exterior/privacy/index.html')
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
 @polling_views_exterior.route('/polling/terms')
 @polling_views_exterior.route('/polling/terms/')
-def terms_function():
+def polling_terms_function():
   return render_template('polling/exterior/tos/index.html')
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@polling_views_exterior.route('/polling/about')
+@polling_views_exterior.route('/polling/about/')
+def polling_about_function():
+  return render_template('polling/exterior/about/index.html')
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@polling_views_exterior.route('/polling/faq')
+@polling_views_exterior.route('/polling/faq/')
+def polling_faq_function():
+  return render_template('polling/exterior/faq/index.html')
 # ------------------------ individual route end ------------------------

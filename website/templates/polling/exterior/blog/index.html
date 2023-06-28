@@ -8,13 +8,13 @@
 
 {% block contentBodyExceptNavbarAndFooter %}
 <!-- ----------------------------------- start ----------------------------------- -->
-<div class="container-fluid text-center custom-pt-6 custom-pb-6 custom-bg-primary">
-  <h1 class="custom-header-7 custom-color-white">Blog</h1>
-  <h2><a href="/polling/signup" class="custom-header-5 fw-bold custom-a-white-underline">Get started <i class="fa-solid fa-angle-right"></i></a></h2>
+<div class="container-fluid text-center custom-pt-6 custom-pb-6">
+  <h1 class="custom-header-7">Blog</h1>
+  <h2><a href="/polling/signup" class="custom-header-5 fw-bold custom-a-2">Get started <i class="fa-solid fa-angle-right"></i></a></h2>
 </div>
 <!-- ----------------------------------- end ----------------------------------- -->
 <!-- ----------------------------------- start ----------------------------------- -->
-<div class="container custom-display-flex custom-f-wrap custom-jc-evenly custom-pb-100 custom-mt-50">
+<div class="container custom-display-flex custom-f-wrap custom-jc-evenly custom-pb-100">
   {% for i_dict in page_dict_to_html['master_arr_of_dicts'] %}
     <!-- ------------------------------------- individual blog post start ------------------------------------- -->
     <div class="card custom-m-2" style="width: 18rem;">
