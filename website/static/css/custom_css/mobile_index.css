@@ -36,7 +36,7 @@
     /* ------------------- grid end ------------------- */
     /* ------------------- height start ------------------- */
     .custom-height-1-mobile {
-      height: 1100px;
+      height: 1300px;
     }
     .custom-height-2-mobile {
       height: 625px;
@@ -139,6 +139,9 @@
     }
     .custom-width-18-mobile {
       max-width: 90%;
+    }
+    .custom-width-100-mobile {
+      width: 100%;
     }
     .custom-width-250-mobile {
       width: 90%;
