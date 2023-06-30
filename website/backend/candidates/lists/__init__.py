@@ -65,6 +65,7 @@ def get_marketing_list_v2_function():
     'Podcast',
     'YouTube',
     'Twitter',
+    'Reddit',
     'TikTok',
     'LinkedIn',
     'Facebook',
