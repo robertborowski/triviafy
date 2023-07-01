@@ -64,4 +64,10 @@ $(document).ready(function() {
     element.scrollIntoView({ behavior: 'smooth' });
   });
   // ----------------------------- autoscroll end -----------------------------
+  // ----------------------------- autoscroll start -----------------------------
+  $("#id-general_autoscroll_click_2").click(function() {
+    var element = document.getElementById('id-general_autoscroll_location_2');
+    element.scrollIntoView({ behavior: 'smooth' });
+  });
+  // ----------------------------- autoscroll end -----------------------------
 });
