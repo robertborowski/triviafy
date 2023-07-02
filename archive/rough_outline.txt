@@ -3,7 +3,7 @@ print(f"i | type: {type(i)} | {i}")
 print(' ------------- 0 ------------- ')
 
 
-NEXT STEPS
+NEXT STEPS 
 - Blog page, consistent blog posts tagged "written by Triviafy chat gpt / Written by Triviafy bard."
 - Add Examples to website exterior [Trivia + picture quiz + icebreakers] sample should always be the latest 5 created so that the website stays "fresh."
 - Activity Type c games
