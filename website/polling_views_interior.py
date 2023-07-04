@@ -731,17 +731,6 @@ def polling_follow_show_function(url_platform_id=None, url_show_id=None):
   if db_obj != None:
     return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_redirect_code='s16'))
   # ------------------------ check if already following end ------------------------
-  # ------------------------ add to db start ------------------------
-  new_row = ShowsFollowingObj(
-    id=create_uuid_function('following_'),
-    created_timestamp=create_timestamp_function(),
-    fk_platform_id = url_platform_id,
-    fk_show_id = url_show_id,
-    fk_user_id = current_user.id
-  )
-  db.session.add(new_row)
-  db.session.commit()
-  # ------------------------ add to db end ------------------------
   # ------------------------ redirect to dashboard start ------------------------
   return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_redirect_code='s16'))
   # ------------------------ redirect to dashboard end ------------------------
@@ -803,7 +792,7 @@ def polling_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=
       if url_show_id == 'show_user_attributes':
         return redirect(url_for('polling_views_interior.polling_dashboard_function', url_redirect_code='s18'))
       else:
-        return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_redirect_code='s17'))
+        return redirect(url_for('polling_views_interior.polling_dashboard_function', url_redirect_code='s17'))
   try:
     page_dict['poll_dict'] = prep_poll_dict_function(poll_arr_of_dict[0])
   except:
