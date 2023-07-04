@@ -139,7 +139,7 @@ def polling_all_blogs_function():
   blog_obj = BlogPollingObj.query.order_by(BlogPollingObj.created_timestamp.desc()).all()
   for i_obj in blog_obj:
     i_dict = arr_of_dict_all_columns_single_item_function(i_obj)
-    i_dict['title_url'] = i_dict['title'].replace(' ','%20')
+    i_dict['title_url'] = i_dict['title'].replace(' ','-')
     i_dict['title'] = i_dict['title'][:50] + '...'
     i_dict['details'] = i_dict['details'][:100] + '...'
     master_arr_of_dicts.append(i_dict)
@@ -158,6 +158,9 @@ def polling_i_blog_page_function(i_blog_post_title=None):
   if i_blog_post_title == None or i_blog_post_title == '':
     return redirect(url_for('polling_views_exterior.polling_all_blogs_function'))
   try:
+    # ------------------------ replace hyphen start ------------------------
+    i_blog_post_title = i_blog_post_title.replace('-',' ')
+    # ------------------------ replace hyphen end ------------------------
     blog_obj = BlogPollingObj.query.filter_by(title=i_blog_post_title).first()
     if blog_obj == None or blog_obj == '':
       return redirect(url_for('polling_views_exterior.polling_all_blogs_function'))
