@@ -352,6 +352,7 @@ class BlogPollingObj(db.Model):
   title = db.Column(db.String(150))
   details = db.Column(db.String(150))
   aws_image_url = db.Column(db.String(150))
+  status = db.Column(db.Boolean, default=False)
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------

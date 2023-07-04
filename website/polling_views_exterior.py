@@ -136,7 +136,7 @@ def polling_all_blogs_function():
   # ------------------------ page dict end ------------------------
   # ------------------------ get all blogs start ------------------------
   master_arr_of_dicts = []
-  blog_obj = BlogPollingObj.query.order_by(BlogPollingObj.created_timestamp.desc()).all()
+  blog_obj = BlogPollingObj.query.filter_by(status=True).order_by(BlogPollingObj.created_timestamp.desc()).all()
   for i_obj in blog_obj:
     i_dict = arr_of_dict_all_columns_single_item_function(i_obj)
     i_dict['title_url'] = i_dict['title'].replace(' ','-')
