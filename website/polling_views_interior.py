@@ -803,7 +803,7 @@ def polling_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=
       if url_show_id == 'show_user_attributes':
         return redirect(url_for('polling_views_interior.polling_dashboard_function', url_redirect_code='s18'))
       else:
-        return redirect(url_for('polling_views_interior.polling_dashboard_function', url_redirect_code='s17'))
+        return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_redirect_code='s17'))
   try:
     page_dict['poll_dict'] = prep_poll_dict_function(poll_arr_of_dict[0])
   except:
