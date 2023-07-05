@@ -36,16 +36,28 @@ def send_email_template_function(output_email, output_subject_line, output_messa
 
 # ------------------------ individual function start ------------------------
 def openai_chat_gpt_prompt_result_function(message):
-  openai.api_key = os.environ.get('OPENAI_API_KEY')
-  response = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo",
-    messages=[
-      {"role": "system", "content": "You are a helpful assistant."},
-      {"role": "user", "content": message}
-    ]
-  )
-  # Retrieve and return the assistant's reply
-  reply = response['choices'][0]['message']['content']
+  try:
+    openai.api_key = os.environ.get('OPENAI_API_KEY')
+    response = openai.ChatCompletion.create(
+      model="gpt-3.5-turbo",
+      messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": message}
+      ]
+    )
+    # Retrieve and return the assistant's reply
+    reply = response['choices'][0]['message']['content']
+  except Exception as e:
+    # ------------------------ email self start ------------------------
+    try:
+      output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+      output_subject = f'Failure on ChatGPT openai_chat_gpt_prompt_result_function'
+      output_body = f'Failure on ChatGPT openai_chat_gpt_prompt_result_function: {e}'
+      send_email_template_function(output_to_email, output_subject, output_body)
+    except:
+      pass
+    # ------------------------ email self end ------------------------
+    return None
   return reply
 # ------------------------ individual function end ------------------------
 
@@ -72,7 +84,11 @@ def openai_chat_gpt_parse_results_to_arr_polling_function(chatgpt_response_str):
       i_dict = {}
       # ------------------------ breakup question start ------------------------
       question_segments = i.split(":")
-      question_pulled = question_segments[1].strip()
+      question_pulled = ''
+      try:
+        question_pulled = question_segments[1].strip()
+      except:
+        question_pulled = question_segments[0].strip()
       question = question_pulled.replace('polling_answer_1','').strip()
       i_dict['question'] = question
       # ------------------------ breakup question end ------------------------
@@ -99,8 +115,17 @@ def openai_chat_gpt_parse_results_to_arr_polling_function(chatgpt_response_str):
       # ------------------------ breakup answers end ------------------------
       result_arr_of_dict.append(i_dict)
     # ------------------------ manipulate to array of dicts end ------------------------
-  except:
-    pass
+  except Exception as e:
+    # ------------------------ email self start ------------------------
+    try:
+      output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+      output_subject = f'Failure on ChatGPT openai_chat_gpt_parse_results_to_arr_polling_function'
+      output_body = f'Failure on ChatGPT openai_chat_gpt_parse_results_to_arr_polling_function: {e}'
+      send_email_template_function(output_to_email, output_subject, output_body)
+    except:
+      pass
+    return None
+    # ------------------------ email self end ------------------------
   return result_arr_of_dict
 # ------------------------ individual function end ------------------------
 
@@ -116,15 +141,7 @@ def create_openai_starter_poll_questions_function(show_name):
   # ------------------------ openai end ------------------------
   # ------------------------ sanitize/check results as expected start ------------------------
   if chatgpt_response_arr_of_dicts == None or chatgpt_response_arr_of_dicts == []:
-    # ------------------------ email self start ------------------------
-    try:
-      output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
-      output_subject = f'Failure on ChatGPT parsing polls for {show_name}'
-      output_body = f'Failure on ChatGPT parsing polls for {show_name}'
-      send_email_template_function(output_to_email, output_subject, output_body)
-    except:
-      pass
-    # ------------------------ email self end ------------------------
+    return None
   # ------------------------ sanitize/check results as expected end ------------------------
   return chatgpt_response_arr_of_dicts
 # ------------------------ individual function end ------------------------
@@ -132,6 +149,7 @@ def create_openai_starter_poll_questions_function(show_name):
 # ------------------------ individual function start ------------------------
 def run_function():
   queue_on = True
+  failure_counter = 0
   while queue_on == True:
     # ------------------------ open db connection start ------------------------
     # Connect to Postgres database
@@ -145,6 +163,9 @@ def run_function():
       # ------------------------ close db connection start ------------------------
       postgres_close_connection_to_database_function(postgres_connection, postgres_cursor)
       # ------------------------ close db connection end ------------------------
+      # ------------------------ logs start ------------------------
+      print('show queue empty')
+      # ------------------------ logs end ------------------------
       time.sleep(60)
     # ------------------------ if no results end ------------------------
     # ------------------------ if yes results start ------------------------
@@ -174,12 +195,34 @@ def run_function():
               insert_manual_function(postgres_connection, postgres_cursor, 'insert_poll', insert_inputs_arr)
               # ------------------------ insert to db end ------------------------
             # ------------------------ add to db end ------------------------
+            # ------------------------ insert to db start ------------------------
+            created_timestamp=create_timestamp_function()
+            insert_inputs_arr = [new_show_id,created_timestamp,i_queue_dict['name'],i_queue_dict['description'],i_queue_dict['fk_platform_id'],True,i_queue_dict['platform_reference_id'],i_queue_dict['img_large'],i_queue_dict['img_medium'],i_queue_dict['img_small'],i_queue_dict['show_url']]
+            insert_manual_function(postgres_connection, postgres_cursor, 'insert_show', insert_inputs_arr)
+            # ------------------------ insert to db end ------------------------
+            # ------------------------ delete show from queue start ------------------------
+            try:
+              delete_manual_function(postgres_connection, postgres_cursor, 'delete_queue', i_queue_dict['id'])
+            except Exception as e:
+              print(f'error : {e}')
+              pass
+            # ------------------------ delete show from queue end ------------------------
+          else:
+            failure_counter += 1
+            # ------------------------ email self start ------------------------
+            try:
+              output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+              output_subject = f"Failure on ChatGPT {i_queue_dict['name']}"
+              output_body = f"Failure on ChatGPT {i_queue_dict['name']} - failure_counter: {failure_counter}"
+              send_email_template_function(output_to_email, output_subject, output_body)
+            except:
+              pass
+            # ------------------------ email self end ------------------------
+            # ------------------------ while loop force end start ------------------------
+            if failure_counter == 5:
+              return False
+            # ------------------------ while loop force end end ------------------------
           # ------------------------ openai get starter polls end ------------------------
-          # ------------------------ insert to db start ------------------------
-          created_timestamp=create_timestamp_function()
-          insert_inputs_arr = [new_show_id,created_timestamp,i_queue_dict['name'],i_queue_dict['description'],i_queue_dict['fk_platform_id'],True,i_queue_dict['platform_reference_id'],i_queue_dict['img_large'],i_queue_dict['img_medium'],i_queue_dict['img_small'],i_queue_dict['show_url']]
-          insert_manual_function(postgres_connection, postgres_cursor, 'insert_show', insert_inputs_arr)
-          # ------------------------ insert to db end ------------------------
         except:
           try:
             delete_manual_function(postgres_connection, postgres_cursor, 'delete_polls', new_show_id)
@@ -193,12 +236,6 @@ def run_function():
             delete_manual_function(postgres_connection, postgres_cursor, 'delete_shows_following', new_show_id)
           except:
             pass
-        # ------------------------ delete show from queue start ------------------------
-        try:
-          delete_manual_function(postgres_connection, postgres_cursor, 'delete_queue', i_queue_dict['id'])
-        except:
-          pass
-        # ------------------------ delete show from queue end ------------------------
         # ------------------------ openai rate limit start ------------------------
         time.sleep(30)
         # ------------------------ openai rate limit end ------------------------
