@@ -195,6 +195,11 @@
   background-image: url(https://triviafypublicobjects.s3.us-east-2.amazonaws.com/triviafy_pattern.jpg);
   height: 600px;
 }
+.custom-back-img-3 {
+  background-image: url(https://triviafy-create-question-image-uploads.s3.us-east-2.amazonaws.com/custom_shape_1.png);
+  background-repeat: no-repeat;
+  height: 600px;
+}
 /* ------------------- background end ------------------- */
 /* ------------------- blur start ------------------- */
 .custom-blur-1 {
@@ -576,7 +581,7 @@
   height: 350px;
 }
 .custom-height-6-mobile {
-  height: 700px;
+  height: 600px;
 }
 .custom-height-7 {
   height: 25px;
