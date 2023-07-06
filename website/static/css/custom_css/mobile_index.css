@@ -56,6 +56,9 @@
     .custom-img-size-7-mobile {
       max-height: 200px;
     }
+    .custom-height-8-mobile {
+      height: 800px;
+    }
     .custom-min-height-1-mobile {
       min-height: 550px;
     }

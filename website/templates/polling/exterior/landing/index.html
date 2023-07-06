@@ -8,15 +8,15 @@
 
 {% block contentBodyExceptNavbarAndFooter %}
 <!-- ----------------------------------- start ----------------------------------- -->
-<div class="container-fluid custom-back-img-1 custom-height-6-mobile custom-color-7">
+<div class="container-fluid custom-back-img-1 custom-height-6-mobile">
   <div class="container">
     <div class="float-start custom-pt-100">
       <div class="custom-width-1">
-        <h1 class="custom-m-0 custom-width-1 custom-header-7 custom-weight-1">The Premium Podcast Polling Platform <i class="fa-solid fa-chart-column"></i></h1>
+        <h1 class="custom-m-0 custom-width-1 custom-header-50 custom-weight-1">The Premium Podcast Polling Platform <i class="fa-solid fa-chart-column"></i></h1>
         <h2 class="custom-header-4 custom-mt-1 custom-opacity-75">Audience relationship management. Share <i>your feedback</i> directly with <i>your favorite</i> podcast hosts.</h2>
       </div>
       <div class="custom-mt-50">
-        <a href="/polling/signup" class="btn btn-success btn-lg">Get Started <i class="fa-solid fa-angle-right"></i></a>
+        <a href="/polling/signup" class="btn btn-warning btn-lg">Get Started <i class="fa-solid fa-angle-right"></i></a>
       </div>
     </div>
     <div class="float-end custom-pt-100 custom-width-100-mobile mx-auto text-center">
@@ -27,20 +27,36 @@
 <!-- ----------------------------------- end ----------------------------------- -->
 <!-- ------------------------------------- verified status start ------------------------------------- -->
 <div class="container-fluid">
-  <div class="custom-width-700 mx-auto border shadow custom-br-25 custom-p-25 custom-mb-100 custom-mt-25">
+  <div class="custom-width-700 mx-auto border shadow custom-br-25 custom-p-25 custom-mb-200 custom-mt-25">
     <p class="custom-m-0 custom-header-25 custom-pb-25">Verified podcast's get access to detailed community feedback trends and in-depth audience demographics</p>
     <div class="custom-display-flex">
       <div>
         <img src="{{ page_dict_to_html['show_dict']['platform_image_small'] }}" alt="show logo" class="custom-mr-1 custom-br-5 border shadow-lg custom-width-66-px">
       </div>
       <div class="custom-f-direction-row custom-ml-15">
-        <p class="custom-m-0 custom-header-20">{{ page_dict_to_html['show_dict']['name'] }}</p>
+        <p class="custom-m-0 custom-header-20">{{ page_dict_to_html['show_dict']['name'] }} <span class="custom-header-10 custom-opacity-75 custom-ml-5">[not yet verified]</span></p>
         <p class="custom-m-0 custom-header-15"><i class="fa-solid fa-circle-check custom-color-info"></i> 100% free verification process. <a href="/polling/signup" class="custom-a-2">Get started <i class="fa-solid fa-angle-right"></i></a></p>
         <p class="custom-m-0 custom-header-15 custom-mt-5"><a href="/polling/signup" class="custom-a-2">#1 fan's community for sharing and voting on episode polls <i class="fa-solid fa-angle-right"></i></a></p>
       </div>
     </div>
-    <a href="/polling/signup" class="custom-width-100 btn btn-warning custom-mt-25 shadow-sm">Get started <i class="fa-solid fa-angle-right"></i></a>
+    <a href="/polling/signup" class="custom-width-100 btn btn-info btn-lg custom-mt-25 shadow-sm">Get started <i class="fa-solid fa-angle-right"></i></a>
   </div>
 </div>
 <!-- ------------------------------------- verified status end ------------------------------------- -->
+<!-- ------------------------------------- start ------------------------------------- -->
+<div class="container custom-mb-75 custom-height-8-mobile">
+  <div class="float-start custom-width-100-mobile mx-auto text-center">
+    <a href="/polling/signup"><img src="https://triviafypublicobjects.s3.us-east-2.amazonaws.com/model2.png" alt="landing" class="custom-br-25 custom-width-600 shadow-lg custom-hover-1"></a>
+  </div>
+  <div class="float-end custom-mt-100-mobile">
+    <div class="custom-width-1">
+      <h1 class="custom-m-0 custom-width-1 custom-header-50 custom-weight-1">Fan feedback and demographics <i class="fa-solid fa-microphone-lines"></i></h1>
+      <h2 class="custom-header-4 custom-mt-1 custom-opacity-75">Passionate fans sharing their invaluable feedback with their favorite shows.</h2>
+    </div>
+    <div class="custom-mt-50">
+      <a href="/polling/signup" class="btn btn-success btn-lg">Get Started <i class="fa-solid fa-angle-right"></i></a>
+    </div>
+  </div>
+</div>
+<!-- ------------------------------------- end ------------------------------------- -->
 {% endblock %}

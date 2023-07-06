@@ -584,6 +584,9 @@
 .custom-height-8 {
   height: 300px;
 }
+.custom-height-8-mobile {
+  height: 500px;
+}
 .custom-height-9 {
   height: 825px;
 }
@@ -898,8 +901,17 @@
 .custom-mb-50 {
   margin-bottom: 50px;
 }
+.custom-mb-75 {
+  margin-bottom: 75px;
+}
 .custom-mb-100 {
   margin-bottom: 100px;
+}
+.custom-mb-150 {
+  margin-bottom: 150px;
+}
+.custom-mb-200 {
+  margin-bottom: 200px;
 }
 .custom-mb-negative-15 {
   margin-bottom: -15px;
