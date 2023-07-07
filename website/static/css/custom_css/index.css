@@ -630,6 +630,15 @@
 .custom-hover-1 {
   cursor: pointer;
 }
+.custom-hover-pointer-opacity-1 {
+  cursor: pointer;
+  transition: 0.5s;
+}
+.custom-hover-pointer-opacity-1:hover {
+  cursor: pointer;
+  opacity: 1.0 !important;
+  transition: 0.5s;
+}
 /* ------------------- hover end ------------------- */
 /* ------------------- img start ------------------- */
 .custom-img-size-1 {
