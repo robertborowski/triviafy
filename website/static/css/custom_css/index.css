@@ -70,6 +70,14 @@
   color: var(--custom-color-info);
   text-decoration: underline;
 }
+.custom-a-white-none, .custom-a-white-none:visited, .custom-a-white-none-none:hover {
+  color: white;
+  text-decoration: none;
+}
+.custom-a-black-none, .custom-a-black-none:visited, .custom-a-black-none:hover {
+  color: black;
+  text-decoration: none;
+}
 /* ------------------- a end ------------------- */
 /* ------------------- background start ------------------- */
 .custom-bg-see-through {
@@ -683,6 +691,9 @@
 }
 .custom-img-size-50 {
   max-height: 50px;
+}
+.custom-img-size-60 {
+  max-height: 60px;
 }
 .custom-img-size-75 {
   max-height: 75px;
@@ -1860,6 +1871,9 @@
 /* ------------------- width end ------------------- */
 /* ------------------- wrap start ------------------- */
 .custom-wrap-1 {
+  white-space: nowrap;
+}
+.custom-nowrap {
   white-space: nowrap;
 }
 /* ------------------- wrap end ------------------- */
