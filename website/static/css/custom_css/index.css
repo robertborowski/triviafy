@@ -742,7 +742,34 @@
   opacity: 1.0;
   transition: 0.33s;
 }
+.image-black-and-white {
+  -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%);
+}
 /* ------------------- img end ------------------- */
+/* ------------------- infinite scroll start ------------------- */
+#container-horizontal-scroll-1 {
+  height:300px; 
+  position:relative; 
+  overflow:hidden;
+}
+.photobanner-horizontal-scroll-1 {
+  position:absolute; 
+  top:75px; 
+  left:0px; 
+  overflow:hidden; 
+  white-space: nowrap;
+  animation: bannermove 60s linear infinite;
+}
+@keyframes bannermove {
+  0% {
+      transform: translate(0, 0);
+  }
+  100% {
+      transform: translate(-50%, 0);
+  }
+}
+/* ------------------- infinite scroll end ------------------- */
 /* ------------------- index start ------------------- */
 .custom-index-1 {
   z-index: 1;
@@ -962,6 +989,9 @@
 }
 .custom-mt-100 {
   margin-top: 100px;
+}
+.custom-mt-150 {
+  margin-top: 150px;
 }
 .custom-mt-negative-1 {
   margin-top: -20px;

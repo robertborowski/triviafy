@@ -31,9 +31,9 @@ redis_connection = redis_connect_to_database_function()
 # ------------------------ connect to redis end ------------------------
 
 # ------------------------ individual route start ------------------------
-@polling_views_exterior.route('/polling')
-@polling_views_exterior.route('/polling/')
-def polling_landing_function():
+@polling_views_exterior.route('/polling/details')
+@polling_views_exterior.route('/polling/details/')
+def polling_landing_details_function():
   # ------------------------ set variables start ------------------------
   page_dict = {}
   # ------------------------ set variables end ------------------------
@@ -42,6 +42,41 @@ def polling_landing_function():
   page_dict['show_dict'] = show_arr_of_dict[0]
   # ------------------------ get random podcast show info end ------------------------
   return render_template('polling/exterior/landing/index.html', page_dict_to_html=page_dict)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@polling_views_exterior.route('/polling')
+@polling_views_exterior.route('/polling/')
+@polling_views_exterior.route('/polling/<url_step_code>')
+@polling_views_exterior.route('/polling/<url_step_code>/')
+@polling_views_exterior.route('/polling/<url_step_code>/<url_redirect_code>')
+@polling_views_exterior.route('/polling/<url_step_code>/<url_redirect_code>/')
+def polling_landing_function(url_redirect_code=None, url_step_code=None):
+  # ------------------------ page dict start ------------------------
+  if url_redirect_code == None:
+    try:
+      url_redirect_code = request.args.get('url_redirect_code')
+    except:
+      pass
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ page dict end ------------------------
+  # ------------------------ set variables start ------------------------
+  page_dict['shows_arr_of_dicts'] = []
+  # ------------------------ set variables end ------------------------
+  # ------------------------ step code default start ------------------------
+  if url_step_code == None:
+    url_step_code = '1'
+  page_dict['url_step_code'] = url_step_code
+  # ------------------------ step code default end ------------------------
+  if url_step_code == '1':
+    # ------------------------ get all podcasts start ------------------------
+    show_arr_of_dict = select_general_function('select_query_general_8')
+    for i in show_arr_of_dict:
+      page_dict['shows_arr_of_dicts'].append(i)
+    # ------------------------ get all podcasts end ------------------------
+  return render_template('polling/exterior/landing_interactive/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------

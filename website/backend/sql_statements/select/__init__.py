@@ -52,6 +52,9 @@ def select_general_function(tag_query_to_use, input1=None, input2=None, input3=N
     },
     'select_query_general_7': {
       'raw_query': f"SELECT*FROM shows_obj WHERE id!='show_user_attributes' ORDER BY RANDOM()LIMIT 1;"
+    },
+    'select_query_general_8': {
+      'raw_query': f"SELECT*FROM shows_obj WHERE id!='show_user_attributes' ORDER BY RANDOM();"
     }
   }
   # ------------------------ select queries end ------------------------

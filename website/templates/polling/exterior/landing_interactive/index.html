@@ -1,0 +1,40 @@
+{% extends "polling/aaa_base/base2_exterior_interactive.html" %}
+
+{% block title %}
+    <title>Audience Relationship Management - Triviafy</title>
+    <meta name="description" content="Audience relationship management. Premium podcast polling platform. Information about your listeners.">
+    <meta name="og:description" content="Audience relationship management. Premium podcast polling platform. Information about your listeners.">
+{% endblock %}
+
+{% block contentBodyExceptNavbarAndFooter %}
+<!-- ----------------------------------- start ----------------------------------- -->
+<div class="container-fluid custom-bg-black">
+  <!-- ------------------------------------- step 1 start ------------------------------------- -->
+  {% if page_dict_to_html['url_step_code'] == '1' %}
+    <!-- ------------------------------------- form start ------------------------------------- -->
+    <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
+      <!-- ------------------------------------- search section start ------------------------------------- -->
+      <div class="custom-width-800 mx-auto custom-pt-150 custom-pb-50">
+        <!-- ------------------------------------- search bar start ------------------------------------- -->
+        <label for="ui_search_show_name" class="form-label custom-header-25 fw-bold custom-color-white">Search podcast <i class="fa-brands fa-spotify"></i> <i class="fa-solid fa-podcast"></i></label>
+        <input type="text" class="form-control custom-ptb-25" id="ui_search_show_name" name="ui_search_show_name" placeholder="Podcast name" required>
+        <!-- ------------------------------------- search bar end ------------------------------------- -->
+        <button type="submit" class="btn btn-lg btn-success custom-width-100 custom-mt-25"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+      </div>
+      <!-- ------------------------------------- search section end ------------------------------------- -->
+    </form>
+    <!-- ------------------------------------- form end ------------------------------------- -->
+  {% endif %}
+<!-- ------------------------------------- step 1 end ------------------------------------- -->
+</div>
+<!-- ------------------------------------- end ------------------------------------- -->
+<!-- ------------------------------------- infinite horizontal scroll start ------------------------------------- -->
+<div id="container-horizontal-scroll-1">
+  <div class="photobanner-horizontal-scroll-1">
+    {% for i_dict in page_dict_to_html['shows_arr_of_dicts'] %}
+      <img src="{{ i_dict['platform_image_medium'] }}" alt="{{ i_dict['name'] }} podcast logo" class="custom-br-15 custom-m-25 custom-img-size-100 border shadow custom-opacity-50">
+    {% endfor %}
+  </div>
+</div>
+<!-- ------------------------------------- infinite horizontal scroll end ------------------------------------- -->
+{% endblock %}
