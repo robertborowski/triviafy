@@ -103,6 +103,7 @@ def polling_landing_function(url_redirect_code=None, url_step_code=None, url_pla
   if url_step_code == '2':
     page_dict['url_next_step_code'] = '3'
     page_dict['url_previous_step_code'] = '2'
+    page_dict['url_step_title'] = 'Confirm show'
   if url_platform_id == None:
     url_platform_id = 'platform001'
   page_dict['url_platform_id'] = url_platform_id
@@ -114,6 +115,15 @@ def polling_landing_function(url_redirect_code=None, url_step_code=None, url_pla
     return redirect(url_for('polling_views_exterior.polling_landing_function', url_step_code='1', url_platform_id=page_dict['url_platform_id']))
   # ------------------------ step code doesnt exist end ------------------------
   # ------------------------ step code defaults/checks end ------------------------
+  # ------------------------ pull from redis if exists start ------------------------
+  if page_dict['url_step_code'] == '2' and page_dict['url_redis_key'] != None:
+    try:
+      redis_pulled_value = redis_connection.get(url_redis_key).decode('utf-8')
+      spotify_pulled_dict = json.loads(redis_pulled_value)
+      page_dict['spotify_pulled_dict'] = spotify_pulled_dict
+    except:
+      pass
+  # ------------------------ pull from redis if exists end ------------------------
   # ------------------------ get all podcasts start ------------------------
   if url_step_code == '1':
     show_arr_of_dict = select_general_function('select_query_general_8')
