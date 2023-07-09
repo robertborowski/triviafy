@@ -21,6 +21,12 @@ from website.backend.candidates.send_emails import send_email_template_function
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 import datetime
 from website.backend.sql_statements.select import select_general_function
+from website.backend.user_inputs import sanitize_letters_numbers_spaces_specials_only_function
+from website.backend.spotify import spotify_search_show_function
+from website.backend.get_create_obj import get_show_based_on_name_function
+from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
+from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
+import json
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -45,13 +51,17 @@ def polling_landing_details_function():
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------
-@polling_views_exterior.route('/polling')
-@polling_views_exterior.route('/polling/')
-@polling_views_exterior.route('/polling/<url_step_code>')
-@polling_views_exterior.route('/polling/<url_step_code>/')
-@polling_views_exterior.route('/polling/<url_step_code>/<url_redirect_code>')
-@polling_views_exterior.route('/polling/<url_step_code>/<url_redirect_code>/')
-def polling_landing_function(url_redirect_code=None, url_step_code=None):
+@polling_views_exterior.route('/polling', methods=['GET', 'POST'])
+@polling_views_exterior.route('/polling/', methods=['GET', 'POST'])
+@polling_views_exterior.route('/polling/<url_step_code>', methods=['GET', 'POST'])
+@polling_views_exterior.route('/polling/<url_step_code>/', methods=['GET', 'POST'])
+@polling_views_exterior.route('/polling/<url_step_code>/<url_platform_id>', methods=['GET', 'POST'])
+@polling_views_exterior.route('/polling/<url_step_code>/<url_platform_id>/', methods=['GET', 'POST'])
+@polling_views_exterior.route('/polling/<url_step_code>/<url_platform_id>/<url_redis_key>', methods=['GET', 'POST'])
+@polling_views_exterior.route('/polling/<url_step_code>/<url_platform_id>/<url_redis_key>/', methods=['GET', 'POST'])
+@polling_views_exterior.route('/polling/<url_step_code>/<url_platform_id>/<url_redis_key>/<url_redirect_code>', methods=['GET', 'POST'])
+@polling_views_exterior.route('/polling/<url_step_code>/<url_platform_id>/<url_redis_key>/<url_redirect_code>/', methods=['GET', 'POST'])
+def polling_landing_function(url_redirect_code=None, url_step_code=None, url_platform_id=None, url_redis_key=None):
   # ------------------------ page dict start ------------------------
   if url_redirect_code == None:
     try:
@@ -62,20 +72,79 @@ def polling_landing_function(url_redirect_code=None, url_step_code=None):
   page_dict = {}
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
+  # ------------------------ remove from redis check start ------------------------
+  try:
+    wip_key = request.args.get('wip_key')
+    if wip_key != None and wip_key != '':
+      redis_connection.delete(wip_key)
+  except:
+    pass
+  # ------------------------ remove from redis check end ------------------------
   # ------------------------ set variables start ------------------------
+  page_dict['url_step_code'] = url_step_code
+  page_dict['url_platform_id'] = url_platform_id
+  page_dict['url_redis_key'] = url_redis_key
+  page_dict['url_next_step_code'] = ''
+  page_dict['url_previous_step_code'] = ''
+  page_dict['platforms_arr'] = []
   page_dict['shows_arr_of_dicts'] = []
+  page_dict['url_step_title'] = ''
+  page_dict['url_back_str'] = ''
+  page_dict['spotify_pulled_dict'] = None
+  spotify_pulled_dict = {}
   # ------------------------ set variables end ------------------------
-  # ------------------------ step code default start ------------------------
+  # ------------------------ step code defaults/checks start ------------------------
   if url_step_code == None:
     url_step_code = '1'
   page_dict['url_step_code'] = url_step_code
-  # ------------------------ step code default end ------------------------
   if url_step_code == '1':
-    # ------------------------ get all podcasts start ------------------------
+    page_dict['url_next_step_code'] = '2'
+    page_dict['url_previous_step_code'] = '1'
+  if url_step_code == '2':
+    page_dict['url_next_step_code'] = '3'
+    page_dict['url_previous_step_code'] = '2'
+  if url_platform_id == None:
+    url_platform_id = 'platform001'
+  page_dict['url_platform_id'] = url_platform_id
+  # ------------------------ step code doesnt exist start ------------------------
+  try:
+    if int(url_step_code) < int(1) or int(url_step_code) < int(3):
+      pass
+  except:
+    return redirect(url_for('polling_views_exterior.polling_landing_function', url_step_code='1', url_platform_id=page_dict['url_platform_id']))
+  # ------------------------ step code doesnt exist end ------------------------
+  # ------------------------ step code defaults/checks end ------------------------
+  # ------------------------ get all podcasts start ------------------------
+  if url_step_code == '1':
     show_arr_of_dict = select_general_function('select_query_general_8')
     for i in show_arr_of_dict:
       page_dict['shows_arr_of_dicts'].append(i)
-    # ------------------------ get all podcasts end ------------------------
+  # ------------------------ get all podcasts end ------------------------
+  if request.method == 'POST':
+    if page_dict['url_step_code'] == '1':
+      # ------------------------ get user inputs start ------------------------
+      ui_search_show_name = request.form.get('ui_search_show_name')
+      # ------------------------ get user inputs end ------------------------
+      # ------------------------ sanitize ui start ------------------------
+      ui_search_show_name_check = sanitize_letters_numbers_spaces_specials_only_function(ui_search_show_name)
+      if ui_search_show_name_check == False:
+        return redirect(url_for('polling_views_exterior.polling_landing_function', url_step_code=url_step_code, url_platform_id=url_platform_id, url_redirect_code='e6'))
+      # ------------------------ sanitize ui end ------------------------
+      # ------------------------ search spotify start ------------------------
+      spotify_pulled_dict = spotify_search_show_function(ui_search_show_name)
+      if spotify_pulled_dict == None:
+        return redirect(url_for('polling_views_exterior.polling_landing_function', url_step_code=url_step_code, url_platform_id=url_platform_id, url_redirect_code='e32'))
+      # ------------------------ search spotify end ------------------------
+      # ------------------------ check if show already in db start ------------------------
+      show_already_exists_check = get_show_based_on_name_function(url_platform_id, spotify_pulled_dict['name'])
+      if show_already_exists_check != None:
+        return redirect(url_for('polling_views_exterior.polling_landing_function', url_step_code=url_step_code, url_platform_id=url_platform_id, url_redirect_code='e31'))
+      # ------------------------ check if show already in db end ------------------------
+      # ------------------------ add spotify result to redis start ------------------------
+      url_redis_key = create_uuid_function('spotify_temp_')
+      redis_connection.set(url_redis_key, json.dumps(spotify_pulled_dict).encode('utf-8'))
+      # ------------------------ add spotify result to redis end ------------------------
+      return redirect(url_for('polling_views_exterior.polling_landing_function', url_step_code=page_dict['url_next_step_code'], url_platform_id=url_platform_id, url_redis_key=url_redis_key))
   return render_template('polling/exterior/landing_interactive/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
 
