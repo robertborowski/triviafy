@@ -12,8 +12,8 @@ from backend.utils.localhost_print_utils.localhost_print import localhost_print_
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import current_user
 from website.backend.candidates.redis import redis_connect_to_database_function
-from website.models import UserObj, BlogPollingObj
-from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
+from website.models import UserObj, BlogPollingObj, ShowsObj, PollsObj, ShowsQueueObj
+# from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
 from website import db
 from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function
 from werkzeug.security import generate_password_hash
@@ -27,6 +27,8 @@ from website.backend.get_create_obj import get_show_based_on_name_function
 from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
 from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
 import json
+from website.backend.dict_manipulation import arr_of_dict_all_columns_single_item_function, prep_poll_dict_function
+import os
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -115,12 +117,23 @@ def polling_landing_function(url_redirect_code=None, url_step_code=None, url_pla
     return redirect(url_for('polling_views_exterior.polling_landing_function', url_step_code='1', url_platform_id=page_dict['url_platform_id']))
   # ------------------------ step code doesnt exist end ------------------------
   # ------------------------ step code defaults/checks end ------------------------
-  # ------------------------ pull from redis if exists start ------------------------
   if page_dict['url_step_code'] == '2' and page_dict['url_redis_key'] != None:
     try:
       redis_pulled_value = redis_connection.get(url_redis_key).decode('utf-8')
       spotify_pulled_dict = json.loads(redis_pulled_value)
       page_dict['spotify_pulled_dict'] = spotify_pulled_dict
+      # ------------------------ spotify exists already check start ------------------------
+      page_dict['spotify_dict_exists_in_db'] = False
+      page_dict['spotify_dict_exists_show_id'] = False
+      try:
+        db_obj = ShowsObj.query.filter_by(name=page_dict['spotify_pulled_dict']['name']).first()
+        if db_obj != None and db_obj != []:
+          page_dict['spotify_dict_exists_in_db'] = True
+          page_dict['spotify_dict_exists_show_id'] = db_obj.id
+        pass
+      except:
+        pass
+      # ------------------------ spotify exists already check end ------------------------
     except:
       pass
   # ------------------------ pull from redis if exists end ------------------------
@@ -148,14 +161,168 @@ def polling_landing_function(url_redirect_code=None, url_step_code=None, url_pla
       # ------------------------ check if show already in db start ------------------------
       show_already_exists_check = get_show_based_on_name_function(url_platform_id, spotify_pulled_dict['name'])
       if show_already_exists_check != None:
-        return redirect(url_for('polling_views_exterior.polling_landing_function', url_step_code=url_step_code, url_platform_id=url_platform_id, url_redirect_code='e31'))
+        page_dict['spotify_dict_exists_show_id'] = show_already_exists_check.id
       # ------------------------ check if show already in db end ------------------------
       # ------------------------ add spotify result to redis start ------------------------
       url_redis_key = create_uuid_function('spotify_temp_')
       redis_connection.set(url_redis_key, json.dumps(spotify_pulled_dict).encode('utf-8'))
       # ------------------------ add spotify result to redis end ------------------------
       return redirect(url_for('polling_views_exterior.polling_landing_function', url_step_code=page_dict['url_next_step_code'], url_platform_id=url_platform_id, url_redis_key=url_redis_key))
+    localhost_print_function(' ------------- 100-preview start ------------- ')
+  page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
+  for k,v in page_dict.items():
+    localhost_print_function(f"k: {k} | v: {v}")
+    pass
+  localhost_print_function(' ------------- 100-preview end ------------- ')
   return render_template('polling/exterior/landing_interactive/index.html', page_dict_to_html=page_dict)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@polling_views_exterior.route('/polling/preview/show/<url_show_id>', methods=['GET', 'POST'])
+@polling_views_exterior.route('/polling/preview/show/<url_show_id>/', methods=['GET', 'POST'])
+@polling_views_exterior.route('/polling/preview/show/<url_show_id>/<url_poll_id>', methods=['GET', 'POST'])
+@polling_views_exterior.route('/polling/preview/show/<url_show_id>/<url_poll_id>/', methods=['GET', 'POST'])
+@polling_views_exterior.route('/polling/preview/show/<url_show_id>/<url_poll_id>/<url_redirect_code>', methods=['GET', 'POST'])
+@polling_views_exterior.route('/polling/preview/show/<url_show_id>/<url_poll_id>/<url_redirect_code>/', methods=['GET', 'POST'])
+def polling_exterior_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=None):
+  # ------------------------ page dict start ------------------------
+  if url_redirect_code == None:
+    try:
+      url_redirect_code = request.args.get('url_redirect_code')
+    except:
+      pass
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ page dict end ------------------------
+  # ------------------------ set variables start ------------------------
+  page_dict['url_show_id'] = url_show_id
+  page_dict['url_poll_id'] = url_poll_id
+  page_dict['poll_dict'] = None
+  page_dict['db_show_dict'] = None
+  # ------------------------ set variables end ------------------------
+  # ------------------------ check show id exists start ------------------------
+  if page_dict['url_show_id'] == None:
+    return redirect(url_for('polling_views_exterior.polling_landing_function'))
+  db_obj = ShowsObj.query.filter_by(id=page_dict['url_show_id']).first()
+  if db_obj == None or db_obj == []:
+    return redirect(url_for('polling_views_exterior.polling_landing_function'))
+  # ------------------------ check show id exists end ------------------------
+  # ------------------------ get show info start ------------------------
+  page_dict['db_show_dict'] = arr_of_dict_all_columns_single_item_function(db_obj)
+  title_limit = 15
+  if len(page_dict['db_show_dict']['name']) > title_limit:
+    page_dict['db_show_dict']['name_title'] = page_dict['db_show_dict']['name'][0:title_limit] + '...'
+  else:
+    page_dict['db_show_dict']['name_title'] = page_dict['db_show_dict']['name']
+  # ------------------------ get show info end ------------------------
+  # ------------------------ if poll id blank get latest episode start ------------------------
+  if page_dict['url_poll_id'] == None:
+    try:
+      db_obj = PollsObj.query.filter_by(fk_show_id=page_dict['url_show_id'],status_approved=True,status_removed=False).order_by(PollsObj.created_timestamp.desc()).first()
+      page_dict['url_poll_id'] = db_obj.id
+    except:
+      pass
+  # ------------------------ if poll id blank get latest episode end ------------------------
+  # ------------------------ get poll info start ------------------------
+  try:
+    db_obj = PollsObj.query.filter_by(id=page_dict['url_poll_id']).first()
+    db_dict = arr_of_dict_all_columns_single_item_function(db_obj)
+    page_dict['poll_dict'] = prep_poll_dict_function(db_dict)
+  except:
+    pass
+  # ------------------------ get poll info end ------------------------
+  localhost_print_function(' ------------- 100-poll exterior start ------------- ')
+  page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
+  for k,v in page_dict.items():
+    localhost_print_function(f"k: {k} | v: {v}")
+    pass
+  localhost_print_function(' ------------- 100-poll exterior end ------------- ')
+  return render_template('polling/exterior/poll/index.html', page_dict_to_html=page_dict)
+# ------------------------ individual route end ------------------------
+
+# ------------------------ individual route start ------------------------
+@polling_views_exterior.route('/polling/preview/show/add/<url_redis_key>', methods=['GET', 'POST'])
+@polling_views_exterior.route('/polling/preview/show/add/<url_redis_key>/', methods=['GET', 'POST'])
+@polling_views_exterior.route('/polling/preview/show/add/<url_redis_key>/<url_redirect_code>', methods=['GET', 'POST'])
+@polling_views_exterior.route('/polling/preview/show/add/<url_redis_key>/<url_redirect_code>/', methods=['GET', 'POST'])
+def polling_exterior_add_show_function(url_redirect_code=None, url_redis_key=None):
+  # ------------------------ page dict start ------------------------
+  if url_redirect_code == None:
+    try:
+      url_redirect_code = request.args.get('url_redirect_code')
+    except:
+      pass
+  alert_message_dict = alert_message_default_function_v2(url_redirect_code)
+  page_dict = {}
+  page_dict['alert_message_dict'] = alert_message_dict
+  # ------------------------ page dict end ------------------------
+  # ------------------------ set variables start ------------------------
+  page_dict['url_redis_key'] = url_redis_key
+  page_dict['spotify_pulled_dict'] = None
+  # ------------------------ set variables end ------------------------
+  # ------------------------ get redis key value start ------------------------
+  try:
+    redis_pulled_value = redis_connection.get(url_redis_key).decode('utf-8')
+    spotify_pulled_dict = json.loads(redis_pulled_value)
+    page_dict['spotify_pulled_dict'] = spotify_pulled_dict
+  except:
+    page_dict['url_redis_key'] = None
+    pass
+  # ------------------------ get redis key value end ------------------------
+  # ------------------------ if redis key null start ------------------------
+  if page_dict['url_redis_key'] == None:
+    return redirect(url_for('polling_views_exterior.polling_landing_function'))
+  # ------------------------ if redis key null end ------------------------
+  # ------------------------ add to queue start ------------------------
+  # ------------------------ check show does not exist start ------------------------
+  db_obj = ShowsObj.query.filter_by(name=page_dict['spotify_pulled_dict']['name']).first()
+  if db_obj != None and db_obj != []:
+    return redirect(url_for('polling_views_exterior.polling_landing_function'))
+  # ------------------------ check show does not exist end ------------------------  
+  # ------------------------ check if already in queue start ------------------------
+  db_queue_obj = ShowsQueueObj.query.filter_by(name=page_dict['spotify_pulled_dict']['name']).first()
+  # ------------------------ check if already in queue end ------------------------
+  if db_queue_obj == None:
+    # ------------------------ add to live job queue start ------------------------
+    new_row = ShowsQueueObj(
+      id=create_uuid_function('queue_'),
+      created_timestamp=create_timestamp_function(),
+      fk_platform_id = 'platform001',
+      platform_reference_id = page_dict['spotify_pulled_dict']['id'],
+      name=page_dict['spotify_pulled_dict']['name'],
+      description=page_dict['spotify_pulled_dict']['description'],
+      img_large=page_dict['spotify_pulled_dict']['img_large'],
+      img_medium=page_dict['spotify_pulled_dict']['img_medium'],
+      img_small=page_dict['spotify_pulled_dict']['img_small'],
+      show_url=page_dict['spotify_pulled_dict']['show_url']
+    )
+    db.session.add(new_row)
+    db.session.commit()
+    # ------------------------ add to live job queue end ------------------------
+    # ------------------------ email self start ------------------------
+    try:
+      output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+      output_subject = f"Exterior landing - User added show to queue"
+      output_body = f"Exterior landing - User added show to queue: '{page_dict['spotify_pulled_dict']['name']}'"
+      send_email_template_function(output_to_email, output_subject, output_body)
+    except:
+      pass
+    # ------------------------ email self end ------------------------
+    # ------------------------ delete redis key start ------------------------
+    try:
+      redis_connection.delete(page_dict['url_redis_key'])
+    except:
+      pass
+    # ------------------------ delete redis key end ------------------------
+  # ------------------------ add to queue end ------------------------
+  localhost_print_function(' ------------- 100-show add to queue exterior start ------------- ')
+  page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
+  for k,v in page_dict.items():
+    localhost_print_function(f"k: {k} | v: {v}")
+    pass
+  localhost_print_function(' ------------- 100-show add to queue exterior end ------------- ')
+  return redirect(url_for('polling_auth.polling_signup_function'))
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------

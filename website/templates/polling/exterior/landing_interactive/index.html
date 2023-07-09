@@ -45,7 +45,11 @@
       <div class="custom-tal">
         <p class="custom-m-0 custom-color-white custom-header-10 custom-pb-25 custom-opacity-50">{{ page_dict_to_html['spotify_pulled_dict']['description'] }}...</p>
       </div>
-      <a href="/polling" class="btn btn-lg btn-success custom-width-100 custom-mt-25">Continue <i class="fa-solid fa-angle-right"></i></a>
+      {% if page_dict_to_html['spotify_dict_exists_show_id'] == false %}
+        <a href="/polling/preview/show/add/{{ page_dict_to_html['url_redis_key'] }}" class="btn btn-lg btn-success custom-width-100 custom-mt-25">Continue <i class="fa-solid fa-angle-right"></i></a>
+      {% else %}
+        <a href="/polling/preview/show/{{ page_dict_to_html['spotify_dict_exists_show_id'] }}" class="btn btn-lg btn-success custom-width-100 custom-mt-25">Continue <i class="fa-solid fa-angle-right"></i></a>
+      {% endif %}
       <!-- ------------------------------------- back button start ------------------------------------- -->
       <a href="/polling" class="btn btn-outline-secondary custom-width-100 custom-mt-15 custom-mb-50"><i class="fa-solid fa-angle-left"></i> Back</a>
       <!-- ------------------------------------- back button end ------------------------------------- -->
