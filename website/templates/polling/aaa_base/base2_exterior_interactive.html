@@ -36,14 +36,25 @@
   <!-- ------------------------------------- navbar end ------------------------------------- -->
   {% block contentBodyExceptNavbarAndFooter %}
   {% endblock %}
+  <!-- ------------------------------------- infinite horizontal scroll start ------------------------------------- -->
+  {% if page_dict_to_html['url_step_code'] == '1' %}
+  <div id="container-horizontal-scroll-1">
+    <div class="photobanner-horizontal-scroll-1">
+      {% for i_dict in page_dict_to_html['shows_arr_of_dicts'] %}
+        <a href="/polling/preview/show/{{ i_dict['id'] }}"><img src="{{ i_dict['platform_image_medium'] }}" alt="{{ i_dict['name'] }} podcast logo" class="custom-br-15 custom-m-25 custom-img-size-100 border shadow custom-opacity-50 custom-hover-pointer-opacity-1"></a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+  <!-- ------------------------------------- infinite horizontal scroll end ------------------------------------- -->
   <!-- ------------------------------------- footer start ------------------------------------- -->
-  <!-- <div class="custom-width-200 mx-auto custom-display-flex">
+  <div class="custom-width-200 mx-auto custom-display-flex custom-mt-50 custom-mb-100">
     <a href="/polling"><img src="https://triviafypublicobjects.s3.us-east-2.amazonaws.com/official_logo_v3.png" alt="triviafy logo" class="custom-img-size-50"></a>
     <div>
       <p class="fw-bold custom-header-25 custom-m-0"><a href="/polling" class="custom-a-black-none">Triviafy</a></p>
       <p class="fw-bold custom-header-10 custom-m-0 custom-mt-negative-5 custom-no-wrap"><a href="/polling" class="custom-a-black-none">Audience polling platform</a></p>
     </div>
-  </div> -->
+  </div>
   <!-- ------------------------------------- footer end ------------------------------------- -->
 </body>
 {% endblock %}

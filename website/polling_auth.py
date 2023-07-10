@@ -21,6 +21,7 @@ from website.backend.candidates.send_emails import send_email_template_function
 import os
 from website.backend.candidates.user_inputs import alert_message_default_function_v2
 from .models import UserObj
+from website.backend.sql_statements.select import select_general_function
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
@@ -40,6 +41,16 @@ def polling_signup_function(url_redirect_code=None):
   page_dict = {}
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
+  # ------------------------ get all podcasts start ------------------------
+  try:
+    page_dict['shows_arr_of_dicts'] = []
+    page_dict['url_step_code'] = '1'
+    show_arr_of_dict = select_general_function('select_query_general_8')
+    for i in show_arr_of_dict:
+      page_dict['shows_arr_of_dicts'].append(i)
+  except:
+    pass
+  # ------------------------ get all podcasts end ------------------------
   if request.method == 'POST':
     # ------------------------ post method hit #2 - full sign up start ------------------------
     ui_email = request.form.get('uiEmail')
@@ -131,6 +142,16 @@ def polling_login_function(url_redirect_code=None):
     except:
       pass
   # ------------------------ auto sign in with cookie end ------------------------
+  # ------------------------ get all podcasts start ------------------------
+  try:
+    page_dict['shows_arr_of_dicts'] = []
+    page_dict['url_step_code'] = '1'
+    show_arr_of_dict = select_general_function('select_query_general_8')
+    for i in show_arr_of_dict:
+      page_dict['shows_arr_of_dicts'].append(i)
+  except:
+    pass
+  # ------------------------ get all podcasts end ------------------------
   if request.method == 'POST':
     # ------------------------ post method hit #1 - regular login start ------------------------
     # ------------------------ post request sent start ------------------------

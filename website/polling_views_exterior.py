@@ -182,9 +182,11 @@ def polling_landing_function(url_redirect_code=None, url_step_code=None, url_pla
 @polling_views_exterior.route('/polling/preview/show/<url_show_id>/', methods=['GET', 'POST'])
 @polling_views_exterior.route('/polling/preview/show/<url_show_id>/<url_poll_id>', methods=['GET', 'POST'])
 @polling_views_exterior.route('/polling/preview/show/<url_show_id>/<url_poll_id>/', methods=['GET', 'POST'])
-@polling_views_exterior.route('/polling/preview/show/<url_show_id>/<url_poll_id>/<url_redirect_code>', methods=['GET', 'POST'])
-@polling_views_exterior.route('/polling/preview/show/<url_show_id>/<url_poll_id>/<url_redirect_code>/', methods=['GET', 'POST'])
-def polling_exterior_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=None):
+@polling_views_exterior.route('/polling/preview/show/<url_show_id>/<url_poll_id>/<url_redis_key>', methods=['GET', 'POST'])
+@polling_views_exterior.route('/polling/preview/show/<url_show_id>/<url_poll_id>/<url_redis_key>/', methods=['GET', 'POST'])
+@polling_views_exterior.route('/polling/preview/show/<url_show_id>/<url_poll_id>/<url_redis_key>/<url_redirect_code>', methods=['GET', 'POST'])
+@polling_views_exterior.route('/polling/preview/show/<url_show_id>/<url_poll_id>/<url_redis_key>/<url_redirect_code>/', methods=['GET', 'POST'])
+def polling_exterior_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=None, url_redis_key=None):
   # ------------------------ page dict start ------------------------
   if url_redirect_code == None:
     try:
@@ -198,9 +200,23 @@ def polling_exterior_show_function(url_redirect_code=None, url_show_id=None, url
   # ------------------------ set variables start ------------------------
   page_dict['url_show_id'] = url_show_id
   page_dict['url_poll_id'] = url_poll_id
+  page_dict['url_redis_key'] = url_redis_key
   page_dict['poll_dict'] = None
   page_dict['db_show_dict'] = None
   # ------------------------ set variables end ------------------------
+  # ------------------------ redis key start ------------------------
+  if page_dict['url_redis_key'] == None:
+    try:
+      page_dict['url_redis_key'] = request.args.get('url_redis_key')
+    except:
+      pass
+  # ------------------------ redis key end ------------------------
+  # ------------------------ delete redis key start ------------------------
+  try:
+    redis_connection.delete(page_dict['url_redis_key'])
+  except:
+    pass
+  # ------------------------ delete redis key end ------------------------
   # ------------------------ check show id exists start ------------------------
   if page_dict['url_show_id'] == None:
     return redirect(url_for('polling_views_exterior.polling_landing_function'))
@@ -221,6 +237,7 @@ def polling_exterior_show_function(url_redirect_code=None, url_show_id=None, url
     try:
       db_obj = PollsObj.query.filter_by(fk_show_id=page_dict['url_show_id'],status_approved=True,status_removed=False).order_by(PollsObj.created_timestamp.desc()).first()
       page_dict['url_poll_id'] = db_obj.id
+      return redirect(url_for('polling_views_exterior.polling_exterior_show_function', url_show_id=page_dict['url_show_id'], url_poll_id=page_dict['url_poll_id']))
     except:
       pass
   # ------------------------ if poll id blank get latest episode end ------------------------
