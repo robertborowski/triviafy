@@ -4,7 +4,7 @@
   <title>Products - Triviafy</title>
 {% endblock %}
 {% block contentBodyExceptNavbarAndFooter %}
-<div class="custom-bg-primary custom-bg-primary-gradient-1">
+<div class="custom-bg-black">
   <div class="container custom-display-flex custom-jc-3">
     <div>
       <h2 class="custom-header-2-mobile custom-header-white">Products</h2>
@@ -42,7 +42,7 @@
 </div>
 <!-- ------------------------------------- split end ------------------------------------- -->
 <!-- ----------------------------------- shape divider start ----------------------------------- -->
-<div class="custom-shape-divider-bottom-1672276706 custom-bg-primary-darker">
+<div class="custom-shape-divider-bottom-1672276706 custom-bg-black">
   <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
       <path d="M1200 0L0 0 598.97 114.72 1200 0z" class="shape-fill"></path>
   </svg>
@@ -52,10 +52,12 @@
 
 <!-- ------------------------------------- footer start ------------------------------------- -->
 <div class="custom-width-180-px custom-mb-100 mx-auto">
-  <a href="/" class="navbar-brand">
-    <img src="https://triviafypublicobjects.s3.us-east-2.amazonaws.com/official_logo_v3.png" alt="triviafy logo" class="custom-img-size-50 custom-mr-1 custom-mb-10">
-    <span class="fw-bold custom-header-1">Triviafy</span>
-  </a>
+  <div class="custom-display-flex">
+    <a href="/"><img src="https://triviafypublicobjects.s3.us-east-2.amazonaws.com/official_logo_v3.png" alt="triviafy logo" class="custom-img-size-50 custom-mr-1"></a>
+    <div>
+      <p class="fw-bold custom-header-35 custom-m-0"><a href="/polling" class="custom-a-black-none">Triviafy</a></p>
+    </div>
+  </div>
 </div>
 <!-- ------------------------------------- footer end ------------------------------------- -->
 {% endblock %}
