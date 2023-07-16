@@ -854,6 +854,12 @@
 .custom-visible-non-mobile-only {
   display:inline-block;
 }
+.custom-visible-1 {
+  display:inline-block;
+}
+.custom-invisible-1 {
+  display:none;
+}
 /* ------------------- jQuery end ------------------- */
 /* ------------------- list style start ------------------- */
 .custom-ls-1 {
@@ -1099,6 +1105,9 @@
 }
 .custom-ml-50 {
   margin-left: 50px;
+}
+.custom-ml-100 {
+  margin-left: 100px;
 }
 .custom-mlt-1 {
   margin-left: 7px;

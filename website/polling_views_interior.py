@@ -576,8 +576,8 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
   page_dict['shows_arr_of_dict'] = []
   page_dict['url_step_title'] = ''
   page_dict['url_back_str'] = ''
-  page_dict['spotify_pulled_dict'] = None
-  spotify_pulled_dict = {}
+  page_dict['spotify_pulled_arr_of_dict'] = None
+  spotify_pulled_arr_of_dict = []
   # ------------------------ set variables end ------------------------
   # ------------------------ redirect steps check start ------------------------
   if url_step_code == '1' and url_platform_id != None:
@@ -631,8 +631,8 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
   if page_dict['url_step_code'] == '3':
     try:
       redis_pulled_value = redis_connection.get(url_redis_key).decode('utf-8')
-      spotify_pulled_dict = json.loads(redis_pulled_value)
-      page_dict['spotify_pulled_dict'] = spotify_pulled_dict
+      spotify_pulled_arr_of_dict = json.loads(redis_pulled_value)
+      page_dict['spotify_pulled_arr_of_dict'] = spotify_pulled_arr_of_dict
     except:
       pass
   # ------------------------ pull from redis if exists end ------------------------
@@ -661,18 +661,19 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
         return redirect(url_for('polling_views_interior.polling_add_show_function', url_step_code=url_step_code, url_platform_id=url_platform_id, url_redirect_code='e6'))
       # ------------------------ sanitize ui end ------------------------
       # ------------------------ search spotify start ------------------------
-      spotify_pulled_dict = spotify_search_show_function(ui_search_show_name)
-      if spotify_pulled_dict == None:
+      spotify_pulled_arr_of_dict = spotify_search_show_function(ui_search_show_name)
+      if spotify_pulled_arr_of_dict == None:
         return redirect(url_for('polling_views_interior.polling_add_show_function', url_step_code=url_step_code, url_platform_id=url_platform_id, url_redirect_code='e32'))
       # ------------------------ search spotify end ------------------------
       # ------------------------ check if show already in db start ------------------------
-      show_already_exists_check = get_show_based_on_name_function(url_platform_id, spotify_pulled_dict['name'])
-      if show_already_exists_check != None:
-        return redirect(url_for('polling_views_interior.polling_add_show_function', url_step_code=url_step_code, url_platform_id=url_platform_id, url_redirect_code='e31'))
+      for i_dict in spotify_pulled_arr_of_dict:
+        show_already_exists_check = get_show_based_on_name_function(url_platform_id, i_dict['name'])
+        if show_already_exists_check != None:
+          return redirect(url_for('polling_views_interior.polling_add_show_function', url_step_code=url_step_code, url_platform_id=url_platform_id, url_redirect_code='e31'))
       # ------------------------ check if show already in db end ------------------------
       # ------------------------ add spotify result to redis start ------------------------
       url_redis_key = create_uuid_function('spotify_temp_')
-      redis_connection.set(url_redis_key, json.dumps(spotify_pulled_dict).encode('utf-8'))
+      redis_connection.set(url_redis_key, json.dumps(spotify_pulled_arr_of_dict).encode('utf-8'))
       # ------------------------ add spotify result to redis end ------------------------
       return redirect(url_for('polling_views_interior.polling_add_show_function', url_step_code=page_dict['url_next_step_code'], url_platform_id=url_platform_id, url_redis_key=url_redis_key))
     if page_dict['url_step_code'] == '3':
@@ -682,8 +683,18 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
       except:
         pass
       # ------------------------ remove from redis end ------------------------
+      # ------------------------ user inputs start ------------------------
+      ui_show_selected_index_value = request.form.get('flexRadioAllShowSelection')
+      # ------------------------ user inputs end ------------------------
+      # ------------------------ catch error start ------------------------
+      try:
+        if ui_show_selected_index_value == None or int(ui_show_selected_index_value) < 0 or int(ui_show_selected_index_value) > 4:
+          return redirect(url_for('polling_views_interior.polling_add_show_function', url_step_code=url_step_code, url_platform_id=url_platform_id, url_redirect_code='e6'))
+      except:
+        return redirect(url_for('polling_views_interior.polling_add_show_function', url_step_code=url_step_code, url_platform_id=url_platform_id, url_redirect_code='e6'))
+      # ------------------------ catch error end ------------------------
       # ------------------------ check if already in queue start ------------------------
-      db_queue_obj = ShowsQueueObj.query.filter_by(name=spotify_pulled_dict['name']).first()
+      db_queue_obj = ShowsQueueObj.query.filter_by(name=page_dict['spotify_pulled_arr_of_dict'][int(ui_show_selected_index_value)]['name']).first()
       # ------------------------ check if already in queue end ------------------------
       if db_queue_obj == None:
         # ------------------------ add to live job queue start ------------------------
@@ -691,18 +702,18 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
           id=create_uuid_function('queue_'),
           created_timestamp=create_timestamp_function(),
           fk_platform_id = url_platform_id,
-          platform_reference_id = spotify_pulled_dict['id'],
-          name=spotify_pulled_dict['name'],
-          description=spotify_pulled_dict['description'],
-          img_large=spotify_pulled_dict['img_large'],
-          img_medium=spotify_pulled_dict['img_medium'],
-          img_small=spotify_pulled_dict['img_small'],
-          show_url=spotify_pulled_dict['show_url']
+          platform_reference_id = page_dict['spotify_pulled_arr_of_dict'][int(ui_show_selected_index_value)]['id'],
+          name=page_dict['spotify_pulled_arr_of_dict'][int(ui_show_selected_index_value)]['name'],
+          description=page_dict['spotify_pulled_arr_of_dict'][int(ui_show_selected_index_value)]['description'],
+          img_large=page_dict['spotify_pulled_arr_of_dict'][int(ui_show_selected_index_value)]['img_large'],
+          img_medium=page_dict['spotify_pulled_arr_of_dict'][int(ui_show_selected_index_value)]['img_medium'],
+          img_small=page_dict['spotify_pulled_arr_of_dict'][int(ui_show_selected_index_value)]['img_small'],
+          show_url=page_dict['spotify_pulled_arr_of_dict'][int(ui_show_selected_index_value)]['show_url']
         )
         db.session.add(new_row)
         db.session.commit()
         # ------------------------ add to live job queue end ------------------------
-      return redirect(url_for('polling_views_interior.polling_loading_function', url_platform_reference_id=spotify_pulled_dict['id']))
+      return redirect(url_for('polling_views_interior.polling_loading_function', url_platform_reference_id=page_dict['spotify_pulled_arr_of_dict'][int(ui_show_selected_index_value)]['id']))
   localhost_print_function(' ------------- 100-show selection start ------------- ')
   page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
   for k,v in page_dict.items():

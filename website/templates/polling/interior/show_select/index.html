@@ -88,17 +88,55 @@
       <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
         <!-- ------------------------------------- confirm section start ------------------------------------- -->
         <div class="custom-width-500 mx-auto text-center">
-          <div class="custom-pb-25">
-            <img src="{{ page_dict_to_html['spotify_pulled_dict']['img_medium'] }}" alt="show img" class="custom-br-1 custom-border-white-opacity-50">
-          </div>
-          <p class="custom-m-0 custom-color-white custom-header-25 custom-pb-15">{{ page_dict_to_html['spotify_pulled_dict']['name'] }}</p>
-          <div class="custom-tal">
-            <p class="custom-m-0 custom-color-white custom-header-10 custom-pb-25 custom-opacity-50">{{ page_dict_to_html['spotify_pulled_dict']['description'] }}...</p>
-          </div>
+          <!-- ------------------------------------- show selection start ------------------------------------- -->
+          {% for i in range(page_dict_to_html['spotify_pulled_arr_of_dict']|length) %}
+            <div class="custom-invisible-1" id="id-show_result_{{ i }}">
+              <div class="custom-display-flex custom-jc-around custom-width-100">
+                <!-- ------------------------------------- left arrow start ------------------------------------- -->
+                {% if i-1 < 0 %}
+                  <div class="my-auto">
+                    <i class="fa-solid fa-chevron-left custom-color-white custom-opacity-10 custom-header-50"></i>
+                  </div>
+                {% else %}
+                  <div class="my-auto">
+                    <i class="fa-solid fa-chevron-left custom-color-white custom-opacity-50 custom-hover-pointer-opacity-1 custom-header-50" id="id-show_index_back_{{ i-1 }}"></i>
+                  </div>
+                {% endif %}
+                <!-- ------------------------------------- left arrow end ------------------------------------- -->
+                <!-- ------------------------------------- i start ------------------------------------- -->
+                <div>
+                  <div class="custom-pb-25">
+                    <img src="{{ page_dict_to_html['spotify_pulled_arr_of_dict'][i]['img_medium'] }}" alt="show img" class="custom-br-1 custom-border-white-opacity-50">
+                  </div>
+                  <div class="custom-display-flex custom-jc-center">
+                    <input class="form-check-input custom-invisible-1" type="radio" name="flexRadioAllShowSelection" id="id-flexRadioShowSelection_{{ i }}" value="{{ i }}">
+                    <label class="form-check-label custom-invisible-1" for="id-flexRadioShowSelection_{{ i }}"></label>
+                    <p class="custom-m-0 custom-color-white custom-header-25 custom-pb-15">{{ page_dict_to_html['spotify_pulled_arr_of_dict'][i]['name'] }}</p>
+                  </div>
+                  <div class="custom-tal">
+                    <p class="custom-m-0 custom-color-white custom-header-10 custom-pb-25 custom-opacity-50">{{ page_dict_to_html['spotify_pulled_arr_of_dict'][i]['description'] }}...</p>
+                  </div>
+                </div>
+                <!-- ------------------------------------- i end ------------------------------------- -->
+                <!-- ------------------------------------- right arrow start ------------------------------------- -->
+                {% if i == (page_dict_to_html['spotify_pulled_arr_of_dict']|length - 1) %}
+                  <div class="my-auto">
+                    <i class="fa-solid fa-chevron-right custom-color-white custom-opacity-10 custom-header-50"></i>
+                  </div>
+                {% else %}
+                  <div class="my-auto">
+                    <i class="fa-solid fa-chevron-right custom-color-white custom-opacity-50 custom-hover-pointer-opacity-1 custom-header-50" id="id-show_index_forward_{{ i+1 }}"></i>
+                  </div>
+                {% endif %}
+                <!-- ------------------------------------- right arrow end ------------------------------------- -->
+              </div>
+            </div>
+          {% endfor %}
+          <!-- ------------------------------------- show selection end ------------------------------------- -->
+          <!-- ------------------------------------- buttons start ------------------------------------- -->
           <button type="submit" class="btn btn-lg btn-success custom-width-100 custom-mt-25">Confirm <i class="fa-solid fa-check"></i></button>
-          <!-- ------------------------------------- back button start ------------------------------------- -->
           <a href="/polling/show/add/{{ page_dict_to_html['url_back_str'] }}" class="btn btn-outline-secondary custom-width-100 custom-mt-15"><i class="fa-solid fa-angle-left"></i> Back</a>
-          <!-- ------------------------------------- back button end ------------------------------------- -->
+          <!-- ------------------------------------- buttons end ------------------------------------- -->
         </div>
         <!-- ------------------------------------- confirm section end ------------------------------------- -->
       </form>

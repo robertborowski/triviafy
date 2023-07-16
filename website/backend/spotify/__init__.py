@@ -21,6 +21,9 @@ def spotify_api_get_access_token_function():
 
 # ------------------------ individual function start ------------------------
 def spotify_search_show_function(input_show_name):
+  # ------------------------ results max start ------------------------
+  max_result = 5
+  # ------------------------ results max end ------------------------
   # ------------------------ spotify get access token for API start ------------------------
   access_token = spotify_api_get_access_token_function()
   # ------------------------ spotify get access token for API end ------------------------
@@ -31,7 +34,7 @@ def spotify_search_show_function(input_show_name):
   params = {
     'q': input_show_name,
     'type': 'show',
-    'limit': 1,
+    'limit': max_result,
     'market': 'US'
   }
   base_url = 'https://api.spotify.com/v1/search'
@@ -47,25 +50,32 @@ def spotify_search_show_function(input_show_name):
   if response_dict['shows']['items'] == None or response_dict['shows']['items'] == [] or response_dict['shows']['items'] == '':
     return None
   # ------------------------ if none end ------------------------
-  pulled_dict = {
-    'id': None,
-    'name': None,
-    'description': None,
-    'img_large': None,
-    'img_medium': None,
-    'img_small': None,
-    'show_url': None
-  }
-  try:
-    pulled_dict['id'] = response_dict['shows']['items'][0]['id']
-    pulled_dict['name'] = response_dict['shows']['items'][0]['name']
-    pulled_dict['description'] = response_dict['shows']['items'][0]['description'][0:290]
-    pulled_dict['img_large'] = response_dict['shows']['items'][0]['images'][0]['url']
-    pulled_dict['img_medium'] = response_dict['shows']['items'][0]['images'][1]['url']
-    pulled_dict['img_small'] = response_dict['shows']['items'][0]['images'][2]['url']
-    pulled_dict['show_url'] = response_dict['shows']['items'][0]['external_urls']['spotify']
-  except:
-    pass
+  pulled_arr_of_dicts = []
+  for i in range(0, max_result):
+    pulled_dict = {
+      'id': None,
+      'name': None,
+      'description': None,
+      'img_large': None,
+      'img_medium': None,
+      'img_small': None,
+      'show_url': None
+    }
+    try:
+      pulled_dict['id'] = response_dict['shows']['items'][i]['id']
+      pulled_dict['name'] = response_dict['shows']['items'][i]['name']
+      pulled_dict['description'] = response_dict['shows']['items'][i]['description'][0:290]
+      pulled_dict['img_large'] = response_dict['shows']['items'][i]['images'][0]['url']
+      pulled_dict['img_medium'] = response_dict['shows']['items'][i]['images'][1]['url']
+      pulled_dict['img_small'] = response_dict['shows']['items'][i]['images'][2]['url']
+      pulled_dict['show_url'] = response_dict['shows']['items'][i]['external_urls']['spotify']
+      pulled_arr_of_dicts.append(pulled_dict)
+    except:
+      pass
   # ------------------------ convert API results end ------------------------
-  return pulled_dict
+  # ------------------------ check none start ------------------------
+  if pulled_arr_of_dicts == [] or pulled_arr_of_dicts == None:
+    return None
+  # ------------------------ check none end ------------------------
+  return pulled_arr_of_dicts
 # ------------------------ individual function end ------------------------
