@@ -295,7 +295,7 @@ def polling_exterior_add_show_function(url_redirect_code=None, url_redis_key=Non
   # ------------------------ check show does not exist start ------------------------
   db_obj = ShowsObj.query.filter_by(name=page_dict['spotify_pulled_arr_of_dict']['name']).first()
   if db_obj != None and db_obj != []:
-    return redirect(url_for('polling_views_exterior.polling_landing_function'))
+    return redirect(url_for('polling_views_exterior.polling_exterior_show_function', url_show_id=db_obj.id))
   # ------------------------ check show does not exist end ------------------------  
   # ------------------------ check if already in queue start ------------------------
   db_queue_obj = ShowsQueueObj.query.filter_by(name=page_dict['spotify_pulled_arr_of_dict']['name']).first()
