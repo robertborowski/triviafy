@@ -35,15 +35,18 @@
   <!-- ------------------------------------- step 1 end ------------------------------------- -->
   <!-- ------------------------------------- step 2 start ------------------------------------- -->
   {% if page_dict_to_html['url_step_code'] == '2' %}
+    <div class="alert alert-warning mx-auto text-center custom-width-500 custom-m-0" role="alert">
+      Create account to see more show results
+    </div>
     <p for="ui_search_show_name" class="custom-width-500 mx-auto text-center form-label custom-header-25 fw-bold custom-color-white custom-pt-50 custom-mb-25">{{ page_dict_to_html['url_step_title'] }}</p>
     <!-- ------------------------------------- confirm section start ------------------------------------- -->
     <div class="custom-width-500 mx-auto text-center">
       <div class="custom-pb-25">
-        <img src="{{ page_dict_to_html['spotify_pulled_dict']['img_medium'] }}" alt="show img" class="custom-br-1 custom-border-white-opacity-50">
+        <img src="{{ page_dict_to_html['spotify_pulled_arr_of_dict']['img_medium'] }}" alt="show img" class="custom-br-1 custom-border-white-opacity-50">
       </div>
-      <p class="custom-m-0 custom-color-white custom-header-25 custom-pb-15">{{ page_dict_to_html['spotify_pulled_dict']['name'] }}</p>
+      <p class="custom-m-0 custom-color-white custom-header-25 custom-pb-15">{{ page_dict_to_html['spotify_pulled_arr_of_dict']['name'] }}</p>
       <div class="custom-tal">
-        <p class="custom-m-0 custom-color-white custom-header-10 custom-pb-25 custom-opacity-50">{{ page_dict_to_html['spotify_pulled_dict']['description'] }}...</p>
+        <p class="custom-m-0 custom-color-white custom-header-10 custom-pb-25 custom-opacity-50">{{ page_dict_to_html['spotify_pulled_arr_of_dict']['description'] }}...</p>
       </div>
       {% if page_dict_to_html['spotify_dict_exists_show_id'] == false %}
         <a href="/polling/preview/show/add/{{ page_dict_to_html['url_redis_key'] }}" class="btn btn-lg btn-success custom-width-100 custom-mt-25">Continue <i class="fa-solid fa-angle-right"></i></a>
