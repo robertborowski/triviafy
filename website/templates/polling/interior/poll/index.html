@@ -127,7 +127,7 @@
           {% for i in range(page_dict_to_html['poll_dict']['answer_choices']|length) %}
             <input type="radio" class="btn-check" id="uiAnswerSelection{{ i }}" name="ui_selection_radio" value="{{ page_dict_to_html['poll_dict']['answer_choices'][i] }}" autocomplete="off" required>
             {% if page_dict_to_html['poll_answered_dict']['poll_answer_submitted'] == page_dict_to_html['poll_dict']['answer_choices'][i] %}
-              <label class="custom-br-15 custom-width-100 custom-p-25 custom-hover-1 custom-transition-05 custom-bg-white custom-color-black" for="uiAnswerSelection{{ i }}">{{ page_dict_to_html['poll_dict']['answer_choices'][i] }}</label>
+              <label class="custom-br-15 custom-width-100 custom-p-25 custom-hover-1 custom-transition-05 custom-bg-success custom-color-white" for="uiAnswerSelection{{ i }}">{{ page_dict_to_html['poll_dict']['answer_choices'][i] }}</label>
             {% else %}
               <label class="custom-br-15 custom-width-100 custom-p-25 custom-hover-1 custom-color-white custom-transition-05" for="uiAnswerSelection{{ i }}">{{ page_dict_to_html['poll_dict']['answer_choices'][i] }}</label>
             {% endif %}
