@@ -108,10 +108,16 @@
   background-color: rgb(153, 179, 154);
 }
 .custom-bg-warning {
-  background-color: #ffc107;
+  background-color: var(--custom-color-warning);
 }
 .custom-bg-info {
-  background-color: #077bff;
+  background-color: var(--custom-color-info);
+}
+.custom-bg-success {
+  background-color: var(--custom-color-success);
+}
+.custom-bg-danger {
+  background-color: var(--custom-color-danger);
 }
 .custom-bg-dark-1 {
   background-color: rgb(7 19 61);

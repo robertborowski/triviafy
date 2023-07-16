@@ -43,13 +43,13 @@ document.addEventListener('click', function() {
       var i_label = document.querySelector('label[for="'+i_element_id.id+'"]');
       // if/else checked add + remove classes
       if (i_element_id.checked) {
-        i_label.classList.add('custom-bg-white');
-        i_label.classList.remove('custom-color-white');
-        i_label.classList.add('custom-color-black');
+        i_label.classList.add('custom-bg-success');
+        // i_label.classList.remove('custom-color-white');
+        // i_label.classList.add('custom-color-black');
       } else {
-        i_label.classList.remove('custom-bg-white');
-        i_label.classList.add('custom-color-white');
-        i_label.classList.remove('custom-color-black');
+        i_label.classList.remove('custom-bg-success');
+        // i_label.classList.add('custom-color-white');
+        // i_label.classList.remove('custom-color-black');
       }
     }
   }
