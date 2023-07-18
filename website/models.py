@@ -409,7 +409,7 @@ class PollsObj(db.Model):
   type = db.Column(db.String(150))
   fk_show_id = db.Column(db.String(150))
   question = db.Column(db.String(150))
-  answer_choices = db.Column(db.String(500))
+  answer_choices = db.Column(db.String(1000))
   written_response_allowed = db.Column(db.Boolean, default=True)
   topics = db.Column(db.String(150))
   status_approved = db.Column(db.Boolean, default=False)
