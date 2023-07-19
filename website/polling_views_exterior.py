@@ -111,8 +111,9 @@ def polling_landing_function(url_redirect_code=None, url_step_code=None, url_pla
   page_dict['url_platform_id'] = url_platform_id
   # ------------------------ step code doesnt exist start ------------------------
   try:
-    if int(url_step_code) < int(1) or int(url_step_code) < int(3):
-      pass
+    if url_step_code != None and url_step_code != '1':
+      if int(url_step_code) < int(1) or int(url_step_code) > int(3):
+        return redirect(url_for('polling_views_exterior.polling_landing_function'))
   except:
     return redirect(url_for('polling_views_exterior.polling_landing_function', url_step_code='1', url_platform_id=page_dict['url_platform_id']))
   # ------------------------ step code doesnt exist end ------------------------
@@ -126,11 +127,12 @@ def polling_landing_function(url_redirect_code=None, url_step_code=None, url_pla
       page_dict['spotify_dict_exists_in_db'] = False
       page_dict['spotify_dict_exists_show_id'] = False
       try:
-        db_obj = ShowsObj.query.filter_by(name=page_dict['spotify_pulled_arr_of_dict'][0]['name']).first()
-        if db_obj != None and db_obj != []:
-          page_dict['spotify_dict_exists_in_db'] = True
-          page_dict['spotify_dict_exists_show_id'] = db_obj.id
-        pass
+        for i_dict in spotify_pulled_arr_of_dict:
+          db_obj = ShowsObj.query.filter_by(name=i_dict['name']).first()
+          if db_obj != None and db_obj != []:
+            page_dict['spotify_dict_exists_in_db'] = True
+            page_dict['spotify_dict_exists_show_id'] = db_obj.id
+            break
       except:
         pass
       # ------------------------ spotify exists already check end ------------------------
@@ -159,15 +161,18 @@ def polling_landing_function(url_redirect_code=None, url_step_code=None, url_pla
         return redirect(url_for('polling_views_exterior.polling_landing_function', url_step_code=url_step_code, url_platform_id=url_platform_id, url_redirect_code='e32'))
       # ------------------------ search spotify end ------------------------
       # ------------------------ check if show already in db start ------------------------
-      show_already_exists_check = get_show_based_on_name_function(url_platform_id, spotify_pulled_arr_of_dict[0]['name'])
-      if show_already_exists_check != None:
-        page_dict['spotify_dict_exists_show_id'] = show_already_exists_check.id
+      for i_dict in spotify_pulled_arr_of_dict:
+        show_already_exists_check = get_show_based_on_name_function(url_platform_id, i_dict['name'])
+        if show_already_exists_check != None:
+          page_dict['spotify_dict_exists_show_id'] = show_already_exists_check.id
       # ------------------------ check if show already in db end ------------------------
       # ------------------------ add spotify result to redis start ------------------------
       url_redis_key = create_uuid_function('spotify_temp_')
-      redis_connection.set(url_redis_key, json.dumps(spotify_pulled_arr_of_dict[0]).encode('utf-8'))
+      redis_connection.set(url_redis_key, json.dumps(spotify_pulled_arr_of_dict).encode('utf-8'))
       # ------------------------ add spotify result to redis end ------------------------
       return redirect(url_for('polling_views_exterior.polling_landing_function', url_step_code=page_dict['url_next_step_code'], url_platform_id=url_platform_id, url_redis_key=url_redis_key))
+    if page_dict['url_step_code'] == '2':
+      pass
     localhost_print_function(' ------------- 100-preview start ------------- ')
   page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
   for k,v in page_dict.items():

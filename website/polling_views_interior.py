@@ -546,8 +546,12 @@ def polling_loading_function(url_platform_reference_id=None):
 @polling_views_interior.route('/polling/show/add/<url_step_code>/<url_platform_id>/<url_redis_key>/', methods=['GET', 'POST'])
 @polling_views_interior.route('/polling/show/add/<url_step_code>/<url_platform_id>/<url_redis_key>/<url_redirect_code>', methods=['GET', 'POST'])
 @polling_views_interior.route('/polling/show/add/<url_step_code>/<url_platform_id>/<url_redis_key>/<url_redirect_code>/', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_platform_id=None, url_redis_key=None):
+  print(' ------------- 0 ------------- ')
+  print(f"current_user | type: {type(current_user)} | {current_user}")
+  print(f"current_user.is_anonymous | type: {type(current_user.is_anonymous)} | {current_user.is_anonymous}")
+  print(' ------------- 0 ------------- ')
   # ------------------------ page dict start ------------------------
   if url_redirect_code == None:
     try:
