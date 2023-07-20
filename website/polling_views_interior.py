@@ -63,8 +63,8 @@ def polling_dashboard_function(url_redirect_code=None, url_show_id=None):
   onbaording_status = onboarding_checks_v2_function(current_user)
   if onbaording_status == 'verify':
     return redirect(url_for('polling_views_interior.verify_email_function'))
-  if onbaording_status == 'attribute_tos':
-    return redirect(url_for('polling_views_interior.polling_feedback_function', url_feedback_code=onbaording_status))
+  # if onbaording_status == 'attribute_tos':
+    # return redirect(url_for('polling_views_interior.polling_feedback_function', url_feedback_code=onbaording_status))
   if onbaording_status == 'attribute_birthday':
     return redirect(url_for('polling_views_interior.polling_feedback_function', url_feedback_code=onbaording_status))
   if onbaording_status == 'attribute_marketing':

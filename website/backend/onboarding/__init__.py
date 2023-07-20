@@ -19,7 +19,8 @@ def onboarding_checks_v2_function(current_user):
     return 'verify'
   # ------------------------ check if email verified end ------------------------
   # ------------------------ check all attributes table start ------------------------
-  attribute_arr = ['attribute_tos','attribute_birthday','attribute_marketing']
+  # attribute_arr = ['attribute_tos','attribute_birthday','attribute_marketing']
+  attribute_arr = ['attribute_birthday','attribute_marketing']
   for i_attribute in attribute_arr:
     attribute_obj = UserAttributesObj.query.filter_by(fk_user_id=current_user.id,attribute_code=i_attribute).first()
     if attribute_obj == None or attribute_obj == []:
