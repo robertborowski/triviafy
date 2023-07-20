@@ -36,7 +36,8 @@
           {{ page_dict_to_html['alert_message_dict']['message'] }}
         </div>
         {% if page_dict_to_html['current_user_is_anonymous'] == true %}
-          <a href="/polling/signup" class="btn btn-lg btn-success custom-width-100 custom-mt-10">Create account <i class="fa-solid fa-angle-right"></i></a>
+          <a href="/polling/signup" class="btn btn-lg btn-warning custom-width-100">Create account <i class="fa-solid fa-angle-right"></i></a>
+          <a href="/polling/show/{{ page_dict_to_html['url_show_id'] }}" class="btn btn-lg btn-success custom-width-100 custom-mt-15 custom-ptb-25">Next poll <i class="fa-solid fa-angle-right"></i></a>
         {% endif %}
       {% endif %}
       <!-- ----------------------------------- alert end ----------------------------------- -->
@@ -140,8 +141,8 @@
       <!-- ------------------------------------- answer end ------------------------------------- -->
       <!-- ------------------------------------- expand dropdown add written response start ------------------------------------- -->
       <div class="custom-mt-15">
-        <span class="custom-opacity-75-hover custom-hover-1 custom-color-white custom-header-15 uiSelectAllBlockInvisible" id="id-flow_hide_details_1">Hide written feedback <i class="fa-solid fa-caret-up custom-ml-1"></i></span>
-        <span class="custom-opacity-75-hover custom-hover-1 custom-color-white custom-header-15 uiSelectAllBlockVisible" id="id-flow_show_details_1">Add written feedback <i class="fa-solid fa-caret-down custom-ml-1"></i></span>
+        <span class="custom-opacity-50-hover custom-hover-1 custom-color-white custom-header-15 uiSelectAllBlockInvisible custom-ptb-5 custom-plr-10 custom-br-10 custom-bg-success custom-width-100 text-center" id="id-flow_hide_details_1"><i class="fa-solid fa-minus"></i> Hide written feedback</span>
+        <span class="custom-opacity-50-hover custom-hover-1 custom-color-white custom-header-15 uiSelectAllBlockVisible custom-ptb-5 custom-plr-10 custom-br-10 custom-bg-success custom-width-100 text-center" id="id-flow_show_details_1"><i class="fa-solid fa-plus"></i> Add written feedback</span>
       </div>
       <div class="custom-mt-10 custom-width-100 uiSelectAllBlockInvisible" id="id-activity_details_1">
         <!-- ------------------------------------- ui written response start ------------------------------------- -->
@@ -157,8 +158,8 @@
       <!-- ------------------------------------- expand dropdown add written response end ------------------------------------- -->
       <!-- ------------------------------------- email + anonymous option start ------------------------------------- -->
       <div class="custom-mt-50 mx-auto">
-        {% if page_dict_to_html['current_user_email'] == 'robjborowski@gmail.com' %}
-          <p class="custom-m-0 custom-color-white custom-opacity-75 custom-header-15">Feedback from #1 fan: <span id="id-user_email">johndoe@gmail.com</span></p>
+        {% if page_dict_to_html['current_user_email'] == 'robjborowski@gmail.com' or page_dict_to_html['current_user_is_anonymous'] == true %}
+          <p class="custom-m-0 custom-color-white custom-opacity-75 custom-header-15">Feedback from #1 fan: <span id="id-user_email">jackdoe@gmail.com</span></p>
         {% else %}
           <p class="custom-m-0 custom-color-white custom-opacity-75 custom-header-15">Feedback from #1 fan: <span id="id-user_email">{{ page_dict_to_html['current_user_email'] }}</span></p>
         {% endif %}
@@ -270,7 +271,11 @@
       <div class="mx-auto">
         <p class="custom-color-white custom-m-0 custom-opacity-75 custom-header-30">Create poll for this community</p>
         <p class="custom-color-white custom-m-0 custom-opacity-75 custom-header-10 custom-pb-25">The verified '{{ page_dict_to_html['db_show_dict']['name_title'] }}' host has final approval before your poll can be seen by others in the community.</p>
-        <a href="/polling/create/{{ page_dict_to_html['db_show_dict']['id'] }}" class="custom-width-100 btn btn-outline-warning">Create poll for this community <i class="fa-solid fa-plus"></i></a>
+        {% if page_dict_to_html['current_user_is_anonymous'] == true %}
+          <a href="/polling/signup" class="custom-width-100 btn btn-outline-warning">Create poll for this community <i class="fa-solid fa-plus"></i></a>
+        {% else %}
+          <a href="/polling/create/{{ page_dict_to_html['db_show_dict']['id'] }}" class="custom-width-100 btn btn-outline-warning">Create poll for this community <i class="fa-solid fa-plus"></i></a>
+        {% endif %}
       </div>
       <!-- ------------------------------------- create poll end ------------------------------------- -->
       <!-- ------------------------------------- divider start ------------------------------------- -->
@@ -291,11 +296,19 @@
             <div class="custom-f-direction-row custom-ml-15">
               <p class="custom-color-white custom-m-0 custom-opacity-75 custom-header-20">Not yet verified <i class="fa-solid fa-circle-check custom-color-info"></i></p>
               <p class="custom-color-white custom-m-0 custom-opacity-75 custom-header-15">100% free verification process</p>
-              <p class="custom-color-white custom-m-0 custom-opacity-75 custom-header-15">1. Email <a href="mailto:support@triviafy.com" class="custom-a-5 custom-color-info">support@triviafy.com</a> proof that you mentioned Triviafy to your audience on at least one major platform, e.g., podcast episode, Twitter, TikTok, etc.</p>
-              <p class="custom-color-white custom-m-0 custom-opacity-75 custom-header-15"><a href="https://calendly.com/triviafy/podcast-host-verification-call" class="custom-a-white-underline" target="_blank">2. Complete step 1 then book <span class="custom-color-info">Calendly</span> call for final verification</a>.</p>
+              {% if page_dict_to_html['current_user_is_anonymous'] == true %}
+                <p class="custom-color-white custom-m-0 custom-opacity-75 custom-header-15"><a href="/polling/signup" class="custom-a-white-underline">Get started to learn more <i class="fa-solid fa-angle-right"></i></a></p>  
+              {% else %}
+                <p class="custom-color-white custom-m-0 custom-opacity-75 custom-header-15">1. Email <a href="mailto:support@triviafy.com" class="custom-a-5 custom-color-info">support@triviafy.com</a> proof that you mentioned Triviafy to your audience on at least one major platform, e.g., podcast episode, Twitter, TikTok, etc.</p>
+                <p class="custom-color-white custom-m-0 custom-opacity-75 custom-header-15"><a href="https://calendly.com/triviafy/podcast-host-verification-call" class="custom-a-white-underline" target="_blank">2. Complete step 1 then book <span class="custom-color-info">Calendly</span> call for final verification</a>.</p>
+              {% endif %}
             </div>
           </div>
-          <a href="mailto:support@triviafy.com" class="custom-width-100 btn btn-outline-info custom-mt-25">Begin host verification process <i class="fa-regular fa-envelope"></i></a>
+          {% if page_dict_to_html['current_user_is_anonymous'] == true %}
+            <a href="/polling/signup" class="custom-width-100 btn btn-outline-info custom-mt-25">Begin host verification process <i class="fa-solid fa-circle-check"></i></a>
+          {% else %}
+            <a href="mailto:support@triviafy.com" class="custom-width-100 btn btn-outline-info custom-mt-25">Begin host verification process <i class="fa-regular fa-envelope"></i></a>
+          {% endif %}
         </div>
       {% endif %}
       <!-- ------------------------------------- verified status end ------------------------------------- -->
@@ -313,7 +326,11 @@
 <!-- ----------------------------------- shape divider end ----------------------------------- -->
 <!-- ----------------------------------- exit start ----------------------------------- -->
 <div class="custom-width-600 mx-auto custom-mb-50">
-  <a href="/polling/dashboard" class="btn btn-outline-secondary custom-width-100"><i class="fa-solid fa-angle-left"></i> Back to my shows</a>
+  {% if page_dict_to_html['current_user_is_anonymous'] == true %}
+    <a href="/polling" class="btn btn-outline-secondary custom-width-100"><i class="fa-solid fa-angle-left"></i> Home</a>
+  {% else %}
+    <a href="/polling/dashboard" class="btn btn-outline-secondary custom-width-100"><i class="fa-solid fa-angle-left"></i> Back to my shows</a>
+  {% endif %}
 </div>
 <!-- ----------------------------------- exit end ----------------------------------- -->
 {% endblock %}

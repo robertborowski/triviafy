@@ -382,6 +382,9 @@
 .custom-brr-1 {
   border-radius: 0px 15px 15px 0px !important;
 }
+.custom-br-10 {
+  border-radius: 10px;
+}
 .custom-br-15 {
   border-radius: 15px;
 }
@@ -745,10 +748,13 @@
 .custom-opacity-1-hover {
   opacity: 0.50;
 }
+.custom-opacity-50-hover {
+  opacity: 0.50;
+}
 .custom-opacity-75-hover {
   opacity: 0.75;
 }
-.custom-opacity-1-hover:hover, .custom-opacity-75-hover:hover {
+.custom-opacity-1-hover:hover, .custom-opacity-75-hover:hover, .custom-opacity-50-hover:hover {
   opacity: 1;
   transition: 0.3s;
 }
@@ -1266,10 +1272,6 @@
   padding-top: 15px;
   padding-bottom: 15px;
 }
-.custom-ptb-5 {
-  padding-top: 100px;
-  padding-bottom: 100px;
-}
 .custom-ptb-6 {
   padding-top: 50px;
   padding-bottom: 50px;
@@ -1281,6 +1283,10 @@
 .custom-ptb-8 {
   padding-top: 25px;
   padding-bottom: 25px;
+}
+.custom-ptb-5 {
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 .custom-ptb-10 {
   padding-top: 10px;
@@ -1297,6 +1303,14 @@
 .custom-ptb-50 {
   padding-top: 50px;
   padding-bottom: 50px;
+}
+.custom-ptb-100 {
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+.custom-plr-10 {
+  padding-left: 10px;
+  padding-right: 10px;
 }
 .custom-pt-1 {
   padding-top: 50px;

@@ -27,7 +27,7 @@
 <div class="container border shadow custom-br-1 custom-bg-white">
   {% if page_dict_to_html['group_stripe_status'] == 'active' %}
     {% if page_dict_to_html['total_group_created_questions_arr_of_dicts'] == 0 %}
-      <div class="text-center custom-ptb-5">
+      <div class="text-center custom-ptb-100">
         <p class="fst-italic custom-color-light-1 custom-header-5">Your group has not created any questions yet.</p>
         {% if page_dict_to_html['url_activity_type'] == 'activity_type_a' %}
           <a href="/custom/question" class="btn btn-primary btn-lg">Create +</a>

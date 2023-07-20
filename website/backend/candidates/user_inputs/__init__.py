@@ -570,11 +570,6 @@ def alert_message_default_function_v2(redirect_var=None):
       'message':'Poll successfully created! Pending admin final approval.',
       'type':'success'
     }
-  elif redirect_var == 's20':
-    alert_message_dict = {
-      'message':'You must create an account to submit your answer',
-      'type':'success'
-    }
   # ------------------------ success end ------------------------
   # ------------------------ info end ------------------------
   elif redirect_var == 'i1':
@@ -602,6 +597,11 @@ def alert_message_default_function_v2(redirect_var=None):
   elif redirect_var == 'w2':
     alert_message_dict = {
       'message':'Poll successfully received',
+      'type':'warning'
+    }
+  elif redirect_var == 'w3':
+    alert_message_dict = {
+      'message':'You must create an account to submit your answer',
       'type':'warning'
     }
   # ------------------------ warning end ------------------------
