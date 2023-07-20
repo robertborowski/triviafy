@@ -546,7 +546,7 @@ def polling_loading_function(url_platform_reference_id=None):
 @polling_views_interior.route('/polling/show/add/<url_step_code>/<url_platform_id>/<url_redis_key>/', methods=['GET', 'POST'])
 @polling_views_interior.route('/polling/show/add/<url_step_code>/<url_platform_id>/<url_redis_key>/<url_redirect_code>', methods=['GET', 'POST'])
 @polling_views_interior.route('/polling/show/add/<url_step_code>/<url_platform_id>/<url_redis_key>/<url_redirect_code>/', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_platform_id=None, url_redis_key=None):
   # ------------------------ page dict start ------------------------
   if url_redirect_code == None:
@@ -567,21 +567,22 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
     pass
   # ------------------------ remove from redis check end ------------------------
   # ------------------------ set variables start ------------------------
+  page_dict['shows_arr_of_dicts'] = []
   page_dict['url_step_code'] = url_step_code
   page_dict['url_platform_id'] = url_platform_id
   page_dict['url_redis_key'] = url_redis_key
   page_dict['url_next_step_code'] = str(int(url_step_code) + 1)
   page_dict['url_previous_step_code'] = str(int(url_step_code) - 1)
   page_dict['platforms_arr'] = []
-  page_dict['shows_arr_of_dict'] = []
   page_dict['url_step_title'] = ''
   page_dict['url_back_str'] = ''
+  page_dict['shows_following_arr_of_dict'] = None
   page_dict['spotify_pulled_arr_of_dict'] = None
   spotify_pulled_arr_of_dict = []
   # ------------------------ set variables end ------------------------
   # ------------------------ redirect steps check start ------------------------
-  if url_step_code == '1' and url_platform_id != None:
-    return redirect(url_for('polling_views_interior.polling_add_show_function', url_step_code=url_step_code))
+  if url_step_code == '1':
+    return redirect(url_for('polling_views_interior.polling_add_show_function', url_step_code='2',url_platform_id='platform001'))
   if url_step_code == '2' and (url_platform_id == None or url_redis_key != None):
     return redirect(url_for('polling_views_interior.polling_add_show_function', url_step_code=page_dict['url_previous_step_code'], url_redirect_code='e6'))
   if url_step_code == '3' and (url_platform_id == None or url_redis_key == None):
@@ -589,19 +590,22 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
   # ------------------------ redirect steps check end ------------------------
   # ------------------------ set back button string start ------------------------
   if url_step_code == '2':
-    page_dict['url_back_str'] = f"{page_dict['url_previous_step_code']}"
+    page_dict['url_back_str'] = f"/polling/dashboard"
   elif url_step_code == '3':
-    page_dict['url_back_str'] = f"{page_dict['url_previous_step_code']}/{url_platform_id}?wip_key={url_redis_key}"
+    page_dict['url_back_str'] = f"/polling/show/add/{page_dict['url_previous_step_code']}/{url_platform_id}?wip_key={url_redis_key}"
   # ------------------------ set back button string end ------------------------
   # ------------------------ get all sources following start ------------------------
-  page_dict['shows_following_arr_of_dict'] = get_all_shows_following_function(current_user)
+  if current_user.is_anonymous == True:
+    pass
+  else:
+    page_dict['shows_following_arr_of_dict'] = get_all_shows_following_function(current_user)
   # ------------------------ get all sources following end ------------------------
   # ------------------------ set title start ------------------------
   page_dict['url_step_subtitle'] = "Audience Polling Platform"
   if page_dict['url_step_code'] == '1':
     page_dict['url_step_title'] = 'Platform selection'
   if page_dict['url_step_code'] == '2':
-    page_dict['url_step_title'] = 'Show selection'
+    page_dict['url_step_title'] = 'Search podcast'
   if page_dict['url_step_code'] == '3':
     page_dict['url_step_title'] = 'Confirm show'
   # ------------------------ set title end ------------------------
@@ -611,22 +615,6 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
     for i_obj in all_platforms_obj:
       page_dict['platforms_arr'].append(i_obj.name)
   # ------------------------ get platforms end ------------------------
-  # ------------------------ get shows start ------------------------
-  if page_dict['url_step_code'] == '2':
-    all_shows_obj = get_all_shows_for_platform_function(page_dict['url_platform_id'])
-    try:
-      for i_obj in all_shows_obj:
-        if i_obj.id != 'show_user_attributes':
-          i_dict = {}
-          i_dict['id'] = i_obj.id
-          i_dict['fk_platform_id'] = i_obj.fk_platform_id
-          i_dict['name'] = i_obj.name
-          i_dict['platform_image_small'] = i_obj.platform_image_small
-          i_dict['description'] = i_obj.description[0:100] + '...'
-          page_dict['shows_arr_of_dict'].append(i_dict)
-    except:
-      pass
-  # ------------------------ get shows end ------------------------
   # ------------------------ pull from redis if exists start ------------------------
   if page_dict['url_step_code'] == '3':
     try:
@@ -636,6 +624,12 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
     except:
       pass
   # ------------------------ pull from redis if exists end ------------------------
+  # ------------------------ get all podcasts start ------------------------
+  if url_step_code == '2':
+    show_arr_of_dict = select_general_function('select_query_general_8')
+    for i in show_arr_of_dict:
+      page_dict['shows_arr_of_dicts'].append(i)
+  # ------------------------ get all podcasts end ------------------------
   if request.method == 'POST':
     if page_dict['url_step_code'] == '1':
       # ------------------------ get user inputs start ------------------------
@@ -665,12 +659,6 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
       if spotify_pulled_arr_of_dict == None:
         return redirect(url_for('polling_views_interior.polling_add_show_function', url_step_code=url_step_code, url_platform_id=url_platform_id, url_redirect_code='e32'))
       # ------------------------ search spotify end ------------------------
-      # ------------------------ check if show already in db start ------------------------
-      for i_dict in spotify_pulled_arr_of_dict:
-        show_already_exists_check = get_show_based_on_name_function(url_platform_id, i_dict['name'])
-        if show_already_exists_check != None:
-          return redirect(url_for('polling_views_interior.polling_add_show_function', url_step_code=url_step_code, url_platform_id=url_platform_id, url_redirect_code='e31'))
-      # ------------------------ check if show already in db end ------------------------
       # ------------------------ add spotify result to redis start ------------------------
       url_redis_key = create_uuid_function('spotify_temp_')
       redis_connection.set(url_redis_key, json.dumps(spotify_pulled_arr_of_dict).encode('utf-8'))
@@ -693,27 +681,35 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
       except:
         return redirect(url_for('polling_views_interior.polling_add_show_function', url_step_code=url_step_code, url_platform_id=url_platform_id, url_redirect_code='e6'))
       # ------------------------ catch error end ------------------------
-      # ------------------------ check if already in queue start ------------------------
-      db_queue_obj = ShowsQueueObj.query.filter_by(name=page_dict['spotify_pulled_arr_of_dict'][int(ui_show_selected_index_value)]['name']).first()
-      # ------------------------ check if already in queue end ------------------------
-      if db_queue_obj == None:
-        # ------------------------ add to live job queue start ------------------------
-        new_row = ShowsQueueObj(
-          id=create_uuid_function('queue_'),
-          created_timestamp=create_timestamp_function(),
-          fk_platform_id = url_platform_id,
-          platform_reference_id = page_dict['spotify_pulled_arr_of_dict'][int(ui_show_selected_index_value)]['id'],
-          name=page_dict['spotify_pulled_arr_of_dict'][int(ui_show_selected_index_value)]['name'],
-          description=page_dict['spotify_pulled_arr_of_dict'][int(ui_show_selected_index_value)]['description'],
-          img_large=page_dict['spotify_pulled_arr_of_dict'][int(ui_show_selected_index_value)]['img_large'],
-          img_medium=page_dict['spotify_pulled_arr_of_dict'][int(ui_show_selected_index_value)]['img_medium'],
-          img_small=page_dict['spotify_pulled_arr_of_dict'][int(ui_show_selected_index_value)]['img_small'],
-          show_url=page_dict['spotify_pulled_arr_of_dict'][int(ui_show_selected_index_value)]['show_url']
-        )
-        db.session.add(new_row)
-        db.session.commit()
-        # ------------------------ add to live job queue end ------------------------
-      return redirect(url_for('polling_views_interior.polling_loading_function', url_platform_reference_id=page_dict['spotify_pulled_arr_of_dict'][int(ui_show_selected_index_value)]['id']))
+      # ------------------------ check if show already in db start ------------------------
+      show_already_exists_check = get_show_based_on_name_function(url_platform_id, page_dict['spotify_pulled_arr_of_dict'][int(ui_show_selected_index_value)]['name'])
+      if show_already_exists_check != None:
+        return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=show_already_exists_check.id))
+      # ------------------------ check if show already in db end ------------------------
+      if show_already_exists_check == None:
+        # ------------------------ check if already in queue start ------------------------
+        db_queue_obj = ShowsQueueObj.query.filter_by(name=page_dict['spotify_pulled_arr_of_dict'][int(ui_show_selected_index_value)]['name']).first()
+        # ------------------------ check if already in queue end ------------------------
+        if db_queue_obj == None:
+          # ------------------------ add to live job queue start ------------------------
+          new_row = ShowsQueueObj(
+            id=create_uuid_function('queue_'),
+            created_timestamp=create_timestamp_function(),
+            fk_platform_id = url_platform_id,
+            platform_reference_id = page_dict['spotify_pulled_arr_of_dict'][int(ui_show_selected_index_value)]['id'],
+            name=page_dict['spotify_pulled_arr_of_dict'][int(ui_show_selected_index_value)]['name'],
+            description=page_dict['spotify_pulled_arr_of_dict'][int(ui_show_selected_index_value)]['description'],
+            img_large=page_dict['spotify_pulled_arr_of_dict'][int(ui_show_selected_index_value)]['img_large'],
+            img_medium=page_dict['spotify_pulled_arr_of_dict'][int(ui_show_selected_index_value)]['img_medium'],
+            img_small=page_dict['spotify_pulled_arr_of_dict'][int(ui_show_selected_index_value)]['img_small'],
+            show_url=page_dict['spotify_pulled_arr_of_dict'][int(ui_show_selected_index_value)]['show_url'],
+            fk_show_id=create_uuid_function('show_')
+          )
+          db.session.add(new_row)
+          db.session.commit()
+          # ------------------------ add to live job queue end ------------------------
+        # return redirect(url_for('polling_views_interior.polling_loading_function', url_platform_reference_id=page_dict['spotify_pulled_arr_of_dict'][int(ui_show_selected_index_value)]['id']))
+        return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=page_dict['spotify_pulled_arr_of_dict'][int(ui_show_selected_index_value)]['name']))
   localhost_print_function(' ------------- 100-show selection start ------------- ')
   page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
   for k,v in page_dict.items():
@@ -754,7 +750,7 @@ def polling_follow_show_function(url_platform_id=None, url_show_id=None):
 @polling_views_interior.route('/polling/show/<url_show_id>/<url_poll_id>/', methods=['GET', 'POST'])
 @polling_views_interior.route('/polling/show/<url_show_id>/<url_poll_id>/<url_redirect_code>', methods=['GET', 'POST'])
 @polling_views_interior.route('/polling/show/<url_show_id>/<url_poll_id>/<url_redirect_code>/', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def polling_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=None):
   # ------------------------ page dict start ------------------------
   if url_redirect_code == None:
@@ -767,6 +763,7 @@ def polling_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
   # ------------------------ pull show info start ------------------------
+  # Get show based on id from shows table
   db_show_obj = get_show_based_on_id_function(url_show_id)
   # ------------------------ check if show exists in db start ------------------------
   if db_show_obj == None:

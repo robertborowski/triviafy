@@ -42,14 +42,10 @@ def polling_signup_function(url_redirect_code=None):
   page_dict['alert_message_dict'] = alert_message_dict
   # ------------------------ page dict end ------------------------
   # ------------------------ get all podcasts start ------------------------
-  try:
-    page_dict['shows_arr_of_dicts'] = []
-    page_dict['url_step_code'] = '1'
-    show_arr_of_dict = select_general_function('select_query_general_8')
-    for i in show_arr_of_dict:
-      page_dict['shows_arr_of_dicts'].append(i)
-  except:
-    pass
+  page_dict['shows_arr_of_dicts'] = []
+  show_arr_of_dict = select_general_function('select_query_general_8')
+  for i in show_arr_of_dict:
+    page_dict['shows_arr_of_dicts'].append(i)
   # ------------------------ get all podcasts end ------------------------
   if request.method == 'POST':
     # ------------------------ post method hit #2 - full sign up start ------------------------
@@ -143,14 +139,10 @@ def polling_login_function(url_redirect_code=None):
       pass
   # ------------------------ auto sign in with cookie end ------------------------
   # ------------------------ get all podcasts start ------------------------
-  try:
-    page_dict['shows_arr_of_dicts'] = []
-    page_dict['url_step_code'] = '1'
-    show_arr_of_dict = select_general_function('select_query_general_8')
-    for i in show_arr_of_dict:
-      page_dict['shows_arr_of_dicts'].append(i)
-  except:
-    pass
+  page_dict['shows_arr_of_dicts'] = []
+  show_arr_of_dict = select_general_function('select_query_general_8')
+  for i in show_arr_of_dict:
+    page_dict['shows_arr_of_dicts'].append(i)
   # ------------------------ get all podcasts end ------------------------
   if request.method == 'POST':
     # ------------------------ post method hit #1 - regular login start ------------------------

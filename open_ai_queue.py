@@ -180,7 +180,7 @@ def run_function():
             pass
           continue
         # ------------------------ check if show already exists end ------------------------
-        new_show_id=create_uuid_function('show_')
+        pulled_show_id=i_queue_dict['fk_show_id']
         try:
           # ------------------------ openai get starter polls start ------------------------
           chatgpt_response_arr_of_dicts = create_openai_starter_poll_questions_function(i_queue_dict['name'])
@@ -191,13 +191,13 @@ def run_function():
               id=create_uuid_function('poll_')
               created_timestamp=create_timestamp_function()
               # ------------------------ insert to db start ------------------------
-              insert_inputs_arr = [id,created_timestamp,'show',new_show_id,i_chat_dict['question'],answers_str,True,True,False]
+              insert_inputs_arr = [id,created_timestamp,'show',pulled_show_id,i_chat_dict['question'],answers_str,True,True,False]
               insert_manual_function(postgres_connection, postgres_cursor, 'insert_poll', insert_inputs_arr)
               # ------------------------ insert to db end ------------------------
             # ------------------------ add to db end ------------------------
             # ------------------------ insert to db start ------------------------
             created_timestamp=create_timestamp_function()
-            insert_inputs_arr = [new_show_id,created_timestamp,i_queue_dict['name'],i_queue_dict['description'],i_queue_dict['fk_platform_id'],True,i_queue_dict['platform_reference_id'],i_queue_dict['img_large'],i_queue_dict['img_medium'],i_queue_dict['img_small'],i_queue_dict['show_url']]
+            insert_inputs_arr = [pulled_show_id,created_timestamp,i_queue_dict['name'],i_queue_dict['description'],i_queue_dict['fk_platform_id'],True,i_queue_dict['platform_reference_id'],i_queue_dict['img_large'],i_queue_dict['img_medium'],i_queue_dict['img_small'],i_queue_dict['show_url']]
             insert_manual_function(postgres_connection, postgres_cursor, 'insert_show', insert_inputs_arr)
             # ------------------------ insert to db end ------------------------
             # ------------------------ delete show from queue start ------------------------
@@ -225,15 +225,15 @@ def run_function():
           # ------------------------ openai get starter polls end ------------------------
         except:
           try:
-            delete_manual_function(postgres_connection, postgres_cursor, 'delete_polls', new_show_id)
+            delete_manual_function(postgres_connection, postgres_cursor, 'delete_polls', pulled_show_id)
           except:
             pass
           try:
-            delete_manual_function(postgres_connection, postgres_cursor, 'delete_shows', new_show_id)
+            delete_manual_function(postgres_connection, postgres_cursor, 'delete_shows', pulled_show_id)
           except:
             pass
           try:
-            delete_manual_function(postgres_connection, postgres_cursor, 'delete_shows_following', new_show_id)
+            delete_manual_function(postgres_connection, postgres_cursor, 'delete_shows_following', pulled_show_id)
           except:
             pass
         # ------------------------ openai rate limit start ------------------------

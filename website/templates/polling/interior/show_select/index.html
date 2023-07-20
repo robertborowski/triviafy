@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block contentBodyExceptNavbarAndFooter %}
-<div class="custom-bg-black">
+<div class="custom-bg-black custom-pb-100 custom-mb-25">
   <!-- ------------------------------------- entire page start ------------------------------------- -->
   <div class="container-fluid custom-bg-black custom-pt-100">
     <!-- ----------------------------------- start ----------------------------------- -->
@@ -54,28 +54,14 @@
       <!-- ------------------------------------- form start ------------------------------------- -->
       <form method="POST" enctype="multipart/form-data" onsubmit="return clickSubmitButtonOnce()">
         <!-- ------------------------------------- search section start ------------------------------------- -->
-        <div class="custom-width-500 mx-auto">
+        <div class="custom-width-800 mx-auto">
           <!-- ------------------------------------- search bar start ------------------------------------- -->
-          <label for="ui_search_show_name" class="form-label custom-color-white">Search show name</label>
-          <input type="text" class="form-control custom-ptb-15" id="ui_search_show_name" name="ui_search_show_name" placeholder="Search show name" required>
+          <label for="ui_search_show_name" class="form-label custom-color-white">Podcast feedback from the die-hard fans <i class="fa-brands fa-spotify"></i> <i class="fa-solid fa-podcast"></i></label>
+          <input type="text" class="form-control custom-ptb-15" id="ui_search_show_name" name="ui_search_show_name" placeholder="Search podcast" required>
           <!-- ------------------------------------- search bar end ------------------------------------- -->
-          <!-- ------------------------------------- existing radio section start ------------------------------------- -->
-          {% for i_dict in page_dict_to_html['shows_arr_of_dict'] %}
-            <div class="custom-p-15 custom-br-20 custom-bg-white custom-mtb-50 uiSearchItem">
-              <div class="custom-display-flex">
-                <a href="/polling/show/follow/{{ i_dict['fk_platform_id'] }}/{{ i_dict['id'] }}"><img src="{{ i_dict['platform_image_small'] }}" alt="podcast show logo" class="custom-br-5 border"></a>
-                <div class="custom-ml-5 custom-display-flex custom-f-direction-col">
-                  <a href="/polling/show/follow/{{ i_dict['fk_platform_id'] }}/{{ i_dict['id'] }}" class="custom-a-2 custom-header-18">{{ i_dict['name'] }}</a>
-                  <a href="/polling/show/follow/{{ i_dict['fk_platform_id'] }}/{{ i_dict['id'] }}" class="custom-a-2 custom-header-12 custom-opacity-50">{{ i_dict['description'] }}</a>
-                </div>
-              </div>
-            </div>
-          {% endfor %}
-          <!-- ------------------------------------- existing radio section end ------------------------------------- -->
-          <button type="submit" class="btn btn-lg btn-success custom-width-100 custom-mt-15"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
-          <!-- ------------------------------------- back button start ------------------------------------- -->
-          <a href="/polling/show/add/{{ page_dict_to_html['url_back_str'] }}" class="btn btn-outline-secondary custom-width-100 custom-mt-15"><i class="fa-solid fa-angle-left"></i> Back</a>
-          <!-- ------------------------------------- back button end ------------------------------------- -->
+          <!-- ------------------------------------- buttons start ------------------------------------- -->
+          <button type="submit" class="btn btn-lg btn-success custom-width-100 custom-mt-25"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+          <!-- ------------------------------------- buttons end ------------------------------------- -->
         </div>
         <!-- ------------------------------------- search section end ------------------------------------- -->
       </form>
@@ -134,8 +120,8 @@
           {% endfor %}
           <!-- ------------------------------------- show selection end ------------------------------------- -->
           <!-- ------------------------------------- buttons start ------------------------------------- -->
-          <button type="submit" class="btn btn-lg btn-success custom-width-100 custom-mt-25">Confirm <i class="fa-solid fa-check"></i></button>
-          <a href="/polling/show/add/{{ page_dict_to_html['url_back_str'] }}" class="btn btn-outline-secondary custom-width-100 custom-mt-15"><i class="fa-solid fa-angle-left"></i> Back</a>
+          <button type="submit" class="btn btn-lg btn-success custom-width-100 custom-mt-25 custom-ptb-15">Confirm <i class="fa-solid fa-check"></i></button>
+          <a href="{{ page_dict_to_html['url_back_str'] }}" class="btn btn-outline-secondary btn-sm custom-width-100 custom-mt-25"><i class="fa-solid fa-angle-left"></i> Back</a>
           <!-- ------------------------------------- buttons end ------------------------------------- -->
         </div>
         <!-- ------------------------------------- confirm section end ------------------------------------- -->
@@ -146,11 +132,15 @@
   </div>
   <!-- ------------------------------------- entire page end ------------------------------------- -->
 </div>
-<!-- ----------------------------------- shape divider start ----------------------------------- -->
-<div class="custom-shape-divider-bottom-1672276706 custom-bg-black">
-  <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-      <path d="M1200 0L0 0 598.97 114.72 1200 0z" class="shape-fill"></path>
-  </svg>
+<!-- ------------------------------------- infinite horizontal scroll start ------------------------------------- -->
+{% if page_dict_to_html['url_step_code'] == '2' %}
+<div id="container-horizontal-scroll-1">
+  <div class="photobanner-horizontal-scroll-1">
+    {% for i_dict in page_dict_to_html['shows_arr_of_dicts'] %}
+      <a href="/polling/show/{{ i_dict['id'] }}"><img src="{{ i_dict['platform_image_medium'] }}" alt="{{ i_dict['name'] }} podcast logo" class="custom-br-15 custom-m-25 custom-img-size-100 border shadow custom-opacity-50 custom-hover-pointer-opacity-1"></a>
+    {% endfor %}
+  </div>
 </div>
-<!-- ----------------------------------- shape divider end ----------------------------------- -->
+{% endif %}
+<!-- ------------------------------------- infinite horizontal scroll end ------------------------------------- -->
 {% endblock %}

@@ -400,6 +400,7 @@ class ShowsQueueObj(db.Model):
   img_medium = db.Column(db.String(150))
   img_small = db.Column(db.String(150))
   show_url = db.Column(db.String(150))
+  fk_show_id = db.Column(db.String(150))
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------

@@ -784,13 +784,13 @@
 /* ------------------- img end ------------------- */
 /* ------------------- infinite scroll start ------------------- */
 #container-horizontal-scroll-1 {
-  height:300px; 
+  height:250px; 
   position:relative; 
   overflow:hidden;
 }
 .photobanner-horizontal-scroll-1 {
   position:absolute; 
-  top:75px; 
+  top:25px; 
   left:0px; 
   overflow:hidden; 
   white-space: nowrap;
