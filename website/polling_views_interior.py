@@ -580,6 +580,9 @@ def polling_add_show_function(url_redirect_code=None, url_step_code='1', url_pla
   page_dict['spotify_pulled_arr_of_dict'] = None
   spotify_pulled_arr_of_dict = []
   # ------------------------ set variables end ------------------------
+  page_dict['current_user_is_anonymous'] = False
+  if current_user.is_anonymous == True:
+    page_dict['current_user_is_anonymous'] = True
   # ------------------------ redirect steps check start ------------------------
   if url_step_code == '1':
     return redirect(url_for('polling_views_interior.polling_add_show_function', url_step_code='2',url_platform_id='platform001'))
@@ -779,9 +782,16 @@ def polling_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=
   # ------------------------ variables start ------------------------
   page_dict['url_show_id'] = url_show_id
   page_dict['url_poll_id'] = url_poll_id
-  page_dict['current_user_email'] = current_user.email
   page_dict['poll_answered'] = False
   page_dict['poll_answered_dict'] = None
+  page_dict['current_user_email'] = None
+  page_dict['percent_total_polls_complete'] = int(0)
+  page_dict['user_completed_all_polls'] = False
+  page_dict['current_user_is_anonymous'] = False
+  if current_user.is_anonymous == True:
+    page_dict['current_user_is_anonymous'] = True
+  else:
+    page_dict['current_user_email'] = current_user.email
   # ------------------------ variables end ------------------------
   # ------------------------ pull show + poll combination start ------------------------
   poll_arr_of_dict = []
@@ -791,11 +801,19 @@ def polling_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=
     if db_poll_obj == None:
       return redirect(url_for('polling_views_interior.polling_dashboard_function', url_redirect_code='e6'))
     # ------------------------ check if poll exists in db end ------------------------
-    # pull specific, unanswered or answered
-    poll_arr_of_dict = select_general_function('select_query_general_2', url_show_id, url_poll_id, current_user.id)
+    if current_user.is_anonymous == True:
+      # pull specific, unanswered or answered
+      poll_arr_of_dict = select_general_function('select_query_general_2_anonymous', url_show_id, url_poll_id)
+    else:
+      # pull specific, unanswered or answered
+      poll_arr_of_dict = select_general_function('select_query_general_2', url_show_id, url_poll_id, current_user.id)
   else:
-    # pull random, unanswered
-    poll_arr_of_dict = select_general_function('select_query_general_1', url_show_id, current_user.id)
+    if current_user.is_anonymous == True:
+      # pull random, unanswered
+      poll_arr_of_dict = select_general_function('select_query_general_1_anonymous', url_show_id)
+    else:
+      # pull random, unanswered
+      poll_arr_of_dict = select_general_function('select_query_general_1', url_show_id, current_user.id)
     if poll_arr_of_dict == None or poll_arr_of_dict == []:
       if url_show_id == 'show_user_attributes':
         return redirect(url_for('polling_views_interior.polling_dashboard_function', url_redirect_code='s18'))
@@ -809,101 +827,113 @@ def polling_show_function(url_redirect_code=None, url_show_id=None, url_poll_id=
     return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id'], url_redirect_code=url_redirect_code))
   # ------------------------ pull show + poll combination end ------------------------
   # ------------------------ pull + calculate status bar percent complete start ------------------------
-  page_dict['percent_total_polls_complete'], page_dict['user_completed_all_polls'] = get_show_percent_of_all_polls_answered_function(current_user.id, url_show_id)
+  if current_user.is_anonymous == True:
+    page_dict['percent_total_polls_complete'] = int(99)
+  else:
+    page_dict['percent_total_polls_complete'], page_dict['user_completed_all_polls'] = get_show_percent_of_all_polls_answered_function(current_user.id, url_show_id)
   # ------------------------ pull + calculate status bar percent complete end ------------------------
   # ------------------------ pull latest answer if exists start ------------------------
   try:
-    db_latest_poll_obj = PollsAnsweredObj.query.filter_by(fk_show_id=url_show_id,fk_poll_id=url_poll_id,fk_user_id=current_user.id).order_by(PollsAnsweredObj.created_timestamp.desc()).first()
-    page_dict['poll_answered_dict'] = arr_of_dict_all_columns_single_item_function(db_latest_poll_obj)
-    page_dict['poll_answered'] = True
+    if current_user.is_anonymous == True:
+      pass
+    else:
+      db_latest_poll_obj = PollsAnsweredObj.query.filter_by(fk_show_id=url_show_id,fk_poll_id=url_poll_id,fk_user_id=current_user.id).order_by(PollsAnsweredObj.created_timestamp.desc()).first()
+      page_dict['poll_answered_dict'] = arr_of_dict_all_columns_single_item_function(db_latest_poll_obj)
+      page_dict['poll_answered'] = True
   except:
     pass
   # ------------------------ pull latest answer if exists end ------------------------
   # ------------------------ get poll statistics start ------------------------
-  if page_dict['poll_answered'] == True:
-    page_dict = get_poll_statistics_function(current_user, page_dict)
+  if current_user.is_anonymous == True:
+    pass
+  else:
+    if page_dict['poll_answered'] == True:
+      page_dict = get_poll_statistics_function(current_user, page_dict)
   # ------------------------ get poll statistics end ------------------------
   if request.method == 'POST':
-    # ------------------------ check how many posts this person did today on this question start ------------------------
-    total_poll_submissions_today = 0
-    try:
-      db_poll_answered_obj = PollsAnsweredObj.query.filter_by(fk_poll_id=url_poll_id,fk_user_id=current_user.id).order_by(PollsAnsweredObj.created_timestamp.desc()).all()
-      if db_poll_answered_obj != None and db_poll_answered_obj != []:
-        for i_obj in db_poll_answered_obj:
-          submission_created_timestamp = i_obj.created_timestamp
-          submission_date = submission_created_timestamp.date()
-          today_date = datetime.now().date()
-          if submission_date == today_date:
-            total_poll_submissions_today += 1
-        if total_poll_submissions_today >= 10:
-          return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=url_poll_id, url_redirect_code='e35'))
-    except:
-      pass
-    # ------------------------ check how many posts this person did today on this question end ------------------------
-    # ------------------------ get ui start ------------------------
-    ui_answer_selected = request.form.get('ui_selection_radio')
-    ui_anonymous_check = request.form.get('ui_anonymous_check')
-    ui_vote_question = request.form.get('ui_vote_question')
-    ui_vote_feedback = request.form.get('ui_vote_feedback')
-    ui_written_feedback = request.form.get('ui_written_feedback')
-    # ------------------------ get ui end ------------------------
-    # ------------------------ sanatize ui start ------------------------
-    if ui_answer_selected not in page_dict['poll_dict']['answer_choices']:
-      return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id'], url_redirect_code='e6'))
-    if ui_anonymous_check != None and ui_anonymous_check != 'ui_checked':
-      return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id'], url_redirect_code='e6'))
-    if ui_vote_question != None and ui_vote_question != 'up' and ui_vote_question != 'down':
-      return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id'], url_redirect_code='e6'))
-    if ui_vote_feedback != None and ui_vote_feedback != 'up' and ui_vote_feedback != 'down':
-      return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id'], url_redirect_code='e6'))
-    ui_written_feedback = sanitize_text_v1_function(ui_written_feedback, 150, False)
-    if ui_written_feedback == False:
-      return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id'], url_redirect_code='e6'))
-    # ------------------------ sanatize ui end ------------------------
-    # ------------------------ variables before insert start ------------------------
-    if ui_vote_question == 'up':
-      ui_vote_question = True
-    if ui_vote_question == 'down':
-      ui_vote_question = False
-    if ui_vote_feedback == 'up':
-      ui_vote_feedback = True
-    if ui_vote_feedback == 'down':
-      ui_vote_feedback = False
-    if ui_anonymous_check == 'ui_checked':
-      ui_anonymous_check = True
-    # ------------------------ variables before insert end ------------------------
-    # ------------------------ insert to db start ------------------------
-    new_row = PollsAnsweredObj(
-      id=create_uuid_function('vote_'),
-      created_timestamp=create_timestamp_function(),
-      fk_show_id=url_show_id,
-      fk_poll_id=url_poll_id,
-      fk_user_id=current_user.id,
-      poll_answer_submitted=ui_answer_selected,
-      written_answer_submitted=ui_written_feedback,
-      status_answer_anonymous=ui_anonymous_check,
-      poll_vote_updown_question=ui_vote_question,
-      poll_vote_updown_feedback=ui_vote_feedback
-    )
-    db.session.add(new_row)
-    db.session.commit()
-    # ------------------------ insert to db end ------------------------
-    # ------------------------ make sure user is following the show if submitted answer start ------------------------
-    db_following_obj = ShowsFollowingObj.query.filter_by(fk_show_id=url_show_id,fk_user_id=current_user.id).first()
-    if db_following_obj == None or db_following_obj == []:
+    if current_user.is_anonymous == True:
+      return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id'], url_redirect_code='s20'))
+    else:
+      # ------------------------ check how many posts this person did today on this question start ------------------------
+      total_poll_submissions_today = 0
+      try:
+        db_poll_answered_obj = PollsAnsweredObj.query.filter_by(fk_poll_id=url_poll_id,fk_user_id=current_user.id).order_by(PollsAnsweredObj.created_timestamp.desc()).all()
+        if db_poll_answered_obj != None and db_poll_answered_obj != []:
+          for i_obj in db_poll_answered_obj:
+            submission_created_timestamp = i_obj.created_timestamp
+            submission_date = submission_created_timestamp.date()
+            today_date = datetime.now().date()
+            if submission_date == today_date:
+              total_poll_submissions_today += 1
+          if total_poll_submissions_today >= 10:
+            return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=url_poll_id, url_redirect_code='e35'))
+      except:
+        pass
+      # ------------------------ check how many posts this person did today on this question end ------------------------
+      # ------------------------ get ui start ------------------------
+      ui_answer_selected = request.form.get('ui_selection_radio')
+      ui_anonymous_check = request.form.get('ui_anonymous_check')
+      ui_vote_question = request.form.get('ui_vote_question')
+      ui_vote_feedback = request.form.get('ui_vote_feedback')
+      ui_written_feedback = request.form.get('ui_written_feedback')
+      # ------------------------ get ui end ------------------------
+      # ------------------------ sanatize ui start ------------------------
+      if ui_answer_selected not in page_dict['poll_dict']['answer_choices']:
+        return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id'], url_redirect_code='e6'))
+      if ui_anonymous_check != None and ui_anonymous_check != 'ui_checked':
+        return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id'], url_redirect_code='e6'))
+      if ui_vote_question != None and ui_vote_question != 'up' and ui_vote_question != 'down':
+        return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id'], url_redirect_code='e6'))
+      if ui_vote_feedback != None and ui_vote_feedback != 'up' and ui_vote_feedback != 'down':
+        return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id'], url_redirect_code='e6'))
+      ui_written_feedback = sanitize_text_v1_function(ui_written_feedback, 150, False)
+      if ui_written_feedback == False:
+        return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id'], url_redirect_code='e6'))
+      # ------------------------ sanatize ui end ------------------------
+      # ------------------------ variables before insert start ------------------------
+      if ui_vote_question == 'up':
+        ui_vote_question = True
+      if ui_vote_question == 'down':
+        ui_vote_question = False
+      if ui_vote_feedback == 'up':
+        ui_vote_feedback = True
+      if ui_vote_feedback == 'down':
+        ui_vote_feedback = False
+      if ui_anonymous_check == 'ui_checked':
+        ui_anonymous_check = True
+      # ------------------------ variables before insert end ------------------------
       # ------------------------ insert to db start ------------------------
-      new_row = ShowsFollowingObj(
-        id=create_uuid_function('following_'),
+      new_row = PollsAnsweredObj(
+        id=create_uuid_function('vote_'),
         created_timestamp=create_timestamp_function(),
-        fk_platform_id='platform001',
         fk_show_id=url_show_id,
-        fk_user_id=current_user.id
+        fk_poll_id=url_poll_id,
+        fk_user_id=current_user.id,
+        poll_answer_submitted=ui_answer_selected,
+        written_answer_submitted=ui_written_feedback,
+        status_answer_anonymous=ui_anonymous_check,
+        poll_vote_updown_question=ui_vote_question,
+        poll_vote_updown_feedback=ui_vote_feedback
       )
       db.session.add(new_row)
       db.session.commit()
       # ------------------------ insert to db end ------------------------
-    # ------------------------ make sure user is following the show if submitted answer end ------------------------
-    return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id']))
+      # ------------------------ make sure user is following the show if submitted answer start ------------------------
+      db_following_obj = ShowsFollowingObj.query.filter_by(fk_show_id=url_show_id,fk_user_id=current_user.id).first()
+      if db_following_obj == None or db_following_obj == []:
+        # ------------------------ insert to db start ------------------------
+        new_row = ShowsFollowingObj(
+          id=create_uuid_function('following_'),
+          created_timestamp=create_timestamp_function(),
+          fk_platform_id='platform001',
+          fk_show_id=url_show_id,
+          fk_user_id=current_user.id
+        )
+        db.session.add(new_row)
+        db.session.commit()
+        # ------------------------ insert to db end ------------------------
+      # ------------------------ make sure user is following the show if submitted answer end ------------------------
+      return redirect(url_for('polling_views_interior.polling_show_function', url_show_id=url_show_id, url_poll_id=page_dict['poll_dict']['id']))
   localhost_print_function(' ------------- 100-show poll start ------------- ')
   page_dict = dict(sorted(page_dict.items(),key=lambda x:x[0]))
   for k,v in page_dict.items():
