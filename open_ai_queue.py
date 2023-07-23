@@ -50,7 +50,7 @@ def openai_chat_gpt_prompt_result_function(message):
   except Exception as e:
     # ------------------------ email self start ------------------------
     try:
-      output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+      output_to_email = os.environ.get('TRIVIAFY_SUPPORT_EMAIL')
       output_subject = f'Failure on ChatGPT openai_chat_gpt_prompt_result_function'
       output_body = f'Failure on ChatGPT openai_chat_gpt_prompt_result_function: {e}'
       send_email_template_function(output_to_email, output_subject, output_body)
@@ -118,7 +118,7 @@ def openai_chat_gpt_parse_results_to_arr_polling_function(chatgpt_response_str):
   except Exception as e:
     # ------------------------ email self start ------------------------
     try:
-      output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+      output_to_email = os.environ.get('TRIVIAFY_SUPPORT_EMAIL')
       output_subject = f'Failure on ChatGPT openai_chat_gpt_parse_results_to_arr_polling_function'
       output_body = f'Failure on ChatGPT openai_chat_gpt_parse_results_to_arr_polling_function: {e}'
       send_email_template_function(output_to_email, output_subject, output_body)
@@ -211,7 +211,7 @@ def run_function():
             failure_counter += 1
             # ------------------------ email self start ------------------------
             try:
-              output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+              output_to_email = os.environ.get('TRIVIAFY_SUPPORT_EMAIL')
               output_subject = f"Failure on ChatGPT {i_queue_dict['name']}"
               output_body = f"Failure on ChatGPT {i_queue_dict['name']} - failure_counter: {failure_counter}"
               send_email_template_function(output_to_email, output_subject, output_body)

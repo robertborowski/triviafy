@@ -87,7 +87,7 @@ def polling_signup_function(url_redirect_code=None):
       # ------------------------ keep user logged in end ------------------------
       # ------------------------ email self start ------------------------
       try:
-        output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+        output_to_email = os.environ.get('TRIVIAFY_SUPPORT_EMAIL')
         output_subject = f'Polling - Signup - {ui_email}'
         output_body = f"Hi there,\n\nNew user signed up: {ui_email} \n\nBest,\nTriviafy"
         send_email_template_function(output_to_email, output_subject, output_body)

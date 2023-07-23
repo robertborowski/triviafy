@@ -133,7 +133,7 @@ def candidates_subscription_success_function():
   # ------------------------ update db end ------------------------
   # ------------------------ email self start ------------------------
   try:
-    output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+    output_to_email = os.environ.get('TRIVIAFY_SUPPORT_EMAIL')
     output_subject = f'Triviafy - Subscription - {user_obj.email}'
     output_body = f"Hi there,\n\nNew user subscribed: {user_obj.email} \n\nBest,\nTriviafy"
     send_email_template_function(output_to_email, output_subject, output_body)
@@ -388,7 +388,7 @@ def candidates_upload_emails_function(url_redirect_code=None):
     if post_result == 'success':
       # ------------------------ email self start ------------------------
       try:
-        output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+        output_to_email = os.environ.get('TRIVIAFY_SUPPORT_EMAIL')
         output_subject = f'Triviafy - Candidate Uploaded - {current_user.email}'
         output_body = f"Hi there,\n\n{current_user.email} uploaded candidate(s).\n\nBest,\nTriviafy"
         send_email_template_function(output_to_email, output_subject, output_body)
@@ -890,7 +890,7 @@ def candidates_assessment_create_review_function(url_assessment_name):
       db.session.commit()
       # ------------------------ email self start ------------------------
       try:
-        output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+        output_to_email = os.environ.get('TRIVIAFY_SUPPORT_EMAIL')
         output_subject = f'Triviafy - Test Created - {current_user.email}'
         output_body = f"Hi there,\n\nNew test created: {current_user.email} \n\nBest,\nTriviafy"
         send_email_template_function(output_to_email, output_subject, output_body)
@@ -1216,7 +1216,7 @@ def candidates_schedule_create_new_function(url_redirect_code=None):
         db.session.commit()
       # ------------------------ email self start ------------------------
       try:
-        output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+        output_to_email = os.environ.get('TRIVIAFY_SUPPORT_EMAIL')
         output_subject = f'Triviafy - Future Schedule Created - {current_user.email}'
         output_body = f"Hi there,\n\n{current_user.email} created schedule.\n\nBest,\nTriviafy"
         send_email_template_function(output_to_email, output_subject, output_body)
@@ -1322,7 +1322,7 @@ def candidates_schedule_create_now_function_v2(url_redirect_code=None):
       # ------------------------ for each email selected end ------------------------
       # ------------------------ email self start ------------------------
       try:
-        output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+        output_to_email = os.environ.get('TRIVIAFY_SUPPORT_EMAIL')
         output_subject = f'Triviafy - Immediate Schedule Created - {current_user.email}'
         output_body = f"Hi there,\n\n{current_user.email} created schedule.\n\nBest,\nTriviafy"
         send_email_template_function(output_to_email, output_subject, output_body)
@@ -1395,7 +1395,7 @@ def candidates_assessment_expiring_function(url_assessment_expiring, url_questio
         db.session.commit()
         # ------------------------ email self start ------------------------
         try:
-          output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+          output_to_email = os.environ.get('TRIVIAFY_SUPPORT_EMAIL')
           output_subject = f'Triviafy - Graded Assessment - {db_grading_in_progress_obj.assessment_name}'
           output_body = f"Hi there,\n\nCandidate submitted assessment answers for {db_grading_in_progress_obj.assessment_name} \n\nBest,\nTriviafy"
           send_email_template_function(output_to_email, output_subject, output_body)
@@ -1630,7 +1630,7 @@ def candidates_categories_request_function(url_redirect_code=None):
       # ------------------------ create new user in db end ------------------------
       # ------------------------ email self start ------------------------
       try:
-        output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+        output_to_email = os.environ.get('TRIVIAFY_SUPPORT_EMAIL')
         output_subject = f'Triviafy - Requested Language - {current_user.email}'
         output_body = f"Hi there,\n\nRequester: {current_user.email}\nRequested: '{ui_requested}'\n\nBest,\nTriviafy"
         send_email_template_function(output_to_email, output_subject, output_body)
@@ -1884,7 +1884,7 @@ def candidates_preview_created_question_function():
     db.session.commit()
     # ------------------------ email self start ------------------------
     try:
-      output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+      output_to_email = os.environ.get('TRIVIAFY_SUPPORT_EMAIL')
       output_subject = f'Triviafy - Custom Question - {current_user.email}'
       output_body = f"Hi there,\n\nNew custom question created: {current_user.email} \n\nBest,\nTriviafy"
       send_email_template_function(output_to_email, output_subject, output_body)

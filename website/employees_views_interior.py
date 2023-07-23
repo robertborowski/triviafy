@@ -427,7 +427,7 @@ def employees_categories_request_function(url_redirect_code=None, url_activity_c
       # ------------------------ create new user in db end ------------------------
       # ------------------------ email self start ------------------------
       try:
-        output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+        output_to_email = os.environ.get('TRIVIAFY_SUPPORT_EMAIL')
         output_subject = f'Triviafy - Employees Requested Category - {current_user.email}'
         output_body = f"Hi there,\n\nRequester: {current_user.email}\nRequested: '{ui_requested}'\n\nBest,\nTriviafy"
         send_email_template_function(output_to_email, output_subject, output_body)
@@ -908,7 +908,7 @@ def employees_subscription_success_function():
   # ------------------------ update db end ------------------------
   # ------------------------ email self start ------------------------
   try:
-    output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+    output_to_email = os.environ.get('TRIVIAFY_SUPPORT_EMAIL')
     output_subject = f'New Subscription - {user_obj.email}'
     output_body = f"Hi there,\n\nNew user subscribed: {user_obj.email} \n\nBest,\nTriviafy"
     send_email_template_function(output_to_email, output_subject, output_body)
@@ -1532,7 +1532,7 @@ def employees_preview_question_function(url_redirect_code=None, url_question_id=
       # ------------------------ email self start ------------------------
       if current_user.email != os.environ.get('PERSONAL_EMAIL') and current_user.email != os.environ.get('RUN_TEST_EMAIL'):
         try:
-          output_to_email = os.environ.get('TRIVIAFY_NOTIFICATIONS_EMAIL')
+          output_to_email = os.environ.get('TRIVIAFY_SUPPORT_EMAIL')
           output_subject = f'Employees: Custom Question by {current_user.email}'
           output_body = f"Hi there,\n\nNew custom question created by {current_user.email} \n\nBest,\nTriviafy"
           send_email_template_function(output_to_email, output_subject, output_body)
