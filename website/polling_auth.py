@@ -1,3 +1,4 @@
+"""
 # ------------------------ info about this file start ------------------------
 # -routes = pages. Examples: [landing, about, faq, pricing] pages = routes
 # -in this file we store the standard routes for our website
@@ -192,3 +193,4 @@ def polling_logout_function():
   # ------------------------ auto sign in with cookie end ------------------------
   return redirect(url_for('polling_auth.polling_login_function'))
 # ------------------------ individual route end ------------------------
+"""

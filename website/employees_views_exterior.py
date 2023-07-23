@@ -31,7 +31,7 @@ redis_connection = redis_connect_to_database_function()
 # ------------------------ individual route start ------------------------
 @employees_views_exterior.route('/')
 def product_page_function():
-  return render_template('products/index.html')
+  return render_template('employees/exterior/landing/index.html')
 # ------------------------ individual route end ------------------------
 
 # ------------------------ individual route start ------------------------

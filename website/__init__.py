@@ -65,9 +65,9 @@ def create_app_function():
   from .employees_views_exterior import employees_views_exterior
   from .employees_views_interior import employees_views_interior
   
-  from .polling_auth import polling_auth
+  # from .polling_auth import polling_auth
   from .polling_views_exterior import polling_views_exterior
-  from .polling_views_interior import polling_views_interior
+  # from .polling_views_interior import polling_views_interior
   # ------------------------ views/auths/routes imports end ------------------------
   # ------------------------ views/auths/routes register blueprints start ------------------------
   app.register_blueprint(admin_views_interior, url_prefix='/')
@@ -76,9 +76,9 @@ def create_app_function():
   app.register_blueprint(employees_views_exterior, url_prefix='/')
   app.register_blueprint(employees_views_interior, url_prefix='/')
 
-  app.register_blueprint(polling_auth, url_prefix='/')
+  # app.register_blueprint(polling_auth, url_prefix='/')
   app.register_blueprint(polling_views_exterior, url_prefix='/')
-  app.register_blueprint(polling_views_interior, url_prefix='/')
+  # app.register_blueprint(polling_views_interior, url_prefix='/')
   # ------------------------ views/auths/routes register blueprints end ------------------------
   # ------------------------ import models before creating db for first time start ------------------------
   from .models import UserObj

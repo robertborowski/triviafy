@@ -46,20 +46,6 @@ class UserObj(db.Model, UserMixin):   # Only the users object inherits UserMixin
 # ------------------------ individual model end ------------------------
 
 # ------------------------ individual model start ------------------------
-class UserAttributesObj(db.Model):
-  id = db.Column(db.String(150), primary_key=True)
-  created_timestamp = db.Column(db.DateTime(timezone=True))
-  fk_user_id = db.Column(db.String(150))
-  product = db.Column(db.String(150))
-  anonymous_status = db.Column(db.Boolean, default=False)
-  attribute_code = db.Column(db.String(150))
-  attribute_response = db.Column(db.String(150))
-  attribute_year = db.Column(db.Integer)
-  attribute_month = db.Column(db.Integer)
-  attribute_day = db.Column(db.Integer)
-# ------------------------ individual model end ------------------------
-
-# ------------------------ individual model start ------------------------
 class EmailCollectObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
   created_timestamp = db.Column(db.DateTime(timezone=True))
@@ -344,7 +330,7 @@ class BlogObj(db.Model):
   details = db.Column(db.String(150))
   aws_image_url = db.Column(db.String(150))
 # ------------------------ individual model end ------------------------
-
+"""
 # ------------------------ individual model start ------------------------
 class BlogPollingObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
@@ -354,7 +340,6 @@ class BlogPollingObj(db.Model):
   aws_image_url = db.Column(db.String(150))
   status = db.Column(db.Boolean, default=False)
 # ------------------------ individual model end ------------------------
-
 # ------------------------ individual model start ------------------------
 class ShowsFollowingObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
@@ -363,7 +348,6 @@ class ShowsFollowingObj(db.Model):
   fk_show_id = db.Column(db.String(150))
   fk_user_id = db.Column(db.String(150))
 # ------------------------ individual model end ------------------------
-
 # ------------------------ individual model start ------------------------
 class PlatformsObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
@@ -371,7 +355,6 @@ class PlatformsObj(db.Model):
   name = db.Column(db.String(150))
   status = db.Column(db.Boolean, default=False)
 # ------------------------ individual model end ------------------------
-
 # ------------------------ individual model start ------------------------
 class ShowsObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
@@ -387,7 +370,6 @@ class ShowsObj(db.Model):
   platform_image_small = db.Column(db.String(150))
   platform_url = db.Column(db.String(150))
 # ------------------------ individual model end ------------------------
-
 # ------------------------ individual model start ------------------------
 class ShowsQueueObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
@@ -402,7 +384,6 @@ class ShowsQueueObj(db.Model):
   show_url = db.Column(db.String(150))
   fk_show_id = db.Column(db.String(150))
 # ------------------------ individual model end ------------------------
-
 # ------------------------ individual model start ------------------------
 class PollsObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
@@ -417,7 +398,6 @@ class PollsObj(db.Model):
   status_removed = db.Column(db.Boolean, default=False)
   fk_user_id = db.Column(db.String(150))
 # ------------------------ individual model end ------------------------
-
 # ------------------------ individual model start ------------------------
 class PollsAnsweredObj(db.Model):
   id = db.Column(db.String(150), primary_key=True)
@@ -431,4 +411,18 @@ class PollsAnsweredObj(db.Model):
   poll_vote_updown_question = db.Column(db.Boolean)
   poll_vote_updown_feedback = db.Column(db.Boolean)
 # ------------------------ individual model end ------------------------
+# ------------------------ individual model start ------------------------
+class UserAttributesObj(db.Model):
+  id = db.Column(db.String(150), primary_key=True)
+  created_timestamp = db.Column(db.DateTime(timezone=True))
+  fk_user_id = db.Column(db.String(150))
+  product = db.Column(db.String(150))
+  anonymous_status = db.Column(db.Boolean, default=False)
+  attribute_code = db.Column(db.String(150))
+  attribute_response = db.Column(db.String(150))
+  attribute_year = db.Column(db.Integer)
+  attribute_month = db.Column(db.Integer)
+  attribute_day = db.Column(db.Integer)
+# ------------------------ individual model end ------------------------
 # ------------------------ employees models end ------------------------
+"""

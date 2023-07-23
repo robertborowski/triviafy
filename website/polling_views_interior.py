@@ -1,3 +1,4 @@
+"""
 # ------------------------ info about this file start ------------------------
 # -routes = pages. Examples: [landing, about, faq, pricing] pages = routes
 # -in this file we store the standard routes for our website
@@ -1080,3 +1081,4 @@ def polling_view_all_created_polls_function(url_redirect_code=None):
   localhost_print_function(' ------------- 100-created polls end ------------- ')
   return render_template('polling/interior/poll/create/view_all_created/index.html', page_dict_to_html=page_dict)
 # ------------------------ individual route end ------------------------
+"""

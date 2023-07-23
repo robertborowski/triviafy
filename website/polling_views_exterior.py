@@ -10,54 +10,20 @@
 # ------------------------ imports start ------------------------
 from backend.utils.localhost_print_utils.localhost_print import localhost_print_function
 from flask import Blueprint, render_template, request, redirect, url_for
-from flask_login import current_user
-from website.backend.candidates.redis import redis_connect_to_database_function
-from website.models import UserObj, BlogPollingObj, ShowsObj, PollsObj, ShowsQueueObj
-# from website.backend.candidates.dict_manipulation import arr_of_dict_all_columns_single_item_function
-from website import db
-from website.backend.candidates.user_inputs import sanitize_email_function, sanitize_password_function
-from werkzeug.security import generate_password_hash
-from website.backend.candidates.send_emails import send_email_template_function
-from website.backend.candidates.user_inputs import alert_message_default_function_v2
-import datetime
-from website.backend.sql_statements.select import select_general_function
-from website.backend.user_inputs import sanitize_letters_numbers_spaces_specials_only_function
-from website.backend.spotify import spotify_search_show_function
-from website.backend.get_create_obj import get_show_based_on_name_function
-from backend.utils.uuid_and_timestamp.create_uuid import create_uuid_function
-from backend.utils.uuid_and_timestamp.create_timestamp import create_timestamp_function
-import json
-from website.backend.dict_manipulation import arr_of_dict_all_columns_single_item_function, prep_poll_dict_function
-import os
 # ------------------------ imports end ------------------------
 
 # ------------------------ function start ------------------------
 polling_views_exterior = Blueprint('polling_views_exterior', __name__)
 # ------------------------ function end ------------------------
-# ------------------------ connect to redis start ------------------------
-redis_connection = redis_connect_to_database_function()
-# ------------------------ connect to redis end ------------------------
 
 # ------------------------ individual route start ------------------------
 @polling_views_exterior.route('/polling')
 @polling_views_exterior.route('/polling/')
 def polling_landing_details_function():
-  # ------------------------ set variables start ------------------------
-  page_dict = {}
-  # ------------------------ set variables end ------------------------
-  # ------------------------ get random podcast show info start ------------------------
-  show_arr_of_dict = select_general_function('select_query_general_7')
-  page_dict['show_dict'] = show_arr_of_dict[0]
-  # ------------------------ get random podcast show info end ------------------------
-  # ------------------------ get all podcasts start ------------------------
-  page_dict['shows_arr_of_dicts'] = []
-  show_arr_of_dict = select_general_function('select_query_general_8')
-  for i in show_arr_of_dict:
-    page_dict['shows_arr_of_dicts'].append(i)
-  # ------------------------ get all podcasts end ------------------------
-  return render_template('polling/exterior/landing/index.html', page_dict_to_html=page_dict)
+  return redirect("http://www.herdreviews.com")
 # ------------------------ individual route end ------------------------
 
+"""
 # ------------------------ individual route start ------------------------
 @polling_views_exterior.route('/polling/reset', methods=['GET', 'POST'])
 @polling_views_exterior.route('/polling/reset/<url_redirect_code>', methods=['GET', 'POST'])
@@ -214,3 +180,4 @@ def polling_about_function():
 def polling_faq_function():
   return render_template('polling/exterior/faq/index.html')
 # ------------------------ individual route end ------------------------
+"""
